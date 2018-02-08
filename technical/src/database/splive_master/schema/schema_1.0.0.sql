@@ -94,8 +94,8 @@ CREATE TABLE `spl_master_usr_cust_prod_mapping_tbl` (
   `user_id_fk` int(10) unsigned NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_user_customer_idx` (`user_id_fk`,`cpm_id_fk`),
-  KEY `_idx` (`user_id_fk`),
+  UNIQUE KEY `unique_user_cpm_idx` (`user_id_fk`,`cpm_id_fk`),
+  KEY `fk_ucpm_usr_idx` (`user_id_fk`),
   KEY `fk_ucpm_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_ucpm_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ucpm_usr` FOREIGN KEY (`user_id_fk`) REFERENCES `spl_master_user_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
