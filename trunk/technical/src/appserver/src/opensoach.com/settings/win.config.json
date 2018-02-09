@@ -10,11 +10,11 @@
     "sessiontimeout": 0
   },
   "logger": {
-    "filename": "",
-    "maxfilesize": 0,
-    "maxbackups": 0,
-    "maxageindays": 0,
+    "filename": "log.log",
+    "maxfilesize": 1,
+    "maxbackups": 3,
+    "maxageindays": 7,
     "loglevel": "DEBUG",
-    "_loglevelValues": "DEBUG,ERROR"
+    "_loglevelValues": "DEBUG,ERROR,WARN"
   }
 }
