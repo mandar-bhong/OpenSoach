@@ -1,6 +1,20 @@
 {
-	"webconfig": {
-      "serviceport": 8080
-    }
-	
+  "serverconfig": {
+    
+  },
+  "endpointconfig": {
+    "websocketport": 0
+  },
+  "webconfig": {
+    "webport": 0,
+    "sessiontimeout": 0
+  },
+  "logger": {
+    "filename": "",
+    "maxfilesize": 0,
+    "maxbackups": 0,
+    "maxageindays": 0,
+    "loglevel": "DEBUG",
+    "_loglevelValues": "DEBUG,ERROR"
+  }
 }
