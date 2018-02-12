@@ -13,7 +13,7 @@ import (
 type Instance struct {
 }
 
-func Init(filename string, maxsize int, maxbackups int, maxage int, loglevel string) {
+func Init(filename string, maxsize int, maxbackups int, maxage int, loglevel string) error {
 
 	var level logrus.Level
 	switch loglevel {
@@ -44,7 +44,7 @@ func Init(filename string, maxsize int, maxbackups int, maxage int, loglevel str
 	if err != nil {
 		fmt.Println("Error occured")
 		fmt.Println(err.Error())
-		return
+		return err
 	}
 
 	instance.AddHook(rotateFileHook)
@@ -60,6 +60,8 @@ func Init(filename string, maxsize int, maxbackups int, maxage int, loglevel str
 
 	//writeLog(0)
 	//writeLog(500)
+
+	return nil
 }
 
 func Debug(msg string, args ...interface{}) {
