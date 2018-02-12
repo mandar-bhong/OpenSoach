@@ -62,9 +62,10 @@ CREATE TABLE `spl_master_cust_prod_mapping_tbl` (
   `cust_id_fk` int(10) unsigned NOT NULL,
   `prod_id_fk` int(11) unsigned NOT NULL,
   `dbi_id_fk` int(10) unsigned NOT NULL,
+  `cpm_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   PRIMARY KEY (`id`),
   KEY `fk_cpm_prod_idx` (`prod_id_fk`),
-  KEY `fk_cpm_cust` (`cust_id_fk`),
+  KEY `fk_cpm_cust_idx` (`cust_id_fk`),
   KEY `fk_cpm_dbi_idx` (`dbi_id_fk`),
   CONSTRAINT `fk_cpm_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_cpm_dbi` FOREIGN KEY (`dbi_id_fk`) REFERENCES `spl_master_database_instance_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -89,7 +90,7 @@ CREATE TABLE `spl_master_user_tbl` (
 -- Table structure for table `spl_master_usr_cust_prod_mapping_tbl`
 --
 
-CREATE TABLE `spl_master_usr_cust_prod_mapping_tbl` (
+CREATE TABLE `spl_master_usr_cpm_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id_fk` int(10) unsigned NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
@@ -124,30 +125,32 @@ CREATE TABLE `spl_master_servicepoint_tbl` (
 ) ENGINE=InnoDB COMMENT='Short Name for Table: sp';
 
 --
--- Table structure for table `spl_master_customer_device_mapping_tbl`
+-- Table structure for table `spl_master_cpm_dev_mapping_tbl`
 --
 
-CREATE TABLE `spl_master_cust_dev_mapping_tbl` (
-  `cust_id_fk` int(10) unsigned NOT NULL,
+CREATE TABLE `spl_master_cpm_dev_mapping_tbl` (
+  `cpm_id_fk` int(10) unsigned NOT NULL,
   `dev_id_fk` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`cust_id_fk`,`dev_id_fk`),
-  KEY `fk_cdm_dev_idx` (`dev_id_fk`),
-  CONSTRAINT `fk_cdm_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_cdm_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_master_device_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT='Short Name for Table: cdm';
+  PRIMARY KEY (`cpm_id_fk`,`dev_id_fk`),
+  KEY `fk_cpdm_cpm` (`cpm_id_fk`),
+  KEY `fk_cpdm_dev_idx` (`dev_id_fk`),
+  CONSTRAINT `fk_cpdm_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cpdm_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_master_device_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: cpdm';
 
 --
--- Table structure for table `spl_master_cust_sp_mapping_tbl`
+-- Table structure for table `spl_master_cpm_sp_mapping_tbl`
 --
 
-CREATE TABLE `spl_master_cust_sp_mapping_tbl` (
-  `cust_id_fk` int(10) unsigned NOT NULL,
+CREATE TABLE `spl_master_cpm_sp_mapping_tbl` (
+  `cpm_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`cust_id_fk`,`sp_id_fk`),
-  KEY `fk_cdm_sp_idx` (`sp_id_fk`),
-  CONSTRAINT `fk_csm_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_csm_dev` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_master_servicepoint_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT='Short Name for Table: csm';
+  PRIMARY KEY (`cpm_id_fk`,`sp_id_fk`),
+  KEY `fk_cpsm_cpm_idx` (`cpm_id_fk`),
+  KEY `fk_cpsm_sp_idx` (`sp_id_fk`),
+  CONSTRAINT `fk_cpsm_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cpsm_dev` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_master_servicepoint_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: cpsm';
 
 
 --
@@ -177,20 +180,6 @@ CREATE TABLE `spl_master_cust_prod_count_tbl` (
   `sp_cnt` int(10) unsigned NOT NULL,
   `usr_cnt` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `spl_master_customers_summary_tbl_spl_master_customers_tbl_f_idx` (`cpm_id_fk`),
+  KEY `fk_cpcnt_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_cpcnt_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cpcnt';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
