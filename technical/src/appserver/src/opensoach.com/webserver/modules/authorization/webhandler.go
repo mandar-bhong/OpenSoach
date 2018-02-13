@@ -43,7 +43,6 @@ func requestHandler(c *gin.Context) (bool, interface{}) {
 	default:
 		isSuccess, successErrorData = AuthorizationService.ValidateUserAuthorization(AuthorizationService{}, c)
 		break
-
 	}
 
 	return isSuccess, successErrorData
