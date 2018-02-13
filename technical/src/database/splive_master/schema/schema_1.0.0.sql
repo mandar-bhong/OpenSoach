@@ -81,10 +81,10 @@ CREATE TABLE `spl_master_user_tbl` (
   `usr_name` varchar(100) NOT NULL,
   `usr_password` varchar(20) DEFAULT NULL,
   `usr_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
+  `usr_category` tinyint(3) unsigned NOT NULL COMMENT '1: OpenSoach users.\n2: Customer users.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`usr_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: usr';
-
 
 --
 -- Table structure for table `spl_master_usr_cust_prod_mapping_tbl`
