@@ -1,7 +1,6 @@
 package messagebroker
 
 import (
-	"encoding/json"
 	"sync"
 
 	"fmt"

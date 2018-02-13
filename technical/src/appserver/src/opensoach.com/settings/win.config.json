@@ -6,8 +6,8 @@
     "websocketport": 0
   },
   "webconfig": {
-    "webport": 0,
-    "sessiontimeout": 0
+    "webport": 80,
+    "sessiontimeout": 10
   },
   "logger": {
     "filename": "log.log",
