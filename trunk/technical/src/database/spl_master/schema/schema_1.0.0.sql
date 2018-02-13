@@ -11,9 +11,9 @@
 -- - db schema script to create database for servicepoint.live master.
 
 -- ==========================================================================
-drop database if exists splive_master;
-create database splive_master DEFAULT CHARACTER SET utf8;
-use splive_master;
+drop database if exists spl_master;
+create database spl_master DEFAULT CHARACTER SET utf8;
+use spl_master;
 
 --
 -- Table structure for table `spl_master_product_tbl`
