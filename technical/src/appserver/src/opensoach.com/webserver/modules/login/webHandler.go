@@ -14,7 +14,7 @@ func registerRouters(router *gin.RouterGroup) {
 
 	//logger.Instance.Debug("Registering log module")
 
-	//router.POST("/login", commonHandler)
+	router.POST("/login", commonHandler)
 
 	return
 }

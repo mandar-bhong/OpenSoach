@@ -7,6 +7,6 @@ import (
 
 type WebServerConfiguration struct {
 	WebHandlerEngine        *gin.Engine
-	AuthorizedRouterHandler *gin.RouterGroup
+	AuthorizedRouterHandler map[string]*gin.RouterGroup
 	DBConfig                gmodels.DatabaseSettings
 }
