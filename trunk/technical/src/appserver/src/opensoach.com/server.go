@@ -5,7 +5,7 @@ import (
 	"os"
 
 	//"opensoach.com/manager/dbmanager"
-	//msgbkr "opensoach.com/manager/messagebroker"
+	msgbkr "opensoach.com/manager/messagebroker"
 	gmodels "opensoach.com/models"
 	ghelper "opensoach.com/utility/helper"
 	"opensoach.com/utility/logger"
@@ -42,12 +42,7 @@ func main() {
 
 	//logger.Instance.Error("Starting Server")
 
-	webServer.Init()
-
-	//go	msgbkr.CreatCunsumer()
-
-	//	msgbkr.CreateProducer()
-
+	webServer.Init(config)
 }
 
 func ReadConfiguration() (bool, *gmodels.ConfigSettings) {
@@ -75,6 +70,8 @@ func ReadConfiguration() (bool, *gmodels.ConfigSettings) {
 }
 
 func InitModules(config *gmodels.ConfigSettings) (bool, int) {
+
+	msgbkr.Init("")
 
 	return true, 0
 }

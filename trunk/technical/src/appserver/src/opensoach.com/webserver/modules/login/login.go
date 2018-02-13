@@ -1,6 +1,13 @@
 package login
 
-func Init() bool {
+import (
+	"opensoach.com/webserver/modules/login/dbaccess"
+	wmodels "opensoach.com/webserver/webmodels"
+)
 
-	return true
+func Init(config *wmodels.WebServerConfiguration) bool {
+
+	isSuccess := dbaccess.Init(config.DBConfig)
+
+	return isSuccess
 }
