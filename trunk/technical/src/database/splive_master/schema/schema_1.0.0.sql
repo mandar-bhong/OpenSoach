@@ -79,7 +79,7 @@ CREATE TABLE `spl_master_cust_prod_mapping_tbl` (
 CREATE TABLE `spl_master_user_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usr_name` varchar(100) NOT NULL,
-  `usr_password` varchar(20) DEFAULT NULL,
+  `usr_password` varchar(20) NOT NULL,
   `usr_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `usr_category` tinyint(3) unsigned NOT NULL COMMENT '1: OpenSoach users.\n2: Customer users.',
   PRIMARY KEY (`id`),
