@@ -16,5 +16,8 @@
     "maxageindays": 7,
     "loglevel": "DEBUG",
     "_loglevelValues": "DEBUG,ERROR,WARN"
-  }
+  },
+"dbconfig": {
+	"dbconnection":"root:welcome@tcp(localhost:3306)/splive_master?parseTime=true"
+}
 }
