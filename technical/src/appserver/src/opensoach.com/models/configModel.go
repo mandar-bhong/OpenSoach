@@ -5,6 +5,7 @@ type ConfigSettings struct {
 	EndpointConfig EndpointSettings `json:"endpointconfig"`
 	WebConfig      WebSettings      `json:"webconfig"`
 	LoggerConfig   LoggerSettings   `json:"logger"`
+	DatabaseConfig DatabaseSettings `json:"dbconfig"`
 }
 
 type ServerSettings struct {
@@ -25,4 +26,8 @@ type LoggerSettings struct {
 	MaxBackups int    `json:"maxbackups"`
 	MaxAge     int    `json:"maxageindays"`
 	Level      string `json:"loglevel"`
+}
+
+type DatabaseSettings struct {
+	DBConnection string `json:"dbconnection"`
 }
