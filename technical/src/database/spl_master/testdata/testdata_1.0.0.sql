@@ -38,7 +38,7 @@ INSERT INTO `spl_master_cpm_sp_mapping_tbl` VALUES (1,1);
 -- Dumping data for table `spl_master_total_count_tbl`
 --
 
-UPDATE `splive_master`.`spl_master_total_count_tbl` SET `cust_cnt`='1', `usr_cnt`='1', `dev_cnt`='1', `sp_cnt`='1', `dev_active_cnt`='1' WHERE `id`='1';
+UPDATE spl_master_total_count_tbl SET `cust_cnt`='1', `usr_cnt`='1', `dev_cnt`='1', `sp_cnt`='1', `dev_active_cnt`='1' WHERE `id`='1';
 
 --
 -- Dumping data for table `spl_master_user_tbl`
