@@ -73,6 +73,20 @@ CREATE TABLE `spl_master_cust_prod_mapping_tbl` (
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cpm';
 
 --
+-- Table structure for table `spl_master_user_role_tbl`
+--
+
+CREATE TABLE `spl_master_user_role_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `prod_id_fk` int(10) unsigned DEFAULT NULL,
+  `urole_name` varchar(20) NOT NULL,
+  `short_desc` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_urole_prod_idx` (`prod_id_fk`),
+  CONSTRAINT `fk_urole_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master_product_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: urole';
+
+--
 -- Table structure for table `spl_master_user_tbl`
 --
 
