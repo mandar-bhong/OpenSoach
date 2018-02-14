@@ -6,8 +6,10 @@ import (
 )
 
 func Init(config *wmodels.WebServerConfiguration) bool {
-
+	routerGroup := config.AuthorizedRouterHandler["ALL"]
 	isSuccess := dbaccess.Init(config.DBConfig)
+
+	registerRouters(routerGroup)
 
 	return isSuccess
 }

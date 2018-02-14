@@ -25,7 +25,7 @@ func ValidateLogin(username string, password string) (error, *[]gmodel.DBMasterU
 	data := &[]gmodel.DBMasterUserRowModel{}
 	selDBCtx := dbmgr.SelectProcContext{}
 	selDBCtx.Engine = dbMasterEngine
-	selDBCtx.SPName = "spl_master_user_tbl"
+	selDBCtx.SPName = "sp_mst_chk_user_login"
 	selDBCtx.Dest = data
 
 	selErr := selDBCtx.Select(username, password)
