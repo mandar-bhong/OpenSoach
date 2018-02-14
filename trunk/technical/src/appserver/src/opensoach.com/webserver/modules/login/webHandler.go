@@ -70,6 +70,8 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, resultData
 		}
 
+		LoginService.Login(LoginService{}, loginReq.UserName, loginReq.Password)
+
 		//		if retData.(gModels.UserLoginData).BankID != nil {
 		//			sessionData.BankID = *retData.(gModels.UserLoginData).BankID
 		//		}

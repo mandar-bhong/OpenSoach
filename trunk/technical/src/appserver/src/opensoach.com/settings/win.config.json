@@ -18,6 +18,6 @@
     "_loglevelValues": "DEBUG,ERROR,WARN"
   },
 "dbconfig": {
-	"dbconnection":"root:welcome@tcp(localhost:3306)/splive_master?parseTime=true"
+	"dbconnection":"root:welcome@tcp(localhost:3306)/spl_master?parseTime=true"
 }
 }
