@@ -70,7 +70,11 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, resultData
 		}
 
-		LoginService.Login(LoginService{}, loginReq.UserName, loginReq.Password)
+		isSuccess, resultData = LoginService.Login(LoginService{}, loginReq.UserName, loginReq.Password)
+
+		if isSuccess {
+
+		}
 
 		//		if retData.(gModels.UserLoginData).BankID != nil {
 		//			sessionData.BankID = *retData.(gModels.UserLoginData).BankID

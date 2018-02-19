@@ -64,12 +64,12 @@ func Init(filename string, maxsize int, maxbackups int, maxage int, loglevel str
 	return nil
 }
 
-func Debug(msg string, args ...interface{}) {
-
+func Debug(component string, msg string, args ...interface{}) {
+	fmt.Printf(component+" : "+msg+" \n", args)
 }
 
-func Error(msg string, args ...interface{}) {
-
+func Error(component string, msg string, args ...interface{}) {
+	fmt.Printf(component+" : "+msg+" \n", args)
 }
 
 //func writeLog(startpt int) {
