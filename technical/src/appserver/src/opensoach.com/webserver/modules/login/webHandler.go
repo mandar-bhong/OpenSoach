@@ -73,26 +73,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = LoginService.Login(LoginService{}, loginReq.UserName, loginReq.Password)
 
 		if isSuccess {
+			sessionInfo := wmodels.UserSessionInfo{}
+			loginResp := resultData.(*wmodels.LoginResponse)
+			sessionInfo.UserID = loginResp.UserID
+			sessionInfo.UserRoleID = loginResp.Category
+			sessionInfo.UserType = loginResp.Category
+			isSessionSuccess, token := whelper.SessionCreate(pContext, &sessionInfo)
 
+			if isSessionSuccess {
+				loginResp.Token = token
+			} else {
+				errModel := wmodels.ResponseError{}
+				errModel.Code = whelper.MOD_OPER_ERR_SERVER
+				resultData = errModel
+				isSuccess = false
+				return isSuccess, resultData
+			}
 		}
-
-		//		if retData.(gModels.UserLoginData).BankID != nil {
-		//			sessionData.BankID = *retData.(gModels.UserLoginData).BankID
-		//		}
-
-		//		isServerSessionSetSuccess, token := ghelper.SessionCreate(pContext, sessionData)
-		//		if !isServerSessionSetSuccess {
-		//			logger.Log(helper.MODULENAME, logger.ERROR, "Unable to set session data")
-		//			errorData := gModels.ResponseError{
-		//				Code: ghelper.MOD_OPER_ERR_SERVER,
-		//			}
-		//			return false, errorData
-		//		}
-
-		//		jsonResponse.Token = token
-
-		//		isSuccess = true
-		//		resultData = jsonResponse
 
 		break
 

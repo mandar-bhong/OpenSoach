@@ -30,13 +30,20 @@ func (LoginService) Login(username string, password string) (bool, interface{}) 
 		return false, errModel
 	}
 
-	if len(*dbData) < 1 {
+	dbRecord := *dbData
+
+	if len(dbRecord) < 1 {
 		errModel := wmodels.ResponseError{}
 		errModel.Code = helper.MOD_ERR_LOGIN_INVALID_USER
 		return false, errModel
 	}
 
+	resp := wmodels.LoginResponse{}
+	resp.UserID = dbRecord[0].ID
+	resp.Category = dbRecord[0].UserCategory
+	resp.State = dbRecord[0].UserState
+
 	fmt.Printf("DB Data. : %#v", dbData)
 
-	return true, dbData
+	return true, &resp
 }
