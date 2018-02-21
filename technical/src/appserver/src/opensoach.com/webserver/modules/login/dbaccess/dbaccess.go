@@ -36,3 +36,19 @@ func ValidateLogin(username string, password string) (error, *[]gmodel.DBMasterU
 
 	return nil, data
 }
+
+func GetUserProducts(userid int64) (error, *[]gmodel.DBMasterProductBriefRowModel) {
+	data := &[]gmodel.DBMasterProductBriefRowModel{}
+	selDBCtx := dbmgr.SelectProcContext{}
+	selDBCtx.Engine = dbMasterEngine
+	selDBCtx.SPName = "sp_mst_get_usr_products"
+	selDBCtx.Dest = data
+
+	selErr := selDBCtx.Select(userid)
+
+	if selErr != nil {
+		return selErr, nil
+	}
+
+	return nil, data
+}
