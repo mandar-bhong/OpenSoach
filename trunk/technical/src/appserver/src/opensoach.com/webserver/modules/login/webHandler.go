@@ -1,11 +1,13 @@
 package login
 
 import (
-	"github.com/gin-gonic/gin"
-	//"opensoach.com/utility/logger"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+	"opensoach.com/utility/logger"
+
 	ghelper "opensoach.com/utility/helper"
+	"opensoach.com/webserver/modules/login/helper"
 	whelper "opensoach.com/webserver/webhelper"
 	wmodels "opensoach.com/webserver/webmodels"
 )
@@ -15,6 +17,7 @@ func registerRouters(router *gin.RouterGroup) {
 	//logger.Instance.Debug("Registering log module")
 
 	router.POST("/login", commonHandler)
+	router.POST("/getproducts", commonHandler)
 
 	return
 }
@@ -61,6 +64,8 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	var resultData interface{}
 	isSuccess := false
 
+	logger.Debug(helper.MODULE_NAME, "API Request Received: %s", pContext.Request.RequestURI)
+
 	switch pContext.Request.RequestURI {
 	case "/login":
 
@@ -93,6 +98,16 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
+	case "/getproducts":
+		isExecutionDataSuccess, successErrorData := whelper.PrepareSessionData(pContext)
+
+		if !isExecutionDataSuccess {
+			return false, successErrorData
+		}
+
+		exeContext := successErrorData.(*wmodels.ExecutionContext)
+		isSuccess, resultData = ProductService.GetProducts(ProductService{}, exeContext)
+		break
 	}
 
 	return isSuccess, resultData

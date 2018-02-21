@@ -11,11 +11,16 @@ import (
 )
 
 type Service interface {
-	Login(username string, password string) string
+	Login(username string, password string) (bool, interface{})
+	GetProducts(exeContext *wmodels.ExecutionContext) (bool, interface{})
 }
 
 // Implement service with empty struct
 type LoginService struct {
+}
+
+// Implement service with empty struct
+type ProductService struct {
 }
 
 // Implement service functions
@@ -46,4 +51,17 @@ func (LoginService) Login(username string, password string) (bool, interface{}) 
 	fmt.Printf("DB Data. : %#v", dbData)
 
 	return true, &resp
+}
+
+func (ProductService) GetProducts(pExeContext *wmodels.ExecutionContext) (bool, interface{}) {
+
+	err, data := dbaccess.GetUserProducts(pExeContext.SessionInfo.UserID)
+
+	if err != nil {
+		errModel := wmodels.ResponseError{}
+		errModel.Code = whelper.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	return true, data
 }
