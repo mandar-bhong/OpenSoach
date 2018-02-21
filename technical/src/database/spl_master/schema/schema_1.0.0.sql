@@ -54,6 +54,41 @@ CREATE TABLE `spl_master_customer_tbl` (
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cust';
 
 --
+-- Table structure for table `spl_master_corp_tbl`
+--
+
+CREATE TABLE `spl_master_corp_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `corp_name` varchar(50) NOT NULL,
+  `corp_mobile_no` varchar(15) DEFAULT NULL,
+  `corp_email_id` varchar(254) DEFAULT NULL,
+  `corp_landline_no` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='Short Name for Table: corp';
+
+--
+-- Table structure for table `spl_master_cust_details_tbl`
+--
+
+CREATE TABLE `spl_master_cust_details_tbl` (
+  `cust_id_fk` int(10) unsigned NOT NULL,
+  `corp_id_fk` int(10) unsigned NOT NULL,
+  `poc1_name` varchar(50) NOT NULL,
+  `poc1_email_id` varchar(254) NOT NULL,
+  `poc1_mobile_no` varchar(15) NOT NULL,
+  `poc2_name` varchar(50) DEFAULT NULL,
+  `poc2_email_id` varchar(254) DEFAULT NULL,
+  `poc2_mobile_no` varchar(50) DEFAULT NULL,
+  `engagement_since` datetime NOT NULL,
+  `address` varchar(250) DEFAULT NULL,
+  `address_state` varchar(50) DEFAULT NULL,
+  `address_city` varchar(50) DEFAULT NULL,
+  `address_pincode` varchar(6) DEFAULT NULL,
+  PRIMARY KEY (`cust_id_fk`),
+  CONSTRAINT `fk_custd_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: custd';
+
+--
 -- Table structure for table `spl_master_cust_prod_mapping_tbl`
 --
 
@@ -92,13 +127,27 @@ CREATE TABLE `spl_master_user_role_tbl` (
 
 CREATE TABLE `spl_master_user_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `usr_name` varchar(100) NOT NULL,
+  `usr_name` varchar(254) NOT NULL,
   `usr_password` varchar(20) NOT NULL,
   `usr_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `usr_category` tinyint(3) unsigned NOT NULL COMMENT '1: OpenSoach users.\n2: Customer users.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`usr_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: usr';
+
+--
+-- Table structure for table `spl_master_usr_details_tbl`
+--
+
+CREATE TABLE `spl_master_usr_details_tbl` (
+  `usr_id_fk` int(10) unsigned NOT NULL,
+  `fname` varchar(25) DEFAULT NULL,
+  `lname` varchar(25) DEFAULT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
+  `alternate_contact_no` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`usr_id_fk`),
+  CONSTRAINT `fk_usrd_usr` FOREIGN KEY (`usr_id_fk`) REFERENCES `spl_master_user_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: usrd';
 
 --
 -- Table structure for table `spl_master_usr_cust_prod_mapping_tbl`
@@ -127,6 +176,37 @@ CREATE TABLE `spl_master_device_tbl` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `serialno_UNIQUE` (`serialno`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: dev';
+
+--
+-- Table structure for table `spl_master_dev_details_tbl`
+--
+
+CREATE TABLE `spl_master_dev_details_tbl` (
+  `dev_id_fk` int(10) unsigned NOT NULL,
+  `dev_name` varchar(30) DEFAULT NULL,
+  `make` varchar(30) DEFAULT NULL,
+  `technology` varchar(30) DEFAULT NULL,
+  `tech_version` varchar(30) DEFAULT NULL,
+  `short_desc` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`dev_id_fk`),
+  CONSTRAINT `fk_devd_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_master_device_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: devd';
+
+--
+-- Table structure for table `spl_master_dev_status_tbl`
+--
+
+CREATE TABLE `spl_master_dev_status_tbl` (
+  `dev_id_fk` int(10) unsigned NOT NULL,
+  `connection_state` tinyint(3) unsigned NOT NULL COMMENT '0: Unknown, 1: Connected, 2: Disconnected.',
+  `connection_state_since` datetime NOT NULL,
+  `sync_state` tinyint(3) unsigned NOT NULL COMMENT '0: Unknown, 1: InSync, 2: Outofsync.',
+  `sync_state_since` datetime NOT NULL,
+  `battery_level` tinyint(4) NOT NULL COMMENT 'In Percentage',
+  `battery_level_since` datetime NOT NULL,
+  PRIMARY KEY (`dev_id_fk`),
+  CONSTRAINT `fk_devstate_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_master_device_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: devstate';
 
 --
 -- Table structure for table `spl_master_servicepoint_tbl`
