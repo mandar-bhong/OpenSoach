@@ -3,6 +3,7 @@ package login
 import (
 	"fmt"
 
+	//mb "opensoach.com/manager/messagebroker"
 	"opensoach.com/utility/logger"
 	"opensoach.com/webserver/modules/login/dbaccess"
 	"opensoach.com/webserver/modules/login/helper"
@@ -64,4 +65,15 @@ func (ProductService) GetProducts(pExeContext *wmodels.ExecutionContext) (bool, 
 	}
 
 	return true, data
+}
+
+func (ProductService) SelectProduct(pExeContext *wmodels.ExecutionContext) (bool, interface{}) {
+
+	selectProdReq := pExeContext.Request.(*wmodels.APILoginSelectProductRequest)
+
+	pExeContext.SelectedProduct = selectProdReq.ProductID
+
+	//mb.Publish("ProductSelection", []byte("User selected product"))
+
+	return true, nil
 }

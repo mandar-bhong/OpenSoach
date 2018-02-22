@@ -18,6 +18,7 @@ func registerRouters(router *gin.RouterGroup) {
 
 	router.POST("/login", commonHandler)
 	router.POST("/getproducts", commonHandler)
+	router.POST("/selectproduct", commonHandler)
 
 	return
 }
@@ -107,6 +108,18 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		exeContext := successErrorData.(*wmodels.ExecutionContext)
 		isSuccess, resultData = ProductService.GetProducts(ProductService{}, exeContext)
+		break
+
+	case "/selectproduct":
+
+		isExecutionDataSuccess, successErrorData := whelper.PrepareExecutionData(pContext, &wmodels.APILoginSelectProductRequest{})
+
+		if !isExecutionDataSuccess {
+			return false, successErrorData
+		}
+
+		exeContext := successErrorData.(*wmodels.ExecutionContext)
+		isSuccess, resultData = ProductService.SelectProduct(ProductService{}, exeContext)
 		break
 	}
 
