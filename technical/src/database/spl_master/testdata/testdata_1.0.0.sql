@@ -17,6 +17,12 @@ INSERT INTO `spl_master_cust_prod_mapping_tbl` VALUES (1,1,1,1,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_device_tbl` VALUES (1,'1234567890123456',1,UTC_TIMESTAMP);
 
 --
+-- Dumping data for table `spl_master_dev_status_tbl`
+--
+
+INSERT INTO `spl_master_dev_status_tbl` VALUES ('1', '2', UTC_TIMESTAMP, '1', UTC_TIMESTAMP, '0', UTC_TIMESTAMP);
+
+--
 -- Dumping data for table `spl_master_cpm_dev_mapping_tbl`
 --
 
