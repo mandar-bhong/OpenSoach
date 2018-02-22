@@ -49,6 +49,7 @@ CREATE TABLE `spl_master_customer_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cust_name` varchar(50) NOT NULL,
   `cust_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
+  `cust_state_since` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cust_name_UNIQUE` (`cust_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cust';
@@ -98,6 +99,7 @@ CREATE TABLE `spl_master_cust_prod_mapping_tbl` (
   `prod_id_fk` int(11) unsigned NOT NULL,
   `dbi_id_fk` int(10) unsigned NOT NULL,
   `cpm_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
+  `cpm_state_since` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cpm_prod_idx` (`prod_id_fk`),
   KEY `fk_cpm_cust_idx` (`cust_id_fk`),
@@ -129,8 +131,9 @@ CREATE TABLE `spl_master_user_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usr_name` varchar(254) NOT NULL,
   `usr_password` varchar(20) NOT NULL,
+  `usr_category` tinyint(3) unsigned NOT NULL COMMENT '1: OpenSoach users.\n2: Customer users.',  
   `usr_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
-  `usr_category` tinyint(3) unsigned NOT NULL COMMENT '1: OpenSoach users.\n2: Customer users.',
+  `usr_state_since` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`usr_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: usr';
@@ -173,6 +176,7 @@ CREATE TABLE `spl_master_device_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `serialno` varchar(16) NOT NULL,
   `dev_state` tinyint(3) unsigned NOT NULL COMMENT '0:Unallocated, 1: Active, 2: Inactive, 3: Suspended etc.',
+  `dev_state_since` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `serialno_UNIQUE` (`serialno`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: dev';
@@ -215,6 +219,7 @@ CREATE TABLE `spl_master_dev_status_tbl` (
 CREATE TABLE `spl_master_servicepoint_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sp_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
+  `sp_state_since` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: sp';
 
