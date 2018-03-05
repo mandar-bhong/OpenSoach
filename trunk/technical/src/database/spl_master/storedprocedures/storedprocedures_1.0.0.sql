@@ -1,4 +1,4 @@
-CREATE PROCEDURE `sp_mst_chk_user_login`(
+CREATE PROCEDURE sp_mst_chk_user_login(
 	IN `in_usr_name` VARCHAR(150),
 	IN `in_usr_password` VARCHAR(150)
 
@@ -9,11 +9,11 @@ BEGIN
 SELECT * FROM spl_master_user_tbl 
 WHERE usr_name = in_usr_name AND usr_password = in_usr_password AND usr_state = 1;
 
-END
+END;
 
 
 
-CREATE PROCEDURE `sp_mst_get_usr_products`(
+CREATE PROCEDURE sp_mst_get_usr_products(
 	IN `in_user_id` INT
 )
 COMMENT 'This procedure will get the associated products with login user'
@@ -27,4 +27,13 @@ where cpm.cpm_state = 1
 AND cust.cust_state = 1
 AND  ucpm.user_id_fk = in_user_id;
 
-END
+END;
+
+
+CREATE PROCEDURE sp_mst_get_configuration()
+COMMENT 'This procedure will get all the configuration'
+BEGIN
+
+SELECT * FROM  spl_master_config;
+
+END;
