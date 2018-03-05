@@ -282,3 +282,10 @@ CREATE TABLE `spl_master_cust_prod_count_tbl` (
   KEY `fk_cpcnt_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_cpcnt_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cpcnt';
+
+
+CREATE TABLE IF NOT EXISTS `spl_master_config` (
+  `key` varchar(50) NOT NULL,
+  `category` varchar(500) NOT NULL,
+  `value` varchar(500) NOT NULL
+) ENGINE=InnoDB COMMENT='This table will contain configuration for product';
