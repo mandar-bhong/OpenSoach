@@ -2,9 +2,5 @@
 	"databaseconfiguration":{
 		"connectionstring":"root:welcome@tcp(localhost:3306)/spl_master?parseTime=true",
 		"driver":"mysql"
-	},
-"webconfig":{
-    "webport": 80,
-    "sessiontimeout": 10
- }
+	}
 }
