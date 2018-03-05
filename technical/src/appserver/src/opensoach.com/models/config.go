@@ -5,6 +5,6 @@ type ConfigSettings struct {
 }
 
 type ConfigDB struct {
-	ConnectionString int `json:"connectionstring"`
-	DBDriver         int `json:"driver"`
+	ConnectionString string `json:"connectionstring"`
+	DBDriver         string `json:"driver"`
 }
