@@ -3,6 +3,7 @@ package helper
 import (
 	"crypto/rand"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -15,14 +16,14 @@ func GetExeFolder() string {
 	return dir
 }
 
-func ReadFileContent(filePath ...string) (bool, []byte, string) {
+func ReadFileContent(filePath ...string) (error, []byte) {
 
 	var fileFullPath string
 	fileFullPath = ""
 
 	if len(filePath) == 0 {
 		emptyByte := []byte{}
-		return false, emptyByte, "No parameter available"
+		return errors.New("No parameter available"), emptyByte
 	}
 
 	if len(filePath) == 1 {
@@ -36,11 +37,10 @@ func ReadFileContent(filePath ...string) (bool, []byte, string) {
 	byteData, readError := ioutil.ReadFile(fileFullPath)
 
 	if readError != nil {
-		errorString := fmt.Sprintf("Read Error: %s, FilePath: %s ", readError.Error(), fileFullPath)
-		return false, []byte{}, errorString
+		return readError, []byte{}
 	}
 
-	return true, byteData, ""
+	return nil, byteData
 }
 
 func ConvertToJSON(dataStruct interface{}) (bool, string) {
@@ -64,14 +64,14 @@ func ConvertFromJSONString(jsonData string, pConvertType interface{}) bool {
 	return true
 }
 
-func ConvertFromJSONBytes(jsonData []byte, pConvertType interface{}) bool {
+func ConvertFromJSONBytes(jsonData []byte, pConvertType interface{}) error {
 	err := json.Unmarshal(jsonData, pConvertType)
 
 	if err != nil {
-		return false
+		return err
 	}
 
-	return true
+	return nil
 }
 
 func CreateToken() (bool, string) {
