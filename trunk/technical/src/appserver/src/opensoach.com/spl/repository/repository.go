@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"opensoach.com/core"
+	gmodels "opensoach.com/models"
 )
 
 var (
@@ -12,15 +13,15 @@ var (
 )
 
 type repo struct {
-	MasterDBConnection string
-	Context            *core.Context
+	Config  *gmodels.ConfigSettings
+	Context *core.Context
 }
 
-func Init(mstdbConn string) {
+func Init(config *gmodels.ConfigSettings, ctx *core.Context) {
 	once.Do(func() {
 		r = &repo{
-			MasterDBConnection: mstdbConn,
-			Context:            &core.Context{},
+			Config:  config,
+			Context: ctx,
 		}
 	})
 }

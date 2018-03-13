@@ -26,7 +26,7 @@ func main() {
 
 	logger.Context().LogDebug("Main", "Starting Application")
 
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 50)
 }
 
 func readConfiguration() (bool, *gmodels.ConfigDB) {

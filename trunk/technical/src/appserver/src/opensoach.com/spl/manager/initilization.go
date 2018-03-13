@@ -17,6 +17,7 @@ import (
 	"opensoach.com/core"
 	"opensoach.com/core/logger"
 	coremodels "opensoach.com/core/models"
+	repo "opensoach.com/spl/repository"
 	"opensoach.com/spl/webserver"
 )
 
@@ -37,7 +38,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	//init logger for fmt or file or both for temp then switch mode as per configuration after component connection verification
 
-	connErr := verifyComponentConnection(dbconfig, configSetting)
+	connErr := verifyConnectionSetGlobal(dbconfig, configSetting)
 
 	if connErr != nil {
 		//TODO: log message, need to identify fmt or file base or both
@@ -137,7 +138,13 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	return nil
 }
 
-func verifyComponentConnection(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings) error {
+func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings) error {
+
+	dbEngine, dbErr := sqlx.Connect(configSetting.DBConfig.DBDriver, configSetting.DBConfig.ConnectionString)
+
+	if dbErr != nil {
+		return dbErr
+	}
 
 	client := redis.NewClient(&redis.Options{
 		Addr:     configSetting.MasterCache.Address,
@@ -150,6 +157,14 @@ func verifyComponentConnection(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 	if redisMstErr != nil {
 		return redisMstErr
 	}
+
+	ctx := &core.Context{}
+	ctx.Dynamic.Cache.RedisClient = client
+	ctx.Dynamic.DB = dbEngine
+
+	//ctx.Dynamic.Cache = configSetting.MasterCache
+
+	repo.Init(configSetting, ctx)
 
 	return nil
 
