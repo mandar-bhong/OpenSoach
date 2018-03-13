@@ -6,7 +6,6 @@ import (
 )
 
 type LoggingService interface {
-	prepareLogMessage(*loggerContext) string
 	logMessage(*loggerContext)
 }
 
@@ -30,23 +29,24 @@ func dispatch() {
 }
 
 func logMessage(logMsg *loggerContext) {
-	//TODO: As per configuration send msg to respective component, currently printing to screen
-	// need to modify preparing and sending messages with unified interface
 
+	serviceLogger := GetServiceLogger()
+
+	if serviceLogger == nil {
+		serviceLogger = StandardOutLoggingService{}
+	}
+
+	serviceLogger.logMessage(logMsg)
+
+}
+
+func GetServiceLogger() LoggingService {
 	switch loggingServiceType {
 	case LoggingServiceFmt:
-		stdService := StandardOutLoggingService{}
-		stdService.logMessage(logMsg)
-		break
-	case LoggingServiceFile:
-		break
-	case LoggingServiceFluent:
-		break
-	default:
-		stdService := StandardOutLoggingService{}
-		stdService.logMessage(logMsg)
+		return StandardOutLoggingService{}
 		break
 	}
+	return nil
 }
 
 func prepareLogMessage(logMsg *loggerContext) string {
