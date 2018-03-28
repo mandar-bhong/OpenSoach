@@ -62,9 +62,9 @@ func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfi
 		return err, nil
 	}
 
-	selCtx := dbmgr.SelectProcContext{}
+	selCtx := dbmgr.SelectContext{}
 	selCtx.Engine = dbEngine
-	selCtx.SPName = "sp_mst_get_configuration"
+	selCtx.Query = "sp_mst_get_configuration"
 	selCtx.Dest = configRows
 
 	selErr := selCtx.Select()
