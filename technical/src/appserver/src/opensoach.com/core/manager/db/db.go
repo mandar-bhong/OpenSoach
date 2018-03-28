@@ -1,8 +1,8 @@
 package db
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 
@@ -29,19 +29,23 @@ const (
 	StoredProcedure           = 3
 )
 
-type context struct {
+type baseContext struct {
 	TableName string
 	Type      QueryType
-	Engine    *sqlx.DB
 	Query     string
 }
 
-type contextTx struct {
-	Tx    *sqlx.Tx
-	Query string
+type context struct {
+	baseContext
+	Engine *sqlx.DB
 }
 
-type InsertProcContext struct {
+type contextTx struct {
+	baseContext
+	Tx *sqlx.Tx
+}
+
+type InsertContext struct {
 	context
 	SPArgs   interface{}
 	InsertID int64
@@ -80,21 +84,21 @@ type SPDiscoveryParam struct {
 	ParamName []string
 }
 
-func (spc *InsertProcContext) Insert() error {
+func (spc *InsertContext) Insert() error {
 
 	switch spc.Type {
 	case AutoQuery: //For text based query
+		//return spc.Engine.Exec(spc.Query, spc.SPArgs)
 
 		query := GetInsertDynamicQuery(spc.TableName, spc.SPArgs)
 		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
 		spc.InsertID, _ = id.LastInsertId()
-		if err != nil {
-			return err
-		}
-		return nil
+		return err
 
 	case Query:
-		break
+		id, err := spc.Engine.NamedExec(spc.Query, spc.SPArgs)
+		spc.InsertID, _ = id.LastInsertId()
+		return err
 
 	case StoredProcedure: //For stored Procedure
 		var lastinsertid int64
@@ -140,13 +144,12 @@ func (spc *UpdateDeleteContext) Update() error {
 		query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
 		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
-		if err != nil {
-			return err
-		}
-		return nil
+		return err
 
 	case Query:
-		break
+		id, err := spc.Engine.NamedExec(spc.Query, spc.SPArgs)
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
 
 	case StoredProcedure:
 		tx, txBeginErr := spc.Engine.Beginx()
@@ -192,13 +195,12 @@ func (spc *UpdateDeleteContext) Delete() error {
 		query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
 		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
-		if err != nil {
-			return err
-		}
-		return nil
+		return err
 
 	case Query:
-		break
+		id, err := spc.Engine.NamedExec(spc.Query, spc.SPArgs)
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
 
 	case StoredProcedure:
 
@@ -244,12 +246,10 @@ func (spc *SelectContext) SelectAll() error {
 	case AutoQuery:
 		query := GetSelectAllDynamicQuery(spc.TableName, spc.Dest)
 		err := spc.Engine.Select(spc.Dest, query)
-		if err != nil {
-			return err
-		}
-		return nil
+		return err
 	case Query:
-		break
+		err := spc.Engine.Select(spc.Dest, spc.Query)
+		return err
 
 	case StoredProcedure:
 
@@ -262,13 +262,10 @@ func (spc *SelectContext) SelectById(arg int) error {
 	case AutoQuery:
 		query := GetSelectByIdDynamicQuery(spc.TableName, spc.Dest)
 		err := spc.Engine.Select(spc.Dest, query, arg)
-		if err != nil {
-			log.Fatal(err)
-			return err
-		}
-		return nil
+		return err
 	case Query:
-		break
+		err := spc.Engine.Select(spc.Dest, spc.Query, arg)
+		return err
 
 	case StoredProcedure:
 		break
@@ -283,13 +280,13 @@ func (spc *SelectContext) SelectByFilter(filter interface{}, args ...string) err
 		query := GetSelectByFilterDynamicQuery(spc.TableName, filter, args...)
 		values := GetFilterValues(spc.TableName, filter, args...)
 		err := spc.Engine.Select(spc.Dest, query, values...)
-		if err != nil {
-			log.Fatal(err)
-			return err
-		}
-		return nil
+		return err
+
 	case Query:
-		break
+		values := GetFilterValues(spc.TableName, filter, args...)
+		err := spc.Engine.Select(spc.Dest, spc.Query, values...)
+		return err
+
 	case StoredProcedure:
 		break
 	}
@@ -298,20 +295,27 @@ func (spc *SelectContext) SelectByFilter(filter interface{}, args ...string) err
 
 func (spc *SelectContext) Select(args ...interface{}) error {
 
-	spQuery := ""
-
-	for i := 0; i < len(args); i++ {
-		spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
-	}
-
-	spQuery = strings.TrimRight(spQuery, ",")
-
-	spQuery = "call " + spc.Query + "(" + spQuery + ")"
-
-	err := spc.Engine.Select(spc.Dest, spQuery)
-
-	if err != nil {
+	switch spc.Type {
+	case AutoQuery:
+		return errors.New("AutoQuery is not supported for Select method")
+	case Query:
+		err := spc.Engine.Select(spc.Dest, spc.Query, args...)
 		return err
+	case StoredProcedure:
+		spQuery := ""
+
+		for i := 0; i < len(args); i++ {
+			spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
+		}
+
+		spQuery = strings.TrimRight(spQuery, ",")
+
+		spQuery = "call " + spc.Query + "(" + spQuery + ")"
+
+		err := spc.Engine.Select(spc.Dest, spQuery)
+
+		return err
+
 	}
 
 	return nil
@@ -319,94 +323,155 @@ func (spc *SelectContext) Select(args ...interface{}) error {
 
 func (spc *InsertTxContext) Insert() error {
 
-	var lastinsertid int64
+	switch spc.Type {
+	case AutoQuery: //For text based query
+		//return spc.Engine.Exec(spc.Query, spc.SPArgs)
 
-	procGetErr, spQuery := getProcQuery(spc.Tx, spc.Query)
+		query := GetInsertDynamicQuery(spc.TableName, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
+		spc.InsertID, _ = id.LastInsertId()
+		return err
 
-	if procGetErr != nil {
-		return procGetErr
+	case Query:
+		id, err := spc.Tx.NamedExec(spc.Query, spc.SPArgs)
+		spc.InsertID, _ = id.LastInsertId()
+		return err
+
+	case StoredProcedure:
+		var lastinsertid int64
+
+		procGetErr, spQuery := getProcQuery(spc.Tx, spc.Query)
+
+		if procGetErr != nil {
+			return procGetErr
+		}
+
+		_, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
+
+		if execErr != nil {
+			return execErr
+		}
+
+		spc.Tx.Get(&lastinsertid, "SELECT Last_Insert_ID()")
+
+		spc.InsertID = lastinsertid
+
+		return nil
 	}
-
-	_, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
-
-	if execErr != nil {
-		return execErr
-	}
-
-	spc.Tx.Get(&lastinsertid, "SELECT Last_Insert_ID()")
-
-	spc.InsertID = lastinsertid
 
 	return nil
+
 }
 
 func (spc *UpdateDeleteTxContext) Update() error {
 
-	procGetErr, spQuery := getProcQuery(spc.Tx, spc.Query)
+	switch spc.Type {
+	case AutoQuery:
+		query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
 
-	if procGetErr != nil {
-		return procGetErr
+	case Query:
+		id, err := spc.Tx.NamedExec(spc.Query, spc.SPArgs)
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
+
+	case StoredProcedure:
+		procGetErr, spQuery := getProcQuery(spc.Tx, spc.Query)
+
+		if procGetErr != nil {
+			return procGetErr
+		}
+
+		execResult, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
+
+		if execErr != nil {
+			return execErr
+		}
+
+		rowAffectedCount, rowAffectedErr := execResult.RowsAffected()
+
+		if rowAffectedErr != nil {
+			return rowAffectedErr
+		}
+
+		spc.AffectedRows = rowAffectedCount
+
+		return nil
 	}
-
-	execResult, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
-
-	if execErr != nil {
-		return execErr
-	}
-
-	rowAffectedCount, rowAffectedErr := execResult.RowsAffected()
-
-	if rowAffectedErr != nil {
-		return rowAffectedErr
-	}
-
-	spc.AffectedRows = rowAffectedCount
 
 	return nil
 }
 
 func (spc *UpdateDeleteTxContext) Delete() error {
-	procGetErr, spQuery := getProcQuery(spc.Tx, spc.Query)
 
-	if procGetErr != nil {
-		return procGetErr
+	switch spc.Type {
+	case AutoQuery:
+		query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
+
+	case Query:
+		id, err := spc.Tx.NamedExec(spc.Query, spc.SPArgs)
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
+
+	case StoredProcedure:
+		procGetErr, spQuery := getProcQuery(spc.Tx, spc.Query)
+
+		if procGetErr != nil {
+			return procGetErr
+		}
+
+		execResult, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
+
+		if execErr != nil {
+			return execErr
+		}
+
+		rowAffectedCount, rowAffectedErr := execResult.RowsAffected()
+
+		if rowAffectedErr != nil {
+			return rowAffectedErr
+		}
+
+		spc.AffectedRows = rowAffectedCount
+
+		return nil
 	}
-
-	execResult, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
-
-	if execErr != nil {
-		return execErr
-	}
-
-	rowAffectedCount, rowAffectedErr := execResult.RowsAffected()
-
-	if rowAffectedErr != nil {
-		return rowAffectedErr
-	}
-
-	spc.AffectedRows = rowAffectedCount
 
 	return nil
 }
 
 func (spc *SelectTxContext) Select(args ...interface{}) error {
 
-	spQuery := ""
-
-	for i := 0; i < len(args); i++ {
-		spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
-	}
-
-	spQuery = strings.TrimRight(spQuery, ",")
-
-	spQuery = "call " + spc.Query + "(" + spQuery + ")"
-
-	err := spc.Tx.Select(spc.Dest, spQuery)
-
-	if err != nil {
+	switch spc.Type {
+	case AutoQuery:
+		return errors.New("AutoQuery is not supported for Select method")
+	case Query:
+		err := spc.Tx.Select(spc.Dest, spc.Query, args...)
 		return err
-	}
+	case StoredProcedure:
+		spQuery := ""
 
+		for i := 0; i < len(args); i++ {
+			spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
+		}
+
+		spQuery = strings.TrimRight(spQuery, ",")
+
+		spQuery = "call " + spc.Query + "(" + spQuery + ")"
+
+		err := spc.Tx.Select(spc.Dest, spQuery)
+
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
 	return nil
 }
 
