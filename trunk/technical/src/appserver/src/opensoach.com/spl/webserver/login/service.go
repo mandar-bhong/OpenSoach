@@ -22,7 +22,7 @@ type LoginService struct {
 // Implement service functions
 func (LoginService) Login(username string, password string) (bool, interface{}) {
 
-	dbErr, dbData := dbaccess.ValidateLogin(repo.Instance().MasterDBConnection, username, password)
+	dbErr, dbData := dbaccess.ValidateLogin(repo.Instance().Context.Dynamic.DB, username, password)
 
 	if dbErr != nil {
 		//logger.Error("DB Error occured while login. Error: %#v", dbErr.Error())
@@ -33,6 +33,13 @@ func (LoginService) Login(username string, password string) (bool, interface{}) 
 	}
 
 	dbRecord := *dbData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = lmodels.MOD_ERR_LOGIN_INVALID_USER
+		return false, errModel
+	}
+
 	isSuccess, token := ghelper.CreateToken()
 
 	if !isSuccess {

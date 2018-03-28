@@ -10,21 +10,32 @@ import (
 
 var dbDriverName = "mysql"
 
-func GetUserProducts(conn string, userid int64) (error, *[]lmodels.DBProductBriefRowModel) {
-
-	dbEngine, connErr := sqlx.Connect(lmodels.DB_DRIVER_NAME, conn)
-
-	if connErr != nil {
-		return connErr, nil
-	}
+func GetUserProducts(dbEngine *sqlx.DB, userid int64) (error, *[]lmodels.DBProductBriefRowModel) {
 
 	data := &[]lmodels.DBProductBriefRowModel{}
-	selDBCtx := dbmgr.SelectProcContext{}
+	selDBCtx := dbmgr.SelectContext{}
 	selDBCtx.Engine = dbEngine
-	selDBCtx.SPName = "sp_mst_get_usr_products"
+	selDBCtx.Query = "sp_mst_get_usr_products"
 	selDBCtx.Dest = data
 
 	selErr := selDBCtx.Select(userid)
+
+	if selErr != nil {
+		return selErr, nil
+	}
+
+	return nil, data
+}
+
+func GetProductDB(dbEngine *sqlx.DB, cpmid int64) (error, *[]lmodels.DBProductBriefRowModel) {
+
+	data := &[]lmodels.DBProductBriefRowModel{}
+	selDBCtx := dbmgr.SelectContext{}
+	selDBCtx.Engine = dbEngine
+	selDBCtx.Query = "sp_mst_get_usr_products"
+	selDBCtx.Dest = data
+
+	selErr := selDBCtx.Select(cpmid)
 
 	if selErr != nil {
 		return selErr, nil

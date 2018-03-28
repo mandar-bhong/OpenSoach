@@ -8,18 +8,12 @@ import (
 	lmodels "opensoach.com/spl/models"
 )
 
-func ValidateLogin(conn string, username string, password string) (error, *[]lmodels.DBMasterUserRowModel) {
-
-	dbEngine, connErr := sqlx.Connect(lmodels.DB_DRIVER_NAME, conn)
-
-	if connErr != nil {
-		return connErr, nil
-	}
+func ValidateLogin(dbEngine *sqlx.DB, username string, password string) (error, *[]lmodels.DBMasterUserRowModel) {
 
 	data := &[]lmodels.DBMasterUserRowModel{}
-	selDBCtx := dbmgr.SelectProcContext{}
+	selDBCtx := dbmgr.SelectContext{}
 	selDBCtx.Engine = dbEngine
-	selDBCtx.SPName = "sp_mst_chk_user_login"
+	selDBCtx.Query = "sp_mst_chk_user_login"
 	selDBCtx.Dest = data
 
 	selErr := selDBCtx.Select(username, password)
