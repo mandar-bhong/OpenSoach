@@ -321,6 +321,18 @@ func (spc *SelectContext) Select(args ...interface{}) error {
 	return nil
 }
 
+func (spc *SelectContext) Get(args ...interface{}) error {
+	switch spc.Type {
+	case AutoQuery:
+		return errors.New("AutoQuery is not supported for Select method")
+	case Query:
+		err := spc.Engine.Get(spc.Dest, spc.Query, args...)
+		return err
+	}
+
+	return nil
+}
+
 func (spc *InsertTxContext) Insert() error {
 
 	switch spc.Type {
