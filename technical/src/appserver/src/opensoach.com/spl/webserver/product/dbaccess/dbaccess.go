@@ -43,3 +43,20 @@ func GetProductDB(dbEngine *sqlx.DB, cpmid int64) (error, *[]lmodels.DBProductBr
 
 	return nil, data
 }
+
+func GetCustomerProductDetails(dbEngine *sqlx.DB, cpmid int64) (error, *lmodels.DBProductBriefRowModel) {
+	data := &lmodels.DBProductBriefRowModel{}
+	selDBCtx := dbmgr.SelectContext{}
+	selDBCtx.Engine = dbEngine
+	selDBCtx.Query = QUERY_SELECT_CPM_DETAILS
+	selDBCtx.Dest = data
+	selDBCtx.Type = dbmgr.Query
+
+	selErr := selDBCtx.Select(cpmid)
+
+	if selErr != nil {
+		return selErr, nil
+	}
+
+	return nil, data
+}
