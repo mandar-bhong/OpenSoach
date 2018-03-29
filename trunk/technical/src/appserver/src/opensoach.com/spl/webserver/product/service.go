@@ -1,11 +1,12 @@
 package product
 
 import (
+	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	lmodels "opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
 	"opensoach.com/spl/webserver/product/dbaccess"
-	//lhelper "opensoach.com/spl/webserver/product/helper"
+	lhelper "opensoach.com/spl/webserver/product/helper"
 )
 
 // Implement service with empty struct
@@ -31,23 +32,33 @@ func (ProductService) SelectProduct(pExeContext *gmodels.ExecutionContext) (bool
 
 	pExeContext.SelectedCustomerProduct = selectProdReq.ProductID
 
-	//lhelper.CacheGetCPMDetails(repo.Instance().Context.Dynamic.Cache, selectProdReq.ProductID)
+	isSuccess, dbProductBriefRowModel := getCMPDetails(selectProdReq.ProductID)
 
-	//	isCacheSuccess, cpmData := repo.Instance().Context.Dynamic.Cache.Get(gmodels.CACHE_KEY_PREFIX_CPM_ID + string(selectProdReq.ProductID))
+	if !isSuccess {
+		respErr := gmodels.APIResponseError{}
+		respErr.Code = gmodels.MOD_OPER_ERR_SERVER
+		return false, respErr
+	}
 
-	//mb.Publish("ProductSelection", []byte("User selected product"))
-
-	return true, nil
+	return true, dbProductBriefRowModel
 }
 
-func getCMPDetails() {
+func getCMPDetails(cpmid int64) (bool, *lmodels.DBProductBriefRowModel) {
 
-	//	isGetSuccess, dbProductRowModel := lhelper.CacheGetCPMDetails(repo.Instance().Context.Dynamic.Cache, gmodels.CACHE_KEY_PREFIX_CPM_ID+string(selectProdReq.ProductID))
+	isGetSuccess, dbProductRowModel := lhelper.CacheGetCPMDetails(repo.Instance().Context.Dynamic.Cache, gmodels.CACHE_KEY_PREFIX_CPM_ID+string(cpmid))
 
-	//	if isGetSuccess {
+	if isGetSuccess == false { //Unable to get form Cache, fetching from database
+		err, data := dbaccess.GetCustomerProductDetails(repo.Instance().Context.Dynamic.DB, cpmid)
 
-	//		//dbaccess.GetUserProducts()
+		if err != nil {
+			logger.Context().WithField("CPM ID", cpmid).LogError("PRODUCT", "Unable to fetch product details", err)
+			return false, nil
+		}
 
-	//	}
+		lhelper.CacheSetCPMDetails(gmodels.CACHE_KEY_PREFIX_CPM_ID+string(cpmid), data, repo.Instance().Context.Dynamic.Cache)
 
+		return true, data
+	}
+
+	return true, dbProductRowModel
 }
