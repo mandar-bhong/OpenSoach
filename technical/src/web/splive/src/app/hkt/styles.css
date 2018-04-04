@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+#logo{padding-top: 40px;}
+#form-id{padding-top: 120px;}
+mat-form-field{width: 100%;}
+.card {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px; 
+    padding: 1.25rem;
+}

@@ -1,0 +1,58 @@
+<nav class="navbar navbar-toggleable-md navbar-light bg-inverse  bg-white">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation" >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-brand">
+    <img src="../shared/assets/images/logo.png" alt="logo.png" id="brand">
+  </div>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active" id="box">
+        <form class="navbar-form" role="search">
+          <div class="input-group add-on">
+            <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto" id="search-box">
+      <li class="nav-item">
+        <!-- <mat-slide-toggle (click)="toggleShowDiv('sidebar')">
+        </mat-slide-toggle>
+        <mat-slide-toggle >
+        </mat-slide-toggle> -->
+        <!-- <button type="button" class="btn btn-outline-primary" (NgClick)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+  click
+  </button> -->
+  <button type="button">
+    Toggle
+  </button>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto" id="box">
+      <li class="nav-item">
+        <i class="fa fa-bell-o" href="#" aria-hidden="true" style="color:white"></i>
+      </li>
+    </ul>
+    <ul class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:white">
+        UserName
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Setting</a>
+        <a class="dropdown-item " href="#">Profile</a>
+        <a class="dropdown-item" href="#">Logout</a>
+      </div>
+    </ul>
+  </div>
+
+</nav>
