@@ -1,0 +1,87 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "splive"
+  },
+  "apps": [
+    {
+	  "name": "spl",
+      "root": "src",
+      "outDir": "dist/spl",
+      "assets": [
+        { "glob": "**/*", "input": "app/spl/assets/", "output": "./assets/" },
+        { "glob": "favicon.ico", "input": "app/spl/", "output": "./" }
+      ],
+      "index": "app/spl/index.html",
+      "main": "app/spl/main.ts",
+      "polyfills": "app/spl/polyfills.ts",
+      "test": "app/spl/test.ts",
+      "tsconfig": "tsconfig.spl.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "spl",
+      "styles": [
+        "app/spl/styles.css"
+      ],
+      "scripts": [],
+      "environmentSource": "app/spl/environments/environment.ts",
+      "environments": {
+        "dev": "app/spl/environments/environment.ts",
+        "prod": "app/spl/environments/environment.prod.ts"
+      }
+    },
+    {
+      "name": "hkt",
+        "root": "src/app/hkt",
+        "outDir": "dist/hkt",
+        "assets": [
+          { "glob": "**/*", "input": "assets/", "output": "./assets/" },
+          { "glob": "favicon.ico", "input": "hkt/", "output": "./" },
+          { "glob": "**/*", "input": "../shared/assets/", "output": "./shared/assets" }
+        ],
+        "index": "index.html",
+        "main": "main.ts",
+        "polyfills": "polyfills.ts",
+        "test": "test.ts",
+        "tsconfig": "tsconfig.hkt.json",
+        "testTsconfig": "tsconfig.spec.json",
+        "prefix": "hkt",
+        "styles": [
+          "styles.css"
+        ],
+        "scripts": [],
+        "environmentSource": "environments/environment.ts",
+        "environments": {
+          "dev": "environments/environment.ts",
+          "prod": "environments/environment.prod.ts"
+        }
+      }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

@@ -1,0 +1,14 @@
+#text{color:white;}
+#brand{    display: flex;
+    float: left;
+    height: 50px;
+    text-align: center;
+    padding: 10px;}
+#box{margin-top: 10px;
+}
+.navbar-toggler-icon {
+    color: #f00; /* Changes regular toggle color */
+  }
+.navbar-toggler-icon:hover {
+    color: #fff; /* Changes toggle color on hover */
+  }
