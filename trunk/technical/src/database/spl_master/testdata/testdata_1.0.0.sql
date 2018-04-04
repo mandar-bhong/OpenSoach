@@ -49,14 +49,14 @@ UPDATE `spl_master_total_count_tbl` SET `cust_cnt`='1', `usr_cnt`='1', `dev_cnt`
 --
 -- Dumping data for table `spl_master_user_tbl`
 --
-
-INSERT INTO `spl_master_user_tbl` VALUES (1,'admin@customer1.com','admin',2,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` VALUES (1,'admin@servicepoint.live','admin',1,1,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` VALUES (2,'admin@customer1.com','admin',2,null,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_usr_cpm_tbl`
 --
 
-INSERT INTO `spl_master_usr_cpm_tbl` VALUES (1,1,1);
+INSERT INTO `spl_master_usr_cpm_tbl` VALUES (1,1,1,1);
 
 --
 -- Dumping data for table `spl_master_cust_prod_count_tbl`
