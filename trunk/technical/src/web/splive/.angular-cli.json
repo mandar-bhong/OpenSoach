@@ -5,28 +5,29 @@
   },
   "apps": [
     {
-	  "name": "spl",
-      "root": "src",
+      "name": "spl",
+      "root": "src/app/spl",
       "outDir": "dist/spl",
       "assets": [
-        { "glob": "**/*", "input": "app/spl/assets/", "output": "./assets/" },
-        { "glob": "favicon.ico", "input": "app/spl/", "output": "./" }
+        { "glob": "**/*", "input": "assets/", "output": "./assets/" },
+        { "glob": "favicon.ico", "input": "spl/", "output": "./" },
+        { "glob": "**/*", "input": "../shared/assets/", "output": "./shared/assets" }
       ],
-      "index": "app/spl/index.html",
-      "main": "app/spl/main.ts",
-      "polyfills": "app/spl/polyfills.ts",
-      "test": "app/spl/test.ts",
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
       "tsconfig": "tsconfig.spl.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "spl",
+      "prefix": "app",
       "styles": [
-        "app/spl/styles.css"
+        "styles.css"
       ],
       "scripts": [],
-      "environmentSource": "app/spl/environments/environment.ts",
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "dev": "app/spl/environments/environment.ts",
-        "prod": "app/spl/environments/environment.prod.ts"
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
       }
     },
     {
@@ -44,7 +45,7 @@
         "test": "test.ts",
         "tsconfig": "tsconfig.hkt.json",
         "testTsconfig": "tsconfig.spec.json",
-        "prefix": "hkt",
+        "prefix": "app",
         "styles": [
           "styles.css"
         ],
