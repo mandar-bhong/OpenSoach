@@ -116,6 +116,7 @@ CREATE TABLE `spl_master_cust_prod_mapping_tbl` (
 CREATE TABLE `spl_master_user_role_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `prod_id_fk` int(10) unsigned DEFAULT NULL,
+  `urole_code` varchar(10) NOT NULL,
   `urole_name` varchar(20) NOT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -131,11 +132,14 @@ CREATE TABLE `spl_master_user_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `usr_name` varchar(254) NOT NULL,
   `usr_password` varchar(20) NOT NULL,
-  `usr_category` tinyint(3) unsigned NOT NULL COMMENT '1: OpenSoach users.\n2: Customer users.',  
+  `usr_category` tinyint(3) unsigned NOT NULL COMMENT '1: OpenSoach users.\n2: Customer users.',
+  `urole_id_fk` int(10) unsigned DEFAULT NULL COMMENT 'this field is applicable only if usr_category==1(OpenSoach)',
   `usr_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `usr_state_since` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username_UNIQUE` (`usr_name`)
+  UNIQUE KEY `username_UNIQUE` (`usr_name`),
+  KEY `fk_usr_urole_idx` (`urole_id_fk`),
+  CONSTRAINT `fk_usr_urole` FOREIGN KEY (`urole_id_fk`) REFERENCES `spl_master_user_role_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: usr';
 
 --
@@ -160,11 +164,14 @@ CREATE TABLE `spl_master_usr_cpm_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id_fk` int(10) unsigned NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
+  `urole_id_fk` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_user_cpm_idx` (`user_id_fk`,`cpm_id_fk`),
   KEY `fk_ucpm_usr_idx` (`user_id_fk`),
   KEY `fk_ucpm_cpm_idx` (`cpm_id_fk`),
+  KEY `fk_ucpm_urole_idx` (`urole_id_fk`),
   CONSTRAINT `fk_ucpm_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ucpm_urole` FOREIGN KEY (`urole_id_fk`) REFERENCES `spl_master_user_role_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_ucpm_usr` FOREIGN KEY (`user_id_fk`) REFERENCES `spl_master_user_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: ucpm';
 

@@ -20,4 +20,4 @@ INSERT INTO `spl_master_total_count_tbl` VALUES (1,0,0,0,0,0,0);
 -- Dumping data for table `spl_master_user_role_tbl`
 --
 
-INSERT INTO `spl_master_user_role_tbl` (`urole_name`) VALUES ('Administrator');
+INSERT INTO `spl_master_user_role_tbl` (`urole_code`,`urole_name`) VALUES ('ADMIN','Administrator');
