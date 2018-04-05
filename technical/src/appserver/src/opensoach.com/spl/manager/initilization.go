@@ -17,6 +17,7 @@ import (
 	"opensoach.com/core"
 	"opensoach.com/core/logger"
 	coremodels "opensoach.com/core/models"
+	"opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
 	"opensoach.com/spl/webserver"
 )
@@ -62,12 +63,17 @@ func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfi
 		return err, nil
 	}
 
+	filter := gmodels.DBMasterConfigRowModel{}
+	filter.Category = models.DB_CONFIG_CATEGORY_SPL
+
 	selCtx := dbmgr.SelectContext{}
 	selCtx.Engine = dbEngine
-	selCtx.Query = "sp_mst_get_configuration"
+	selCtx.Query = models.QUERY_GET_CONFIGURATION
+	selCtx.Type = dbmgr.Query
 	selCtx.Dest = configRows
+	selCtx.TableName = ""
 
-	selErr := selCtx.Select()
+	selErr := selCtx.SelectByFilter(filter, "Category")
 
 	if selErr != nil {
 		fmt.Printf("DB Error %#+v \n", selErr.Error())
