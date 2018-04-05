@@ -8,13 +8,11 @@ import { Hkttest1Component } from './hkttest1/hkttest1.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { SharedModule } from '../../shared/shared.module';
 
-//content import API
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
     Hkttest1Component,
-   
   ],
 
   imports: [
