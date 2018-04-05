@@ -1,0 +1,46 @@
+
+1. Login
+
+API Name: /api/v1/login
+request: AuthRequest -> trunk\technical\src\web\splive\src\app\shared\models\api\auth-request.ts
+response: AuthResponse -> trunk\technical\src\web\splive\src\app\shared\models\api\auth-response.ts
+Logic:
+validate username and password in spl_master_user_tbl. 
+return error code if the usr_state is not equal to 1 (Active).
+return error code if the usr_category is 2 (Customer user)
+select cpm_id (table `spl_master_usr_cpm_tbl`, `spl_master_cust_prod_mapping_tbl`, `spl_master_product_tbl`) associated with user where the prodcode received from user matches.
+
+if no cpm_id attached for the supplied prodcode, return error code.
+
+generate token
+get user role (`spl_master_usr_cpm_tbl`)
+Set session
+- token
+- user_id
+- cpm_id
+- user_id
+- role_id
+- customer_id
+
+2. GetUserBriefDetails
+
+API Name: /api/v1/getuserbriefdetails
+request: null
+response: UserBriefDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\user-brief-details-response.ts
+Logic:
+read  token from the request header
+get user_id from the session matching with the token
+read `spl_master_usr_details_tbl`
+
+3. GetCustomerBriefDetails
+request: null
+response: CustomerBriefDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_brief-details-response.ts
+Logic:
+read  token from the request header
+get customer_id from the session matching with the token
+`spl_master_customer_tbl` `spl_master_corp_tbl`
+
+
+
+
+
