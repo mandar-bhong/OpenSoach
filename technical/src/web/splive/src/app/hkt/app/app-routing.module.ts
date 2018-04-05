@@ -17,7 +17,7 @@ const routes: Routes = [
           },
           {
             path: 'charts',
-            loadChildren: './charts/charts.module#ChartsModule'
+            loadChildren: './modules/charts/charts.module#ChartsModule'
           },
         ]
       },
