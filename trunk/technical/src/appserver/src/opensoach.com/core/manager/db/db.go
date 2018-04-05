@@ -141,7 +141,10 @@ func (spc *UpdateDeleteContext) Update() error {
 
 	switch spc.Type {
 	case AutoQuery:
-		query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
+		if queryErr != nil {
+			return queryErr
+		}
 		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
@@ -192,7 +195,10 @@ func (spc *UpdateDeleteContext) Delete() error {
 
 	switch spc.Type {
 	case AutoQuery:
-		query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
+		if queryErr != nil {
+			return queryErr
+		}
 		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
@@ -260,7 +266,10 @@ func (spc *SelectContext) SelectAll() error {
 func (spc *SelectContext) SelectById(arg int) error {
 	switch spc.Type {
 	case AutoQuery:
-		query := GetSelectByIdDynamicQuery(spc.TableName, spc.Dest)
+		queryErr, query := GetSelectByIdDynamicQuery(spc.TableName, spc.Dest)
+		if queryErr != nil {
+			return queryErr
+		}
 		err := spc.Engine.Select(spc.Dest, query, arg)
 		return err
 	case Query:
@@ -379,7 +388,10 @@ func (spc *UpdateDeleteTxContext) Update() error {
 
 	switch spc.Type {
 	case AutoQuery:
-		query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
+		if queryErr != nil {
+			return queryErr
+		}
 		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
@@ -420,7 +432,10 @@ func (spc *UpdateDeleteTxContext) Delete() error {
 
 	switch spc.Type {
 	case AutoQuery:
-		query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
+		if queryErr != nil {
+			return queryErr
+		}
 		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
