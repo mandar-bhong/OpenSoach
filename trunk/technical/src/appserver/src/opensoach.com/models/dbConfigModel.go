@@ -1,7 +1,6 @@
 package models
 
 type DBMasterConfigRowModel struct {
-	Key      string `db:"param_key" json:"key"`
-	Category string `db:"category" json:"category"`
-	Value    string `db:"value" json:"value"`
+	Config_key   string `db:"config_key" json:"config_key"`
+	Config_value string `db:"config_value" json:"config_value"`
 }

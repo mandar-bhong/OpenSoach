@@ -63,9 +63,6 @@ func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfi
 		return err, nil
 	}
 
-	filter := gmodels.DBMasterConfigRowModel{}
-	filter.Category = models.DB_CONFIG_CATEGORY_SPL
-
 	selCtx := dbmgr.SelectContext{}
 	selCtx.Engine = dbEngine
 	selCtx.Query = models.QUERY_GET_CONFIGURATION
@@ -73,7 +70,7 @@ func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfi
 	selCtx.Dest = configRows
 	selCtx.TableName = ""
 
-	selErr := selCtx.SelectByFilter(filter, "Category")
+	selErr := selCtx.SelectAll()
 
 	if selErr != nil {
 		fmt.Printf("DB Error %#+v \n", selErr.Error())
@@ -95,26 +92,24 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 	globalConfiguration.MasterCache = mstCacheConfig
 
 	for _, dbRow := range *configData {
-		if dbRow.Category == "SPL" {
 
-			switch dbRow.Key {
-			case "Web.Service.Address":
-				webConfig.ServiceAddress = dbRow.Value
-				break
-			case "Cache.Address":
-				mstCacheConfig.Address = dbRow.Value
-				break
-			case "Cache.Address.Password":
-				mstCacheConfig.Password = dbRow.Value
-				break
-			case "Cache.Address.DB":
-				mstDBPort, err := strconv.Atoi(dbRow.Value)
-				if err != nil {
-					return errors.New("Unable to convert Master Cache DB value to interger"), nil
-				}
-				mstCacheConfig.DB = mstDBPort
-				break
+		switch dbRow.Config_key {
+		case "Web.Service.Address":
+			webConfig.ServiceAddress = dbRow.Config_value
+			break
+		case "Cache.Address":
+			mstCacheConfig.Address = dbRow.Config_value
+			break
+		case "Cache.Address.Password":
+			mstCacheConfig.Password = dbRow.Config_value
+			break
+		case "Cache.Address.DB":
+			mstDBPort, err := strconv.Atoi(dbRow.Config_value)
+			if err != nil {
+				return errors.New("Unable to convert Master Cache DB value to interger"), nil
 			}
+			mstCacheConfig.DB = mstDBPort
+			break
 		}
 	}
 
