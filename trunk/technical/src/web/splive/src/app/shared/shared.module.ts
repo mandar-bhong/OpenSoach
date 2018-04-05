@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Shared1Component } from './shared1/shared1.component';
-import { AppContainerComponent } from './layouts/applayout/app-container/app-container.component';
-import {ContentComponent} from './layouts/applayout/content/content.component';
-import {FooterComponent} from './layouts/applayout/footer/footer.component';
-import {SideBarComponent} from './layouts/applayout/side-bar/side-bar.component';
-import {TopHeaderComponent} from './layouts/applayout/top-header/top-header.component';
+import { AppContainerComponent } from './layouts/app-layout/app-container/app-container.component';
+import {ContentComponent} from './layouts/app-layout/content/content.component';
+import {FooterComponent} from './layouts/app-layout/footer/footer.component';
+import {SideBarComponent} from './layouts/app-layout/side-bar/side-bar.component';
+import {TopHeaderComponent} from './layouts/app-layout/top-header/top-header.component';
 import { RouterModule, Routes } from '@angular/router';
 
 @NgModule({
