@@ -1,3 +1,3 @@
 package models
 
-const QUERY_GET_CONFIGURATION = "SELECT param_key,category,value FROM spl_master_config where category = ?"
+const QUERY_GET_CONFIGURATION = "SELECT config_key,config_value FROM spl_master_config"
