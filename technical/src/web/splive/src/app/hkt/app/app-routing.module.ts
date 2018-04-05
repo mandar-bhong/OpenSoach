@@ -13,7 +13,7 @@ const routes: Routes = [
         children: [
           {
             path: 'devices',
-            loadChildren: '../../shared/devices/devices.module#DevicesModule'
+            loadChildren: '../../shared/modules/devices/devices.module#DevicesModule'
           },
           {
             path: 'charts',
@@ -24,7 +24,7 @@ const routes: Routes = [
       {
         path: 'auth',
         component: AuthLayoutComponent,
-        loadChildren: '../../shared/auth/auth.module#AuthModule'
+        loadChildren: '../../shared/modules/auth/auth.module#AuthModule'
       },
 
     ]

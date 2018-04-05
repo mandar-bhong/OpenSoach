@@ -3,16 +3,14 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from '../../hkt/app/app-routing.module';
 
 import { AppComponent } from './app.component';
-import { Hkttest1Component } from './hkttest1/hkttest1.component';
 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { SharedModule } from '../../shared/shared.module';
+import { LayoutModule } from '../../shared/layouts/layout.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
-    Hkttest1Component,
   ],
 
   imports: [
@@ -20,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
-    SharedModule
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
