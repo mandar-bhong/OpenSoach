@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import {AppContainerComponent} from '../../shared/applayout/app-container/app-container.component';
-import {ContentComponent} from '../../shared/applayout/content/content.component';
-import {FooterComponent} from '../../shared/applayout/footer/footer.component';
-import {SideBarComponent} from '../../shared/applayout/side-bar/side-bar.component';
-import {TopHeaderComponent} from '../../shared/applayout/top-header/top-header.component';
-const routes : Routes = [
+import { AppContainerComponent } from '../../shared/layouts/applayout/app-container/app-container.component';
+const routes: Routes = [
   {
     path: '',
     children: [
       {
         path: '',
-        component:AppContainerComponent,
+        component: AppContainerComponent,
         children: [
           {
             path: 'devices',
@@ -21,7 +16,7 @@ const routes : Routes = [
           {
             path: 'charts',
             loadChildren: './charts/charts.module#ChartsModule'
-          },          
+          },
         ]
       },
       {
@@ -31,7 +26,7 @@ const routes : Routes = [
 
     ]
   }
-  
+
   // {
   //   path: '',
   //   redirectTo: '',
