@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppContainerComponent } from '../../shared/layouts/app-layout/app-container/app-container.component';
+import { AuthLayoutComponent } from '../../shared/layouts/auth-layout/auth-layout.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'auth',
+        component: AuthLayoutComponent,
         loadChildren: '../../shared/auth/auth.module#AuthModule'
       },
 

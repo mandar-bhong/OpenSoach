@@ -8,6 +8,7 @@ import {FooterComponent} from './layouts/app-layout/footer/footer.component';
 import {SideBarComponent} from './layouts/app-layout/side-bar/side-bar.component';
 import {TopHeaderComponent} from './layouts/app-layout/top-header/top-header.component';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
 @NgModule({
   imports: [
@@ -21,9 +22,7 @@ import { RouterModule, Routes } from '@angular/router';
     FooterComponent,
     SideBarComponent,
     TopHeaderComponent,
+    AuthLayoutComponent
   ],
-  exports: [
-    AppContainerComponent
-  ]
 })
 export class SharedModule { }
