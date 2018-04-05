@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppContainerComponent } from '../../shared/layouts/applayout/app-container/app-container.component';
+import { AppContainerComponent } from '../../shared/layouts/app-layout/app-container/app-container.component';
 const routes: Routes = [
   {
     path: '',
