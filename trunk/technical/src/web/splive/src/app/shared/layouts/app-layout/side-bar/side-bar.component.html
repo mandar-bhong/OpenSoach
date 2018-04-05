@@ -3,10 +3,12 @@
         <div class="list-group border-0 text-center text-md-left">
         <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Item 1</span> </a>
         <div class="collapse" id="menu1" data-parent="#sidebar">
-            <a href="#menu1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 1 </a>
+            <a  href="#menu1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 1 </a>
             <div class="collapse" id="menu1sub1" data-parent="#menu1">
-                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem a</a>
-                <a href="#" class="list-group-item" data-parent="#menu1sub1">Subitem b</a>
+                <a href="#" routerLink="/auth/login" class="list-group-item" data-parent="#menu1sub1">Login</a>
+                <a href="#" routerLink="/auth/forgotpassword" class="list-group-item" data-parent="#menu1sub1">Forgot Password</a>
+                <a href="#" routerLink="/devices" class="list-group-item" data-parent="#menu1sub1">Devices</a>
+                <a href="#" routerLink="/charts" class="list-group-item" data-parent="#menu1sub1">Charts</a>
                 <a href="#menu1sub1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem c </a>
                 <div class="collapse" id="menu1sub1sub1">
                     <a href="#" class="list-group-item" data-parent="#menu1sub1sub1">Subitem c.1</a>
