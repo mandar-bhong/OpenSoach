@@ -21,17 +21,17 @@ func init() {
 //InsertProcContext will be used to insert record with Insert method
 //InsertedID will be filled if table have autoincriment column
 
-type QueryType int
+type Type int
 
 const (
-	AutoQuery       QueryType = 1
-	Query                     = 2
-	StoredProcedure           = 3
+	AutoQuery       Type = 1
+	Query                = 2
+	StoredProcedure      = 3
 )
 
 type baseContext struct {
 	TableName string
-	Type      QueryType
+	QueryType Type
 	Query     string
 }
 
@@ -86,7 +86,7 @@ type SPDiscoveryParam struct {
 
 func (spc *InsertContext) Insert() error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery: //For text based query
 		//return spc.Engine.Exec(spc.Query, spc.SPArgs)
 
@@ -139,7 +139,7 @@ func (spc *InsertContext) Insert() error {
 
 func (spc *UpdateDeleteContext) Update() error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
 		if queryErr != nil {
@@ -193,7 +193,7 @@ func (spc *UpdateDeleteContext) Update() error {
 
 func (spc *UpdateDeleteContext) Delete() error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
 		if queryErr != nil {
@@ -248,7 +248,7 @@ func (spc *UpdateDeleteContext) Delete() error {
 }
 
 func (spc *SelectContext) SelectAll() error {
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		query := GetSelectAllDynamicQuery(spc.TableName, spc.Dest)
 		err := spc.Engine.Select(spc.Dest, query)
@@ -264,7 +264,7 @@ func (spc *SelectContext) SelectAll() error {
 }
 
 func (spc *SelectContext) SelectById(arg int) error {
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		queryErr, query := GetSelectByIdDynamicQuery(spc.TableName, spc.Dest)
 		if queryErr != nil {
@@ -284,7 +284,7 @@ func (spc *SelectContext) SelectById(arg int) error {
 }
 
 func (spc *SelectContext) SelectByFilter(filter interface{}, args ...string) error {
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		query := GetSelectByFilterDynamicQuery(spc.TableName, filter, args...)
 		values := GetFilterValues(spc.TableName, filter, args...)
@@ -304,7 +304,7 @@ func (spc *SelectContext) SelectByFilter(filter interface{}, args ...string) err
 
 func (spc *SelectContext) Select(args ...interface{}) error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		return errors.New("AutoQuery is not supported for Select method")
 	case Query:
@@ -324,14 +324,13 @@ func (spc *SelectContext) Select(args ...interface{}) error {
 		err := spc.Engine.Select(spc.Dest, spQuery)
 
 		return err
-
 	}
 
-	return nil
+	return errors.New(fmt.Sprintf("QueryType Not Set. Got %d", spc.QueryType))
 }
 
 func (spc *SelectContext) Get(args ...interface{}) error {
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		return errors.New("AutoQuery is not supported for Select method")
 	case Query:
@@ -344,7 +343,7 @@ func (spc *SelectContext) Get(args ...interface{}) error {
 
 func (spc *InsertTxContext) Insert() error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery: //For text based query
 		//return spc.Engine.Exec(spc.Query, spc.SPArgs)
 
@@ -386,7 +385,7 @@ func (spc *InsertTxContext) Insert() error {
 
 func (spc *UpdateDeleteTxContext) Update() error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
 		if queryErr != nil {
@@ -430,7 +429,7 @@ func (spc *UpdateDeleteTxContext) Update() error {
 
 func (spc *UpdateDeleteTxContext) Delete() error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
 		if queryErr != nil {
@@ -474,7 +473,7 @@ func (spc *UpdateDeleteTxContext) Delete() error {
 
 func (spc *SelectTxContext) Select(args ...interface{}) error {
 
-	switch spc.Type {
+	switch spc.QueryType {
 	case AutoQuery:
 		return errors.New("AutoQuery is not supported for Select method")
 	case Query:
