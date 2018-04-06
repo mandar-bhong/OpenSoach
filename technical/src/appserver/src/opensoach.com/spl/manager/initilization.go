@@ -66,7 +66,7 @@ func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfi
 	selCtx := dbmgr.SelectContext{}
 	selCtx.Engine = dbEngine
 	selCtx.Query = models.QUERY_GET_CONFIGURATION
-	selCtx.Type = dbmgr.Query
+	selCtx.QueryType = dbmgr.Query
 	selCtx.Dest = configRows
 	selCtx.TableName = ""
 
