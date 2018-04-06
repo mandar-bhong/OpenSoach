@@ -3,3 +3,8 @@ export class AuthRequest {
     usrpassword: string;
     prodcode: string;
 }
+
+export class AuthResponse {
+    token: string;
+    urolecode: string;
+}

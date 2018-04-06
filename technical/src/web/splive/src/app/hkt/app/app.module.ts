@@ -6,7 +6,8 @@ import { AppComponent } from './app.component';
 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { LayoutModule } from '../../shared/layouts/layout.module';
-
+import { AppCommonModule } from '../../shared/app-common.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
@@ -18,7 +19,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSlideToggleModule,
-    LayoutModule
+    LayoutModule,
+    AppCommonModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

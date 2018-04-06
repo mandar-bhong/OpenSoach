@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppDataStoreService } from './services/app-data-store/app-data-store-service';
 
 @NgModule({
   imports: [
@@ -8,4 +9,13 @@ import { CommonModule } from '@angular/common';
   declarations: [
   ],
 })
-export class AppCommonModule { }
+export class AppCommonModule {
+  static forRoot(): ModuleWithProviders {
+      return {
+          ngModule: AppCommonModule,
+          providers: [
+            AppDataStoreService
+          ]
+      };
+  }
+}
