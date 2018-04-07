@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { UserRoutingModule } from './user-routing.module';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   imports: [

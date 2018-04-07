@@ -1,14 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from '../../hkt/app/app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AppRoutingModule } from '../../hkt/app/app-routing.module';
+import { AppCommonModule } from '../../shared/app-common.module';
+import { LayoutModule } from '../../shared/layouts/layout.module';
 import { AppComponent } from './app.component';
 
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { LayoutModule } from '../../shared/layouts/layout.module';
-import { AppCommonModule } from '../../shared/app-common.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { AuthGuard } from '../../shared/auth-guard';
 import { AppContainerComponent } from '../../shared/layouts/app-layout/app-container/app-container.component';
 import { AuthLayoutComponent } from '../../shared/layouts/auth-layout/auth-layout.component';
 
@@ -9,6 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [AuthGuard],
         component: AppContainerComponent,
         children: [
           {
@@ -21,15 +24,13 @@ const routes: Routes = [
           },
         ]
       },
-      {
-        path: 'auth',
-        component: AuthLayoutComponent,
-        loadChildren: '../../shared/modules/auth/auth.module#AuthModule'
-      },
-
     ]
-  }
-
+  },
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    loadChildren: '../../shared/modules/auth/auth.module#AuthModule'
+  },
   // {
   //   path: '',
   //   redirectTo: '',
