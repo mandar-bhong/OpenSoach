@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { AuthResponse } from '../models/api/auth-models';
 import { APP_DATA_STORE_KEYS, AppDataStoreService } from './app-data-store/app-data-store-service';
 
@@ -9,7 +9,8 @@ export class LoginStatusService {
     authToken: string;
     userRole: string;
 
-    constructor(private appDataStoreService: AppDataStoreService) { }
+    constructor(private appDataStoreService: AppDataStoreService,
+        private router: Router) { }
 
     init() {
         this.authToken = this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.AUTH_TOKEN)
@@ -45,5 +46,7 @@ export class LoginStatusService {
 
         this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.USER_ROLE)
             .removeObject(APP_DATA_STORE_KEYS.USER_ROLE);
+        // TODO: Call Logout api
+        this.router.navigate(['auth/login'], { skipLocationChange: true });
     }
 }
