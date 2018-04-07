@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AppDataStoreService } from '../../../services/app-data-store/app-data-store-service';
+import { LoginStatusService } from '../../../services/login-status.service';
+import { AuthResponse } from '../../../models/api/auth-models';
 
 @Component({
   selector: 'hkt-login',
@@ -10,16 +14,21 @@ export class LoginComponent implements OnInit {
   hide = true;
   username: string;
   password: string;
-  constructor(private appDataStoreService: AppDataStoreService) { }
-  // constructor() { }
+  constructor(private appDataStoreService: AppDataStoreService,
+    private loginStatusService: LoginStatusService,
+    private router: Router) { }
   ngOnInit() {
+    // TODO: Remove after inetgration
     this.username = 'admin@servicepoint.live';
     this.password = 'admin';
   }
 
   login() {
-    this.appDataStoreService.getDataStore('AUTH_TOKEN').setObject<string>('AUTH_TOKEN', 'Some token');
-    console.log(this.appDataStoreService.getDataStore('AUTH_TOKEN').getObject<any>('AUTH_TOKEN'));
+    // TODO: Call login api
+    const authResponse = new AuthResponse();
+    authResponse.token = '0123456789';
+    this.loginStatusService.login(authResponse);
+    this.router.navigate([''], { skipLocationChange: true });
   }
 
 }

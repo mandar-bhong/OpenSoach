@@ -1,6 +1,9 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+
+import { AuthGuard } from './auth-guard';
 import { AppDataStoreService } from './services/app-data-store/app-data-store-service';
+import { LoginStatusService } from './services/login-status.service';
 
 @NgModule({
   imports: [
@@ -14,7 +17,9 @@ export class AppCommonModule {
       return {
           ngModule: AppCommonModule,
           providers: [
-            AppDataStoreService
+            AppDataStoreService,
+            LoginStatusService,
+            AuthGuard
           ]
       };
   }

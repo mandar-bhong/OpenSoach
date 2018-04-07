@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { DevicesRoutingModule } from './devices-routing.module';
 import { DeviceListComponent } from './device-list/device-list.component';
+import { DevicesRoutingModule } from './devices-routing.module';
 
 @NgModule({
   imports: [
