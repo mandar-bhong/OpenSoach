@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginStatusService } from '../../../services/login-status.service';
 
 @Component({
   selector: 'app-top-header',
@@ -6,12 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top-header.component.css']
 })
 export class TopHeaderComponent implements OnInit {
-  
 
-
-  constructor() { }
+  constructor(private loginStatusService: LoginStatusService) { }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this.loginStatusService.logout();
   }
 
 }
