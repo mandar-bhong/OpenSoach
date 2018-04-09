@@ -34,7 +34,7 @@ get user_id from the session matching with the token
 read `spl_master_usr_details_tbl`
 
 3. get minimum details of the customer to which the user belongs
-API Name: /api/v1/customer/info/login
+API Name: /api/pu/v1/customer/info/login
 Request Method: GET
 request: null
 response: CustomerLoginInfoResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer-models.ts
@@ -53,7 +53,7 @@ Logic:
 Clear user session.
 
 5. Add Customer
-API Name: /api/v1/customer/add
+API Name: /api/osu/v1/customer/add
 Request Method: POST
 request: CustomerAddRequest->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
 response: RecordAddResponse->trunk\technical\src\web\splive\src\app\shared\models\api\common-models.ts
@@ -70,13 +70,90 @@ export enum CUSTOMER_STATE {
 }
 
 6. Add or Update Customer Details
-API Name: /api/v1/customer/update/details
+API Name: /api/osu/v1/customer/update/details
 Request Method: POST
 request: CustomerAddDetailsRequest->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
 response: null
 Logic:
 
-Insert customer in spl_master_cust_details
+Insert or update customer in spl_master_cust_details
+
+7. Add or Update Customer Details
+API Name: /api/cu/v1/customer/update/details
+Request Method: POST
+request: CustomerAddDetailsRequest->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+use cust_id from session.
+Insert or update customer in spl_master_cust_details.
+
+8. Get customer master details
+API Name: /api/osu/v1/customer/info/master
+Request Method: GET
+request: CustomerMasterResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+
+read cust_id from query parameters
+
+fetch data from spl_master_customer_tbl using cust_id.
+
+
+9. Get customer master details
+API Name: /api/cu/v1/customer/info/master
+Request Method: GET
+request: CustomerMasterResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+
+read cust_id from session.
+
+fetch data from spl_master_customer_tbl using cust_id.
+
+10. Get customer details
+API Name: /api/osu/v1/customer/info/details
+Request Method: GET
+request: CustomerDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+
+read cust_id from query parameters
+
+fetch data from spl_master_cust_details_tbl using cust_id.
+
+10. Get customer details
+API Name: /api/cu/v1/customer/info/details
+Request Method: GET
+request: CustomerDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+
+read cust_id from session.
+
+fetch data from spl_master_cust_details_tbl using cust_id.
+
+11. Get customer corporate details
+API Name: /api/osu/v1/corporate/info
+Request Method: GET
+request: CorporateDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+
+read corp_id from query parameters 
+
+fetch data from spl_master_corp_details_tbl using cust_id.
+
+
+12. Get customer corporate details
+API Name: /api/pu/v1/corporate/info
+Request Method: GET
+request: CorporateDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+
+read cust_id from session and join to get corporate details
+
+fetch data from spl_master_corp_details_tbl using cust_id.
 
 
 
