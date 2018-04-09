@@ -1,15 +1,13 @@
 package models
 
-type LoginRequest struct {
-	UserName string `json:"username"`
-	Password string `json:"password"`
+
+type AuthRequest struct {
+	UserName string `db:"usr_name" json:"username"`
+	Password string `db:"usr_password" json:"password"`
+	ProdCode string `db:"prod_code" json:"prodcode"`
 }
 
-type LoginResponse struct {
-	UserID    int64  `json:"userid"`
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
-	Category  int    `json:"category"`
-	State     int    `json:"status"`
+type AuthResponse struct {
 	Token     string `json:"token"`
+	UroleCode string `json:"urolecode"`
 }

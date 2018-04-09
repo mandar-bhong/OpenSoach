@@ -6,9 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	ghelper "opensoach.com/core/helper"
 	gmodels "opensoach.com/models"
-	lhelper "opensoach.com/spl/helper"
 	lmodels "opensoach.com/spl/models"
-	repo "opensoach.com/spl/repository"
 )
 
 func registerRouters(router *gin.RouterGroup) {
@@ -65,38 +63,25 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	//logger.Debug(helper.MODULE_NAME, "API Request Received: %s", pContext.Request.RequestURI)
 
 	switch pContext.Request.RequestURI {
+
 	case "/login":
 
-		loginReq := lmodels.LoginRequest{}
+		authReq := lmodels.AuthRequest{}
 
-		isSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &loginReq)
+		err := pContext.Bind(&authReq)
 
-		if isSuccess == false {
-			return false, successErrorData
+		if err != nil {
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			resultData = errModel
+			return false, resultData
 		}
 
-		isSuccess, resultData = LoginService.Login(LoginService{}, loginReq.UserName, loginReq.Password)
-
-		if isSuccess {
-			sessionInfo := gmodels.UserSessionInfo{}
-			loginResp := resultData.(*lmodels.LoginResponse)
-			sessionInfo.UserID = loginResp.UserID
-			sessionInfo.UserRoleID = loginResp.Category
-			sessionInfo.UserType = loginResp.Category
-			isSessionSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &sessionInfo)
-
-			if isSessionSuccess {
-				loginResp.Token = token
-			} else {
-				errModel := gmodels.APIResponseError{}
-				errModel.Code = gmodels.MOD_OPER_ERR_SERVER
-				resultData = errModel
-				isSuccess = false
-				return isSuccess, resultData
-			}
-		}
+		isSuccess, resultData = AuthService.Auth(AuthService{}, authReq.UserName, authReq.Password, authReq.ProdCode)
 
 		break
+
 	}
 
 	return isSuccess, resultData
