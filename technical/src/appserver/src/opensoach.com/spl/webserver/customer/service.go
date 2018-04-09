@@ -8,6 +8,6 @@ type CustomerService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (service CustomerService) UpdateCustomerDetails() {
-
+func (service CustomerService) UpdateCustomerDetails() (isSuccess bool, successErrorData interface{}) {
+	return false, nil
 }
