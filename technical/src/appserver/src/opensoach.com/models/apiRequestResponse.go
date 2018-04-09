@@ -10,3 +10,7 @@ type APIResponseError struct {
 	Code int         `json:"code"`
 	Data interface{} `json:"errordata"`
 }
+
+type APIRecordAddResponse struct {
+	RecordID int64 `json:"recid"`
+}
