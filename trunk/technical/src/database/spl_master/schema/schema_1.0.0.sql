@@ -40,25 +40,10 @@ CREATE TABLE `spl_master_database_instance_tbl` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `dbi_name_UNIQUE` (`dbi_name`),
-  KEY `fk_dbi_prod_idx` (`prod_id_fk`),
+  UNIQUE KEY `dbi_name_UNIQUE` (`dbi_name`),  KEY `fk_dbi_prod_idx` (`prod_id_fk`),
   CONSTRAINT `fk_dbi_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master_product_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: dbi';
 
---
--- Table structure for table `spl_master_customer_tbl`
---
-
-CREATE TABLE `spl_master_customer_tbl` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cust_name` varchar(50) NOT NULL,
-  `cust_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
-  `cust_state_since` datetime NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cust_name_UNIQUE` (`cust_name`)
-) ENGINE=InnoDB COMMENT='Short Name for Table: cust';
 
 --
 -- Table structure for table `spl_master_corp_tbl`
@@ -76,12 +61,29 @@ CREATE TABLE `spl_master_corp_tbl` (
 ) ENGINE=InnoDB COMMENT='Short Name for Table: corp';
 
 --
+-- Table structure for table `spl_master_customer_tbl`
+--
+
+CREATE TABLE `spl_master_customer_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `corp_id_fk` int(10) unsigned NOT NULL,
+  `cust_name` varchar(50) NOT NULL,
+  `cust_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
+  `cust_state_since` datetime NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cust_name_UNIQUE` (`cust_name`),
+  KEY `fk_cust_corp_idx` (`corp_id_fk`),
+  CONSTRAINT `fk_cust_corp` FOREIGN KEY (`corp_id_fk`) REFERENCES `spl_master_corp_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: cust';
+
+--
 -- Table structure for table `spl_master_cust_details_tbl`
 --
 
 CREATE TABLE `spl_master_cust_details_tbl` (
-  `cust_id_fk` int(10) unsigned NOT NULL,
-  `corp_id_fk` int(10) unsigned NOT NULL,
+  `cust_id_fk` int(10) unsigned NOT NULL,  
   `poc1_name` varchar(50) NOT NULL,
   `poc1_email_id` varchar(254) NOT NULL,
   `poc1_mobile_no` varchar(15) NOT NULL,
@@ -95,6 +97,7 @@ CREATE TABLE `spl_master_cust_details_tbl` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`cust_id_fk`),
+  KEY `fk_custd_cust_idx` (`cust_id_fk`),
   CONSTRAINT `fk_custd_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: custd';
 
