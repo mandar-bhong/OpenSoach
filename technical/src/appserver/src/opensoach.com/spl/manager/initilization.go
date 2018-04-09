@@ -68,7 +68,6 @@ func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfi
 	selCtx.Query = models.QUERY_GET_CONFIGURATION
 	selCtx.QueryType = dbmgr.Query
 	selCtx.Dest = configRows
-	selCtx.TableName = ""
 
 	selErr := selCtx.SelectAll()
 
@@ -93,18 +92,18 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 
 	for _, dbRow := range *configData {
 
-		switch dbRow.Config_key {
-		case "Web.Service.Address":
-			webConfig.ServiceAddress = dbRow.Config_value
+		switch dbRow.ConfigKey {
+		case models.DB_CONFIG_WEB_SERVICE_ADDRESS:
+			webConfig.ServiceAddress = dbRow.ConfigValue
 			break
-		case "Cache.Address":
-			mstCacheConfig.Address = dbRow.Config_value
+		case models.DB_CONFIG_CACHE_ADDRESS:
+			mstCacheConfig.Address = dbRow.ConfigValue
 			break
-		case "Cache.Address.Password":
-			mstCacheConfig.Password = dbRow.Config_value
+		case models.DB_CONFIG_CACHE_ADDRESS_PASSWORD:
+			mstCacheConfig.Password = dbRow.ConfigValue
 			break
-		case "Cache.Address.DB":
-			mstDBPort, err := strconv.Atoi(dbRow.Config_value)
+		case models.DB_CONFIG_ADDRESS_DB:
+			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
 				return errors.New("Unable to convert Master Cache DB value to interger"), nil
 			}

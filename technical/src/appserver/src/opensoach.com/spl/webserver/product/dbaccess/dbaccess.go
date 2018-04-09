@@ -50,7 +50,7 @@ func GetCustomerProductDetails(dbEngine *sqlx.DB, cpmid int64) (error, *lmodels.
 	selDBCtx.Engine = dbEngine
 	selDBCtx.Query = QUERY_SELECT_CPM_DETAILS
 	selDBCtx.Dest = data
-	selDBCtx.Type = dbmgr.Query
+	selDBCtx.QueryType = dbmgr.Query
 
 	selErr := selDBCtx.Select(cpmid)
 
