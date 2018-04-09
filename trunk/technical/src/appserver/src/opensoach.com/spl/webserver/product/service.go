@@ -28,19 +28,19 @@ func (ProductService) GetProducts(pExeContext *gmodels.ExecutionContext) (bool, 
 
 func (ProductService) SelectProduct(pExeContext *gmodels.ExecutionContext) (bool, interface{}) {
 
-	selectProdReq := pExeContext.Request.(*lmodels.APIProductSelectRequest)
+	//	selectProdReq := pExeContext.Request.(*lmodels.APIProductSelectRequest)
 
-	pExeContext.SelectedCustomerProduct = selectProdReq.ProductID
+	//	pExeContext.SelectedCustomerProduct = selectProdReq.ProductID
 
-	isSuccess, dbProductBriefRowModel := getCMPDetails(selectProdReq.ProductID)
+	//	isSuccess, dbProductBriefRowModel := getCMPDetails(selectProdReq.ProductID)
 
-	if !isSuccess {
-		respErr := gmodels.APIResponseError{}
-		respErr.Code = gmodels.MOD_OPER_ERR_SERVER
-		return false, respErr
-	}
+	//	if !isSuccess {
+	//		respErr := gmodels.APIResponseError{}
+	//		respErr.Code = gmodels.MOD_OPER_ERR_SERVER
+	//		return false, respErr
+	//	}
 
-	return true, dbProductBriefRowModel
+	return true, nil
 }
 
 func getCMPDetails(cpmid int64) (bool, *lmodels.DBProductBriefRowModel) {

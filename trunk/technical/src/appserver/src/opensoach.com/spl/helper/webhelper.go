@@ -79,7 +79,7 @@ func PrepareExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, 
 		return false, errorData
 	}
 
-	dataModel.Request = pClientReq
+	
 	dataModel.SessionInfo = *userInfo
 
 	return true, dataModel
