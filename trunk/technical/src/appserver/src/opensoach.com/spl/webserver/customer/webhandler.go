@@ -6,7 +6,8 @@ import (
 	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
 	lhelper "opensoach.com/spl/helper"
-	lmodels "opensoach.com/spl/models"
+
+	repo "opensoach.com/spl/repository"
 )
 
 func registerRouters(router *gin.RouterGroup) {
@@ -20,7 +21,16 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	switch pContext.Request.RequestURI {
 
 	case constants.API_CUSTOMER_OSU_UPDATE_DETAILS:
-		customerService := CustomerService{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
+
+		if isPrepareExeSuccess == false {
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CustomerService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.UpdateCustomerDetails()
 
 		break
 
