@@ -10,23 +10,6 @@ import (
 
 var SUB_MODULE_NAME = "SPL.Login.DB"
 
-func ValidateLogin(dbEngine *sqlx.DB, username string, password string) (error, *[]lmodels.DBMasterUserRowModel) {
-
-	data := &[]lmodels.DBMasterUserRowModel{}
-	selDBCtx := dbmgr.SelectContext{}
-	selDBCtx.Engine = dbEngine
-	selDBCtx.Query = "sp_mst_chk_user_login"
-	selDBCtx.Dest = data
-
-	selErr := selDBCtx.Select(username, password)
-
-	if selErr != nil {
-		return selErr, nil
-	}
-
-	return nil, data
-}
-
 func ValidateAuth(dbEngine *sqlx.DB, username, password string) (error, *[]lmodels.DBMasterUserRowModel) {
 	filter := lmodels.AuthRequest{}
 	filter.UserName = username
