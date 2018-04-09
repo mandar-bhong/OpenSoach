@@ -5,6 +5,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	dbmgr "opensoach.com/core/manager/db"
 
+	"opensoach.com/spl/constants"
 	lmodels "opensoach.com/spl/models"
 )
 
@@ -20,7 +21,7 @@ func ValidateAuth(dbEngine *sqlx.DB, username, password string) (error, *[]lmode
 	selDBCtx.Query = QUERY_MUST_CHECK_USER_LOGIN
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selDBCtx.TableName = lmodels.DB_TABLE_USER_TBL
+	selDBCtx.TableName = constants.DB_TABLE_USER_TBL
 
 	selErr := selDBCtx.SelectByFilter(filter, "usr_name", "usr_password")
 
@@ -40,7 +41,7 @@ func GetUserAuthInfo(dbEngine *sqlx.DB, prodcode string) (error, *[]lmodels.DBUs
 	selDBCtx.Query = QUERY_GET_USER_AUTH_INFO
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selDBCtx.TableName = lmodels.DB_TABLE_PRODUCT_TBL
+	selDBCtx.TableName = constants.DB_TABLE_PRODUCT_TBL
 	selErr := selDBCtx.SelectByFilter(filter, "prod_code")
 	if selErr != nil {
 		return selErr, &[]lmodels.DBUserAuthInfo{}

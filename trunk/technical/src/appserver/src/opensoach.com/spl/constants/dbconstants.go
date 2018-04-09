@@ -1,4 +1,4 @@
-package models
+package constants
 
 const DB_TABLE_USER_TBL = "spl_master_user_tbl"
 const DB_TABLE_PRODUCT_TBL = "spl_master_product_tbl"

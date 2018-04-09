@@ -3,6 +3,7 @@ package login
 import (
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	"opensoach.com/spl/constants"
 	lhelper "opensoach.com/spl/helper"
 	lmodels "opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
@@ -33,21 +34,21 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 	if len(dbRecord) < 1 {
 		errModel := gmodels.APIResponseError{}
-		errModel.Code = lmodels.MOD_ERR_LOGIN_INVALID_USER
+		errModel.Code = constants.MOD_ERR_LOGIN_INVALID_USER
 		return false, errModel
 	}
 
 	userRecordItem := dbRecord[0]
 
-	if userRecordItem.UserState != lmodels.DB_USER_STATE_ACTIVE {
+	if userRecordItem.UserState != constants.DB_USER_STATE_ACTIVE {
 		errModel := gmodels.APIResponseError{}
-		errModel.Code = lmodels.MOD_ERR_LOGIN_INACTIVE_USER_STATE
+		errModel.Code = constants.MOD_ERR_LOGIN_INACTIVE_USER_STATE
 		return false, errModel
 	}
 
-	if userRecordItem.UserCategory == lmodels.DB_USER_CATEGORY_CUSTOMER {
+	if userRecordItem.UserCategory == constants.DB_USER_CATEGORY_CUSTOMER {
 		errModel := gmodels.APIResponseError{}
-		errModel.Code = lmodels.MOD_ERR_INVALID_USER_CATEGORY
+		errModel.Code = constants.MOD_ERR_INVALID_USER_CATEGORY
 		return false, errModel
 	}
 
@@ -64,7 +65,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 	if authRecordItem.CpmId == 0 {
 		errModel := gmodels.APIResponseError{}
-		errModel.Code = lmodels.MOD_ERR_CUSTOMER_PRODUCT_MAPPING
+		errModel.Code = constants.MOD_ERR_CUSTOMER_PRODUCT_MAPPING
 		return false, errModel
 	}
 
@@ -75,7 +76,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 	userSessionContext.CustomerID = authRecordItem.CustomerId
 	userSessionContext.UserRoleID = userRecordItem.UserRoleId
 	userSessionContext.UserID = userRecordItem.ID
-	userSessionContext.ModDB = gmodels.ConfigDB{ConnectionString: authRecordItem.Connectionstring, DBDriver: lmodels.DB_DRIVER_NAME}
+	userSessionContext.ModDB = gmodels.ConfigDB{ConnectionString: authRecordItem.Connectionstring, DBDriver: constants.DB_DRIVER_NAME}
 
 	isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
 	if isSuccess == false {
