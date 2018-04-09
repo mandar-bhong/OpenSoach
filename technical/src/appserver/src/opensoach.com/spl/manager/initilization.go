@@ -17,6 +17,7 @@ import (
 	"opensoach.com/core"
 	"opensoach.com/core/logger"
 	coremodels "opensoach.com/core/models"
+	"opensoach.com/spl/constants"
 	"opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
 	"opensoach.com/spl/webserver"
@@ -93,16 +94,16 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 	for _, dbRow := range *configData {
 
 		switch dbRow.ConfigKey {
-		case models.DB_CONFIG_WEB_SERVICE_ADDRESS:
+		case constants.DB_CONFIG_WEB_SERVICE_ADDRESS:
 			webConfig.ServiceAddress = dbRow.ConfigValue
 			break
-		case models.DB_CONFIG_CACHE_ADDRESS:
+		case constants.DB_CONFIG_CACHE_ADDRESS:
 			mstCacheConfig.Address = dbRow.ConfigValue
 			break
-		case models.DB_CONFIG_CACHE_ADDRESS_PASSWORD:
+		case constants.DB_CONFIG_CACHE_ADDRESS_PASSWORD:
 			mstCacheConfig.Password = dbRow.ConfigValue
 			break
-		case models.DB_CONFIG_ADDRESS_DB:
+		case constants.DB_CONFIG_ADDRESS_DB:
 			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
 				return errors.New("Unable to convert Master Cache DB value to interger"), nil
