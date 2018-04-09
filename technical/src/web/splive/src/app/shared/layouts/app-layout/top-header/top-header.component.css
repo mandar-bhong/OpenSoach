@@ -1,14 +1,28 @@
 #text{color:white;}
-#brand{    display: flex;
+#brand{display: flex;
     float: left;
     height: 50px;
     text-align: center;
     padding: 10px;}
 #box{margin-top: 10px;
+  margin-left: 60px;
 }
-.navbar-toggler-icon {
-    color: #f00; /* Changes regular toggle color */
+.navbar-brand ul li{display:inline-block}
+.fa-bars{
+  padding-top: 15px;
+  margin-left: 20px;
+  color: white;
+}
+.dropdown-menu a:hover{
+	background: steelblue;
+}
+.dropdown-menu a:active{
+background-color: rgb(139, 176, 206);
+}
+i:active{
+  color: rgb(139, 176, 206);
   }
-.navbar-toggler-icon:hover {
-    color: #fff; /* Changes toggle color on hover */
-  }
+.fa-bell{color: white}
+@media screen and (max-width:768px) {
+  .fa-bell{margin-left: 60px;}
+}
