@@ -6,8 +6,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	gcore "opensoach.com/core"
+	ghelper "opensoach.com/core/helper"
 	gmodels "opensoach.com/models"
 )
+
+type RequestHandler func(pContext *gin.Context) (isSuccess bool, successErrorData interface{})
 
 func PrepareExecutionData(osContext *gcore.Context, ginContext *gin.Context) (bool, interface{}) {
 	dataModel := &gmodels.ExecutionContext{}
@@ -81,4 +84,41 @@ func PrepareExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, 
 
 	return true, dataModel
 
+}
+
+func CommonWebRequestHandler(pContext *gin.Context, requestHandlerFunc RequestHandler) {
+	var isSuccess bool
+	var successErrorData interface{}
+	ginRetStatus := http.StatusOK
+
+	responsePayload := gmodels.APIPayloadResponse{}
+
+	ghelper.Block{
+		Try: func() {
+			isSuccess, successErrorData = requestHandlerFunc(pContext)
+		},
+
+		Catch: func(e ghelper.Exception) {
+			//logger.Log(helper.MODULENAME, logger.ERROR, "Exception occured while processing websocket data: %#v", e)
+			isSuccess = false
+			errorData := gmodels.APIResponseError{}
+			errorData.Code = gmodels.MOD_OPER_ERR_SERVER
+			successErrorData = errorData
+		},
+
+		Finally: func() {
+			//Do something if required
+		},
+	}.Do()
+
+	responsePayload.Success = isSuccess
+	if isSuccess {
+		responsePayload.Data = successErrorData
+	} else {
+		responsePayload.Error = successErrorData
+	}
+
+	pContext.JSON(ginRetStatus, responsePayload)
+
+	return
 }
