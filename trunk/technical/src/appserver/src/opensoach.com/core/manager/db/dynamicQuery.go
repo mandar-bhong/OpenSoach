@@ -228,8 +228,9 @@ func GetFilterValues(tablename string, filterStruct interface{}, args ...string)
 	t := reflect.TypeOf(filterStruct)
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
+		tag := field.Tag.Get("db")
 		for _, each := range args {
-			if field.Name == each {
+			if tag == each {
 				value := reflect.Indirect(val).FieldByName(field.Name).Interface()
 				tagValues = append(tagValues, value)
 			}
