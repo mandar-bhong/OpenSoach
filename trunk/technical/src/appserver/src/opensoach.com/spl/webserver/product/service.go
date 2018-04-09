@@ -51,7 +51,7 @@ func getCMPDetails(cpmid int64) (bool, *lmodels.DBProductBriefRowModel) {
 		err, data := dbaccess.GetCustomerProductDetails(repo.Instance().Context.Dynamic.DB, cpmid)
 
 		if err != nil {
-			logger.Context().WithField("CPM ID", cpmid).LogError("PRODUCT", "Unable to fetch product details", err)
+			logger.Context().WithField("CPM ID", cpmid).LogError("PRODUCT", logger.Normal, "Unable to fetch product details", err)
 			return false, nil
 		}
 

@@ -24,7 +24,7 @@ func main() {
 
 	manager.InitilizeModues(dbconfig)
 
-	logger.Context().LogDebug("Main", "Starting Application")
+	logger.Context().LogDebug("Main", logger.Normal, "Starting Application")
 
 	time.Sleep(time.Second * 50)
 }
@@ -36,7 +36,7 @@ func readConfiguration() (bool, *gmodels.ConfigDB) {
 	err, readContent := ghelper.ReadFileContent(currentPath, "settings", "win.config.json")
 
 	if err != nil {
-		logger.Context().LogError("", "Error occured while reading configuration file", err)
+		logger.Context().LogError("", logger.Normal, "Error occured while reading configuration file", err)
 		return false, nil
 	}
 
