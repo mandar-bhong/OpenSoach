@@ -69,8 +69,10 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		loginReq := lmodels.LoginRequest{}
 
-		if err := pContext.Bind(&loginReq); err != nil {
-			return false, resultData
+		isSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &loginReq)
+
+		if isSuccess == false {
+			return false, successErrorData
 		}
 
 		isSuccess, resultData = LoginService.Login(LoginService{}, loginReq.UserName, loginReq.Password)
