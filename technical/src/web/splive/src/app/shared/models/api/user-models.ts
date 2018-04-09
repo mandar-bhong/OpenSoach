@@ -1,4 +1,4 @@
-export class UserBriefDetailsResponse {
+export class UserLoginInfoResponse {
     fname: string;
     lname: string;
 }
