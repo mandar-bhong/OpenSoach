@@ -80,7 +80,6 @@ CREATE TABLE `spl_master_cust_details_tbl` (
   `poc2_name` varchar(50) DEFAULT NULL,
   `poc2_email_id` varchar(254) DEFAULT NULL,
   `poc2_mobile_no` varchar(50) DEFAULT NULL,
-  `engagement_since` datetime NOT NULL,
   `address` varchar(250) DEFAULT NULL,
   `address_state` varchar(50) DEFAULT NULL,
   `address_city` varchar(50) DEFAULT NULL,
