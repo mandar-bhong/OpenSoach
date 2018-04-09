@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	ghelper "opensoach.com/core/helper"
 	gmodels "opensoach.com/models"
+	"opensoach.com/spl/constants"
 	lmodels "opensoach.com/spl/models"
 )
 
@@ -13,7 +14,7 @@ func registerRouters(router *gin.RouterGroup) {
 
 	//logger.Instance.Debug("Registering log module")
 
-	router.POST(lmodels.API_USER_LOGIN, commonHandler)
+	router.POST(constants.API_USER_LOGIN, commonHandler)
 
 	return
 }
@@ -64,7 +65,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	switch pContext.Request.RequestURI {
 
-	case lmodels.API_USER_LOGIN:
+	case constants.API_USER_LOGIN:
 
 		authReq := lmodels.AuthRequest{}
 
