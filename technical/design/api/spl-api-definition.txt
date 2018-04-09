@@ -69,8 +69,8 @@ export enum CUSTOMER_STATE {
     SUSPENDED = 3
 }
 
-6. Update Customer
-API Name: /api/v1/customer/add/details
+6. Add or Update Customer Details
+API Name: /api/v1/customer/update/details
 Request Method: POST
 request: CustomerAddDetailsRequest->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
 response: null
