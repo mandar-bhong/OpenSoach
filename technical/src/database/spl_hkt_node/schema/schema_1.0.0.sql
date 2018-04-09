@@ -22,6 +22,8 @@ use spl_hkt_node_xxxx;
 CREATE TABLE `spl_hkt_dev_sp_mapping` (
   `dev_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`dev_id_fk`,`sp_id_fk`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: devsp';
 
@@ -35,6 +37,8 @@ CREATE TABLE `spl_hkt_task_lib_tbl` (
   `spc_id_fk` int(10) unsigned DEFAULT NULL,
   `task_name` varchar(50) NOT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cpm_spc_task_name_UNIQUE` (`cpm_id_fk`,`spc_id_fk`,`task_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: task';
@@ -50,6 +54,8 @@ CREATE TABLE `spl_hkt_chart_tbl` (
   `chart_name` varchar(50) NOT NULL,
   `chart_type` tinyint(3) unsigned NOT NULL COMMENT '1: Daily\n2: Weekly',
   `chart_config` json NOT NULL COMMENT 'For chart_type : 1(daily). following is the json structure\n{starttime,endtime,interval}',
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cpm_spc_chart_name_UNIQUE` (`cpm_id_fk`,`spc_id_fk`,`chart_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: chart';
@@ -62,6 +68,8 @@ CREATE TABLE `spl_hkt_chart_tasks_tbl` (
   `chart_id_fk` int(10) unsigned NOT NULL,
   `task_id_fk` int(10) unsigned NOT NULL,
   `task_order` smallint(5) unsigned DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`chart_id_fk`,`task_id_fk`),
   KEY `fk_ct_task_idx` (`task_id_fk`),
   CONSTRAINT `fk_ctasks_chart` FOREIGN KEY (`chart_id_fk`) REFERENCES `spl_hkt_chart_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -75,6 +83,8 @@ CREATE TABLE `spl_hkt_chart_tasks_tbl` (
 CREATE TABLE `spl_hkt_sp_charts_tbl` (
   `chart_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`chart_id_fk`,`sp_id_fk`),
   CONSTRAINT `fk_spcharts_chart` FOREIGN KEY (`chart_id_fk`) REFERENCES `spl_hkt_chart_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spcharts';
@@ -91,6 +101,8 @@ CREATE TABLE `spl_hkt_chart_txn_tbl` (
   `task_state` tinyint(3) unsigned NOT NULL,
   `entry_time` datetime NOT NULL,
   `task_txn_day` date NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_charttxn_chart_idx` (`chart_id_fk`),
   KEY `fk_charttxn_task_idx` (`task_id_fk`),
@@ -112,6 +124,8 @@ CREATE TABLE `spl_hkt_field_operator_tbl` (
   `short_desc` varchar(250) DEFAULT NULL,
   `fop_state` tinyint(4) NOT NULL COMMENT '1: Active, 2: InActive etc.',
   `fop_area` tinyint(4) NOT NULL COMMENT '1: open, 2: restricted.',
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: fop';
 
@@ -123,6 +137,8 @@ CREATE TABLE `spl_hkt_field_operator_tbl` (
 CREATE TABLE `spl_hkt_fop_sp_tbl` (
   `fop_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`fop_id_fk`,`sp_id_fk`),
   CONSTRAINT `fk_fopsp_fop` FOREIGN KEY (`fop_id_fk`) REFERENCES `spl_hkt_field_operator_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: fopsp';
@@ -144,5 +160,7 @@ CREATE TABLE `spl_hkt_sp_complaint_tbl` (
   `complaint_state` tinyint(4) NOT NULL COMMENT '1: Open, 2: Closed, 3: Force Closed etc.',
   `closed_on` datetime DEFAULT NULL,
   `remarks` varchar(500) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spcomplaint';

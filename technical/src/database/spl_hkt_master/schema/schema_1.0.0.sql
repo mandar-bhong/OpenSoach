@@ -23,6 +23,8 @@ CREATE TABLE `spl_hkt_master_sp_category_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `spc_name` varchar(50) NOT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `spc_name_UNIQUE` (`spc_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spc';
@@ -36,6 +38,8 @@ CREATE TABLE `spl_hkt_master_task_lib_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `task_name` varchar(50) NOT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `task_name_UNIQUE` (`task_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: mtask';
@@ -47,6 +51,8 @@ CREATE TABLE `spl_hkt_master_task_lib_tbl` (
 CREATE TABLE `spl_hkt_master_spc_task_lib_tbl` (
   `spc_id_fk` int(10) unsigned NOT NULL,
   `mtask_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`spc_id_fk`,`mtask_id_fk`),
   KEY `fk_spct_mtask_idx` (`mtask_id_fk`),
   KEY `fk_spct_spc_idx` (`spc_id_fk`),
@@ -61,5 +67,7 @@ CREATE TABLE `spl_hkt_master_spc_task_lib_tbl` (
 CREATE TABLE `spl_hkt_master_config` (
 	`config_key` VARCHAR(50) NOT NULL,
 	`config_value` VARCHAR(500) NOT NULL DEFAULT '',
+	`created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`config_key`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: config\r\nThis table will contain configuration for hkt product';

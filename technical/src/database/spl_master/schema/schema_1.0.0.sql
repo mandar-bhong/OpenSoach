@@ -37,6 +37,8 @@ CREATE TABLE `spl_master_database_instance_tbl` (
   `dbi_name` varchar(20) NOT NULL COMMENT 'Database name: splive_product code_node_4digitnumber\ne.g.\nsplive_hkt_node_1001',
   `connection_string` varchar(500) NOT NULL,
   `prod_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `dbi_name_UNIQUE` (`dbi_name`),
   KEY `fk_dbi_prod_idx` (`prod_id_fk`),
@@ -52,6 +54,8 @@ CREATE TABLE `spl_master_customer_tbl` (
   `cust_name` varchar(50) NOT NULL,
   `cust_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `cust_state_since` datetime NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `cust_name_UNIQUE` (`cust_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cust';
@@ -66,6 +70,8 @@ CREATE TABLE `spl_master_corp_tbl` (
   `corp_mobile_no` varchar(15) DEFAULT NULL,
   `corp_email_id` varchar(254) DEFAULT NULL,
   `corp_landline_no` varchar(15) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: corp';
 
@@ -86,6 +92,8 @@ CREATE TABLE `spl_master_cust_details_tbl` (
   `address_state` varchar(50) DEFAULT NULL,
   `address_city` varchar(50) DEFAULT NULL,
   `address_pincode` varchar(6) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`cust_id_fk`),
   CONSTRAINT `fk_custd_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: custd';
@@ -101,6 +109,8 @@ CREATE TABLE `spl_master_cust_prod_mapping_tbl` (
   `dbi_id_fk` int(10) unsigned NOT NULL,
   `cpm_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `cpm_state_since` datetime NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_cpm_prod_idx` (`prod_id_fk`),
   KEY `fk_cpm_cust_idx` (`cust_id_fk`),
@@ -120,6 +130,8 @@ CREATE TABLE `spl_master_user_role_tbl` (
   `urole_code` varchar(10) NOT NULL,
   `urole_name` varchar(20) NOT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_urole_prod_idx` (`prod_id_fk`),
   CONSTRAINT `fk_urole_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master_product_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -137,6 +149,8 @@ CREATE TABLE `spl_master_user_tbl` (
   `urole_id_fk` int(10) unsigned DEFAULT NULL COMMENT 'this field is applicable only if usr_category==1(OpenSoach)',
   `usr_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `usr_state_since` datetime NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`usr_name`),
   KEY `fk_usr_urole_idx` (`urole_id_fk`),
@@ -153,6 +167,8 @@ CREATE TABLE `spl_master_usr_details_tbl` (
   `lname` varchar(25) DEFAULT NULL,
   `mobile_no` varchar(15) DEFAULT NULL,
   `alternate_contact_no` varchar(15) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`usr_id_fk`),
   CONSTRAINT `fk_usrd_usr` FOREIGN KEY (`usr_id_fk`) REFERENCES `spl_master_user_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: usrd';
@@ -166,6 +182,8 @@ CREATE TABLE `spl_master_usr_cpm_tbl` (
   `user_id_fk` int(10) unsigned NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `urole_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_user_cpm_idx` (`user_id_fk`,`cpm_id_fk`),
   KEY `fk_ucpm_usr_idx` (`user_id_fk`),
@@ -185,6 +203,8 @@ CREATE TABLE `spl_master_device_tbl` (
   `serialno` varchar(16) NOT NULL,
   `dev_state` tinyint(3) unsigned NOT NULL COMMENT '0:Unallocated, 1: Active, 2: Inactive, 3: Suspended etc.',
   `dev_state_since` datetime NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `serialno_UNIQUE` (`serialno`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: dev';
@@ -200,6 +220,8 @@ CREATE TABLE `spl_master_dev_details_tbl` (
   `technology` varchar(30) DEFAULT NULL,
   `tech_version` varchar(30) DEFAULT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`dev_id_fk`),
   CONSTRAINT `fk_devd_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_master_device_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: devd';
@@ -216,6 +238,8 @@ CREATE TABLE `spl_master_dev_status_tbl` (
   `sync_state_since` datetime NOT NULL,
   `battery_level` tinyint(4) NOT NULL COMMENT 'In Percentage',
   `battery_level_since` datetime NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`dev_id_fk`),
   CONSTRAINT `fk_devstate_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_master_device_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: devstate';
@@ -228,6 +252,8 @@ CREATE TABLE `spl_master_servicepoint_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sp_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `sp_state_since` datetime NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: sp';
 
@@ -238,6 +264,8 @@ CREATE TABLE `spl_master_servicepoint_tbl` (
 CREATE TABLE `spl_master_cpm_dev_mapping_tbl` (
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `dev_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`cpm_id_fk`,`dev_id_fk`),
   KEY `fk_cpdm_cpm` (`cpm_id_fk`),
   KEY `fk_cpdm_dev_idx` (`dev_id_fk`),
@@ -252,6 +280,8 @@ CREATE TABLE `spl_master_cpm_dev_mapping_tbl` (
 CREATE TABLE `spl_master_cpm_sp_mapping_tbl` (
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`cpm_id_fk`,`sp_id_fk`),
   KEY `fk_cpsm_cpm_idx` (`cpm_id_fk`),
   KEY `fk_cpsm_sp_idx` (`sp_id_fk`),
@@ -272,6 +302,8 @@ CREATE TABLE `spl_master_total_count_tbl` (
   `sp_cnt` int(10) unsigned NOT NULL,
   `dev_unallocated_cnt` int(10) unsigned NOT NULL,
   `dev_active_cnt` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: tcnt';
@@ -286,6 +318,8 @@ CREATE TABLE `spl_master_cust_prod_count_tbl` (
   `dev_cnt` int(10) unsigned NOT NULL,
   `sp_cnt` int(10) unsigned NOT NULL,
   `usr_cnt` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_cpcnt_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_cpcnt_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -298,6 +332,8 @@ CREATE TABLE `spl_master_cust_prod_count_tbl` (
 CREATE TABLE `spl_master_config` (
 	`config_key` VARCHAR(50) NOT NULL,
 	`config_value` VARCHAR(500) NOT NULL DEFAULT '',
+	`created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`config_key`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: config\r\nThis table will contain configuration for spl  product';
 
