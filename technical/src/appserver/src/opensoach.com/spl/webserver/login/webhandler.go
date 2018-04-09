@@ -13,7 +13,7 @@ func registerRouters(router *gin.RouterGroup) {
 
 	//logger.Instance.Debug("Registering log module")
 
-	router.POST("/login", commonHandler)
+	router.POST(lmodels.API_USER_LOGIN, commonHandler)
 
 	return
 }
@@ -64,7 +64,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	switch pContext.Request.RequestURI {
 
-	case "/login":
+	case lmodels.API_USER_LOGIN:
 
 		authReq := lmodels.AuthRequest{}
 
