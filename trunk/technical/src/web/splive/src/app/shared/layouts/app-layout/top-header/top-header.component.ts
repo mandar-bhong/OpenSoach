@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { LoginStatusService } from '../../../services/login-status.service';
+import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
 
 @Component({
   selector: 'app-top-header',
@@ -8,8 +9,8 @@ import { LoginStatusService } from '../../../services/login-status.service';
   styleUrls: ['./top-header.component.css']
 })
 export class TopHeaderComponent implements OnInit {
-
-  constructor(private loginStatusService: LoginStatusService) { }
+  menuFull = true;
+  constructor(private loginStatusService: LoginStatusService, private sidebarToggleService: SidebarToggleService) { }
 
   ngOnInit() {
   }
@@ -17,5 +18,8 @@ export class TopHeaderComponent implements OnInit {
   logout() {
     this.loginStatusService.logout();
   }
-
+  toggleChange() {
+    this.menuFull = !this.menuFull;
+    this.sidebarToggleService.toggleMenu(this.menuFull);
+  }
 }
