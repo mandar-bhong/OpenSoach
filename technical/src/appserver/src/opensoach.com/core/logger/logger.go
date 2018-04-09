@@ -6,6 +6,7 @@ import (
 
 type serviceType int
 type severity int
+type logmsgType int
 
 type keyValueFields struct {
 	Key   string
@@ -17,6 +18,7 @@ type loggerContext struct {
 	level        severity
 	logTime      time.Time
 	msg          string
+	msgType      logmsgType
 	err          error
 	appComponent string
 	subComponent string
@@ -26,6 +28,12 @@ const (
 	Error severity = 1
 	Debug          = 2
 	Info           = 3
+)
+
+const (
+	Normal          logmsgType = 0
+	Instrumentation            = 1
+	Performace                 = 2
 )
 
 const (
@@ -64,7 +72,7 @@ func GetLogLevel() severity {
 	return logLevel
 }
 
-func (ctx *loggerContext) Log(subcomp string, loglevel severity, message string) {
+func (ctx *loggerContext) Log(subcomp string, logtype logmsgType, loglevel severity, message string) {
 	ctx.logTime = time.Now()
 	ctx.appComponent = appComponent
 	ctx.subComponent = subcomp
@@ -73,7 +81,7 @@ func (ctx *loggerContext) Log(subcomp string, loglevel severity, message string)
 	chanbuffLog <- ctx
 }
 
-func (ctx *loggerContext) LogDebug(subcomp string, message string) {
+func (ctx *loggerContext) LogDebug(subcomp string, logtype logmsgType, message string) {
 	ctx.logTime = time.Now()
 	ctx.appComponent = appComponent
 	ctx.subComponent = subcomp
@@ -82,7 +90,7 @@ func (ctx *loggerContext) LogDebug(subcomp string, message string) {
 	chanbuffLog <- ctx
 }
 
-func (ctx *loggerContext) LogError(subcomp string, message string, err error) {
+func (ctx *loggerContext) LogError(subcomp string, logtype logmsgType, message string, err error) {
 	ctx.logTime = time.Now()
 	ctx.appComponent = appComponent
 	ctx.subComponent = subcomp
