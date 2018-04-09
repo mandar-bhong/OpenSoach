@@ -8,6 +8,6 @@ type CustomerService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (cCustomerService) UpdateCustomerDetails() {
+func (service CustomerService) UpdateCustomerDetails() {
 
 }
