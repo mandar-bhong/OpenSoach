@@ -2,6 +2,7 @@
 1. Login
 
 API Name: /api/v1/login
+Request Method: POST
 request: AuthRequest -> trunk\technical\src\web\splive\src\app\shared\models\api\auth-request.ts
 response: AuthResponse -> trunk\technical\src\web\splive\src\app\shared\models\api\auth-response.ts
 Logic:
@@ -22,23 +23,74 @@ Set session
 - role_id
 - customer_id
 
-2. GetUserBriefDetails
+2. Get minimum details of user after login
 
-API Name: /api/v1/getuserbriefdetails
+API Name: /api/v1/user/info/login
 request: null
-response: UserBriefDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\user-brief-details-response.ts
+response: UserLoginInfoResponse->trunk\technical\src\web\splive\src\app\shared\models\api\user-models.ts
 Logic:
 read  token from the request header
 get user_id from the session matching with the token
 read `spl_master_usr_details_tbl`
 
-3. GetCustomerBriefDetails
+3. get minimum details of the customer to which the user belongs
+API Name: /api/v1/customer/info/login
+Request Method: GET
 request: null
-response: CustomerBriefDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_brief-details-response.ts
+response: CustomerLoginInfoResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer-models.ts
 Logic:
 read  token from the request header
 get customer_id from the session matching with the token
 `spl_master_customer_tbl` `spl_master_corp_tbl`
+
+4. Logout
+API Name: /api/v1/logout
+Request Method: POST
+request: null
+response: null
+Logic:
+
+Clear user session.
+
+5. Add Customer
+API Name: /api/v1/customer/add
+Request Method: POST
+request: CustomerAddRequest->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: RecordAddResponse->trunk\technical\src\web\splive\src\app\shared\models\api\common-models.ts
+Logic:
+
+Insert customer in spl_master_customer and return the inserted record (primary key of table).
+
+cust_state possible values: 
+export enum CUSTOMER_STATE {
+    NOT_SET = 0,
+    ACTIVE = 1,
+    INACTIVE = 2,
+    SUSPENDED = 3
+}
+
+6. Update Customer
+API Name: /api/v1/customer/add/details
+Request Method: POST
+request: CustomerAddDetailsRequest->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+response: null
+Logic:
+
+Insert customer in spl_master_cust_details
+
+
+
+/api/v1/customer/add - POST
+
+/api/v1/customer/update  - POST
+
+/api/v1/customer/info - GET
+/api/v1/customer/info/basic - GET
+/api/v1/customer/info/address - GET
+
+/api/v1/customer/list - GET
+/api/v1/customer/list/selection - GET
+/api/v1/customer/list/basic - GET
 
 
 
