@@ -156,6 +156,7 @@ func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 	_, redisMstErr := client.Ping().Result()
 
 	if redisMstErr != nil {
+		fmt.Printf("Unable to connect redis server Address : '%s', Password : '%s', DB: '%d' \n",configSetting.MasterCache.Address,configSetting.MasterCache.Password,configSetting.MasterCache.DB)
 		return redisMstErr
 	}
 
