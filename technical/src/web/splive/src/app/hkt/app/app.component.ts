@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginStatusService} from '../../shared/services/login-status.service';
+
+import { EnvironmentProvider } from '../../shared/environment-provider';
+import { LoginStatusService } from '../../shared/services/login-status.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +12,14 @@ import {LoginStatusService} from '../../shared/services/login-status.service';
 export class AppComponent implements OnInit {
   title = 'HKT';
 
-  constructor(private loginStatusService: LoginStatusService) {}
+  constructor(private loginStatusService: LoginStatusService) { }
 
   ngOnInit() {
 
-console.log('app init');
-this.loginStatusService.init();
-
+    EnvironmentProvider.production = environment.production;
+    EnvironmentProvider.baseurl = environment.baseurl;
+    EnvironmentProvider.appbaseurl = environment.appbaseurl;
+    EnvironmentProvider.prodcode = environment.prodcode;
+    this.loginStatusService.init();
   }
 }

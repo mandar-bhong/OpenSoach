@@ -1,6 +1,6 @@
 export class AuthRequest {
-    usrname: string;
-    usrpassword: string;
+    username: string;
+    password: string;
     prodcode: string;
 }
 
