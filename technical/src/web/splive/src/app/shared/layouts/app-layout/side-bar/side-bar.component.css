@@ -2,48 +2,53 @@
     overflow: hidden;
     z-index: 3;
 }
-#side.abc div a .lebal,#side.abc div a i .lebal{display:visible;
+#side.toggle div a .lebal,#side.toggle div a i .lebal{display:visible;
     transition: all 0.9s  ease-in-out;
 }
 
-#side.abc {
+#side.toggle {
     width: 50px;
-    transition: all 0.5s  ease-in-out;  
+    transition: all 0.3s  ease-in-out;  
 }
-
 #side {
-    width: 100%;
-    background-color: #446666;
-    height: 100vh;
+    background-color: white;
+    height: 90vh;
+    box-shadow: 0 0 50px rgba(33,33,33,.2); 
 }
 #side .list-group-item {
-    border-radius: 0;
-    background-color: #333;
     color: #ccc;
-    border-left: 0;
-    border-right: 0;
-    border-color: #2c2c2c;
+    border: none;
     white-space: nowrap;
-    background-color: #446666;
+    background-color: white;
+    border-radius: 8px;
 }
 .lebal{margin-left: 20px;
+    color: grey;
 }
+i{color: gray}
+.list-group{padding: 3px;}
 #side a.list-group-item:hover {
-	background: steelblue;
+    background: #127FFE;
+    box-shadow: 0 0 50px rgba(33,33,33,.2); 
+}
+#side a.list-group-item:hover i, #side a.list-group-item:hover span {
+    color: white;
+    transition: all 0.3s  ease-in-out;
 }
 #side a.list-group-item:active{
     background-color: rgb(139, 176, 206);
     }
-
+    
 @media (max-width:768px) {
     #side {display: hidden;
         width: 0px;
         }  
-        #side.abc {
+        #side.toggle {
             min-width: 200px;
-            background-color: #446666;
+            background-color: white;
             min-height: 100vh;
         }  
+    
 }
 
 
