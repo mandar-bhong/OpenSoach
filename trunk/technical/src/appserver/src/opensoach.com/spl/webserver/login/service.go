@@ -1,6 +1,7 @@
 package login
 
 import (
+	"github.com/gin-gonic/gin"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
@@ -16,6 +17,7 @@ type Service interface {
 }
 
 type AuthService struct {
+	ExeCtx *gmodels.ExecutionContext
 }
 
 func (AuthService) Auth(username, password, prodcode string) (bool, interface{}) {
@@ -89,4 +91,36 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 	authResponse.UroleCode = authRecordItem.UserRoleCode
 
 	return true, authResponse
+}
+
+func (service AuthService) GetUserLoginDetails() (bool, interface{}) {
+
+	userId := service.ExeCtx.SessionInfo.UserID
+
+	dbErr, userLoginInfo := dbaccess.GetUserLoginInfo(repo.Instance().Context.Dynamic.DB, userId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+	return true, userLoginInfo
+}
+
+func (service AuthService) UserLogout(pContext *gin.Context) bool {
+	return lhelper.SessionDelete(repo.Instance().Context, pContext)
+}
+
+func (service AuthService) GetCustomerLoginDetails() (bool, interface{}) {
+	custId := service.ExeCtx.SessionInfo.CustomerID
+	dbErr, customerLoginInfo := dbaccess.GetCustomerLoginInfo(repo.Instance().Context.Dynamic.DB, custId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+	return true, customerLoginInfo
 }
