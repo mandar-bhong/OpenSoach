@@ -67,7 +67,7 @@ func PrepareExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, 
 
 	if !isSessionSuccess {
 		errorData := gmodels.APIResponseError{}
-		errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+		errorData.Code = gmodels.MOD_OPER_ERR_USER_SESSION_NOT_AVAILABLE
 		return false, errorData
 	}
 
@@ -79,7 +79,6 @@ func PrepareExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, 
 		return false, errorData
 	}
 
-	
 	dataModel.SessionInfo = *userInfo
 
 	return true, dataModel
