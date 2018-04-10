@@ -55,3 +55,8 @@ func SessionUpdate(osContext *gcore.Context, ginContext *gin.Context) bool {
 	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
 	return osContext.Dynamic.Cache.Update(token, time.Minute*2)
 }
+
+func SessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
+	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+	return osContext.Dynamic.Cache.Remove(token)
+}
