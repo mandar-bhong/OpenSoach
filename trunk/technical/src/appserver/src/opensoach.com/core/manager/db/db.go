@@ -263,7 +263,7 @@ func (spc *SelectContext) SelectAll() error {
 	return nil
 }
 
-func (spc *SelectContext) SelectById(arg int) error {
+func (spc *SelectContext) SelectById(arg int64) error {
 	switch spc.QueryType {
 	case AutoQuery:
 		queryErr, query := GetSelectByIdDynamicQuery(spc.TableName, spc.Dest)
