@@ -29,7 +29,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
   }
   toggleMenu(): void {
     if (!this.toggleCssClass) {
-      this.setclass = 'abc';
+      this.setclass = 'toggle';
     } else {
       this.setclass = '';
     }

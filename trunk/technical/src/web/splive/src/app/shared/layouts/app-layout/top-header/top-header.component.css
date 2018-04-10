@@ -4,13 +4,14 @@
     height: 50px;
     text-align: center;
     padding: 10px;}
-#box{margin-top: 10px;
+#box{margin-top: 20px;
   margin-left: 60px;
 }
+
 .navbar-brand ul li{display:inline-block}
 .fa-bars{
   padding-top: 15px;
-  margin-left: 20px;
+  margin-left: 65px;
   color: white;
 }
 .dropdown-menu a:hover{
@@ -23,6 +24,9 @@ i:active{
   color: rgb(139, 176, 206);
   }
 .fa-bell{color: white}
+.navbar {height:60px !important;}
+
 @media screen and (max-width:768px) {
   .fa-bell{margin-left: 60px;}
+  .navbar {height:auto !important;}
 }
