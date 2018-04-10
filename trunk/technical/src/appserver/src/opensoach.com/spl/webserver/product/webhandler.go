@@ -63,7 +63,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	var resultData interface{}
 	isSuccess := false
 
-	switch pContext.Request.RequestURI {
+	switch pContext.Request.URL.Path {
 	case "/getproducts":
 		isExecutionDataSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
 
