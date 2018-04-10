@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { UserRoutingModule } from './user-routing.module';
+import { AppCommonModule } from '../../app-common.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    UserRoutingModule
+    UserRoutingModule,
+    AppCommonModule
   ],
   declarations: [
     ChangePasswordComponent

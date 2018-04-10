@@ -9,10 +9,14 @@ export interface AppDataStore {
 export class AppLocalStorage implements AppDataStore {
     getObject<T>(key: string): T | null {
         const valueJSON = localStorage.getItem(key);
-        return JSON.parse(valueJSON);
+        if (valueJSON) {
+            return JSON.parse(valueJSON);
+        }
     }
     setObject<T>(key: string, data: T): void {
-        localStorage.setItem(key, JSON.stringify(data));
+        if (data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
     }
     removeObject(key: string): void {
         localStorage.removeItem(key);
@@ -26,10 +30,14 @@ export class AppInMemoryStore implements AppDataStore {
     private appDataStore = new Map<string, string>();
     getObject<T>(key: string): T | null {
         const valueJSON = this.appDataStore.get(key);
-        return JSON.parse(valueJSON);
+        if (valueJSON) {
+            return JSON.parse(valueJSON);
+        }
     }
     setObject<T>(key: string, data: T): void {
-        this.appDataStore.set(key, JSON.stringify(data));
+        if (data) {
+            this.appDataStore.set(key, JSON.stringify(data));
+        }
     }
     removeObject(key: string): void {
         this.appDataStore.delete(key);

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { EnvironmentProvider } from '../../../environment-provider';
+import { AuthRequest, AuthResponse } from '../../../models/api/auth-models';
 import { AppDataStoreService } from '../../../services/app-data-store/app-data-store-service';
+import { AuthService } from '../../../services/auth.service';
 import { LoginStatusService } from '../../../services/login-status.service';
-import { AuthResponse } from '../../../models/api/auth-models';
 
 @Component({
   selector: 'hkt-login',
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
   password: string;
   constructor(private appDataStoreService: AppDataStoreService,
     private loginStatusService: LoginStatusService,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService) { }
   ngOnInit() {
     // TODO: Remove after inetgration
     this.username = 'admin@servicepoint.live';
@@ -25,6 +28,15 @@ export class LoginComponent implements OnInit {
 
   login() {
     // TODO: Call login api
+    const authRequest = new AuthRequest();
+    authRequest.username = this.username;
+    authRequest.password = this.password;
+    authRequest.prodcode = EnvironmentProvider.prodcode;
+
+    this.authService.login(null).subscribe(response => {
+      console.log('response', response);
+    });
+
     const authResponse = new AuthResponse();
     authResponse.token = '0123456789';
     this.loginStatusService.login(authResponse);

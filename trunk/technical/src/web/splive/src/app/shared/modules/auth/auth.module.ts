@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 
+import { AppCommonModule } from '../../app-common.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
@@ -21,14 +22,10 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    MatCheckboxModule
-   
-    
-   
+    MatCheckboxModule,
+    AppCommonModule,
   ],
-  declarations: [LoginComponent, 
-    // RegistrationComponent, 
-    // ChangePasswordComponent, 
+  declarations: [LoginComponent,
     ForgotPasswordComponent
   ]
 })
