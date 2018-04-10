@@ -58,7 +58,7 @@ func (r RedisContext) Update(key string, t time.Duration) bool {
 	return true
 }
 
-func (r RedisContext) Remove(key string, t time.Duration) bool {
+func (r RedisContext) Remove(key string) bool {
 	if r.RedisClient == nil {
 		panic("Redis client is nil")
 		return false
