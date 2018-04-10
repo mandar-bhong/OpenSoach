@@ -1,6 +1,5 @@
 package models
 
-
 type AuthRequest struct {
 	UserName string `db:"usr_name" json:"username"`
 	Password string `db:"usr_password" json:"password"`
