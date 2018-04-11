@@ -11,9 +11,10 @@ type Context struct {
 }
 
 type ExecutionTime struct {
-	Cache    RedisContext
-	DB       *sqlx.DB
-	ModCache RedisContext
+	Cache       RedisContext
+	DB          *sqlx.DB
+	DBConn      string
+	MasterCache RedisContext
 }
 
 type RedisContext struct {
