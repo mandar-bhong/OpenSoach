@@ -12,8 +12,11 @@ type LoggingService interface {
 var chanbuffLog chan *loggerContext
 var wg sync.WaitGroup
 
-func initDispatcher() {
+func init() {
 	chanbuffLog = make(chan *loggerContext)
+}
+
+func initDispatcher() {
 	wg.Add(1)
 	go dispatch()
 }
