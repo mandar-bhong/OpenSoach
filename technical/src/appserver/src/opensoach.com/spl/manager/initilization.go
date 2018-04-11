@@ -156,13 +156,14 @@ func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 	_, redisMstErr := client.Ping().Result()
 
 	if redisMstErr != nil {
-		fmt.Printf("Unable to connect redis server Address : '%s', Password : '%s', DB: '%d' \n",configSetting.MasterCache.Address,configSetting.MasterCache.Password,configSetting.MasterCache.DB)
+		fmt.Printf("Unable to connect redis server Address : '%s', Password : '%s', DB: '%d' \n", configSetting.MasterCache.Address, configSetting.MasterCache.Password, configSetting.MasterCache.DB)
 		return redisMstErr
 	}
 
 	ctx := &core.Context{}
 	ctx.Dynamic.Cache.RedisClient = client
 	ctx.Dynamic.DB = dbEngine
+	ctx.Dynamic.DBConn = configSetting.DBConfig.ConnectionString
 
 	//ctx.Dynamic.Cache = configSetting.MasterCache
 

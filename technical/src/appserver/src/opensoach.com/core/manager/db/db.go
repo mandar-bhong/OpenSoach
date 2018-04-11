@@ -12,10 +12,12 @@ import (
 
 var spnameparams map[string][]string
 var procQueryMap map[string]string
+var connectionDBEngine map[string]*sqlx.DB
 
 func init() {
 	spnameparams = make(map[string][]string, 0)
 	procQueryMap = make(map[string]string, 0)
+	connectionDBEngine = make(map[string]*sqlx.DB, 0)
 }
 
 //InsertProcContext will be used to insert record with Insert method
@@ -37,7 +39,8 @@ type baseContext struct {
 
 type context struct {
 	baseContext
-	Engine *sqlx.DB
+	Engine       *sqlx.DB
+	DBConnection string
 }
 
 type contextTx struct {
@@ -91,19 +94,39 @@ func (spc *InsertContext) Insert() error {
 		//return spc.Engine.Exec(spc.Query, spc.SPArgs)
 
 		query := GetInsertDynamicQuery(spc.TableName, spc.SPArgs)
-		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
+
+		dbConnErr, engine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := engine.NamedExec(query, spc.SPArgs)
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
 	case Query:
-		id, err := spc.Engine.NamedExec(spc.Query, spc.SPArgs)
+
+		dbConnErr, engine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := engine.NamedExec(spc.Query, spc.SPArgs)
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
 	case StoredProcedure: //For stored Procedure
 		var lastinsertid int64
 
-		tx, txerr := spc.Engine.Beginx()
+		dbConnErr, engine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		tx, txerr := engine.Beginx()
 
 		if txerr != nil {
 			return txerr
@@ -145,17 +168,37 @@ func (spc *UpdateDeleteContext) Update() error {
 		if queryErr != nil {
 			return queryErr
 		}
-		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := dbEngine.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
 	case Query:
-		id, err := spc.Engine.NamedExec(spc.Query, spc.SPArgs)
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := dbEngine.NamedExec(spc.Query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
 	case StoredProcedure:
-		tx, txBeginErr := spc.Engine.Beginx()
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		tx, txBeginErr := dbEngine.Beginx()
 
 		if txBeginErr != nil {
 			return txBeginErr
@@ -199,18 +242,37 @@ func (spc *UpdateDeleteContext) Delete() error {
 		if queryErr != nil {
 			return queryErr
 		}
-		id, err := spc.Engine.NamedExec(query, spc.SPArgs)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := dbEngine.NamedExec(query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
 	case Query:
-		id, err := spc.Engine.NamedExec(spc.Query, spc.SPArgs)
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := dbEngine.NamedExec(spc.Query, spc.SPArgs)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
 	case StoredProcedure:
 
-		tx, txBeginErr := spc.Engine.Beginx()
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		tx, txBeginErr := dbEngine.Beginx()
 
 		if txBeginErr != nil {
 			return txBeginErr
@@ -251,10 +313,24 @@ func (spc *SelectContext) SelectAll() error {
 	switch spc.QueryType {
 	case AutoQuery:
 		query := GetSelectAllDynamicQuery(spc.TableName, spc.Dest)
-		err := spc.Engine.Select(spc.Dest, query)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, query)
 		return err
 	case Query:
-		err := spc.Engine.Select(spc.Dest, spc.Query)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, spc.Query)
 		return err
 
 	case StoredProcedure:
@@ -270,10 +346,24 @@ func (spc *SelectContext) SelectById(arg int64) error {
 		if queryErr != nil {
 			return queryErr
 		}
-		err := spc.Engine.Select(spc.Dest, query, arg)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, query, arg)
 		return err
 	case Query:
-		err := spc.Engine.Select(spc.Dest, spc.Query, arg)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, spc.Query, arg)
 		return err
 
 	case StoredProcedure:
@@ -288,12 +378,26 @@ func (spc *SelectContext) SelectByFilter(filter interface{}, args ...string) err
 	case AutoQuery:
 		query := GetSelectByFilterDynamicQuery(spc.TableName, filter, args...)
 		values := GetFilterValues(spc.TableName, filter, args...)
-		err := spc.Engine.Select(spc.Dest, query, values...)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, query, values...)
 		return err
 
 	case Query:
 		values := GetFilterValues(spc.TableName, filter, args...)
-		err := spc.Engine.Select(spc.Dest, spc.Query, values...)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, spc.Query, values...)
 		return err
 
 	case StoredProcedure:
@@ -308,8 +412,15 @@ func (spc *SelectContext) Select(args ...interface{}) error {
 	case AutoQuery:
 		return errors.New("AutoQuery is not supported for Select method")
 	case Query:
-		err := spc.Engine.Select(spc.Dest, spc.Query, args...)
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, spc.Query, args...)
 		return err
+
 	case StoredProcedure:
 		spQuery := ""
 
@@ -321,7 +432,13 @@ func (spc *SelectContext) Select(args ...interface{}) error {
 
 		spQuery = "call " + spc.Query + "(" + spQuery + ")"
 
-		err := spc.Engine.Select(spc.Dest, spQuery)
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Select(spc.Dest, spQuery)
 
 		return err
 	}
@@ -334,7 +451,14 @@ func (spc *SelectContext) Get(args ...interface{}) error {
 	case AutoQuery:
 		return errors.New("AutoQuery is not supported for Select method")
 	case Query:
-		err := spc.Engine.Get(spc.Dest, spc.Query, args...)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		err := dbEngine.Get(spc.Dest, spc.Query, args...)
 		return err
 	}
 
