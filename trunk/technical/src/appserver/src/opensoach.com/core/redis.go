@@ -4,20 +4,60 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
+	ghelper "opensoach.com/core/helper"
+	"opensoach.com/core/logger"
+	gmodels "opensoach.com/models"
 )
 
-func (r *RedisContext) Connect(options *redis.Options) {
-	r.RedisClient = redis.NewClient(options)
+var cacheAddressClient map[string]*redis.Client
+
+func init() {
+	cacheAddressClient = make(map[string]*redis.Client, 0)
+}
+
+func (r RedisContext) getClient() (bool, *redis.Client) {
+
+	value, found := cacheAddressClient[r.CacheAddress]
+
+	if found == true {
+		return true, value
+	}
+
+	caheAddress := gmodels.ConfigCacheAddress{}
+	ghelper.ConvertFromJSONString(r.CacheAddress, &caheAddress)
+
+	client := redis.NewClient(&redis.Options{
+		Addr:     caheAddress.Address,
+		Password: caheAddress.Password,
+		DB:       caheAddress.DB,
+	})
+
+	_, redisMstErr := client.Ping().Result()
+
+	if redisMstErr != nil {
+		logger.Context().
+			WithField("Redis.Address", caheAddress.Address).
+			WithField("Redis.Password", caheAddress.Password).
+			LogError(SUB_MODULE_NAME, logger.Server, "Error occured while connecting to redis server. ", redisMstErr)
+
+		return false, nil
+	}
+
+	cacheAddressClient[r.CacheAddress] = client
+
+	return true, client
+
 }
 
 func (r RedisContext) Get(key string) (bool, string) {
 
-	if r.RedisClient == nil {
-		panic("Redis client is nil")
+	isClientGetSuccess, redisClient := r.getClient()
+
+	if isClientGetSuccess == false {
 		return false, ""
 	}
 
-	value, err := r.RedisClient.Get(key).Result()
+	value, err := redisClient.Get(key).Result()
 
 	if err != nil {
 		return false, ""
@@ -28,12 +68,14 @@ func (r RedisContext) Get(key string) (bool, string) {
 }
 
 func (r RedisContext) Set(key string, value interface{}, t time.Duration) bool {
-	if r.RedisClient == nil {
-		panic("Redis client is nil")
+
+	isClientGetSuccess, redisClient := r.getClient()
+
+	if isClientGetSuccess == false {
 		return false
 	}
 
-	err := r.RedisClient.Set(key, value, t).Err()
+	err := redisClient.Set(key, value, t).Err()
 
 	if err != nil {
 		return false
@@ -44,12 +86,14 @@ func (r RedisContext) Set(key string, value interface{}, t time.Duration) bool {
 }
 
 func (r RedisContext) Update(key string, t time.Duration) bool {
-	if r.RedisClient == nil {
-		panic("Redis client is nil")
+
+	isClientGetSuccess, redisClient := r.getClient()
+
+	if isClientGetSuccess == false {
 		return false
 	}
 
-	err := r.RedisClient.Expire(key, t).Err()
+	err := redisClient.Expire(key, t).Err()
 
 	if err != nil {
 		return false
@@ -59,12 +103,14 @@ func (r RedisContext) Update(key string, t time.Duration) bool {
 }
 
 func (r RedisContext) Remove(key string) bool {
-	if r.RedisClient == nil {
-		panic("Redis client is nil")
+
+	isClientGetSuccess, redisClient := r.getClient()
+
+	if isClientGetSuccess == false {
 		return false
 	}
 
-	err := r.RedisClient.Expire(key, 0).Err()
+	err := redisClient.Expire(key, 0).Err()
 
 	if err != nil {
 		return false
