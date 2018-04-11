@@ -4,3 +4,5 @@ export enum CUSTOMER_STATE {
     INACTIVE = 2,
     SUSPENDED = 3
 }
+
+export const SERVER_SYSTEM_ERROR_MAX_BOUNDARY = 10000;

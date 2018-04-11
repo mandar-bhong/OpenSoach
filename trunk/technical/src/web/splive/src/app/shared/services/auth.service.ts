@@ -10,7 +10,7 @@ import { ServerApiInterfaceService } from '../services/api/server-api-interface.
 export class AuthService {
 
     constructor(private serverApiInterfaceService: ServerApiInterfaceService) { }
-    login(authRequest: AuthRequest): Observable<PayloadResponse<AuthResponse>> {
-        return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/v1/login', authRequest);
+    login(authRequest: AuthRequest, implicitErrorHandling = true): Observable<PayloadResponse<AuthResponse>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/v1/login', authRequest, implicitErrorHandling);
     }
 }

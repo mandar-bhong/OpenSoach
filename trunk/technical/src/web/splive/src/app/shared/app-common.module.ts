@@ -10,6 +10,8 @@ import { ServerApiInterfaceService } from './services/api/server-api-interface.s
 import { TranslatePipe } from './pipes/translate/translate.pipe';
 import { SidebarToggleService } from './services/sidebar-toggle.service';
 import { TranslateService } from './pipes/translate/translate.service';
+import { ApiErrorService } from './services/api/api-error.service';
+import { AppNotificationService } from './services/notification/app-notification.service';
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ export class AppCommonModule {
         AuthGuard,
         SidebarToggleService,
         TranslatePipe,
-        TranslateService
+        TranslateService,
+        ApiErrorService,
+        AppNotificationService
       ]
     };
   }

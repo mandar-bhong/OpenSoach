@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     authRequest.password = this.password;
     authRequest.prodcode = EnvironmentProvider.prodcode;
 
-    this.authService.login(null).subscribe(response => {
+    this.authService.login(authRequest).subscribe(response => {
       console.log('response', response);
     });
 
