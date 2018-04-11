@@ -34,6 +34,7 @@ const (
 	Normal          logmsgType = 0
 	Instrumentation            = 1
 	Performace                 = 2
+	Server                     = 3
 )
 
 const (
