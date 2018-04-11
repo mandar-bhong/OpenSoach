@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 
+	ghelper "opensoach.com/core/helper"
 	gmodels "opensoach.com/models"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -160,12 +161,17 @@ func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 		return redisMstErr
 	}
 
-	ctx := &core.Context{}
-	ctx.Dynamic.Cache.RedisClient = client
-	ctx.Dynamic.DB = dbEngine
-	ctx.Dynamic.DBConn = configSetting.DBConfig.ConnectionString
+	isJsonConvertionSuccess, jsonRedisAddress := ghelper.ConvertToJSON(configSetting.MasterCache)
 
-	//ctx.Dynamic.Cache = configSetting.MasterCache
+	if isJsonConvertionSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while converting ConfigCacheAddress structure to JSON")
+		return errors.New("Error occured while converting ConfigCacheAddress to json")
+	}
+
+	ctx := &core.Context{}
+	ctx.Master.Cache.CacheAddress = jsonRedisAddress
+	ctx.Dynamic.DB = dbEngine
+	ctx.Master.DBConn = configSetting.DBConfig.ConnectionString
 
 	repo.Init(configSetting, ctx)
 
