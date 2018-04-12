@@ -12,7 +12,7 @@ type DBSplMasterConfigRowModel struct {
 }
 
 type DBSplMasterCorpTableRowModel struct {
-	Id             int       `dbattr:"pri,auto" db:"id" json:"id"`
+	Id             int64     `dbattr:"pri,auto" db:"id" json:"id"`
 	CorpName       string    `db:"corp_name" json:"corpname"`
 	CorpMobileNo   *string   `db:"corp_mobile_no" json:"corpmobileno"`
 	CorpEmailId    *string   `db:"corp_email_id" json:"corpemailid"`
@@ -36,7 +36,7 @@ type DBSplMasterCpmSpMappingTableRowModel struct {
 }
 
 type DBSplMasterCustDetailsTableRowModel struct {
-	CustIdFk       int       `dbattr:"pri" db:"cust_id_fk" json:"custidfk"`
+	CustIdFk       int64     `dbattr:"pri" db:"cust_id_fk" json:"custidfk"`
 	Poc1Name       string    `db:"poc1_name" json:"poc1name"`
 	Poc1EmailId    string    `db:"poc1_email_id" json:"poc1emailid"`
 	Poc1MobileNo   string    `db:"poc1_mobile_no" json:"poc1mobileno"`
@@ -73,8 +73,8 @@ type DBSplMasterCustProdMappingTableRowModel struct {
 }
 
 type DBSplMasterCustomerTableRowModel struct {
-	Id             int       `dbattr:"pri,auto" db:"id" json:"id"`
-	CorpIdFk       int       `db:"corp_id_fk" json:"corpidfk"`
+	Id             int64     `dbattr:"pri,auto" db:"id" json:"id"`
+	CorpIdFk       int64     `db:"corp_id_fk" json:"corpidfk"`
 	CustName       string    `db:"cust_name" json:"custname"`
 	CustState      int       `db:"cust_state" json:"custstate"`
 	CustStateSince time.Time `db:"cust_state_since" json:"custstatesince"`
@@ -161,11 +161,11 @@ type DBSplMasterUserRoleTableRowModel struct {
 }
 
 type DBSplMasterUserTableRowModel struct {
-	Id            int       `dbattr:"pri,auto" db:"id" json:"id"`
+	Id            int64     `dbattr:"pri,auto" db:"id" json:"id"`
 	UsrName       string    `db:"usr_name" json:"usrname"`
 	UsrPassword   string    `db:"usr_password" json:"usrpassword"`
 	UsrCategory   int       `db:"usr_category" json:"usrcategory"`
-	UroleIdFk     *int      `db:"urole_id_fk" json:"uroleidfk"`
+	UroleIdFk     *int64    `db:"urole_id_fk" json:"uroleidfk"`
 	UsrState      int       `db:"usr_state" json:"usrstate"`
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
 	CreatedOn     time.Time `db:"created_on" json:"createdon"`
