@@ -136,7 +136,7 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 
 func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings) error {
 
-	dbEngine, dbErr := sqlx.Connect(configSetting.DBConfig.DBDriver, configSetting.DBConfig.ConnectionString)
+	_, dbErr := sqlx.Connect(configSetting.DBConfig.DBDriver, configSetting.DBConfig.ConnectionString)
 
 	if dbErr != nil {
 		return dbErr
@@ -164,7 +164,6 @@ func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 
 	ctx := &core.Context{}
 	ctx.Master.Cache.CacheAddress = jsonRedisAddress
-	ctx.Dynamic.DB = dbEngine
 	ctx.Master.DBConn = configSetting.DBConfig.ConnectionString
 
 	repo.Init(configSetting, ctx)

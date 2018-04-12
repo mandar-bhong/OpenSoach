@@ -15,7 +15,7 @@ func init() {
 	cacheAddressClient = make(map[string]*redis.Client, 0)
 }
 
-func (r RedisContext) getClient() (bool, *redis.Client) {
+func (r CacheContext) getClient() (bool, *redis.Client) {
 
 	value, found := cacheAddressClient[r.CacheAddress]
 
@@ -49,7 +49,7 @@ func (r RedisContext) getClient() (bool, *redis.Client) {
 
 }
 
-func (r RedisContext) Get(key string) (bool, string) {
+func (r CacheContext) Get(key string) (bool, string) {
 
 	isClientGetSuccess, redisClient := r.getClient()
 
@@ -67,7 +67,7 @@ func (r RedisContext) Get(key string) (bool, string) {
 
 }
 
-func (r RedisContext) Set(key string, value interface{}, t time.Duration) bool {
+func (r CacheContext) Set(key string, value interface{}, t time.Duration) bool {
 
 	isClientGetSuccess, redisClient := r.getClient()
 
@@ -85,7 +85,7 @@ func (r RedisContext) Set(key string, value interface{}, t time.Duration) bool {
 
 }
 
-func (r RedisContext) Update(key string, t time.Duration) bool {
+func (r CacheContext) Update(key string, t time.Duration) bool {
 
 	isClientGetSuccess, redisClient := r.getClient()
 
@@ -102,7 +102,7 @@ func (r RedisContext) Update(key string, t time.Duration) bool {
 	return true
 }
 
-func (r RedisContext) Remove(key string) bool {
+func (r CacheContext) Remove(key string) bool {
 
 	isClientGetSuccess, redisClient := r.getClient()
 
