@@ -6,31 +6,31 @@
   <div class="navbar-brand">
     <img src="assets/images/logo.png" alt="logo.png" id="brand">
     <ul>
-        <li>
-          <i class="fa fa-bars" (click)="toggleChange()" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
-          </i>
-        </li>
-      </ul>
+      <li>
+        <i class="fa fa-bars" (click)="toggleChange()" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
+        </i>
+      </li>
+    </ul>
   </div>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto" id="box">
       <li class="nav-item">
-        <i class="fa fa-bell" href="#"  style="color:white"></i>
+        <i class="fa fa-bell" href="#" style="color:white"></i>
       </li>
     </ul>
     <ul class="nav-item dropdown" id="box2">
-      <a class="nav-link dropdown-toggle" href="#" id="navbardrop"  data-toggle="dropdown" style="color:white; margin-top:14px;">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:white; margin-top:14px;">
         User Name
       </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#">Setting
-            <span class="fa fa-cog pull-right"></span>
+          <span class="fa fa-cog pull-right"></span>
         </a>
         <a class="dropdown-item " href="#">Profile
-            <span class="	fa fa-user pull-right"></span>
+          <span class="	fa fa-user pull-right"></span>
         </a>
-        <i class="dropdown-item" (click) = "logout()">Logout
-            <span class="fa fa-sign-out pull-right"></span>
+        <i class="dropdown-item" (click)="logout()">Logout
+          <span class="fa fa-sign-out pull-right"></span>
         </i>
       </div>
     </ul>

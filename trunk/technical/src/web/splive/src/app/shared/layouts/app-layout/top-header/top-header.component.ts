@@ -11,10 +11,8 @@ import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
 export class TopHeaderComponent implements OnInit {
   menuFull = true;
   constructor(private loginStatusService: LoginStatusService, private sidebarToggleService: SidebarToggleService) { }
-
   ngOnInit() {
   }
-
   logout() {
     this.loginStatusService.logout();
   }

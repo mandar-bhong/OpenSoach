@@ -15,7 +15,7 @@
   color: white;
 }
 .dropdown-menu a:hover{
-	background: steelblue;
+	background: #127FFE;
 }
 .dropdown-menu a:active{
 background-color: rgb(139, 176, 206);

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SideBarComponent } from '../side-bar/side-bar.component';
+
 
 @Component({
   selector: 'app-content',
@@ -9,7 +11,5 @@ export class ContentComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }
