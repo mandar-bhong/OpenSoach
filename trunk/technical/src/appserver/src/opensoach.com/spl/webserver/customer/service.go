@@ -17,9 +17,37 @@ func (service CustomerService) UpdateCustomerDetails() (isSuccess bool, successE
 	return false, nil
 }
 
-func (service CustomerService) GetCustomerDetails(customerID int64) (bool, interface{}) {
+func (service CustomerService) GetCustomerInfo(customerID int64) (bool, interface{}) {
 
 	dbErr, customerDetails := dbaccess.GetCustomerById(repo.Instance().Context.Master.DBConn, customerID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	return true, customerDetails
+}
+
+func (service CustomerService) GetCustomerDetailsInfo(customerID int64) (bool, interface{}) {
+
+	dbErr, customerDetails := dbaccess.GetCustomerDetailsById(repo.Instance().Context.Master.DBConn, customerID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	return true, customerDetails
+}
+
+func (service CustomerService) GetCorpInfo(customerID int64) (bool, interface{}) {
+
+	dbErr, customerDetails := dbaccess.GetCorpDetailsById(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
