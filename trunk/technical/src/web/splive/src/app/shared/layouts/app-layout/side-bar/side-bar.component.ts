@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
 import { RoutingModel } from '../../../models/ui/routing-model';
+import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 
 @Component({
   selector: 'app-side-bar',
@@ -24,38 +25,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.toggleMenu();
     });
 
-    this.sideMenuLinks = [];
-    let abc = new RoutingModel();
-    abc.url = '/devices';
-    abc.displayinsidemenu = true;
-    abc.linkiconcss = 'fa fa-dashboard';
-    abc.title = 'Devices';
-
-    this.sideMenuLinks.push(abc);
-
-    abc = new RoutingModel();
-    abc.url = '/charts';
-    abc.displayinsidemenu = true;
-    abc.linkiconcss = 'fa fa-film';
-    abc.title = 'Charts';
-
-    this.sideMenuLinks.push(abc);
-
-    abc = new RoutingModel();
-    abc.url = '/item 3';
-    abc.displayinsidemenu = true;
-    abc.linkiconcss = 'fa fa-book';
-    abc.title = 'item3';
-
-    this.sideMenuLinks.push(abc);
-
-    abc = new RoutingModel();
-    abc.url = '/item 4';
-    abc.displayinsidemenu = true;
-    abc.linkiconcss = 'fa fa-heart';
-    abc.title = 'item 4';
-
-    this.sideMenuLinks.push(abc);
+    this.sideMenuLinks = AppSpecificDataProvider.approutes;
   }
   ngOnDestroy(): void {
     if (this.menuToggleSubscription) {
