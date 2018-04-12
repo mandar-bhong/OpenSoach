@@ -18,6 +18,10 @@ const routes: Routes = [
             path: 'devices',
             loadChildren: '../../shared/modules/devices/devices.module#DevicesModule'
           },
+          {
+            path: 'customers',
+            loadChildren: './modules/customers/customers.module#CustomersModule'
+          },
         ]
       },
     ]
