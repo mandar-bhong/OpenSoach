@@ -42,19 +42,20 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 	userRecordItem := dbRecord[0]
 
-	if userRecordItem.UserState != constants.DB_USER_STATE_ACTIVE {
+	if userRecordItem.UsrState != constants.DB_USER_STATE_ACTIVE {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = constants.MOD_ERR_LOGIN_INACTIVE_USER_STATE
 		return false, errModel
 	}
 
-	if userRecordItem.UserCategory == constants.DB_USER_CATEGORY_CUSTOMER {
+	if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_CUSTOMER {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = constants.MOD_ERR_INVALID_USER_CATEGORY
 		return false, errModel
 	}
 
-	dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, prodcode)
+	dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, prodcode, userRecordItem.Id)
+
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
 		errModel := gmodels.APIResponseError{}
@@ -63,21 +64,23 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 	}
 
 	dbAuthRecord := *authData
-	authRecordItem := dbAuthRecord[0]
 
-	if authRecordItem.CpmId == 0 {
+	if len(dbAuthRecord) < 1 {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = constants.MOD_ERR_CUSTOMER_PRODUCT_MAPPING
 		return false, errModel
+
 	}
+
+	authRecordItem := dbAuthRecord[0]
 
 	authResponse := lmodels.AuthResponse{}
 
 	userSessionContext := gmodels.UserSessionInfo{}
 	userSessionContext.CpmID = authRecordItem.CpmId
 	userSessionContext.CustomerID = authRecordItem.CustomerId
-	userSessionContext.UserRoleID = userRecordItem.UserRoleId
-	userSessionContext.UserID = userRecordItem.ID
+	userSessionContext.UserRoleID = *userRecordItem.UroleIdFk
+	userSessionContext.UserID = userRecordItem.Id
 	userSessionContext.ModDB = gmodels.ConfigDB{ConnectionString: authRecordItem.Connectionstring, DBDriver: constants.DB_DRIVER_NAME}
 
 	isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)

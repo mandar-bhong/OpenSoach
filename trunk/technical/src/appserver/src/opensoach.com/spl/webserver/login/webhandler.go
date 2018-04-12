@@ -27,9 +27,9 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	//logger.Debug(helper.MODULE_NAME, "API Request Received: %s", pContext.Request.RequestURI)
 
-	switch pContext.Request.RequestURI {
+	switch pContext.Request.URL.Path {
 
-	case pContext.Request.URL.Path:
+	case constants.API_USER_LOGIN:
 
 		authReq := lmodels.AuthRequest{}
 
