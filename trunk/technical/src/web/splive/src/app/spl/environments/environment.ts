@@ -4,5 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseurl: 'http://192.168.1.51:80',
+  appbaseurl: 'http://localhost:81',
+  prodcode: 'SPL'
 };

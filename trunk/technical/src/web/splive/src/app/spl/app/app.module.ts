@@ -1,29 +1,28 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppCommonModule } from '../../shared/app-common.module';
 import { LayoutModule } from '../../shared/layouts/layout.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
+
   imports: [
-    BrowserModule, BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSlideToggleModule,
+    LayoutModule,
+    AppCommonModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    LayoutModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
