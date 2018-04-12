@@ -2,7 +2,7 @@
     overflow: hidden;
     z-index: 3;
 }
-#side.toggle div a .lebal,#side.toggle div a i .lebal{display:visible;
+#side.toggle div a .label,#side.toggle div a i .label{display:visible;
     transition: all 0.9s  ease-in-out;
 }
 
@@ -22,7 +22,7 @@
     background-color: white;
     border-radius: 8px;
 }
-.lebal{margin-left: 20px;
+.label{margin-left: 20px;
     color: grey;
 }
 i{color: gray}
