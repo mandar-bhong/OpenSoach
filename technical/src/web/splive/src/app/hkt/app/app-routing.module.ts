@@ -31,28 +31,7 @@ const routes: Routes = [
     component: AuthLayoutComponent,
     loadChildren: '../../shared/modules/auth/auth.module#AuthModule'
   },
-  // {
-  //   path: '',
-  //   redirectTo: '',
-  //   pathMatch: 'full',
-  // }
 ];
-
-// const routes: Routes = [
-//   {
-//     path: 'devices',
-//     loadChildren: '../../../app/shared/devices/devices.module#DevicesModule'
-//   },
-//   {
-//     path: 'charts',
-//     loadChildren: 'app/hkt/app/charts/charts.module#ChartsModule'
-//   },
-//   {
-//     path: '',
-//     redirectTo: '',
-//     pathMatch: 'full',
-//   }
-// ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
