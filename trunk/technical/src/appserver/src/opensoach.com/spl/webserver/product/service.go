@@ -15,7 +15,7 @@ type ProductService struct {
 
 func (ProductService) GetProducts(pExeContext *gmodels.ExecutionContext) (bool, interface{}) {
 
-	err, data := dbaccess.GetUserProducts(repo.Instance().Context.Dynamic.DB, pExeContext.SessionInfo.UserID)
+	err, data := dbaccess.GetUserProducts(repo.Instance().Context.Master.DBConn, pExeContext.SessionInfo.UserID)
 
 	if err != nil {
 		errModel := gmodels.APIResponseError{}
@@ -48,7 +48,7 @@ func getCMPDetails(cpmid int64) (bool, *lmodels.DBProductBriefRowModel) {
 	isGetSuccess, dbProductRowModel := lhelper.CacheGetCPMDetails(repo.Instance().Context.Dynamic.Cache, gmodels.CACHE_KEY_PREFIX_CPM_ID+string(cpmid))
 
 	if isGetSuccess == false { //Unable to get form Cache, fetching from database
-		err, data := dbaccess.GetCustomerProductDetails(repo.Instance().Context.Dynamic.DB, cpmid)
+		err, data := dbaccess.GetCustomerProductDetails(repo.Instance().Context.Master.DBConn, cpmid)
 
 		if err != nil {
 			logger.Context().WithField("CPM ID", cpmid).LogError("PRODUCT", logger.Normal, "Unable to fetch product details", err)

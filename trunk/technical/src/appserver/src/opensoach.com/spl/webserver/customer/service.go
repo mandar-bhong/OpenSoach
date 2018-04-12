@@ -19,7 +19,7 @@ func (service CustomerService) UpdateCustomerDetails() (isSuccess bool, successE
 
 func (service CustomerService) GetCustomerDetails(customerID int64) (bool, interface{}) {
 
-	dbErr, customerDetails := dbaccess.GetCustomerById(repo.Instance().Context.Dynamic.DB, customerID)
+	dbErr, customerDetails := dbaccess.GetCustomerById(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
