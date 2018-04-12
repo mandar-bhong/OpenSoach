@@ -39,7 +39,6 @@ type baseContext struct {
 
 type context struct {
 	baseContext
-	Engine       *sqlx.DB
 	DBConnection string
 }
 

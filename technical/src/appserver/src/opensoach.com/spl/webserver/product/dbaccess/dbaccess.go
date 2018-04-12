@@ -1,8 +1,6 @@
 package dbaccess
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
 	dbmgr "opensoach.com/core/manager/db"
 
 	lmodels "opensoach.com/spl/models"
@@ -10,11 +8,11 @@ import (
 
 var dbDriverName = "mysql"
 
-func GetUserProducts(dbEngine *sqlx.DB, userid int64) (error, *[]lmodels.DBProductBriefRowModel) {
+func GetUserProducts(dbConn string, userid int64) (error, *[]lmodels.DBProductBriefRowModel) {
 
 	data := &[]lmodels.DBProductBriefRowModel{}
 	selDBCtx := dbmgr.SelectContext{}
-	selDBCtx.Engine = dbEngine
+	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = "sp_mst_get_usr_products"
 	selDBCtx.Dest = data
 
@@ -27,11 +25,11 @@ func GetUserProducts(dbEngine *sqlx.DB, userid int64) (error, *[]lmodels.DBProdu
 	return nil, data
 }
 
-func GetProductDB(dbEngine *sqlx.DB, cpmid int64) (error, *[]lmodels.DBProductBriefRowModel) {
+func GetProductDB(dbConn string, cpmid int64) (error, *[]lmodels.DBProductBriefRowModel) {
 
 	data := &[]lmodels.DBProductBriefRowModel{}
 	selDBCtx := dbmgr.SelectContext{}
-	selDBCtx.Engine = dbEngine
+	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = "sp_mst_get_usr_products"
 	selDBCtx.Dest = data
 
@@ -44,10 +42,10 @@ func GetProductDB(dbEngine *sqlx.DB, cpmid int64) (error, *[]lmodels.DBProductBr
 	return nil, data
 }
 
-func GetCustomerProductDetails(dbEngine *sqlx.DB, cpmid int64) (error, *lmodels.DBProductBriefRowModel) {
+func GetCustomerProductDetails(dbConn string, cpmid int64) (error, *lmodels.DBProductBriefRowModel) {
 	data := &lmodels.DBProductBriefRowModel{}
 	selDBCtx := dbmgr.SelectContext{}
-	selDBCtx.Engine = dbEngine
+	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = QUERY_SELECT_CPM_DETAILS
 	selDBCtx.Dest = data
 	selDBCtx.QueryType = dbmgr.Query

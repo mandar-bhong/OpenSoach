@@ -22,7 +22,7 @@ type AuthService struct {
 
 func (AuthService) Auth(username, password, prodcode string) (bool, interface{}) {
 
-	dbErr, dbData := dbaccess.ValidateAuth(repo.Instance().Context.Dynamic.DB, username, password)
+	dbErr, dbData := dbaccess.ValidateAuth(repo.Instance().Context.Master.DBConn, username, password)
 
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
@@ -54,7 +54,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		return false, errModel
 	}
 
-	dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Dynamic.DB, prodcode)
+	dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, prodcode)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
 		errModel := gmodels.APIResponseError{}
@@ -97,7 +97,7 @@ func (service AuthService) GetUserLoginDetails() (bool, interface{}) {
 
 	userId := service.ExeCtx.SessionInfo.UserID
 
-	dbErr, userLoginInfo := dbaccess.GetUserLoginInfo(repo.Instance().Context.Dynamic.DB, userId)
+	dbErr, userLoginInfo := dbaccess.GetUserLoginInfo(repo.Instance().Context.Master.DBConn, userId)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -114,7 +114,7 @@ func (service AuthService) UserLogout(pContext *gin.Context) bool {
 
 func (service AuthService) GetCustomerLoginDetails() (bool, interface{}) {
 	custId := service.ExeCtx.SessionInfo.CustomerID
-	dbErr, customerLoginInfo := dbaccess.GetCustomerLoginInfo(repo.Instance().Context.Dynamic.DB, custId)
+	dbErr, customerLoginInfo := dbaccess.GetCustomerLoginInfo(repo.Instance().Context.Master.DBConn, custId)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 

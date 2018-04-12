@@ -57,18 +57,10 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfigRowModel) {
 
-	dbEngine, err := sqlx.Connect(config.DBDriver, config.ConnectionString)
-
 	configRows := &[]gmodels.DBMasterConfigRowModel{}
-
-	if err != nil {
-		fmt.Printf("DB Error %#+v \n", err.Error())
-		return err, nil
-	}
 
 	selCtx := dbmgr.SelectContext{}
 	selCtx.DBConnection = config.ConnectionString
-	selCtx.Engine = dbEngine
 	selCtx.Query = models.QUERY_GET_CONFIGURATION
 	selCtx.QueryType = dbmgr.Query
 	selCtx.Dest = configRows
