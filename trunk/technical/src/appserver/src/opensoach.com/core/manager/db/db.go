@@ -101,6 +101,11 @@ func (spc *InsertContext) Insert() error {
 		}
 
 		id, err := engine.NamedExec(query, spc.Args)
+
+		if err != nil {
+			return err
+		}
+
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
@@ -113,6 +118,9 @@ func (spc *InsertContext) Insert() error {
 		}
 
 		id, err := engine.NamedExec(spc.Query, spc.Args)
+		if err != nil {
+			return err
+		}
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
@@ -175,6 +183,9 @@ func (spc *UpdateDeleteContext) Update() error {
 		}
 
 		id, err := dbEngine.NamedExec(query, spc.Args)
+		if err != nil {
+			return err
+		}
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -186,6 +197,9 @@ func (spc *UpdateDeleteContext) Update() error {
 		}
 
 		id, err := dbEngine.NamedExec(spc.Query, spc.Args)
+		if err != nil {
+			return err
+		}
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -260,6 +274,9 @@ func (spc *UpdateDeleteContext) Delete() error {
 		}
 
 		id, err := dbEngine.NamedExec(spc.Query, spc.Args)
+		if err != nil {
+			return err
+		}
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
