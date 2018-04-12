@@ -50,13 +50,13 @@ type contextTx struct {
 
 type InsertContext struct {
 	context
-	SPArgs   interface{}
+	Args     interface{}
 	InsertID int64
 }
 
 type UpdateDeleteContext struct {
 	context
-	SPArgs       interface{}
+	Args         interface{}
 	AffectedRows int64
 }
 
@@ -67,13 +67,13 @@ type SelectContext struct {
 
 type InsertTxContext struct {
 	contextTx
-	SPArgs   interface{}
+	Args     interface{}
 	InsertID int64
 }
 
 type UpdateDeleteTxContext struct {
 	contextTx
-	SPArgs       interface{}
+	Args         interface{}
 	AffectedRows int64
 }
 
@@ -91,9 +91,9 @@ func (spc *InsertContext) Insert() error {
 
 	switch spc.QueryType {
 	case AutoQuery: //For text based query
-		//return spc.Engine.Exec(spc.Query, spc.SPArgs)
+		//return spc.Engine.Exec(spc.Query, spc.Args)
 
-		query := GetInsertDynamicQuery(spc.TableName, spc.SPArgs)
+		query := GetInsertDynamicQuery(spc.TableName, spc.Args)
 
 		dbConnErr, engine := getConnectionEngine(spc.DBConnection)
 
@@ -101,7 +101,7 @@ func (spc *InsertContext) Insert() error {
 			return dbConnErr
 		}
 
-		id, err := engine.NamedExec(query, spc.SPArgs)
+		id, err := engine.NamedExec(query, spc.Args)
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
@@ -113,7 +113,7 @@ func (spc *InsertContext) Insert() error {
 			return dbConnErr
 		}
 
-		id, err := engine.NamedExec(spc.Query, spc.SPArgs)
+		id, err := engine.NamedExec(spc.Query, spc.Args)
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
@@ -140,7 +140,7 @@ func (spc *InsertContext) Insert() error {
 			return procGetErr
 		}
 
-		_, execErr := tx.NamedExec(spQuery, spc.SPArgs)
+		_, execErr := tx.NamedExec(spQuery, spc.Args)
 
 		if execErr != nil {
 			return execErr
@@ -164,7 +164,7 @@ func (spc *UpdateDeleteContext) Update() error {
 
 	switch spc.QueryType {
 	case AutoQuery:
-		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.Args)
 		if queryErr != nil {
 			return queryErr
 		}
@@ -175,7 +175,7 @@ func (spc *UpdateDeleteContext) Update() error {
 			return dbConnErr
 		}
 
-		id, err := dbEngine.NamedExec(query, spc.SPArgs)
+		id, err := dbEngine.NamedExec(query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -186,7 +186,7 @@ func (spc *UpdateDeleteContext) Update() error {
 			return dbConnErr
 		}
 
-		id, err := dbEngine.NamedExec(spc.Query, spc.SPArgs)
+		id, err := dbEngine.NamedExec(spc.Query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -210,7 +210,7 @@ func (spc *UpdateDeleteContext) Update() error {
 			return procGetErr
 		}
 
-		execResult, execErr := tx.NamedExec(spQuery, spc.SPArgs)
+		execResult, execErr := tx.NamedExec(spQuery, spc.Args)
 
 		if execErr != nil {
 			return execErr
@@ -238,7 +238,7 @@ func (spc *UpdateDeleteContext) Delete() error {
 
 	switch spc.QueryType {
 	case AutoQuery:
-		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.Args)
 		if queryErr != nil {
 			return queryErr
 		}
@@ -249,7 +249,7 @@ func (spc *UpdateDeleteContext) Delete() error {
 			return dbConnErr
 		}
 
-		id, err := dbEngine.NamedExec(query, spc.SPArgs)
+		id, err := dbEngine.NamedExec(query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -260,7 +260,7 @@ func (spc *UpdateDeleteContext) Delete() error {
 			return dbConnErr
 		}
 
-		id, err := dbEngine.NamedExec(spc.Query, spc.SPArgs)
+		id, err := dbEngine.NamedExec(spc.Query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -284,7 +284,7 @@ func (spc *UpdateDeleteContext) Delete() error {
 			return procGetErr
 		}
 
-		execResult, execErr := tx.NamedExec(spQuery, spc.SPArgs)
+		execResult, execErr := tx.NamedExec(spQuery, spc.Args)
 
 		if execErr != nil {
 			return execErr
@@ -469,15 +469,15 @@ func (spc *InsertTxContext) Insert() error {
 
 	switch spc.QueryType {
 	case AutoQuery: //For text based query
-		//return spc.Engine.Exec(spc.Query, spc.SPArgs)
+		//return spc.Engine.Exec(spc.Query, spc.Args)
 
-		query := GetInsertDynamicQuery(spc.TableName, spc.SPArgs)
-		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
+		query := GetInsertDynamicQuery(spc.TableName, spc.Args)
+		id, err := spc.Tx.NamedExec(query, spc.Args)
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
 	case Query:
-		id, err := spc.Tx.NamedExec(spc.Query, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
@@ -490,7 +490,7 @@ func (spc *InsertTxContext) Insert() error {
 			return procGetErr
 		}
 
-		_, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
+		_, execErr := spc.Tx.NamedExec(spQuery, spc.Args)
 
 		if execErr != nil {
 			return execErr
@@ -511,16 +511,16 @@ func (spc *UpdateDeleteTxContext) Update() error {
 
 	switch spc.QueryType {
 	case AutoQuery:
-		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetUpdateDynamicQuery(spc.TableName, spc.Args)
 		if queryErr != nil {
 			return queryErr
 		}
-		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
 	case Query:
-		id, err := spc.Tx.NamedExec(spc.Query, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -531,7 +531,7 @@ func (spc *UpdateDeleteTxContext) Update() error {
 			return procGetErr
 		}
 
-		execResult, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
+		execResult, execErr := spc.Tx.NamedExec(spQuery, spc.Args)
 
 		if execErr != nil {
 			return execErr
@@ -555,16 +555,16 @@ func (spc *UpdateDeleteTxContext) Delete() error {
 
 	switch spc.QueryType {
 	case AutoQuery:
-		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.SPArgs)
+		queryErr, query := GetDeleteDynamicQuery(spc.TableName, spc.Args)
 		if queryErr != nil {
 			return queryErr
 		}
-		id, err := spc.Tx.NamedExec(query, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
 	case Query:
-		id, err := spc.Tx.NamedExec(spc.Query, spc.SPArgs)
+		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
 		return err
 
@@ -575,7 +575,7 @@ func (spc *UpdateDeleteTxContext) Delete() error {
 			return procGetErr
 		}
 
-		execResult, execErr := spc.Tx.NamedExec(spQuery, spc.SPArgs)
+		execResult, execErr := spc.Tx.NamedExec(spQuery, spc.Args)
 
 		if execErr != nil {
 			return execErr
