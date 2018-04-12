@@ -6,7 +6,7 @@ import (
 	lmodels "opensoach.com/spl/models"
 )
 
-func CacheGetCPMDetails(rediscache core.RedisContext, key string) (bool, *lmodels.DBProductBriefRowModel) {
+func CacheGetCPMDetails(rediscache core.CacheContext, key string) (bool, *lmodels.DBProductBriefRowModel) {
 
 	isSuccess, data := rediscache.Get(key)
 	datamodel := &lmodels.DBProductBriefRowModel{}
@@ -22,7 +22,7 @@ func CacheGetCPMDetails(rediscache core.RedisContext, key string) (bool, *lmodel
 	return false, nil
 }
 
-func CacheSetCPMDetails(key string, data *lmodels.DBProductBriefRowModel, rediscache core.RedisContext) bool {
+func CacheSetCPMDetails(key string, data *lmodels.DBProductBriefRowModel, cacheCtx core.CacheContext) bool {
 
 	isSuccess, jsonData := ghelper.ConvertToJSON(data)
 
@@ -30,7 +30,7 @@ func CacheSetCPMDetails(key string, data *lmodels.DBProductBriefRowModel, redisc
 		return false
 	}
 
-	isSuccess = rediscache.Set(key, jsonData, -1) //Infinite storage
+	isSuccess = cacheCtx.Set(key, jsonData, -1) //Infinite storage
 
 	return isSuccess
 }

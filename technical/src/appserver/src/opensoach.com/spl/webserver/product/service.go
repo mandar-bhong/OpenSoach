@@ -45,7 +45,7 @@ func (ProductService) SelectProduct(pExeContext *gmodels.ExecutionContext) (bool
 
 func getCMPDetails(cpmid int64) (bool, *lmodels.DBProductBriefRowModel) {
 
-	isGetSuccess, dbProductRowModel := lhelper.CacheGetCPMDetails(repo.Instance().Context.Dynamic.Cache, gmodels.CACHE_KEY_PREFIX_CPM_ID+string(cpmid))
+	isGetSuccess, dbProductRowModel := lhelper.CacheGetCPMDetails(repo.Instance().Context.Master.Cache, gmodels.CACHE_KEY_PREFIX_CPM_ID+string(cpmid))
 
 	if isGetSuccess == false { //Unable to get form Cache, fetching from database
 		err, data := dbaccess.GetCustomerProductDetails(repo.Instance().Context.Master.DBConn, cpmid)
@@ -55,7 +55,7 @@ func getCMPDetails(cpmid int64) (bool, *lmodels.DBProductBriefRowModel) {
 			return false, nil
 		}
 
-		lhelper.CacheSetCPMDetails(gmodels.CACHE_KEY_PREFIX_CPM_ID+string(cpmid), data, repo.Instance().Context.Dynamic.Cache)
+		lhelper.CacheSetCPMDetails(gmodels.CACHE_KEY_PREFIX_CPM_ID+string(cpmid), data, repo.Instance().Context.Master.Cache)
 
 		return true, data
 	}
