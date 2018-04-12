@@ -30,6 +30,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	if err != nil {
 		fmt.Println("Error occured while fetching configuration data: ", err.Error())
+		return err
 	}
 
 	errPrepareConfig, configSetting := prepareConfiguration(dbconfig, configData)
@@ -66,6 +67,7 @@ func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfi
 	}
 
 	selCtx := dbmgr.SelectContext{}
+	selCtx.DBConnection = config.ConnectionString
 	selCtx.Engine = dbEngine
 	selCtx.Query = models.QUERY_GET_CONFIGURATION
 	selCtx.QueryType = dbmgr.Query
