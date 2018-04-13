@@ -8,29 +8,37 @@ import { AuthLayoutComponent } from '../../shared/layouts/auth-layout/auth-layou
 const routes: Routes = [
   {
     path: '',
+    canActivate: [AuthGuard],
+    component: AppContainerComponent,
     children: [
       {
         path: '',
-        canActivate: [AuthGuard],
-        component: AppContainerComponent,
-        children: [
-          {
-            path: 'devices',
-            loadChildren: '../../shared/modules/devices/devices.module#DevicesModule'
-          },
-          {
-            path: 'customers',
-            loadChildren: './modules/customers/customers.module#CustomersModule'
-          },
-        ]
+        loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
+      },
+      {
+        path: 'dashboard',
+        loadChildren: './modules/dashboard/dashboard.module#DashboardModule',
+      },
+      {
+        path: 'devices',
+        loadChildren: '../../shared/modules/devices/devices.module#DevicesModule'
+      },
+      {
+        path: 'customers',
+        loadChildren: './modules/customers/customers.module#CustomersModule',
       },
     ]
   },
   {
-    path: 'auth',
+    path: '',
     component: AuthLayoutComponent,
-    loadChildren: '../../shared/modules/auth/auth.module#AuthModule'
-  },
+    children: [
+      {
+        path: 'auth',
+        loadChildren: '../../shared/modules/auth/auth.module#AuthModule'
+      }
+    ]
+  }
 ];
 
 @NgModule({

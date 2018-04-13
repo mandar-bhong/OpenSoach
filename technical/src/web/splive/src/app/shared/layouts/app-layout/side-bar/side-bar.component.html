@@ -1,7 +1,7 @@
 <div class="col-md-2 col-sm-9 col-9 float-left col-1 pl-0 pr-0 collapse width show {{setclass}}" id="side">
     <div class="list-group border-0 text-center text-md-left" *ngFor="let navigation of sideMenuLinks">
         <a href="#menu1" routerLink="{{navigation.url}}" skipLocationChange class="list-group-item d-inline-block collapsed" data-toggle="collapse">
-            <i class="{{navigation.linkiconcss}}"></i><span class="d-md-inline label">{{navigation.title}}</span>
+            <i class="{{navigation.routingModel.linkiconcss}}"></i><span class="d-md-inline label">{{navigation.routingModel.linktitle}}</span>
         </a>
     </div>
 </div>

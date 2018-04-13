@@ -4,7 +4,7 @@ import { EnvironmentProvider } from '../../shared/environment-provider';
 import { LoginStatusService } from '../../shared/services/login-status.service';
 import { environment } from '../environments/environment';
 import { AppSpecificDataProvider } from '../../shared/app-specific-data-provider';
-import { APP_ROUTES } from './app-constants';
+import { APP_ROUTES, SIDE_MENU_LINKS } from './app-constants';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   }
 
   populateAppSpecificDataProvider() {
-    AppSpecificDataProvider.approutes = APP_ROUTES;
+    AppSpecificDataProvider.sideMenuRoutes = SIDE_MENU_LINKS;
+    AppSpecificDataProvider.createRouteMap(APP_ROUTES);
   }
 }
