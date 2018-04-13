@@ -31,6 +31,6 @@ export class AppComponent implements OnInit {
   }
 
   populateAppSpecificDataProvider() {
-    AppSpecificDataProvider.approutes = APP_ROUTES;
+    AppSpecificDataProvider.sideMenuRoutes = APP_ROUTES;
   }
 }

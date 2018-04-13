@@ -1,7 +1,12 @@
 export class RoutingModel {
     url: string;
-    title: string;
-    displayinsidemenu: boolean;
+    linktitle: string;
     linkiconcss: string;
-    breadcumtitle: string;
+    pagetitle: string;
+}
+
+export class SideMenuModel {
+    url: string;
+    level: number;
+    routingModel: RoutingModel;
 }

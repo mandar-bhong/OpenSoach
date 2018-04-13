@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
-import { RoutingModel } from '../../../models/ui/routing-model';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
+import { SideMenuModel } from '../../../models/ui/routing-model';
+import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -12,7 +12,7 @@ import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 
 })
 export class SideBarComponent implements OnInit, OnDestroy {
-  sideMenuLinks: RoutingModel[];
+  sideMenuLinks: SideMenuModel[];
   menuToggleSubscription: Subscription;
   setclass: any;
   toggleCssClass: boolean;
@@ -25,7 +25,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.toggleMenu();
     });
 
-    this.sideMenuLinks = AppSpecificDataProvider.approutes;
+    this.sideMenuLinks = AppSpecificDataProvider.sideMenuRoutes;
   }
   ngOnDestroy(): void {
     if (this.menuToggleSubscription) {
