@@ -14,11 +14,12 @@ var wg sync.WaitGroup
 
 func init() {
 	chanbuffLog = make(chan *loggerContext)
+	wg.Add(1)
+	go dispatch()
 }
 
 func initDispatcher() {
-	wg.Add(1)
-	go dispatch()
+
 }
 
 func dispatch() {

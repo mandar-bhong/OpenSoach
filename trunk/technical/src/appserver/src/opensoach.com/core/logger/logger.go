@@ -47,8 +47,12 @@ var logLevel severity = Error
 var appComponent string
 var loggingServiceType serviceType
 
-func Init() {
+func init() {
 	loggingServiceType = LoggingServiceFmt
+}
+
+func Init() {
+
 	initDispatcher()
 }
 
