@@ -11,3 +11,9 @@ const QUERY_GET_CUSTOMER_DETAILS_TABLE_INFO_BY_ID = `SELECT cust_id_fk,poc1_name
 const QUERY_GET_CORP_TABLE_INFO_BY_CUSTOMER_ID = `SELECT corp.id,corp_name,corp_mobile_no,corp_email_id,corp_landline_no,corp.created_on,corp.updated_on from spl_master_corp_tbl corp
 											INNER JOIN spl_master_customer_tbl cust  ON corp.id = cust.corp_id_fk
 											WHERE cust.id = ?`
+
+const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_All = "SELECT id,corp_id_fk,cust_name,cust_state,cust_state_since,created_on,updated_on FROM spl_master_customer_tbl"
+
+const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER = `SELECT id,corp_id_fk,cust_name,cust_state,cust_state_since,created_on,updated_on FROM spl_master_customer_tbl $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
+
+const QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT = "SELECT count(*) as count FROM spl_master_customer_tbl $WhereCondition$"
