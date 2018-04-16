@@ -1,7 +1,6 @@
 package redis
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
@@ -12,7 +11,7 @@ import (
 	"github.com/go-redis/redis/internal/proto"
 )
 
-// Nil reply Redis returns when key does not exist.
+// Nil reply redis returned when key does not exist.
 const Nil = proto.Nil
 
 func init() {
@@ -21,17 +20,6 @@ func init() {
 
 func SetLogger(logger *log.Logger) {
 	internal.Logger = logger
-}
-
-type baseClient struct {
-	opt      *Options
-	connPool pool.Pooler
-
-	process           func(Cmder) error
-	processPipeline   func([]Cmder) error
-	processTxPipeline func([]Cmder) error
-
-	onClose func() error // hook called when client is closed
 }
 
 func (c *baseClient) init() {
@@ -96,7 +84,16 @@ func (c *baseClient) initConn(cn *pool.Conn) error {
 		return nil
 	}
 
-	conn := newConn(c.opt, cn)
+	// Temp client to initialize connection.
+	conn := &Conn{
+		baseClient: baseClient{
+			opt:      c.opt,
+			connPool: pool.NewSingleConnPool(cn),
+		},
+	}
+	conn.baseClient.init()
+	conn.statefulCmdable.setProcessor(conn.Process)
+
 	_, err := conn.Pipelined(func(pipe Pipeliner) error {
 		if c.opt.Password != "" {
 			pipe.Auth(c.opt.Password)
@@ -122,7 +119,10 @@ func (c *baseClient) initConn(cn *pool.Conn) error {
 	return nil
 }
 
-// WrapProcess wraps function that processes Redis commands.
+// WrapProcess replaces the process func. It takes a function createWrapper
+// which is supplied by the user. createWrapper takes the old process func as
+// an input and returns the new wrapper process func. createWrapper should
+// use call the old process func within the new process func.
 func (c *baseClient) WrapProcess(fn func(oldProcess func(cmd Cmder) error) func(cmd Cmder) error) {
 	c.process = fn(c.process)
 }
@@ -338,50 +338,31 @@ func (c *baseClient) txPipelineReadQueued(cn *pool.Conn, cmds []Cmder) error {
 type Client struct {
 	baseClient
 	cmdable
+}
 
-	ctx context.Context
+func newClient(opt *Options, pool pool.Pooler) *Client {
+	c := Client{
+		baseClient: baseClient{
+			opt:      opt,
+			connPool: pool,
+		},
+	}
+	c.baseClient.init()
+	c.cmdable.setProcessor(c.Process)
+	return &c
 }
 
 // NewClient returns a client to the Redis Server specified by Options.
 func NewClient(opt *Options) *Client {
 	opt.init()
-
-	c := Client{
-		baseClient: baseClient{
-			opt:      opt,
-			connPool: newConnPool(opt),
-		},
-	}
-	c.baseClient.init()
-	c.init()
-
-	return &c
-}
-
-func (c *Client) init() {
-	c.cmdable.setProcessor(c.Process)
-}
-
-func (c *Client) Context() context.Context {
-	if c.ctx != nil {
-		return c.ctx
-	}
-	return context.Background()
-}
-
-func (c *Client) WithContext(ctx context.Context) *Client {
-	if ctx == nil {
-		panic("nil context")
-	}
-	c2 := c.copy()
-	c2.ctx = ctx
-	return c2
+	return newClient(opt, newConnPool(opt))
 }
 
 func (c *Client) copy() *Client {
-	cp := *c
-	cp.init()
-	return &cp
+	c2 := new(Client)
+	*c2 = *c
+	c2.cmdable.setProcessor(c2.Process)
+	return c2
 }
 
 // Options returns read-only Options that were used to create the client.
@@ -459,18 +440,6 @@ func (c *Client) PSubscribe(channels ...string) *PubSub {
 type Conn struct {
 	baseClient
 	statefulCmdable
-}
-
-func newConn(opt *Options, cn *pool.Conn) *Conn {
-	c := Conn{
-		baseClient: baseClient{
-			opt:      opt,
-			connPool: pool.NewSingleConnPool(cn),
-		},
-	}
-	c.baseClient.init()
-	c.statefulCmdable.setProcessor(c.Process)
-	return &c
 }
 
 func (c *Conn) Pipelined(fn func(Pipeliner) error) ([]Cmder, error) {

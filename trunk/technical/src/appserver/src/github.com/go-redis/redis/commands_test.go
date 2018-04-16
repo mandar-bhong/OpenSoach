@@ -162,12 +162,6 @@ var _ = Describe("Commands", func() {
 			Expect(configSet.Val()).To(Equal("OK"))
 		})
 
-		It("should ConfigRewrite", func() {
-			configRewrite := client.ConfigRewrite()
-			Expect(configRewrite.Err()).NotTo(HaveOccurred())
-			Expect(configRewrite.Val()).To(Equal("OK"))
-		})
-
 		It("should DBSize", func() {
 			size, err := client.DBSize().Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -753,11 +747,8 @@ var _ = Describe("Commands", func() {
 
 		It("should ZScan", func() {
 			for i := 0; i < 1000; i++ {
-				err := client.ZAdd("myset", redis.Z{
-					Score:  float64(i),
-					Member: fmt.Sprintf("member%d", i),
-				}).Err()
-				Expect(err).NotTo(HaveOccurred())
+				sadd := client.ZAdd("myset", redis.Z{float64(i), fmt.Sprintf("member%d", i)})
+				Expect(sadd.Err()).NotTo(HaveOccurred())
 			}
 
 			keys, cursor, err := client.ZScan("myset", 0, "", 0).Result()
@@ -797,17 +788,11 @@ var _ = Describe("Commands", func() {
 			Expect(bitCount.Err()).NotTo(HaveOccurred())
 			Expect(bitCount.Val()).To(Equal(int64(26)))
 
-			bitCount = client.BitCount("key", &redis.BitCount{
-				Start: 0,
-				End:   0,
-			})
+			bitCount = client.BitCount("key", &redis.BitCount{0, 0})
 			Expect(bitCount.Err()).NotTo(HaveOccurred())
 			Expect(bitCount.Val()).To(Equal(int64(4)))
 
-			bitCount = client.BitCount("key", &redis.BitCount{
-				Start: 1,
-				End:   1,
-			})
+			bitCount = client.BitCount("key", &redis.BitCount{1, 1})
 			Expect(bitCount.Err()).NotTo(HaveOccurred())
 			Expect(bitCount.Val()).To(Equal(int64(6)))
 		})
@@ -1790,17 +1775,6 @@ var _ = Describe("Commands", func() {
 			Expect(sMembers.Val()).To(ConsistOf([]string{"Hello", "World"}))
 		})
 
-		It("should SAdd strings", func() {
-			set := []string{"Hello", "World", "World"}
-			sAdd := client.SAdd("set", set)
-			Expect(sAdd.Err()).NotTo(HaveOccurred())
-			Expect(sAdd.Val()).To(Equal(int64(2)))
-
-			sMembers := client.SMembers("set")
-			Expect(sMembers.Err()).NotTo(HaveOccurred())
-			Expect(sMembers.Val()).To(ConsistOf([]string{"Hello", "World"}))
-		})
-
 		It("should SCard", func() {
 			sAdd := client.SAdd("set", "Hello")
 			Expect(sAdd.Err()).NotTo(HaveOccurred())
@@ -2096,120 +2070,69 @@ var _ = Describe("Commands", func() {
 	Describe("sorted sets", func() {
 
 		It("should ZAdd", func() {
-			added, err := client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			added, err := client.ZAdd("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			added, err = client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "uno",
-			}).Result()
+			added, err = client.ZAdd("zset", redis.Z{1, "uno"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			added, err = client.ZAdd("zset", redis.Z{
-				Score:  2,
-				Member: "two",
-			}).Result()
+			added, err = client.ZAdd("zset", redis.Z{2, "two"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			added, err = client.ZAdd("zset", redis.Z{
-				Score:  3,
-				Member: "two",
-			}).Result()
+			added, err = client.ZAdd("zset", redis.Z{3, "two"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(0)))
 
 			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  1,
-				Member: "one",
-			}, {
-				Score:  1,
-				Member: "uno",
-			}, {
-				Score:  3,
-				Member: "two",
-			}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}, {1, "uno"}, {3, "two"}}))
 		})
 
 		It("should ZAdd bytes", func() {
-			added, err := client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: []byte("one"),
-			}).Result()
+			added, err := client.ZAdd("zset", redis.Z{1, []byte("one")}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			added, err = client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: []byte("uno"),
-			}).Result()
+			added, err = client.ZAdd("zset", redis.Z{1, []byte("uno")}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			added, err = client.ZAdd("zset", redis.Z{
-				Score:  2,
-				Member: []byte("two"),
-			}).Result()
+			added, err = client.ZAdd("zset", redis.Z{2, []byte("two")}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			added, err = client.ZAdd("zset", redis.Z{
-				Score:  3,
-				Member: []byte("two"),
-			}).Result()
+			added, err = client.ZAdd("zset", redis.Z{3, []byte("two")}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(0)))
 
-			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
+			val, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  1,
-				Member: "one",
-			}, {
-				Score:  1,
-				Member: "uno",
-			}, {
-				Score:  3,
-				Member: "two",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{1, "one"}, {1, "uno"}, {3, "two"}}))
 		})
 
 		It("should ZAddNX", func() {
-			added, err := client.ZAddNX("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			added, err := client.ZAddNX("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
 			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 1, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}}))
 
-			added, err = client.ZAddNX("zset", redis.Z{
-				Score:  2,
-				Member: "one",
-			}).Result()
+			added, err = client.ZAddNX("zset", redis.Z{2, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(0)))
 
 			vals, err = client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 1, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}}))
 		})
 
 		It("should ZAddXX", func() {
-			added, err := client.ZAddXX("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			added, err := client.ZAddXX("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(0)))
 
@@ -2217,73 +2140,49 @@ var _ = Describe("Commands", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(vals).To(BeEmpty())
 
-			added, err = client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			added, err = client.ZAdd("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			added, err = client.ZAddXX("zset", redis.Z{
-				Score:  2,
-				Member: "one",
-			}).Result()
+			added, err = client.ZAddXX("zset", redis.Z{2, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(0)))
 
 			vals, err = client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 2, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{2, "one"}}))
 		})
 
 		It("should ZAddCh", func() {
-			changed, err := client.ZAddCh("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			changed, err := client.ZAddCh("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(changed).To(Equal(int64(1)))
 
-			changed, err = client.ZAddCh("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			changed, err = client.ZAddCh("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(changed).To(Equal(int64(0)))
 		})
 
 		It("should ZAddNXCh", func() {
-			changed, err := client.ZAddNXCh("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			changed, err := client.ZAddNXCh("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(changed).To(Equal(int64(1)))
 
 			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 1, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}}))
 
-			changed, err = client.ZAddNXCh("zset", redis.Z{
-				Score:  2,
-				Member: "one",
-			}).Result()
+			changed, err = client.ZAddNXCh("zset", redis.Z{2, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(changed).To(Equal(int64(0)))
 
 			vals, err = client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  1,
-				Member: "one",
-			}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}}))
 		})
 
 		It("should ZAddXXCh", func() {
-			changed, err := client.ZAddXXCh("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			changed, err := client.ZAddXXCh("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(changed).To(Equal(int64(0)))
 
@@ -2291,75 +2190,57 @@ var _ = Describe("Commands", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(vals).To(BeEmpty())
 
-			added, err := client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			added, err := client.ZAdd("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			changed, err = client.ZAddXXCh("zset", redis.Z{
-				Score:  2,
-				Member: "one",
-			}).Result()
+			changed, err = client.ZAddXXCh("zset", redis.Z{2, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(changed).To(Equal(int64(1)))
 
 			vals, err = client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 2, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{2, "one"}}))
 		})
 
 		It("should ZIncr", func() {
-			score, err := client.ZIncr("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			score, err := client.ZIncr("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(score).To(Equal(float64(1)))
 
 			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 1, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}}))
 
-			score, err = client.ZIncr("zset", redis.Z{Score: 1, Member: "one"}).Result()
+			score, err = client.ZIncr("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(score).To(Equal(float64(2)))
 
 			vals, err = client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 2, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{2, "one"}}))
 		})
 
 		It("should ZIncrNX", func() {
-			score, err := client.ZIncrNX("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			score, err := client.ZIncrNX("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(score).To(Equal(float64(1)))
 
 			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 1, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}}))
 
-			score, err = client.ZIncrNX("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			score, err = client.ZIncrNX("zset", redis.Z{1, "one"}).Result()
 			Expect(err).To(Equal(redis.Nil))
 			Expect(score).To(Equal(float64(0)))
 
 			vals, err = client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 1, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{1, "one"}}))
 		})
 
 		It("should ZIncrXX", func() {
-			score, err := client.ZIncrXX("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			score, err := client.ZIncrXX("zset", redis.Z{1, "one"}).Result()
 			Expect(err).To(Equal(redis.Nil))
 			Expect(score).To(Equal(float64(0)))
 
@@ -2367,57 +2248,36 @@ var _ = Describe("Commands", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(vals).To(BeEmpty())
 
-			added, err := client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			added, err := client.ZAdd("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(added).To(Equal(int64(1)))
 
-			score, err = client.ZIncrXX("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Result()
+			score, err = client.ZIncrXX("zset", redis.Z{1, "one"}).Result()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(score).To(Equal(float64(2)))
 
 			vals, err = client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 2, Member: "one"}}))
+			Expect(vals).To(Equal([]redis.Z{{2, "one"}}))
 		})
 
 		It("should ZCard", func() {
-			err := client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{
-				Score:  2,
-				Member: "two",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
-			card, err := client.ZCard("zset").Result()
-			Expect(err).NotTo(HaveOccurred())
-			Expect(card).To(Equal(int64(2)))
+			zCard := client.ZCard("zset")
+			Expect(zCard.Err()).NotTo(HaveOccurred())
+			Expect(zCard.Val()).To(Equal(int64(2)))
 		})
 
 		It("should ZCount", func() {
-			err := client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Err()
+			err := client.ZAdd("zset", redis.Z{1, "one"}).Err()
 			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{
-				Score:  2,
-				Member: "two",
-			}).Err()
+			err = client.ZAdd("zset", redis.Z{2, "two"}).Err()
 			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{
-				Score:  3,
-				Member: "three",
-			}).Err()
+			err = client.ZAdd("zset", redis.Z{3, "three"}).Err()
 			Expect(err).NotTo(HaveOccurred())
 
 			count, err := client.ZCount("zset", "-inf", "+inf").Result()
@@ -2434,74 +2294,50 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZIncrBy", func() {
-			err := client.ZAdd("zset", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{
-				Score:  2,
-				Member: "two",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
-			n, err := client.ZIncrBy("zset", 2, "one").Result()
-			Expect(err).NotTo(HaveOccurred())
-			Expect(n).To(Equal(float64(3)))
+			zIncrBy := client.ZIncrBy("zset", 2, "one")
+			Expect(zIncrBy.Err()).NotTo(HaveOccurred())
+			Expect(zIncrBy.Val()).To(Equal(float64(3)))
 
 			val, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(val).To(Equal([]redis.Z{{
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  3,
-				Member: "one",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{2, "two"}, {3, "one"}}))
 		})
 
 		It("should ZInterStore", func() {
-			err := client.ZAdd("zset1", redis.Z{
-				Score:  1,
-				Member: "one",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset1", redis.Z{
-				Score:  2,
-				Member: "two",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset1", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset1", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
-			err = client.ZAdd("zset2", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset2", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset3", redis.Z{Score: 3, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset2", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset2", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset3", redis.Z{3, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zInterStore := client.ZInterStore(
 				"out", redis.ZStore{Weights: []float64{2, 3}}, "zset1", "zset2")
 			Expect(zInterStore.Err()).NotTo(HaveOccurred())
 			Expect(zInterStore.Val()).To(Equal(int64(2)))
 
-			vals, err := client.ZRangeWithScores("out", 0, -1).Result()
+			val, err := client.ZRangeWithScores("out", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  5,
-				Member: "one",
-			}, {
-				Score:  10,
-				Member: "two",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{5, "one"}, {10, "two"}}))
 		})
 
 		It("should ZRange", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRange := client.ZRange("zset", 0, -1)
 			Expect(zRange.Err()).NotTo(HaveOccurred())
@@ -2517,48 +2353,33 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRangeWithScores", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
-			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
+			val, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  1,
-				Member: "one",
-			}, {
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  3,
-				Member: "three",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{1, "one"}, {2, "two"}, {3, "three"}}))
 
-			vals, err = client.ZRangeWithScores("zset", 2, 3).Result()
+			val, err = client.ZRangeWithScores("zset", 2, 3).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 3, Member: "three"}}))
+			Expect(val).To(Equal([]redis.Z{{3, "three"}}))
 
-			vals, err = client.ZRangeWithScores("zset", -2, -1).Result()
+			val, err = client.ZRangeWithScores("zset", -2, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  3,
-				Member: "three",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{2, "two"}, {3, "three"}}))
 		})
 
 		It("should ZRangeByScore", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRangeByScore := client.ZRangeByScore("zset", redis.ZRangeBy{
 				Min: "-inf",
@@ -2590,21 +2411,12 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRangeByLex", func() {
-			err := client.ZAdd("zset", redis.Z{
-				Score:  0,
-				Member: "a",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{
-				Score:  0,
-				Member: "b",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{
-				Score:  0,
-				Member: "c",
-			}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{0, "a"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{0, "b"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{0, "c"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRangeByLex := client.ZRangeByLex("zset", redis.ZRangeBy{
 				Min: "-",
@@ -2636,64 +2448,49 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRangeByScoreWithScoresMap", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
-			vals, err := client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
+			val, err := client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
 				Min: "-inf",
 				Max: "+inf",
 			}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  1,
-				Member: "one",
-			}, {
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  3,
-				Member: "three",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{1, "one"}, {2, "two"}, {3, "three"}}))
 
-			vals, err = client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
+			val, err = client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
 				Min: "1",
 				Max: "2",
 			}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  1,
-				Member: "one",
-			}, {
-				Score:  2,
-				Member: "two",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{1, "one"}, {2, "two"}}))
 
-			vals, err = client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
+			val, err = client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
 				Min: "(1",
 				Max: "2",
 			}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 2, Member: "two"}}))
+			Expect(val).To(Equal([]redis.Z{{2, "two"}}))
 
-			vals, err = client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
+			val, err = client.ZRangeByScoreWithScores("zset", redis.ZRangeBy{
 				Min: "(1",
 				Max: "(2",
 			}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{}))
+			Expect(val).To(Equal([]redis.Z{}))
 		})
 
 		It("should ZRank", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRank := client.ZRank("zset", "three")
 			Expect(zRank.Err()).NotTo(HaveOccurred())
@@ -2705,83 +2502,68 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRem", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRem := client.ZRem("zset", "two")
 			Expect(zRem.Err()).NotTo(HaveOccurred())
 			Expect(zRem.Val()).To(Equal(int64(1)))
 
-			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
+			val, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  1,
-				Member: "one",
-			}, {
-				Score:  3,
-				Member: "three",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{1, "one"}, {3, "three"}}))
 		})
 
 		It("should ZRemRangeByRank", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRemRangeByRank := client.ZRemRangeByRank("zset", 0, 1)
 			Expect(zRemRangeByRank.Err()).NotTo(HaveOccurred())
 			Expect(zRemRangeByRank.Val()).To(Equal(int64(2)))
 
-			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
+			val, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  3,
-				Member: "three",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{3, "three"}}))
 		})
 
 		It("should ZRemRangeByScore", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRemRangeByScore := client.ZRemRangeByScore("zset", "-inf", "(2")
 			Expect(zRemRangeByScore.Err()).NotTo(HaveOccurred())
 			Expect(zRemRangeByScore.Val()).To(Equal(int64(1)))
 
-			vals, err := client.ZRangeWithScores("zset", 0, -1).Result()
+			val, err := client.ZRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  3,
-				Member: "three",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{2, "two"}, {3, "three"}}))
 		})
 
 		It("should ZRemRangeByLex", func() {
 			zz := []redis.Z{
-				{Score: 0, Member: "aaaa"},
-				{Score: 0, Member: "b"},
-				{Score: 0, Member: "c"},
-				{Score: 0, Member: "d"},
-				{Score: 0, Member: "e"},
-				{Score: 0, Member: "foo"},
-				{Score: 0, Member: "zap"},
-				{Score: 0, Member: "zip"},
-				{Score: 0, Member: "ALPHA"},
-				{Score: 0, Member: "alpha"},
+				{0, "aaaa"},
+				{0, "b"},
+				{0, "c"},
+				{0, "d"},
+				{0, "e"},
+				{0, "foo"},
+				{0, "zap"},
+				{0, "zip"},
+				{0, "ALPHA"},
+				{0, "alpha"},
 			}
 			for _, z := range zz {
 				err := client.ZAdd("zset", z).Err()
@@ -2798,12 +2580,12 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRevRange", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRevRange := client.ZRevRange("zset", 0, -1)
 			Expect(zRevRange.Err()).NotTo(HaveOccurred())
@@ -2819,48 +2601,33 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRevRangeWithScoresMap", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			val, err := client.ZRevRangeWithScores("zset", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(val).To(Equal([]redis.Z{{
-				Score:  3,
-				Member: "three",
-			}, {
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  1,
-				Member: "one",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{3, "three"}, {2, "two"}, {1, "one"}}))
 
 			val, err = client.ZRevRangeWithScores("zset", 2, 3).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(val).To(Equal([]redis.Z{{Score: 1, Member: "one"}}))
+			Expect(val).To(Equal([]redis.Z{{1, "one"}}))
 
 			val, err = client.ZRevRangeWithScores("zset", -2, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(val).To(Equal([]redis.Z{{
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  1,
-				Member: "one",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{2, "two"}, {1, "one"}}))
 		})
 
 		It("should ZRevRangeByScore", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zadd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
+			zadd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
+			zadd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
 
 			vals, err := client.ZRevRangeByScore(
 				"zset", redis.ZRangeBy{Max: "+inf", Min: "-inf"}).Result()
@@ -2879,12 +2646,12 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRevRangeByLex", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 0, Member: "a"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 0, Member: "b"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 0, Member: "c"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zadd := client.ZAdd("zset", redis.Z{0, "a"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
+			zadd = client.ZAdd("zset", redis.Z{0, "b"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
+			zadd = client.ZAdd("zset", redis.Z{0, "c"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
 
 			vals, err := client.ZRevRangeByLex(
 				"zset", redis.ZRangeBy{Max: "+", Min: "-"}).Result()
@@ -2903,68 +2670,50 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZRevRangeByScoreWithScores", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zadd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
+			zadd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
+			zadd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zadd.Err()).NotTo(HaveOccurred())
 
 			vals, err := client.ZRevRangeByScoreWithScores(
 				"zset", redis.ZRangeBy{Max: "+inf", Min: "-inf"}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  3,
-				Member: "three",
-			}, {
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  1,
-				Member: "one",
-			}}))
+			Expect(vals).To(Equal([]redis.Z{{3, "three"}, {2, "two"}, {1, "one"}}))
 		})
 
 		It("should ZRevRangeByScoreWithScoresMap", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
-			vals, err := client.ZRevRangeByScoreWithScores(
+			val, err := client.ZRevRangeByScoreWithScores(
 				"zset", redis.ZRangeBy{Max: "+inf", Min: "-inf"}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{
-				Score:  3,
-				Member: "three",
-			}, {
-				Score:  2,
-				Member: "two",
-			}, {
-				Score:  1,
-				Member: "one",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{3, "three"}, {2, "two"}, {1, "one"}}))
 
-			vals, err = client.ZRevRangeByScoreWithScores(
+			val, err = client.ZRevRangeByScoreWithScores(
 				"zset", redis.ZRangeBy{Max: "2", Min: "(1"}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{{Score: 2, Member: "two"}}))
+			Expect(val).To(Equal([]redis.Z{{2, "two"}}))
 
-			vals, err = client.ZRevRangeByScoreWithScores(
+			val, err = client.ZRevRangeByScoreWithScores(
 				"zset", redis.ZRangeBy{Max: "(2", Min: "(1"}).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(vals).To(Equal([]redis.Z{}))
+			Expect(val).To(Equal([]redis.Z{}))
 		})
 
 		It("should ZRevRank", func() {
-			err := client.ZAdd("zset", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zRevRank := client.ZRevRank("zset", "one")
 			Expect(zRevRank.Err()).NotTo(HaveOccurred())
@@ -2976,7 +2725,7 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZScore", func() {
-			zAdd := client.ZAdd("zset", redis.Z{Score: 1.001, Member: "one"})
+			zAdd := client.ZAdd("zset", redis.Z{1.001, "one"})
 			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zScore := client.ZScore("zset", "one")
@@ -2985,17 +2734,17 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ZUnionStore", func() {
-			err := client.ZAdd("zset1", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset1", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd := client.ZAdd("zset1", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset1", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
-			err = client.ZAdd("zset2", redis.Z{Score: 1, Member: "one"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset2", redis.Z{Score: 2, Member: "two"}).Err()
-			Expect(err).NotTo(HaveOccurred())
-			err = client.ZAdd("zset2", redis.Z{Score: 3, Member: "three"}).Err()
-			Expect(err).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset2", redis.Z{1, "one"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset2", redis.Z{2, "two"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
+			zAdd = client.ZAdd("zset2", redis.Z{3, "three"})
+			Expect(zAdd.Err()).NotTo(HaveOccurred())
 
 			zUnionStore := client.ZUnionStore(
 				"out", redis.ZStore{Weights: []float64{2, 3}}, "zset1", "zset2")
@@ -3004,16 +2753,7 @@ var _ = Describe("Commands", func() {
 
 			val, err := client.ZRangeWithScores("out", 0, -1).Result()
 			Expect(err).NotTo(HaveOccurred())
-			Expect(val).To(Equal([]redis.Z{{
-				Score:  5,
-				Member: "one",
-			}, {
-				Score:  9,
-				Member: "three",
-			}, {
-				Score:  10,
-				Member: "two",
-			}}))
+			Expect(val).To(Equal([]redis.Z{{5, "one"}, {9, "three"}, {10, "two"}}))
 		})
 
 	})

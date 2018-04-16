@@ -123,37 +123,9 @@ func startCluster(scenario *clusterScenario) error {
 				return err
 			}
 			wanted := []redis.ClusterSlot{
-				{
-					Start: 0,
-					End:   4999,
-					Nodes: []redis.ClusterNode{{
-						Id:   "",
-						Addr: "127.0.0.1:8220",
-					}, {
-						Id:   "",
-						Addr: "127.0.0.1:8223",
-					}},
-				}, {
-					Start: 5000,
-					End:   9999,
-					Nodes: []redis.ClusterNode{{
-						Id:   "",
-						Addr: "127.0.0.1:8221",
-					}, {
-						Id:   "",
-						Addr: "127.0.0.1:8224",
-					}},
-				}, {
-					Start: 10000,
-					End:   16383,
-					Nodes: []redis.ClusterNode{{
-						Id:   "",
-						Addr: "127.0.0.1:8222",
-					}, {
-						Id:   "",
-						Addr: "127.0.0.1:8225",
-					}},
-				},
+				{0, 4999, []redis.ClusterNode{{"", "127.0.0.1:8220"}, {"", "127.0.0.1:8223"}}},
+				{5000, 9999, []redis.ClusterNode{{"", "127.0.0.1:8221"}, {"", "127.0.0.1:8224"}}},
+				{10000, 16383, []redis.ClusterNode{{"", "127.0.0.1:8222"}, {"", "127.0.0.1:8225"}}},
 			}
 			return assertSlotsEqual(res, wanted)
 		}, 30*time.Second)
@@ -520,37 +492,9 @@ var _ = Describe("ClusterClient", func() {
 			Expect(res).To(HaveLen(3))
 
 			wanted := []redis.ClusterSlot{
-				{
-					Start: 0,
-					End:   4999,
-					Nodes: []redis.ClusterNode{{
-						Id:   "",
-						Addr: "127.0.0.1:8220",
-					}, {
-						Id:   "",
-						Addr: "127.0.0.1:8223",
-					}},
-				}, {
-					Start: 5000,
-					End:   9999,
-					Nodes: []redis.ClusterNode{{
-						Id:   "",
-						Addr: "127.0.0.1:8221",
-					}, {
-						Id:   "",
-						Addr: "127.0.0.1:8224",
-					}},
-				}, {
-					Start: 10000,
-					End:   16383,
-					Nodes: []redis.ClusterNode{{
-						Id:   "",
-						Addr: "127.0.0.1:8222",
-					}, {
-						Id:   "",
-						Addr: "127.0.0.1:8225",
-					}},
-				},
+				{0, 4999, []redis.ClusterNode{{"", "127.0.0.1:8220"}, {"", "127.0.0.1:8223"}}},
+				{5000, 9999, []redis.ClusterNode{{"", "127.0.0.1:8221"}, {"", "127.0.0.1:8224"}}},
+				{10000, 16383, []redis.ClusterNode{{"", "127.0.0.1:8222"}, {"", "127.0.0.1:8225"}}},
 			}
 			Expect(assertSlotsEqual(res, wanted)).NotTo(HaveOccurred())
 		})
@@ -788,8 +732,8 @@ var _ = Describe("ClusterClient timeout", func() {
 	Context("read/write timeout", func() {
 		BeforeEach(func() {
 			opt := redisClusterOptions()
-			opt.ReadTimeout = 300 * time.Millisecond
-			opt.WriteTimeout = 300 * time.Millisecond
+			opt.ReadTimeout = 200 * time.Millisecond
+			opt.WriteTimeout = 200 * time.Millisecond
 			opt.MaxRedirects = 1
 			client = cluster.clusterClient(opt)
 
