@@ -1,6 +1,7 @@
 package dbaccess
 
 import (
+	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	"opensoach.com/spl/constants"
 	"opensoach.com/spl/constants/dbquery"
@@ -10,6 +11,9 @@ import (
 var SUB_MODULE_NAME = "SPL.User.DB"
 
 func SplMasterUserTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUserTableRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableInsert")
+
 	insDBCtx := dbmgr.InsertContext{}
 	insDBCtx.DBConnection = dbConn
 	insDBCtx.Args = insrtStruct
@@ -24,6 +28,9 @@ func SplMasterUserTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUser
 }
 
 func GetSplMasterUserDetailsTableById(dbConn string, userid int64) (error, *[]lmodels.DBSplMasterUsrDetailsTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSplMasterUserDetailsTableById")
+
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]lmodels.DBSplMasterUsrDetailsTableRowModel{}
 	selDBCtx.DBConnection = dbConn
@@ -39,6 +46,9 @@ func GetSplMasterUserDetailsTableById(dbConn string, userid int64) (error, *[]lm
 }
 
 func SplMasterUserDetailsTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUsrDetailsTableRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserDetailsTableInsert")
+
 	insDBCtx := dbmgr.InsertContext{}
 	insDBCtx.DBConnection = dbConn
 	insDBCtx.Args = insrtStruct
@@ -53,6 +63,9 @@ func SplMasterUserDetailsTableInsert(dbConn string, insrtStruct lmodels.DBSplMas
 }
 
 func SplMasterUserDetailsTableUpdate(dbConn string, updtStruct lmodels.DBSplMasterUsrDetailsTableRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserDetailsTableUpdate")
+
 	updtDBCtx := dbmgr.UpdateDeleteContext{}
 	updtDBCtx.DBConnection = dbConn
 	updtDBCtx.Args = updtStruct
@@ -67,6 +80,9 @@ func SplMasterUserDetailsTableUpdate(dbConn string, updtStruct lmodels.DBSplMast
 }
 
 func SplMasterUserTableUpdateState(dbConn string, updtStruct lmodels.DBSplMasterUserTableRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableUpdateState")
+
 	updateCtx := dbmgr.UpdateDeleteContext{}
 	updateCtx.DBConnection = dbConn
 	updateCtx.Args = updtStruct
@@ -81,6 +97,9 @@ func SplMasterUserTableUpdateState(dbConn string, updtStruct lmodels.DBSplMaster
 }
 
 func CheckOldPasswordExists(dbConn string, userid int64, oldPass string) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CheckOldPasswordExists")
+
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]lmodels.DBSplMasterUserTableRowModel{}
 	selDBCtx.DBConnection = dbConn
@@ -96,6 +115,9 @@ func CheckOldPasswordExists(dbConn string, userid int64, oldPass string) (error,
 }
 
 func SplMasterUserTableUpdatePassword(dbConn string, updtStruct lmodels.DBSplMasterUserTableRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableUpdatePassword")
+
 	updateCtx := dbmgr.UpdateDeleteContext{}
 	updateCtx.DBConnection = dbConn
 	updateCtx.Args = updtStruct
