@@ -182,7 +182,7 @@ type DBSplMasterUsrCpmTableRowModel struct {
 }
 
 type DBSplMasterUsrDetailsTableRowModel struct {
-	UsrIdFk            int       `dbattr:"pri" db:"usr_id_fk" json:"usridfk"`
+	UsrIdFk            int64     `dbattr:"pri" db:"usr_id_fk" json:"usridfk"`
 	Fname              *string   `db:"fname" json:"fname"`
 	Lname              *string   `db:"lname" json:"lname"`
 	MobileNo           *string   `db:"mobile_no" json:"mobileno"`
