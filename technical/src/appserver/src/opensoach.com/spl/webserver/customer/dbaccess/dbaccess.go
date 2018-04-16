@@ -67,7 +67,7 @@ func GetCorpDetailsById(dbConn string, customerId int64) (error, *lmodels.DBSplM
 	return nil, data
 }
 
-func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *lmodels.DBSearchCustomerDataModel) (error, *lmodels.TotalRecords) {
+func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *lmodels.DBSearchCustomerDataModel) (error, *lmodels.DBTotalRecordsModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSplMasterCustomerTableTotalFilteredRecords")
 
@@ -82,14 +82,14 @@ func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *l
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter : "+query)
 
 	selectCtx := dbmgr.SelectContext{}
-	data := &lmodels.TotalRecords{}
+	data := &lmodels.DBTotalRecordsModel{}
 	selectCtx.DBConnection = dbConn
 	selectCtx.Dest = data
 	selectCtx.Query = query
 	selectCtx.QueryType = dbmgr.Query
 	selectErr := selectCtx.Get()
 	if selectErr != nil {
-		return selectErr, &lmodels.TotalRecords{}
+		return selectErr, &lmodels.DBTotalRecordsModel{}
 	}
 	return nil, data
 }
