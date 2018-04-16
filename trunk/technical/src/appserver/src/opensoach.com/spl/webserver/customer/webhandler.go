@@ -3,6 +3,7 @@ package customer
 import (
 	"github.com/gin-gonic/gin"
 
+	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
 	lhelper "opensoach.com/spl/helper"
@@ -18,11 +19,14 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_CUSTOMER_CU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_OSU_CORPORATE_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_CU_CORPORATE_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_CUSTOMER_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	var resultData interface{}
 	isSuccess := false
+
+	logger.Context().WithField("Request: ", pContext.Request.URL.Path).LogDebug(SUB_MODULE_NAME, logger.Normal, "API request received.")
 
 	switch pContext.Request.URL.Path {
 
@@ -31,6 +35,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
@@ -51,6 +56,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
@@ -63,6 +69,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
@@ -79,6 +86,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
@@ -91,6 +99,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
@@ -107,6 +116,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
@@ -119,12 +129,31 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
 		isSuccess, resultData = CustomerService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetCorpInfo(successErrorData.(*gmodels.ExecutionContext).SessionInfo.CustomerID)
+
+		break
+
+	case constants.API_CUSTOMER_LIST:
+
+		custListReq := lmodels.DataListRequest{}
+		custListReq.Filter = &lmodels.DBSearchCustomerDataModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &custListReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CustomerService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetCustomerDataList(custListReq)
 
 		break
 
