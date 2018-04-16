@@ -13,6 +13,7 @@ import (
 	loginModule "opensoach.com/spl/webserver/login"
 	productmodule "opensoach.com/spl/webserver/product"
 	usermodule "opensoach.com/spl/webserver/user"
+	"opensoach.com/spl/webserver/webcontent"
 )
 
 func Init(configSetting *gmodels.ConfigSettings) error {
@@ -27,7 +28,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	webConfig.DBConfig = configSetting.DBConfig
 	webConfig.WebConf = configSetting.WebConfig
 
-	//webcontent.Init(webConfig)
+	webcontent.Init(webConfig)
 	//webauth.Init(webConfig)
 	loginModule.Init(webConfig)
 	productmodule.Init(webConfig)
