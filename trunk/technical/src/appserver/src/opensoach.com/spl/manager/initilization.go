@@ -3,6 +3,7 @@ package manager
 import (
 	"errors"
 	"fmt"
+	"runtime"
 
 	ghelper "opensoach.com/core/helper"
 	gmodels "opensoach.com/models"
@@ -86,6 +87,9 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 	mstCacheConfig := &gmodels.ConfigCacheAddress{}
 	globalConfiguration.MasterCache = mstCacheConfig
 
+	serverConfig := &gmodels.ConfigServer{}
+	globalConfiguration.ServerConfig = serverConfig
+
 	for _, dbRow := range *configData {
 
 		switch dbRow.ConfigKey {
@@ -104,6 +108,18 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 				return errors.New("Unable to convert Master Cache DB value to interger"), nil
 			}
 			mstCacheConfig.DB = mstDBPort
+			break
+
+		case constants.DB_CONFIG_SERVER_WIN_BASE_DIRECTORY:
+			if runtime.GOOS == "windows" {
+				serverConfig.BaseDir = dbRow.ConfigValue
+			}
+			break
+
+		case constants.DB_CONFIG_SERVER_LIN_BASE_DIRECTORY:
+			if runtime.GOOS == "linux" {
+				serverConfig.BaseDir = dbRow.ConfigValue
+			}
 			break
 		}
 	}
@@ -135,6 +151,12 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 }
 
 func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings) error {
+
+	ghelper.BaseDir = configSetting.ServerConfig.BaseDir
+
+	//	if runtime.GOOS == "windows" {
+	//		fmt.Println("Hello from Windows")
+	//	}
 
 	_, dbErr := sqlx.Connect(configSetting.DBConfig.DBDriver, configSetting.DBConfig.ConnectionString)
 
