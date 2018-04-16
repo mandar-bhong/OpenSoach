@@ -1,6 +1,7 @@
 package dbaccess
 
 import (
+	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 
 	"opensoach.com/spl/constants"
@@ -11,6 +12,8 @@ import (
 var SUB_MODULE_NAME = "SPL.Login.DB"
 
 func ValidateAuth(dbConn string, username, password string) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ValidateAuth")
 
 	filter := lmodels.AuthRequest{}
 	filter.UserName = username
@@ -33,6 +36,9 @@ func ValidateAuth(dbConn string, username, password string) (error, *[]lmodels.D
 }
 
 func GetUserAuthInfo(dbConn string, prodcode string, userid int64) (error, *[]lmodels.DBUserAuthInfo) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserAuthInfo")
+
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]lmodels.DBUserAuthInfo{}
 	selDBCtx.DBConnection = dbConn
@@ -48,6 +54,9 @@ func GetUserAuthInfo(dbConn string, prodcode string, userid int64) (error, *[]lm
 }
 
 func GetUserLoginInfo(dbConn string, userid int64) (error, *lmodels.DBUserInfoMinDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserLoginInfo")
+
 	selDBCtx := dbmgr.SelectContext{}
 	data := &lmodels.DBUserInfoMinDataModel{}
 	selDBCtx.DBConnection = dbConn
@@ -62,6 +71,9 @@ func GetUserLoginInfo(dbConn string, userid int64) (error, *lmodels.DBUserInfoMi
 }
 
 func GetCustomerLoginInfo(dbConn string, customerId int64) (error, *lmodels.DBCustomerLoginInfoDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustomerLoginInfo")
+
 	selDBCtx := dbmgr.SelectContext{}
 	data := &lmodels.DBCustomerLoginInfoDataModel{}
 	selDBCtx.DBConnection = dbConn
