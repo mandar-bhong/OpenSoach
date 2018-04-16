@@ -11,6 +11,8 @@ const DB_CONFIG_WEB_SERVICE_ADDRESS string = "Web.Service.Address"
 const DB_CONFIG_CACHE_ADDRESS string = "Cache.Address"
 const DB_CONFIG_CACHE_ADDRESS_PASSWORD string = "Cache.Address.Password"
 const DB_CONFIG_ADDRESS_DB string = "Cache.Address.DB"
+const DB_CONFIG_SERVER_WIN_BASE_DIRECTORY string = "Server.Win.BaseDir"
+const DB_CONFIG_SERVER_LIN_BASE_DIRECTORY string = "Server.Lin.BaseDir"
 
 const DB_USER_STATE_ACTIVE = 1
 const DB_USER_CATEGORY_CUSTOMER = 2

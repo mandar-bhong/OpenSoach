@@ -30,3 +30,6 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Add
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.DB','0');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.Password','');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Web.Service.Address',':80');
+
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Server.Win.BaseDir','');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Server.Lin.BaseDir','/opt/build/spl/SPLBuild/');

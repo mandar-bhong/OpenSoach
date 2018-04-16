@@ -10,9 +10,15 @@ import (
 	"path/filepath"
 )
 
-func GetExeFolder() string {
-	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+var BaseDir string
 
+func GetExeFolder() string {
+
+	if BaseDir != "" {
+		return BaseDir
+	}
+
+	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 	return dir
 }
 
