@@ -12,3 +12,7 @@ func DBQueryParamValidate(queryInput string) bool {
 func GetDBTagFromJSONTag(model interface{}, jsonTag string) string {
 	return db.GetDBTagFromJSONTag(model, jsonTag)
 }
+
+func GetFilterConditionFormModel(model interface{}) string {
+	return db.GetFilterConditionFormModel(model)
+}
