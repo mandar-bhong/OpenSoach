@@ -157,15 +157,30 @@ var _ = Describe("Client", func() {
 	})
 
 	It("should retry with backoff", func() {
+		Expect(client.Close()).NotTo(HaveOccurred())
+
+		// use up all the available connections to force a fail
+		connectionHogClient := redis.NewClient(&redis.Options{
+			Addr:       redisAddr,
+			MaxRetries: 1,
+		})
+		defer connectionHogClient.Close()
+
+		for i := 0; i <= 1002; i++ {
+			connectionHogClient.Pool().NewConn()
+		}
+
 		clientNoRetry := redis.NewClient(&redis.Options{
-			Addr:       ":1234",
-			MaxRetries: 0,
+			Addr:            redisAddr,
+			PoolSize:        1,
+			MaxRetryBackoff: -1,
 		})
 		defer clientNoRetry.Close()
 
 		clientRetry := redis.NewClient(&redis.Options{
-			Addr:            ":1234",
+			Addr:            redisAddr,
 			MaxRetries:      5,
+			PoolSize:        1,
 			MaxRetryBackoff: 128 * time.Millisecond,
 		})
 		defer clientRetry.Close()
@@ -180,7 +195,7 @@ var _ = Describe("Client", func() {
 		Expect(err).To(HaveOccurred())
 		elapseRetry := time.Since(startRetry)
 
-		Expect(elapseRetry).To(BeNumerically(">", elapseNoRetry, 10*time.Millisecond))
+		Expect(elapseRetry > elapseNoRetry).To(BeTrue())
 	})
 
 	It("should update conn.UsedAt on read/write", func() {
@@ -228,40 +243,18 @@ var _ = Describe("Client", func() {
 	})
 
 	It("should call WrapProcess", func() {
-		var fnCalled bool
+		var wrapperFnCalled bool
 
-		client.WrapProcess(func(old func(redis.Cmder) error) func(redis.Cmder) error {
+		client.WrapProcess(func(oldProcess func(redis.Cmder) error) func(redis.Cmder) error {
 			return func(cmd redis.Cmder) error {
-				fnCalled = true
-				return old(cmd)
+				wrapperFnCalled = true
+				return oldProcess(cmd)
 			}
 		})
 
 		Expect(client.Ping().Err()).NotTo(HaveOccurred())
-		Expect(fnCalled).To(BeTrue())
-	})
 
-	It("should call WrapProcess after WithContext", func() {
-		var fn1Called, fn2Called bool
-
-		client.WrapProcess(func(old func(cmd redis.Cmder) error) func(cmd redis.Cmder) error {
-			return func(cmd redis.Cmder) error {
-				fn1Called = true
-				return old(cmd)
-			}
-		})
-
-		client2 := client.WithContext(client.Context())
-		client2.WrapProcess(func(old func(cmd redis.Cmder) error) func(cmd redis.Cmder) error {
-			return func(cmd redis.Cmder) error {
-				fn2Called = true
-				return old(cmd)
-			}
-		})
-
-		Expect(client2.Ping().Err()).NotTo(HaveOccurred())
-		Expect(fn2Called).To(BeTrue())
-		Expect(fn1Called).To(BeTrue())
+		Expect(wrapperFnCalled).To(BeTrue())
 	})
 })
 
