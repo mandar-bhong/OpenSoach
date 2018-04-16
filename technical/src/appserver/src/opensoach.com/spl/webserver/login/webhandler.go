@@ -3,6 +3,7 @@ package login
 import (
 	"github.com/gin-gonic/gin"
 
+	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
 	lhelper "opensoach.com/spl/helper"
@@ -25,7 +26,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	var resultData interface{}
 	isSuccess := false
 
-	//logger.Debug(helper.MODULE_NAME, "API Request Received: %s", pContext.Request.RequestURI)
+	logger.Context().WithField("Request: ", pContext.Request.URL.Path).LogDebug(SUB_MODULE_NAME, logger.Normal, "API request received.")
 
 	switch pContext.Request.URL.Path {
 
@@ -52,6 +53,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 
@@ -70,6 +72,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
 
 		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
 			return false, successErrorData
 		}
 

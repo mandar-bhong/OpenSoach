@@ -93,6 +93,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 	authResponse.Token = token
 	authResponse.UroleCode = authRecordItem.UserRoleCode
 
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull")
 	return true, authResponse
 }
 
@@ -108,11 +109,16 @@ func (service AuthService) GetUserLoginDetails() (bool, interface{}) {
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched minimum user login details")
 	return true, userLoginInfo
 }
 
 func (service AuthService) UserLogout(pContext *gin.Context) bool {
-	return lhelper.SessionDelete(repo.Instance().Context, pContext)
+	isSuccess := lhelper.SessionDelete(repo.Instance().Context, pContext)
+	if isSuccess != false {
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched minimum customer details")
+	}
+	return isSuccess
 }
 
 func (service AuthService) GetCustomerLoginDetails() (bool, interface{}) {
@@ -125,5 +131,8 @@ func (service AuthService) GetCustomerLoginDetails() (bool, interface{}) {
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched minimum customer details.")
+
 	return true, customerLoginInfo
 }
