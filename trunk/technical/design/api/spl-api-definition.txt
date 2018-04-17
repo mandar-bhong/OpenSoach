@@ -39,7 +39,7 @@ get user_id from the session matching with the token
 read `spl_master_usr_details_tbl`
 
 3. get minimum details of the customer to which the user belongs
-API Name: /api/pu/v1/customer/info/login
+API Name: /api/cu/v1/customer/info/login
 Request Method: GET
 request: null
 response: CustomerLoginInfoResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer-models.ts
@@ -150,15 +150,23 @@ fetch data from spl_master_corp_details_tbl using cust_id.
 
 
 13. Get customer corporate details
-API Name: /api/pu/v1/corporate/info
+API Name: /api/cu/v1/corporate/info
 Request Method: GET
-request: CorporateDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
-response: null
+request: null
+response: CorporateDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
 Logic:
 
 read cust_id from session and join to get corporate details
 
 fetch data from spl_master_corp_details_tbl using cust_id.
+
+13. GetCorportateShortDataList
+API Name: /api/osu/v1/corporate/list/short
+Request Method: GET
+request: null
+response: CorporateShortDataResponse[]->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+Logic:
+get all corporates from spl_master_corp_tbl
 
 14. Add User
 API Name: /api/osu/v1/user/add
