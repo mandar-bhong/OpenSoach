@@ -33,19 +33,20 @@ func GetCustomerById(dbConn string, customerId int64) (error, *lmodels.DBSplMast
 	return nil, data
 }
 
-func GetCustomerDetailsById(dbConn string, customerId int64) (error, *lmodels.DBSplMasterCustDetailsTableRowModel) {
+func GetCustomerDetailsById(dbConn string, customerId int64) (error, *[]lmodels.DBSplMasterCustDetailsTableRowModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustomerDetailsById")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpDetailsById")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &lmodels.DBSplMasterCustDetailsTableRowModel{}
+	data := &[]lmodels.DBSplMasterCustDetailsTableRowModel{}
 	selDBCtx.DBConnection = dbConn
-	selDBCtx.Query = dbquery.QUERY_GET_CUSTOMER_DETAILS_TABLE_INFO_BY_ID
+	selDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_DETAILS_TABLE_SELECT_BY_ID
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Get(customerId)
+	selErr := selDBCtx.Select(customerId)
 	if selErr != nil {
-		return selErr, &lmodels.DBSplMasterCustDetailsTableRowModel{}
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while get customer id .", selErr)
+		return selErr, &[]lmodels.DBSplMasterCustDetailsTableRowModel{}
 	}
 	return nil, data
 }
@@ -128,4 +129,59 @@ func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.Dat
 		return selectErr, &[]lmodels.DBSplMasterCustomerTableRowModel{}
 	}
 	return nil, data
+}
+
+func AddCustomer(dbconn string, req lmodels.DBSplMasterCustomerTableRowModel) (error, int64) {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbconn
+	insDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUSTOMER_TABLE_INSERT
+	insDBCtx.QueryType = dbmgr.Query
+	insDBCtx.Args = req
+
+	intErr := insDBCtx.Insert()
+
+	if intErr != nil {
+		return intErr, 0
+	}
+
+	return nil, insDBCtx.InsertID
+}
+
+func CustomerDetailsTableInsert(dbconn string, req lmodels.DBSplMasterCustDetailsTableRowModel) (error, int64) {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbconn
+	insDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_DETAILS_TABLE_INSERT
+	insDBCtx.QueryType = dbmgr.Query
+	insDBCtx.Args = req
+
+	insErr := insDBCtx.Insert()
+
+	if insErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while insert customer details .", insErr)
+
+		return insErr, 0
+	}
+
+	return nil, insDBCtx.InsertID
+}
+
+func CustomerDetailsTableUpdate(dbconn string, req lmodels.DBSplMasterCustDetailsTableRowModel) (error, int64) {
+
+	updDBCtx := dbmgr.UpdateDeleteContext{}
+	updDBCtx.DBConnection = dbconn
+	updDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_DETAILS_TABLE_UPDATE
+	updDBCtx.QueryType = dbmgr.Query
+	updDBCtx.Args = req
+
+	updErr := updDBCtx.Update()
+
+	if updErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while update customer details .", updErr)
+		return updErr, 0
+	}
+
+	return nil, updDBCtx.AffectedRows
+
 }
