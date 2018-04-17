@@ -7,6 +7,7 @@ const API_USER_LOGIN_INFO = API_BASE_URL + "/v1/user/info/login"
 const API_CUSTOMER_LOGIN_INFO = API_BASE_URL + "/cu/v1/customer/info/login"
 const API_USER_LOGOUT = API_BASE_URL + "/v1/logout"
 
+const API_CUSTOMER_OSU_ADD = API_BASE_URL + "/osu/v1/customer/add"
 const API_CUSTOMER_OSU_UPDATE_DETAILS = API_BASE_URL + "/osu/v1/customer/update/details"
 const API_CUSTOMER_CU_UPDATE_DETAILS = API_BASE_URL + "/cu/v1/customer/update/details"
 

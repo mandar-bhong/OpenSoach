@@ -1,6 +1,8 @@
 package customer
 
 import (
+	"time"
+
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	lmodels "opensoach.com/spl/models"
@@ -14,8 +16,76 @@ type CustomerService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (service CustomerService) UpdateCustomerDetails() (isSuccess bool, successErrorData interface{}) {
-	return false, nil
+func (service CustomerService) Add(req lmodels.CustomerAddRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbSplMasterCustomerTableRowModel := lmodels.DBSplMasterCustomerTableRowModel{}
+
+	dbSplMasterCustomerTableRowModel.CorpIdFk = req.CorporationID
+	dbSplMasterCustomerTableRowModel.CustName = req.CustomerName
+	dbSplMasterCustomerTableRowModel.CustState = req.CustomerState
+	dbSplMasterCustomerTableRowModel.CustStateSince = time.Now()
+
+	dbErr, dbData := dbaccess.AddCustomer(repo.Instance().Context.Master.DBConn, dbSplMasterCustomerTableRowModel)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while adding customer.", dbErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	response := lmodels.RecordIdResponse{}
+	response.RecId = dbData
+	return true, response
+}
+
+func (service CustomerService) UpdateCustomerDetails(customerData lmodels.DBSplMasterCustDetailsTableRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	dbErr, customerDetailsData := dbaccess.GetCustomerDetailsById(repo.Instance().Context.Master.DBConn, customerData.CustIdFk)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Get customer details by id.", dbErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbCustomerDetailsRecord := *customerDetailsData
+
+	if len(dbCustomerDetailsRecord) < 1 {
+		dbErr, customerInsertedId := dbaccess.CustomerDetailsTableInsert(repo.Instance().Context.Master.DBConn, customerData)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating customer.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		response := lmodels.RecordIdResponse{}
+		response.RecId = customerInsertedId
+
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer details inserted successfully.")
+
+		return true, response
+
+	} else {
+		dbErr, customerAffectedRow := dbaccess.CustomerDetailsTableUpdate(repo.Instance().Context.Master.DBConn, customerData)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating customer.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		response := lmodels.RecordIdResponse{}
+		response.RecId = customerAffectedRow
+
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer details updated Successfully.")
+
+		return true, nil
+	}
+
 }
 
 func (service CustomerService) GetCustomerInfo(customerID int64) (bool, interface{}) {

@@ -13,6 +13,9 @@ import (
 
 func registerRouters(router *gin.RouterGroup) {
 
+	router.POST(constants.API_CUSTOMER_OSU_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_CUSTOMER_OSU_UPDATE_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_CUSTOMER_CU_UPDATE_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_OSU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_CU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_OSU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
@@ -30,9 +33,25 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	switch pContext.Request.URL.Path {
 
-	case constants.API_CUSTOMER_OSU_UPDATE_DETAILS:
+	case constants.API_CUSTOMER_OSU_ADD:
+		customerAddReq := lmodels.CustomerAddRequest{}
 
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &customerAddReq)
+
+		if isPrepareExeSuccess == false {
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CustomerService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.Add(customerAddReq)
+
+		break
+
+	case constants.API_CUSTOMER_OSU_UPDATE_DETAILS:
+		customerDetailsReqData := lmodels.DBSplMasterCustDetailsTableRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &customerDetailsReqData)
 
 		if isPrepareExeSuccess == false {
 			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
@@ -41,11 +60,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = CustomerService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.UpdateCustomerDetails()
+		}.UpdateCustomerDetails(customerDetailsReqData)
 
 		break
 
 	case constants.API_CUSTOMER_CU_UPDATE_DETAILS:
+		customerDetailsReqData := lmodels.DBSplMasterCustDetailsTableRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &customerDetailsReqData)
+
+		if isPrepareExeSuccess == false {
+			return false, successErrorData
+		}
+		customerDetailsReqData.CustIdFk = successErrorData.(*gmodels.ExecutionContext).SessionInfo.CustomerID
+
+		isSuccess, resultData = CustomerService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.UpdateCustomerDetails(customerDetailsReqData)
 
 		break
 
