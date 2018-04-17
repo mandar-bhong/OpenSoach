@@ -1,4 +1,3 @@
-
 1. Login
 
 API Name: /api/v1/login
@@ -8,20 +7,26 @@ response: AuthResponse -> trunk\technical\src\web\splive\src\app\shared\models\a
 Logic:
 validate username and password in spl_master_user_tbl. 
 return error code if the usr_state is not equal to 1 (Active).
-return error code if the usr_category is 2 (Customer user)
+return error code if the usr_category is 2 (Customer user) - not applicable
+
+if(2)
 select cpm_id (table `spl_master_usr_cpm_tbl`, `spl_master_cust_prod_mapping_tbl`, `spl_master_product_tbl`) associated with user where the prodcode received from user matches.
 
 if no cpm_id attached for the supplied prodcode, return error code.
 
+if(1)
+
 generate token
+if(2)
 get user role (`spl_master_usr_cpm_tbl`)
+if(1)
+spl_user_tbl get user role
 Set session
 - token
 - user_id
-- cpm_id
-- user_id
+- cpm_id - if (2)
 - role_id
-- customer_id
+- customer_id if(2)
 
 2. Get minimum details of user after login
 
@@ -121,7 +126,7 @@ read cust_id from query parameters
 
 fetch data from spl_master_cust_details_tbl using cust_id.
 
-10. Get customer details
+11. Get customer details
 API Name: /api/cu/v1/customer/info/details
 Request Method: GET
 request: CustomerDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
@@ -132,7 +137,7 @@ read cust_id from session.
 
 fetch data from spl_master_cust_details_tbl using cust_id.
 
-11. Get customer corporate details
+12. Get customer corporate details
 API Name: /api/osu/v1/corporate/info
 Request Method: GET
 request: CorporateDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
@@ -144,7 +149,7 @@ read corp_id from query parameters
 fetch data from spl_master_corp_details_tbl using cust_id.
 
 
-12. Get customer corporate details
+13. Get customer corporate details
 API Name: /api/pu/v1/corporate/info
 Request Method: GET
 request: CorporateDetailsResponse->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
@@ -155,6 +160,58 @@ read cust_id from session and join to get corporate details
 
 fetch data from spl_master_corp_details_tbl using cust_id.
 
+14. Add User
+API Name: /api/osu/v1/user/add
+Request Method: POST
+request: UserAddRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts
+response: RecordAddResponse->trunk\technical\src\web\splive\src\app\shared\models\api\common-models.ts
+Logic:
+
+Insert user in spl_master_user and return the inserted record (primary key of table).
+
+
+15. Add or Update User Details
+API Name: /api/osu/v1/user/update/details
+Request Method: POST
+request: UserAddDetailsRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts
+response: null
+Logic:
+
+Insert or update user in spl_master_usr_details
+
+16. Add or Update User Details
+API Name: /api/cu/v1/user/update/details
+Request Method: POST
+request: UserAddDetailsRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts
+response: null
+Logic:
+use usr_id from session.
+Insert or update customer in spl_master_usr_details.
+
+17. Update State
+API Name: /api/osu/v1/user/update/details
+Request Method: POST
+request: UserUpdateStateRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts
+response: null
+
+18. Update State
+API Name: /api/cu/v1/user/update/details
+Request Method: POST
+request: UserUpdateStateRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts
+response: null
+
+
+19.  change password
+API Name: /api/v1/user/change/details
+Request Method: POST
+request: RecordChangePassRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts 	
+response: null
+
+20.  customer data list
+API Name: /api/v1/customer/list
+Request Method: POST
+request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
 
 
 /api/v1/customer/add - POST
@@ -168,8 +225,3 @@ fetch data from spl_master_corp_details_tbl using cust_id.
 /api/v1/customer/list - GET
 /api/v1/customer/list/selection - GET
 /api/v1/customer/list/basic - GET
-
-
-
-
-
