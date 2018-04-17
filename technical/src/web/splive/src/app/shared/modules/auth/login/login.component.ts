@@ -27,20 +27,20 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // TODO: Call login api
     const authRequest = new AuthRequest();
     authRequest.username = this.username;
     authRequest.password = this.password;
     authRequest.prodcode = EnvironmentProvider.prodcode;
 
     this.authService.login(authRequest).subscribe(response => {
-      console.log('response', response);
+      if (response && response.issuccess) {
+        this.loginStatusService.login(response.data);
+        this.router.navigate([''], { skipLocationChange: true });
+      } else {
+        // TODO: Dummy code
+        this.loginStatusService.login({ token: 'token', urolecode: 'ADMIN' });
+        this.router.navigate([''], { skipLocationChange: true });
+      }
     });
-
-    const authResponse = new AuthResponse();
-    authResponse.token = '0123456789';
-    this.loginStatusService.login(authResponse);
-    this.router.navigate([''], { skipLocationChange: true });
   }
-
 }
