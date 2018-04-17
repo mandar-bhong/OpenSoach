@@ -8,3 +8,7 @@ export class AuthResponse {
     token: string;
     urolecode: string;
 }
+
+export class ValidateAuthTokenRequest {
+    token: string;
+}

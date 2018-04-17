@@ -12,6 +12,8 @@ import { SidebarToggleService } from './services/sidebar-toggle.service';
 import { TranslateService } from './pipes/translate/translate.service';
 import { ApiErrorService } from './services/api/api-error.service';
 import { AppNotificationService } from './services/notification/app-notification.service';
+import { UserSharedService } from './services/user/user-shared.service';
+import { CustomerSharedService } from './services/customer/customer-shared.service';
 
 @NgModule({
   imports: [
@@ -39,7 +41,9 @@ export class AppCommonModule {
         TranslatePipe,
         TranslateService,
         ApiErrorService,
-        AppNotificationService
+        AppNotificationService,
+        UserSharedService,
+        CustomerSharedService
       ]
     };
   }
