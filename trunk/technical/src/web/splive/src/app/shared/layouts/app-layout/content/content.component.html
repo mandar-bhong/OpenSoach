@@ -2,8 +2,8 @@
   <!-- Container-fluid starts -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-12 col-md-12" id="main-page">
-          <app-breadcrumbs></app-breadcrumbs>
+      <div class="col-sm-12 col-md-12 col-12" id="main-page">
+        <app-breadcrumbs></app-breadcrumbs>
       </div>
       <!-- end of col-sm-12 -->
     </div>
@@ -12,35 +12,18 @@
   <!-- end of container-fluid -->
 </section>
 
-<section class="content-block">
-  <!-- Container-fluid starts -->
+<!-- <section class="content-block">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12 col-md-12">
-        <!-- Authentication card start -->
-        <form class="md-float-material form-material" action="javascript:">
-          <div class="row" id="main-content">
-            <div class="col-sm-12"></div>
-            <div class="col-sm-12">
-              <div class="auth-box card">
-                <div class="card-block">
-                  <div class="row m-b-30">
-                    <div class="col-md-12">
-                      <h3 class="text-center">main content</h3>
-                      <router-outlet></router-outlet>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4"></div>
+    <div class="row" id="main-content">
+      <div class="auth-box card">
+        <div class="card-block">
+          <div class="col-sm col-md m-b-30 col">
+            <h3 class="text-center"></h3>
+            <router-outlet></router-outlet>
           </div>
-        </form>
-        <!-- end of form -->
+        </div>
       </div>
-      <!-- end of col-sm-12 -->
     </div>
-    <!-- end of row -->
   </div>
-  <!-- end of container-fluid -->
-</section>
+</section> -->
+<router-outlet></router-outlet>

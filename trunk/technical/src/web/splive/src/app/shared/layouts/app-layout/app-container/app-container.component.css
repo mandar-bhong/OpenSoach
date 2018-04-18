@@ -16,3 +16,16 @@
 		bottom: 0;
 		background-color: snow;
 	}
+	@media (max-width:768px) {
+		#bottom {
+			position: fixed;
+			left: 0;
+			right: 0;
+			height: 62%;
+		}
+		#top {
+			top: 0;
+			background-color: #446666;
+		}
+		
+	}

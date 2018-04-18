@@ -1,0 +1,13 @@
+/* .full-width {
+    width: 100%;
+  } */
+#layout td {display:inline-block;}
+#layout-two td{display: inline-block}
+#email{width: 280px;}
+#telephone{width: 270px}
+/* #address li mat-form-field{display:inline;} */
+@media screen and (max-width:768px) {
+ #email{width: 260px !important;}
+ #telephone{width: 260px !important;}
+ #layout-two td mat-form-field {width: 260px !important;}
+}

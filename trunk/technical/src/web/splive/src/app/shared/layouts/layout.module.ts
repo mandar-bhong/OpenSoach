@@ -11,6 +11,7 @@ import { SideBarComponent } from './app-layout/side-bar/side-bar.component';
 import { TopHeaderComponent } from './app-layout/top-header/top-header.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 
+
 @NgModule({
   imports: [
     CommonModule,

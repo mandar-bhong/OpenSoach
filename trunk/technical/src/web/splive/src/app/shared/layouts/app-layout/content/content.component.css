@@ -1,9 +1,2 @@
-#main-content{padding-top: 10px;}
-.card {
-    margin: 0 auto;
-    float: none;
-    margin-bottom: 10px; 
-    padding: 1.25rem;
-}
 #main-page li {display: inline; padding: 0px 10px;}
- li a, li i{color: white;}
+#main-page  li a, li i{color: white;}

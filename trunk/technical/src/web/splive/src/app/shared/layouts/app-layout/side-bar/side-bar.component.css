@@ -3,12 +3,11 @@
     z-index: 3;
 }
 #side.toggle div a .label,#side.toggle div a i .label{display:visible;
-    transition: all 0.9s  ease-in-out;
+    transition: all 0.7s  ease-in-out;   
 }
-
 #side.toggle {
     width: 50px;
-    transition: all 0.3s  ease-in-out;  
+    transition: all 0.5s  ease-in-out;  
 }
 #side {
     background-color: white;
@@ -28,15 +27,15 @@
 i{color: gray}
 .list-group{padding: 3px;}
 #side a.list-group-item:hover {
-    background: #127FFE;
+    background: #37A5CD ;
     box-shadow: 0 0 50px rgba(33,33,33,.2); 
 }
 #side a.list-group-item:hover i, #side a.list-group-item:hover span {
     color: white;
     transition: all 0.3s  ease-in-out;
 }
-#side a.list-group-item:active{
-    background-color: rgb(139, 176, 206);
+#side a.list-group-item:focus{
+    background-color: #FA902B;
     }
     
 @media (max-width:768px) {
@@ -47,8 +46,8 @@ i{color: gray}
             min-width: 200px;
             background-color: white;
             min-height: 100vh;
-        }  
-    
+        }
+         
 }
 
 
