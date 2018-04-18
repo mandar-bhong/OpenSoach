@@ -103,7 +103,7 @@ func (service UserService) UpdateUserState(userData lmodels.DBSplMasterUserTable
 	return true, nil
 }
 
-func (service UserService) ChangeUserPassword(passData lmodels.RecordChangePassRequest, userid int64) (isSuccess bool, successErrorData interface{}) {
+func (service UserService) ChangeUserPassword(passData lmodels.UpdatePasswordRequest, userid int64) (isSuccess bool, successErrorData interface{}) {
 
 	dbErr, userData := dbaccess.CheckOldPasswordExists(repo.Instance().Context.Master.DBConn, userid, passData.OldPassword)
 	if dbErr != nil {
@@ -138,4 +138,42 @@ func (service UserService) ChangeUserPassword(passData lmodels.RecordChangePassR
 
 		return true, nil
 	}
+}
+
+func (UserService) GetUserDataList(usrListReqData lmodels.DataListRequest) (bool, interface{}) {
+
+	dataListResponse := lmodels.DataListResponse{}
+
+	filterModel := usrListReqData.Filter.(*lmodels.DBSearchUserRequestFilterDataModel)
+
+	dbErr, userFilteredRecords := dbaccess.GetSplMasterUserTableTotalFilteredRecords(repo.Instance().Context.Master.DBConn, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+	dbUserFilteredRecords := *userFilteredRecords
+	dataListResponse.FilteredRecords = dbUserFilteredRecords.TotalRecords
+
+	CurrentPage := usrListReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * usrListReqData.Limit)
+
+	dbErr, usrFilterData := dbaccess.SplMasterUserTableSelectByFilter(repo.Instance().Context.Master.DBConn, usrListReqData, filterModel, startingRecord)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbUserFilterRecord := *usrFilterData
+	dataListResponse.Records = dbUserFilterRecord
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user list data.")
+
+	return true, dataListResponse
+
 }
