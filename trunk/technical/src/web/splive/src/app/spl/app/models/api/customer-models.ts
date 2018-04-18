@@ -11,7 +11,7 @@ export class CustomerFilterRequest {
     custstate: CUSTOMER_STATE;
 }
 
-export class CustomerDataListingModel {
+export class CustomerDataListingItemResponse {
     custid: number;
     corpid: number;
     custname: string;
