@@ -68,7 +68,7 @@ func GetCorpDetailsById(dbConn string, customerId int64) (error, *lmodels.DBSplM
 	return nil, data
 }
 
-func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *lmodels.DBSearchCustomerDataModel) (error, *lmodels.DBTotalRecordsModel) {
+func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSplMasterCustomerTableTotalFilteredRecords")
 
@@ -80,7 +80,7 @@ func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *l
 
 	query := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter : "+query)
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter count : "+query)
 
 	selectCtx := dbmgr.SelectContext{}
 	data := &lmodels.DBTotalRecordsModel{}
@@ -95,7 +95,7 @@ func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *l
 	return nil, data
 }
 
-func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchCustomerDataModel, startingRow int) (error, *[]lmodels.DBSplMasterCustomerTableRowModel) {
+func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSplMasterCustomerTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterCustomerTableSelectByFilter")
 

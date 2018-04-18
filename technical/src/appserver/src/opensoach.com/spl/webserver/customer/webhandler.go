@@ -173,7 +173,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	case constants.API_CUSTOMER_LIST:
 
 		custListReq := lmodels.DataListRequest{}
-		custListReq.Filter = &lmodels.DBSearchCustomerDataModel{}
+		custListReq.Filter = &lmodels.DBSearchCustomerRequestFilterDataModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &custListReq)
 
