@@ -210,7 +210,7 @@ response: null
 
 
 19.  update password
-API Name: /api/v1/user/update/details
+API Name: /api/v1/user/update/password
 Request Method: POST
 request: UpdatePasswordRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts 	
 response: null
