@@ -13,3 +13,7 @@ const QUERY_SPL_MASTER_USER_TABLE_UPDATE_STATE = "UPDATE spl_master_user_tbl SET
 const QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_ID_PASSWORD = "SELECT usr_name,usr_password,usr_category,urole_id_fk,usr_state,usr_state_since,created_on,updated_on FROM spl_master_user_tbl WHERE id = ? AND usr_password = ?"
 
 const QUERY_SPL_MASTER_USER_TABLE_CHANGE_PASSWORD = "UPDATE spl_master_user_tbl SET usr_password = :usr_password WHERE id = :id"
+
+const QUERY_GET_SPL_MASTER_USER_TABLE_TOTAL_FILTERED_COUNT = "SELECT count(*) as count FROM spl_master_user_tbl $WhereCondition$"
+
+const QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_FILTER = `SELECT id,usr_name,usr_category,urole_id_fk,usr_state,usr_state_since,created_on,updated_on FROM spl_master_user_tbl $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
