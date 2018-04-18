@@ -8,7 +8,7 @@ type DBSearchCustomerRequestFilterDataModel struct {
 }
 
 type DBSearchUserRequestFilterDataModel struct {
-	Id       *int64  `db:"id" json:"id"`
+	CpmId    *int64  `db:"cpm_id_fk" json:"cpmid"`
 	Name     *string `db:"usr_name" json:"name"`
 	Category *int    `db:"usr_category" json:"category"`
 	State    *int    `db:"usr_state" json:"state"`
