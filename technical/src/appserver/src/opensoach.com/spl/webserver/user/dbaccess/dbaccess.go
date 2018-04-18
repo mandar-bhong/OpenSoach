@@ -163,7 +163,7 @@ func GetSplMasterUserTableTotalFilteredRecords(dbConn string, filterModel *lmode
 	return nil, data
 }
 
-func SplMasterUserTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchUserRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSplMasterUserTableFilterResponseModel) {
+func SplMasterUserTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchUserRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchUserResponseFilterDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableSelectByFilter")
 
@@ -172,7 +172,7 @@ func SplMasterUserTableSelectByFilter(dbConn string, listdatareq lmodels.DataLis
 		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
 	}
 
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSplMasterUserTableFilterResponseModel{}, listdatareq.OrderBy)
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserResponseFilterDataModel{}, listdatareq.OrderBy)
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 
@@ -187,14 +187,14 @@ func SplMasterUserTableSelectByFilter(dbConn string, listdatareq lmodels.DataLis
 
 	limit := listdatareq.Limit
 	selectCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSplMasterUserTableFilterResponseModel{}
+	data := &[]lmodels.DBSearchUserResponseFilterDataModel{}
 	selectCtx.DBConnection = dbConn
 	selectCtx.Dest = data
 	selectCtx.Query = query
 	selectCtx.QueryType = dbmgr.Query
 	selectErr := selectCtx.Select(startingRow, limit)
 	if selectErr != nil {
-		return selectErr, &[]lmodels.DBSplMasterUserTableFilterResponseModel{}
+		return selectErr, &[]lmodels.DBSearchUserResponseFilterDataModel{}
 	}
 	return nil, data
 }
