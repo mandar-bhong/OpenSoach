@@ -95,7 +95,7 @@ func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *l
 	return nil, data
 }
 
-func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSplMasterCustomerTableRowModel) {
+func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchCustomerResponseFilterDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterCustomerTableSelectByFilter")
 
@@ -104,7 +104,7 @@ func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.Dat
 		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
 	}
 
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSplMasterCustomerTableRowModel{}, listdatareq.OrderBy)
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchCustomerResponseFilterDataModel{}, listdatareq.OrderBy)
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 
@@ -119,14 +119,14 @@ func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.Dat
 
 	limit := listdatareq.Limit
 	selectCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSplMasterCustomerTableRowModel{}
+	data := &[]lmodels.DBSearchCustomerResponseFilterDataModel{}
 	selectCtx.DBConnection = dbConn
 	selectCtx.Dest = data
 	selectCtx.Query = query
 	selectCtx.QueryType = dbmgr.Query
 	selectErr := selectCtx.Select(startingRow, limit)
 	if selectErr != nil {
-		return selectErr, &[]lmodels.DBSplMasterCustomerTableRowModel{}
+		return selectErr, &[]lmodels.DBSearchCustomerResponseFilterDataModel{}
 	}
 	return nil, data
 }

@@ -11,7 +11,7 @@ import (
 )
 
 func registerRouters(router *gin.RouterGroup) {
-	router.POST(constants.API_CORPORATE_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_CORPORATE_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -22,7 +22,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	switch pContext.Request.URL.Path {
 
-	case constants.API_CORPORATE_LIST:
+	case constants.API_CORPORATE_OSU_LIST:
 
 		corpListReq := lmodels.DataListRequest{}
 		corpListReq.Filter = &lmodels.DBSearchCorpRequestFilterDataModel{}

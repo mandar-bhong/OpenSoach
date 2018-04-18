@@ -14,13 +14,12 @@ const QUERY_GET_CUSTOMER_TABLE_INFO_BY_ID = `Select id,corp_id_fk,cust_name,cust
 											FROM spl_master_customer_tbl 
 											WHERE id = ?`
 
-
 const QUERY_GET_CORP_TABLE_INFO_BY_CUSTOMER_ID = `SELECT corp.id,corp_name,corp_mobile_no,corp_email_id,corp_landline_no,corp.created_on,corp.updated_on from spl_master_corp_tbl corp
 											INNER JOIN spl_master_customer_tbl cust  ON corp.id = cust.corp_id_fk
 											WHERE cust.id = ?`
 
 const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_All = "SELECT id,corp_id_fk,cust_name,cust_state,cust_state_since,created_on,updated_on FROM spl_master_customer_tbl"
 
-const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER = `SELECT id,corp_id_fk,cust_name,cust_state,cust_state_since,created_on,updated_on FROM spl_master_customer_tbl $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
+const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER = `SELECT cust.id as id,cust.corp_id_fk as corp_id_fk ,cust.cust_name as cust_name ,corp.corp_name as corp_name ,custdetails.poc1_name as poc1_name,custdetails.poc1_email_id as poc1_email_id,custdetails.poc1_mobile_no as poc1_mobile_no ,cust.created_on as created_on,cust.updated_on as updated_on FROM spl_master_customer_tbl cust INNER JOIN spl_master_cust_details_tbl custdetails ON custdetails.cust_id_fk = cust.id INNER JOIN spl_master_corp_tbl corp ON corp.id = cust.corp_id_fk $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
-const QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT = "SELECT count(*) as count FROM spl_master_customer_tbl $WhereCondition$"
+const QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT = `SELECT count(*) as count FROM spl_master_customer_tbl cust INNER JOIN spl_master_cust_details_tbl custdetails ON custdetails.cust_id_fk = cust.id INNER JOIN spl_master_corp_tbl corp ON corp.id = cust.corp_id_fk`
