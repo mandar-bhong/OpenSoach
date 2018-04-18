@@ -2,6 +2,7 @@ package login
 
 import (
 	"github.com/gin-gonic/gin"
+	gcore "opensoach.com/core"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
@@ -48,52 +49,77 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		return false, errModel
 	}
 
-	if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_CUSTOMER {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = constants.MOD_ERR_INVALID_USER_CATEGORY
-		return false, errModel
-	}
-
-	dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, prodcode, userRecordItem.Id)
-
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	dbAuthRecord := *authData
-
-	if len(dbAuthRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = constants.MOD_ERR_CUSTOMER_PRODUCT_MAPPING
-		return false, errModel
-
-	}
-
-	authRecordItem := dbAuthRecord[0]
-
 	authResponse := lmodels.AuthResponse{}
 
-	userSessionContext := gmodels.UserSessionInfo{}
-	userSessionContext.CpmID = authRecordItem.CpmId
-	userSessionContext.CustomerID = authRecordItem.CustomerId
-	userSessionContext.UserRoleID = *userRecordItem.UroleIdFk
-	userSessionContext.UserID = userRecordItem.Id
-	userSessionContext.ModDB = gmodels.ConfigDB{ConnectionString: authRecordItem.Connectionstring, DBDriver: constants.DB_DRIVER_NAME}
+	if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_OS {
 
-	isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
-	if isSuccess == false {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_SERVER
-		return false, errModel
+		dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, userRecordItem.UroleIdFk)
+
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		dbAuthData := *authData
+
+		userSessionContext := gmodels.UserSessionInfo{}
+		userSessionContext.UserRoleID = *userRecordItem.UroleIdFk
+		userSessionContext.UserID = userRecordItem.Id
+
+		isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
+		if isSuccess == false {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_SERVER
+			return false, errModel
+		}
+
+		authResponse.Token = token
+		authResponse.UroleCode = dbAuthData.UserRoleCode
+
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull")
+
+	} else if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_CUSTOMER {
+		dbErr, authData := dbaccess.GetUserAuthInfoCategoryCustomer(repo.Instance().Context.Master.DBConn, prodcode, userRecordItem.Id)
+
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		dbAuthRecord := *authData
+
+		if len(dbAuthRecord) < 1 {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = constants.MOD_ERR_CUSTOMER_PRODUCT_MAPPING
+			return false, errModel
+
+		}
+
+		authRecordItem := dbAuthRecord[0]
+
+		userSessionContext := gmodels.UserSessionInfo{}
+		userSessionContext.CpmID = authRecordItem.CpmId
+		userSessionContext.CustomerID = authRecordItem.CustomerId
+		userSessionContext.UserRoleID = authRecordItem.UserRoleId
+		userSessionContext.UserID = userRecordItem.Id
+		userSessionContext.ModDB = gmodels.ConfigDB{ConnectionString: authRecordItem.Connectionstring, DBDriver: constants.DB_DRIVER_NAME}
+
+		isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
+		if isSuccess == false {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_SERVER
+			return false, errModel
+		}
+
+		authResponse.Token = token
+		authResponse.UroleCode = authRecordItem.UserRoleCode
+
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull : User Category Customer")
 	}
-
-	authResponse.Token = token
-	authResponse.UroleCode = authRecordItem.UserRoleCode
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull")
 	return true, authResponse
 }
 
@@ -135,4 +161,18 @@ func (service AuthService) GetCustomerLoginDetails() (bool, interface{}) {
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched minimum customer details.")
 
 	return true, customerLoginInfo
+}
+
+func (service AuthService) ValidateAuthToken(token string, osContext *gcore.Context) (bool, interface{}) {
+
+	isSuccess, _ := osContext.Master.Cache.Get(token)
+	if isSuccess == false {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_USER_TOKEN_NOT_AVAILABLE
+		return isSuccess, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Validated Auth Token.")
+
+	return isSuccess, nil
 }

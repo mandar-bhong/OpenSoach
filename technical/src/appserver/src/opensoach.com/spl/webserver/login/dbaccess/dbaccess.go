@@ -35,14 +35,31 @@ func ValidateAuth(dbConn string, username, password string) (error, *[]lmodels.D
 	return nil, data
 }
 
-func GetUserAuthInfo(dbConn string, prodcode string, userid int64) (error, *[]lmodels.DBUserAuthInfo) {
+func GetUserAuthInfo(dbConn string, userroleid *int64) (error, *lmodels.DBUserAuthInfo) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserAuthInfo")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBUserAuthInfo{}
+	data := &lmodels.DBUserAuthInfo{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_GET_USER_AUTH_INFO
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Get(*userroleid)
+	if selErr != nil {
+		return selErr, &lmodels.DBUserAuthInfo{}
+	}
+	return nil, data
+}
+
+func GetUserAuthInfoCategoryCustomer(dbConn string, prodcode string, userid int64) (error, *[]lmodels.DBUserAuthInfo) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserAuthInfoCategoryCustomer")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBUserAuthInfo{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_USER_AUTH_INFO_CATEGORY_CUSTOMER
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 
