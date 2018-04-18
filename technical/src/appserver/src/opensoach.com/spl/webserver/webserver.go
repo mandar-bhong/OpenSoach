@@ -9,6 +9,7 @@ import (
 	"github.com/itsjamie/gin-cors"
 	gmodels "opensoach.com/models"
 	lmodels "opensoach.com/spl/models"
+	corporatemodule "opensoach.com/spl/webserver/corporate"
 	custmodule "opensoach.com/spl/webserver/customer"
 	loginModule "opensoach.com/spl/webserver/login"
 	productmodule "opensoach.com/spl/webserver/product"
@@ -34,6 +35,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	productmodule.Init(webConfig)
 	custmodule.Init(webConfig)
 	usermodule.Init(webConfig)
+	corporatemodule.Init(webConfig)
 
 	err := ginEngine.Run(fmt.Sprintf("%s", configSetting.WebConfig.ServiceAddress))
 
