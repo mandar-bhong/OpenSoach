@@ -19,6 +19,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_USER_LOGIN_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_LOGOUT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_LOGIN_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_VALIDATE_AUTH_TOKEN, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	return
 }
 
@@ -79,6 +80,24 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = AuthService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetCustomerLoginDetails()
+
+		break
+
+	case constants.API_VALIDATE_AUTH_TOKEN:
+
+		ValidateAuthTokenReq := lmodels.ValidateAuthTokenRequest{}
+
+		err := pContext.Bind(&ValidateAuthTokenReq)
+
+		if err != nil {
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			resultData = errModel
+			return false, resultData
+		}
+
+		isSuccess, resultData = AuthService.ValidateAuthToken(AuthService{}, ValidateAuthTokenReq.Token, repo.Instance().Context)
 
 		break
 
