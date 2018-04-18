@@ -18,7 +18,7 @@ import { CustomerSharedService } from './services/customer/customer-shared.servi
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   declarations: [
     TranslatePipe

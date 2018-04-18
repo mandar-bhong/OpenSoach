@@ -38,7 +38,5 @@ export class SideBarComponent implements OnInit, OnDestroy {
     } else {
       this.setclass = '';
     }
-
   }
-
 }

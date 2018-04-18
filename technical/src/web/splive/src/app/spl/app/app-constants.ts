@@ -27,9 +27,27 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: ''
     },
     {
+        url: '/customers/update-customer',
+        linktitle: 'Details',
+        pagetitle: 'Customer Details',
+        linkiconcss: ''
+    },
+    {
         url: '/users',
         linktitle: 'Users',
         pagetitle: 'Users',
+        linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/users/add-user',
+        linktitle: 'Add User',
+        pagetitle: 'Add New User',
+        linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/users/user-detail',
+        linktitle: 'User Detail',
+        pagetitle: 'User Detail',
         linkiconcss: 'fa fa-users'
     },
     {

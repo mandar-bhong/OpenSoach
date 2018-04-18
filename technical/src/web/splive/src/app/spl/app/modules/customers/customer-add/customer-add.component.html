@@ -1,3 +1,50 @@
-<p>
-  customer-add works!
-</p>
+<section class="customer-add">
+  <div class="container-fluid">
+    <div class="row" id="main-content">
+      <div class="auth-box card">
+        <div class="card-block">
+          <div class="col-sm col-md m-b-30 col">
+            <h3 class="text-center"></h3>
+            <form [formGroup]="myForm" class="md-float-material form-material" id="customer-add" (ngSubmit)="save()">
+              <div class=" form-group form-primary">
+                <mat-form-field>
+                  <input matInput placeholder="UserName" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.custname">
+                  <mat-error *ngIf="myForm.controls['emailControl'].hasError('required') ">
+                    Username Is Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group form-primary">
+                <mat-form-field>
+                  <mat-select placeholder="Corporate  Id" formControlName="corprateId" required [(ngModel)]="dataModel.corpid">
+                    <mat-option>
+
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="myForm.controls['corprateId'].hasError('required')">
+                    User State Is Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group form-primary">
+                <mat-form-field>
+                  <mat-select placeholder="Customer State" formControlName="userState" required [(ngModel)]="dataModel.custstate">
+                    <mat-option>
+
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="myForm.controls['userState'].hasError('required') ">
+                    User State Is Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

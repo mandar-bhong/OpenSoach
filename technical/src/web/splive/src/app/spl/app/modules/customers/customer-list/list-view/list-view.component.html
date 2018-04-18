@@ -1,0 +1,77 @@
+<section class="list-view">
+  <div class="container-fluid">
+    <div class="row" id="main-content">
+      <div class="col-sm col-md m-b-30 col">
+        <div class="auth-box card">
+          <div class="card-block">
+            <h3 class="text-center"></h3>
+            <div class="example-container mat-elevation-z8">
+              <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                <ng-container matColumnDef="custid">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0  17%;">Cust Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 17%;">
+                    <span class="mobile-label">Customer Id:</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="corpid">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Corp Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 10%">
+                    <span class="mobile-label">Corp Id:</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="custname">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Cust Name</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
+                    <span class="mobile-label">Customer Name:</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="corpname">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Corp Name</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
+                    <span class="mobile-label">Corp Name:</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="poc1name">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Name</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
+                    <span class="mobile-label">Name</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="poc1emailid">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Email Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+                    <span class="mobile-label">Email Id</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="poc1mobileno">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Mobile No</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+                    <span class="mobile-label">Mobile No:</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="createdon">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Create</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+                    <span class="mobile-label">Create:</span>
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="updateon">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Update</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+                    <span class="mobile-label">Update:</span>
+
+                  </mat-cell>
+                </ng-container>
+              </mat-table>
+            </div>
+            <br>
+            <button type="button" class="btn btn-primary" routerLink="add" skipLocationChange>Add Customer</button>
+            <button type="button" class="btn btn-success" routerLink="update-customer" skipLocationChange>Update Customer Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
