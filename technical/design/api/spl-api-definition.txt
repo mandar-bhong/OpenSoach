@@ -221,6 +221,24 @@ Request Method: POST
 request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
 response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
 
+21.  validateauthtoken
+API Name: /api/v1/validateauthtoken
+Request Method: POST
+request: 
+response: 
+
+22.  user data list
+API Name: /api/v1/user/list
+Request Method: POST
+request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+
+23.  corp data list
+API Name: /api/v1/corp/list
+Request Method: POST
+request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+
 
 /api/v1/customer/add - POST
 
