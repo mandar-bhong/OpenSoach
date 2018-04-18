@@ -134,7 +134,7 @@ func (CustomerService) GetCustomerDataList(custListReqData lmodels.DataListReque
 
 	custListResData := lmodels.DataListResponse{}
 
-	filterModel := custListReqData.Filter.(*lmodels.DBSearchCustomerDataModel)
+	filterModel := custListReqData.Filter.(*lmodels.DBSearchCustomerRequestFilterDataModel)
 
 	dbErr, customerFilteredRecords := dbaccess.GetSplMasterCustomerTableTotalFilteredRecords(repo.Instance().Context.Master.DBConn, filterModel)
 	if dbErr != nil {
@@ -161,9 +161,9 @@ func (CustomerService) GetCustomerDataList(custListReqData lmodels.DataListReque
 
 	dbCustomerFilterRecord := *customerFilterData
 
-	for i := 0; i < len(dbCustomerFilterRecord); i++ {
-		custListResData.Records = append(custListResData.Records, dbCustomerFilterRecord[i])
-	}
+	custListResData.Records = dbCustomerFilterRecord
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer list data.")
 
 	return true, custListResData
 
