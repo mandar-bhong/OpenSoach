@@ -26,9 +26,9 @@ func SessionCreate(osContext *gcore.Context, pSessionData *gmodels.UserSessionIn
 		return false, ""
 	}
 
-	osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*20)
+	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*20)
 
-	return true, sessionToken
+	return isSetSuccess, sessionToken
 }
 
 func SessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmodels.UserSessionInfo) {
