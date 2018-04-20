@@ -8,10 +8,10 @@ type DBSearchCustomerRequestFilterDataModel struct {
 }
 
 type DBSearchUserRequestFilterDataModel struct {
-	CpmId    *int64  `db:"cpm_id_fk" json:"cpmid"`
-	Name     *string `db:"usr_name" json:"name"`
-	Category *int    `db:"usr_category" json:"category"`
-	State    *int    `db:"usr_state" json:"state"`
+	CpmId       *int64  `db:"cpm_id_fk" json:"cpmid"`
+	UsrName     *string `db:"usr_name" json:"usrname"`
+	UsrCategory *int    `db:"usr_category" json:"usrcategory"`
+	UsrState    *int    `db:"usr_state" json:"usrstate"`
 }
 
 type DBSearchCorpRequestFilterDataModel struct {
@@ -21,10 +21,10 @@ type DBSearchCorpRequestFilterDataModel struct {
 }
 
 type DBSearchUserResponseFilterDataModel struct {
-	Id            int64     `db:"id" json:"id"`
+	UserId        int64     `db:"id" json:"usrid"`
 	UsrName       string    `db:"usr_name" json:"usrname"`
 	UsrCategory   int       `db:"usr_category" json:"usrcategory"`
-	UroleIdFk     *int64    `db:"urole_id_fk" json:"uroleidfk"`
+	UroleId       *int64    `db:"urole_id_fk" json:"uroleid"`
 	UsrState      int       `db:"usr_state" json:"usrstate"`
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
 	CreatedOn     time.Time `db:"created_on" json:"createdon"`

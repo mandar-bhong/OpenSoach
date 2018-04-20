@@ -32,7 +32,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_OSU_ADD:
 
-		userReqData := lmodels.DBSplMasterUserTableRowModel{}
+		userReqData := lmodels.DBSplMasterUserRowModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &userReqData)
 
@@ -49,7 +49,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_OSU_UPDATE_DETAILS:
 
-		usrDetailsReqData := lmodels.DBSplMasterUsrDetailsTableRowModel{}
+		usrDetailsReqData := lmodels.DBSplMasterUsrDetailsRowModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &usrDetailsReqData)
 
@@ -66,7 +66,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_CU_UPDATE_DETAILS:
 
-		usrDetailsReqData := lmodels.DBSplMasterUsrDetailsTableRowModel{}
+		usrDetailsReqData := lmodels.DBSplMasterUsrDetailsRowModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &usrDetailsReqData)
 
@@ -75,7 +75,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		usrDetailsReqData.UsrIdFk = successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID
+		usrDetailsReqData.UsrId = successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID
 
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
@@ -85,7 +85,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_OSU_UPDATE_STATE:
 
-		userReqData := lmodels.DBSplMasterUserTableRowModel{}
+		userReqData := lmodels.DBSplMasterUserRowModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &userReqData)
 
@@ -102,7 +102,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_CU_UPDATE_STATE:
 
-		userReqData := lmodels.DBSplMasterUserTableRowModel{}
+		userReqData := lmodels.DBSplMasterUserRowModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &userReqData)
 
@@ -111,7 +111,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		userReqData.Id = successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID
+		userReqData.UsrId = successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID
 
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),

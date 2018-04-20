@@ -20,7 +20,7 @@ func (service CustomerService) Add(req lmodels.CustomerAddRequest) (isSuccess bo
 
 	dbSplMasterCustomerTableRowModel := lmodels.DBSplMasterCustomerTableRowModel{}
 
-	dbSplMasterCustomerTableRowModel.CorpIdFk = req.CorporationID
+	dbSplMasterCustomerTableRowModel.CorpId = req.CorporationID
 	dbSplMasterCustomerTableRowModel.CustName = req.CustomerName
 	dbSplMasterCustomerTableRowModel.CustState = req.CustomerState
 	dbSplMasterCustomerTableRowModel.CustStateSince = time.Now()
@@ -41,7 +41,7 @@ func (service CustomerService) Add(req lmodels.CustomerAddRequest) (isSuccess bo
 
 func (service CustomerService) UpdateCustomerDetails(customerData lmodels.DBSplMasterCustDetailsTableRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	dbErr, customerDetailsData := dbaccess.GetCustomerDetailsById(repo.Instance().Context.Master.DBConn, customerData.CustIdFk)
+	dbErr, customerDetailsData := dbaccess.GetCustomerDetailsById(repo.Instance().Context.Master.DBConn, customerData.CustId)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Get customer details by id.", dbErr)
 		errModel := gmodels.APIResponseError{}

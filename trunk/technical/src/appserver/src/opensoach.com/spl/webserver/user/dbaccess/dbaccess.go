@@ -15,15 +15,14 @@ import (
 
 var SUB_MODULE_NAME = "SPL.User.DB"
 
-func SplMasterUserTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUserTableRowModel) (error, int64) {
+func SplMasterUserTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUserRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableInsert")
 
 	insDBCtx := dbmgr.InsertContext{}
 	insDBCtx.DBConnection = dbConn
 	insDBCtx.Args = insrtStruct
-	insDBCtx.Query = dbquery.QUERY_SPL_MASTER_USER_TABLE_INSERT
-	insDBCtx.QueryType = dbmgr.Query
+	insDBCtx.QueryType = dbmgr.AutoQuery
 	insDBCtx.TableName = constants.DB_TABLE_USER_TBL
 	insErr := insDBCtx.Insert()
 	if insErr != nil {
@@ -50,15 +49,14 @@ func GetSplMasterUserDetailsTableById(dbConn string, userid int64) (error, *[]lm
 	return nil, data
 }
 
-func SplMasterUserDetailsTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUsrDetailsTableRowModel) (error, int64) {
+func SplMasterUserDetailsTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUsrDetailsRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserDetailsTableInsert")
 
 	insDBCtx := dbmgr.InsertContext{}
 	insDBCtx.DBConnection = dbConn
 	insDBCtx.Args = insrtStruct
-	insDBCtx.Query = dbquery.QUERY_SPL_MASTER_USR_DETAILS_TABLE_INSERT
-	insDBCtx.QueryType = dbmgr.Query
+	insDBCtx.QueryType = dbmgr.AutoQuery
 	insDBCtx.TableName = constants.DB_TABLE_USER_DETAILS_TBL
 	insErr := insDBCtx.Insert()
 	if insErr != nil {
@@ -67,15 +65,14 @@ func SplMasterUserDetailsTableInsert(dbConn string, insrtStruct lmodels.DBSplMas
 	return nil, insDBCtx.InsertID
 }
 
-func SplMasterUserDetailsTableUpdate(dbConn string, updtStruct lmodels.DBSplMasterUsrDetailsTableRowModel) (error, int64) {
+func SplMasterUserDetailsTableUpdate(dbConn string, updtStruct lmodels.DBSplMasterUsrDetailsRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserDetailsTableUpdate")
 
 	updtDBCtx := dbmgr.UpdateDeleteContext{}
 	updtDBCtx.DBConnection = dbConn
 	updtDBCtx.Args = updtStruct
-	updtDBCtx.Query = dbquery.QUERY_SPL_MASTER_USR_DETAILS_TABLE_UPDATE
-	updtDBCtx.QueryType = dbmgr.Query
+	updtDBCtx.QueryType = dbmgr.AutoQuery
 	updtDBCtx.TableName = constants.DB_TABLE_USER_DETAILS_TBL
 	updateErr := updtDBCtx.Update()
 	if updateErr != nil {
@@ -84,9 +81,9 @@ func SplMasterUserDetailsTableUpdate(dbConn string, updtStruct lmodels.DBSplMast
 	return nil, updtDBCtx.AffectedRows
 }
 
-func SplMasterUserTableUpdateState(dbConn string, updtStruct lmodels.DBSplMasterUserTableRowModel) (error, int64) {
+func UpdateUsrState(dbConn string, updtStruct lmodels.DBSplMasterUserRowModel) (error, int64) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableUpdateState")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateUsrState")
 
 	updateCtx := dbmgr.UpdateDeleteContext{}
 	updateCtx.DBConnection = dbConn
@@ -101,12 +98,12 @@ func SplMasterUserTableUpdateState(dbConn string, updtStruct lmodels.DBSplMaster
 	return nil, updateCtx.AffectedRows
 }
 
-func CheckOldPasswordExists(dbConn string, userid int64, oldPass string) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
+func CheckOldPasswordExists(dbConn string, userid int64, oldPass string) (error, *[]lmodels.DBSplMasterUserRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CheckOldPasswordExists")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSplMasterUserTableRowModel{}
+	data := &[]lmodels.DBSplMasterUserRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_ID_PASSWORD
 	selDBCtx.QueryType = dbmgr.Query
@@ -114,14 +111,14 @@ func CheckOldPasswordExists(dbConn string, userid int64, oldPass string) (error,
 
 	selErr := selDBCtx.Select(userid, oldPass)
 	if selErr != nil {
-		return selErr, &[]lmodels.DBSplMasterUserTableRowModel{}
+		return selErr, &[]lmodels.DBSplMasterUserRowModel{}
 	}
 	return nil, data
 }
 
-func SplMasterUserTableUpdatePassword(dbConn string, updtStruct lmodels.DBSplMasterUserTableRowModel) (error, int64) {
+func UpdateUsrPassword(dbConn string, updtStruct lmodels.DBSplMasterUserRowModel) (error, int64) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableUpdatePassword")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateUsrPassword")
 
 	updateCtx := dbmgr.UpdateDeleteContext{}
 	updateCtx.DBConnection = dbConn
@@ -136,9 +133,9 @@ func SplMasterUserTableUpdatePassword(dbConn string, updtStruct lmodels.DBSplMas
 	return nil, updateCtx.AffectedRows
 }
 
-func GetSplMasterUserTableTotalFilteredRecords(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
+func GetUsrFilterRecordsCount(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSplMasterUserTableTotalFilteredRecords")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUsrFilterRecordsCount")
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 
@@ -163,9 +160,9 @@ func GetSplMasterUserTableTotalFilteredRecords(dbConn string, filterModel *lmode
 	return nil, data
 }
 
-func SplMasterUserTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchUserRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchUserResponseFilterDataModel) {
+func GetUserList(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchUserRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchUserResponseFilterDataModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableSelectByFilter")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserList")
 
 	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
 		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {

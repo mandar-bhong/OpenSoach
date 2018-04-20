@@ -53,7 +53,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 	if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_OS {
 
-		dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, userRecordItem.UroleIdFk)
+		dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, userRecordItem.UroleId)
 
 		if dbErr != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
@@ -65,8 +65,8 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		dbAuthData := *authData
 
 		userSessionContext := gmodels.UserSessionInfo{}
-		userSessionContext.UserRoleID = *userRecordItem.UroleIdFk
-		userSessionContext.UserID = userRecordItem.Id
+		userSessionContext.UserRoleID = *userRecordItem.UroleId
+		userSessionContext.UserID = userRecordItem.UserId
 
 		isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
 		if isSuccess == false {
@@ -81,7 +81,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull")
 
 	} else if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_CUSTOMER {
-		dbErr, authData := dbaccess.GetUserAuthInfoCategoryCustomer(repo.Instance().Context.Master.DBConn, prodcode, userRecordItem.Id)
+		dbErr, authData := dbaccess.GetUserAuthInfoCategoryCustomer(repo.Instance().Context.Master.DBConn, prodcode, userRecordItem.UserId)
 
 		if dbErr != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
@@ -105,7 +105,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		userSessionContext.CpmID = authRecordItem.CpmId
 		userSessionContext.CustomerID = authRecordItem.CustomerId
 		userSessionContext.UserRoleID = authRecordItem.UserRoleId
-		userSessionContext.UserID = userRecordItem.Id
+		userSessionContext.UserID = userRecordItem.UserId
 		userSessionContext.ModDB = gmodels.ConfigDB{ConnectionString: authRecordItem.Connectionstring, DBDriver: constants.DB_DRIVER_NAME}
 
 		isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)

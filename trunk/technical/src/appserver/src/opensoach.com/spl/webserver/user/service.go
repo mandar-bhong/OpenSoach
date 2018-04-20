@@ -17,7 +17,7 @@ type UserService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (service UserService) AddUser(userData lmodels.DBSplMasterUserTableRowModel) (isSuccess bool, successErrorData interface{}) {
+func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	userData.UsrStateSince = time.Now()
 
@@ -38,9 +38,9 @@ func (service UserService) AddUser(userData lmodels.DBSplMasterUserTableRowModel
 	return true, response
 }
 
-func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDetailsTableRowModel) (isSuccess bool, successErrorData interface{}) {
+func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDetailsRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	dbErr, userDetailsData := dbaccess.GetSplMasterUserDetailsTableById(repo.Instance().Context.Master.DBConn, userData.UsrIdFk)
+	dbErr, userDetailsData := dbaccess.GetSplMasterUserDetailsTableById(repo.Instance().Context.Master.DBConn, userData.UsrId)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
 		errModel := gmodels.APIResponseError{}
@@ -77,8 +77,13 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 			return false, errModel
 		}
 
-		response := lmodels.RecordIdResponse{}
-		response.RecId = userAffectedRow
+		if userAffectedRow == 0 {
+			logger.Context().WithField("InputRequest", userData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+			return false, errModel
+		}
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User details updated Successfully.")
 
@@ -87,9 +92,9 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 
 }
 
-func (service UserService) UpdateUserState(userData lmodels.DBSplMasterUserTableRowModel) (isSuccess bool, successErrorData interface{}) {
+func (service UserService) UpdateUserState(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	dbErr, _ := dbaccess.SplMasterUserTableUpdateState(repo.Instance().Context.Master.DBConn, userData)
+	dbErr, _ := dbaccess.UpdateUsrState(repo.Instance().Context.Master.DBConn, userData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", userData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -121,11 +126,11 @@ func (service UserService) ChangeUserPassword(passData lmodels.UpdatePasswordReq
 		return false, errModel
 	} else {
 
-		updateUserData := lmodels.DBSplMasterUserTableRowModel{}
-		updateUserData.Id = userid
+		updateUserData := lmodels.DBSplMasterUserRowModel{}
+		updateUserData.UsrId = userid
 		updateUserData.UsrPassword = passData.NewPassword
 
-		dbErr, _ := dbaccess.SplMasterUserTableUpdatePassword(repo.Instance().Context.Master.DBConn, updateUserData)
+		dbErr, _ := dbaccess.UpdateUsrPassword(repo.Instance().Context.Master.DBConn, updateUserData)
 		if dbErr != nil {
 			logger.Context().WithField("InputRequest", passData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -146,7 +151,7 @@ func (UserService) GetUserDataList(usrListReqData lmodels.DataListRequest) (bool
 
 	filterModel := usrListReqData.Filter.(*lmodels.DBSearchUserRequestFilterDataModel)
 
-	dbErr, userFilteredRecords := dbaccess.GetSplMasterUserTableTotalFilteredRecords(repo.Instance().Context.Master.DBConn, filterModel)
+	dbErr, userFilteredRecords := dbaccess.GetUsrFilterRecordsCount(repo.Instance().Context.Master.DBConn, filterModel)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -160,7 +165,7 @@ func (UserService) GetUserDataList(usrListReqData lmodels.DataListRequest) (bool
 	CurrentPage := usrListReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * usrListReqData.Limit)
 
-	dbErr, usrFilterData := dbaccess.SplMasterUserTableSelectByFilter(repo.Instance().Context.Master.DBConn, usrListReqData, filterModel, startingRecord)
+	dbErr, usrFilterData := dbaccess.GetUserList(repo.Instance().Context.Master.DBConn, usrListReqData, filterModel, startingRecord)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 

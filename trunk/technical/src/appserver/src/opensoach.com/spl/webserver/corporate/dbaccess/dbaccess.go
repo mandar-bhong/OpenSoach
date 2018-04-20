@@ -17,7 +17,7 @@ var SUB_MODULE_NAME = "SPL.Corporate.DB"
 
 func GetCorpFilterRecordsCount(dbConn string, filterModel *lmodels.DBSearchCorpRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSplMasterCorpTableTotalFilteredRecords")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpFilterRecordsCount")
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 
@@ -44,7 +44,7 @@ func GetCorpFilterRecordsCount(dbConn string, filterModel *lmodels.DBSearchCorpR
 
 func GetCorpListData(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchCorpRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchCorpResponseFilterDataModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterCorpTableSelectByFilter")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpListData")
 
 	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
 		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
@@ -80,7 +80,7 @@ func GetCorpListData(dbConn string, listdatareq lmodels.DataListRequest, filterM
 
 func GetCorpShortDataList(dbConn string) (error, *[]lmodels.DBCorpShortDataModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterCorpTableShortDataList")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpShortDataList")
 
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]lmodels.DBCorpShortDataModel{}
