@@ -15,9 +15,9 @@ type DBSearchUserRequestFilterDataModel struct {
 }
 
 type DBSearchCorpRequestFilterDataModel struct {
-	Name     *string `db:"corp_name" json:"name"`
-	MobileNo *string `db:"corp_mobile_no" json:"mobileno"`
-	EmailId  *string `db:"corp_email_id" json:"emailid"`
+	CorpName     *string `db:"corp_name" json:"corpname"`
+	CorpMobileNo *string `db:"corp_mobile_no" json:"corpmobileno"`
+	CorpEmailId  *string `db:"corp_email_id" json:"corpemailid"`
 }
 
 type DBSearchUserResponseFilterDataModel struct {
@@ -32,7 +32,7 @@ type DBSearchUserResponseFilterDataModel struct {
 }
 
 type DBSearchCorpResponseFilterDataModel struct {
-	Id             int64     `dbattr:"pri,auto" db:"id" json:"id"`
+	CorpId         int64     `dbattr:"pri,auto" db:"id" json:"corpid"`
 	CorpName       string    `db:"corp_name" json:"corpname"`
 	CorpMobileNo   *string   `db:"corp_mobile_no" json:"corpmobileno"`
 	CorpEmailId    *string   `db:"corp_email_id" json:"corpemailid"`

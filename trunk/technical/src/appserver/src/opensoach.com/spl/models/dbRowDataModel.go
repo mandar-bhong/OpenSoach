@@ -1,5 +1,5 @@
 package models
 
 type DBTotalRecordsModel struct {
-	TotalRecords int `db:"count" json:"count "`
+	TotalRecords int `db:"count" json:"count"`
 }
