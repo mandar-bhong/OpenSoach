@@ -15,7 +15,7 @@ func registerRouters(router *gin.RouterGroup) {
 
 	//logger.Instance.Debug("Registering log module")
 
-	router.POST(constants.API_USER_LOGIN, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_LOGIN, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, LoginRequestHandler) })
 	router.GET(constants.API_USER_LOGIN_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_LOGOUT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_LOGIN_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
@@ -23,7 +23,8 @@ func registerRouters(router *gin.RouterGroup) {
 	return
 }
 
-func requestHandler(pContext *gin.Context) (bool, interface{}) {
+//This is special case to exposing login method to other testing methods
+func LoginRequestHandler(pContext *gin.Context) (bool, interface{}) {
 	var resultData interface{}
 	isSuccess := false
 
@@ -48,6 +49,18 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = AuthService.Auth(AuthService{}, authReq.UserName, authReq.Password, authReq.ProdCode)
 
 		break
+	}
+
+	return isSuccess, resultData
+}
+
+func requestHandler(pContext *gin.Context) (bool, interface{}) {
+	var resultData interface{}
+	isSuccess := false
+
+	logger.Context().WithField("Request: ", pContext.Request.URL.Path).LogDebug(SUB_MODULE_NAME, logger.Normal, "API request received.")
+
+	switch pContext.Request.URL.Path {
 
 	case constants.API_USER_LOGIN_INFO:
 
