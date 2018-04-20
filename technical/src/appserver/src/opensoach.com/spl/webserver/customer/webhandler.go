@@ -72,7 +72,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		if isPrepareExeSuccess == false {
 			return false, successErrorData
 		}
-		customerDetailsReqData.CustIdFk = successErrorData.(*gmodels.ExecutionContext).SessionInfo.CustomerID
+		customerDetailsReqData.CustId = successErrorData.(*gmodels.ExecutionContext).SessionInfo.CustomerID
 
 		isSuccess, resultData = CustomerService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
