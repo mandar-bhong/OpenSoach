@@ -10,7 +10,7 @@ import (
 
 	"opensoach.com/spl/constants"
 	lhelper "opensoach.com/spl/helper"
-	
+
 	"github.com/oliveagle/jsonpath"
 )
 
@@ -29,9 +29,8 @@ func Login(t *testing.T) (isSuccess bool, token string) {
 	requestType := "POST"
 	API := constants.API_USER_LOGIN
 	jsonReqData := TEST_USER_LOGIN_VALID
-	
-	webResponse, jsonPathStruct := lhelper.ExecuteTestRequest(t, requestType, API,
-		requestHandler, jsonReqData, token)
+
+	webResponse, jsonPathStruct := lhelper.ExecuteTestRequest(t, requestType, API, LoginRequestHandler, jsonReqData, token)
 
 	t.Logf("\nRequest URI : %s \n", API)
 	t.Logf("\nRequest Data : %s \n", jsonReqData)
@@ -39,13 +38,13 @@ func Login(t *testing.T) (isSuccess bool, token string) {
 
 	if res, err := jsonpath.JsonPathLookup(jsonPathStruct, "$.issuccess"); err != nil {
 		t.Errorf("Recieved issuccess %v", err.Error())
-		return false,""
+		return false, ""
 	} else if fmt.Sprintf("%v", res) != "true" {
 		t.Errorf("Recieved issuccess %v", res)
 	}
 
-	res, err := jsonpath.JsonPathLookup(jsonPathStruct, "$.token")
-	
+	res, err := jsonpath.JsonPathLookup(jsonPathStruct, "$.data.token")
+
 	if err != nil {
 		t.Errorf("Recieved issuccess %v", err.Error())
 		return false, res.(string)
@@ -54,7 +53,6 @@ func Login(t *testing.T) (isSuccess bool, token string) {
 	return true, res.(string)
 }
 
-
 func Test_UserLogin(t *testing.T) {
 
 	requestType := "POST"
@@ -62,8 +60,7 @@ func Test_UserLogin(t *testing.T) {
 	jsonReqData := TEST_USER_LOGIN_VALID
 	token := ""
 
-	webResponse, jsonPathStruct := lhelper.ExecuteTestRequest(t, requestType, API,
-		requestHandler, jsonReqData, token)
+	webResponse, jsonPathStruct := lhelper.ExecuteTestRequest(t, requestType, API, requestHandler, jsonReqData, token)
 
 	t.Logf("\nRequest URI : %s \n", API)
 	t.Logf("\nRequest Data : %s \n", jsonReqData)
@@ -82,13 +79,13 @@ func Test_UserInfo(t *testing.T) {
 	requestType := "GET"
 	API := constants.API_USER_LOGIN_INFO
 	jsonReqData := ""
-	isSuccess , token := Login(t)
+	isSuccess, token := Login(t)
 
 	if isSuccess == false {
 		t.Errorf("Unable to login")
 		return
 	}
-	
+
 	//webResponse
 	_, jsonPathStruct := lhelper.ExecuteTestRequest(t, requestType, API, requestHandler, jsonReqData, token)
 
@@ -97,6 +94,4 @@ func Test_UserInfo(t *testing.T) {
 	} else if fmt.Sprintf("%v", res) != "true" {
 		t.Errorf("Recieved issuccess %v", res)
 	}
-
-	
 }

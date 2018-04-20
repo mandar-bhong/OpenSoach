@@ -8,10 +8,12 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"opensoach.com/core"
 	gmodels "opensoach.com/models"
 	repo "opensoach.com/spl/repository"
-	"opensoach.com/core"
 )
+
+const TEST_USER_LOGIN_VALID = `{"username":"admin@servicepoint.live","password":"admin","prodcode":"SPL_HKT"}`
 
 func PrepareTestSetup() {
 
@@ -38,19 +40,18 @@ func ExecuteTestRequest(t *testing.T,
 
 	var req *http.Request
 	var reqErr error
-	
-	if reqMethod == "POST"{
+
+	if reqMethod == "POST" {
 		router.POST(API, func(c *gin.Context) { CommonWebRequestHandler(c, handler) })
 		req, reqErr = http.NewRequest(reqMethod, API, bytes.NewBuffer([]byte(reqJSONData)))
-	}else{
+	} else {
 		router.GET(API, func(c *gin.Context) { CommonWebRequestHandler(c, handler) })
-		req, reqErr = http.NewRequest(reqMethod, API + "?"+reqJSONData, bytes.NewBuffer([]byte(reqJSONData)))
-	}	
-	
+		req, reqErr = http.NewRequest(reqMethod, API+"?"+reqJSONData, bytes.NewBuffer([]byte(reqJSONData)))
+	}
 
-	if reqErr != nil{
-		t.Fatalf("Unable to create request. Error : %s ",reqErr.Error())
-		return	"",nil
+	if reqErr != nil {
+		t.Fatalf("Unable to create request. Error : %s ", reqErr.Error())
+		return "", nil
 	}
 
 	req.Header.Set("Content-Type", "application/json")
