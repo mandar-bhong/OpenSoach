@@ -100,14 +100,12 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		ValidateAuthTokenReq := lmodels.ValidateAuthTokenRequest{}
 
-		err := pContext.Bind(&ValidateAuthTokenReq)
+		ValidateAuthTokenReq.Token = pContext.Query("token")
 
-		if err != nil {
-
-			errModel := gmodels.APIResponseError{}
-			errModel.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
-			resultData = errModel
-			return false, resultData
+		if ValidateAuthTokenReq.Token == "" {
+			errorData := gmodels.APIResponseError{}
+			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			return false, errorData
 		}
 
 		isSuccess, resultData = AuthService.ValidateAuthToken(AuthService{}, ValidateAuthTokenReq.Token, repo.Instance().Context)
