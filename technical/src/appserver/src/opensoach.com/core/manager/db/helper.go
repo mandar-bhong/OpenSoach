@@ -52,7 +52,7 @@ func GetFilterConditionFormModel(model interface{}) string {
 			case reflect.Int, reflect.Int16, reflect.Int64, reflect.Int8:
 				whereCond = whereCond + tag + " = " + strconv.FormatInt(valueElement.Int(), 10) + " AND "
 			case reflect.String:
-				whereCond = whereCond + tag + " = " + fmt.Sprintf("%#v", valueElement.String()) + " AND "
+				whereCond = whereCond + tag + " like " + "\"%" + fmt.Sprintf("%v", valueElement.String()) + "%\"" + " AND "
 			}
 		}
 	}
