@@ -18,8 +18,8 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_USER_OSU_UPDATE_STATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_CU_UPDATE_STATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_UPDATE_PASSWORD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_USER_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_USER_CU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_CU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {

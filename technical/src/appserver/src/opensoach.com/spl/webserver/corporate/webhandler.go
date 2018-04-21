@@ -11,7 +11,7 @@ import (
 )
 
 func registerRouters(router *gin.RouterGroup) {
-	router.POST(constants.API_CORPORATE_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_CORPORATE_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CORPORATE_OSU_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CORPORATE_OSU_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CORPORATE_OSU_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
