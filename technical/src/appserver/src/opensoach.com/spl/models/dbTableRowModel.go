@@ -22,15 +22,15 @@ type DBSplMasterCorpTableRowModel struct {
 }
 
 type DBSplMasterCpmDevMappingTableRowModel struct {
-	CpmId     int       `dbattr:"pri" db:"cpm_id_fk" json:"cpmid"`
-	DevId     int       `dbattr:"pri" db:"dev_id_fk" json:"devid"`
+	CpmId     int64     `dbattr:"pri" db:"cpm_id_fk" json:"cpmid"`
+	DevId     int64     `dbattr:"pri" db:"dev_id_fk" json:"devid"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplMasterCpmSpMappingTableRowModel struct {
-	CpmId     int       `dbattr:"pri" db:"cpm_id_fk" json:"cpmid"`
-	SpId      int       `dbattr:"pri" db:"sp_id_fk" json:"spid"`
+	CpmId     int64     `dbattr:"pri" db:"cpm_id_fk" json:"cpmid"`
+	SpId      int64     `dbattr:"pri" db:"sp_id_fk" json:"spid"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
 }
@@ -52,8 +52,8 @@ type DBSplMasterCustDetailsTableRowModel struct {
 }
 
 type DBSplMasterCustProdCountTableRowModel struct {
-	CpcId     int       `dbattr:"pri,auto" db:"id" json:"cpcid"`
-	CpmId     int       `db:"cpm_id_fk" json:"cpmid"`
+	CpcId     int64     `dbattr:"pri,auto" db:"id" json:"cpcid"`
+	CpmId     int64     `db:"cpm_id_fk" json:"cpmid"`
 	DevCnt    int       `db:"dev_cnt" json:"devcnt"`
 	SpCnt     int       `db:"sp_cnt" json:"spcnt"`
 	UsrCnt    int       `db:"usr_cnt" json:"usrcnt"`
@@ -62,10 +62,10 @@ type DBSplMasterCustProdCountTableRowModel struct {
 }
 
 type DBSplMasterCustProdMappingTableRowModel struct {
-	CpmId         int       `dbattr:"pri,auto" db:"id" json:"cpmid"`
-	CustId        int       `db:"cust_id_fk" json:"custid"`
-	ProdId        int       `db:"prod_id_fk" json:"prodid"`
-	DbiId         int       `db:"dbi_id_fk" json:"dbiid"`
+	CpmId         int64     `dbattr:"pri,auto" db:"id" json:"cpmid"`
+	CustId        int64     `db:"cust_id_fk" json:"custid"`
+	ProdId        int64     `db:"prod_id_fk" json:"prodid"`
+	DbiId         int64     `db:"dbi_id_fk" json:"dbiid"`
 	CpmState      int       `db:"cpm_state" json:"cpmstate"`
 	CpmStateSince time.Time `db:"cpm_state_since" json:"cpmstatesince"`
 	CreatedOn     time.Time `db:"created_on" json:"createdon"`
@@ -83,7 +83,7 @@ type DBSplMasterCustomerTableRowModel struct {
 }
 
 type DBSplMasterDatabaseInstanceTableRowModel struct {
-	DbInstanceId     int       `dbattr:"pri,auto" db:"id" json:"dbinstanceid"`
+	DbiId            int64     `dbattr:"pri,auto" db:"id" json:"dbiid"`
 	DbiName          string    `db:"dbi_name" json:"dbiname"`
 	ConnectionString string    `db:"connection_string" json:"connectionstring"`
 	ProdId           int       `db:"prod_id_fk" json:"prodid"`
@@ -92,7 +92,7 @@ type DBSplMasterDatabaseInstanceTableRowModel struct {
 }
 
 type DBSplMasterDevDetailsTableRowModel struct {
-	DevId       int       `dbattr:"pri" db:"dev_id_fk" json:"devid"`
+	DevId       int64     `dbattr:"pri" db:"dev_id_fk" json:"devid"`
 	DevName     *string   `db:"dev_name" json:"devname"`
 	Make        *string   `db:"make" json:"make"`
 	Technology  *string   `db:"technology" json:"technology"`
@@ -103,7 +103,7 @@ type DBSplMasterDevDetailsTableRowModel struct {
 }
 
 type DBSplMasterDevStatusTableRowModel struct {
-	DevId                int       `dbattr:"pri" db:"dev_id_fk" json:"devid"`
+	DevId                int64     `dbattr:"pri" db:"dev_id_fk" json:"devid"`
 	ConnectionState      int       `db:"connection_state" json:"connectionstate"`
 	ConnectionStateSince time.Time `db:"connection_state_since" json:"connectionstatesince"`
 	SyncState            int       `db:"sync_state" json:"syncstate"`
@@ -115,7 +115,7 @@ type DBSplMasterDevStatusTableRowModel struct {
 }
 
 type DBSplMasterDeviceTableRowModel struct {
-	Id            int       `dbattr:"pri,auto" db:"id" json:"id"`
+	DevId         int64     `dbattr:"pri,auto" db:"id" json:"devid"`
 	Serialno      string    `db:"serialno" json:"serialno"`
 	DevState      int       `db:"dev_state" json:"devstate"`
 	DevStateSince time.Time `db:"dev_state_since" json:"devstatesince"`
@@ -124,7 +124,7 @@ type DBSplMasterDeviceTableRowModel struct {
 }
 
 type DBSplMasterProductTableRowModel struct {
-	Id        int       `dbattr:"pri,auto" db:"id" json:"id"`
+	ProdId    int64       `dbattr:"pri,auto" db:"id" json:"prodid"`
 	ProdCode  string    `db:"prod_code" json:"prodcode"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
