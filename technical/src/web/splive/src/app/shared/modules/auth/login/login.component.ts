@@ -5,7 +5,7 @@ import { EnvironmentProvider } from '../../../environment-provider';
 import { AuthRequest, AuthResponse } from '../../../models/api/auth-models';
 import { AppDataStoreService } from '../../../services/app-data-store/app-data-store-service';
 import { AuthService } from '../../../services/auth.service';
-import { LoginStatusService } from '../../../services/login-status.service';
+import { LoginHandlerService } from '../../../services/login-handler.service';
 
 @Component({
   selector: 'hkt-login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
   constructor(private appDataStoreService: AppDataStoreService,
-    private loginStatusService: LoginStatusService,
+    private loginHandlerService: LoginHandlerService,
     private router: Router,
     private authService: AuthService) { }
   ngOnInit() {
@@ -34,11 +34,11 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(authRequest).subscribe(response => {
       if (response && response.issuccess) {
-        this.loginStatusService.login(response.data);
+        this.loginHandlerService.login(response.data);
         this.router.navigate([''], { skipLocationChange: true });
       } else {
         // TODO: Dummy code
-        this.loginStatusService.login({ token: 'token', urolecode: 'ADMIN' });
+        this.loginHandlerService.login({ token: 'token', urolecode: 'ADMIN' });
         this.router.navigate([''], { skipLocationChange: true });
       }
     });

@@ -1,9 +1,11 @@
+import { USER_CATEGORY } from './app-common-constants';
 import { RoutingModel, SideMenuModel } from './models/ui/routing-model';
 
 export class AppSpecificDataProvider {
     static sideMenuRoutes: SideMenuModel[];
     static topMenuRoutes: RoutingModel[];
     static appRoutes: Map<string, RoutingModel>;
+    static userCateory: USER_CATEGORY;
 
     static createRouteMap(routes: RoutingModel[]) {
         AppSpecificDataProvider.appRoutes = new Map(routes.map(r => [r.url, r] as [string, RoutingModel]));

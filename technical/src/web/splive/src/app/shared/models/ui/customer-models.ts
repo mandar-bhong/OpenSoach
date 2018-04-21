@@ -1,4 +1,6 @@
 import { CustomerAddDetailsRequest, CustomerDetailsResponse } from '../api/customer-models';
+import { CustomerLoginInfoResponse } from '../api/customer-models';
+
 export class CustomerDetailsModel {
     custid: number;
     poc1name: string;
@@ -41,3 +43,17 @@ export class CustomerDetailsModel {
     }
 
 }
+
+
+export class CustomerInfo {
+    corpname: string;
+    custname: string;
+
+    copyFrom(customerLoginInfoResponse: CustomerLoginInfoResponse) {
+        this.corpname = customerLoginInfoResponse.corpname;
+        this.custname = customerLoginInfoResponse.custname;
+    }
+}
+
+
+
