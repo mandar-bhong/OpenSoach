@@ -22,7 +22,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_CUSTOMER_CU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_OSU_CORPORATE_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_CU_CORPORATE_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_CUSTOMER_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_CUSTOMER_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
