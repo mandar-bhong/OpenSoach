@@ -19,7 +19,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_USER_LOGIN_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_LOGOUT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_LOGIN_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_VALIDATE_AUTH_TOKEN, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_VALIDATE_AUTH_TOKEN, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	return
 }
 
