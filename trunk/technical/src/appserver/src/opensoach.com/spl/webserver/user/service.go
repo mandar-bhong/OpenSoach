@@ -94,6 +94,8 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 
 func (service UserService) UpdateUserState(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
 
+	userData.UsrStateSince = time.Now()
+
 	dbErr, _ := dbaccess.UpdateUsrState(repo.Instance().Context.Master.DBConn, userData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", userData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
