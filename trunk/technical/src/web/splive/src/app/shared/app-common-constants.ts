@@ -6,3 +6,10 @@ export enum CUSTOMER_STATE {
 }
 
 export const SERVER_SYSTEM_ERROR_MAX_BOUNDARY = 10000;
+
+export const ROUTE_LOGIN = 'auth/login';
+export const ROUTE_HOME = '';
+export enum USER_CATEGORY {
+    OSU = 1,
+    CU = 2
+}

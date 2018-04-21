@@ -5,13 +5,13 @@ import { AppDataStore, AppInMemoryStore, AppLocalStorage } from './app-data-stor
 export const APP_DATA_STORE_KEYS = {
     AUTH_TOKEN: 'AUTH_TOKEN',
     USER_ROLE: 'USER_ROLE',
-    TEMP_OBJECT_1: 'TEMP_OBJECT_1',
-    TEMP_OBJECT_2: 'TEMP_OBJECT_2'
+    USER_INFO: 'USER_INFO',
+    CUSTOMER_INFO: 'CUSTOMER_INFO'
 };
 
 export const APP_IN_MEMORY_STORE_KEYS: string[] = [
-    APP_DATA_STORE_KEYS.TEMP_OBJECT_1,
-    APP_DATA_STORE_KEYS.TEMP_OBJECT_2
+    APP_DATA_STORE_KEYS.USER_INFO,
+    APP_DATA_STORE_KEYS.CUSTOMER_INFO
 ];
 
 export const APP_LOCAL_STORAGE_KEYS: string[] = [

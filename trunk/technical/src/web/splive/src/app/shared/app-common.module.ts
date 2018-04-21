@@ -1,19 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { AuthGuard } from './auth-guard';
-import { AppDataStoreService } from './services/app-data-store/app-data-store-service';
-import { LoginStatusService } from './services/login-status.service';
-import { AuthService } from './services/auth.service';
-import { ServerApiInterfaceService } from './services/api/server-api-interface.service';
 import { TranslatePipe } from './pipes/translate/translate.pipe';
-import { SidebarToggleService } from './services/sidebar-toggle.service';
 import { TranslateService } from './pipes/translate/translate.service';
 import { ApiErrorService } from './services/api/api-error.service';
-import { AppNotificationService } from './services/notification/app-notification.service';
-import { UserSharedService } from './services/user/user-shared.service';
+import { ServerApiInterfaceService } from './services/api/server-api-interface.service';
+import { AppDataStoreService } from './services/app-data-store/app-data-store-service';
+import { AuthService } from './services/auth.service';
 import { CustomerSharedService } from './services/customer/customer-shared.service';
+import { LoginHandlerService } from './services/login-handler.service';
+import { LoginStatusProviderService } from './services/login-status-provider.service';
+import { AppNotificationService } from './services/notification/app-notification.service';
+import { SidebarToggleService } from './services/sidebar-toggle.service';
+import { UserSharedService } from './services/user/user-shared.service';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ export class AppCommonModule {
       ngModule: AppCommonModule,
       providers: [
         AppDataStoreService,
-        LoginStatusService,
+        LoginHandlerService,
+        LoginStatusProviderService,
         ServerApiInterfaceService,
         AuthService,
         AuthGuard,

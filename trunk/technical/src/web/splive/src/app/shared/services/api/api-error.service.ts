@@ -4,7 +4,7 @@ import { of } from 'rxjs/observable/of';
 import { AppNotificationService } from '../../services/notification/app-notification.service';
 import { PayloadResponse } from '../../models/api/payload-models';
 import { Router } from '@angular/router';
-import { LoginStatusService } from '../../services/login-status.service';
+import { LoginStatusProviderService } from '../../services/login-status-provider.service';
 import { TranslatePipe } from '../../pipes/translate/translate.pipe';
 import { SERVER_SYSTEM_ERROR_MAX_BOUNDARY } from '../../app-common-constants';
 
@@ -13,7 +13,7 @@ export class ApiErrorService {
 defaultErrorHandler= this.handleApiError;
     constructor(private appNotificationService: AppNotificationService,
         private router: Router,
-        private loginstatusservice: LoginStatusService,
+        private loginStatusProviderService: LoginStatusProviderService,
         private translatePipe: TranslatePipe) { }
 
     handleError<T>(url, result?: T) {
@@ -25,7 +25,7 @@ defaultErrorHandler= this.handleApiError;
                 case 401:
                     // TODO: user is not autheticated, redirect to login page
                     // this.router.navigate(['login']);
-                    // this.loginstatusservice.changeStatus(false);
+                    // this.loginStatusProviderService.changeLoginStatus(false);
                     // this.router.navigate(['unauthorized']);
                     break;
                 case 403:

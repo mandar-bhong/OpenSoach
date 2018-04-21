@@ -1,4 +1,5 @@
 export class UserLoginInfoResponse {
+    usrname: string;
     fname: string;
     lname: string;
 }
