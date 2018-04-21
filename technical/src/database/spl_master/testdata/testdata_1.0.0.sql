@@ -76,14 +76,14 @@ INSERT INTO `spl_master_cust_prod_count_tbl` (`id`,`cpm_id_fk`,`dev_cnt`,`sp_cnt
 -- Dumping data for table `spl_master_customer_tbl`
 --
 
-INSERT INTO `spl_master`.`spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (1, 1, 'Customer 1', 1);
-INSERT INTO `spl_master`.`spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (2, 1, 'Customer 2', 1);
+INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (1, 1, 'Customer 1', 1);
+INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (2, 1, 'Customer 2', 1);
 
 --
 -- Dumping data for table `spl_master_cust_details_tbl`
 --
 
-INSERT INTO `spl_master`.`spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_email_id`, `poc1_mobile_no`) VALUES (1, 'poc1', 'poc1@email.com', '1244324');
+INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_email_id`, `poc1_mobile_no`) VALUES (1, 'poc1', 'poc1@email.com', '1244324');
 
 
 
