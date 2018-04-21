@@ -12,5 +12,5 @@ type AuthResponse struct {
 }
 
 type ValidateAuthTokenRequest struct {
-	Token string `josn:"token"`
+	Token string `json:"token"`
 }
