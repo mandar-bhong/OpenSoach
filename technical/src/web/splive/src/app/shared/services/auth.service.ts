@@ -20,7 +20,7 @@ export class AuthService {
 
     validateAuthToken(validateAuthTokenRequest: ValidateAuthTokenRequest,
         implicitErrorHandling = true): Observable<PayloadResponse<boolean>> {
-        return this.serverApiInterfaceService.post(
+        return this.serverApiInterfaceService.getWithQueryParams(
             EnvironmentProvider.baseurl + '/api/v1/validateauthtoken', validateAuthTokenRequest, implicitErrorHandling);
     }
 }
