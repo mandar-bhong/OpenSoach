@@ -6,7 +6,7 @@ echo Starting sql script executing
 SET Server=localhost
 SET User=root
 SET Password=welcome
-SET Database=splive_master
+SET Database=spl_hkt_node_xxxx
 ::----------------End ----------------------------
 
 "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe" -h%Server% -u%User% -p%Password% < %~dp0\schema\schema_1.0.0.sql
