@@ -9,6 +9,7 @@ export class CustomerAddRequest {
 export class CustomerFilterRequest {
     custname: string;
     custstate: CUSTOMER_STATE;
+    corpid: number;
 }
 
 export class CustomerDataListingItemResponse {

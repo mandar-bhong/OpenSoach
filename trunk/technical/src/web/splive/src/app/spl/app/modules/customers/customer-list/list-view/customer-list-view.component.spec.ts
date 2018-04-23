@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListViewComponent } from './list-view.component';
+import { ListViewComponent } from './customer-list-view.component';
 
-describe('ListViewComponent', () => {
+describe('CustomerListViewComponent', () => {
   let component: ListViewComponent;
   let fixture: ComponentFixture<ListViewComponent>;
 

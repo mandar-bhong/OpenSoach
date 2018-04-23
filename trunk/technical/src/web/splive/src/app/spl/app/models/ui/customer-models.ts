@@ -1,5 +1,5 @@
 import { CUSTOMER_STATE } from '../../../../shared/app-common-constants';
-import { CustomerAddRequest } from '../api/customer-models';
+import { CustomerAddRequest, CustomerFilterRequest } from '../api/customer-models';
 
 export class CustomerAddModel {
     custname: string;
@@ -10,5 +10,17 @@ export class CustomerAddModel {
         customerAddRequest.custname = this.custname;
         customerAddRequest.corpid = this.corpid;
         customerAddRequest.custstate = this.custstate;
+    }
+}
+
+export class CustomerFilterModel {
+    custname: string;
+    custstate: CUSTOMER_STATE;
+    corpid: number;
+
+    copyTo(customerFilterRequest: CustomerFilterRequest) {
+        customerFilterRequest.custname = this.custname;
+        customerFilterRequest.custstate = this.custstate;
+        customerFilterRequest.corpid = this.corpid;
     }
 }

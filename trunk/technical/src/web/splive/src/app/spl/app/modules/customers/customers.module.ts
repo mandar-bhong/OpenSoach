@@ -11,7 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModules } from '../../../../shared/modules/material/material-modules';
 import { CustomerSearchComponent } from './customer-list/customer-search/customer-search.component';
-import { ListViewComponent } from './customer-list/list-view/list-view.component';
+import { CustomerListViewComponent } from './customer-list/list-view/customer-list-view.component';
 
 @NgModule({
   imports: [
@@ -24,6 +24,6 @@ import { ListViewComponent } from './customer-list/list-view/list-view.component
     ReactiveFormsModule,
     MaterialModules
   ],
-  declarations: [CustomerAddComponent, CustomerListComponent, CustomerUpdateDetailsComponent, CustomerSearchComponent, ListViewComponent]
+  declarations: [CustomerAddComponent, CustomerListComponent, CustomerUpdateDetailsComponent, CustomerSearchComponent, CustomerListViewComponent]
 })
 export class CustomersModule { }
