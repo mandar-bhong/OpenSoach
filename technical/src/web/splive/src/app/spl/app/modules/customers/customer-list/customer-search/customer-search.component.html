@@ -17,47 +17,25 @@
                   <tr id="layout-set">
                     <td>
                       <mat-form-field>
-                        <input matInput placeholder="Customer Name">
+                        <input matInput placeholder="Customer Name" [(ngModel)]="dataModel.custname">
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field>
-                        <input matInput placeholder="State">
+                        <input matInput placeholder="State" [(ngModel)]="dataModel.custstate">
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field>
-                        <mat-select placeholder="Corp Id">
+                        <mat-select placeholder="Corp Id" [(ngModel)]="dataModel.corpid">
                           <mat-option>
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
                     </td>
                   </tr>
-                </table>
-                <h4>Sort</h4>
-                <table class="example-full-width" cellspacing="0">
-                  <tr id="layout-set">
-                    <td>
-                      <mat-form-field>
-                        <mat-select placeholder="Sort">
-                          <mat-option>
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <p> Ascending
-                        <i class="fa fa-long-arrow-up"></i>
-                      </p>
-                    </td>
-                    <td>
-                      <p> descending
-                        <i class="fa fa-long-arrow-down"></i>
-                      </p>
-                    </td>
-                  </tr>
-                </table>
+                </table> 
+                <button type="button" class="btn btn-primary" (click) ="search()">Search</button>               
               </mat-expansion-panel>
             </mat-accordion>
           </div>

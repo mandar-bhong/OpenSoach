@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { CustomerFilterRequest } from '../../../../models/api/customer-models';
+import { CustomerFilterModel } from '../../../../models/ui/customer-models';
+import { CustomerService } from '../../../../services/customer.service';
+
 @Component({
   selector: 'app-customer-search',
   templateUrl: './customer-search.component.html',
@@ -7,9 +11,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomerSearchComponent implements OnInit {
 
-  constructor() { }
+  dataModel = new CustomerFilterModel();
+  constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
+  }
+
+  search() {
+    const customerFilterRequest = new CustomerFilterRequest();
+    this.dataModel.copyTo(customerFilterRequest);
+    this.customerService.dataListSubjectTrigger(customerFilterRequest);
   }
 
 }
