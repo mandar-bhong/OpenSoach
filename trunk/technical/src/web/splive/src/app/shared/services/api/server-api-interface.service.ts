@@ -45,15 +45,13 @@ export class ServerApiInterfaceService {
     }
 
     getWithQueryParams(url: string, queryParams: any, implicitErrorHandling = true): Observable<PayloadResponse<any>> {
-        const httpParams = new HttpParams();
-        httpParams.set('params', JSON.stringify(queryParams));
         let httpOptions = {
             headers: new HttpHeaders(
                 {
                     'Content-Type': 'application/json'
                 }),
             withCredentials: true,
-            params: httpParams
+            params: new HttpParams().set('params', JSON.stringify(queryParams))
         };
         if (this.loginStatusProviderService.isLoggedIn) {
             httpOptions = {
@@ -64,7 +62,7 @@ export class ServerApiInterfaceService {
                     }
                 ),
                 withCredentials: true,
-                params: httpParams
+                params: new HttpParams().set('params', JSON.stringify(queryParams))
             };
         }
         return this.http.get<PayloadResponse<any>>
