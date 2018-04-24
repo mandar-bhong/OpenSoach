@@ -4,7 +4,7 @@ const QUERY_SPL_MASTER_CUSTOMER_TABLE_INSERT = "INSERT INTO spl_master_customer_
 
 const QUERY_SPL_MASTER_CUST_DETAILS_TABLE_SELECT_All = "SELECT cust_id_fk,poc1_name,poc1_email_id,poc1_mobile_no,poc2_name,poc2_email_id,poc2_mobile_no,address,address_state,address_city,address_pincode FROM spl_master_cust_details_tbl"
 
-const QUERY_SPL_MASTER_CUST_DETAILS_TABLE_SELECT_BY_ID = "SELECT poc1_name,poc1_email_id,poc1_mobile_no,poc2_name,poc2_email_id,poc2_mobile_no,address,address_state,address_city,address_pincode FROM spl_master_cust_details_tbl WHERE cust_id_fk =?"
+const QUERY_SPL_MASTER_CUST_DETAILS_TABLE_SELECT_BY_ID = "SELECT cust_id_fk,poc1_name,poc1_email_id,poc1_mobile_no,poc2_name,poc2_email_id,poc2_mobile_no,address,address_state,address_city,address_pincode FROM spl_master_cust_details_tbl WHERE cust_id_fk =?"
 const QUERY_SPL_CU_MASTER_CUST_DETAILS_TABLE_SELECT_BY_ID = "SELECT cust_id_fk from spl_master_cust_details_tbl where cust_id_fk =?"
 const QUERY_SPL_MASTER_CUST_DETAILS_TABLE_INSERT = "INSERT INTO spl_master_cust_details_tbl (cust_id_fk,poc1_name,poc1_email_id,poc1_mobile_no,poc2_name,poc2_email_id,poc2_mobile_no,address,address_state,address_city,address_pincode) values (:cust_id_fk,:poc1_name,:poc1_email_id,:poc1_mobile_no,:poc2_name,:poc2_email_id,:poc2_mobile_no,:address,:address_state,:address_city,:address_pincode)"
 
