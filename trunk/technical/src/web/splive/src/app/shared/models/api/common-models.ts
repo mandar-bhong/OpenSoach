@@ -1,3 +1,6 @@
-export class RecordAddResponse {
+export class RecordIDRequest {
+    recid: number;
+}
+export class RecordIDResponse {
     recid: number;
 }

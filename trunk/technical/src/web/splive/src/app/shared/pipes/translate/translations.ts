@@ -44,5 +44,9 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'SERVER_ERROR_10001',
     en: 'SERVER_ERROR_10001'
   },
+  {
+    key: 'InfoMessageDetailsNotAvailable',
+    en: 'Details are not available, please fill in the details and submit.'
+  },
 ];
 

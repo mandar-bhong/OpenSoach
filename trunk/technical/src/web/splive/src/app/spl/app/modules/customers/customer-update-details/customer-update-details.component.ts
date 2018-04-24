@@ -6,6 +6,8 @@ import { CustomerService } from '../../../services/customer.service';
 import { ActivatedRoute } from '@angular/router';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 @Component({
   selector: 'app-customer-update-details',
   templateUrl: './customer-update-details.component.html',
@@ -15,29 +17,49 @@ export class CustomerUpdateDetailsComponent implements OnInit, OnDestroy {
   myForm: FormGroup;
   dataModel = new CustomerDetailsModel();
   routeSubscription: Subscription;
+  formMode = 0; // 0:view, 1:add, 2:update
+
   constructor(private customerService: CustomerService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.createControls();
 
-    // TODO get customer details api call
-    const customerDetailsResponse = new CustomerDetailsResponse();
-    this.dataModel.copyFrom(customerDetailsResponse);
-
-    this.routeSubscription = this.route.params.subscribe(params => {
-
+    this.routeSubscription = this.route.queryParams.subscribe(params => {
+      this.dataModel.custid = Number(params['id']);
+      this.getCustomerDetails();
     });
   }
   createControls(): void {
     this.myForm = new FormGroup({
-      customerName: new FormControl('', [Validators.required]),
-      emailControl: new FormControl('', [Validators.required]),
-      mobileNumber: new FormControl('', [Validators.required]),
-      customerAddress: new FormControl('', [Validators.required]),
-      customerCity: new FormControl('', [Validators.required]),
-      customerState: new FormControl('', [Validators.required]),
-      pinCode: new FormControl('', [Validators.required])
+      poc1nameControl: new FormControl('', [Validators.required]),
+      poc1emailidControl: new FormControl('', [Validators.required]),
+      poc1mobilenoControl: new FormControl('', [Validators.required]),
+      poc2nameControl: new FormControl(''),
+      poc2emailidControl: new FormControl(''),
+      poc2mobilenoControl: new FormControl(''),
+      addressControl: new FormControl('', [Validators.required]),
+      addressstateControl: new FormControl('', [Validators.required]),
+      addresscityControl: new FormControl('', [Validators.required]),
+      addresspincodeControl: new FormControl('', [Validators.required])
+    });
+
+    // this.myForm.disable();
+  }
+
+  getCustomerDetails() {
+    this.customerService.getCustomerDetails({ recid: this.dataModel.custid }).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        if (payloadResponse.data) {
+          console.log('payloadResponse.data', payloadResponse.data);
+          this.dataModel.copyFrom(payloadResponse.data);
+          console.log('this.dataModel', this.dataModel);
+        } else {
+          this.appNotificationService.info(this.translatePipe.transform('InfoMessageDetailsNotAvailable'));
+        }
+      }
     });
   }
 
