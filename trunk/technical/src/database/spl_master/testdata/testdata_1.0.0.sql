@@ -84,5 +84,27 @@ INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_st
 
 INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_email_id`, `poc1_mobile_no`) VALUES (1, 'poc1', 'poc1@email.com', '1244324');
 
+--
+-- Dumping data for table `spl_master_corp_tbl`
+--
+   
+INSERT INTO `spl_master_corp_tbl` (`id`,`corp_name`,`corp_mobile_no`,`corp_email_id`,`corp_landline_no`) VALUES (2,'Corporation 2','1324343','corp2@gmail.com','04342123');
+INSERT INTO `spl_master_corp_tbl` (`id`,`corp_name`,`corp_mobile_no`,`corp_email_id`,`corp_landline_no`) VALUES (3,'Corporation 3','4353432','corp3@gmail.com','01132323');
+INSERT INTO `spl_master_corp_tbl` (`id`,`corp_name`,`corp_mobile_no`,`corp_email_id`,`corp_landline_no`) VALUES (4,'Corporation 4','3423454','corp4@gmail.com','04322434');
 
+--
+-- Dumping data for table `spl_master_customer_tbl`
+--
 
+INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (3, 1, 'Customer 3', 1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (4, 2, 'Customer 4', 1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (5, 2, 'Customer 5', 1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_state`, `cust_state_since`) VALUES (6, 3, 'Customer 6', 1,UTC_TIMESTAMP);
+
+--
+-- Dumping data for table `spl_master_cust_details_tbl`
+--
+
+INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_email_id`, `poc1_mobile_no`) VALUES (3, 'poc3', 'poc3@email.com', '12453434');
+INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_email_id`, `poc1_mobile_no`) VALUES (4, 'poc4', 'poc4@email.com', '15633434');
+INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_email_id`, `poc1_mobile_no`) VALUES (6, 'poc6', 'poc6@email.com', '15633434');
