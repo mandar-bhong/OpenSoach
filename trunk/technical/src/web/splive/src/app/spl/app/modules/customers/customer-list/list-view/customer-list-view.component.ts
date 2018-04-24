@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
 import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
@@ -19,7 +20,7 @@ import { CustomerService } from '../../../../services/customer.service';
 })
 
 export class CustomerListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['custname', 'corpname', 'poc1name', 'poc1emailid', 'poc1mobileno'];
+  displayedColumns = ['custname', 'corpname', 'poc1name', 'poc1emailid', 'poc1mobileno', 'action'];
   sortByColumns = [{ text: 'Customer Name', value: 'custname' },
   { text: 'Corporate Name', value: 'corpname' },
   { text: 'Point of Contact', value: 'poc1name' },
@@ -38,7 +39,9 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
   isLoadingResults = true;
   customerFilterRequest: CustomerFilterRequest;
   dataListFilterChangedSubscription: Subscription;
-  constructor(private customerService: CustomerService) { }
+
+  constructor(private customerService: CustomerService,
+    private router: Router) { }
 
   ngOnInit() {
     // set default load parameters
@@ -96,16 +99,21 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
     this.sort.sortChange.next(this.sort);
   }
 
-  sortDirectionAsc(sortOrder: string) {
-    this.selectedSortDirection = sortOrder;
+  sortDirectionAsc() {
+    this.selectedSortDirection = 'asc';
     this.sort.direction = 'asc';
     this.sort.sortChange.next(this.sort);
   }
 
-  sortDirectionDesc(sortOrder: string) {
-    this.selectedSortDirection = sortOrder;
+  sortDirectionDesc() {
+    this.selectedSortDirection = 'desc';
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
+  }
+
+  editRecord(id: number) {
+    console.log('editRecord', id);
+    this.router.navigate(['customers', 'update'], { queryParams: { id: id }, skipLocationChange: true });
   }
 
   ngOnDestroy(): void {

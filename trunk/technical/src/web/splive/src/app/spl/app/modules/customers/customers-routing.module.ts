@@ -13,7 +13,7 @@ const routes: Routes = [
     component: CustomerAddComponent
   },
   {
-    path: 'update-customer',
+    path: 'update',
     component: CustomerUpdateDetailsComponent
   }
 ];
