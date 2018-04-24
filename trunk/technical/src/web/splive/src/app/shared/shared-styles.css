@@ -33,12 +33,16 @@ html *
   flex-direction: column;
 }
 
-.mobile-label {
+.mat-row-mobile-label {
   display: none;
 }
 
+.mobile-sort {
+  display:none;
+}
+
 @media(max-width: 768px) {
-  .mobile-label {
+  .mat-row-mobile-label {
     width: 200px;
     display: inline-block;
     font-weight: bold;
@@ -50,5 +54,9 @@ html *
     flex-direction: column;
     align-items: start;
     padding: 8px 24px;
+  }
+  .mobile-sort
+  {
+    display: inline-block;
   }
 }

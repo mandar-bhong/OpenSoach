@@ -4,29 +4,32 @@
       <div class="col-sm col-md m-b-30 col">
         <div class="auth-box card">
           <div class="card-block">
+            <div class="mobile-sort">
               <h4>Sort</h4>
               <table class="example-full-width" cellspacing="0">
                 <tr id="layout-set">
                   <td>
                     <mat-form-field>
-                      <mat-select placeholder="Sort">
-                        <mat-option>
+                      <mat-select placeholder="Sort by" [(ngModel)]="selectedSortValue" name="sortby" (selectionChange)="sortByChanged()">
+                        <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                          {{col.text}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </td>
                   <td>
-                    <p> Ascending
+                    <div (click)="sortDirectionAsc()"> Ascending
                       <i class="fa fa-long-arrow-up"></i>
-                    </p>
+                    </div>
                   </td>
                   <td>
-                    <p> descending
+                    <div (click)="sortDirectionDesc()"> Descending
                       <i class="fa fa-long-arrow-down"></i>
-                    </p>
+                    </div>
                   </td>
                 </tr>
-              </table>            
+              </table>
+            </div>
             <div class="example-container mat-elevation-z8">
               <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -34,35 +37,35 @@
                 <ng-container matColumnDef="custname">
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Cust Name</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
-                    <span class="mobile-label">Customer Name:</span>
+                    <span class="mat-row-mobile-label">Customer Name:</span>
                     {{row.custname}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="corpname">
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Corp Name</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
-                    <span class="mobile-label">Corp Name:</span>
+                    <span class="mat-row-mobile-label">Corp Name:</span>
                     {{row.corpname}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="poc1name">
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Name</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
-                    <span class="mobile-label">Name</span>
+                    <span class="mat-row-mobile-label">Name</span>
                     {{row.poc1name}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="poc1emailid">
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Email Id</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-                    <span class="mobile-label">Email Id</span>
+                    <span class="mat-row-mobile-label">Email Id</span>
                     {{row.poc1emailid}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="poc1mobileno">
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Mobile No</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-                    <span class="mobile-label">Mobile No:</span>
+                    <span class="mat-row-mobile-label">Mobile No:</span>
                     {{row.poc1mobileno}}
                   </mat-cell>
                 </ng-container>

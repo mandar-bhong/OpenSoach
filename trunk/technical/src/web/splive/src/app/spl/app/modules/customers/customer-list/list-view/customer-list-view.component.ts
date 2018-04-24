@@ -1,28 +1,33 @@
-import { Component, OnInit, Input, EventEmitter, ViewChild } from '@angular/core';
-import { CustomerService } from '../../../../services/customer.service';
-import { CustomerFilterRequest, CustomerDataListingItemResponse } from '../../../../models/api/customer-models';
-import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
-import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 import { merge } from 'rxjs/observable/merge';
 import { map } from 'rxjs/operators/map';
-import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
+import { Subscription } from 'rxjs/Subscription';
 
-export class TestColumn {
-  col: string;
-  displayname: string;
-  breakpoint: string;
-  css: string;
-}
+import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
+import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
+import { CustomerDataListingItemResponse, CustomerFilterRequest } from '../../../../models/api/customer-models';
+import { CustomerService } from '../../../../services/customer.service';
+
 @Component({
   selector: 'app-customer-list-view',
   templateUrl: './customer-list-view.component.html',
   styleUrls: ['./customer-list-view.component.css']
 })
-export class CustomerListViewComponent implements OnInit {
+
+export class CustomerListViewComponent implements OnInit, OnDestroy {
   displayedColumns = ['custname', 'corpname', 'poc1name', 'poc1emailid', 'poc1mobileno'];
+  sortByColumns = [{ text: 'Customer Name', value: 'custname' },
+  { text: 'Corporate Name', value: 'corpname' },
+  { text: 'Point of Contact', value: 'poc1name' },
+  { text: 'Email Addres', value: 'poc1emailid' },
+  { text: 'Mobile no', value: 'poc1mobileno' }
+  ];
+  selectedSortValue: string;
+  selectedSortDirection: string;
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
   @ViewChild(MatSort)
@@ -32,6 +37,7 @@ export class CustomerListViewComponent implements OnInit {
   filteredrecords = 0;
   isLoadingResults = true;
   customerFilterRequest: CustomerFilterRequest;
+  dataListFilterChangedSubscription: Subscription;
   constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
@@ -42,7 +48,7 @@ export class CustomerListViewComponent implements OnInit {
 
     this.setDataListing();
 
-    this.customerService.dataListSubject.subscribe(value => {
+    this.dataListFilterChangedSubscription = this.customerService.dataListSubject.subscribe(value => {
       this.customerFilterRequest = value;
       this.refreshTable.emit();
     });
@@ -60,14 +66,12 @@ export class CustomerListViewComponent implements OnInit {
         return this.getDataList();
       }),
       map(data => {
-        // Flip flag to show that loading has finished.
         this.isLoadingResults = false;
         return data;
       }),
     ).subscribe(
       payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          console.log('Gazette  Response succeed');
           this.filteredrecords = payloadResponse.data.filteredrecords;
           this.dataSource = payloadResponse.data.records;
         } else {
@@ -87,4 +91,26 @@ export class CustomerListViewComponent implements OnInit {
     return this.customerService.getDataList(dataListRequest);
   }
 
+  sortByChanged() {
+    this.sort.active = this.selectedSortValue;
+    this.sort.sortChange.next(this.sort);
+  }
+
+  sortDirectionAsc(sortOrder: string) {
+    this.selectedSortDirection = sortOrder;
+    this.sort.direction = 'asc';
+    this.sort.sortChange.next(this.sort);
+  }
+
+  sortDirectionDesc(sortOrder: string) {
+    this.selectedSortDirection = sortOrder;
+    this.sort.direction = 'desc';
+    this.sort.sortChange.next(this.sort);
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataListFilterChangedSubscription) {
+      this.dataListFilterChangedSubscription.unsubscribe();
+    }
+  }
 }
