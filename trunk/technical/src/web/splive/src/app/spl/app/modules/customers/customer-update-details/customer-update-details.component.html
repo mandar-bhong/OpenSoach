@@ -4,7 +4,7 @@
       <div class="auth-box card">
         <div class="card-block">
           <div class="col-sm col-md m-b-30 col">
-            <h3 class="text-center"></h3>
+            <h3 class="text-right" [hidden]="formMode!==0"><i class="fa fa-pencil" (click)="editForm()"></i></h3>
             <form class="md-float-material form-material" [formGroup]="myForm" (ngSubmit)="save()">
               <h5>First Contact </h5>
               <div class="form-group form-primary">
@@ -103,8 +103,9 @@
                   </tr>
                 </table>
               </div>
-              <div class="form-group form-primary">
-                <button type="submit" class="btn btn-primary" id="submit-button">submit</button>
+              <div class="form-group form-primary" [hidden]="formMode===0">
+                <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submit-button">Cancel</button>
               </div>
             </form>
           </div>
