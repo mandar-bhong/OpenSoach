@@ -70,10 +70,11 @@
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                  <mat-header-cell *matHeaderCellDef  style="flex:0 0 6%;">Action</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef style="flex:0 0 6%;">Action</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 6%;">
-                      <span class="mat-row-mobile-label">Action</span>
-                      <i (click) = "editRecord(row.custid)" style="color:#337AB7 !important;" class="fa pointer fa-pencil-square-o" aria-hidden="true" matTooltip="Edit"></i>
+                    <span class="mat-row-mobile-label">Action</span>
+                    <i (click)="editRecord(row.custid)" style="color:#337AB7 !important;" class="fa pointer fa-pencil-square-o" aria-hidden="true"
+                      matTooltip="Edit"></i>
                   </mat-cell>
                 </ng-container>
               </mat-table>
@@ -82,7 +83,6 @@
             </div>
             <br>
             <button type="button" class="btn btn-primary" routerLink="add" skipLocationChange>Add Customer</button>
-            <button type="button" class="btn btn-success" routerLink="update-customer" skipLocationChange>Update Customer Details</button>
           </div>
         </div>
       </div>

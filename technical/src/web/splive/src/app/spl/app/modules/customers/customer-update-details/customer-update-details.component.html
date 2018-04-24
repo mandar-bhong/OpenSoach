@@ -9,8 +9,8 @@
               <h5>First Contact </h5>
               <div class="form-group form-primary">
                 <mat-form-field class="full-width" id="point-selection">
-                  <input matInput placeholder="Name" formControlName="customerName" required [(ngModel)]="dataModel.poc1name">
-                  <mat-error *ngIf="myForm.controls['customerName'].hasError('required')">
+                  <input disabled matInput placeholder="Name" formControlName="poc1nameControl" required [(ngModel)]="dataModel.poc1name">
+                  <mat-error *ngIf="myForm.controls['poc1nameControl'].hasError('required')">
                     Username is Required
                   </mat-error>
                 </mat-form-field>
@@ -20,8 +20,8 @@
                   <td>
                     <div class="form-group form-primary">
                       <mat-form-field id="email">
-                        <input matInput placeholder="Email" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.poc1emailid">
-                        <mat-error *ngIf="myForm.controls['emailControl'].hasError('required')">
+                        <input matInput placeholder="Email" type="email" formControlName="poc1emailidControl" required [(ngModel)]="dataModel.poc1emailid">
+                        <mat-error *ngIf="myForm.controls['poc1emailidControl'].hasError('required')">
                           Email id is Required
                         </mat-error>
                       </mat-form-field>
@@ -30,8 +30,8 @@
                       <div class="form-group form-primary">
                         <mat-form-field id="telephone">
                           <span matPrefix>+91 &nbsp;</span>
-                          <input type="tel" matInput placeholder="Telephone" formControlName="mobileNumber" required [(ngModel)]="dataModel.poc1mobileno">
-                          <mat-error *ngIf="myForm.controls['mobileNumber'].hasError('required') ">
+                          <input type="tel" matInput placeholder="Telephone" formControlName="poc1mobilenoControl" required [(ngModel)]="dataModel.poc1mobileno">
+                          <mat-error *ngIf="myForm.controls['poc1mobilenoControl'].hasError('required') ">
                             Contact Number is Required
                           </mat-error>
                         </mat-form-field>
@@ -42,7 +42,7 @@
               <h5>Second Contact</h5>
               <div class="form-group form-primary">
                 <mat-form-field>
-                  <input matInput placeholder="Name" [(ngModel)]="dataModel.poc2name">
+                  <input matInput placeholder="Name" formControlName="poc2nameControl" [(ngModel)]="dataModel.poc2name">
                 </mat-form-field>
               </div>
               <table class="example-full-width" cellspacing="0">
@@ -50,14 +50,14 @@
                   <td>
                     <div class="form-group form-primary" id="email">
                       <mat-form-field>
-                        <input matInput placeholder="Email" type="email" [(ngModel)]="dataModel.poc2emailid">
+                        <input matInput placeholder="Email" type="email" formControlName="poc2emailidControl" [(ngModel)]="dataModel.poc2emailid">
                       </mat-form-field>
                     </div>
                     <td>
                       <div class="form-group form-primary">
                         <mat-form-field id="telephone">
                           <span matPrefix>+91 &nbsp;</span>
-                          <input type="tel" matInput placeholder="Telephone" [(ngModel)]="dataModel.poc2mobileno">
+                          <input type="tel" matInput placeholder="Telephone" formControlName="poc2mobilenoControl"  [(ngModel)]="dataModel.poc2mobileno">
                         </mat-form-field>
                       </div>
                     </td>
@@ -66,9 +66,9 @@
               <h5>Address </h5>
               <div class="form-group form-primary">
                 <mat-form-field class="example-full-width">
-                  <textarea matInput placeholder="Address" formControlName="customerAddress" required [(ngModel)]="dataModel.address">
+                  <textarea matInput placeholder="Address" formControlName="addressControl" required [(ngModel)]="dataModel.address">
                     </textarea>
-                  <mat-error *ngIf="myForm.controls['customerAddress'].hasError('required') ">
+                  <mat-error *ngIf="myForm.controls['addressControl'].hasError('required') ">
                     User Address is Required
                   </mat-error>
                 </mat-form-field>
@@ -78,24 +78,24 @@
                   <tr id="layout-two">
                     <td>
                       <mat-form-field class="example-full-width">
-                        <input matInput placeholder="City" formControlName="customerCity" required [(ngModel)]="dataModel.addresscity">
-                        <mat-error *ngIf="myForm.controls['customerCity'].hasError('required') ">
+                        <input matInput placeholder="City" formControlName="addresscityControl" required [(ngModel)]="dataModel.addresscity">
+                        <mat-error *ngIf="myForm.controls['addresscityControl'].hasError('required') ">
                           Required
                         </mat-error>
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field class="example-full-width">
-                        <input matInput placeholder="State" formControlName="customerState" required [(ngModel)]="dataModel.addressstate">
-                        <mat-error *ngIf="myForm.controls['customerState'].hasError('required')">
+                        <input matInput placeholder="State" formControlName="addressstateControl" required [(ngModel)]="dataModel.addressstate">
+                        <mat-error *ngIf="myForm.controls['addressstateControl'].hasError('required')">
                           Required
                         </mat-error>
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field class="example-full-width">
-                        <input matInput placeholder="PIN Code" formControlName="pinCode" required [(ngModel)]="dataModel.addresspincode">
-                        <mat-error *ngIf="myForm.controls['pinCode'].hasError('required') ">
+                        <input matInput placeholder="PIN Code" formControlName="addresspincodeControl" required [(ngModel)]="dataModel.addresspincode">
+                        <mat-error *ngIf="myForm.controls['addresspincodeControl'].hasError('required') ">
                           Required
                         </mat-error>
                       </mat-form-field>

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { EnvironmentProvider } from '../../../shared/environment-provider';
-import { RecordAddResponse } from '../../../shared/models/api/common-models';
-import { CustomerAddDetailsRequest } from '../../../shared/models/api/customer-models';
+import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
+import { CustomerAddDetailsRequest, CustomerDetailsResponse } from '../../../shared/models/api/customer-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
@@ -23,7 +23,7 @@ export class CustomerService extends ListingService<CustomerFilterRequest, Custo
     }
 
     addCustomer(customerAddRequest: CustomerAddRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<RecordAddResponse>> {
+        Observable<PayloadResponse<RecordIDResponse>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/customer/add',
             customerAddRequest, implicitErrorHandling);
     }
@@ -38,5 +38,11 @@ export class CustomerService extends ListingService<CustomerFilterRequest, Custo
         Observable<PayloadResponse<DataListResponse<CustomerDataListingItemResponse>>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/osu/v1/customer/list',
             dataListFilter, implicitErrorHandling);
+    }
+
+    getCustomerDetails(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<CustomerDetailsResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/osu/v1/customer/info/details',
+        request, implicitErrorHandling);
     }
 }
