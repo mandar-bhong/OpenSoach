@@ -46,7 +46,7 @@ export class CustomerUpdateDetailsComponent implements OnInit, OnDestroy {
       addresspincodeControl: new FormControl('', [Validators.required])
     });
 
-    // this.myForm.disable();
+    this.setFormMode(0);
   }
 
   getCustomerDetails() {
@@ -58,6 +58,7 @@ export class CustomerUpdateDetailsComponent implements OnInit, OnDestroy {
           console.log('this.dataModel', this.dataModel);
         } else {
           this.appNotificationService.info(this.translatePipe.transform('InfoMessageDetailsNotAvailable'));
+          this.setFormMode(1);
         }
       }
     });
@@ -76,6 +77,23 @@ export class CustomerUpdateDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
+    }
+  }
+
+  editForm() {
+    this.setFormMode(2);
+  }
+
+  setFormMode(mode: number) {
+    this.formMode = mode;
+    switch (this.formMode) {
+      case 0:
+        this.myForm.disable();
+        break;
+      case 1:
+      case 2:
+        this.myForm.enable();
+        break;
     }
   }
 }
