@@ -3,16 +3,13 @@
     <div class="row" id="main-content">
       <div class="col-sm col-md-12 col m-b-30 col">
         <div class="auth-box card">
-          <div class="card-block">
-            <h3 class="text-center"></h3>
-            <mat-accordion id="cust-search">
-              <mat-expansion-panel>
+          <div class="card-block">                        
+              <mat-expansion-panel [expanded]="isExpanded" (opened)="panelOpened()">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     Search
                   </mat-panel-title>
-                </mat-expansion-panel-header>
-                <h4>Filter</h4>
+                </mat-expansion-panel-header>                
                 <table class="example-full-width" cellspacing="0">
                   <tr id="layout-set">
                     <td>
@@ -36,8 +33,7 @@
                   </tr>
                 </table> 
                 <button type="button" class="btn btn-primary" (click) ="search()">Search</button>               
-              </mat-expansion-panel>
-            </mat-accordion>
+              </mat-expansion-panel>            
           </div>
         </div>
       </div>

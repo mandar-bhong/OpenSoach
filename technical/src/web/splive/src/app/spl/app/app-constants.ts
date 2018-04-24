@@ -27,7 +27,7 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: ''
     },
     {
-        url: '/customers/update-customer',
+        url: '/customers/update',
         linktitle: 'Details',
         pagetitle: 'Customer Details',
         linkiconcss: ''

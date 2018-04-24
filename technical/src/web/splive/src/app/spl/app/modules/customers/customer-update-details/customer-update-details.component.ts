@@ -3,15 +3,20 @@ import { FormControl, Validators, FormBuilder, FormGroup, ReactiveFormsModule, N
 import { CustomerAddDetailsRequest, CustomerDetailsResponse } from '../../../../../shared/models/api/customer-models';
 import { CustomerDetailsModel } from '../../../../../shared/models/ui/customer-models';
 import { CustomerService } from '../../../services/customer.service';
+import { ActivatedRoute } from '@angular/router';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-customer-update-details',
   templateUrl: './customer-update-details.component.html',
   styleUrls: ['./customer-update-details.component.css']
 })
-export class CustomerUpdateDetailsComponent implements OnInit {
+export class CustomerUpdateDetailsComponent implements OnInit, OnDestroy {
   myForm: FormGroup;
   dataModel = new CustomerDetailsModel();
-  constructor(private customerService: CustomerService) { }
+  routeSubscription: Subscription;
+  constructor(private customerService: CustomerService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.createControls();
@@ -20,6 +25,9 @@ export class CustomerUpdateDetailsComponent implements OnInit {
     const customerDetailsResponse = new CustomerDetailsResponse();
     this.dataModel.copyFrom(customerDetailsResponse);
 
+    this.routeSubscription = this.route.params.subscribe(params => {
+
+    });
   }
   createControls(): void {
     this.myForm = new FormGroup({
@@ -41,5 +49,11 @@ export class CustomerUpdateDetailsComponent implements OnInit {
         // TODO: navigate to list
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
   }
 }
