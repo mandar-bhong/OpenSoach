@@ -203,14 +203,18 @@ CREATE TABLE `spl_master_usr_cpm_tbl` (
 
 CREATE TABLE `spl_master_device_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cust_id_fk` int(10) unsigned DEFAULT NULL,
   `serialno` varchar(16) NOT NULL,
   `dev_state` tinyint(3) unsigned NOT NULL COMMENT '0:Unallocated, 1: Active, 2: Inactive, 3: Suspended etc.',
   `dev_state_since` datetime NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `serialno_UNIQUE` (`serialno`)
+  UNIQUE KEY `serialno_UNIQUE` (`serialno`),
+  KEY `fk_dev_cust_idx` (`cust_id_fk`),
+  CONSTRAINT `fk_dev_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: dev';
+
 
 --
 -- Table structure for table `spl_master_dev_details_tbl`
