@@ -1,6 +1,8 @@
 package login
 
 import (
+	"encoding/json"
+
 	"github.com/gin-gonic/gin"
 
 	"opensoach.com/core/logger"
@@ -100,9 +102,17 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		ValidateAuthTokenReq := lmodels.ValidateAuthTokenRequest{}
 
-		ValidateAuthTokenReq.Token = pContext.Query("token")
+		jsonData := pContext.Query("params")
 
-		if ValidateAuthTokenReq.Token == "" {
+		if jsonData == "" {
+			errorData := gmodels.APIResponseError{}
+			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			return false, errorData
+		}
+
+		jsonDecodeErr := json.Unmarshal([]byte(jsonData), &ValidateAuthTokenReq)
+
+		if jsonDecodeErr != nil {
 			errorData := gmodels.APIResponseError{}
 			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
 			return false, errorData
