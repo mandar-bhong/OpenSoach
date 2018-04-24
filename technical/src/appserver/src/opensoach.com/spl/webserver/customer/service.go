@@ -112,8 +112,11 @@ func (service CustomerService) GetCustomerDetailsInfo(customerID int64) (bool, i
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
+
+	dbRecord := *customerDetails
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer details")
-	return true, customerDetails
+	return true, dbRecord[0]
 }
 
 func (service CustomerService) GetCorpInfo(customerID int64) (bool, interface{}) {
