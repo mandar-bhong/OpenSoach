@@ -48,5 +48,25 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'InfoMessageDetailsNotAvailable',
     en: 'Details are not available, please fill in the details and submit.'
   },
+
+  /* CUSTOMER STATES BEGIN */
+  {
+    key: 'CUSTOMER_STATE_0',
+    en: 'NOT SET'
+  },
+  {
+    key: 'CUSTOMER_STATE_1',
+    en: 'ACTIVE'
+  },
+  {
+    key: 'CUSTOMER_STATE_2',
+    en: 'INACTIVE'
+  },
+  {
+    key: 'CUSTOMER_STATE_3',
+    en: 'SUSPENDED'
+  },
+
+  /* CUSTOMER STATES END */
 ];
 

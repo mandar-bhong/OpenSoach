@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModules } from '../../../../shared/modules/material/material-modules';
 import { CustomerSearchComponent } from './customer-list/customer-search/customer-search.component';
 import { CustomerListViewComponent } from './customer-list/list-view/customer-list-view.component';
+import { AppCommonModule } from '../../../../shared/app-common.module';
 
 @NgModule({
   imports: [
@@ -22,8 +23,14 @@ import { CustomerListViewComponent } from './customer-list/list-view/customer-li
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModules
+    MaterialModules,
+    AppCommonModule
   ],
-  declarations: [CustomerAddComponent, CustomerListComponent, CustomerUpdateDetailsComponent, CustomerSearchComponent, CustomerListViewComponent]
+  declarations: [
+    CustomerAddComponent,
+    CustomerListComponent,
+    CustomerUpdateDetailsComponent,
+    CustomerSearchComponent,
+    CustomerListViewComponent]
 })
 export class CustomersModule { }
