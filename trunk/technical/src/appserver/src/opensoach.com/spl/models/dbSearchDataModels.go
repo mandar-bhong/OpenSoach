@@ -46,9 +46,9 @@ type DBSearchCustomerResponseFilterDataModel struct {
 	CorpID       int64     `db:"corp_id_fk" json:"corpid"`
 	CustName     string    `db:"cust_name" json:"custname"`
 	CorpName     string    `db:"corp_name" json:"corpname"`
-	Poc1Name     string    `db:"poc1_name" json:"poc1name"`
-	Poc1EmailID  string    `db:"poc1_email_id" json:"poc1emailid"`
-	Poc1MobileNo string    `db:"poc1_mobile_no" json:"poc1mobileno"`
+	Poc1Name     *string   `db:"poc1_name" json:"poc1name"`
+	Poc1EmailID  *string   `db:"poc1_email_id" json:"poc1emailid"`
+	Poc1MobileNo *string   `db:"poc1_mobile_no" json:"poc1mobileno"`
 	CreatedOn    time.Time `db:"created_on" json:"createdon"`
 	UpdateOn     time.Time `db:"updated_on" json:"updateon"`
 }
@@ -56,6 +56,7 @@ type DBSearchCustomerResponseFilterDataModel struct {
 type DBSearchDeviceRequestFilterDataModel struct {
 	Serialno *string `db:"serialno" json:"serialno"`
 	CustId   *int64  `dbattr:"pri,auto" db:"cust.id" json:"custid"` //This is specical condition as query has multiple table join
+	CustName *string `db:"cust_name" json:"custname"`
 	DevName  *string `db:"dev_name" json:"devname"`
 }
 
