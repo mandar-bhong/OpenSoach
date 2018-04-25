@@ -53,7 +53,7 @@ func SessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmode
 
 func SessionUpdate(osContext *gcore.Context, ginContext *gin.Context) bool {
 	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-	return osContext.Master.Cache.Update(token, time.Minute*2)
+	return osContext.Master.Cache.Update(token, time.Minute*60)
 }
 
 func SessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
