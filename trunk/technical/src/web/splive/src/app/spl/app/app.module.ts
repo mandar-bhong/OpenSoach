@@ -8,6 +8,7 @@ import { AppCommonModule } from '../../shared/app-common.module';
 import { LayoutModule } from '../../shared/layouts/layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CorporateService } from './services/corporate.service';
 import { CustomerService } from './services/customer.service';
 
 @NgModule({
@@ -26,7 +27,8 @@ import { CustomerService } from './services/customer.service';
     ReactiveFormsModule
   ],
   providers: [
-    CustomerService
+    CustomerService,
+    CorporateService
   ],
   bootstrap: [AppComponent]
 })

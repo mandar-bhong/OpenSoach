@@ -19,15 +19,22 @@
                     </td>
                     <td>
                       <mat-form-field>
-                        <input matInput placeholder="State" [(ngModel)]="dataModel.custstate">
+                          <mat-select placeholder="State" [(ngModel)]="dataModel.custstate">
+                              <mat-option>None</mat-option>
+                                  <mat-option *ngFor="let custstate of customerStates" [value]="custstate.value">
+                                    {{custstate.text | translate}}
+                                  </mat-option>
+                                </mat-select>
                       </mat-form-field>
                     </td>
                     <td>
                       <mat-form-field>
-                        <mat-select placeholder="Corp Id" [(ngModel)]="dataModel.corpid">
-                          <mat-option>
-                          </mat-option>
-                        </mat-select>
+                          <mat-select placeholder="Corporate" [(ngModel)]="dataModel.corpid">
+                          <mat-option>None</mat-option>
+                              <mat-option *ngFor="let corp of corporates" [value]="corp.corpid">
+                                {{corp.corpname}}
+                              </mat-option>
+                            </mat-select>
                       </mat-form-field>
                     </td>
                   </tr>
