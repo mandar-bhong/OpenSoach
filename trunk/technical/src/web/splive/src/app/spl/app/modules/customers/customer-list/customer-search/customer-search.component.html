@@ -19,7 +19,7 @@
                     </td>
                     <td>
                       <mat-form-field>
-                          <mat-select placeholder="State" [(ngModel)]="dataModel.custstate">
+                          <mat-select placeholder="Status" [(ngModel)]="dataModel.custstate">
                               <mat-option>None</mat-option>
                                   <mat-option *ngFor="let custstate of customerStates" [value]="custstate.value">
                                     {{custstate.text | translate}}

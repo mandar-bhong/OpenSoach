@@ -20,15 +20,14 @@ import { CustomerService } from '../../../../services/customer.service';
 })
 
 export class CustomerListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['custname', 'corpname', 'poc1name', 'poc1emailid', 'poc1mobileno', 'action'];
+  displayedColumns = ['custname', 'corpname', 'poc1name', 'poc1emailid', 'poc1mobileno', 'custstate', 'action'];
   sortByColumns = [{ text: 'Customer Name', value: 'custname' },
   { text: 'Corporate Name', value: 'corpname' },
   { text: 'Point of Contact', value: 'poc1name' },
   { text: 'Email Addres', value: 'poc1emailid' },
-  { text: 'Mobile no', value: 'poc1mobileno' }
+  { text: 'Mobile no', value: 'poc1mobileno' },
+  { text: 'Status', value: 'custstate' }
   ];
-  selectedSortValue: string;
-  selectedSortDirection: string;
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
   @ViewChild(MatSort)
@@ -40,7 +39,7 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
   customerFilterRequest: CustomerFilterRequest;
   dataListFilterChangedSubscription: Subscription;
 
-  constructor(private customerService: CustomerService,
+  constructor(public customerService: CustomerService,
     private router: Router) { }
 
   ngOnInit() {
@@ -95,18 +94,15 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
   }
 
   sortByChanged() {
-    this.sort.active = this.selectedSortValue;
     this.sort.sortChange.next(this.sort);
   }
 
   sortDirectionAsc() {
-    this.selectedSortDirection = 'asc';
     this.sort.direction = 'asc';
     this.sort.sortChange.next(this.sort);
   }
 
   sortDirectionDesc() {
-    this.selectedSortDirection = 'desc';
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
