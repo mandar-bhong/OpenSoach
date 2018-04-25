@@ -124,7 +124,7 @@ type DBSplMasterDeviceTableRowModel struct {
 }
 
 type DBSplMasterProductTableRowModel struct {
-	ProdId    int64       `dbattr:"pri,auto" db:"id" json:"prodid"`
+	ProdId    int64     `dbattr:"pri,auto" db:"id" json:"prodid"`
 	ProdCode  string    `db:"prod_code" json:"prodcode"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
@@ -173,10 +173,10 @@ type DBSplMasterUserTableRowModel struct {
 }
 
 type DBSplMasterUsrCpmTableRowModel struct {
-	UcpmId    int       `dbattr:"pri,auto" db:"id" json:"ucpmid"`
-	UserId    int       `db:"user_id_fk" json:"userid"`
-	CpmId     int       `db:"cpm_id_fk" json:"cpmid"`
-	UroleId   int       `db:"urole_id_fk" json:"uroleid"`
+	UcpmId    int64     `dbattr:"pri,auto" db:"id" json:"ucpmid"`
+	UserId    int64     `db:"user_id_fk" json:"userid"`
+	CpmId     int64     `db:"cpm_id_fk" json:"cpmid"`
+	UroleId   int64     `db:"urole_id_fk" json:"uroleid"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
 }

@@ -157,3 +157,38 @@ func (DeviceService) GetDeviceDataList(listReqData lmodels.DataListRequest) (boo
 	return true, listResData
 
 }
+
+func (service DeviceService) AssociateDevWithCust(reqData *lmodels.DevCustRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	dbErr, _ := dbaccess.SetDeviceCustId(repo.Instance().Context.Master.DBConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device associated with customer, successfully.")
+
+	return true, nil
+}
+
+func (service DeviceService) AssociateDevWithCustProduct(reqData *lmodels.DBSplCpmDevRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	dbErr, insertedId := dbaccess.CpmDevTableInsert(repo.Instance().Context.Master.DBConn, reqData)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	response := lmodels.RecordIdResponse{}
+	response.RecId = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device associated with customer product, successfully.")
+
+	return true, response
+}

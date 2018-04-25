@@ -46,7 +46,7 @@ func ExecuteTestRequest(t *testing.T,
 		req, reqErr = http.NewRequest(reqMethod, API, bytes.NewBuffer([]byte(reqJSONData)))
 	} else {
 		router.GET(API, func(c *gin.Context) { CommonWebRequestHandler(c, handler) })
-		req, reqErr = http.NewRequest(reqMethod, API+"?"+reqJSONData, bytes.NewBuffer([]byte(reqJSONData)))
+		req, reqErr = http.NewRequest(reqMethod, API+"?params="+reqJSONData, bytes.NewBuffer([]byte(reqJSONData)))
 	}
 
 	if reqErr != nil {

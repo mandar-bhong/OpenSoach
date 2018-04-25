@@ -175,3 +175,35 @@ func GetDeviceListData(dbConn string, listdatareq lmodels.DataListRequest, filte
 	}
 	return nil, data
 }
+
+func SetDeviceCustId(dbConn string, updtStruct *lmodels.DevCustRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SetDeviceCustId")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_MASTER_DEVICE_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func CpmDevTableInsert(dbConn string, insrtStruct *lmodels.DBSplCpmDevRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CpmDevTableInsert")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_MASTER_CPM_DEV_MAPPING_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}

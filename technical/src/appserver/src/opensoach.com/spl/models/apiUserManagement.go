@@ -14,3 +14,8 @@ type AuthResponse struct {
 type ValidateAuthTokenRequest struct {
 	Token string `json:"token"`
 }
+
+type CustomerAssociateUserRequest struct {
+	UserName string `json:"usrname"`
+	DBUsrCpmRowModel
+}

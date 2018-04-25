@@ -142,7 +142,7 @@ func (service AuthService) GetUserLoginDetails() (bool, interface{}) {
 func (service AuthService) UserLogout(pContext *gin.Context) bool {
 	isSuccess := lhelper.SessionDelete(repo.Instance().Context, pContext)
 	if isSuccess != false {
-		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched minimum customer details")
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Logged out succesfully")
 	}
 	return isSuccess
 }
