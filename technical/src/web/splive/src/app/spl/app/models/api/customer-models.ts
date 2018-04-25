@@ -16,6 +16,7 @@ export class CustomerDataListingItemResponse {
     custid: number;
     corpid: number;
     custname: string;
+    custstate: CUSTOMER_STATE;
     corpname: string;
     poc1name: string;
     poc1emailid: string;

@@ -10,7 +10,7 @@
                 <tr id="layout-set">
                   <td>
                     <mat-form-field>
-                      <mat-select placeholder="Sort by" [(ngModel)]="selectedSortValue" name="sortby" (selectionChange)="sortByChanged()">
+                      <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby" (selectionChange)="sortByChanged()">
                         <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
                           {{col.text}}
                         </mat-option>
@@ -69,12 +69,18 @@
                     {{row.poc1mobileno}}
                   </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="custstate">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Status</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+                    <span class="mat-row-mobile-label">Status</span>
+                    {{customerService.getCustomerState(row.custstate) | translate}}
+                  </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="action">
                   <mat-header-cell *matHeaderCellDef style="flex:0 0 6%;">Action</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 6%;">
                     <span class="mat-row-mobile-label">Action</span>
-                    <i (click)="editRecord(row.custid)" style="color:#337AB7 !important;" class="fa fa-eye" aria-hidden="true"
-                      matTooltip="View Details"></i>
+                    <i (click)="editRecord(row.custid)" style="color:#337AB7 !important;" class="fa fa-eye" aria-hidden="true" matTooltip="View Details"></i>
                   </mat-cell>
                 </ng-container>
               </mat-table>
