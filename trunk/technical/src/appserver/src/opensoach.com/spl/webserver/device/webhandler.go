@@ -17,6 +17,8 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_DEVICE_CU_UPDATE_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DEVICE_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DEVICE_CU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_DEVICE_OSU_ASSOCIATE_DEV_WITH_CUST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_DEVICE_OSU_ASSOCIATE_DEV_WITH_CUSTPRODUCT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -130,6 +132,40 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = DeviceService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetDeviceDataList(listReq)
+
+		break
+
+	case constants.API_DEVICE_OSU_ASSOCIATE_DEV_WITH_CUST:
+
+		reqData := &lmodels.DevCustRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DeviceService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.AssociateDevWithCust(reqData)
+
+		break
+
+	case constants.API_DEVICE_OSU_ASSOCIATE_DEV_WITH_CUSTPRODUCT:
+
+		reqData := &lmodels.DBSplCpmDevRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DeviceService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.AssociateDevWithCustProduct(reqData)
 
 		break
 

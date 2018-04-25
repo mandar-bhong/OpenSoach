@@ -37,3 +37,7 @@ const API_DEVICE_OSU_UPDATE_DETAILS = API_BASE_URL + "/osu/v1/device/update/deta
 const API_DEVICE_CU_UPDATE_DETAILS = API_BASE_URL + "/cu/v1/device/update/details"
 const API_DEVICE_OSU_LIST = API_BASE_URL + "/osu/v1/device/list"
 const API_DEVICE_CU_LIST = API_BASE_URL + "/cu/v1/device/list"
+const API_DEVICE_OSU_ASSOCIATE_DEV_WITH_CUST = API_BASE_URL + "/osu/v1/device/associate/customer"
+const API_DEVICE_OSU_ASSOCIATE_DEV_WITH_CUSTPRODUCT = API_BASE_URL + "/osu/v1/device/associate/customerproduct"
+const API_USER_OSU_ASSOCIATE_USER_WITH_CUST = API_BASE_URL + "/osu/v1/user/associate/customer"
+const API_USER_CU_ASSOCIATE_USER_WITH_CUST = API_BASE_URL + "/cu/v1/user/associate/customer"

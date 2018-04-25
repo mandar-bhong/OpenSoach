@@ -195,3 +195,36 @@ func GetUserList(dbConn string, listdatareq lmodels.DataListRequest, filterModel
 	}
 	return nil, data
 }
+
+func GetUserIdByUserName(dbConn string, usrname string) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserIdByUserName")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterUserTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_USERID_BY_USERNAME
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(usrname)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func SplMasterUserCpmTableInsert(dbConn string, insrtStruct lmodels.DBUsrCpmRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableInsert")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_MASTER_USER_CPM_TBL
+	insErr := insDBCtx.Insert()
+	if insErr != nil {
+		return insErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}

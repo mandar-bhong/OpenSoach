@@ -43,3 +43,14 @@ type DBSplMasterUsrDetailsRowModel struct {
 	MobileNo           *string `db:"mobile_no" json:"mobileno"`
 	AlternateContactNo *string `db:"alternate_contact_no" json:"alternatecontactno"`
 }
+
+type DBUsrCpmRowModel struct {
+	UserId  int64 `db:"user_id_fk" json:"userid"`
+	CpmId   int64 `db:"cpm_id_fk" json:"cpmid"`
+	UroleId int64 `db:"urole_id_fk" json:"uroleid"`
+}
+
+type DBUsrCpmUpdateRowModel struct {
+	UcpmId int64 `dbattr:"pri,auto" db:"id" json:"ucpmid"`
+	DBUsrCpmRowModel
+}
