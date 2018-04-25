@@ -240,7 +240,7 @@ request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\
 response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
 
 24. Associate device with customer.
-API Name: /api/osu/v1/customer/associate/device
+API Name: /api/osu/v1/device/associate/customer
 Request Method: POST
 request: CustomerAssociateDeviceRequest {
 custid: number;
@@ -251,7 +251,7 @@ response: null;
 Logic: spl_master_device_tbl
 
 25 Associate device with customer product
-API Name: /api/osu/v1/customerproduct/associate/device
+API Name: /api/osu/v1/device/associate/customerproduct
 Request Method: POST
 request: CustomerProductAssociateDeviceRequest {
 cpmid: number;
@@ -259,7 +259,7 @@ devid:number;
 }
 
 26 Associate user with customer
-API Name: /api/osu/v1/customer/associate/user
+API Name: /api/osu/v1/user/associate/customer
 Request Method: POST
 request: CustomerAssociateUserRequest {
 custid: number;
@@ -270,7 +270,7 @@ response: null;
 Logic: `spl_master_usr_cpm_tbl`
 
 26 Associate user with customer
-API Name: /api/cu/v1/customer/associate/user
+API Name: /api/cu/v1/user/associate/customer
 Request Method: POST
 request: CustomerAssociateUserRequest {
 usrname:string;
