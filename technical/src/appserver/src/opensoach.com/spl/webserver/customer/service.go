@@ -115,6 +115,10 @@ func (service CustomerService) GetCustomerDetailsInfo(customerID int64) (bool, i
 
 	dbRecord := *customerDetails
 
+	if len(dbRecord) < 1 {
+		return true, nil
+	}
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer details")
 	return true, dbRecord[0]
 }
