@@ -1,12 +1,12 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { merge } from 'rxjs/observable/merge';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
 import { Subscription } from 'rxjs/Subscription';
-import { Router } from '@angular/router';
 
 import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
@@ -108,8 +108,7 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
   }
 
   editRecord(id: number) {
-    console.log('editRecord', id);
-    this.router.navigate(['customers', 'update'], { queryParams: { id: id }, skipLocationChange: true });
+    this.router.navigate(['customers', 'update'], { queryParams: { id: id, callbackurl: 'customers' }, skipLocationChange: true });
   }
 
   ngOnDestroy(): void {
