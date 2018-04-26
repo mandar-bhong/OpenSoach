@@ -31,12 +31,27 @@ INSERT INTO `spl_master_cust_prod_mapping_tbl` (`id`,`cust_id_fk`,`prod_id_fk`,`
 --
 
 INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (1,'1234567890123456',1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (2,'1345494544733456',1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (3,'1155623421323222',1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (4,'1235234322122343',2,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (5,'1819243234324322',1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (6,'1234523445223332',2,UTC_TIMESTAMP);
+
+--
+-- Dumping data for table `spl_master_dev_details_tbl`
+--
+
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`) VALUES (1, 'device 1');
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`, `make`, `technology`) VALUES (2, 'device 2', 'make2', 'tech2');
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`, `make`) VALUES (3, 'device 3', 'make3');
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`, `make`, `technology`, `tech_version`, `short_desc`) VALUES (6, 'device 6', 'make4', 'tech6', 'techver6', 'desc6');
 
 --
 -- Dumping data for table `spl_master_dev_status_tbl`
 --
 
 INSERT INTO `spl_master_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connection_state_since`,`sync_state`,`sync_state_since`,`battery_level`,`battery_level_since`) VALUES ('1', '2', UTC_TIMESTAMP, '1', UTC_TIMESTAMP, '0', UTC_TIMESTAMP);
+INSERT INTO `spl_master_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connection_state_since`,`sync_state`,`sync_state_since`,`battery_level`,`battery_level_since`) VALUES ('2', '2', UTC_TIMESTAMP, '1', UTC_TIMESTAMP, '0', UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_cpm_dev_mapping_tbl`
