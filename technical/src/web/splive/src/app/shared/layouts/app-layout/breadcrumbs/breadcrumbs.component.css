@@ -2,6 +2,6 @@
     pointer-events: none;
     cursor: default;
 }
-#main-page li {display: inline;}
-#main-page li a, li i{color: white;}
+#bread-crumb-links li {display: inline;}
+#bread-crumb-links li a, li i{color: white;}
 #right-icon{padding: 0px 10px}
