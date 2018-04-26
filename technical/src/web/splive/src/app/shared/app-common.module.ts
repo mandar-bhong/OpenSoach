@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { AuthGuard } from './auth-guard';
+import { MaterialModules } from './modules/material/material-modules';
 import { TranslatePipe } from './pipes/translate/translate.pipe';
 import { TranslateService } from './pipes/translate/translate.service';
 import { ApiErrorService } from './services/api/api-error.service';
@@ -15,17 +16,26 @@ import { LoginStatusProviderService } from './services/login-status-provider.ser
 import { AppNotificationService } from './services/notification/app-notification.service';
 import { SidebarToggleService } from './services/sidebar-toggle.service';
 import { UserSharedService } from './services/user/user-shared.service';
+import {
+  EditableFormFooterToolbarComponent,
+} from './views/editable-form-footer-toolbar/editable-form-footer-toolbar.component';
+import { EditableFormHeaderComponent } from './views/editable-form-header/editable-form-header.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    MaterialModules
   ],
   declarations: [
-    TranslatePipe
+    TranslatePipe,
+    EditableFormHeaderComponent,
+    EditableFormFooterToolbarComponent
   ],
   exports: [
-    TranslatePipe
+    TranslatePipe,
+    EditableFormHeaderComponent,
+    EditableFormFooterToolbarComponent
   ]
 })
 export class AppCommonModule {

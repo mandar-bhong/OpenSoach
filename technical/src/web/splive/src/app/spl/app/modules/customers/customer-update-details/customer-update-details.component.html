@@ -3,19 +3,9 @@
     <div class="row" id="main-content">
       <div class="auth-box card">
         <div class="card-block">
-          <div class="col-sm col-md m-b-30 col">            
+          <div class="col-sm col-md m-b-30 col">
             <form class="md-float-material form-material" [formGroup]="editableForm" (ngSubmit)="save()">
-                <div class="form-group form-primary text-right">
-                    <button type="button" color="primary" mat-icon-button [hidden]="formMode!==0" (click)="editForm()" matTooltip="Edit">
-                      <mat-icon aria-label="Edit">edit</mat-icon>
-                    </button>
-                    <button type="submit" color="primary" mat-icon-button [hidden]="formMode===0" matTooltip="Save">
-                      <mat-icon aria-label="Save">check</mat-icon>
-                    </button>
-                    <button type="button" mat-icon-button (click)="closeForm()" matTooltip="Close">
-                      <mat-icon aria-label="Close">close</mat-icon>
-                    </button>
-                  </div>
+              <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
               <h5>First Contact </h5>
               <div class="form-group form-primary">
                 <mat-form-field class="full-width" id="point-selection">
@@ -113,11 +103,7 @@
                   </tr>
                 </table>
               </div>
-              <div class="form-group form-primary text-right">
-                <button type="submit" mat-raised-button color="primary" [hidden]="formMode===0">Save</button>
-                <button type="button" mat-raised-button color="primary" [hidden]="formMode!==0" (click)="editForm()">Edit</button>                
-                <button type="button" mat-raised-button (click)="closeForm()">Close</button>
-              </div>
+              <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
             </form>
           </div>
         </div>

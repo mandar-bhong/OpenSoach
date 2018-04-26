@@ -1,0 +1,11 @@
+<div class="form-group form-primary text-right">
+  <button type="button" color="primary" mat-icon-button [hidden]="formMode!==0" (click)="edit()" matTooltip="Edit">
+    <mat-icon aria-label="Edit">edit</mat-icon>
+  </button>
+  <button type="submit" color="primary" mat-icon-button [hidden]="formMode===0" matTooltip="Save">
+    <mat-icon aria-label="Save">check</mat-icon>
+  </button>
+  <button type="button" mat-icon-button (click)="close()" matTooltip="Close">
+    <mat-icon aria-label="Close">close</mat-icon>
+  </button>
+</div>
