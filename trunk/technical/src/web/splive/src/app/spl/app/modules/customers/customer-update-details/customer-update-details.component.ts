@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/edit-record-base';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { CustomerAddDetailsRequest } from '../../../../../shared/models/api/customer-models';
 import { CustomerDetailsModel } from '../../../../../shared/models/ui/customer-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
