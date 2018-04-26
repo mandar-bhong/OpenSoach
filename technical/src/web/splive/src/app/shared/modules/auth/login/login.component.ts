@@ -21,9 +21,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService) { }
   ngOnInit() {
-    // TODO: Remove after inetgration
-    this.username = 'admin@servicepoint.live';
-    this.password = 'admin';
   }
 
   login() {
@@ -35,10 +32,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(authRequest).subscribe(response => {
       if (response && response.issuccess) {
         this.loginHandlerService.login(response.data);
-        this.router.navigate([''], { skipLocationChange: true });
-      } else {
-        // TODO: Dummy code
-        this.loginHandlerService.login({ token: 'token', urolecode: 'ADMIN' });
         this.router.navigate([''], { skipLocationChange: true });
       }
     });
