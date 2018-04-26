@@ -269,7 +269,7 @@ usrname:string;
 usrcategory:number;
 uroleid:number;
 usrstate:number;
-usrstatesince:number:
+usrstatesince:number;
 createdon:Date;
 updatedon:Date;
 }
@@ -464,6 +464,7 @@ request: CustomerAssociateProductRequest {
 custid:number;
 prodid:number;
 dbiid:number;
+cpmstate:number;
 }
 
 response: inserted id;
