@@ -1,6 +1,6 @@
-<div class="" *ngFor="let breadcrumb of breadcrumbs; let last = last">
+<!-- <div id="test" style="background-color:red"> -->
   <div class="page-header">
-    <div class="page-block" *ngIf="last">
+    <div class="page-block">
       <div class="row align-items-center">
         <div class="col-md-12 col-sm-12">
           <div class="page-header-title">
@@ -8,9 +8,9 @@
               <h4 *ngIf="last" class="m-b-10" style="color:white;">{{ breadcrumb.pagetitle }}</h4>
             </span>
           </div>
-          <div id="main-page" *ngIf="breadcrumb.clickable && last">
+          <div id="bread-crumb-links">
             <li>
-              <a [routerLink]="['']">
+              <a [routerLink]="['']" style="text-decoration: none;" skipLocationChange>
                 <i class="fa fa-home"></i>
               </a>
             </li>
@@ -23,4 +23,4 @@
       </div>
     </div>
   </div>
-</div>
+<!-- </div> -->
