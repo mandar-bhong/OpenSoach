@@ -77,6 +77,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 		authResponse.Token = token
 		authResponse.UroleCode = dbAuthData.UserRoleCode
+		authResponse.UserCategory = userRecordItem.UsrCategory
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull")
 
@@ -117,6 +118,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 		authResponse.Token = token
 		authResponse.UroleCode = authRecordItem.UserRoleCode
+		authResponse.UserCategory = userRecordItem.UsrCategory
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull : User Category Customer")
 	}
