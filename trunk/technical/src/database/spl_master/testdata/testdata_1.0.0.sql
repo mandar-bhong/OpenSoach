@@ -85,12 +85,16 @@ INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (3,'admin@servicepoint2.live','admin',1,1,2,UTC_TIMESTAMP);
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (4,'admin@customer2.com','admin',2,null,2,UTC_TIMESTAMP);
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (5,'cust@customer3.com','admin',2,null,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (6,'cust@customer4.com','admin',2,null,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (7,'cust@customer5.com','admin',2,null,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_usr_cpm_tbl`
 --
 
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`) VALUES (1,2,1,1);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`) VALUES (1,6,1,1);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`) VALUES (1,7,1,1);
 
 --
 -- Dumping data for table `spl_master_cust_prod_count_tbl`
