@@ -3,5 +3,5 @@
     cursor: default;
 }
 #bread-crumb-links li {display: inline;}
-#bread-crumb-links li a, li i{color: white;}
+#bread-crumb-links li a, li i, li span {color: white;}
 #right-icon{padding: 0px 10px}
