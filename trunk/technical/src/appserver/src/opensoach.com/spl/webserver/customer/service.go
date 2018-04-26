@@ -98,11 +98,37 @@ func (service CustomerService) GetCustomerInfo(customerID int64) (bool, interfac
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
+
+	dbRecord := *customerDetails
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer master details")
-	return true, customerDetails
+	return true, dbRecord[0]
 }
 
 func (service CustomerService) GetCustomerDetailsInfo(customerID int64) (bool, interface{}) {
+
+	dbErr, custData := dbaccess.GetCustomerById(repo.Instance().Context.Master.DBConn, customerID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbCustRecord := *custData
+
+	if len(dbCustRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
 
 	dbErr, customerDetails := dbaccess.GetCustomerDetailsById(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
@@ -174,4 +200,25 @@ func (CustomerService) GetCustomerDataList(custListReqData lmodels.DataListReque
 
 	return true, custListResData
 
+}
+
+func (service CustomerService) AssociateCustWithProduct(reqData *lmodels.DBCustProdMappingInsertRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmStateSince = time.Now()
+
+	dbErr, insertedId := dbaccess.CpmTableInsert(repo.Instance().Context.Master.DBConn, reqData)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	response := lmodels.RecordIdResponse{}
+	response.RecId = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer associated with product, successfully.")
+
+	return true, response
 }

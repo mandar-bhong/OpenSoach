@@ -9,6 +9,7 @@ import (
 	"errors"
 
 	dbmgr "opensoach.com/core/manager/db"
+	"opensoach.com/spl/constants"
 	"opensoach.com/spl/constants/dbquery"
 	lhelper "opensoach.com/spl/helper"
 	lmodels "opensoach.com/spl/models"
@@ -16,19 +17,19 @@ import (
 
 const SUB_MODULE_NAME = "SPL.Customer.DB"
 
-func GetCustomerById(dbConn string, customerId int64) (error, *lmodels.DBSplMasterCustomerTableRowModel) {
+func GetCustomerById(dbConn string, customerId int64) (error, *[]lmodels.DBSplMasterCustomerTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustomerById")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &lmodels.DBSplMasterCustomerTableRowModel{}
+	data := &[]lmodels.DBSplMasterCustomerTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_GET_CUSTOMER_TABLE_INFO_BY_ID
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Get(customerId)
+	selErr := selDBCtx.Select(customerId)
 	if selErr != nil {
-		return selErr, &lmodels.DBSplMasterCustomerTableRowModel{}
+		return selErr, &[]lmodels.DBSplMasterCustomerTableRowModel{}
 	}
 	return nil, data
 }
@@ -46,7 +47,7 @@ func GetCustomerDetailsById(dbConn string, customerId int64) (error, *[]lmodels.
 	selErr := selDBCtx.Select(customerId)
 	if selErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while get customer id .", selErr)
-		return selErr, &[]lmodels.DBSplMasterCustDetailsTableRowModel{}
+		return selErr, nil
 	}
 	return nil, data
 }
@@ -184,4 +185,20 @@ func CustomerDetailsTableUpdate(dbconn string, req lmodels.DBSplMasterCustDetail
 
 	return nil, updDBCtx.AffectedRows
 
+}
+
+func CpmTableInsert(dbConn string, insrtStruct *lmodels.DBCustProdMappingInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CpmTableInsert")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_MASTER_CUST_PROD_MAPPING_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
 }
