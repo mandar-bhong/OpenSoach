@@ -60,7 +60,7 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
         } else {
-          this.appNotificationService.info(this.translatePipe.transform('InfoMessageDetailsNotAvailable'));
+          this.appNotificationService.info(this.translatePipe.transform('INFO_DETAILS_NOT_AVAILABLE'));
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.EDITABLE);
         }
@@ -74,7 +74,7 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
     this.dataModel.copyTo(customerAddDetailsRequest);
     this.customerService.updateCustomerDetails(customerAddDetailsRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
-        this.appNotificationService.success(this.translatePipe.transform('CUSTOMER_DETAILS_SAVED_SUCCESS'));
+        this.appNotificationService.success(this.translatePipe.transform('SUCCESS_CUSTOMER_DETAILS_SAVED'));
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
       }

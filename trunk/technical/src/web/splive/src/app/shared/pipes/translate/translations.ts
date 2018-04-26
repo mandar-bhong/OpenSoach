@@ -45,8 +45,8 @@ export const TRANSLATIONS: TranslationValue[] = [
     en: 'SERVER_ERROR_10001'
   },
   {
-    key: 'InfoMessageDetailsNotAvailable',
-    en: 'Details are not available, please fill in the details and submit.'
+    key: 'INFO_DETAILS_NOT_AVAILABLE',
+    en: 'Details are not available, please fill in the details and save.'
   },
 
   /* CUSTOMER STATES BEGIN */
@@ -70,7 +70,7 @@ export const TRANSLATIONS: TranslationValue[] = [
   /* CUSTOMER STATES END */
 
   {
-    key: 'CUSTOMER_DETAILS_SAVED_SUCCESS',
+    key: 'SUCCESS_CUSTOMER_DETAILS_SAVED',
     en: 'Customer details saved successfully.'
   },
 ];
