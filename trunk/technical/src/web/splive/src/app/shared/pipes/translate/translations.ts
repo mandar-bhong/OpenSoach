@@ -68,5 +68,10 @@ export const TRANSLATIONS: TranslationValue[] = [
   },
 
   /* CUSTOMER STATES END */
+
+  {
+    key: 'CUSTOMER_DETAILS_SAVED_SUCCESS',
+    en: 'Customer details saved successfully.'
+  },
 ];
 
