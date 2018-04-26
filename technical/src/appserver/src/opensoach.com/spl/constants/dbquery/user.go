@@ -14,8 +14,12 @@ const QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_ID_PASSWORD = "SELECT usr_name,usr_p
 
 const QUERY_SPL_MASTER_USER_TABLE_CHANGE_PASSWORD = "UPDATE spl_master_user_tbl SET usr_password = :usr_password WHERE id = :id"
 
-const QUERY_GET_SPL_MASTER_USER_TABLE_TOTAL_FILTERED_COUNT = `SELECT count(*) as count FROM spl_master_usr_cpm_tbl ucpm INNER JOIN spl_master_user_tbl as usr on ucpm.user_id_fk = usr.id $WhereCondition$`
+const QUERY_CU_GET_SPL_MASTER_USER_TABLE_TOTAL_FILTERED_COUNT = `SELECT count(*) as count FROM spl_master_usr_cpm_tbl ucpm INNER JOIN spl_master_user_tbl as usr on ucpm.user_id_fk = usr.id $WhereCondition$`
 
-const QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_FILTER = `SELECT usr.id as id,usr.usr_name,usr.usr_category,ucpm.urole_id_fk,usr.usr_state,usr.usr_state_since,usr.created_on,usr.updated_on FROM spl_master_usr_cpm_tbl ucpm INNER JOIN spl_master_user_tbl as usr on ucpm.user_id_fk = usr.id $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
+const QUERY_CU_SPL_MASTER_USER_TABLE_SELECT_BY_FILTER = `SELECT usr.id as id,usr.usr_name,usr.usr_category,ucpm.urole_id_fk,usr.usr_state,usr.usr_state_since,usr.created_on,usr.updated_on FROM spl_master_usr_cpm_tbl ucpm INNER JOIN spl_master_user_tbl as usr on ucpm.user_id_fk = usr.id $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
+
+const QUERY_OSU_GET_SPL_MASTER_USER_TABLE_TOTAL_FILTERED_COUNT = `Select count(*) as count From spl_master_user_tbl $WhereCondition$`
+
+const QUERY_OSU_SPL_MASTER_USER_TABLE_SELECT_BY_FILTER = `Select id,usr_name,usr_category,urole_id_fk,usr_state,usr_state_since,created_on,updated_on From spl_master_user_tbl $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_GET_USERID_BY_USERNAME = `Select id From spl_master_user_tbl where usr_name = ? and usr_category = 2`

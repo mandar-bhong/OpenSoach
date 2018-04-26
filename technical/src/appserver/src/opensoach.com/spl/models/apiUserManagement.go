@@ -7,8 +7,9 @@ type AuthRequest struct {
 }
 
 type AuthResponse struct {
-	Token     string `json:"token"`
-	UroleCode string `json:"urolecode"`
+	Token        string `json:"token"`
+	UroleCode    string `json:"urolecode"`
+	UserCategory int    `json:"usrcategory"`
 }
 
 type ValidateAuthTokenRequest struct {
