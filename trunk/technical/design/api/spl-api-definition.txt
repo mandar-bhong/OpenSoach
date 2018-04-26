@@ -160,14 +160,6 @@ read cust_id from session and join to get corporate details
 
 fetch data from spl_master_corp_details_tbl using cust_id.
 
-13. GetCorportateShortDataList
-API Name: /api/osu/v1/corporate/list/short
-Request Method: GET
-request: null
-response: CorporateShortDataResponse[]->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
-Logic:
-get all corporates from spl_master_corp_tbl
-
 14. Add User
 API Name: /api/osu/v1/user/add
 Request Method: POST
@@ -196,13 +188,13 @@ Logic:
 use usr_id from session.
 Insert or update customer in spl_master_usr_details.
 
-17. Update State
+17. Update User State
 API Name: /api/osu/v1/user/update/state
 Request Method: POST
 request: UserUpdateStateRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts
 response: null
 
-18. Update State
+18. Update User State
 API Name: /api/cu/v1/user/update/state
 Request Method: POST
 request: UserUpdateStateRequest->trunk\technical\src\web\splive\src\app\shared\models\api\user_models.ts
@@ -216,30 +208,214 @@ request: UpdatePasswordRequest->trunk\technical\src\web\splive\src\app\shared\mo
 response: null
 
 20.  customer data list
-API Name: /api/v1/customer/list
-Request Method: POST
-request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
-response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+API Name: /api/osu/v1/customer/list
+Request Method: GET
+request: CustomerDataListFilterRequest{
+custname:string;
+custstate:number;
+corpid:number;
+}
+response: CustomerDataListRespose{
+custid:number;
+corpid:number;
+custname:string;
+corpname:string;
+custstate:number;
+poc1name:string;
+poc1emailid:string;
+poc1mobileno:string;
+createdon:Date;
+updateon:Date;
+}  
 
 21.  validate auth token
 API Name: /api/v1/validateauthtoken
-Request Method: POST
+Request Method: GET
 request: 
 response: 
 
 22.  user data list
-API Name: /api/v1/user/list
-Request Method: POST
-request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
-response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+API Name: /api/osu/v1/user/list
+Request Method: GET
+request: UserDataListFilterRequest{
+cpmid:number;
+usrname:string;
+usrcategory:number;
+usrstate:number;
+}
+response: UserDataListResponse{
+usrid:number;
+usrname:string;
+usrcategory:number;
+uroleid:number;
+usrstate:number;
+usrstatesince:number:
+createdon:Date;
+updatedon:Date;
+} 
 
-23.  corp data list
-API Name: /api/v1/corp/list
-Request Method: POST
-request: DataListRequest->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
-response:  DataListResponse->\trunk\technical\src\web\splive\src\app\shared\models\ui\data-list-models.ts
+23.  user data list
+API Name: /api/cu/v1/user/list
+Request Method: GET
+request: UserDataListFilterRequest{
+cpmid:number;
+usrname:string;
+usrcategory:number;
+usrstate:number;
+}
+response: UserDataListResponse{
+usrid:number;
+usrname:string;
+usrcategory:number;
+uroleid:number;
+usrstate:number;
+usrstatesince:number:
+createdon:Date;
+updatedon:Date;
+}
+Logic: cpmid from session
 
-24. Associate device with customer.
+24.  corp data list
+API Name: /api/osu/v1/corporate/list
+Request Method: GET
+request: CorporateDataListRequestFilter{
+corpname:string;
+corpmobileno:string;
+corpemailid:string;
+}
+response:  CorporateDataListResponse{
+corpid:number;
+corpname:string;
+corpmobileno:string;
+corpemailid:string;
+corplandlineno:string;
+createdon:Date;
+updatedon:Date;
+}
+
+25. GetCorportateShortDataList
+API Name: /api/osu/v1/corporate/list/short
+Request Method: GET
+request: null
+response: CorporateShortDataResponse[]->trunk\technical\src\web\splive\src\app\shared\models\api\customer_models.ts
+Logic:
+get all corporates from spl_master_corp_tbl
+
+26. Add Corporate
+API Name: /api/osu/v1/corporate/add
+Request Method: POST
+request: CorporateUpdateRequest{
+corpname:string;
+corpmobileno:string;
+corpemailid:string;
+corplandlineno:string;
+}
+response:
+Logic:
+
+Insert user in spl_master_user and return the inserted record (primary key of table).
+
+27. Update Corporate
+API Name: /api/osu/v1/corporate/update
+Request Method: POST
+request: CorporateUpdateRequest{
+corpid:number;
+corpname:string;
+corpmobileno:string;
+corpemailid:string;
+corplandlineno:string;
+}
+response:
+Logic:
+
+Insert user in spl_master_user and return the inserted record (primary key of table).
+
+28. Add Device
+API Name: /api/osu/v1/device/add
+Request Method: POST
+request: DeviceAddRequest{
+devid:number;
+custid:number;
+serialno:string;
+devstate:number;
+}
+response:inserted id
+Logic:
+
+29. Update Device state
+API Name: /api/osu/v1/device/update/state
+Request Method: POST
+request: DeviceUpdateStateRequest{
+devid:number;
+devstate:number;
+}
+response:
+Logic:
+
+30. Add or Update device Details
+API Name: /api/osu/v1/device/update/details
+Request Method: POST
+request: DeviceAddRequest{
+devid:number;
+devname:string;
+make:string;
+technology:string;
+techversion:string;
+shortdesc:string;
+}
+response: null
+Logic:
+
+Insert or update user in spl_master_dev_details
+
+31. Add or Update device Details
+API Name: /api/cu/v1/device/update/details
+Request Method: POST
+request: DeviceAddRequest{
+devname:string;
+make:string;
+technology:string;
+techversion:string;
+shortdesc:string;
+}
+response: null
+Logic:
+
+Insert or update device in spl_master_dev_details.
+
+32.  device data list
+API Name: /api/osu/v1/device/list
+Request Method: GET
+request: DeviceDataListFilterRequest{
+serialno:string;
+custid:number;
+custname:string;
+devname:string;
+}
+response: DeviceDataListResponse{
+custid:number;
+custname:string;
+serialno:string;
+devstate:number;
+devstatesince:Date;
+createdon:Date;
+updatedon:Date;
+devname:string;
+connectionstate:number;
+connectionstatesince:Date;
+syncstate:number;
+syncstatesince:Date;
+batterylevel:number;
+batterylevelsince:Date;
+}
+
+33.  device data list
+API Name: /api/cu/v1/device/list
+Request Method: GET
+request: 
+response: 
+
+34. Associate device with customer.
 API Name: /api/osu/v1/device/associate/customer
 Request Method: POST
 request: CustomerAssociateDeviceRequest {
@@ -250,7 +426,7 @@ response: null;
 
 Logic: spl_master_device_tbl
 
-25 Associate device with customer product
+35 Associate device with customer product
 API Name: /api/osu/v1/device/associate/customerproduct
 Request Method: POST
 request: CustomerProductAssociateDeviceRequest {
@@ -258,26 +434,64 @@ cpmid: number;
 devid:number;
 }
 
-26 Associate user with customer
+36 Associate user with customer
 API Name: /api/osu/v1/user/associate/customer
 Request Method: POST
 request: CustomerAssociateUserRequest {
-custid: number;
+cpmid: number;
 usrname:string;
+uroleid:number;
 }
 
 response: null;
 Logic: `spl_master_usr_cpm_tbl`
 
-26 Associate user with customer
+37 Associate user with customer
 API Name: /api/cu/v1/user/associate/customer
 Request Method: POST
 request: CustomerAssociateUserRequest {
 usrname:string;
+uroleid:number;
 }
 
 response: null;
 Logic: `spl_master_usr_cpm_tbl`
+
+38 Associate customer with product
+API Name: /api/osu/v1/customer/associate/product
+Request Method: POST
+request: CustomerAssociateProductRequest {
+custid:number;
+prodid:number;
+dbiid:number;
+}
+
+response: inserted id;
+
+39 Get product list
+API Name: /api/osu/v1/product/list
+Request Method: GET
+Request:null;
+Response: ProductListResponse{
+prodid:number;
+prodcode:string;
+createdon:Date;
+updatedon:Date;
+}
+
+40 Get dbinstance list
+API Name: /api/osu/v1/dbinstance/list
+Request Method: GET
+Request:null;
+Response: DbinstanceListResponse{
+dbiid:number;
+dbiname:string;
+connectionstring:string;
+prodid:number;
+createdon:Date;
+updatedon:Date;
+}
+
 
 
 
