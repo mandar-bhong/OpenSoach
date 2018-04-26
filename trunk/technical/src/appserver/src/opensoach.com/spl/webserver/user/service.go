@@ -147,13 +147,16 @@ func (service UserService) ChangeUserPassword(passData lmodels.UpdatePasswordReq
 	}
 }
 
-func (UserService) GetUserDataList(usrListReqData lmodels.DataListRequest) (bool, interface{}) {
+func (UserService) GetCUDataList(usrListReqData lmodels.DataListRequest) (bool, interface{}) {
 
 	dataListResponse := lmodels.DataListResponse{}
 
 	filterModel := usrListReqData.Filter.(*lmodels.DBSearchUserRequestFilterDataModel)
 
-	dbErr, userFilteredRecords := dbaccess.GetUsrFilterRecordsCount(repo.Instance().Context.Master.DBConn, filterModel)
+	CurrentPage := usrListReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * usrListReqData.Limit)
+
+	dbErr, listData := dbaccess.GetCustUsrFilterList(repo.Instance().Context.Master.DBConn, filterModel, usrListReqData, startingRecord)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -161,13 +164,28 @@ func (UserService) GetUserDataList(usrListReqData lmodels.DataListRequest) (bool
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
-	dbUserFilteredRecords := *userFilteredRecords
-	dataListResponse.FilteredRecords = dbUserFilteredRecords.TotalRecords
+
+	dbListDataRecord := *listData
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user list data.")
+
+	return true, dataListResponse
+
+}
+
+func (UserService) GetOSUDataList(usrListReqData lmodels.DataListRequest) (bool, interface{}) {
+
+	dataListResponse := lmodels.DataListResponse{}
+
+	filterModel := usrListReqData.Filter.(*lmodels.DBSearchUserRequestFilterDataModel)
 
 	CurrentPage := usrListReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * usrListReqData.Limit)
 
-	dbErr, usrFilterData := dbaccess.GetUserList(repo.Instance().Context.Master.DBConn, usrListReqData, filterModel, startingRecord)
+	dbErr, listData := dbaccess.GetOSUsrFilterList(repo.Instance().Context.Master.DBConn, filterModel, usrListReqData, startingRecord)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -176,8 +194,10 @@ func (UserService) GetUserDataList(usrListReqData lmodels.DataListRequest) (bool
 		return false, errModel
 	}
 
-	dbUserFilterRecord := *usrFilterData
-	dataListResponse.Records = dbUserFilterRecord
+	dbListDataRecord := *listData
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user list data.")
 

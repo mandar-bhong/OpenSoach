@@ -152,7 +152,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.GetUserDataList(userListReq)
+		}.GetOSUDataList(userListReq)
 
 		break
 
@@ -172,7 +172,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.GetUserDataList(userListReq)
+		}.GetCUDataList(userListReq)
 
 		break
 

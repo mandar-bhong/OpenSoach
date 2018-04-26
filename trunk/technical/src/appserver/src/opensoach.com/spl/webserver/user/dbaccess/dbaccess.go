@@ -133,69 +133,6 @@ func UpdateUsrPassword(dbConn string, updtStruct lmodels.DBSplMasterUserRowModel
 	return nil, updateCtx.AffectedRows
 }
 
-func GetUsrFilterRecordsCount(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUsrFilterRecordsCount")
-
-	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_USER_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter count : "+query)
-
-	selectCtx := dbmgr.SelectContext{}
-	data := &lmodels.DBTotalRecordsModel{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectErr := selectCtx.Get()
-	if selectErr != nil {
-		return selectErr, &lmodels.DBTotalRecordsModel{}
-	}
-	return nil, data
-}
-
-func GetUserList(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchUserRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchUserResponseFilterDataModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserList")
-
-	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
-		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
-		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
-	}
-
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserResponseFilterDataModel{}, listdatareq.OrderBy)
-
-	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
-	query = strings.Replace(query, "$WhereCondition$", whereCondition, 1)
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter : "+query)
-
-	limit := listdatareq.Limit
-	selectCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSearchUserResponseFilterDataModel{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectErr := selectCtx.Select(startingRow, limit)
-	if selectErr != nil {
-		return selectErr, &[]lmodels.DBSearchUserResponseFilterDataModel{}
-	}
-	return nil, data
-}
-
 func GetUserIdByUserName(dbConn string, usrname string) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserIdByUserName")
@@ -227,4 +164,118 @@ func SplMasterUserCpmTableInsert(dbConn string, insrtStruct lmodels.DBUsrCpmRowM
 		return insErr, 0
 	}
 	return nil, insDBCtx.InsertID
+}
+
+func GetCustUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUsrFilterList")
+
+	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
+		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
+		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
+	}
+
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserResponseFilterDataModel{}, listdatareq.OrderBy)
+
+	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	countQuery := strings.Replace(dbquery.QUERY_CU_GET_SPL_MASTER_USER_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
+
+	listQuery := strings.Replace(dbquery.QUERY_CU_SPL_MASTER_USER_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
+	listQuery = strings.Replace(listQuery, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter count : "+countQuery)
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter : "+listQuery)
+
+	data := &lmodels.ServerListingResultModel{}
+
+	selectCtxCount := dbmgr.SelectContext{}
+	dataCount := &lmodels.DBTotalRecordsModel{}
+	selectCtxCount.DBConnection = dbConn
+	selectCtxCount.Dest = dataCount
+	selectCtxCount.Query = countQuery
+	selectCtxCount.QueryType = dbmgr.Query
+	selectCtxCountErr := selectCtxCount.Get()
+	if selectCtxCountErr != nil {
+		return selectCtxCountErr, nil
+	}
+
+	data.RecordCount = dataCount.TotalRecords
+
+	limit := listdatareq.Limit
+	selectCtx := dbmgr.SelectContext{}
+	resdata := &[]lmodels.DBSearchUserResponseFilterDataModel{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = resdata
+	selectCtx.Query = listQuery
+	selectCtx.QueryType = dbmgr.Query
+	selectErr := selectCtx.Select(startingRow, limit)
+	if selectErr != nil {
+		return selectErr, nil
+	}
+
+	data.RecordList = resdata
+
+	return nil, data
+}
+
+func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUsrFilterList")
+
+	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
+		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
+		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
+	}
+
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserResponseFilterDataModel{}, listdatareq.OrderBy)
+
+	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	countQuery := strings.Replace(dbquery.QUERY_OSU_GET_SPL_MASTER_USER_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
+
+	listQuery := strings.Replace(dbquery.QUERY_OSU_SPL_MASTER_USER_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
+	listQuery = strings.Replace(listQuery, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter count : "+countQuery)
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter : "+listQuery)
+
+	data := &lmodels.ServerListingResultModel{}
+
+	selectCtxCount := dbmgr.SelectContext{}
+	dataCount := &lmodels.DBTotalRecordsModel{}
+	selectCtxCount.DBConnection = dbConn
+	selectCtxCount.Dest = dataCount
+	selectCtxCount.Query = countQuery
+	selectCtxCount.QueryType = dbmgr.Query
+	selectCtxCountErr := selectCtxCount.Get()
+	if selectCtxCountErr != nil {
+		return selectCtxCountErr, nil
+	}
+
+	data.RecordCount = dataCount.TotalRecords
+
+	limit := listdatareq.Limit
+	selectCtx := dbmgr.SelectContext{}
+	resdata := &[]lmodels.DBSearchUserResponseFilterDataModel{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = resdata
+	selectCtx.Query = listQuery
+	selectCtx.QueryType = dbmgr.Query
+	selectErr := selectCtx.Select(startingRow, limit)
+	if selectErr != nil {
+		return selectErr, nil
+	}
+
+	data.RecordList = resdata
+
+	return nil, data
 }
