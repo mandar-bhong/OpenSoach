@@ -1,6 +1,7 @@
 package core
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -27,7 +28,7 @@ func (r CacheContext) getClient() (bool, *redis.Client) {
 	ghelper.ConvertFromJSONString(r.CacheAddress, &caheAddress)
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     caheAddress.Address,
+		Addr:     caheAddress.Address + ":" + strconv.Itoa(caheAddress.Port),
 		Password: caheAddress.Password,
 		DB:       caheAddress.DB,
 	})
@@ -60,6 +61,7 @@ func (r CacheContext) Get(key string) (bool, string) {
 	value, err := redisClient.Get(key).Result()
 
 	if err != nil {
+		logger.Context().WithField("Redis Key", key).LogError("Core.Redis", logger.Server, "Error occured while getting data from redis", err)
 		return false, ""
 	}
 
@@ -78,6 +80,7 @@ func (r CacheContext) Set(key string, value interface{}, t time.Duration) bool {
 	err := redisClient.Set(key, value, t).Err()
 
 	if err != nil {
+		logger.Context().WithField("Redis Key", key).LogError("Core.Redis", logger.Server, "Error occured while setting data to redis", err)
 		return false
 	}
 
@@ -96,6 +99,7 @@ func (r CacheContext) Update(key string, t time.Duration) bool {
 	err := redisClient.Expire(key, t).Err()
 
 	if err != nil {
+		logger.Context().WithField("Redis Key", key).LogError("Core.Redis", logger.Server, "Error occured while updating data to redis", err)
 		return false
 	}
 
@@ -113,6 +117,7 @@ func (r CacheContext) Remove(key string) bool {
 	err := redisClient.Expire(key, 0).Err()
 
 	if err != nil {
+		logger.Context().WithField("Redis Key", key).LogError("Core.Redis", logger.Server, "Error occured while removing key from redis", err)
 		return false
 	}
 
