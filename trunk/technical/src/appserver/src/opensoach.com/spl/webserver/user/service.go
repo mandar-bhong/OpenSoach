@@ -176,6 +176,44 @@ func (UserService) GetCUDataList(usrListReqData lmodels.DataListRequest) (bool, 
 
 }
 
+func (service UserService) GetUserDetailsInfo(userID int64) (bool, interface{}) {
+
+	dbErr, userData := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, userID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbUserRecord := *userData
+
+	if len(dbUserRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	dbErr, userDetails := dbaccess.GetUserDetailsById(repo.Instance().Context.Master.DBConn, userID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *userDetails
+
+	if len(dbRecord) < 1 {
+		return true, nil
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user details")
+	return true, dbRecord[0]
+}
+
 func (UserService) GetOSUDataList(usrListReqData lmodels.DataListRequest) (bool, interface{}) {
 
 	dataListResponse := lmodels.DataListResponse{}

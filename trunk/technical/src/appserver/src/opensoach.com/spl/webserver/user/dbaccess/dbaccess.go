@@ -279,3 +279,38 @@ func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestF
 
 	return nil, data
 }
+
+func GetUserById(dbConn string, userId int64) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterUserTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_USER_TABLE_INFO_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(userId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetUserDetailsById(dbConn string, userId int64) (error, *[]lmodels.DBSplMasterUsrDetailsTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserDetailsById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterUsrDetailsTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_SPL_MASTER_USER_DETAILS_TABLE_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(userId)
+	if selErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while get customer id .", selErr)
+		return selErr, nil
+	}
+	return nil, data
+}

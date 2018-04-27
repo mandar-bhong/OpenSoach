@@ -493,6 +493,26 @@ createdon:Date;
 updatedon:Date;
 }
 
+41. Get user details
+API Name: /api/osu/v1/user/info/details
+Request Method: GET
+request: 
+response: 
+Logic:
+
+read usr_id from query parameters
+
+fetch data from spl_master_cust_details_tbl using cust_id.
+
+42. Get user details
+API Name: /api/cu/v1/user/info/details
+Request Method: GET
+request: 
+response: 
+Logic:
+
+read usr_id from session.
+
 
 
 

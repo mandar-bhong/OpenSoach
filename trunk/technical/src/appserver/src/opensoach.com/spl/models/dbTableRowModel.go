@@ -185,6 +185,7 @@ type DBSplMasterUsrDetailsTableRowModel struct {
 	UsrId              int64     `dbattr:"pri" db:"usr_id_fk" json:"usrid"`
 	Fname              *string   `db:"fname" json:"fname"`
 	Lname              *string   `db:"lname" json:"lname"`
+	Gender             *int      `db:"gender" json:"gender"`
 	MobileNo           *string   `db:"mobile_no" json:"mobileno"`
 	AlternateContactNo *string   `db:"alternate_contact_no" json:"alternatecontactno"`
 	CreatedOn          time.Time `db:"created_on" json:"createdon"`

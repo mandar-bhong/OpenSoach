@@ -22,6 +22,8 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_USER_CU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_OSU_ASSOCIATE_USER_WITH_CUST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_CU_ASSOCIATE_USER_WITH_CUST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_OSU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_CU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -135,6 +137,36 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.ChangeUserPassword(userReqData, successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID)
+
+		break
+
+	case constants.API_USER_OSU_INFO_DETAILS:
+
+		recReq := lmodels.RecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService.GetUserDetailsInfo(UserService{}, recReq.RecId)
+
+		break
+
+	case constants.API_USER_CU_INFO_DETAILS:
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetUserDetailsInfo(successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID)
 
 		break
 
