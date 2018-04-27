@@ -181,5 +181,5 @@ func (service DeviceService) AssociateDevWithCustProduct(reqData *lmodels.DBSplC
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device associated with customer product, successfully.")
 
-	return true, response
+	return true, nil
 }

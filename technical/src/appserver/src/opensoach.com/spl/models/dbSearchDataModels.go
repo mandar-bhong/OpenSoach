@@ -24,6 +24,10 @@ type DBSearchCorpRequestFilterDataModel struct {
 type DBSearchUserResponseFilterDataModel struct {
 	UserId        int64     `db:"id" json:"usrid"`
 	UsrName       string    `db:"usr_name" json:"usrname"`
+	Fname         *string   `db:"fname" json:"fname"`
+	Lname         *string   `db:"lname" json:"lname"`
+	Gender        *int      `db:"gender" json:"gender"`
+	MobileNo      *string   `db:"mobile_no" json:"mobileno"`
 	UsrCategory   int       `db:"usr_category" json:"usrcategory"`
 	UroleId       *int64    `db:"urole_id_fk" json:"uroleid"`
 	UsrState      int       `db:"usr_state" json:"usrstate"`

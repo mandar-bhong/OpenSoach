@@ -25,7 +25,7 @@ func PrepareTestSetup() {
 
 	repo.Init(&setting, &ctx)
 	repo.Instance().Context.Master.DBConn = setting.DBConfig.ConnectionString
-	repo.Instance().Context.Master.Cache.CacheAddress = `{"address":"localhost:6379","password":"","db":0}`
+	repo.Instance().Context.Master.Cache.CacheAddress = `{"address":"localhost", "port":6379,"password":"","db":0}`
 
 }
 
