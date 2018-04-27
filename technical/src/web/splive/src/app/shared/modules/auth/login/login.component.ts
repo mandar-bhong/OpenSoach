@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { EnvironmentProvider } from '../../../environment-provider';
-import { AuthRequest, AuthResponse } from '../../../models/api/auth-models';
+import { AuthRequest } from '../../../models/api/auth-models';
+import { TranslatePipe } from '../../../pipes/translate/translate.pipe';
 import { AppDataStoreService } from '../../../services/app-data-store/app-data-store-service';
 import { AuthService } from '../../../services/auth.service';
 import { LoginHandlerService } from '../../../services/login-handler.service';
+import { AppNotificationService } from '../../../services/notification/app-notification.service';
 
 @Component({
   selector: 'hkt-login',
@@ -19,7 +22,10 @@ export class LoginComponent implements OnInit {
   constructor(private appDataStoreService: AppDataStoreService,
     private loginHandlerService: LoginHandlerService,
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe
+  ) { }
   ngOnInit() {
   }
 
@@ -31,8 +37,12 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(authRequest).subscribe(response => {
       if (response && response.issuccess) {
-        this.loginHandlerService.login(response.data);
-        this.router.navigate([''], { skipLocationChange: true });
+        if (AppSpecificDataProvider.userCateory === response.data.usrcategory) {
+          this.loginHandlerService.login(response.data);
+          this.router.navigate([''], { skipLocationChange: true });
+        } else {
+          this.appNotificationService.error(this.translatePipe.transform('ERROR_LOGIN_INVALID_CATEGORY'));
+        }
       }
     });
   }
