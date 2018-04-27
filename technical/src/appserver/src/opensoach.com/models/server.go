@@ -5,3 +5,7 @@ type ExecutionContext struct {
 	SelectedCustomerProduct int64
 	RequestJSON             string
 }
+
+type CpmInfoModel struct {
+	ConnectionString string
+}
