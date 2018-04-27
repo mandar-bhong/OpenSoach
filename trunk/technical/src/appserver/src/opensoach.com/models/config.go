@@ -1,11 +1,14 @@
 package models
 
 type ConfigSettings struct {
-	ServerConfig *ConfigServer       `json:"serverconfiguration"`
-	DBConfig     *ConfigDB           `json:"databaseconfiguration"`
-	WebConfig    *ConfigWebSettings  `json:"webconfiguration"`
-	MasterCache  *ConfigCacheAddress `json:"mstcacheconfiguration"`
-	ModuleCache  *ConfigCacheAddress `json:"modcacheconfiguration"`
+	ServerConfig    *ConfigServer       `json:"serverconfiguration"`
+	DBConfig        *ConfigDB           `json:"databaseconfiguration"`
+	ProdMstDBConfig *ConfigDB           `json:"productmasterdbconfig"`
+	WebConfig       *ConfigWebSettings  `json:"webconfiguration"`
+	MasterCache     *ConfigCacheAddress `json:"mstcacheconfiguration"`
+	MasterQueCache  *ConfigCacheAddress `json:"mstquecacheconfiguration"`
+	ProductCache    *ConfigCacheAddress `json:"prodcacheconfiguration"`
+	ProductQueCache *ConfigCacheAddress `json:"prodquecacheconfiguration"`
 }
 
 type ConfigDB struct {
@@ -20,6 +23,7 @@ type ConfigWebSettings struct {
 
 type ConfigCacheAddress struct {
 	Address  string `json:"address"`
+	Port     int    `json:"port"`
 	Password string `json:"password"`
 	DB       int    `json:"db"`
 }
