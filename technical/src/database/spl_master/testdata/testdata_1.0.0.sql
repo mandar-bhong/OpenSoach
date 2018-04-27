@@ -25,6 +25,7 @@ INSERT INTO `spl_master_customer_tbl` (`id`, `corp_id_fk`, `cust_name`, `cust_st
 --
 
 INSERT INTO `spl_master_cust_prod_mapping_tbl` (`id`,`cust_id_fk`,`prod_id_fk`,`dbi_id_fk`,`cpm_state`,`cpm_state_since`) VALUES (1,1,1,1,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_cust_prod_mapping_tbl` (`id`,`cust_id_fk`,`prod_id_fk`,`dbi_id_fk`,`cpm_state`,`cpm_state_since`) VALUES (2,2,1,1,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_device_tbl`
