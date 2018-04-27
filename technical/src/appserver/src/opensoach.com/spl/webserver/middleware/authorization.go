@@ -31,7 +31,7 @@ func requestHandler(c *gin.Context) (bool, interface{}) {
 	var isSuccess bool
 	var successErrorData interface{}
 
-	switch c.Request.RequestURI {
+	switch c.Request.URL.Path {
 
 	case constants.API_USER_LOGIN,
 		constants.API_USER_LOGOUT,
