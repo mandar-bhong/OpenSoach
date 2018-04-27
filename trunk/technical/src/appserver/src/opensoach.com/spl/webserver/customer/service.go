@@ -165,25 +165,14 @@ func (service CustomerService) GetCorpInfo(customerID int64) (bool, interface{})
 
 func (CustomerService) GetCustomerDataList(custListReqData lmodels.DataListRequest) (bool, interface{}) {
 
-	custListResData := lmodels.DataListResponse{}
+	dataListResponse := lmodels.DataListResponse{}
 
 	filterModel := custListReqData.Filter.(*lmodels.DBSearchCustomerRequestFilterDataModel)
-
-	dbErr, customerFilteredRecords := dbaccess.GetSplMasterCustomerTableTotalFilteredRecords(repo.Instance().Context.Master.DBConn, filterModel)
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-	dbCustomerFilteredRecords := *customerFilteredRecords
-	custListResData.FilteredRecords = dbCustomerFilteredRecords.TotalRecords
 
 	CurrentPage := custListReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * custListReqData.Limit)
 
-	dbErr, customerFilterData := dbaccess.SplMasterCustomerTableSelectByFilter(repo.Instance().Context.Master.DBConn, custListReqData, filterModel, startingRecord)
+	dbErr, listData := dbaccess.GetCustList(repo.Instance().Context.Master.DBConn, filterModel, custListReqData, startingRecord)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -192,13 +181,14 @@ func (CustomerService) GetCustomerDataList(custListReqData lmodels.DataListReque
 		return false, errModel
 	}
 
-	dbCustomerFilterRecord := *customerFilterData
+	dbListDataRecord := *listData
 
-	custListResData.Records = dbCustomerFilterRecord
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer list data.")
 
-	return true, custListResData
+	return true, dataListResponse
 
 }
 

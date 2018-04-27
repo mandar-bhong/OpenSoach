@@ -15,34 +15,7 @@ import (
 
 var SUB_MODULE_NAME = "SPL.Corporate.DB"
 
-func GetCorpFilterRecordsCount(dbConn string, filterModel *lmodels.DBSearchCorpRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpFilterRecordsCount")
-
-	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_CORP_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corporate Filter Record list filter count : "+query)
-
-	selectCtx := dbmgr.SelectContext{}
-	data := &lmodels.DBTotalRecordsModel{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectErr := selectCtx.Get()
-	if selectErr != nil {
-		return selectErr, &lmodels.DBTotalRecordsModel{}
-	}
-	return nil, data
-}
-
-func GetCorpListData(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchCorpRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchCorpResponseFilterDataModel) {
+func GetCorpListData(dbConn string, filterModel *lmodels.DBSearchCorpRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpListData")
 
@@ -59,22 +32,43 @@ func GetCorpListData(dbConn string, listdatareq lmodels.DataListRequest, filterM
 		whereCondition = " where " + whereCondition
 	}
 
-	query := strings.Replace(dbquery.QUERY_SPL_MASTER_CORP_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
-	query = strings.Replace(query, "$WhereCondition$", whereCondition, 1)
+	countQuery := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_CORP_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corporate Filter Record list filter : "+query)
+	listQuery := strings.Replace(dbquery.QUERY_SPL_MASTER_CORP_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
+	listQuery = strings.Replace(listQuery, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corparate Filter Record list filter count query : "+countQuery)
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corporate Filter Record list filter query : "+listQuery)
+
+	data := &lmodels.ServerListingResultModel{}
+
+	selectCtxCount := dbmgr.SelectContext{}
+	dataCount := &lmodels.DBTotalRecordsModel{}
+	selectCtxCount.DBConnection = dbConn
+	selectCtxCount.Dest = dataCount
+	selectCtxCount.Query = countQuery
+	selectCtxCount.QueryType = dbmgr.Query
+	selectCtxCountErr := selectCtxCount.Get()
+	if selectCtxCountErr != nil {
+		return selectCtxCountErr, nil
+	}
+
+	data.RecordCount = dataCount.TotalRecords
 
 	limit := listdatareq.Limit
 	selectCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSearchCorpResponseFilterDataModel{}
+	resdata := &[]lmodels.DBSearchCorpResponseFilterDataModel{}
 	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
+	selectCtx.Dest = resdata
+	selectCtx.Query = listQuery
 	selectCtx.QueryType = dbmgr.Query
 	selectErr := selectCtx.Select(startingRow, limit)
 	if selectErr != nil {
-		return selectErr, &[]lmodels.DBSearchCorpResponseFilterDataModel{}
+		return selectErr, nil
 	}
+
+	data.RecordList = resdata
+
 	return nil, data
 }
 

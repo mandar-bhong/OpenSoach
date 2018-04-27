@@ -105,7 +105,7 @@ func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.Dat
 		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
 	}
 
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchCustomerResponseFilterDataModel{}, listdatareq.OrderBy)
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchCustomerRequestFilterDataModel{}, listdatareq.OrderBy)
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 
@@ -129,6 +129,63 @@ func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.Dat
 	if selectErr != nil {
 		return selectErr, &[]lmodels.DBSearchCustomerResponseFilterDataModel{}
 	}
+	return nil, data
+}
+
+func GetCustList(dbConn string, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustList")
+
+	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
+		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
+		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
+	}
+
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchCustomerResponseFilterDataModel{}, listdatareq.OrderBy)
+
+	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	countQuery := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
+
+	listQuery := strings.Replace(dbquery.QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
+	listQuery = strings.Replace(listQuery, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter count query : "+countQuery)
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter query : "+listQuery)
+
+	data := &lmodels.ServerListingResultModel{}
+
+	selectCtxCount := dbmgr.SelectContext{}
+	dataCount := &lmodels.DBTotalRecordsModel{}
+	selectCtxCount.DBConnection = dbConn
+	selectCtxCount.Dest = dataCount
+	selectCtxCount.Query = countQuery
+	selectCtxCount.QueryType = dbmgr.Query
+	selectCtxCountErr := selectCtxCount.Get()
+	if selectCtxCountErr != nil {
+		return selectCtxCountErr, nil
+	}
+
+	data.RecordCount = dataCount.TotalRecords
+
+	limit := listdatareq.Limit
+	selectCtx := dbmgr.SelectContext{}
+	resdata := &[]lmodels.DBSearchCustomerResponseFilterDataModel{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = resdata
+	selectCtx.Query = listQuery
+	selectCtx.QueryType = dbmgr.Query
+	selectErr := selectCtx.Select(startingRow, limit)
+	if selectErr != nil {
+		return selectErr, nil
+	}
+
+	data.RecordList = resdata
+
 	return nil, data
 }
 
