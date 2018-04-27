@@ -13,6 +13,7 @@ import (
 	custmodule "opensoach.com/spl/webserver/customer"
 	devicemodule "opensoach.com/spl/webserver/device"
 	loginModule "opensoach.com/spl/webserver/login"
+	middlewaremodule "opensoach.com/spl/webserver/middleware"
 	productmodule "opensoach.com/spl/webserver/product"
 	usermodule "opensoach.com/spl/webserver/user"
 	"opensoach.com/spl/webserver/webcontent"
@@ -29,8 +30,10 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	webConfig.WebHandlerEngine = ginEngine
 	webConfig.DBConfig = configSetting.DBConfig
 	webConfig.WebConf = configSetting.WebConfig
+	webConfig.AuthorizedRouterHandler = make(map[string]*gin.RouterGroup)
 
 	webcontent.Init(webConfig)
+	middlewaremodule.Init(webConfig)
 	//webauth.Init(webConfig)
 	loginModule.Init(webConfig)
 	productmodule.Init(webConfig)

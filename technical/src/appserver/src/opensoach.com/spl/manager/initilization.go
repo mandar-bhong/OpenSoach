@@ -18,6 +18,7 @@ import (
 	"github.com/go-redis/redis"
 	"opensoach.com/core"
 	"opensoach.com/core/logger"
+
 	coremodels "opensoach.com/core/models"
 	"opensoach.com/spl/constants"
 	"opensoach.com/spl/models"
@@ -87,6 +88,9 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 	mstCacheConfig := &gmodels.ConfigCacheAddress{}
 	globalConfiguration.MasterCache = mstCacheConfig
 
+	mstQueCacheConfig := &gmodels.ConfigCacheAddress{}
+	globalConfiguration.MasterQueCache = mstQueCacheConfig
+
 	serverConfig := &gmodels.ConfigServer{}
 	globalConfiguration.ServerConfig = serverConfig
 
@@ -96,18 +100,48 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 		case constants.DB_CONFIG_WEB_SERVICE_ADDRESS:
 			webConfig.ServiceAddress = dbRow.ConfigValue
 			break
-		case constants.DB_CONFIG_CACHE_ADDRESS:
+		case constants.DB_CONFIG_CACHE_ADDRESS_HOST:
 			mstCacheConfig.Address = dbRow.ConfigValue
+			break
+		case constants.DB_CONFIG_CACHE_ADDRESS_PORT:
+			mstAddPort, err := strconv.Atoi(dbRow.ConfigValue)
+			if err != nil {
+				return errors.New(fmt.Sprintf("Unable to convert Master Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+			}
+			mstCacheConfig.Port = mstAddPort
 			break
 		case constants.DB_CONFIG_CACHE_ADDRESS_PASSWORD:
 			mstCacheConfig.Password = dbRow.ConfigValue
 			break
-		case constants.DB_CONFIG_ADDRESS_DB:
+		case constants.DB_CONFIG_CACHE_ADDRESS_DB:
 			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
-				return errors.New("Unable to convert Master Cache DB value to interger"), nil
+				return errors.New(fmt.Sprintf("Unable to convert Master Cache DB value to interger. Received Value : %s", dbRow.ConfigValue)), nil
 			}
 			mstCacheConfig.DB = mstDBPort
+			break
+
+		case constants.DB_CONFIG_QUE_ADDRESS_HOST:
+			mstQueCacheConfig.Address = dbRow.ConfigValue
+			break
+		case constants.DB_CONFIG_QUE_ADDRESS_PORT:
+			mstQueAddPort, err := strconv.Atoi(dbRow.ConfigValue)
+			if err != nil {
+				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+			}
+			mstQueCacheConfig.Port = mstQueAddPort
+
+			break
+
+		case constants.DB_CONFIG_QUE_ADDRESS_PASSWORD:
+			mstQueCacheConfig.Password = dbRow.ConfigValue
+			break
+		case constants.DB_CONFIG_QUE_ADDRESS_DB:
+			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
+			if err != nil {
+				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache DB value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+			}
+			mstQueCacheConfig.DB = mstDBPort
 			break
 
 		case constants.DB_CONFIG_SERVER_WIN_BASE_DIRECTORY:
@@ -165,7 +199,7 @@ func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 	}
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     configSetting.MasterCache.Address,
+		Addr:     configSetting.MasterCache.Address + ":"+ strconv.Itoa(configSetting.MasterCache.Port),
 		Password: configSetting.MasterCache.Password,
 		DB:       configSetting.MasterCache.DB,
 	})
