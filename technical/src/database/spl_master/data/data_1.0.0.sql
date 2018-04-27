@@ -26,7 +26,8 @@ INSERT INTO `spl_master_user_role_tbl` (`id`,`urole_code`,`urole_name`) VALUES (
 -- Dumping data for table `spl_master_config`
 --
 
-INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address','localhost:6379');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address','localhost');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.Port','6379');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.DB','0');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.Password','');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Web.Service.Address',':80');
