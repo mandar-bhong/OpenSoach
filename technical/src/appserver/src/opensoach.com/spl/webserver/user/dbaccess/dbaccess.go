@@ -168,7 +168,7 @@ func SplMasterUserCpmTableInsert(dbConn string, insrtStruct lmodels.DBUsrCpmRowM
 
 func GetCustUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUsrFilterList")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustUsrFilterList")
 
 	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
 		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
@@ -225,14 +225,14 @@ func GetCustUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserReques
 
 func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUsrFilterList")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetOSUsrFilterList")
 
 	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
 		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
 		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
 	}
 
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserRequestFilterDataModel{}, listdatareq.OrderBy)
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserResponseFilterDataModel{}, listdatareq.OrderBy)
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 

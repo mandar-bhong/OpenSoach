@@ -122,25 +122,14 @@ func (service DeviceService) UpdateDeviceDetails(reqData *lmodels.DBSplMasterDev
 
 func (DeviceService) GetDeviceDataList(listReqData lmodels.DataListRequest) (bool, interface{}) {
 
-	listResData := lmodels.DataListResponse{}
+	dataListResponse := lmodels.DataListResponse{}
 
 	filterModel := listReqData.Filter.(*lmodels.DBSearchDeviceRequestFilterDataModel)
-
-	dbErr, filterRecordsCount := dbaccess.GetDeviceFilterRecordsCount(repo.Instance().Context.Master.DBConn, filterModel)
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-	dbFilterRecordsCount := *filterRecordsCount
-	listResData.FilteredRecords = dbFilterRecordsCount.TotalRecords
 
 	CurrentPage := listReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
 
-	dbErr, filterData := dbaccess.GetDeviceListData(repo.Instance().Context.Master.DBConn, listReqData, filterModel, startingRecord)
+	dbErr, listData := dbaccess.GetDeviceListData(repo.Instance().Context.Master.DBConn, filterModel, listReqData, startingRecord)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -149,12 +138,14 @@ func (DeviceService) GetDeviceDataList(listReqData lmodels.DataListRequest) (boo
 		return false, errModel
 	}
 
-	dbfilterData := *filterData
-	listResData.Records = dbfilterData
+	dbListDataRecord := *listData
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device list data.")
 
-	return true, listResData
+	return true, dataListResponse
 
 }
 

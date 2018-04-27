@@ -113,34 +113,7 @@ func SplMasterDeviceDetailsTableUpdate(dbConn string, updtStruct *lmodels.DBSplM
 	return nil, updtDBCtx.AffectedRows
 }
 
-func GetDeviceFilterRecordsCount(dbConn string, filterModel *lmodels.DBSearchDeviceRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceFilterRecordsCount")
-
-	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_DEVICE_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Filter Record list filter count query : "+query)
-
-	selectCtx := dbmgr.SelectContext{}
-	data := &lmodels.DBTotalRecordsModel{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectErr := selectCtx.Get()
-	if selectErr != nil {
-		return selectErr, &lmodels.DBTotalRecordsModel{}
-	}
-	return nil, data
-}
-
-func GetDeviceListData(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchDeviceRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchDeviceResponseFilterDataModel) {
+func GetDeviceListData(dbConn string, filterModel *lmodels.DBSearchDeviceRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceListData")
 
@@ -149,7 +122,7 @@ func GetDeviceListData(dbConn string, listdatareq lmodels.DataListRequest, filte
 		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
 	}
 
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchDeviceRequestFilterDataModel{}, listdatareq.OrderBy)
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchDeviceResponseFilterDataModel{}, listdatareq.OrderBy)
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 
@@ -157,22 +130,43 @@ func GetDeviceListData(dbConn string, listdatareq lmodels.DataListRequest, filte
 		whereCondition = " where " + whereCondition
 	}
 
-	query := strings.Replace(dbquery.QUERY_SPL_MASTER_DEVICE_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
-	query = strings.Replace(query, "$WhereCondition$", whereCondition, 1)
+	countQuery := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_DEVICE_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Filter Record list filter query : "+query)
+	listQuery := strings.Replace(dbquery.QUERY_SPL_MASTER_DEVICE_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
+	listQuery = strings.Replace(listQuery, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Filter Record list filter count query : "+countQuery)
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Filter Record list filter query : "+listQuery)
+
+	data := &lmodels.ServerListingResultModel{}
+
+	selectCtxCount := dbmgr.SelectContext{}
+	dataCount := &lmodels.DBTotalRecordsModel{}
+	selectCtxCount.DBConnection = dbConn
+	selectCtxCount.Dest = dataCount
+	selectCtxCount.Query = countQuery
+	selectCtxCount.QueryType = dbmgr.Query
+	selectCtxCountErr := selectCtxCount.Get()
+	if selectCtxCountErr != nil {
+		return selectCtxCountErr, nil
+	}
+
+	data.RecordCount = dataCount.TotalRecords
 
 	limit := listdatareq.Limit
 	selectCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSearchDeviceResponseFilterDataModel{}
+	resdata := &[]lmodels.DBSearchDeviceResponseFilterDataModel{}
 	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
+	selectCtx.Dest = resdata
+	selectCtx.Query = listQuery
 	selectCtx.QueryType = dbmgr.Query
 	selectErr := selectCtx.Select(startingRow, limit)
 	if selectErr != nil {
-		return selectErr, &[]lmodels.DBSearchDeviceResponseFilterDataModel{}
+		return selectErr, nil
 	}
+
+	data.RecordList = resdata
+
 	return nil, data
 }
 

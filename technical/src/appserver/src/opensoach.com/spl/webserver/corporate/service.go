@@ -16,25 +16,14 @@ type CorporateService struct {
 
 func (CorporateService) GetCorpDataList(corpListReqData lmodels.DataListRequest) (bool, interface{}) {
 
-	corpListResData := lmodels.DataListResponse{}
+	dataListResponse := lmodels.DataListResponse{}
 
 	filterModel := corpListReqData.Filter.(*lmodels.DBSearchCorpRequestFilterDataModel)
-
-	dbErr, corpFilteredRecords := dbaccess.GetCorpFilterRecordsCount(repo.Instance().Context.Master.DBConn, filterModel)
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-	dbCorpFilteredRecords := *corpFilteredRecords
-	corpListResData.FilteredRecords = dbCorpFilteredRecords.TotalRecords
 
 	CurrentPage := corpListReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * corpListReqData.Limit)
 
-	dbErr, corpFilterData := dbaccess.GetCorpListData(repo.Instance().Context.Master.DBConn, corpListReqData, filterModel, startingRecord)
+	dbErr, listData := dbaccess.GetCorpListData(repo.Instance().Context.Master.DBConn, filterModel, corpListReqData, startingRecord)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -43,12 +32,14 @@ func (CorporateService) GetCorpDataList(corpListReqData lmodels.DataListRequest)
 		return false, errModel
 	}
 
-	dbCorpFilterRecord := *corpFilterData
-	corpListResData.Records = dbCorpFilterRecord
+	dbListDataRecord := *listData
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user list data.")
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
 
-	return true, corpListResData
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched corporate list data.")
+
+	return true, dataListResponse
 
 }
 
