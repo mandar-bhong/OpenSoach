@@ -121,6 +121,18 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		authResponse.UserCategory = userRecordItem.UsrCategory
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull : User Category Customer")
+
+		// repo.Instance().Context.Master.Cache
+
+		cpmInfoModel := &gmodels.CpmInfoModel{}
+		cpmInfoModel.ConnectionString = authRecordItem.Connectionstring
+		isCacheSetSuccess := lhelper.CacheSetCPMKey(repo.Instance().Context, authRecordItem.CpmId, cpmInfoModel)
+
+		if isCacheSetSuccess == false {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_SERVER
+			return false, errModel
+		}
 	}
 	return true, authResponse
 }
