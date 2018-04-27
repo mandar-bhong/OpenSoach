@@ -73,5 +73,9 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'SUCCESS_CUSTOMER_DETAILS_SAVED',
     en: 'Customer details saved successfully.'
   },
+  {
+    key: 'ERROR_LOGIN_INVALID_CATEGORY',
+    en: 'Unauthorized Access'
+  }
 ];
 
