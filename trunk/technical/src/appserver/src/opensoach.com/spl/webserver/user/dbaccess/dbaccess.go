@@ -232,7 +232,7 @@ func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestF
 		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
 	}
 
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserResponseFilterDataModel{}, listdatareq.OrderBy)
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchUserRequestFilterDataModel{}, listdatareq.OrderBy)
 
 	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
 
