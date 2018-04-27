@@ -1,5 +1,6 @@
 package constants
 
+const API_AUTHORIZATION_ROUTER_GROUP_KEY = "ALL"
 const API_BASE_URL = "/api"
 
 const API_USER_LOGIN = API_BASE_URL + "/v1/login"

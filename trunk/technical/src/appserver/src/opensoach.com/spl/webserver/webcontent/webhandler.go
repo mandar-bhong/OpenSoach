@@ -5,6 +5,7 @@ import (
 )
 
 func registerRouters(router *gin.RouterGroup) {
+
 	router.Static("/web", "./web/spl/")
 	router.Static("/assets/", "./web/spl/assets")
 	router.Static("/shared/", "./web/spl/shared")
