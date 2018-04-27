@@ -168,6 +168,7 @@ CREATE TABLE `spl_master_usr_details_tbl` (
   `usr_id_fk` int(10) unsigned NOT NULL,
   `fname` varchar(25) DEFAULT NULL,
   `lname` varchar(25) DEFAULT NULL,
+  `gender` TINYINT(3) UNSIGNED NULL DEFAULT NULL COMMENT '0: Not Selected, 1: Male , 2: Female ',
   `mobile_no` varchar(15) DEFAULT NULL,
   `alternate_contact_no` varchar(15) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
