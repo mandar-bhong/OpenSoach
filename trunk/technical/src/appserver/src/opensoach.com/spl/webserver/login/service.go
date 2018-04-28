@@ -107,7 +107,10 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		userSessionContext.CustomerID = authRecordItem.CustomerId
 		userSessionContext.UserRoleID = authRecordItem.UserRoleId
 		userSessionContext.UserID = userRecordItem.UserId
-		userSessionContext.ModDB = gmodels.ConfigDB{ConnectionString: authRecordItem.Connectionstring, DBDriver: constants.DB_DRIVER_NAME}
+		
+		userSessionContext.Product = gmodels.ProductInfoModel{}
+		userSessionContext.Product.CustProdID = authRecordItem.CpmId
+		userSessionContext.Product.NodeDbConn = authRecordItem.Connectionstring
 
 		isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
 		if isSuccess == false {
