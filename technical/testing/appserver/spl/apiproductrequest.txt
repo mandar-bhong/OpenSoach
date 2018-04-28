@@ -1,0 +1,5 @@
+Login OSU: {"username":"admin@servicepoint.live","password":"admin"}
+
+1.	method:GET	/api/osu/v1/product/list
+
+2.	method:GET	/api/osu/v1/dbinstance/list
