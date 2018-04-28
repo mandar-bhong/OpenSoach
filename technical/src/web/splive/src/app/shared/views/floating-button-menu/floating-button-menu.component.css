@@ -1,0 +1,8 @@
+.floating-menu{
+    margin-bottom: -43px;
+    text-align: right;
+}
+
+.floating-menu-button{
+    z-index: 100;
+}
