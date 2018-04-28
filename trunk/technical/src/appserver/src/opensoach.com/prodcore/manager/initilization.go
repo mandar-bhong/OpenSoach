@@ -119,9 +119,15 @@ func UpdateProductConfiguration(globalConfiguration *gmodels.ConfigSettings, con
 	productQueCache := &gmodels.ConfigCacheAddress{}
 	globalConfiguration.ProductQueCache = productQueCache
 
+	webconfig := &gmodels.ConfigWebSettings{}
+	globalConfiguration.WebConfig = webconfig
+
 	for _, dbRow := range *configData {
 		switch dbRow.ConfigKey {
 
+		case pcconst.DB_CONFIG_WEB_SERVICE_ADDRESS:
+			webconfig.ServiceAddress = dbRow.ConfigValue
+			break
 		case pcconst.DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST:
 			productCache.Address = dbRow.ConfigValue
 			break
