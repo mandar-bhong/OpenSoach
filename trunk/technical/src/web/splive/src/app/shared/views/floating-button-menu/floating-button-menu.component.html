@@ -1,4 +1,5 @@
-<button mat-fab color="accent" [matMenuTriggerFor]="menu" *ngIf='items.length>0'>
+<div class="floating-menu">
+<button mat-fab color="accent" [matMenuTriggerFor]="menu" *ngIf='items.length>0' class="floating-menu-button">
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
@@ -9,3 +10,4 @@
     </button>
   </ng-template>
 </mat-menu>
+</div>
