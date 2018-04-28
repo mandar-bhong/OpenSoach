@@ -8,9 +8,9 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-func CacheSetCPMKey(osContext *gcore.Context, cpmid int64, cpmInfoData *gmodels.CpmInfoModel) bool {
+func CacheSetCPMKey(osContext *gcore.Context, cpmid int64, productInfoModel *gmodels.ProductInfoModel) bool {
 
-	isJsonSuccess, jsonData := ghelper.ConvertToJSON(cpmInfoData)
+	isJsonSuccess, jsonData := ghelper.ConvertToJSON(productInfoModel)
 
 	if !isJsonSuccess {
 		return false
@@ -23,9 +23,9 @@ func CacheSetCPMKey(osContext *gcore.Context, cpmid int64, cpmInfoData *gmodels.
 	return isSetSuccess
 }
 
-func CacheGetCPMKey(osContext *gcore.Context, cpmid int64) (bool, *gmodels.CpmInfoModel) {
+func CacheGetCPMKey(osContext *gcore.Context, cpmid int64) (bool, *gmodels.ProductInfoModel) {
 
-	cpmInfo := &gmodels.CpmInfoModel{}
+	productInfoModel := &gmodels.ProductInfoModel{}
 
 	key := gmodels.CACHE_KEY_PREFIX_CPM_ID + strconv.FormatInt(cpmid, 10)
 
@@ -35,12 +35,12 @@ func CacheGetCPMKey(osContext *gcore.Context, cpmid int64) (bool, *gmodels.CpmIn
 		return false, nil
 	}
 
-	isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, cpmInfo)
+	isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, productInfoModel)
 
 	if !isJsonConvSuccess {
 		return false, nil
 	}
 
-	return true, cpmInfo
+	return true, productInfoModel
 
 }

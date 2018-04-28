@@ -124,9 +124,9 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 		// repo.Instance().Context.Master.Cache
 
-		cpmInfoModel := &gmodels.CpmInfoModel{}
-		cpmInfoModel.ConnectionString = authRecordItem.Connectionstring
-		isCacheSetSuccess := lhelper.CacheSetCPMKey(repo.Instance().Context, authRecordItem.CpmId, cpmInfoModel)
+		productInfoModel := &gmodels.ProductInfoModel{}
+		productInfoModel.NodeDbConn = authRecordItem.Connectionstring
+		isCacheSetSuccess := lhelper.CacheSetCPMKey(repo.Instance().Context, authRecordItem.CpmId, productInfoModel)
 
 		if isCacheSetSuccess == false {
 			errModel := gmodels.APIResponseError{}
