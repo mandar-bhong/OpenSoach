@@ -6,7 +6,3 @@ type ExecutionContext struct {
 	RequestJSON             string
 	Product                 ProductInfoModel
 }
-
-type ProductInfoModel struct {
-	NodeDbConn string
-}
