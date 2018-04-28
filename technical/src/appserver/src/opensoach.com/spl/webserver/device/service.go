@@ -58,7 +58,7 @@ func (service DeviceService) UpdateDevState(reqData *lmodels.DevStateRowModel) (
 func (service DeviceService) UpdateDeviceDetails(reqData *lmodels.DBSplMasterDevDetailsRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	if reqData.DevId == 0 {
-		dbErr, rsltData := dbaccess.GetDeviceId(repo.Instance().Context.Master.DBConn, service.ExeCtx.SessionInfo.CpmID)
+		dbErr, rsltData := dbaccess.GetDeviceId(repo.Instance().Context.Master.DBConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 		if dbErr != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
 			errModel := gmodels.APIResponseError{}
