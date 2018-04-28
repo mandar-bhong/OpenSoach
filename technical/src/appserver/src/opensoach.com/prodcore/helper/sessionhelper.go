@@ -11,6 +11,16 @@ import (
 	gmodels "opensoach.com/models"
 )
 
+var sessionTimeOutMin int
+
+func init() {
+	sessionTimeOutMin = 20
+}
+
+func SessionSetTimeOut(timeoutMin int) {
+	sessionTimeOutMin = timeoutMin
+}
+
 func SessionCreate(osContext *gcore.Context, pSessionData *gmodels.UserSessionInfo) (bool, string) {
 	isTokenCreateSuccess, sessionToken := ghelper.CreateToken()
 	if !isTokenCreateSuccess {
@@ -26,7 +36,7 @@ func SessionCreate(osContext *gcore.Context, pSessionData *gmodels.UserSessionIn
 		return false, ""
 	}
 
-	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*60)
+	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*sessionTimeOutMin)
 
 	return isSetSuccess, sessionToken
 }
@@ -53,7 +63,7 @@ func SessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmode
 
 func SessionUpdate(osContext *gcore.Context, ginContext *gin.Context) bool {
 	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-	return osContext.Master.Cache.Update(token, time.Minute*2)
+	return osContext.Master.Cache.Update(token, time.Minute*sessionTimeOutMin)
 }
 
 func SessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
