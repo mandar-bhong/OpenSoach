@@ -103,14 +103,14 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		authRecordItem := dbAuthRecord[0]
 
 		userSessionContext := gmodels.UserSessionInfo{}
-		userSessionContext.CpmID = authRecordItem.CpmId
 		userSessionContext.CustomerID = authRecordItem.CustomerId
 		userSessionContext.UserRoleID = authRecordItem.UserRoleId
 		userSessionContext.UserID = userRecordItem.UserId
-		
+
 		userSessionContext.Product = gmodels.ProductInfoModel{}
 		userSessionContext.Product.CustProdID = authRecordItem.CpmId
 		userSessionContext.Product.NodeDbConn = authRecordItem.Connectionstring
+		userSessionContext.Product.CustProdID = authRecordItem.CpmId
 
 		isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
 		if isSuccess == false {
@@ -124,8 +124,6 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		authResponse.UserCategory = userRecordItem.UsrCategory
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull : User Category Customer")
-
-		// repo.Instance().Context.Master.Cache
 
 		productInfoModel := &gmodels.ProductInfoModel{}
 		productInfoModel.NodeDbConn = authRecordItem.Connectionstring

@@ -200,7 +200,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		userListReq.Filter.(*lmodels.DBSearchUserRequestFilterDataModel).CpmId = &successErrorData.(*gmodels.ExecutionContext).SessionInfo.CpmID
+		userListReq.Filter.(*lmodels.DBSearchUserRequestFilterDataModel).CpmId = &successErrorData.(*gmodels.ExecutionContext).SessionInfo.Product.CustProdID
 
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
@@ -236,7 +236,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		reqData.CpmId = successErrorData.(*gmodels.ExecutionContext).SessionInfo.CpmID
+		reqData.CpmId = successErrorData.(*gmodels.ExecutionContext).SessionInfo.Product.CustProdID
 
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
