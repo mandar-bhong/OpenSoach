@@ -1,6 +1,7 @@
 package models
 
 type APITaskAddRequest struct {
-	Name        string `json:"name"`
-	Discription string `json:"desc"`
+	SPCategoryID int64  `json:"spcid"`
+	Name         string `json:"name"`
+	Discription  string `json:"desc"`
 }
