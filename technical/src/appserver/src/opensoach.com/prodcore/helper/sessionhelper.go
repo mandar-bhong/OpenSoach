@@ -36,7 +36,7 @@ func SessionCreate(osContext *gcore.Context, pSessionData *gmodels.UserSessionIn
 		return false, ""
 	}
 
-	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*sessionTimeOutMin)
+	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*time.Duration(sessionTimeOutMin))
 
 	return isSetSuccess, sessionToken
 }
@@ -63,7 +63,7 @@ func SessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmode
 
 func SessionUpdate(osContext *gcore.Context, ginContext *gin.Context) bool {
 	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-	return osContext.Master.Cache.Update(token, time.Minute*sessionTimeOutMin)
+	return osContext.Master.Cache.Update(token, time.Minute*time.Duration(sessionTimeOutMin))
 }
 
 func SessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
