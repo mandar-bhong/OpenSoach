@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppCommonModule } from '../app-common.module';
+import { MaterialModules } from '../modules/material/material-modules';
 import { AppContainerComponent } from './app-layout/app-container/app-container.component';
 import { BreadcrumbsComponent } from './app-layout/breadcrumbs/breadcrumbs.component';
 import { ContentComponent } from './app-layout/content/content.component';
@@ -16,7 +17,8 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
   imports: [
     CommonModule,
     RouterModule,
-    AppCommonModule
+    AppCommonModule,
+    MaterialModules
   ],
   declarations: [
     AppContainerComponent,

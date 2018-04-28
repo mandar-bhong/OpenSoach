@@ -11,6 +11,7 @@ import { ServerApiInterfaceService } from './services/api/server-api-interface.s
 import { AppDataStoreService } from './services/app-data-store/app-data-store-service';
 import { AuthService } from './services/auth.service';
 import { CustomerSharedService } from './services/customer/customer-shared.service';
+import { FloatingButtonMenuService } from './services/floating-button-menu.service';
 import { LoginHandlerService } from './services/login-handler.service';
 import { LoginStatusProviderService } from './services/login-status-provider.service';
 import { AppNotificationService } from './services/notification/app-notification.service';
@@ -20,6 +21,7 @@ import {
   EditableFormFooterToolbarComponent,
 } from './views/editable-form-footer-toolbar/editable-form-footer-toolbar.component';
 import { EditableFormHeaderComponent } from './views/editable-form-header/editable-form-header.component';
+import { FloatingButtonMenuComponent } from './views/floating-button-menu/floating-button-menu.component';
 
 @NgModule({
   imports: [
@@ -30,12 +32,14 @@ import { EditableFormHeaderComponent } from './views/editable-form-header/editab
   declarations: [
     TranslatePipe,
     EditableFormHeaderComponent,
-    EditableFormFooterToolbarComponent
+    EditableFormFooterToolbarComponent,
+    FloatingButtonMenuComponent
   ],
   exports: [
     TranslatePipe,
     EditableFormHeaderComponent,
-    EditableFormFooterToolbarComponent
+    EditableFormFooterToolbarComponent,
+    FloatingButtonMenuComponent
   ]
 })
 export class AppCommonModule {
@@ -55,7 +59,8 @@ export class AppCommonModule {
         ApiErrorService,
         AppNotificationService,
         UserSharedService,
-        CustomerSharedService
+        CustomerSharedService,
+        FloatingButtonMenuService
       ]
     };
   }
