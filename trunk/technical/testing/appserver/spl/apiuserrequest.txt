@@ -1,0 +1,90 @@
+Login OSU: {"username":"admin@servicepoint.live","password":"admin"}
+Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_HKT"}
+
+
+1.	method:POST	/api/osu/v1/user/add
+
+	Add OSU USER:	
+	{
+		"usrname":"admin@servicepoint1.live",
+		"usrpassword":"admin",
+		"usrcategory":1,
+		"uroleid":1,
+		"usrstate":1
+	}
+	
+	Add CU User:
+	{
+		"usrname":"cust@customer6.com",
+		"usrpassword":"cust6",
+		"usrcategory":2,
+		"usrstate":1
+	}
+
+
+2.	method:POST	/api/osu/v1/user/update/details
+
+	{
+		"usrid":8,
+		"fname":"fname8",
+		"lname":"lname8",
+		"gender":1,
+		"mobileno":"9123332142",
+		"alternatecontactno":"8113446232"
+	}
+
+
+3.	method:POST	/api/cu/v1/user/update/details
+
+	{
+		"fname":"fname2",
+		"lname":"lname2",
+		"gender":1,
+		"mobileno":"91232142",
+		"alternatecontactno":"8973446232"
+	}
+
+4.	method:POST	/api/osu/v1/user/update/state
+
+	{"usrid":1,"usrstate":2}
+
+
+5.	method:POST	/api/cu/v1/user/update/state
+	
+	{"usrstate":2}
+	
+
+6.	method:POST	/api/v1/user/update/password
+	
+	{"oldpassword":"","newpassword":""}
+	
+
+7.	method:GET	/api/osu/v1/user/list
+
+	{"page":1,"limit":10,"orderby":"usrid","orderdirection":"asc"}
+	{"page":1,"limit":10,"orderby":"usrid","orderdirection":"asc","filter":{"usrname":"admin@servicepoint.live"}}
+	{"page":1,"limit":10,"orderby":"usrid","orderdirection":"asc","filter":{"usrcategory":1}}
+	{"page":1,"limit":10,"orderby":"usrid","orderdirection":"asc","filter":{"usrstate":1}}
+	
+
+8.	method:GET	/api/cu/v1/user/list
+
+	{"page":1,"limit":10,"orderby":"usrid","orderdirection":"asc"}
+	
+
+9.	method:POST	/api/osu/v1/user/associate/customer
+
+	{"cpmid":1,"uroleid":1,"usrname":"admin@customer2.com"}
+
+10.	method:POST	/api/cu/v1/user/associate/customer
+
+	{"uroleid":1,"usrname":"admin@customer2.com"}
+	
+	
+11. method:GET	/api/osu/v1/user/info/details
+
+	query parameter : params={"recid":1} //usrid
+
+
+12. method:GET	/api/cu/v1/user/info/details
+
