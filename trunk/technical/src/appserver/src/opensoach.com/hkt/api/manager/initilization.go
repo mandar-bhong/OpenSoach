@@ -9,9 +9,9 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	coremodels "opensoach.com/core/models"
-	"opensoach.com/hkt/api/constants/dbquery"
 	repo "opensoach.com/hkt/api/repository"
 	"opensoach.com/hkt/api/webserver"
+	"opensoach.com/hkt/constants/dbquery"
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
@@ -89,16 +89,26 @@ func SetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings
 
 	ghelper.BaseDir = configSetting.ServerConfig.BaseDir
 
-	isJsonConvertionSuccess, jsonRedisAddress := ghelper.ConvertToJSON(configSetting.MasterCache)
+	isJsonConvMstCacheSuccess, jsonMstCacheRedisAddress := ghelper.ConvertToJSON(configSetting.MasterCache)
 
-	if isJsonConvertionSuccess == false {
+	if isJsonConvMstCacheSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while converting ConfigCacheAddress structure to JSON")
+		return errors.New("Error occured while converting ConfigCacheAddress to json")
+	}
+
+	isJsonConvProdCacheSuccess, jsonProdCacheRedisAddress := ghelper.ConvertToJSON(configSetting.ProductCache)
+
+	if isJsonConvProdCacheSuccess == false {
 		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while converting ConfigCacheAddress structure to JSON")
 		return errors.New("Error occured while converting ConfigCacheAddress to json")
 	}
 
 	ctx := &core.Context{}
-	ctx.Master.Cache.CacheAddress = jsonRedisAddress
 	ctx.Master.DBConn = configSetting.DBConfig.ConnectionString
+	ctx.Master.Cache.CacheAddress = jsonMstCacheRedisAddress
+
+	ctx.ProdMst.Cache.CacheAddress = jsonProdCacheRedisAddress
+	ctx.ProdMst.DBConn = configSetting.ProdMstDBConfig.ConnectionString
 
 	repo.Init(configSetting, ctx)
 
@@ -109,7 +119,7 @@ func SetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings
 func initModules(configSetting *gmodels.ConfigSettings) error {
 
 	logger.Init()
-	logger.SetModule("SPL")
+	logger.SetModule("HKT")
 	logger.SetLogLevel(logger.Debug)
 	logger.SetLoggingService(logger.LoggingServiceFmt)
 
