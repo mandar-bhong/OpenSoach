@@ -1,0 +1,11 @@
+<button mat-fab color="accent" [matMenuTriggerFor]="menu" *ngIf='items.length>0'>
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item *ngFor="let item of items" (click)="menuItemClick(item)">
+      <mat-icon color='primary'>{{item.icon}}</mat-icon>
+      <span>{{item.title}}</span>
+    </button>
+  </ng-template>
+</mat-menu>

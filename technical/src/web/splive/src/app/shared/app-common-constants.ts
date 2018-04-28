@@ -13,3 +13,5 @@ export enum USER_CATEGORY {
     OSU = 1,
     CU = 2
 }
+
+export const DEFAULT_PAGE_MENU = 'DEFAULT_PAGE_MENU';

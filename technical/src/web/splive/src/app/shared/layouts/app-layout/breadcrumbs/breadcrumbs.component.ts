@@ -1,8 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, Route } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+
+import { DEFAULT_PAGE_MENU } from '../../../app-common-constants';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
-import { RoutingModel } from '../../../models/ui/routing-model';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -13,10 +14,9 @@ export class BreadcrumbsComponent implements OnDestroy {
   tempState = [];
   breadcrumbs: Array<Object>;
   routerEventSubscription: Subscription;
+  PAGE_MENU = DEFAULT_PAGE_MENU;
   constructor(private router: Router, private route: ActivatedRoute) {
-    console.log('constructor breadcrumb');
     this.buildBreadCrumb();
-
   }
 
   buildBreadCrumb() {
@@ -47,7 +47,6 @@ export class BreadcrumbsComponent implements OnDestroy {
           if (this.breadcrumbs.length === 0) {
             this.setBreadCrumbItem('/dashboard');
           }
-          console.log('breadcrumbs', this.breadcrumbs);
         }
       });
   }
@@ -66,10 +65,8 @@ export class BreadcrumbsComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('destroying breadcrumb');
     if (this.routerEventSubscription) {
       this.routerEventSubscription.unsubscribe();
-      console.log('unsubscribe breadcrumb');
     }
   }
 }

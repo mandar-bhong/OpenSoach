@@ -1,7 +1,7 @@
 <div class="page-header">
   <div class="page-block">
     <div class="row align-items-center">
-      <div class="col-md-12 col-sm-12">
+      <div class="col-md-10 col-sm-10">
         <div class="page-header-title">
           <span *ngFor="let breadcrumb of breadcrumbs; let last = last">
             <h4 *ngIf="last" class="m-b-10" style="color:white;">{{ breadcrumb.pagetitle }}</h4>
@@ -19,6 +19,9 @@
             <a *ngIf="!last" [routerLink]="breadcrumb.url" skipLocationChange>{{breadcrumb.breadcrumbtitle}}</a>
           </li>
         </div>
+      </div>
+      <div class="col-md-2 col-sm-2 page-menu">
+          <app-floating-button-menu [menuInstanceKey] ="PAGE_MENU"></app-floating-button-menu>
       </div>
     </div>
   </div>

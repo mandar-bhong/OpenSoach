@@ -12,7 +12,7 @@
 .navbar-brand ul li{display:inline; }
 .fa-bars{
   padding-top: 15px;
-  margin-left: 50px;
+  /* margin-left: 50px; */
   color: white;
 }
 .dropdown-menu i{    white-space: nowrap;
