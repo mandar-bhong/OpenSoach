@@ -1,12 +1,12 @@
 package task
 
 import (
-	lmodels "opensoach.com/spl/models"
+	pcconst "opensoach.com/prodcore/constants"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
-func Init(config *lmodels.WebServerConfiguration) {
+func Init(config *pcmodels.WebServerConfiguration) {
 
-	allGroup := config.WebHandlerEngine.Group("/")
-
-	registerRouters(allGroup)
+	authorizedGroup := config.AuthorizedRouterHandler[pcconst.API_AUTHORIZATION_ROUTER_GROUP_KEY]
+	registerRouters(authorizedGroup)
 }

@@ -7,9 +7,11 @@ import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
+	repo "opensoach.com/hkt/api/repository"
 	"opensoach.com/hkt/api/webserver/task"
 	gmodels "opensoach.com/models"
-	lmodels "opensoach.com/spl/models"
+	pcmodels "opensoach.com/prodcore/models"
+	pcwebsermid "opensoach.com/prodcore/webserver/middleware"
 )
 
 func Init(configSetting *gmodels.ConfigSettings) error {
@@ -19,10 +21,12 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 
 	enableCrossDomain(ginEngine)
 
-	webConfig := &lmodels.WebServerConfiguration{}
+	webConfig := &pcmodels.WebServerConfiguration{}
 	webConfig.WebHandlerEngine = ginEngine
 	webConfig.DBConfig = configSetting.DBConfig
 	webConfig.WebConf = configSetting.WebConfig
+
+	pcwebsermid.Init(repo.Instance().Context, webConfig)
 
 	task.Init(webConfig)
 
