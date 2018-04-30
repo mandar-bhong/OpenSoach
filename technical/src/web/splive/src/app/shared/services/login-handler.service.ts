@@ -66,7 +66,7 @@ export class LoginHandlerService {
     }
 
     validateAuthToken() {
-        this.authService.validateAuthToken({ token: this.loginStatusProviderService.authToken }).subscribe(payloadResponse => {
+        this.authService.validateAuthToken({ token: this.loginStatusProviderService.authToken }, false).subscribe(payloadResponse => {
             if (payloadResponse && payloadResponse.issuccess) {
                 this.loginStatusProviderService.isLoggedIn = true;
                 this.navigateToHome();
