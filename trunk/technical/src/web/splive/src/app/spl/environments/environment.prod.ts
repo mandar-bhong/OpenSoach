@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   baseurl: '',
   appbaseurl: 'http://localhost:81',
   prodcode: 'SPL'
