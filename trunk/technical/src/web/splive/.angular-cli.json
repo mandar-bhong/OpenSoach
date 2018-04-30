@@ -23,7 +23,8 @@
       "styles": [
         "styles.css",
           "../shared/shared-styles.css",
-          "../../../node_modules/ngx-toastr/toastr.css"
+          "../../../node_modules/ngx-toastr/toastr.css",
+          "../shared/theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -51,7 +52,8 @@
         "styles": [
           "styles.css",
           "../shared/shared-styles.css",
-		  "../../../node_modules/ngx-toastr/toastr.css"
+		  "../../../node_modules/ngx-toastr/toastr.css",
+		  "../shared/theme.scss"
         ],
         "scripts": [],
         "environmentSource": "environments/environment.ts",
