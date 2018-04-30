@@ -345,3 +345,18 @@ CREATE TABLE `spl_master_config` (
 	PRIMARY KEY (`config_key`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: config\r\nThis table will contain configuration for spl  product';
 
+CREATE TABLE `spl_master`.`spl_master_server_register` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `server_type_code` VARCHAR(50) NOT NULL,
+  `server_address` VARCHAR(500) NULL,
+  `prod_id_fk` INT UNSIGNED NULL,
+  `server_state` TINYINT UNSIGNED NOT NULL COMMENT '0:Unallocated, 1: Running, 2: Stopped, 3: In Error',
+  `server_state_since` DATETIME NOT NULL,
+  `created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `fk_sreg_prod_idx` (`prod_id_fk` ASC),
+  CONSTRAINT `fk_sreg_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master`.`spl_master_product_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT COMMENT = 'Short Name for Table: sreg';
+
+
