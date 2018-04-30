@@ -1,33 +1,28 @@
-// import { NotificationsService, Notification } from 'angular2-notifications';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+
 import { TranslatePipe } from '../../pipes/translate/translate.pipe';
 
 @Injectable()
 export class AppNotificationService {
-    constructor(private translatePipe: TranslatePipe) { }
+    constructor(private translatePipe: TranslatePipe,
+        private toastr: ToastrService) { }
 
     success(content?: any, override?: any): any {
-        console.log(this.translatePipe.transform('AppNotificationSuccess'), content);
-        // return this.notificationService.success(this.translatePipe.transform('AppNotificationSuccess'), content, override);
+        return this.toastr.success(content, this.translatePipe.transform('AppNotificationSuccess'), override);
     }
 
     error(content?: any, override?: any): any {
-        console.log(this.translatePipe.transform('AppNotificationError'), content);
-        // return this.notificationService.error(this.translatePipe.transform('AppNotificationError'), content, override);
-    }
-
-    alert(content?: any, override?: any): any {
-        console.log(this.translatePipe.transform('AppNotificationAlert'), content);
-        // return this.notificationService.alert(this.translatePipe.transform('AppNotificationAlert'), content, override);
+        console.log('Notification Error', content);
+        return this.toastr.error(content, this.translatePipe.transform('AppNotificationError'), override);
     }
 
     info(content?: any, override?: any): any {
-        console.log(this.translatePipe.transform('AppNotificationInformation'), content);
-        // return this.notificationService.info(this.translatePipe.transform('AppNotificationInformation'), content, override);
+        return this.toastr.info(content, this.translatePipe.transform('AppNotificationInformation'), override);
     }
 
     warn(content?: any, override?: any): any {
-        console.log(this.translatePipe.transform('AppNotificationWarning'), content);
-        // return this.notificationService.warn(this.translatePipe.transform('AppNotificationWarning'), content, override);
+        return this.toastr.warning(content, this.translatePipe.transform('AppNotificationWarning'), override);
     }
 }
+
