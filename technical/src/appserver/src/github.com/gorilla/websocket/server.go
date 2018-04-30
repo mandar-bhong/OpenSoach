@@ -9,7 +9,7 @@ import (
 	"errors"
 	"net"
 	"net/http"
-	//"net/url"
+	"net/url"
 	"strings"
 	"time"	
 )
@@ -70,19 +70,19 @@ func (u *Upgrader) returnError(w http.ResponseWriter, r *http.Request, status in
 	return nil, err
 }
 
-//OpenSoch Implementation skip origin check
+
 // checkSameOrigin returns true if the origin is not set or is equal to the request host.
 func checkSameOrigin(r *http.Request) bool {
-	// origin := r.Header["Origin"]
-	// if len(origin) == 0 {
-	// 	return true
-	// }
-	// u, err := url.Parse(origin[0])
-	// if err != nil {
-	// 	return false
-	// }
-	return true	
-	// return equalASCIIFold(u.Host, r.Host)
+	 origin := r.Header["Origin"]
+	 if len(origin) == 0 {
+	 	return true
+	 }
+	 u, err := url.Parse(origin[0])
+	 if err != nil {
+	 	return false
+	 }
+	
+	 return equalASCIIFold(u.Host, r.Host)
 }
 
 func (u *Upgrader) selectSubprotocol(r *http.Request, responseHeader http.Header) string {
