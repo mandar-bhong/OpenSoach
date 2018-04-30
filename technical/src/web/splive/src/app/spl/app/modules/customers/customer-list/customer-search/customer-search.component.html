@@ -7,7 +7,8 @@
               <mat-expansion-panel [expanded]="isExpanded" (opened)="panelOpened()">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Search
+                      <i class="fa fa-filter" aria-hidden="true"></i>
+                      <span style="padding-left:10px">Filter</span>
                   </mat-panel-title>
                 </mat-expansion-panel-header>                
                 <table class="example-full-width" cellspacing="0">
@@ -42,7 +43,7 @@
                     </td>
                   </tr>
                 </table> 
-                <button type="button" class="btn btn-primary" (click) ="search()">Search</button>               
+                <button type="button" class="btn btn-primary" (click) ="search()">Apply</button>               
               </mat-expansion-panel>            
           </div>
         </div>
