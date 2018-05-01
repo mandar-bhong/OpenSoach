@@ -34,3 +34,8 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Web.Servi
 
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Server.Win.BaseDir','');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Server.Lin.BaseDir','/opt/build/spl/SPLBuild/');
+
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.Host','localhost');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.Port','6379');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.Password','');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.DB','2');
