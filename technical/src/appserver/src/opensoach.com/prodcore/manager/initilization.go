@@ -10,6 +10,9 @@ import (
 
 	gmodels "opensoach.com/models"
 
+	"opensoach.com/core"
+	"opensoach.com/core/logger"
+	coremodels "opensoach.com/core/models"
 	pcconst "opensoach.com/prodcore/constants"
 )
 
@@ -243,4 +246,19 @@ func VerifyConnection(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigS
 
 	return nil, moduleErrType
 
+}
+
+func InitModules(configSetting *gmodels.ConfigSettings) error {
+	logger.Init()
+	logger.SetLogLevel(logger.Debug)
+	logger.SetLoggingService(logger.LoggingServiceFmt)
+
+	coreConfig := &coremodels.CoreConfig{}
+	err := core.Init(coreConfig)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
