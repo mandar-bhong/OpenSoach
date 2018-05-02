@@ -30,7 +30,8 @@ import { AppComponent } from './app.component';
       extendedTimeOut: 5000,
       progressBar: true,
       positionClass: 'toast-bottom-right',
-      preventDuplicates: true
+      preventDuplicates: true,
+      tapToDismiss: false
     }),
   ],
   providers: [],
