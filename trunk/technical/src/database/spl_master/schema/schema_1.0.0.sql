@@ -357,6 +357,6 @@ CREATE TABLE `spl_master`.`spl_master_server_register` (
   PRIMARY KEY (`id`),
   INDEX `fk_sreg_prod_idx` (`prod_id_fk` ASC),
   CONSTRAINT `fk_sreg_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master`.`spl_master_product_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT COMMENT = 'Short Name for Table: sreg';
+) ENGINE=InnoDB COMMENT = 'Short Name for Table: sreg';
 
 
