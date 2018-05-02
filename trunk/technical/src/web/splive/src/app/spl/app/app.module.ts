@@ -33,7 +33,8 @@ import { CustomerService } from './services/customer.service';
       extendedTimeOut: 5000,
       progressBar: true,
       positionClass: 'toast-bottom-right',
-      preventDuplicates: true
+      preventDuplicates: true,
+      tapToDismiss: false
     }),
     MaterialModules.forRoot()
   ],
