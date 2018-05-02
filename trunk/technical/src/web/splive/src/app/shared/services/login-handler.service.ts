@@ -22,7 +22,11 @@ export class LoginHandlerService {
         private authService: AuthService,
         private loginStatusProviderService: LoginStatusProviderService,
         private userSharedService: UserSharedService,
-        private customerSharedService: CustomerSharedService) { }
+        private customerSharedService: CustomerSharedService) {
+        this.loginStatusProviderService.logginStatusChanged.subscribe(status => {
+            this.logout();
+        });
+    }
 
     init() {
         this.loginStatusProviderService.authToken = this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.AUTH_TOKEN)

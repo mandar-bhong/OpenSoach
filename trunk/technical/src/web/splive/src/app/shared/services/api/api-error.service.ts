@@ -10,7 +10,7 @@ import { SERVER_SYSTEM_ERROR_MAX_BOUNDARY } from '../../app-common-constants';
 
 @Injectable()
 export class ApiErrorService {
-defaultErrorHandler= this.handleApiError;
+    defaultErrorHandler = this.handleApiError;
     constructor(private appNotificationService: AppNotificationService,
         private router: Router,
         private loginStatusProviderService: LoginStatusProviderService,
@@ -23,17 +23,15 @@ defaultErrorHandler= this.handleApiError;
 
             switch (error.status) {
                 case 401:
-                    // TODO: user is not autheticated, redirect to login page
-                    // this.router.navigate(['login']);
-                    // this.loginStatusProviderService.changeLoginStatus(false);
-                    // this.router.navigate(['unauthorized']);
+                    // TODO: need to redirect to lock screen instead.
+                    this.loginStatusProviderService.changeLoginStatus(false);
                     break;
                 case 403:
                 // No access to a resource, redirect to login or not authorized page
                 case 404:
                 // not found, display error to user
                 default:
-                    // display error occured to user.
+                    this.appNotificationService.error(this.translatePipe.transform('SERVER_UNKNOWN_ERROR'));
                     break;
             }
 
