@@ -1,6 +1,7 @@
 package constants
 
 const DB_TABLE_TASK_LIB string = "spl_hkt_task_lib_tbl"
+const DB_TABLE_FIELD_OPERATOR string = "spl_hkt_field_operator_tbl"
 
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"
