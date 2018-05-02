@@ -7,6 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AppCommonModule } from '../../shared/app-common.module';
 import { LayoutModule } from '../../shared/layouts/layout.module';
+import { MaterialModules } from '../../shared/modules/material/material-modules';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CorporateService } from './services/corporate.service';
@@ -34,6 +35,7 @@ import { CustomerService } from './services/customer.service';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
+    MaterialModules.forRoot()
   ],
   providers: [
     CustomerService,
