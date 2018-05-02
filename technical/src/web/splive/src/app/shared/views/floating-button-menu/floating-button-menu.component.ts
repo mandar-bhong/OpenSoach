@@ -47,7 +47,7 @@ export class FloatingButtonMenuComponent implements OnInit, OnDestroy {
 
   menuItemClick(item: FloatingMenuItem) {
     if (item.navigate) {
-      this.router.navigate([item.data], { skipLocationChange: true });
+      this.router.navigate([item.url], item.data);
     }
   }
 }

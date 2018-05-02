@@ -5,6 +5,7 @@ export class FloatingMenuItem {
     action: any;
     data: any;
     navigate: boolean;
+    url: string;
 }
 
 export class FloatingMenu {

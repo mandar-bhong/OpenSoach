@@ -25,7 +25,8 @@ export class CustomerListComponent implements OnInit {
     item.icon = 'add_circle';
     item.title = 'Customer';
     item.navigate = true;
-    item.data = 'customers/add';
+    item.url = 'customers/add';
+    item.data = { queryParams: { callbackurl: 'customers' }, skipLocationChange: true };
     floatingMenu.items.push(item);
     this.floatingButtonMenuService.setFloatingMenu(floatingMenu);
   }
