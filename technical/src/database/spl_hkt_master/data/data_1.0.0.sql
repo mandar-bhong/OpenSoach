@@ -6,6 +6,9 @@ INSERT INTO `spl_hkt_master_sp_category_tbl` (`id`,`spc_name`) VALUES (1,'Washro
 INSERT INTO `spl_hkt_master_sp_category_tbl` (`id`,`spc_name`) VALUES (2,'Washroom - Womens');
 
 
+
+INSERT INTO `spl_hkt_master_config` (`config_key`,`config_value`) VALUES ('Product.Web.Service.Address',':90');
+
 INSERT INTO `spl_hkt_master_config` (`config_key`,`config_value`) VALUES ('Product.Cache.Address.Host','localhost');
 INSERT INTO `spl_hkt_master_config` (`config_key`,`config_value`) VALUES ('Product.Cache.Address.Port','6379');
 INSERT INTO `spl_hkt_master_config` (`config_key`,`config_value`) VALUES ('Product.Cache.Address.Password','');
