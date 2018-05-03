@@ -23,7 +23,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_ENDPOINT_DEVICE_AUTH:
 
-		devAuthReq := lmodels.DeviceAuthRequest{}
+		devAuthReq := lmodels.APIDeviceAuthRequest{}
 
 		err := pContext.Bind(&devAuthReq)
 
