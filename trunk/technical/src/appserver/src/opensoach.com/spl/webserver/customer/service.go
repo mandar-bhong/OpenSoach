@@ -34,7 +34,7 @@ func (service CustomerService) Add(req lmodels.CustomerAddRequest) (isSuccess bo
 		return false, errModel
 	}
 
-	response := lmodels.RecordIdResponse{}
+	response := gmodels.APIRecordIdResponse{}
 	response.RecId = dbData
 	return true, response
 }
@@ -61,7 +61,7 @@ func (service CustomerService) UpdateCustomerDetails(customerData lmodels.DBSplM
 			return false, errModel
 		}
 
-		response := lmodels.RecordIdResponse{}
+		response := gmodels.APIRecordIdResponse{}
 		response.RecId = customerInsertedId
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer details inserted successfully.")
@@ -78,7 +78,7 @@ func (service CustomerService) UpdateCustomerDetails(customerData lmodels.DBSplM
 			return false, errModel
 		}
 
-		response := lmodels.RecordIdResponse{}
+		response := gmodels.APIRecordIdResponse{}
 		response.RecId = customerAffectedRow
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer details updated Successfully.")
@@ -163,9 +163,9 @@ func (service CustomerService) GetCorpInfo(customerID int64) (bool, interface{})
 	return true, customerDetails
 }
 
-func (CustomerService) GetCustomerDataList(custListReqData lmodels.DataListRequest) (bool, interface{}) {
+func (CustomerService) GetCustomerDataList(custListReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
-	dataListResponse := lmodels.DataListResponse{}
+	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := custListReqData.Filter.(*lmodels.DBSearchCustomerRequestFilterDataModel)
 
@@ -205,7 +205,7 @@ func (service CustomerService) AssociateCustWithProduct(reqData *lmodels.DBCustP
 		return false, errModel
 	}
 
-	response := lmodels.RecordIdResponse{}
+	response := gmodels.APIRecordIdResponse{}
 	response.RecId = insertedId
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer associated with product, successfully.")
