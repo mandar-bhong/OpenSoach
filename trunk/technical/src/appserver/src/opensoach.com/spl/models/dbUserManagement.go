@@ -16,11 +16,6 @@ type DBUserInfoMinDataModel struct {
 	LastName  *string `db:"lname" json:"lname"`
 }
 
-type UpdatePasswordRequest struct {
-	OldPassword string `json:"oldpassword"`
-	NewPassword string `json:"newpassword"`
-}
-
 type DBCustomerLoginInfoDataModel struct {
 	CorpName string `db:"corp_name" json:"corpname"`
 	CustName string `db:"cust_name" json:"custname"`
@@ -54,4 +49,10 @@ type DBUsrCpmRowModel struct {
 type DBUsrCpmUpdateRowModel struct {
 	UcpmId int64 `dbattr:"pri,auto" db:"id" json:"ucpmid"`
 	DBUsrCpmRowModel
+}
+
+type DBUroleShortDataModel struct {
+	UroleId   int64  `dbattr:"pri,auto" db:"id" json:"uroleid"`
+	UroleCode string `db:"urole_code" json:"urolecode"`
+	UroleName string `db:"urole_name" json:"urolename"`
 }
