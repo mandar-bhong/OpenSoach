@@ -15,15 +15,15 @@ type APIRecordAddResponse struct {
 	RecordID int64 `json:"recid"`
 }
 
-type RecordIdRequest struct {
+type APIRecordIdRequest struct {
 	RecId int64 `json:"recid"`
 }
 
-type RecordIdResponse struct {
+type APIRecordIdResponse struct {
 	RecId int64 `json:"recid"`
 }
 
-type DataListRequest struct {
+type APIDataListRequest struct {
 	Limit          int         `json:"limit"`
 	OrderBy        string      `json:"orderby"`
 	OrderDirection string      `json:"orderdirection"`
@@ -31,7 +31,7 @@ type DataListRequest struct {
 	Filter         interface{} `json:"filter"`
 }
 
-type DataListResponse struct {
+type APIDataListResponse struct {
 	// TotalRecords    int           `json:"totalrecords"`
 	FilteredRecords int         `json:"filteredrecords"`
 	Records         interface{} `json:"records"`
