@@ -11,9 +11,9 @@
 -- - db schema script to create database for HKT domain database (multiple instances to be created of the same schema).
 -- - spl_hkt_node_xxxx, the placeholder 'xxx' to be replaced with the instance number, instance number will start from 0000
 -- ==========================================================================
-drop database if exists spl_hkt_node_xxxx;
-create database spl_hkt_node_xxxx DEFAULT CHARACTER SET utf8;
-use spl_hkt_node_xxxx;
+drop database if exists spl_hkt_node_0001;
+create database spl_hkt_node_0001 DEFAULT CHARACTER SET utf8;
+use spl_hkt_node_0001;
 
 --
 -- Table structure for table `spl_hkt_dev_sp_mapping`
