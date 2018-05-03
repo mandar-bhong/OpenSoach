@@ -21,4 +21,4 @@ INSERT INTO `spl_prod_master_config` (`config_key`,`config_value`) VALUES ('Prod
 INSERT INTO `spl_prod_master_config` (`config_key`,`config_value`) VALUES ('Product.Que.Address.Password','');
 INSERT INTO `spl_prod_master_config` (`config_key`,`config_value`) VALUES ('Product.Que.Address.DB','2');
 
-INSERT INTO `spl_prod_serv_conf_type_tbl` (`conf_type_code`) VALUES ('SERVICE_DAILY_CHART');
+INSERT INTO `spl_prod_master_serv_conf_type_tbl` (`conf_type_code`) VALUES ('SERVICE_DAILY_CHART');
