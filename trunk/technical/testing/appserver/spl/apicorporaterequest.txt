@@ -30,3 +30,7 @@ Login OSU: {"username":"admin@servicepoint.live","password":"admin"}
 		"corpemailid":"corp1@email.com",
 		"corplandlineno":"12409234"
 	}
+	
+5. method:GET  /api/osu/v1/corporate/info/master
+
+	query parameter : params={"recid":1} //corpid

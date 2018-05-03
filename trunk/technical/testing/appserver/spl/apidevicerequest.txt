@@ -43,4 +43,10 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 8.	method:POST	/api/osu/v1/device/associate/customerproduct
 
 	{"devid":2,"cpmid":2}
+	
+9.	method:POST	/api/osu/v1/device/info/details
+
+	query parameter : params={"recid":1} //devid
+	
+10. method:POST	/api/cu/v1/device/info/details
 
