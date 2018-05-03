@@ -7,6 +7,7 @@ import (
 
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
+	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
 	"opensoach.com/spl/constants/dbquery"
 	lhelper "opensoach.com/spl/helper"
@@ -31,7 +32,7 @@ func SplMasterDeviceTableInsert(dbConn string, insrtStruct *lmodels.DBSplMasterD
 	return nil, insDBCtx.InsertID
 }
 
-func UpdateDeviceState(dbConn string, updtStruct *lmodels.DevStateRowModel) (error, int64) {
+func UpdateDeviceState(dbConn string, updtStruct *lmodels.DBDevStateRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateDeviceState")
 
@@ -47,17 +48,34 @@ func UpdateDeviceState(dbConn string, updtStruct *lmodels.DevStateRowModel) (err
 	return nil, updateCtx.AffectedRows
 }
 
-func GetDeviceId(dbConn string, cpmid int64) (error, *lmodels.DBSplMasterCpmDevMappingTableRowModel) {
+func GetDeviceId(dbConn string, cpmid int64, deviceid int64) (error, *[]lmodels.DBSplMasterCpmDevMappingTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceId")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &lmodels.DBSplMasterCpmDevMappingTableRowModel{}
+	data := &[]lmodels.DBSplMasterCpmDevMappingTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_GET_DEV_ID_BY_CPM_ID
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Get(cpmid)
+	selErr := selDBCtx.Select(cpmid, deviceid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetDeviceById(dbConn string, devID int64) (error, *[]lmodels.DBSplMasterDeviceTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterDeviceTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_MASTER_DEVICE_TABLE_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(devID)
 	if selErr != nil {
 		return selErr, nil
 	}
@@ -113,7 +131,7 @@ func SplMasterDeviceDetailsTableUpdate(dbConn string, updtStruct *lmodels.DBSplM
 	return nil, updtDBCtx.AffectedRows
 }
 
-func GetDeviceListData(dbConn string, filterModel *lmodels.DBSearchDeviceRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+func GetDeviceListData(dbConn string, filterModel *lmodels.DBSearchDeviceRequestFilterDataModel, listdatareq gmodels.APIDataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceListData")
 
@@ -138,7 +156,7 @@ func GetDeviceListData(dbConn string, filterModel *lmodels.DBSearchDeviceRequest
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Filter Record list filter count query : "+countQuery)
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Filter Record list filter query : "+listQuery)
 
-	data := &lmodels.ServerListingResultModel{}
+	data := &gmodels.ServerListingResultModel{}
 
 	selectCtxCount := dbmgr.SelectContext{}
 	dataCount := &lmodels.DBTotalRecordsModel{}
@@ -170,7 +188,7 @@ func GetDeviceListData(dbConn string, filterModel *lmodels.DBSearchDeviceRequest
 	return nil, data
 }
 
-func SetDeviceCustId(dbConn string, updtStruct *lmodels.DevCustRowModel) (error, int64) {
+func SetDeviceCustId(dbConn string, updtStruct *lmodels.DBDevCustRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SetDeviceCustId")
 

@@ -19,13 +19,13 @@ type DBSplMasterDevDetailsRowModel struct {
 	ShortDesc   *string `db:"short_desc" json:"shortdesc"`
 }
 
-type DevStateRowModel struct {
+type DBDevStateRowModel struct {
 	DevId         int       `dbattr:"pri,auto" db:"id" json:"devid"`
 	DevState      int       `db:"dev_state" json:"devstate"`
 	DevStateSince time.Time `db:"dev_state_since" json:"devstatesince"`
 }
 
-type DevCustRowModel struct {
+type DBDevCustRowModel struct {
 	DevId  int `dbattr:"pri,auto" db:"id" json:"devid"`
 	CustId int `db:"cust_id_fk" json:"custid"`
 }
