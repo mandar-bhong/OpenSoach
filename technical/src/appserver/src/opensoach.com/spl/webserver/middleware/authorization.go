@@ -35,6 +35,7 @@ func requestHandler(c *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_LOGIN,
 		constants.API_USER_LOGOUT,
+		constants.API_ENDPOINT_DEVICE_AUTH,
 		constants.API_VALIDATE_AUTH_TOKEN:
 		return true, nil
 		break
