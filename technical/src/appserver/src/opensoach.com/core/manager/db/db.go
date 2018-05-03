@@ -167,6 +167,48 @@ func (spc *InsertContext) Insert() error {
 
 }
 
+func (spc *UpdateDeleteContext) UpdateByFilter(args ...string) error {
+
+	switch spc.QueryType {
+	case AutoQuery:
+		query := GetUpdateByFilterDynamicQuery(spc.TableName, spc.Args, args...)
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := dbEngine.NamedExec(query, spc.Args)
+		if err != nil {
+			return err
+		}
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
+
+	case Query:
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr
+		}
+
+		id, err := dbEngine.NamedExec(spc.Query, spc.Args)
+		if err != nil {
+			return err
+		}
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
+
+	case StoredProcedure:
+
+		break
+
+	}
+
+	return nil
+}
+
 func (spc *UpdateDeleteContext) Update() error {
 
 	switch spc.QueryType {
