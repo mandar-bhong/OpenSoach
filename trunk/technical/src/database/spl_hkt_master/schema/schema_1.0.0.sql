@@ -31,7 +31,7 @@ CREATE TABLE `spl_prod_master_config` (
 -- Table structure for table `spl_prod_sp_category_tbl`
 --
 
-CREATE TABLE `spl_prod_sp_category_tbl` (
+CREATE TABLE `spl_prod_master_sp_category_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `spc_name` varchar(50) NOT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
@@ -71,3 +71,17 @@ CREATE TABLE `spl_hkt_master_spc_task_lib_tbl` (
   CONSTRAINT `fk_spct_mtask` FOREIGN KEY (`mtask_id_fk`) REFERENCES `spl_hkt_master_task_lib_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_spct_spc` FOREIGN KEY (`spc_id_fk`) REFERENCES `spl_hkt_master_sp_category_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spct';
+
+--
+-- Table structure for table `spl_prod_master_serv_conf_type_tbl`
+--
+
+CREATE TABLE `spl_prod_master_serv_conf_type_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `conf_type_code` varchar(20) NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `conf_type_code_UNIQUE` (`conf_type_code`)
+) ENGINE=InnoDB COMMENT='Short Name for Table: serv_conf_type';
+
