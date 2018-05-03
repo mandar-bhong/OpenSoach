@@ -116,6 +116,7 @@ type DBSplMasterDevStatusTableRowModel struct {
 
 type DBSplMasterDeviceTableRowModel struct {
 	DevId         int64     `dbattr:"pri,auto" db:"id" json:"devid"`
+	CustId        *int64    `db:"cust_id_fk" json:"custid"`
 	Serialno      string    `db:"serialno" json:"serialno"`
 	DevState      int       `db:"dev_state" json:"devstate"`
 	DevStateSince time.Time `db:"dev_state_since" json:"devstatesince"`
@@ -151,7 +152,7 @@ type DBSplMasterTotalCountTableRowModel struct {
 }
 
 type DBSplMasterUserRoleTableRowModel struct {
-	UroleId   int       `dbattr:"pri,auto" db:"id" json:"uroleid"`
+	UroleId   int64     `dbattr:"pri,auto" db:"id" json:"uroleid"`
 	ProdId    *int      `db:"prod_id_fk" json:"prodid"`
 	UroleCode string    `db:"urole_code" json:"urolecode"`
 	UroleName string    `db:"urole_name" json:"urolename"`
