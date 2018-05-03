@@ -14,9 +14,9 @@ type CorporateService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (CorporateService) GetCorpDataList(corpListReqData lmodels.DataListRequest) (bool, interface{}) {
+func (CorporateService) GetCorpDataList(corpListReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
-	dataListResponse := lmodels.DataListResponse{}
+	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := corpListReqData.Filter.(*lmodels.DBSearchCorpRequestFilterDataModel)
 
@@ -71,7 +71,7 @@ func (service CorporateService) AddCorp(reqData *lmodels.DBSplCorpRowModel) (isS
 		return false, errModel
 	}
 
-	response := lmodels.RecordIdResponse{}
+	response := gmodels.APIRecordIdResponse{}
 	response.RecId = insertedId
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corporate data added successfully.")
@@ -101,4 +101,27 @@ func (service CorporateService) UpdateCorp(reqData *lmodels.DBSplCorpRowModel) (
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corporate data updated successfully.")
 
 	return true, nil
+}
+
+func (service CorporateService) GetCorporateInfo(corpId int64) (bool, interface{}) {
+
+	dbErr, corpData := dbaccess.GetCorpById(repo.Instance().Context.Master.DBConn, corpId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *corpData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched corporate master info")
+	return true, dbRecord[0]
 }

@@ -15,6 +15,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_CORPORATE_OSU_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CORPORATE_OSU_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CORPORATE_OSU_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_CORPORATE_OSU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -27,7 +28,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_CORPORATE_OSU_LIST:
 
-		corpListReq := lmodels.DataListRequest{}
+		corpListReq := gmodels.APIDataListRequest{}
 		corpListReq.Filter = &lmodels.DBSearchCorpRequestFilterDataModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &corpListReq)
@@ -91,6 +92,22 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		}.UpdateCorp(reqData)
 
 		break
+
+	case constants.API_CORPORATE_OSU_INFO_MASTER:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CorporateService.GetCorporateInfo(CorporateService{}, recReq.RecId)
+
+		break
+
 	}
 
 	return isSuccess, resultData
