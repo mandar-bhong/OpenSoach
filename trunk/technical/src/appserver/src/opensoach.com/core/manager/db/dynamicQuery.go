@@ -134,7 +134,6 @@ func GetUpdateByFilterDynamicQuery(tablename string, filter interface{}, args ..
 			}
 		}
 	}
-
 	query = strings.TrimRight(query, " AND ")
 	return query
 }
