@@ -15,7 +15,7 @@ func ValidateAuth(dbConn string, username, password string) (error, *[]lmodels.D
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ValidateAuth")
 
-	filter := lmodels.AuthRequest{}
+	filter := lmodels.APIAuthRequest{}
 	filter.UserName = username
 	filter.Password = password
 	data := &[]lmodels.DBSplMasterUserTableRowModel{}
