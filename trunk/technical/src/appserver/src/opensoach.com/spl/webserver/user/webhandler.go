@@ -24,6 +24,8 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_USER_CU_ASSOCIATE_USER_WITH_CUST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_USER_OSU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_USER_CU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_UROLE_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_UROLE_CU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -125,7 +127,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_UPDATE_PASSWORD:
 
-		userReqData := lmodels.UpdatePasswordRequest{}
+		userReqData := lmodels.APIUpdatePasswordRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &userReqData)
 
@@ -142,7 +144,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_OSU_INFO_DETAILS:
 
-		recReq := lmodels.RecordIdRequest{}
+		recReq := gmodels.APIRecordIdRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
@@ -172,7 +174,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_OSU_LIST:
 
-		userListReq := lmodels.DataListRequest{}
+		userListReq := gmodels.APIDataListRequest{}
 		userListReq.Filter = &lmodels.DBSearchUserRequestFilterDataModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &userListReq)
@@ -190,7 +192,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_CU_LIST:
 
-		userListReq := lmodels.DataListRequest{}
+		userListReq := gmodels.APIDataListRequest{}
 		userListReq.Filter = &lmodels.DBSearchUserRequestFilterDataModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &userListReq)
@@ -210,7 +212,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_OSU_ASSOCIATE_USER_WITH_CUST:
 
-		reqData := &lmodels.CustomerAssociateUserRequest{}
+		reqData := &lmodels.APICustomerAssociateUserRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
 
@@ -227,7 +229,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_CU_ASSOCIATE_USER_WITH_CUST:
 
-		reqData := &lmodels.CustomerAssociateUserRequest{}
+		reqData := &lmodels.APICustomerAssociateUserRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
 
@@ -241,6 +243,38 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.AssociateUserWithCust(reqData)
+
+		break
+
+	case constants.API_UROLE_OSU_LIST:
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetUserRoleListOSU()
+
+		break
+
+	case constants.API_UROLE_CU_LIST:
+
+		uroleReq := lmodels.APIUroleRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &uroleReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetUserRoleListCU(uroleReq.Prodcode)
 
 		break
 

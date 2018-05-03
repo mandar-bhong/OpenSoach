@@ -7,6 +7,7 @@ import (
 
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
+	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
 	"opensoach.com/spl/constants/dbquery"
 	lhelper "opensoach.com/spl/helper"
@@ -166,7 +167,7 @@ func SplMasterUserCpmTableInsert(dbConn string, insrtStruct lmodels.DBUsrCpmRowM
 	return nil, insDBCtx.InsertID
 }
 
-func GetCustUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+func GetCustUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq gmodels.APIDataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustUsrFilterList")
 
@@ -191,7 +192,7 @@ func GetCustUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserReques
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter count : "+countQuery)
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter : "+listQuery)
 
-	data := &lmodels.ServerListingResultModel{}
+	data := &gmodels.ServerListingResultModel{}
 
 	selectCtxCount := dbmgr.SelectContext{}
 	dataCount := &lmodels.DBTotalRecordsModel{}
@@ -223,7 +224,7 @@ func GetCustUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserReques
 	return nil, data
 }
 
-func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestFilterDataModel, listdatareq gmodels.APIDataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetOSUsrFilterList")
 
@@ -248,7 +249,7 @@ func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestF
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter count : "+countQuery)
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User Filter Record list filter : "+listQuery)
 
-	data := &lmodels.ServerListingResultModel{}
+	data := &gmodels.ServerListingResultModel{}
 
 	selectCtxCount := dbmgr.SelectContext{}
 	dataCount := &lmodels.DBTotalRecordsModel{}
@@ -310,6 +311,40 @@ func GetUserDetailsById(dbConn string, userId int64) (error, *[]lmodels.DBSplMas
 	selErr := selDBCtx.Select(userId)
 	if selErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while get customer id .", selErr)
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetUroleListOSU(dbConn string) (error, *[]lmodels.DBUroleShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUroleListOSU")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBUroleShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_UROLE_LIST_OSU
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetUroleListCU(dbConn string, productCode string) (error, *[]lmodels.DBUroleShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUroleListCU")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBUroleShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_UROLE_LIST_CU
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(productCode)
+	if selErr != nil {
 		return selErr, nil
 	}
 	return nil, data

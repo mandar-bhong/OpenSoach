@@ -30,7 +30,7 @@ func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (is
 		return false, errModel
 	}
 
-	response := lmodels.RecordIdResponse{}
+	response := gmodels.APIRecordIdResponse{}
 	response.RecId = userInsertedId
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User added successfully.")
@@ -60,7 +60,7 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 			return false, errModel
 		}
 
-		response := lmodels.RecordIdResponse{}
+		response := gmodels.APIRecordIdResponse{}
 		response.RecId = userInsertedId
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User details inserted successfully.")
@@ -110,7 +110,7 @@ func (service UserService) UpdateUserState(userData lmodels.DBSplMasterUserRowMo
 	return true, nil
 }
 
-func (service UserService) ChangeUserPassword(passData lmodels.UpdatePasswordRequest, userid int64) (isSuccess bool, successErrorData interface{}) {
+func (service UserService) ChangeUserPassword(passData lmodels.APIUpdatePasswordRequest, userid int64) (isSuccess bool, successErrorData interface{}) {
 
 	dbErr, userData := dbaccess.CheckOldPasswordExists(repo.Instance().Context.Master.DBConn, userid, passData.OldPassword)
 	if dbErr != nil {
@@ -147,9 +147,9 @@ func (service UserService) ChangeUserPassword(passData lmodels.UpdatePasswordReq
 	}
 }
 
-func (UserService) GetCUDataList(usrListReqData lmodels.DataListRequest) (bool, interface{}) {
+func (UserService) GetCUDataList(usrListReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
-	dataListResponse := lmodels.DataListResponse{}
+	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := usrListReqData.Filter.(*lmodels.DBSearchUserRequestFilterDataModel)
 
@@ -214,9 +214,9 @@ func (service UserService) GetUserDetailsInfo(userID int64) (bool, interface{}) 
 	return true, dbRecord[0]
 }
 
-func (UserService) GetOSUDataList(usrListReqData lmodels.DataListRequest) (bool, interface{}) {
+func (UserService) GetOSUDataList(usrListReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
-	dataListResponse := lmodels.DataListResponse{}
+	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := usrListReqData.Filter.(*lmodels.DBSearchUserRequestFilterDataModel)
 
@@ -243,7 +243,7 @@ func (UserService) GetOSUDataList(usrListReqData lmodels.DataListRequest) (bool,
 
 }
 
-func (service UserService) AssociateUserWithCust(reqData *lmodels.CustomerAssociateUserRequest) (isSuccess bool, successErrorData interface{}) {
+func (service UserService) AssociateUserWithCust(reqData *lmodels.APICustomerAssociateUserRequest) (isSuccess bool, successErrorData interface{}) {
 
 	dbErr, rsltData := dbaccess.GetUserIdByUserName(repo.Instance().Context.Master.DBConn, reqData.UserName)
 	if dbErr != nil {
@@ -280,11 +280,45 @@ func (service UserService) AssociateUserWithCust(reqData *lmodels.CustomerAssoci
 			return false, errModel
 		}
 
-		response := lmodels.RecordIdResponse{}
+		response := gmodels.APIRecordIdResponse{}
 		response.RecId = insertedId
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User associated with customer successfully.")
 
 		return true, response
 	}
+}
+
+func (UserService) GetUserRoleListOSU() (bool, interface{}) {
+
+	dbErr, listData := dbaccess.GetUroleListOSU(repo.Instance().Context.Master.DBConn)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched urole data list.")
+
+	return true, listData
+
+}
+
+func (UserService) GetUserRoleListCU(prodCode string) (bool, interface{}) {
+
+	dbErr, listData := dbaccess.GetUroleListCU(repo.Instance().Context.Master.DBConn, prodCode)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched urole data list.")
+
+	return true, listData
+
 }
