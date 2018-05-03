@@ -7,6 +7,7 @@ import (
 
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
+	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
 	"opensoach.com/spl/constants/dbquery"
 	lhelper "opensoach.com/spl/helper"
@@ -15,7 +16,7 @@ import (
 
 var SUB_MODULE_NAME = "SPL.Corporate.DB"
 
-func GetCorpListData(dbConn string, filterModel *lmodels.DBSearchCorpRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+func GetCorpListData(dbConn string, filterModel *lmodels.DBSearchCorpRequestFilterDataModel, listdatareq gmodels.APIDataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpListData")
 
@@ -40,7 +41,7 @@ func GetCorpListData(dbConn string, filterModel *lmodels.DBSearchCorpRequestFilt
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corparate Filter Record list filter count query : "+countQuery)
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Corporate Filter Record list filter query : "+listQuery)
 
-	data := &lmodels.ServerListingResultModel{}
+	data := &gmodels.ServerListingResultModel{}
 
 	selectCtxCount := dbmgr.SelectContext{}
 	dataCount := &lmodels.DBTotalRecordsModel{}
@@ -119,4 +120,21 @@ func SplMasterCorpTableUpdate(dbConn string, updtStruct *lmodels.DBSplCorpRowMod
 		return updateErr, 0
 	}
 	return nil, updateCtx.AffectedRows
+}
+
+func GetCorpById(dbConn string, corpId int64) (error, *[]lmodels.DBSplMasterCorpTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterCorpTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CORP_TABLE_INFO_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(corpId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
 }
