@@ -88,3 +88,11 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 12. method:GET	/api/cu/v1/user/info/details
 
+
+13. method:GET /api/osu/v1/urole/list
+
+
+14. method:GET /api/cu/v1/urole/list
+
+	query parameter : params={"prodcode":""}
+
