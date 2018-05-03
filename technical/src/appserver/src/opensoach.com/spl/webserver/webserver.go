@@ -12,6 +12,7 @@ import (
 	corporatemodule "opensoach.com/spl/webserver/corporate"
 	custmodule "opensoach.com/spl/webserver/customer"
 	devicemodule "opensoach.com/spl/webserver/device"
+	endpointmodule "opensoach.com/spl/webserver/endpoint"
 	loginModule "opensoach.com/spl/webserver/login"
 	middlewaremodule "opensoach.com/spl/webserver/middleware"
 	productmodule "opensoach.com/spl/webserver/product"
@@ -41,6 +42,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	usermodule.Init(webConfig)
 	corporatemodule.Init(webConfig)
 	devicemodule.Init(webConfig)
+	endpointmodule.Init(webConfig)
 
 	err := ginEngine.Run(fmt.Sprintf("%s", configSetting.WebConfig.ServiceAddress))
 
