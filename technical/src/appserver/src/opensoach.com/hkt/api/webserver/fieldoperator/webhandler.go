@@ -13,9 +13,10 @@ import (
 )
 
 func registerRouters(router *gin.RouterGroup) {
-	router.POST(constants.API_FOP_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_FIELD_OPERATOR_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_FIELD_OPERATOR_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_FIELD_OPERATOR_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_FIELD_OPERATOR_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -26,7 +27,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	switch pContext.Request.URL.Path {
 
-	case constants.API_FOP_ADD:
+	case constants.API_FIELD_OPERATOR_ADD:
 		fielOperatorAddReq := lmodels.APIFieldOperatorAddRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &fielOperatorAddReq)
@@ -43,7 +44,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_FIELD_OPERATOR_INFO_MASTER:
 
-		recReq := gmodels.RecordIdRequest{}
+		recReq := gmodels.APIRecordIdRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
@@ -60,7 +61,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_FIELD_OPERATOR_LIST:
 
-		listReq := gmodels.DataListRequest{}
+		listReq := gmodels.APIDataListRequest{}
 		listReq.Filter = &hktmodels.DBSearchFieldOperatorRequestFilterDataModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &listReq)
@@ -73,6 +74,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = FieldoperatorService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetFieldOperatorList(listReq)
+
+		break
+
+	case constants.API_FIELD_OPERATOR_UPDATE:
+
+		reqData := &hktmodels.DBFieldOperatorUpdateRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = FieldoperatorService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.Update(reqData)
 
 		break
 
