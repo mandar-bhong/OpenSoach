@@ -75,7 +75,7 @@ func (EndpointService) DeviceAuth(serialno string) (bool, interface{}) {
 		return false, errModel
 	}
 
-	devAuthResponse := lmodels.DeviceAuthResponse{}
+	devAuthResponse := lmodels.APIDeviceAuthResponse{}
 	devAuthResponse.Token = token
 	devAuthResponse.LocationUrl = deviceAuthRecordItem.ServerAddress
 
