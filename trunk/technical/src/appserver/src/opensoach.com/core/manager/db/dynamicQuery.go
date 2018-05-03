@@ -99,6 +99,46 @@ func GetUpdateDynamicQuery(tablename string, updateStruct interface{}) (error, s
 	return nil, query
 }
 
+func GetUpdateByFilterDynamicQuery(tablename string, filter interface{}, args ...string) string {
+
+	t := reflect.TypeOf(filter)
+	query := "UPDATE " + tablename + " SET "
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		tag := field.Tag.Get("db")
+		jsontag := field.Tag.Get("json")
+		flag := 0
+		for _, each := range args {
+			if jsontag == each {
+				flag = 1
+				break
+			}
+		}
+		if flag == 0 {
+			query = query + tag + " = :" + tag + ", "
+		}
+
+	}
+
+	query = strings.TrimRight(query, ", ")
+	query = query + " WHERE "
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		tag := field.Tag.Get("db")
+		jsontag := field.Tag.Get("json")
+		for _, each := range args {
+			if jsontag == each {
+				query = query + tag + " = :" + tag + " AND "
+			}
+		}
+	}
+
+	query = strings.TrimRight(query, " AND ")
+	return query
+}
+
 func GetDeleteDynamicQuery(tablename string, deleteStruct interface{}) (error, string) {
 	query := ""
 	key := tablename + "Delete"

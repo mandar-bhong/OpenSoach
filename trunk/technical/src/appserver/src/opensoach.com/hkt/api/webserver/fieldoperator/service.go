@@ -66,9 +66,9 @@ func (service FieldoperatorService) SelectById(fopID int64) (bool, interface{}) 
 	return true, dbRecord[0]
 }
 
-func (service FieldoperatorService) GetFieldOperatorList(listReqData gmodels.DataListRequest) (bool, interface{}) {
+func (service FieldoperatorService) GetFieldOperatorList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
-	dataListResponse := gmodels.DataListResponse{}
+	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*hktmodels.DBSearchFieldOperatorRequestFilterDataModel)
 
@@ -93,4 +93,30 @@ func (service FieldoperatorService) GetFieldOperatorList(listReqData gmodels.Dat
 
 	return true, dataListResponse
 
+}
+
+func (service FieldoperatorService) Update(reqData *hktmodels.DBFieldOperatorUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Field operator updated successfully.")
+
+	return true, nil
 }

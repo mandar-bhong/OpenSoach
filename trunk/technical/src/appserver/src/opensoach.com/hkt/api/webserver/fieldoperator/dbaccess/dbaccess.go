@@ -32,6 +32,22 @@ func Insert(dbConn string, insrtStruct *hktmodels.DBFieldOperatorRowModel) (erro
 	return nil, insDBCtx.InsertID
 }
 
+func UpdateByFilter(dbConn string, updtStruct *hktmodels.DBFieldOperatorUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateByFilter")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_FIELD_OPERATOR
+	updateErr := updateCtx.UpdateByFilter("fopid", "cpmid")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
 func GetFieldOperatorById(dbConn string, fopId int64) (error, *[]hktmodels.DBSplHktFieldOperatorTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFieldOperatorById")
@@ -49,7 +65,7 @@ func GetFieldOperatorById(dbConn string, fopId int64) (error, *[]hktmodels.DBSpl
 	return nil, data
 }
 
-func GetFieldOperatorList(dbConn string, filterModel *hktmodels.DBSearchFieldOperatorRequestFilterDataModel, listdatareq gmodels.DataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
+func GetFieldOperatorList(dbConn string, filterModel *hktmodels.DBSearchFieldOperatorRequestFilterDataModel, listdatareq gmodels.APIDataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFieldOperatorList")
 
