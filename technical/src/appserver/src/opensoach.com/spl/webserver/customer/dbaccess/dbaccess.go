@@ -9,6 +9,7 @@ import (
 	"errors"
 
 	dbmgr "opensoach.com/core/manager/db"
+	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
 	"opensoach.com/spl/constants/dbquery"
 	lhelper "opensoach.com/spl/helper"
@@ -69,70 +70,7 @@ func GetCorpDetailsById(dbConn string, customerId int64) (error, *lmodels.DBSplM
 	return nil, data
 }
 
-func GetSplMasterCustomerTableTotalFilteredRecords(dbConn string, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel) (error, *lmodels.DBTotalRecordsModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSplMasterCustomerTableTotalFilteredRecords")
-
-	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter count : "+query)
-
-	selectCtx := dbmgr.SelectContext{}
-	data := &lmodels.DBTotalRecordsModel{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectErr := selectCtx.Get()
-	if selectErr != nil {
-		return selectErr, &lmodels.DBTotalRecordsModel{}
-	}
-	return nil, data
-}
-
-func SplMasterCustomerTableSelectByFilter(dbConn string, listdatareq lmodels.DataListRequest, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, startingRow int) (error, *[]lmodels.DBSearchCustomerResponseFilterDataModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterCustomerTableSelectByFilter")
-
-	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
-		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
-		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
-	}
-
-	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchCustomerRequestFilterDataModel{}, listdatareq.OrderBy)
-
-	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
-	query = strings.Replace(query, "$WhereCondition$", whereCondition, 1)
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter : "+query)
-
-	limit := listdatareq.Limit
-	selectCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSearchCustomerResponseFilterDataModel{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectErr := selectCtx.Select(startingRow, limit)
-	if selectErr != nil {
-		return selectErr, &[]lmodels.DBSearchCustomerResponseFilterDataModel{}
-	}
-	return nil, data
-}
-
-func GetCustList(dbConn string, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, listdatareq lmodels.DataListRequest, startingRow int) (error, *lmodels.ServerListingResultModel) {
+func GetCustList(dbConn string, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, listdatareq gmodels.APIDataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustList")
 
@@ -157,7 +95,7 @@ func GetCustList(dbConn string, filterModel *lmodels.DBSearchCustomerRequestFilt
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter count query : "+countQuery)
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter query : "+listQuery)
 
-	data := &lmodels.ServerListingResultModel{}
+	data := &gmodels.ServerListingResultModel{}
 
 	selectCtxCount := dbmgr.SelectContext{}
 	dataCount := &lmodels.DBTotalRecordsModel{}

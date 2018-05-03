@@ -83,7 +83,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_CUSTOMER_OSU_INFO_MASTER:
 
-		recReq := lmodels.RecordIdRequest{}
+		recReq := gmodels.APIRecordIdRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
@@ -113,7 +113,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_CUSTOMER_OSU_INFO_DETAILS:
 
-		recReq := lmodels.RecordIdRequest{}
+		recReq := gmodels.APIRecordIdRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
@@ -143,7 +143,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_CUSTOMER_OSU_CORPORATE_INFO:
 
-		recReq := lmodels.RecordIdRequest{}
+		recReq := gmodels.APIRecordIdRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
 
@@ -173,7 +173,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_CUSTOMER_OSU_LIST:
 
-		custListReq := lmodels.DataListRequest{}
+		custListReq := gmodels.APIDataListRequest{}
 		custListReq.Filter = &lmodels.DBSearchCustomerRequestFilterDataModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &custListReq)
