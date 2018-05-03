@@ -5,6 +5,7 @@ import (
 
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	"opensoach.com/spl/constants"
 	lmodels "opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
 	"opensoach.com/spl/webserver/device/dbaccess"
@@ -29,7 +30,7 @@ func (service DeviceService) AddDevice(reqData *lmodels.DBSplMasterDeviceRowMode
 		return false, errModel
 	}
 
-	response := lmodels.RecordIdResponse{}
+	response := gmodels.APIRecordIdResponse{}
 	response.RecId = insertedId
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device data added successfully.")
@@ -37,7 +38,7 @@ func (service DeviceService) AddDevice(reqData *lmodels.DBSplMasterDeviceRowMode
 	return true, response
 }
 
-func (service DeviceService) UpdateDevState(reqData *lmodels.DevStateRowModel) (isSuccess bool, successErrorData interface{}) {
+func (service DeviceService) UpdateDevState(reqData *lmodels.DBDevStateRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.DevStateSince = time.Now()
 
@@ -55,17 +56,41 @@ func (service DeviceService) UpdateDevState(reqData *lmodels.DevStateRowModel) (
 	return true, nil
 }
 
-func (service DeviceService) UpdateDeviceDetails(reqData *lmodels.DBSplMasterDevDetailsRowModel) (isSuccess bool, successErrorData interface{}) {
+func (service DeviceService) UpdateDeviceDetails(reqData *lmodels.DBSplMasterDevDetailsRowModel, userType string) (isSuccess bool, successErrorData interface{}) {
 
-	if reqData.DevId == 0 {
-		dbErr, rsltData := dbaccess.GetDeviceId(repo.Instance().Context.Master.DBConn, service.ExeCtx.SessionInfo.Product.CustProdID)
+	dbErr, deviceData := dbaccess.GetDeviceById(repo.Instance().Context.Master.DBConn, reqData.DevId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbDevRecord := *deviceData
+
+	if len(dbDevRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	if userType == "CU" {
+		dbErr, rsltData := dbaccess.GetDeviceId(repo.Instance().Context.Master.DBConn, service.ExeCtx.SessionInfo.Product.CustProdID, reqData.DevId)
 		if dbErr != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 			return false, errModel
 		}
-		reqData.DevId = rsltData.DevId
+
+		dbRecordData := *rsltData
+
+		if len(dbRecordData) < 1 {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = constants.MOD_ERR_DEVICE_CUSTOMER_PRODUCT_MAPPING
+			return false, errModel
+		}
 	}
 
 	dbErr, detailsData := dbaccess.GetSplMasterDeviceDetailsTableById(repo.Instance().Context.Master.DBConn, reqData.DevId)
@@ -88,7 +113,7 @@ func (service DeviceService) UpdateDeviceDetails(reqData *lmodels.DBSplMasterDev
 			return false, errModel
 		}
 
-		response := lmodels.RecordIdResponse{}
+		response := gmodels.APIRecordIdResponse{}
 		response.RecId = insertedId
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device details inserted successfully.")
@@ -120,9 +145,9 @@ func (service DeviceService) UpdateDeviceDetails(reqData *lmodels.DBSplMasterDev
 
 }
 
-func (DeviceService) GetDeviceDataList(listReqData lmodels.DataListRequest) (bool, interface{}) {
+func (DeviceService) GetDeviceDataList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
-	dataListResponse := lmodels.DataListResponse{}
+	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*lmodels.DBSearchDeviceRequestFilterDataModel)
 
@@ -149,7 +174,7 @@ func (DeviceService) GetDeviceDataList(listReqData lmodels.DataListRequest) (boo
 
 }
 
-func (service DeviceService) AssociateDevWithCust(reqData *lmodels.DevCustRowModel) (isSuccess bool, successErrorData interface{}) {
+func (service DeviceService) AssociateDevWithCust(reqData *lmodels.DBDevCustRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	dbErr, _ := dbaccess.SetDeviceCustId(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
@@ -176,10 +201,66 @@ func (service DeviceService) AssociateDevWithCustProduct(reqData *lmodels.DBSplC
 		return false, errModel
 	}
 
-	response := lmodels.RecordIdResponse{}
+	response := gmodels.APIRecordIdResponse{}
 	response.RecId = insertedId
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device associated with customer product, successfully.")
 
 	return true, nil
+}
+
+func (service DeviceService) GetDeviceDetailsInfo(deviceID int64, userType string) (bool, interface{}) {
+
+	dbErr, deviceData := dbaccess.GetDeviceById(repo.Instance().Context.Master.DBConn, deviceID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbDevRecord := *deviceData
+
+	if len(dbDevRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	if userType == "CU" {
+		dbErr, rsltData := dbaccess.GetDeviceId(repo.Instance().Context.Master.DBConn, service.ExeCtx.SessionInfo.Product.CustProdID, deviceID)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		dbRecordData := *rsltData
+
+		if len(dbRecordData) < 1 {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = constants.MOD_ERR_DEVICE_CUSTOMER_PRODUCT_MAPPING
+			return false, errModel
+		}
+	}
+
+	dbErr, deviceDetails := dbaccess.GetSplMasterDeviceDetailsTableById(repo.Instance().Context.Master.DBConn, deviceID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *deviceDetails
+
+	if len(dbRecord) < 1 {
+		return true, nil
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device details")
+	return true, dbRecord[0]
 }
