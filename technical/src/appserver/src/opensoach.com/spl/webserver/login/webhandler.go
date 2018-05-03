@@ -36,7 +36,7 @@ func LoginRequestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_LOGIN:
 
-		authReq := lmodels.AuthRequest{}
+		authReq := lmodels.APIAuthRequest{}
 
 		err := pContext.Bind(&authReq)
 
@@ -100,7 +100,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_VALIDATE_AUTH_TOKEN:
 
-		ValidateAuthTokenReq := lmodels.ValidateAuthTokenRequest{}
+		ValidateAuthTokenReq := lmodels.APIValidateAuthTokenRequest{}
 
 		jsonData := pContext.Query("params")
 

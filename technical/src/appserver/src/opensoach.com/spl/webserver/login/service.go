@@ -49,7 +49,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		return false, errModel
 	}
 
-	authResponse := lmodels.AuthResponse{}
+	authResponse := lmodels.APIAuthResponse{}
 
 	if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_OS {
 
