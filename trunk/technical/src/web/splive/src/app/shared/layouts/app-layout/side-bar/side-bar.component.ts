@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
@@ -16,7 +17,8 @@ export class SideBarComponent implements OnInit, OnDestroy {
   menuToggleSubscription: Subscription;
   setclass: any;
   toggleCssClass: boolean;
-  constructor(private sidebarToggleService: SidebarToggleService) { }
+  constructor(private sidebarToggleService: SidebarToggleService,
+    private router: Router) { }
 
   ngOnInit() {
     this.toggleCssClass = true;
@@ -37,6 +39,13 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.setclass = 'toggle';
     } else {
       this.setclass = '';
+    }
+  }
+
+  getSelectedMenuCss(url: string) {
+    if (this.router.url.startsWith(url)) {
+      console.log('this.router.url', this.router.url);
+      return 'selectedMenuItem';
     }
   }
 }
