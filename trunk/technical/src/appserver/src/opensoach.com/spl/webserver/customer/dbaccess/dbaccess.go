@@ -197,3 +197,36 @@ func CpmTableInsert(dbConn string, insrtStruct *lmodels.DBCustProdMappingInsertR
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func GetProdAssociationByCustId(dbConn string, customerId int64) (error, *[]lmodels.DBCustProdAssociationInfoRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetProdAssociationByCustId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCustProdAssociationInfoRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_PRODUCT_ASSOCIATION_BY_CUST_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(customerId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func CpmStateUpdate(dbConn string, updtStruct *lmodels.DBCpmStateUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CpmStateUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_MASTER_CUST_PROD_MAPPING_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
