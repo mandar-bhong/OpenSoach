@@ -44,7 +44,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   getSelectedMenuCss(url: string) {
     if (this.router.url.startsWith(url)) {
-      console.log('this.router.url', this.router.url);
       return 'selectedMenuItem';
     }
   }
