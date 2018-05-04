@@ -23,3 +23,8 @@ const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_All = "SELECT id,corp_id_fk,cust_na
 const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER = `SELECT cust.id as id,cust.corp_id_fk as corp_id_fk ,cust.cust_name as cust_name ,cust.cust_state as cust_state,corp.corp_name as corp_name ,custdetails.poc1_name as poc1_name,custdetails.poc1_email_id as poc1_email_id,custdetails.poc1_mobile_no as poc1_mobile_no ,cust.created_on as created_on,cust.updated_on as updated_on FROM spl_master_customer_tbl cust INNER JOIN spl_master_corp_tbl corp ON corp.id = cust.corp_id_fk LEFT JOIN spl_master_cust_details_tbl custdetails ON custdetails.cust_id_fk = cust.id $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT = `SELECT count(*) as count FROM spl_master_customer_tbl cust INNER JOIN spl_master_corp_tbl corp ON corp.id = cust.corp_id_fk LEFT JOIN spl_master_cust_details_tbl custdetails ON custdetails.cust_id_fk = cust.id $WhereCondition$`
+
+const QUERY_GET_PRODUCT_ASSOCIATION_BY_CUST_ID = `Select cpm.prod_id_fk as prod_id_fk,prod.prod_code as prod_code,cpm.dbi_id_fk as dbi_id_fk,dbi.dbi_name as dbi_name From spl_master_cust_prod_mapping_tbl cpm
+Inner Join spl_master_product_tbl prod on cpm.prod_id_fk = prod.id
+Inner Join spl_master_database_instance_tbl dbi on cpm.dbi_id_fk= dbi.id
+Where cust_id_fk = ?`
