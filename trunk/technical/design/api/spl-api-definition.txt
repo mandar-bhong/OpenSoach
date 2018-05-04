@@ -583,6 +583,7 @@ API Name: /api/osu/v1/customer/list/productassociation
 Request Method: GET
 request: null
 response:	CustomerProductAsccociationList{
+cpmid:number;
 prodid:number;
 dbiid:number;
 prodcode:string;
