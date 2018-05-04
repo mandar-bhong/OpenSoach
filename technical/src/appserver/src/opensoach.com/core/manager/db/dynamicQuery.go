@@ -223,6 +223,8 @@ func GetSelectByIdDynamicQuery(tablename string, destination interface{}) (error
 			query = query + tag + ", "
 		}
 
+		query = strings.TrimRight(query, ", ")
+
 		if primaryKey != "" {
 			query = query + " FROM " + tablename + " WHERE " + primaryKey + " = ?"
 			queries[key] = query
@@ -230,7 +232,6 @@ func GetSelectByIdDynamicQuery(tablename string, destination interface{}) (error
 			return errors.New(fmt.Sprintf("Unable to find dbattr tag in provided model. Model : %v", modelName)), ""
 		}
 	}
-
 	return nil, query
 }
 
