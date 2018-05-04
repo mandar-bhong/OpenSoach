@@ -227,9 +227,7 @@ func (service CustomerService) GetCustProdAssociation(customerID int64) (bool, i
 	dbRecords := *data
 
 	if len(dbRecords) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
+		return true, dbRecords
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Customer Product association list")
