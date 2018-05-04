@@ -12,6 +12,7 @@ type DBCustProdMappingInsertRowModel struct {
 
 type DBCustProdAssociationInfoRowModel struct {
 	CpmId    int64  `dbattr:"pri,auto" db:"id" json:"cpmid"`
+	CpmState int    `db:"cpm_state" json:"cpmstate"`
 	ProdId   int64  `db:"prod_id_fk" json:"prodid"`
 	DbiId    int64  `db:"dbi_id_fk" json:"dbiid"`
 	ProdCode string `db:"prod_code" json:"prodcode"`
