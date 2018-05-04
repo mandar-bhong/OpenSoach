@@ -212,3 +212,44 @@ func (service CustomerService) AssociateCustWithProduct(reqData *lmodels.DBCustP
 
 	return true, response
 }
+
+func (service CustomerService) GetCustProdAssociation(customerID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetProdAssociationByCustId(repo.Instance().Context.Master.DBConn, customerID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecords := *data
+
+	if len(dbRecords) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Customer Product association list")
+	return true, dbRecords
+}
+
+func (service CustomerService) UpdateCPMState(reqData *lmodels.DBCpmStateUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmStateSince = time.Now()
+
+	dbErr, _ := dbaccess.CpmStateUpdate(repo.Instance().Context.Master.DBConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "CPM state updated successfully.")
+
+	return true, nil
+}
