@@ -304,7 +304,7 @@ get all corporates from spl_master_corp_tbl
 26. Add Corporate
 API Name: /api/osu/v1/corporate/add
 Request Method: POST
-request: CorporateUpdateRequest{
+request: CorporateAddRequest{
 corpname:string;
 corpmobileno:string;
 corpemailid:string;
@@ -512,6 +512,93 @@ response:
 Logic:
 
 read usr_id from session.
+
+43. Get corporate details
+API Name: /api/osu/v1/corporate/info/master
+Request Method: GET
+request: null
+response: CorpInfoResponse{
+corpid: number;
+corpname: string;
+corpmobileno: string;
+corpemailid: string;
+corplandlineno: string;
+createdon: Date;
+updatedon: Date;
+}
+Logic:
+
+read corp_id from query parameters
+
+44. Endpoint Device Authorization
+API Name: /api/v1/endpoint/deviceauthorization
+Request Method: POST
+request: APIDeviceAuthRequest{
+	serialno:string;
+}
+response: APIDeviceAuthResponse {
+	token:string;
+	locationurl:string;
+}
+
+45. Get device details
+API Name: /api/osu/v1/device/info/details
+Request Method: GET
+request: null
+response: 
+
+read dev_id from query parameters
+
+46. Get device details
+API Name: /api/cu/v1/device/info/details
+Request Method: GET
+request: null
+response: 
+
+
+47. Get urole list
+API Name: /api/osu/v1/urole/list
+Request Method: GET
+request: null
+response: UroleListShortDataModel {
+	uroleid:number;
+	urolecode:string;
+	urolename:string;
+}
+
+48. Get urole list
+API Name: /api/cu/v1/urole/list
+Request Method: GET
+request: APIUroleRequest{
+	prodcode:string;
+}
+response:UroleListShortDataModel {
+	uroleid:number;
+	urolecode:string;
+	urolename:string;
+}
+
+49. Get customer product association list
+API Name: /api/osu/v1/customer/list/productassociation
+Request Method: GET
+request: null
+response:	CustomerProductAsccociationList{
+prodid:number;
+dbiid:number;
+prodcode:string;
+dbiname:string;
+}
+
+50. Get cpm state update
+API Name: /api/osu/v1/customer/productassociation/update
+Request Method: GET
+request: CpmStateUpdate{
+cpmid:number;
+cpmstate:number;
+}
+response:null
+
+
 
 
 
