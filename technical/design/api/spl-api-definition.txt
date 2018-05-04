@@ -584,6 +584,7 @@ Request Method: GET
 request: null
 response:	CustomerProductAsccociationList{
 cpmid:number;
+cpmstate:number;
 prodid:number;
 dbiid:number;
 prodcode:string;
