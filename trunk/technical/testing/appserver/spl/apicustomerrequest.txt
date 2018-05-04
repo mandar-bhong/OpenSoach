@@ -64,5 +64,15 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 11.	method:POST  /api/osu/v1/customer/associate/product
 
 	{"custid":4,"prodid":1,"dbiid":1;"cpmstate":1}
+	
+12. method:GET /api/osu/v1/customerproduct/association
+
+	query parameter : params={"recid":1} //custid
+	
+13. method:POST /api/osu/v1/customer/productassociation/update
+
+	{"cpmid":1,"cpmstate":2}
+
+	
 
 
