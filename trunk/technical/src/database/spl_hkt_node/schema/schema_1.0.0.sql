@@ -16,16 +16,179 @@ create database spl_hkt_node_0001 DEFAULT CHARACTER SET utf8;
 use spl_hkt_node_0001;
 
 --
--- Table structure for table `spl_hkt_dev_sp_mapping`
+-- Table structure for table `spl_node_cpm_tbl`
 --
 
-CREATE TABLE `spl_hkt_dev_sp_mapping` (
+CREATE TABLE `spl_node_cpm_tbl` (
+  `cpm_id_fk` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`cpm_id_fk`)
+) ENGINE=InnoDB COMMENT='Short Name for Table: cpm';
+
+--
+-- Table structure for table `spl_node_sp_category_tbl`
+--
+
+CREATE TABLE `spl_node_sp_category_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `spc_name` varchar(50) NOT NULL,
+  `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `spc_name_UNIQUE` (`spc_name`),
+  KEY `fk_spc_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_spc_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: spc';
+
+--
+-- Table structure for table `spl_node_dev_tbl`
+--
+
+CREATE TABLE `spl_node_dev_tbl` (
   `dev_id_fk` int(10) unsigned NOT NULL,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`dev_id_fk`),
+  KEY `fk_dev_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_dev_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: dev';
+
+--
+-- Table structure for table `spl_node_sp_tbl`
+--
+
+CREATE TABLE `spl_node_sp_tbl` (
+  `sp_id_fk` int(10) unsigned NOT NULL,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `spc_id_fk` int(10) unsigned NOT NULL,
+  `sp_name` varchar(50) NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`sp_id_fk`),
+  CONSTRAINT `fk_sp_spc` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_category_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_sp_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_sp_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: sp';
+
+--
+-- Table structure for table `spl_node_dev_sp_mapping`
+--
+
+CREATE TABLE `spl_node_dev_sp_mapping` (
+  `dev_id_fk` int(10) unsigned NOT NULL,
+  `sp_id_fk` int(10) unsigned NOT NULL,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`dev_id_fk`,`sp_id_fk`),
+  KEY `fk_devsp_dev_idx` (`dev_id_fk`),
+  KEY `fk_devsp_sp_idx` (`sp_id_fk`),
+  CONSTRAINT `fk_devsp_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_node_dev_tbl` (`dev_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_devsp_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_devsp_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_devsp_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: devsp';
+
+--
+-- Table structure for table `spl_node_service_conf_tbl`
+--
+
+CREATE TABLE `spl_node_service_conf_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `spc_id_fk` int(10) unsigned NOT NULL,
+  `conf_type_code` varchar(20) NOT NULL,
+  `serv_conf_name` varchar(50) NOT NULL,
+  `short_desc` varchar(250) DEFAULT NULL,
+  `serv_conf` json NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_serv_conf_spc_idx` (`spc_id_fk`),  
+  CONSTRAINT `fk_serv_conf_spc` FOREIGN KEY (`spc_id_fk`) REFERENCES `spl_node_sp_category_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_serv_conf_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_serv_conf_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION  
+) ENGINE=InnoDB COMMENT='Short Name for Table: serv_conf';
+
+--
+-- Table structure for table `spl_node_service_instance_tbl`
+--
+
+CREATE TABLE `spl_node_service_instance_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `serv_conf_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`dev_id_fk`,`sp_id_fk`)
-) ENGINE=InnoDB COMMENT='Short Name for Table: devsp';
+  PRIMARY KEY (`id`),
+  KEY `fk_serv_conf_in_serv_conf` (`serv_conf_id_fk`),
+  KEY `fk_serv_conf_in_sp_idx` (`sp_id_fk`),
+  CONSTRAINT `fk_serv_conf_in_serv_conf` FOREIGN KEY (`serv_conf_id_fk`) REFERENCES `spl_node_service_conf_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_serv_conf_in_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_serv_conf_in_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_serv_conf_in_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: serv_conf_in';
+
+--
+-- Table structure for table `spl_node_service_in_txn_tbl`
+--
+
+CREATE TABLE `spl_node_service_in_txn_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `serv_in_id_fk` int(10) unsigned NOT NULL,
+  `txn_data` json NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_serv_in_txn_serv_in_idx` (`serv_in_id_fk`),
+  CONSTRAINT `fk_serv_in_txn_serv_in` FOREIGN KEY (`serv_in_id_fk`) REFERENCES `spl_node_service_instance_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_serv_in_txn_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_serv_in_txn_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: serv_in_txn';
+
+--
+-- Table structure for table `spl_node_field_operator_tbl`
+--
+
+CREATE TABLE `spl_node_field_operator_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `fopcode` varchar(4) NOT NULL,
+  `fop_name` varchar(50) DEFAULT NULL,
+  `mobile_no` varchar(15) NOT NULL,
+  `email_id` varchar(254) DEFAULT NULL,
+  `short_desc` varchar(250) DEFAULT NULL,
+  `fop_state` tinyint(4) NOT NULL COMMENT '1: Active, 2: InActive etc.',
+  `fop_area` tinyint(4) NOT NULL COMMENT '1: open, 2: restricted.',
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_fop_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_fop_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: fop';
+
+--
+-- Table structure for table `spl_node_fop_sp_tbl`
+--
+
+CREATE TABLE `spl_node_fop_sp_tbl` (
+  `fop_id_fk` int(10) unsigned NOT NULL,
+  `sp_id_fk` int(10) unsigned NOT NULL,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`fop_id_fk`,`sp_id_fk`),
+  KEY `fk_fopsp_fop_idx` (`fop_id_fk`),
+  KEY `fk_fopsp_sp_idx` (`sp_id_fk`),
+  CONSTRAINT `fk_fopsp_fop` FOREIGN KEY (`fop_id_fk`) REFERENCES `spl_node_field_operator_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_fopsp_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_fopsp_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_fopsp_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: fopsp';
 
 --
 -- Table structure for table `spl_hkt_task_lib_tbl`
@@ -40,108 +203,12 @@ CREATE TABLE `spl_hkt_task_lib_tbl` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `cpm_spc_task_name_UNIQUE` (`cpm_id_fk`,`spc_id_fk`,`task_name`)
+  KEY `fk_task_spc_idx` (`spc_id_fk`),
+  UNIQUE KEY `cpm_spc_task_name_UNIQUE` (`cpm_id_fk`,`spc_id_fk`,`task_name`),
+  CONSTRAINT `fk_task_spc` FOREIGN KEY (`spc_id_fk`) REFERENCES `spl_node_sp_category_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_task_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_task_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: task';
-
---
--- Table structure for table `spl_hkt_chart_tbl`
---
-
-CREATE TABLE `spl_hkt_chart_tbl` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cpm_id_fk` int(10) unsigned NOT NULL,
-  `spc_id_fk` int(11) NOT NULL,
-  `chart_name` varchar(50) NOT NULL,
-  `chart_type` tinyint(3) unsigned NOT NULL COMMENT '1: Daily\n2: Weekly',
-  `chart_config` json NOT NULL COMMENT 'For chart_type : 1(daily). following is the json structure\n{starttime,endtime,interval}',
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `cpm_spc_chart_name_UNIQUE` (`cpm_id_fk`,`spc_id_fk`,`chart_name`)
-) ENGINE=InnoDB COMMENT='Short Name for Table: chart';
-
---
--- Table structure for table `spl_hkt_chart_tasks_tbl`
---
-
-CREATE TABLE `spl_hkt_chart_tasks_tbl` (
-  `chart_id_fk` int(10) unsigned NOT NULL,
-  `task_id_fk` int(10) unsigned NOT NULL,
-  `task_order` smallint(5) unsigned DEFAULT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`chart_id_fk`,`task_id_fk`),
-  KEY `fk_ct_task_idx` (`task_id_fk`),
-  CONSTRAINT `fk_ctasks_chart` FOREIGN KEY (`chart_id_fk`) REFERENCES `spl_hkt_chart_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ctasks_task` FOREIGN KEY (`task_id_fk`) REFERENCES `spl_hkt_task_lib_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT='Short Name for Table: ctasks';
-
---
--- Table structure for table `spl_hkt_sp_charts_tbl`
---
-
-CREATE TABLE `spl_hkt_sp_charts_tbl` (
-  `chart_id_fk` int(10) unsigned NOT NULL,
-  `sp_id_fk` int(10) unsigned NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`chart_id_fk`,`sp_id_fk`),
-  CONSTRAINT `fk_spcharts_chart` FOREIGN KEY (`chart_id_fk`) REFERENCES `spl_hkt_chart_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT='Short Name for Table: spcharts';
-
---
--- Table structure for table `spl_hkt_chart_txn_tbl`
---
-
-CREATE TABLE `spl_hkt_chart_txn_tbl` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `chart_id_fk` int(10) unsigned NOT NULL,
-  `task_id_fk` int(10) unsigned NOT NULL,
-  `slot` tinyint(3) unsigned NOT NULL,
-  `task_state` tinyint(3) unsigned NOT NULL,
-  `entry_time` datetime NOT NULL,
-  `task_txn_day` date NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `fk_charttxn_chart_idx` (`chart_id_fk`),
-  KEY `fk_charttxn_task_idx` (`task_id_fk`),
-  CONSTRAINT `fk_charttxn_chart` FOREIGN KEY (`chart_id_fk`) REFERENCES `spl_hkt_chart_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_charttxn_task` FOREIGN KEY (`task_id_fk`) REFERENCES `spl_hkt_task_lib_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT='Short Name for Table: charttxn';
-
---
--- Table structure for table `spl_hkt_field_operator_tbl`
---
-
-CREATE TABLE `spl_hkt_field_operator_tbl` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cmp_id_fk` int(10) unsigned NOT NULL,
-  `fopcode` varchar(4) NOT NULL,
-  `fop_name` varchar(50) DEFAULT NULL,
-  `mobile_no` varchar(15) NOT NULL,
-  `email_id` varchar(254) DEFAULT NULL,
-  `short_desc` varchar(250) DEFAULT NULL,
-  `fop_state` tinyint(4) NOT NULL COMMENT '1: Active, 2: InActive etc.',
-  `fop_area` tinyint(4) NOT NULL COMMENT '1: open, 2: restricted.',
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB COMMENT='Short Name for Table: fop';
-
-
---
--- Table structure for table `spl_hkt_fop_sp_tbl`
---
-
-CREATE TABLE `spl_hkt_fop_sp_tbl` (
-  `fop_id_fk` int(10) unsigned NOT NULL,
-  `sp_id_fk` int(10) unsigned NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`fop_id_fk`,`sp_id_fk`),
-  CONSTRAINT `fk_fopsp_fop` FOREIGN KEY (`fop_id_fk`) REFERENCES `spl_hkt_field_operator_tbl` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT='Short Name for Table: fopsp';
 
 --
 -- Table structure for table `spl_hkt_sp_complaint_tbl`
@@ -149,6 +216,7 @@ CREATE TABLE `spl_hkt_fop_sp_tbl` (
 
 CREATE TABLE `spl_hkt_sp_complaint_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
   `complaint_title` varchar(250) NOT NULL,
   `description` varchar(500) DEFAULT NULL,
@@ -162,5 +230,9 @@ CREATE TABLE `spl_hkt_sp_complaint_tbl` (
   `remarks` varchar(500) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_spcomplaint_sp_idx` (`sp_id_fk`),
+  CONSTRAINT `fk_spcomplaint_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_spcomplaint_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_spcomplaint_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spcomplaint';
