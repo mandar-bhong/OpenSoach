@@ -67,7 +67,7 @@ CREATE TABLE `spl_node_sp_tbl` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`sp_id_fk`),
-  CONSTRAINT `fk_sp_spc` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_category_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sp_spc` FOREIGN KEY (`spc_id_fk`) REFERENCES `spl_node_sp_category_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   KEY `fk_sp_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_sp_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: sp';
