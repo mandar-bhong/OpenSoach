@@ -76,6 +76,26 @@ export const TRANSLATIONS: TranslationValue[] = [
   {
     key: 'ERROR_LOGIN_INVALID_CATEGORY',
     en: 'Unauthorized Access'
-  }
+  },
+
+  /* CUSTOMER PRODUCT MAPPING STATES BEGIN */
+  {
+    key: 'CUSTOMER_PRODUCT_MAPPING_STATE_0',
+    en: 'NOT SET'
+  },
+  {
+    key: 'CUSTOMER_PRODUCT_MAPPING_STATE_1',
+    en: 'ACTIVE'
+  },
+  {
+    key: 'CUSTOMER_PRODUCT_MAPPING_STATE_2',
+    en: 'INACTIVE'
+  },
+  {
+    key: 'CUSTOMER_PRODUCT_MAPPING_STATE_3',
+    en: 'SUSPENDED'
+  },
+
+  /* CUSTOMER PRODUCT MAPPING STATES END */
 ];
 

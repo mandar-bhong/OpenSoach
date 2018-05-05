@@ -40,6 +40,14 @@ html *
   display:none;
 }
 
+.mat-header-row {
+  background-color: #37A5CD;
+}
+
+.mat-header-cell {
+  color:white !important;
+}
+
 @media(max-width: 768px) {
   .mat-row-mobile-label {
     width: 200px;

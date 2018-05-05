@@ -1,0 +1,97 @@
+<section>
+  <div class="container-fluid">
+    <div class="row" id="main-content">
+      <div class="auth-box card">
+        <div class="card-block">
+          <div class="col-sm col-md m-b-30 col">
+            <div>
+              <div>
+                <button type="button" color="accent" mat-icon-button (click)="add()" matTooltip="Add" [hidden]="addVisiblity===false">
+                  <mat-icon aria-label="Add">add</mat-icon>
+                </button>
+              </div>
+              <div class="example-container mat-elevation-z8">
+                <mat-table [dataSource]="dataSource">
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                  <ng-container matColumnDef="prodcode">
+                    <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Product Code</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+                      <span class="mat-row-mobile-label">Product Code</span>
+                      {{row.prodcode}}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="dbiname">
+                    <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Database Name</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+                      <span class="mat-row-mobile-label">Database Name</span>
+                      {{row.dbiname}}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="cpmstate">
+                    <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Status</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+                      <span class="mat-row-mobile-label">Status</span>
+                      {{customerSharedService.getCpmState(row.cpmstate) | translate}}
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+                      <span class="mat-row-mobile-label">Action</span>
+                      <button mat-icon-button color="accent" (click)="editRecord(row)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+                </mat-table>
+              </div>
+            </div>
+            <div [hidden]="showForm===false">
+              <form class="md-float-material form-material" [formGroup]="editableForm" (ngSubmit)="save()">
+                <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+                <div class="form-group form-primary">
+                  <mat-form-field class="full-width" id="point-selection">
+                    <mat-select placeholder="Product" [(ngModel)]="dataModel.prodid" formControlName="productControl" required>
+                      <mat-option *ngFor="let product of products" [value]="product.prodid">
+                        {{product.prodcode}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="editableForm.controls['productControl'].hasError('required')">
+                      Product code is Required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="form-group form-primary">
+                  <mat-form-field class="full-width" id="point-selection">
+                    <mat-select placeholder="Database Instance" [(ngModel)]="dataModel.dbiid" formControlName="dbInstanceControl" required>
+                      <mat-option *ngFor="let dbinstance of dbinstances" [value]="dbinstance.dbiid">
+                        {{dbinstance.dbiname}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="editableForm.controls['dbInstanceControl'].hasError('required')">
+                      DB instance is Required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="form-group form-primary">
+                  <mat-form-field class="full-width" id="point-selection">
+                    <mat-select placeholder="Status" [(ngModel)]="dataModel.cpmstate" formControlName="cpmStateControl" required>
+                      <mat-option *ngFor="let cpmstate of cpmstates" [value]="cpmstate.value">
+                        {{cpmstate.text | translate}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="editableForm.controls['cpmStateControl'].hasError('required')">
+                      Status is Required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

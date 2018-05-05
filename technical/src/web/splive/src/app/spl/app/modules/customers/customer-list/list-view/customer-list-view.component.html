@@ -35,29 +35,29 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 <ng-container matColumnDef="custname">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Cust Name</mat-header-cell>
-                  <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
-                    <span class="mat-row-mobile-label">Customer Name:</span>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Customer Name</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+                    <span class="mat-row-mobile-label">Customer Name</span>
                     {{row.custname}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="corpname">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Corp Name</mat-header-cell>
-                  <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
-                    <span class="mat-row-mobile-label">Corp Name:</span>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Corporate Name</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+                    <span class="mat-row-mobile-label">Corporate Name</span>
                     {{row.corpname}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="poc1name">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Name</mat-header-cell>
-                  <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
-                    <span class="mat-row-mobile-label">Name</span>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">POC Name</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+                    <span class="mat-row-mobile-label">POC Name</span>
                     {{row.poc1name}}
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="poc1emailid">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Email Id</mat-header-cell>
-                  <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Email Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
                     <span class="mat-row-mobile-label">Email Id</span>
                     {{row.poc1emailid}}
                   </mat-cell>
@@ -77,16 +77,30 @@
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                  <mat-header-cell *matHeaderCellDef style="flex:0 0 6%;">Action</mat-header-cell>
-                  <mat-cell *matCellDef="let row" style="flex:0 0 6%;">
+                  <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
+                  <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
                     <span class="mat-row-mobile-label">Action</span>
-                    <i (click)="editRecord(row.custid)" style="color:#337AB7 !important;" class="fa fa-eye" aria-hidden="true" matTooltip="View Details"></i>
+                    <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <ng-template matMenuContent>
+                        <button mat-menu-item (click)="editRecord(row.custid)">
+                          <mat-icon color='primary'>remove_red_eye</mat-icon>
+                          <span>Details</span>
+                        </button>
+                        <button mat-menu-item (click)="associateProduct(row.custid)">
+                          <mat-icon color='primary'>link</mat-icon>
+                          <span>Associated Products</span>
+                        </button>
+                      </ng-template>
+                    </mat-menu>
                   </mat-cell>
                 </ng-container>
               </mat-table>
               <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
               </mat-paginator>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
