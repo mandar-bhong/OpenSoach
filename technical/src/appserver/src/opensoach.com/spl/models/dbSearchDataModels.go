@@ -6,6 +6,7 @@ type DBSearchCustomerRequestFilterDataModel struct {
 	CustName  *string `db:"cust_name" json:"custname"`
 	CustState *int    `db:"cust_state" json:"custstate"`
 	CorpID    *int64  `db:"corp_id_fk" json:"corpid"`
+	ProdCode  *string `db:"prod_code" json:"prodcode"`
 }
 
 type DBSearchUserRequestFilterDataModel struct {
