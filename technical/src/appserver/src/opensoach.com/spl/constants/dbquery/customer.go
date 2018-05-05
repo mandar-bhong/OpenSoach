@@ -21,13 +21,13 @@ const QUERY_GET_CORP_TABLE_INFO_BY_CUSTOMER_ID = `SELECT corp.id,corp_name,corp_
 const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_All = "SELECT id,corp_id_fk,cust_name,cust_state,cust_state_since,created_on,updated_on FROM spl_master_customer_tbl"
 
 const QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER = `SELECT cust.id as id,cust.corp_id_fk as corp_id_fk ,cust.cust_name as cust_name ,cust.cust_state as cust_state,corp.corp_name as corp_name ,custdetails.poc1_name as poc1_name,custdetails.poc1_email_id as poc1_email_id,custdetails.poc1_mobile_no as poc1_mobile_no ,cust.created_on as created_on,cust.updated_on as updated_on FROM spl_master_customer_tbl cust INNER JOIN spl_master_corp_tbl corp ON corp.id = cust.corp_id_fk 
-INNER JOIN spl_master_cust_prod_mapping_tbl cpm ON cust.id = cpm.id
-INNER JOIN spl_master_product_tbl prod ON prod.id = cpm.prod_id_fk
+LEFT JOIN spl_master_cust_prod_mapping_tbl cpm ON cust.id = cpm.id
+LEFT JOIN spl_master_product_tbl prod ON prod.id = cpm.prod_id_fk
 LEFT JOIN spl_master_cust_details_tbl custdetails ON custdetails.cust_id_fk = cust.id $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT = `SELECT count(*) as count FROM spl_master_customer_tbl cust INNER JOIN spl_master_corp_tbl corp ON corp.id = cust.corp_id_fk 
-INNER JOIN spl_master_cust_prod_mapping_tbl cpm ON cust.id = cpm.id
-INNER JOIN spl_master_product_tbl prod ON prod.id = cpm.prod_id_fk
+LEFT JOIN spl_master_cust_prod_mapping_tbl cpm ON cust.id = cpm.id
+LEFT JOIN spl_master_product_tbl prod ON prod.id = cpm.prod_id_fk
 LEFT JOIN spl_master_cust_details_tbl custdetails ON custdetails.cust_id_fk = cust.id $WhereCondition$`
 
 const QUERY_GET_PRODUCT_ASSOCIATION_BY_CUST_ID = `Select cpm.id as id,cpm.cpm_state as cpm_state,cpm.prod_id_fk as prod_id_fk,prod.prod_code as prod_code,cpm.dbi_id_fk as dbi_id_fk,dbi.dbi_name as dbi_name From spl_master_cust_prod_mapping_tbl cpm
