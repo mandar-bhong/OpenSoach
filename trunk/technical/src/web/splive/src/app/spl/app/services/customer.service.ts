@@ -11,7 +11,14 @@ import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-it
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { ListingService } from '../../../shared/services/listing.service';
 import { EnumNumberDatasource } from '../../../shared/utility/enum-number-datasource';
-import { CustomerAddRequest, CustomerDataListingItemResponse, CustomerFilterRequest } from '../models/api/customer-models';
+import {
+    CustomerAddRequest,
+    CustomerAssociateProductListItemResponse,
+    CustomerAssociateProductRequest,
+    CustomerAssociateProductUpdateRequest,
+    CustomerDataListingItemResponse,
+    CustomerFilterRequest,
+} from '../models/api/customer-models';
 
 @Injectable()
 export class CustomerService extends ListingService<CustomerFilterRequest, CustomerDataListingItemResponse> {
@@ -55,5 +62,24 @@ export class CustomerService extends ListingService<CustomerFilterRequest, Custo
 
     getCustomerState(state: number) {
         return 'CUSTOMER_STATE_' + state;
+    }
+
+    associateCustomerToProduct(request: CustomerAssociateProductRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<RecordIDResponse>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/customer/associate/product',
+            request, implicitErrorHandling);
+    }
+
+    updateAssociateCustomerToProduct(request: CustomerAssociateProductUpdateRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/customer/productassociation/update',
+            request, implicitErrorHandling);
+    }
+
+    getCustomerProductAssociation(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<CustomerAssociateProductListItemResponse[]>> {
+        return this.serverApiInterfaceService.getWithQueryParams(
+            EnvironmentProvider.baseurl + '/api/osu/v1/customer/list/productassociation',
+            request, implicitErrorHandling);
     }
 }

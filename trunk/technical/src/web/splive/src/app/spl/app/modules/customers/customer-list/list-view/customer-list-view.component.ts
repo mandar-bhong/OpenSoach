@@ -111,6 +111,11 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
     this.router.navigate(['customers', 'update'], { queryParams: { id: id, callbackurl: 'customers' }, skipLocationChange: true });
   }
 
+  associateProduct(id: number) {
+    this.router.navigate(['customers', 'products'],
+      { queryParams: { id: id, callbackurl: 'customers' }, skipLocationChange: true });
+  }
+
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
       this.dataListFilterChangedSubscription.unsubscribe();

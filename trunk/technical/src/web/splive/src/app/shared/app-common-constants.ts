@@ -15,3 +15,10 @@ export enum USER_CATEGORY {
 }
 
 export const DEFAULT_PAGE_MENU = 'DEFAULT_PAGE_MENU';
+
+export enum CUSTOMER_PRODUCT_MAPPING_STATE {
+    NOT_SET = 0,
+    ACTIVE = 1,
+    INACTIVE = 2,
+    SUSPENDED = 3
+}

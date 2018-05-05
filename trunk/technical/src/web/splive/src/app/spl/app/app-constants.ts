@@ -33,6 +33,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: ''
     },
     {
+        url: '/customers/products',
+        linktitle: 'Products',
+        pagetitle: 'Associated Products',
+        linkiconcss: ''
+    },
+    {
         url: '/users',
         linktitle: 'Users',
         pagetitle: 'Users',

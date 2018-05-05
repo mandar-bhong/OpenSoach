@@ -1,4 +1,4 @@
-import { CUSTOMER_STATE } from '../../../../shared/app-common-constants';
+import { CUSTOMER_PRODUCT_MAPPING_STATE, CUSTOMER_STATE } from '../../../../shared/app-common-constants';
 
 export class CustomerAddRequest {
     custname: string;
@@ -24,3 +24,25 @@ export class CustomerDataListingItemResponse {
     createdon: Date;
     updateon: Date;
 }
+
+export class CustomerAssociateProductRequest {
+    custid: number;
+    prodid: number;
+    dbiid: number;
+    cpmstate: CUSTOMER_PRODUCT_MAPPING_STATE;
+}
+
+export class CustomerAssociateProductListItemResponse {
+    cpmid: number;
+    prodid: number;
+    prodcode: string;
+    dbiid: number;
+    dbiname: string;
+    cpmstate: CUSTOMER_PRODUCT_MAPPING_STATE;
+}
+
+export class CustomerAssociateProductUpdateRequest {
+    cpmid: number;
+    cpmstate: CUSTOMER_PRODUCT_MAPPING_STATE;
+}
+
