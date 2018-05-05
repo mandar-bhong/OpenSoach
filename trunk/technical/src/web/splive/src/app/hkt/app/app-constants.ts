@@ -1,54 +1,69 @@
-import { RoutingModel } from '../../shared/models/ui/routing-model';
+import { RoutingModel, SideMenuModel } from '../../shared/models/ui/routing-model';
 
 export const PROD_CODE = 'SPL_HKT';
 export const APP_ROUTES: RoutingModel[] = [
     {
         url: '/dashboard',
-        title: 'Dashboard',
-        breadcumtitle: 'Dashboard',
+        linktitle: 'Dashboard',
+        pagetitle: 'Dashboard',
         linkiconcss: 'fa fa-dashboard'
     },
     {
         url: '/devices',
-        title: 'Devices',
-        breadcumtitle: 'Devices',
+        linktitle: 'Devices',
+        pagetitle: 'Devices',
         linkiconcss: 'fa fa-tablet'
     },
     {
         url: '/servicepoints',
-        title: 'Service Points',
-        breadcumtitle: 'Service Points',
+        linktitle: 'Service Points',
+        pagetitle: 'Service Points',
         linkiconcss: 'fa fa-map-marker'
     },
     {
         url: '/charts',
-        title: 'Charts',
-        breadcumtitle: 'Charts',
+        linktitle: 'Charts',
+        pagetitle: 'Charts',
         linkiconcss: 'fa fa-table'
     },
     {
         url: '/foperators',
-        title: 'Operators',
-        breadcumtitle: 'Operators',
+        linktitle: 'Operators',
+        pagetitle: 'Operators',
         linkiconcss: 'fa fa-meh-o'
     },
     {
         url: '/complaints',
-        title: 'Complaints',
-        breadcumtitle: 'Complaints',
+        linktitle: 'Complaints',
+        pagetitle: 'Complaints',
         linkiconcss: 'fa fa-flag'
     },
     {
         url: '/reports',
-        title: 'Reports',
-        breadcumtitle: 'Reports',
+        linktitle: 'Reports',
+        pagetitle: 'Reports',
         linkiconcss: 'fa fa-file'
     },
     {
         url: '/users',
-        title: 'Users',
-        breadcumtitle: 'Users',
+        linktitle: 'Users',
+        pagetitle: 'Users',
         linkiconcss: 'fa fa-users'
     }
 ];
+
+export const SIDE_MENU_LINKS: SideMenuModel[] = [
+    { url: '/dashboard', level: 0, routingModel: null },
+    { url: '/devices', level: 0, routingModel: null },
+    { url: '/servicepoints', level: 0, routingModel: null },
+    { url: '/charts', level: 0, routingModel: null },
+    { url: '/foperators', level: 0, routingModel: null },
+    { url: '/complaints', level: 0, routingModel: null },
+    { url: '/reports', level: 0, routingModel: null },
+    { url: '/users', level: 0, routingModel: null }
+];
+
+export const TOP_MENU_LINKS = [
+];
+
 

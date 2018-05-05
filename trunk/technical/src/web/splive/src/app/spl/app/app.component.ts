@@ -16,7 +16,7 @@ import { APP_ROUTES, SIDE_MENU_LINKS } from './app-constants';
 })
 
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-  title = 'ServicePoint.Live';
+  title = 'servicepoint.Live';
   routerEventSubscription: Subscription;
   loading: boolean;
   constructor(private loginHandlerService: LoginHandlerService,
