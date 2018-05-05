@@ -48,7 +48,11 @@ const routes: Routes = [
         data: { preload: true }
       }
     ]
-  }
+  },
+  {
+    path: '**',
+    redirectTo: '/dashboard', pathMatch: 'full'
+  },
 ];
 
 @NgModule({

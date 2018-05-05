@@ -7,6 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AppCommonModule } from '../../shared/app-common.module';
 import { LayoutModule } from '../../shared/layouts/layout.module';
+import { MaterialModules } from '../../shared/modules/material/material-modules';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -33,6 +34,7 @@ import { AppComponent } from './app.component';
       preventDuplicates: true,
       tapToDismiss: false
     }),
+    MaterialModules.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
