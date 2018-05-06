@@ -7,9 +7,9 @@ import (
 	pcmodels "opensoach.com/prodcore/models"
 )
 
-func AuthorizeDevice(mstCache coremodels.CacheContext, authMap map[int]string, packet *gmodels.EndPointToServerTaskModel) gmodels.PacketProcessingResult {
+func AuthorizeDevice(mstCache coremodels.CacheContext, authMap map[int]string, packet *gmodels.PacketProcessingTaskModel) gmodels.PacketProcessingTaskResult {
 
-	result := gmodels.PacketProcessingResult{}
+	result := gmodels.PacketProcessingTaskResult{}
 
 	payload := &pcmodels.DevicePacketAuth{}
 	devicePacket := &gmodels.DevicePacket{}

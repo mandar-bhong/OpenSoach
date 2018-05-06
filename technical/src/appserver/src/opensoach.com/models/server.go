@@ -11,14 +11,14 @@ type ServerListingResultModel struct {
 	RecordList  interface{}
 }
 
-type EndPointToServerTaskModel struct {
+type PacketProcessingTaskModel struct {
 	Token         string `json:"token"`
 	EPTaskListner string `json:"eptsklistner"`
 	ChannelID     int    `json:"chnid"`
 	Message       []byte `json:"msg"`
 }
 
-type PacketProcessingResult struct {
+type PacketProcessingTaskResult struct {
 	IsSuccess  bool            `json:"issuccess"`
 	StatusCode int             `json:"status"`
 	AckPayload []*DevicePacket `json:"ackpayload"`

@@ -8,7 +8,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-func ProcessDevReg(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingResult) {
+func ProcessDevReg(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	packetProcessingResult.IsSuccess = true
 

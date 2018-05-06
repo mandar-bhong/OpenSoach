@@ -13,7 +13,7 @@ type WSHandler struct {
 type EPHandler interface {
 	OnEPConnection(int)
 	OnEPDisConnection(int)
-	OnEPMessage(*gmodels.EndPointToServerTaskModel) *gmodels.PacketProcessingResult
+	OnEPMessage(*gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult
 	RegisterHandler(map[string]PacketProcessHandlerFunc)
 }
 

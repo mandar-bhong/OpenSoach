@@ -18,7 +18,7 @@ import (
 var chIDDeviceInfo map[int]string
 var packetHandlers map[string]PacketProcessHandlerFunc
 
-type PacketProcessHandlerFunc func(*gmodels.EndPointToServerTaskModel) *gmodels.PacketProcessingResult
+type PacketProcessHandlerFunc func(*gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult
 
 func init() {
 	chIDDeviceInfo = make(map[int]string)
@@ -37,11 +37,11 @@ func (WSHandler) OnDisConnection(wsconn int) {
 func (WSHandler) OnMessage(message wh.WebsocketDataReceivedMessageStruct) {
 	fmt.Printf("Client message %v\n", string(message.Message))
 
-	endPointToServerTaskModel := &gmodels.EndPointToServerTaskModel{}
-	endPointToServerTaskModel.ChannelID = message.ChannelID
-	endPointToServerTaskModel.Token = "Token1"
-	endPointToServerTaskModel.EPTaskListner = "TaskListner"
-	endPointToServerTaskModel.Message = message.Message
+	packetProcessingTaskModel := &gmodels.PacketProcessingTaskModel{}
+	packetProcessingTaskModel.ChannelID = message.ChannelID
+	packetProcessingTaskModel.Token = "Token1"
+	packetProcessingTaskModel.EPTaskListner = "TaskListner"
+	packetProcessingTaskModel.Message = message.Message
 
 	err, packetHeader := processor.DecodeHeader(message.Message)
 
@@ -52,19 +52,19 @@ func (WSHandler) OnMessage(message wh.WebsocketDataReceivedMessageStruct) {
 
 	cmd := pchelper.GetDeviceCmdKeyFromHeader(packetHeader)
 
-	var packetProcessingResult *gmodels.PacketProcessingResult
+	var packetProcessingResult *gmodels.PacketProcessingTaskResult
 	preExecutor, hasPreExecutor := packetHandlers[pcconst.DEVICE_CMD_PRE_EXECUTOR]
 
 	if hasPreExecutor {
-		packetProcessingResult = preExecutor(endPointToServerTaskModel)
+		packetProcessingResult = preExecutor(packetProcessingTaskModel)
 	}
 
 	executor, hasHandler := packetHandlers[cmd]
 
 	if hasHandler == true {
-		packetProcessingResult = executor(endPointToServerTaskModel)
+		packetProcessingResult = executor(packetProcessingTaskModel)
 	} else {
-		packetProcessingResult = epHandler.OnEPMessage(endPointToServerTaskModel)
+		packetProcessingResult = epHandler.OnEPMessage(packetProcessingTaskModel)
 	}
 
 	if len(packetProcessingResult.AckPayload) > 0 {
@@ -78,7 +78,7 @@ func (WSHandler) OnMessage(message wh.WebsocketDataReceivedMessageStruct) {
 				continue
 			}
 
-			ws.SendMessage(endPointToServerTaskModel.ChannelID, []byte(jsonData))
+			ws.SendMessage(packetProcessingTaskModel.ChannelID, []byte(jsonData))
 		}
 	}
 }

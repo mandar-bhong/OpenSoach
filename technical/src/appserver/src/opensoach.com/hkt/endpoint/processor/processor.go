@@ -38,9 +38,9 @@ func GetAuthKey() string {
 		strconv.Itoa(pcconst.DEVICE_CMD_KEY)
 }
 
-func PreProcessExecutor(epModel *gmodels.EndPointToServerTaskModel) *gmodels.PacketProcessingResult {
+func PreProcessExecutor(epModel *gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult {
 
-	packetProcessingResult := &gmodels.PacketProcessingResult{}
+	packetProcessingResult := &gmodels.PacketProcessingTaskResult{}
 
 	errHeaderKey, cmdKey := GetHeaderKey(epModel.Message)
 
