@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	//"opensoach.com/core/logger"
-	wh "opensoach.com/prodcore/endpoint/webSocketHelper"
+	wh "opensoach.com/prodcore/endpoint/websockethelper"
 )
 
 var websocketInitData *wh.WebsocketInitStruct

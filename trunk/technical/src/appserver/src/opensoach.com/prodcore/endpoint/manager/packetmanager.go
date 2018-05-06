@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	gmodels "opensoach.com/models"
-	wh "opensoach.com/prodcore/endpoint/webSocketHelper"
+	wh "opensoach.com/prodcore/endpoint/websockethelper"
 
 	"opensoach.com/prodcore/endpoint/processor"
-	ws "opensoach.com/prodcore/endpoint/webSocketManager"
+	ws "opensoach.com/prodcore/endpoint/websocketmanager"
 
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
