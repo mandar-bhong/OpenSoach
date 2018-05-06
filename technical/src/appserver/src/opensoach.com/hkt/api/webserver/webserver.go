@@ -32,9 +32,15 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	taskmodule.Init(webConfig)
 	fopmodule.Init(webConfig)
 
-	err := ginEngine.Run(fmt.Sprintf("%s", configSetting.WebConfig.ServiceAddress))
+	var webServerStartErr error
 
-	return err
+	go func() {
+		webServerStartErr = ginEngine.Run(fmt.Sprintf("%s", configSetting.WebConfig.ServiceAddress))
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	return webServerStartErr
 }
 
 func enableCrossDomain(c *gin.Engine) {

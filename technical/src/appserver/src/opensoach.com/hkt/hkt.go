@@ -3,10 +3,14 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	"opensoach.com/hkt/api"
+	//"opensoach.com/hkt/endpoint"
+	//"opensoach.com/hkt/server"
 	gmodels "opensoach.com/models"
 )
 
@@ -19,8 +23,36 @@ func main() {
 		return
 	}
 
-	api.Init(dbconfig)
+	if startOk := api.Init(dbconfig); startOk == false {
+		return
+	}
 
+	//	if startOk := endpoint.Init(dbconfig); startOk == false {
+	//		return
+	//	}
+
+	//	if startOk := server.Init(dbconfig); startOk == false {
+	//		return
+	//	}
+
+	var gracefulStop = make(chan os.Signal)
+	signal.Notify(gracefulStop, syscall.SIGTERM)
+	signal.Notify(gracefulStop, syscall.SIGINT)
+
+	go func() {
+		sig := <-gracefulStop
+		fmt.Printf("caught sig: %+v", sig)
+		DeInit()
+		os.Exit(0)
+	}()
+
+	select {}
+}
+
+func DeInit() {
+	api.DeInit()
+	//endpoint.DeInit()
+	//server.DeInit()
 }
 
 func readConfiguration() (bool, *gmodels.ConfigDB) {
