@@ -18,8 +18,6 @@ import (
 type EPHandler struct {
 }
 
-var connID int
-
 var connectionDeviceInfo map[int]string
 
 func SendPacket(connID int, message string) {
@@ -28,17 +26,13 @@ func SendPacket(connID int, message string) {
 
 }
 
-//func (EPHandler) GetMasterCache() coremodels.CacheContext {
-//	return repo.Instance().Context.Master.Cache
-//}
-
 func (EPHandler) RegisterHandler(handler map[string]pcepmgr.PacketProcessHandlerFunc) {
 	handler[processor.GetAuthKey()] = processor.AuthProcessor
 	handler[pcconst.DEVICE_CMD_PRE_EXECUTOR] = processor.PreProcessExecutor
 }
 
 func (EPHandler) OnEPConnection(wsconn int) {
-	connID = wsconn
+
 	fmt.Printf("Client connected %v\n", wsconn)
 }
 
@@ -76,14 +70,5 @@ func (EPHandler) OnEPMessage(endPointToServerTaskModel *gmodels.EndPointToServer
 
 	fmt.Println("Returning from OnEPMessage")
 	return packetProcessingResult
-
-}
-
-func ProcessEPPacket(msg string) (string, error) {
-
-	fmt.Printf("In ProcessEPPacket Message : %s \n", msg)
-
-	SendPacket(connID, msg)
-	return msg, nil
 
 }

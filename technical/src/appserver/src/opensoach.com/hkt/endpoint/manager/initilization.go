@@ -91,8 +91,6 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 
 	initTaskQueHandler()
 
-	//webServerStartErr := wm.Init(8080, OnEPConnection, OnEPDisConnection, OnEPMessage)
-
 	webServerStartErr := pcmgr.HandleEndPoint(8080, EPHandler{})
 
 	return webServerStartErr
@@ -138,7 +136,6 @@ func initTaskQueHandler() {
 	var hkthandler map[string]interface{}
 	hkthandler = make(map[string]interface{})
 
-	hkthandler["EPAck"] = ProcessEPPacket
 	repo.Instance().ProdTaskContext.RegisterTaskHandlers(hkthandler)
 
 	go repo.Instance().ProdTaskContext.StartWorker("EPAck")
