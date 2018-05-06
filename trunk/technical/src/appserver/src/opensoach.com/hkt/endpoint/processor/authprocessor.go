@@ -8,9 +8,9 @@ import (
 	pcepproc "opensoach.com/prodcore/endpoint/processor"
 )
 
-func AuthProcessor(epmodel *gmodels.EndPointToServerTaskModel) *gmodels.PacketProcessingResult {
+func AuthProcessor(epmodel *gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult {
 
-	packetProcessingResult := &gmodels.PacketProcessingResult{}
+	packetProcessingResult := &gmodels.PacketProcessingTaskResult{}
 	//chnIDAuthData
 
 	fmt.Printf("Repo ctx : %#v \n", repo.Instance().Context)

@@ -40,11 +40,11 @@ func (EPHandler) OnEPDisConnection(wsconn int) {
 	fmt.Printf("Client disconnected %v\n", wsconn)
 }
 
-func (EPHandler) OnEPMessage(endPointToServerTaskModel *gmodels.EndPointToServerTaskModel) *gmodels.PacketProcessingResult {
+func (EPHandler) OnEPMessage(endPointToServerTaskModel *gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult {
 
 	fmt.Println("Packet received at OnEPMessage")
 
-	packetProcessingResult := &gmodels.PacketProcessingResult{}
+	packetProcessingResult := &gmodels.PacketProcessingTaskResult{}
 
 	if isSuccess, jsonData := ghelper.ConvertToJSON(endPointToServerTaskModel); isSuccess == true {
 		executionErr, exeResult := repo.Instance().ProdTaskContext.

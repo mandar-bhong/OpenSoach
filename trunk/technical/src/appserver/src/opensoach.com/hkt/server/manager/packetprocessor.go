@@ -14,7 +14,7 @@ import (
 	pchelper "opensoach.com/prodcore/helper"
 )
 
-type CommandExecutor func(context *lmodels.PacketProccessExecution, result *gmodels.PacketProcessingResult)
+type CommandExecutor func(context *lmodels.PacketProccessExecution, result *gmodels.PacketProcessingTaskResult)
 
 var PacketProcessExecutor map[string]CommandExecutor
 
@@ -39,12 +39,12 @@ func InitProcessor() {
 
 func ProcessEndPointReceivedPacket(msg string) (string, error) {
 
-	packetProcessingResult := &gmodels.PacketProcessingResult{}
+	packetProcessingResult := &gmodels.PacketProcessingTaskResult{}
 	var packetResult string
 
 	fmt.Println("Server: Task received for processing")
 
-	endPointToServerTaskModel := &gmodels.EndPointToServerTaskModel{}
+	endPointToServerTaskModel := &gmodels.PacketProcessingTaskModel{}
 
 	if isSuccess := ghelper.ConvertFromJSONString(msg, endPointToServerTaskModel); isSuccess == false {
 
@@ -113,7 +113,7 @@ func ProcessEndPointReceivedPacket(msg string) (string, error) {
 
 }
 
-func ConvertResult(packetProcessingResult *gmodels.PacketProcessingResult) (string, error) {
+func ConvertResult(packetProcessingResult *gmodels.PacketProcessingTaskResult) (string, error) {
 	isJsonSuccess, jsonData := ghelper.ConvertToJSON(packetProcessingResult)
 
 	if isJsonSuccess == false {
