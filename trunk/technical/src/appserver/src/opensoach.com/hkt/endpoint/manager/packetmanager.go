@@ -8,9 +8,15 @@ import (
 	"opensoach.com/hkt/constants"
 	repo "opensoach.com/hkt/endpoint/repository"
 	gmodels "opensoach.com/models"
-	wh "opensoach.com/prodcore/endpoint/webSocketHelper"
+	//wh "opensoach.com/prodcore/endpoint/webSocketHelper"
+	"opensoach.com/hkt/endpoint/processor"
+	pcconst "opensoach.com/prodcore/constants"
+	pcepmgr "opensoach.com/prodcore/endpoint/manager"
 	wm "opensoach.com/prodcore/endpoint/webSocketManager"
 )
+
+type EPHandler struct {
+}
 
 var connID int
 
@@ -22,32 +28,55 @@ func SendPacket(connID int, message string) {
 
 }
 
-func OnEPConnection(wsconn int) {
+//func (EPHandler) GetMasterCache() coremodels.CacheContext {
+//	return repo.Instance().Context.Master.Cache
+//}
+
+func (EPHandler) RegisterHandler(handler map[string]pcepmgr.PacketProcessHandlerFunc) {
+	handler[processor.GetAuthKey()] = processor.AuthProcessor
+	handler[pcconst.DEVICE_CMD_PRE_EXECUTOR] = processor.PreProcessExecutor
+}
+
+func (EPHandler) OnEPConnection(wsconn int) {
 	connID = wsconn
 	fmt.Printf("Client connected %v\n", wsconn)
-
 }
-func OnEPDisConnection(wsconn int) {
+
+func (EPHandler) OnEPDisConnection(wsconn int) {
 	fmt.Printf("Client disconnected %v\n", wsconn)
 }
-func OnEPMessage(message wh.WebsocketDataReceivedMessageStruct) {
-	fmt.Printf("Client message %v\n", string(message.Message))
 
-	endPointToServerTaskModel := gmodels.EndPointToServerTaskModel{}
-	endPointToServerTaskModel.ChannelID = message.ChannelID
-	endPointToServerTaskModel.Token = "Token1"
-	endPointToServerTaskModel.EPTaskListner = "TaskListner"
-	endPointToServerTaskModel.Message = message.Message
+func (EPHandler) OnEPMessage(endPointToServerTaskModel *gmodels.EndPointToServerTaskModel) *gmodels.PacketProcessingResult {
+
+	fmt.Println("Packet received at OnEPMessage")
+
+	packetProcessingResult := &gmodels.PacketProcessingResult{}
 
 	if isSuccess, jsonData := ghelper.ConvertToJSON(endPointToServerTaskModel); isSuccess == true {
-		repo.Instance().ProdTaskContext.
-			SubmitTask(constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY, jsonData)
+		executionErr, exeResult := repo.Instance().ProdTaskContext.
+			ProcessTask(constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY, jsonData)
+
+		if executionErr != nil {
+
+		}
+
+		isConvertionSuccess := ghelper.ConvertFromJSONString(exeResult, packetProcessingResult)
+
+		if isConvertionSuccess == false {
+			fmt.Println("Packet received at if isConvertionSuccess == false {")
+			fmt.Println(exeResult)
+			return packetProcessingResult
+		}
+
 	} else {
 		logger.Context().Log("", logger.Normal, logger.Error, "Unable to convert to JSON packet")
 	}
 
-	repo.Instance().ProdTaskContext.
-		SubmitTask(constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY, string(message.Message))
+	packetProcessingResult.IsSuccess = true
+
+	fmt.Println("Returning from OnEPMessage")
+	return packetProcessingResult
+
 }
 
 func ProcessEPPacket(msg string) (string, error) {
