@@ -13,7 +13,14 @@ type ServerListingResultModel struct {
 
 type EndPointToServerTaskModel struct {
 	Token         string `json:"token"`
-	EPTaskListner string `json:"eptasklistner"`
-	ChannelID     int    `json:"channelid"`
-	Message       []byte `json:"message"`
+	EPTaskListner string `json:"eptsklistner"`
+	ChannelID     int    `json:"chnid"`
+	Message       []byte `json:"msg"`
+}
+
+type PacketProcessingResult struct {
+	IsSuccess  bool            `json:"issuccess"`
+	StatusCode int             `json:"status"`
+	AckPayload []*DevicePacket `json:"ackpayload"`
+	ChannelID  int             `json:"chnid"`
 }
