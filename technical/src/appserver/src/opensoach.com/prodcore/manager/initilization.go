@@ -14,6 +14,7 @@ import (
 	"opensoach.com/core/logger"
 	coremodels "opensoach.com/core/models"
 	pcconst "opensoach.com/prodcore/constants"
+	pcepmgr "opensoach.com/prodcore/endpoint/manager"
 )
 
 func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMasterConfigRowModel, productType string) (error, *gmodels.ConfigSettings) {
@@ -261,4 +262,8 @@ func InitModules(configSetting *gmodels.ConfigSettings) error {
 	}
 
 	return nil
+}
+
+func HandleEndPoint(wsport int, handler pcepmgr.EPHandler) error {
+	return pcepmgr.Init(wsport, handler)
 }
