@@ -12,7 +12,7 @@ import (
 	"opensoach.com/hkt/endpoint/processor"
 	pcconst "opensoach.com/prodcore/constants"
 	pcepmgr "opensoach.com/prodcore/endpoint/manager"
-	wm "opensoach.com/prodcore/endpoint/webSocketManager"
+	wm "opensoach.com/prodcore/endpoint/websocketmanager"
 )
 
 type EPHandler struct {

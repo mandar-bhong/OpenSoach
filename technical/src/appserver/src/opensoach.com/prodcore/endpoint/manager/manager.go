@@ -2,7 +2,7 @@ package manager
 
 import (
 	gmodels "opensoach.com/models"
-	wm "opensoach.com/prodcore/endpoint/webSocketManager"
+	wm "opensoach.com/prodcore/endpoint/websocketmanager"
 )
 
 var epHandler EPHandler
