@@ -10,15 +10,18 @@ import (
 var websocketInitData *wh.WebsocketInitStruct
 var websockDataRec wh.WebsockData
 
-func Init(port int,
-	onconnection wh.WebSocketConnectionReceivedFunc,
-	ondisconntion wh.WebSocketClientDisconnectedFunc,
-	onmessage wh.WebSocketDataReceivedFunc) error {
+type WebSocketHandler interface {
+	OnConnection(int)
+	OnDisConnection(int)
+	OnMessage(wh.WebsocketDataReceivedMessageStruct)
+}
+
+func Init(port int, handler WebSocketHandler) error {
 
 	websocketInitData.WebSocketPort = port
-	websocketInitData.OnWebSocketConnection = onconnection
-	websocketInitData.OnWebSocketClientDisconnected = ondisconntion
-	websocketInitData.OnWebSocketDataReceiver = onmessage
+	websocketInitData.OnWebSocketConnection = handler.OnConnection
+	websocketInitData.OnWebSocketClientDisconnected = handler.OnDisConnection
+	websocketInitData.OnWebSocketDataReceiver = handler.OnMessage
 
 	var websocketInitStructModel wh.WebsocketInitHelperStruct
 
