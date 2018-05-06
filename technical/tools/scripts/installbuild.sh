@@ -10,6 +10,9 @@ chmod  +777 $builddir/SPLBuild/spl
 
 service spl stop
 
+#this should be remove, currently service spl stop not working hence explicity kill
+killall -9 spl
+
 tar xvzf SPLBuild.tar.gz
 
 
