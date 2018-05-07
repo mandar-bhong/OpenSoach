@@ -1,0 +1,15 @@
+Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_HKT"}
+
+1.	 method POST: /api/v1/task/add
+
+	{"spcid":1,"name":"task1","desc":"desc1"}
+	
+2.	 method POST: /api/v1/task/update
+	
+	{"tasklibid":1,"spcid":1,"taskname":"task1","shortdesc":"desc1"}
+	
+	
+3.	 method GET: /api/v1/task/info
+
+	query parameter : params={"recid":1} //taskid
+

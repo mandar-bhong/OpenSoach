@@ -1,0 +1,38 @@
+Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_HKT"}
+
+1.	 method POST : /api/v1/fieldoperator/add
+
+	{
+		"fopcode":"1341",
+		"fopname":"fopname1",
+		"mobileno":"9632342233",
+		"emailid":"fop1@gmail.com",
+		"shortdesc":"desc1",
+		"fopstate":1,
+		"foparea":1		
+	}
+	
+2. 	method GET : /api/v1/fieldoperator/info
+
+	query parameter : params={"recid":1} //fopid
+
+3.  method GET : /api/v1/fieldoperator/list
+
+	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc"}
+	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"fopcode":""}}
+	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"fopname":""}}
+	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"mobileno":""}}
+	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"emailid":""}}
+	
+4.  method POST : /api/v1/fieldoperator/update
+	
+	{
+		"fopid":1,
+		"fopname":"fopname1",
+		"mobileno":"9632342233",
+		"emailid":"fop1@gmail.com",
+		"shortdesc":"desc1",
+		"fopstate":1,
+		"foparea":1		
+	}
+	
