@@ -26,6 +26,9 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	if dbConnnErr != nil {
 		//TODO: LOG
+		fmt.Printf("Error occured while verifing db conn.DB Conn: %s. Error: %s", dbconfig.ConnectionString, dbConnnErr.Error())
+		logger.Context().WithField("", dbconfig.ConnectionString).
+			LogError(SUB_MODULE_NAME, logger.Server, "Error occured while verifing db conn", dbConnnErr)
 		return dbConnnErr
 	}
 
@@ -33,6 +36,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	if err != nil {
 		fmt.Println("Error occured while fetching configuration data: ", err.Error())
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while fetching configuration data ", err)
 		return err
 	}
 
@@ -40,13 +44,15 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	if errPrepareConfig != nil {
 		fmt.Println("Error occured while fetching configuration data: ", err.Error())
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while fetching configuration data", errPrepareConfig)
 		return err
 	}
 
 	dbConnnErr = pchelper.VerifyDBConnection(masterConfigSetting.ProdMstDBConfig)
 
 	if dbConnnErr != nil {
-		//TODO: LOG
+		fmt.Printf("Error occured while verifing prod mst db connection. Error: %s", dbConnnErr.Error())
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while verifing prod mst db connection.", dbConnnErr)
 		return dbConnnErr
 	}
 
@@ -54,12 +60,23 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	if prodConfigErr != nil {
 		fmt.Println("Error occured while fetching configuration data: ", err.Error())
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while fetching configuration data", prodConfigErr)
 		return err
 	}
 
-	pcmgr.UpdateProductConfiguration(masterConfigSetting, prodConfigData)
+	prodconfUpdateErr := pcmgr.UpdateProductConfiguration(masterConfigSetting, prodConfigData)
 
-	SetGlobal(dbconfig, masterConfigSetting)
+	if prodconfUpdateErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while update product configuration", prodconfUpdateErr)
+		return prodconfUpdateErr
+	}
+
+	setglobalErr := SetGlobal(dbconfig, masterConfigSetting)
+
+	if setglobalErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while setting global values", setglobalErr)
+		return setglobalErr
+	}
 
 	initErr := pcmgr.InitModules(masterConfigSetting)
 
@@ -68,11 +85,12 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return initErr
 	}
 
-	initModules(masterConfigSetting)
+	initModErr := initModules(masterConfigSetting)
 
-	fmt.Printf("RepoContx 111 : %#v \n", repo.Instance().Context)
-	fmt.Printf("RepoContx 111222 : %#v \n", repo.Instance().MasterTaskContext)
-	fmt.Printf("RepoContx 111333 : %#v \n", repo.Instance().ProdTaskContext)
+	if initModErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while initilizing modules.", initModErr)
+		return initModErr
+	}
 
 	return nil
 }
@@ -87,7 +105,13 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 
 	repo.Init()
 
-	initTaskQue(configSetting)
+	initTaskQueErr := initTaskQue(configSetting)
+
+	if initTaskQueErr != nil {
+		fmt.Printf("Error occured while iniTaskQue. Error: %s", initTaskQueErr.Error())
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while initilizing task queue.", initTaskQueErr)
+		return initTaskQueErr
+	}
 
 	initTaskQueHandler()
 
