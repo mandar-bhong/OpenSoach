@@ -1,31 +1,7 @@
-
-#top,
-	#bottom {
-		position: fixed;
-		left: 0;
-		right: 0;
-		height: 76%;
-	}
-	
-	#top {
-		top: 0;
-		background-color: #446666;
-	}
-	
-	#bottom {
-		bottom: 0;
-		background-color: snow;
-	}
-	@media (max-width:768px) {
-		#bottom {
-			position: fixed;
-			left: 0;
-			right: 0;
-			height: 62%;
-		}
-		#top {
-			top: 0;
-			background-color: #446666;
-		}
-		
-	}
+#top {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background-color: #446666;
+}

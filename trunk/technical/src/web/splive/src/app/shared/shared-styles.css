@@ -3,26 +3,16 @@
 #logo{padding-top: 40px;}
 #form-id{padding-top: 120px;}
 mat-form-field{width: 100%;}
-.card {
-    margin: 0 auto;
-    float: none;
-    margin-bottom: 10px; 
-    padding: 1.25rem;
-    width: auto;
-    height: auto;
-}
-#main-content{padding-top: 10px;}
-.card {
-    margin: 0 auto;
-    float: none;
-    margin-bottom: 10px; 
-    padding: 1.25rem;
-    width: auto;
-}
+/* #main-content{padding-top: 10px;padding-bottom: 10px} */
 #submit-button{width: 100%; background-color: #37A5CD !important;}
 html *
 {
     font-family:  'Open Sans', 'sans-serif';
+}
+
+body
+{
+  background-color: snow;
 }
 
 /*Responsive mat-table*/
@@ -70,4 +60,11 @@ html *
 
 button:focus {
   outline: none !important;
+}
+
+.mat-card
+{
+  margin: 0 auto;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
