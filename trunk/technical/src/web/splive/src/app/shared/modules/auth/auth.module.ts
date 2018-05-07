@@ -11,6 +11,7 @@ import { AppCommonModule } from '../../app-common.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
+import { MaterialModules } from '../../modules/material/material-modules';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { LoginComponent } from './login/login.component';
     MatButtonModule,
     MatCheckboxModule,
     AppCommonModule,
+    MaterialModules
   ],
   declarations: [LoginComponent,
     ForgotPasswordComponent
