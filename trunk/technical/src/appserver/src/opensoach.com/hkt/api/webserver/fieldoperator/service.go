@@ -89,7 +89,7 @@ func (service FieldoperatorService) GetFieldOperatorList(listReqData gmodels.API
 	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
 	dataListResponse.Records = dbListDataRecord.RecordList
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device list data.")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched field operator list data.")
 
 	return true, dataListResponse
 

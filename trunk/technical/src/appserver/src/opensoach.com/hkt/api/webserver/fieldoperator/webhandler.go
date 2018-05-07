@@ -28,6 +28,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	switch pContext.Request.URL.Path {
 
 	case constants.API_FIELD_OPERATOR_ADD:
+
 		fielOperatorAddReq := lmodels.APIFieldOperatorAddRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &fielOperatorAddReq)
