@@ -2,7 +2,7 @@
   <div class="list-group border-0 text-center text-md-left" *ngFor="let navigation of sideMenuLinks">
     <a href="#menu1" routerLink="{{navigation.url}}" skipLocationChange [ngClass]="getSelectedMenuCss
         (navigation.url)" class="list-group-item d-inline-block collapsed" data-toggle="collapse">
-      <i class="{{navigation.routingModel.linkiconcss}}"></i>
+      <i class="{{navigation.routingModel.linkiconcss}}" style="width:20px;text-align: center" ></i>
       <span class="d-md-inline label">{{navigation.routingModel.linktitle}}</span>
     </a>
   </div>
