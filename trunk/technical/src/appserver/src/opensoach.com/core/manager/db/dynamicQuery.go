@@ -107,10 +107,10 @@ func GetUpdateByFilterDynamicQuery(tablename string, filter interface{}, args ..
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
 		tag := field.Tag.Get("db")
-		jsontag := field.Tag.Get("json")
+		fieldName := field.Name
 		flag := 0
 		for _, each := range args {
-			if jsontag == each {
+			if fieldName == each {
 				flag = 1
 				break
 			}
@@ -127,9 +127,9 @@ func GetUpdateByFilterDynamicQuery(tablename string, filter interface{}, args ..
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
 		tag := field.Tag.Get("db")
-		jsontag := field.Tag.Get("json")
+		fieldName := field.Name
 		for _, each := range args {
-			if jsontag == each {
+			if fieldName == each {
 				query = query + tag + " = :" + tag + " AND "
 			}
 		}
