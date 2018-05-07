@@ -68,19 +68,28 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 	if verifyErr != nil {
 
 		switch moduleType {
-		case 1:
-		case 2:
+		case 2: //Redis server connection error
+			return verifyErr
+		case 3: //Redis server master que cache error
+			return verifyErr
+		case 4: //Redis server product cache error
+			return verifyErr
 		}
 	}
 
-	connErr := SetGlobal(dbconfig, masterConfigSetting)
+	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)
 
-	if connErr != nil {
-		//TODO: log message, need to identify fmt or file base or both
-		return connErr
+	if setGlobalErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while setting global values.", setGlobalErr)
+		return setGlobalErr
 	}
 
-	initModules(masterConfigSetting)
+	initErr := initModules(masterConfigSetting)
+
+	if initErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Initiliazation module error occured", initErr)
+		return initErr
+	}
 
 	return nil
 }
