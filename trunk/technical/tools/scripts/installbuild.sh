@@ -39,7 +39,7 @@ mysql -u root -pwelcome -Bse "use spl_master;source /opt/build/spl/Build/databas
 
 
 
-timeout 5
+sleep 5
 service spl start
 
 #service hkt start
