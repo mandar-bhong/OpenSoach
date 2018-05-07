@@ -57,6 +57,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc"}
 	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"custname":"Customer 1"}}
+	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"prodcode":"SPL_HKT"}}
 	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"custstate":1}}
 	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"corpid":1}}
 
