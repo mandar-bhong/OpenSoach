@@ -1,7 +1,15 @@
 package constants
 
-const DB_TABLE_TASK_LIB string = "spl_hkt_task_lib_tbl"
-const DB_TABLE_FIELD_OPERATOR string = "spl_hkt_field_operator_tbl"
+const DB_TABLE_HKT_TASK_LIB string = "spl_hkt_task_lib_tbl"
+const DB_TABLE_FIELD_OPERATOR string = "spl_node_field_operator_tbl"
+const DB_TABLE_SPL_HKT_SP_COMPLAINT_TBL string = "spl_hkt_sp_complaint_tbl"
+const DB_TABLE_CHART_TBL string = "spl_hkt_chart_tbl"
+const DB_TABLE_SERVICE_CONF string = "spl_node_service_conf_tbl"
+const DB_TABLE_SERVICE_INSTANCE string = "spl_node_service_instance_tbl"
+const DB_TABLE_HKT_MASTER_SPC_TASK_LIB_TBL string = "spl_hkt_master_spc_task_lib_tbl"
+const DB_TABLE_HKT_MASTER_TASK_LIB_TBL string = "spl_hkt_master_task_lib_tbl"
+const DB_PROD_MASTER_SERV_CONF_TYPE_TBL string = "spl_prod_master_serv_conf_type_tbl"
+const DB_PROD_MASTER_SP_CATEGORY_TBL string = "spl_prod_master_sp_category_tbl"
 
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"

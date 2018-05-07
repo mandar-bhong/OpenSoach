@@ -8,8 +8,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
 	repo "opensoach.com/hkt/api/repository"
-	fopmodule "opensoach.com/hkt/api/webserver/fieldoperator"
-	taskmodule "opensoach.com/hkt/api/webserver/task"
+	complaint "opensoach.com/hkt/api/webserver/complaint"
+	fieldoperator "opensoach.com/hkt/api/webserver/fieldoperator"
+	master "opensoach.com/hkt/api/webserver/master"
+	service "opensoach.com/hkt/api/webserver/service"
+	task "opensoach.com/hkt/api/webserver/task"
 	gmodels "opensoach.com/models"
 	pcmodels "opensoach.com/prodcore/models"
 	pcwebsermid "opensoach.com/prodcore/webserver/middleware"
@@ -29,8 +32,11 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 
 	pcwebsermid.Init(repo.Instance().Context, webConfig)
 
-	taskmodule.Init(webConfig)
-	fopmodule.Init(webConfig)
+	task.Init(webConfig)
+	fieldoperator.Init(webConfig)
+	complaint.Init(webConfig)
+	service.Init(webConfig)
+	master.Init(webConfig)
 
 	var webServerStartErr error
 

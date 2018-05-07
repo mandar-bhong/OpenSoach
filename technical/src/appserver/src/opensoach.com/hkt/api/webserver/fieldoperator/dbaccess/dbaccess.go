@@ -34,26 +34,26 @@ func Insert(dbConn string, insrtStruct *hktmodels.DBFieldOperatorRowModel) (erro
 
 func UpdateByFilter(dbConn string, updtStruct *hktmodels.DBFieldOperatorUpdateRowModel) (error, int64) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateByFilter")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing Field Operator UpdateByFilter")
 
 	updateCtx := dbmgr.UpdateDeleteContext{}
 	updateCtx.DBConnection = dbConn
 	updateCtx.Args = *updtStruct
 	updateCtx.QueryType = dbmgr.AutoQuery
 	updateCtx.TableName = constants.DB_TABLE_FIELD_OPERATOR
-	updateErr := updateCtx.UpdateByFilter("fopid", "cpmid")
+	updateErr := updateCtx.UpdateByFilter("FopId", "CpmId")
 	if updateErr != nil {
 		return updateErr, 0
 	}
 	return nil, updateCtx.AffectedRows
 }
 
-func GetFieldOperatorById(dbConn string, fopId int64) (error, *[]hktmodels.DBSplHktFieldOperatorTableRowModel) {
+func GetFieldOperatorById(dbConn string, fopId int64) (error, *[]hktmodels.DBSplNodeFieldOperatorTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFieldOperatorById")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplHktFieldOperatorTableRowModel{}
+	data := &[]hktmodels.DBSplNodeFieldOperatorTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_FIELD_OPERATOR_TABLE_SELECT_BY_ID
 	selDBCtx.QueryType = dbmgr.Query
