@@ -1,7 +1,9 @@
 package models
 
+import (
+	hktmodels "opensoach.com/hkt/models"
+)
+
 type APITaskAddRequest struct {
-	SPCategoryID int64  `json:"spcid"`
-	Name         string `json:"name"`
-	Discription  string `json:"desc"`
+	hktmodels.DBTaskLibDataModel
 }
