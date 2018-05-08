@@ -3,12 +3,15 @@ package processor
 import (
 	"strconv"
 
+	"opensoach.com/core/logger"
 	repo "opensoach.com/hkt/endpoint/repository"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
 	pcepproc "opensoach.com/prodcore/endpoint/processor"
 	pchelper "opensoach.com/prodcore/helper"
 )
+
+var SUB_MODULE_NAME = "HKT.Endpoint.Manager.Processor"
 
 var chnIDAuthData map[int]string
 
@@ -45,11 +48,12 @@ func PreProcessExecutor(epModel *gmodels.PacketProcessingTaskModel) *gmodels.Pac
 	errHeaderKey, cmdKey := GetHeaderKey(epModel.Message)
 
 	if errHeaderKey != nil {
-		//Unable to decode header packet is invalid
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occurred while decoding header", errHeaderKey)
 		return packetProcessingResult
 	}
 
-	if cmdKey == GetAuthKey() { //Authorization
+	if cmdKey == GetAuthKey() { //This is auth command hence skipping validation.
+		packetProcessingResult.IsSuccess = true
 		return packetProcessingResult
 	}
 
@@ -58,11 +62,15 @@ func PreProcessExecutor(epModel *gmodels.PacketProcessingTaskModel) *gmodels.Pac
 	isKeyGetSuccess, _ := repo.Instance().Context.Master.Cache.Get(token)
 
 	if isKeyGetSuccess == false {
-		//Key is expired or not available need to stop communication
+		logger.Context().WithField("Token", token).Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to get token from cache. Skipping further processing.")
+
+		packetProcessingResult.StatusCode = gmodels.DEVICE_PROCESSING_AUTH_TOKEN_NOT_FOUND
+		return packetProcessingResult
 	}
 
-	//epModel.AuthData = authData
 	epModel.Token = token
+
+	packetProcessingResult.IsSuccess = true
 
 	return packetProcessingResult
 }

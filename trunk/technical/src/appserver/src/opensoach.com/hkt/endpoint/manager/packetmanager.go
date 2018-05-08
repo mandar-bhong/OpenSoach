@@ -43,32 +43,38 @@ func (EPHandler) OnEPDisConnection(wsconn int) {
 func (EPHandler) OnEPMessage(endPointToServerTaskModel *gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult {
 
 	fmt.Println("Packet received at OnEPMessage")
+	logger.Context().WithField("ChannelID: ", endPointToServerTaskModel.ChannelID).LogDebug(SUB_MODULE_NAME, logger.Normal, "Packet received from enpoint")
 
 	packetProcessingResult := &gmodels.PacketProcessingTaskResult{}
 
-	if isSuccess, jsonData := ghelper.ConvertToJSON(endPointToServerTaskModel); isSuccess == true {
-		executionErr, exeResult := repo.Instance().ProdTaskContext.
-			ProcessTask(constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY, jsonData)
+	isJSONSuccess, jsonData := ghelper.ConvertToJSON(endPointToServerTaskModel)
 
-		if executionErr != nil {
+	if isJSONSuccess == false {
+		logger.Context().WithField("endPointToServerTaskModel", endPointToServerTaskModel).Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to convert to JSON packet")
+		packetProcessingResult.StatusCode = 0 //Assign status code
+		return packetProcessingResult
+	}
 
-		}
+	executionErr, exeResult := repo.Instance().ProdTaskContext.
+		ProcessTask(constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY, jsonData)
 
-		isConvertionSuccess := ghelper.ConvertFromJSONString(exeResult, packetProcessingResult)
+	if executionErr != nil {
+		//TODO: Task processing is failed no data sending to device
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Sever returned error ", executionErr)
+		packetProcessingResult.StatusCode = 0 //Assign status code
+		return packetProcessingResult
+	}
 
-		if isConvertionSuccess == false {
-			fmt.Println("Packet received at if isConvertionSuccess == false {")
-			fmt.Println(exeResult)
-			return packetProcessingResult
-		}
+	isConvertionSuccess := ghelper.ConvertFromJSONString(exeResult, packetProcessingResult)
 
-	} else {
-		logger.Context().Log("", logger.Normal, logger.Error, "Unable to convert to JSON packet")
+	if isConvertionSuccess == false {
+		logger.Context().WithField("JSONData", exeResult).Log(SUB_MODULE_NAME, logger.Server, logger.Error, "Unable to convert json data to structure")
+		return packetProcessingResult
 	}
 
 	packetProcessingResult.IsSuccess = true
 
-	fmt.Println("Returning from OnEPMessage")
-	return packetProcessingResult
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Message successfully processed from server.")
 
+	return packetProcessingResult
 }
