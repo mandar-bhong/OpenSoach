@@ -23,11 +23,11 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 5.	method:GET	/api/osu/v1/device/list
 
-	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc"}
-	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"custid":1}}
-	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"devname":"dev"}}
-	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"custname":"customer 1"}}
-	{"page":1,"limit":10,"orderby":"custid","orderdirection":"asc","filter":{"serialno":"1155623421323222"}}
+	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc"}
+	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"custid":1}}
+	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"devname":"dev"}}
+	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"custname":"customer 1"}}
+	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"serialno":"1155623421323222"}}
 
 
 6.	method:GET	/api/cu/v1/device/list
