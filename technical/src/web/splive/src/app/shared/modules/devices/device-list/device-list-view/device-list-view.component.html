@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <div class="mobile-sort">
+        <h4>Sort</h4>
+        <table class="example-full-width" cellspacing="0">
+          <tr id="layout-set">
+            <td>
+              <mat-form-field>
+                <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby" (selectionChange)="sortByChanged()">
+                  <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                    {{col.text}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <div (click)="sortDirectionAsc()"> Ascending
+                <i class="fa fa-long-arrow-up"></i>
+              </div>
+            </td>
+            <td>
+              <div (click)="sortDirectionDesc()"> Descending
+                <i class="fa fa-long-arrow-down"></i>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="example-container mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <ng-container matColumnDef="serialno">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Serial Number</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+              <span class="mat-row-mobile-label">serialno</span>
+              {{row.serialno}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="devname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Device Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+              <span class="mat-row-mobile-label">devname</span>
+              {{row.devname}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="custname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Customer Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+              <span class="mat-row-mobile-label">custname</span>
+              {{row.custname}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="connectionstate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Connection State</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+              <span class="mat-row-mobile-label">connectionstate</span>
+              {{row.connectionstate}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="batterylevel">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Battery Level</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+              <span class="mat-row-mobile-label">batterylevel</span>
+              {{row.batterylevel}}
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+              <span class="mat-row-mobile-label">Action</span>
+              <i (click)="editRecord(row.devid)" style="color:#337AB7 !important;" class="fa fa-eye" aria-hidden="true" matTooltip="View Details"></i>
+            </mat-cell>
+          </ng-container>
+        </mat-table>
+        <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+      </div>
+      <br>
+    </mat-card>
+  </div>
+</div>

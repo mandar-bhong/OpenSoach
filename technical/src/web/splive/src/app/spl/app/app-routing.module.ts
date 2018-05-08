@@ -22,6 +22,11 @@ const routes: Routes = [
         data: { preload: true }
       },
       {
+        path: 'corporates',
+        loadChildren: './modules/corporates/corporates.module#CorporatesModule',
+		data: { preload: false }
+      },
+      {
         path: 'devices',
         loadChildren: '../../shared/modules/devices/devices.module#DevicesModule',
         data: { preload: false }

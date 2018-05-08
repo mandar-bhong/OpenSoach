@@ -55,6 +55,5 @@ export class CustomerAssociateProductModel {
         this.cpmstate = details.cpmstate;
         this.dbiid = details.dbiid;
         this.prodid = details.prodid;
-
     }
 }

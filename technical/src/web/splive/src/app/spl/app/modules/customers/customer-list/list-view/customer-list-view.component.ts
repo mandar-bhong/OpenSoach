@@ -59,18 +59,17 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
 
   setDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
-      startWith({}),
-      switchMap(() => {
-        this.isLoadingResults = true;
-        return this.getDataList();
-      }),
-      map(data => {
-        this.isLoadingResults = false;
-        return data;
-      }),
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.getDataList();
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          return data;
+        }),
     ).subscribe(
       payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
@@ -80,7 +79,7 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
           this.dataSource = [];
         }
       }
-      );
+    );
   }
 
   getDataList(): Observable<PayloadResponse<DataListResponse<CustomerDataListingItemResponse>>> {

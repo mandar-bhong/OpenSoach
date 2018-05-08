@@ -29,7 +29,6 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
 
   ngOnInit() {
     this.createControls();
-
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.custid = Number(params['id']);
       this.callbackUrl = params['callbackurl'];
@@ -80,11 +79,9 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
       }
     });
   }
-
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
-
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();

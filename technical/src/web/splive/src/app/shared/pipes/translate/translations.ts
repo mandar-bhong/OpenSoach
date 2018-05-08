@@ -69,6 +69,75 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* CUSTOMER STATES END */
 
+  /* USER STATES BEGIN */
+  {
+    key: 'USER_STATE_0',
+    en: 'NOT SET'
+  },
+  {
+    key: 'USER_STATE_1',
+    en: 'ACTIVE'
+  },
+  {
+    key: 'USER_STATE_2',
+    en: 'INACTIVE'
+  },
+  {
+    key: 'USER_STATE_3',
+    en: 'SUSPENDED'
+  },
+
+  /* USER STATES END */
+
+
+  /* USER CATEGORYS BEGIN */
+
+  {
+    key: 'USER_CATEGORY_1',
+    en: 'OSU'
+  },
+  {
+    key: 'USER_CATEGORY_2',
+    en: 'CU'
+  },
+
+  /* USER CATEGORYS END */
+
+  /* USER GENDER BEGIN */
+  {
+    key: 'USER_GENDER_0',
+    en: 'NOT_SELECTED'
+  },
+  {
+    key: 'USER_GENDER_1',
+    en: 'MALE'
+  },
+  {
+    key: 'USER_GENDER_2',
+    en: 'FEMALE'
+  },
+
+  /* USER GENDER END */
+
+  /* DEVICE STATES BEGIN */
+  {
+    key: 'DEVICE_STATE_0',
+    en: 'NOT SET'
+  },
+  {
+    key: 'DEVICE_STATE_1',
+    en: 'ACTIVE'
+  },
+  {
+    key: 'DEVICE_STATE_2',
+    en: 'INACTIVE'
+  },
+  {
+    key: 'DEVICE_STATE_3',
+    en: 'SUSPENDED'
+  },
+
+  /* DEVICE STATES END */
   {
     key: 'SUCCESS_CUSTOMER_DETAILS_SAVED',
     en: 'Customer details saved successfully.'

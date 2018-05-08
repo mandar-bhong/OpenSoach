@@ -1,0 +1,36 @@
+<div class="row">
+  <mat-card>
+    <form [formGroup]="editableForm" class="md-float-material form-material" id="device-add" (ngSubmit)="save()">
+      <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+      <!-- <div class=" form-group form-primary">
+        <mat-form-field>
+          <input disabled matInput placeholder="customer Id" type="email" formControlName="custidControl" required [(ngModel)]="dataModel.custid">
+          <mat-error *ngIf="editableForm.controls['custidControl'].hasError('required') ">
+            Customer is Required
+          </mat-error>
+        </mat-form-field>
+      </div> -->
+      <div class=" form-group form-primary">
+        <mat-form-field>
+          <input matInput placeholder="Serial Number" formControlName="serialnoControl" required [(ngModel)]="dataModel.serialno">
+          <mat-error *ngIf="editableForm.controls['serialnoControl'].hasError('required') ">
+            is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary">
+        <mat-form-field>
+          <mat-select placeholder="Device States" formControlName="devStateControl" required [(ngModel)]="dataModel.devstate">
+            <mat-option *ngFor="let devstatecontrol of deviceStates" [value]="devstatecontrol.value">
+              {{devstatecontrol.text | translate }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="editableForm.controls['devStateControl'].hasError('required') ">
+            State Selection is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+    </form>
+  </mat-card>
+</div>
