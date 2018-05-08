@@ -31,6 +31,7 @@ type DBSearchUserResponseFilterDataModel struct {
 	MobileNo      *string   `db:"mobile_no" json:"mobileno"`
 	UsrCategory   int       `db:"usr_category" json:"usrcategory"`
 	UroleId       *int64    `db:"urole_id_fk" json:"uroleid"`
+	UroleName     string    `db:"urole_name" json:"urolename"`
 	UsrState      int       `db:"usr_state" json:"usrstate"`
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
 	CreatedOn     time.Time `db:"created_on" json:"createdon"`
