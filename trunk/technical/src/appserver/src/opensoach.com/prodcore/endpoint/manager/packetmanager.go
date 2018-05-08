@@ -15,6 +15,8 @@ import (
 	pchelper "opensoach.com/prodcore/helper"
 )
 
+var SUB_MODULE_NAME = "ProdCore.Endpoint.Manager"
+
 var chIDDeviceInfo map[int]string
 var packetHandlers map[string]PacketProcessHandlerFunc
 
@@ -26,10 +28,10 @@ func init() {
 }
 
 func (WSHandler) OnConnection(wsconn int) {
-	//	connID = wsconn
-	fmt.Printf("Client connected %v\n", wsconn)
+	logger.Context().WithField("ConnectionID", wsconn).LogDebug(SUB_MODULE_NAME, logger.Normal, "Client disconnected.")
 
 }
+
 func (WSHandler) OnDisConnection(wsconn int) {
 	fmt.Printf("Client disconnected %v\n", wsconn)
 }

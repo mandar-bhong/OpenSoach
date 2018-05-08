@@ -7,8 +7,11 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	serconst "opensoach.com/hkt/server/constants"
+	"opensoach.com/hkt/server/dbaccess"
+	lhelper "opensoach.com/hkt/server/helper"
 	lmodels "opensoach.com/hkt/server/models"
 	"opensoach.com/hkt/server/processor/endpoint"
+	epproc "opensoach.com/hkt/server/processor/endpoint"
 	repo "opensoach.com/hkt/server/repository"
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
@@ -31,6 +34,12 @@ func InitProcessor() {
 	CAT_DR_DEV_REG_ACK := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DEVICE_REG,
 		serconst.DEVICE_CMD_CONFIG_PART_DATA,
 		serconst.DEVICE_CMD_ACK_KEY)
+
+	CAT_CONFIG_DEV_SYNC_COMP := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_CONFIG,
+		serconst.DEVICE_CMD_CONFIG_DEVICE_SYNC_COMPLETED,
+		serconst.DEVICE_CMD_KEY)
+
+	PacketProcessExecutor[CAT_CONFIG_DEV_SYNC_COMP] = epproc.ProcessDeviceSyncCompleted
 
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 	PacketProcessExecutor[CAT_DR_DEV_REG_ACK] = endpoint.ProcessDevReg
@@ -60,7 +69,17 @@ func ProcessEndPointReceivedPacket(msg string) (string, error) {
 		return jsonData, nil
 	}
 
-	repo.Instance().Context.Master.Cache.Get(endPointToServerTaskModel.Token)
+	isTokenGetSuccess, tokenInfo := lhelper.GetEPTokenInfo(repo.Instance().Context.Master.Cache, endPointToServerTaskModel.Token)
+
+	if isTokenGetSuccess == false {
+		return "", fmt.Errorf("Unable to get token. Token: ", endPointToServerTaskModel.Token)
+	}
+
+	isDBInstGetSuccess, dbInstConn := dbaccess.EPGetInstanceDB(repo.Instance().Context.Master.DBConn, tokenInfo.CpmID, tokenInfo.DevID)
+
+	if isDBInstGetSuccess != nil {
+		return "", fmt.Errorf("Unable to get dbconn. CPMID: %d, DeviceID: %d ", tokenInfo.CpmID, tokenInfo.DevID)
+	}
 
 	devicePacket := &gmodels.DevicePacket{}
 
@@ -97,8 +116,10 @@ func ProcessEndPointReceivedPacket(msg string) (string, error) {
 	packetProcessingResult.AckPayload = []*gmodels.DevicePacket{}
 
 	packetProccessExecution := &lmodels.PacketProccessExecution{}
+	packetProccessExecution.Token = endPointToServerTaskModel.Token
 	packetProccessExecution.DevicePacket = endPointToServerTaskModel.Message
-	packetProccessExecution.InstanceDBConn = "dbConn"
+	packetProccessExecution.InstanceDBConn = dbInstConn
+	packetProccessExecution.TokenInfo = tokenInfo
 
 	executor(packetProccessExecution, packetProcessingResult)
 
