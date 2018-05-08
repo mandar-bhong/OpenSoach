@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 
@@ -12,6 +13,7 @@ import (
 	repo "opensoach.com/hkt/server/repository"
 	gmodels "opensoach.com/models"
 
+	ghelper "opensoach.com/core/helper"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
 
@@ -67,6 +69,8 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	pcmgr.UpdateProductConfiguration(masterConfigSetting, prodConfigData)
 
+	SetGlobal(dbconfig, masterConfigSetting)
+
 	initErr := pcmgr.InitModules(masterConfigSetting)
 
 	if initErr != nil {
@@ -90,10 +94,10 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	//result_backend: 'redis://127.0.0.1:6379'
 	//results_expire_in: 3600000
 
-	configSetting.MasterQueCache.Address = "localhost"
-	configSetting.MasterQueCache.Port = 6379
-	configSetting.ProductCache.Address = "localhost"
-	configSetting.ProductCache.Port = 6379
+	// configSetting.MasterQueCache.Address = "localhost"
+	// configSetting.MasterQueCache.Port = 6379
+	// configSetting.ProductCache.Address = "localhost"
+	// configSetting.ProductCache.Port = 6379
 
 	mstTaskConfig := taskque.TaskConfig{}
 	mstTaskConfig.Broker = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
@@ -129,14 +133,43 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	hkthandler[constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY] = ProcessEndPointReceivedPacket
 	prodTaskCtx.RegisterTaskHandlers(hkthandler)
 
-	repo.Init()
-
-	repo.Instance().Config = configSetting
-	repo.Instance().Context = &core.Context{}
 	repo.Instance().MasterTaskContext = mstTaskCtx
 	repo.Instance().ProdTaskContext = prodTaskCtx
 
 	go prodTaskCtx.StartWorker("EP")
 
 	return nil
+}
+
+func SetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings) error {
+
+	//ghelper.BaseDir = configSetting.ServerConfig.BaseDir
+
+	isJsonConvMstCacheSuccess, jsonMstCacheRedisAddress := ghelper.ConvertToJSON(configSetting.MasterCache)
+
+	if isJsonConvMstCacheSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while converting ConfigCacheAddress structure to JSON")
+		return errors.New("Error occured while converting ConfigCacheAddress to json")
+	}
+
+	isJsonConvProdCacheSuccess, jsonProdCacheRedisAddress := ghelper.ConvertToJSON(configSetting.ProductCache)
+
+	if isJsonConvProdCacheSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while converting ConfigCacheAddress structure to JSON")
+		return errors.New("Error occured while converting ConfigCacheAddress to json")
+	}
+
+	ctx := &core.Context{}
+	ctx.Master.DBConn = configSetting.DBConfig.ConnectionString
+	ctx.Master.Cache.CacheAddress = jsonMstCacheRedisAddress
+
+	ctx.ProdMst.Cache.CacheAddress = jsonProdCacheRedisAddress
+	ctx.ProdMst.DBConn = configSetting.ProdMstDBConfig.ConnectionString
+
+	repo.Init()
+	repo.Instance().Context = ctx
+	repo.Instance().Config = configSetting
+
+	return nil
+
 }
