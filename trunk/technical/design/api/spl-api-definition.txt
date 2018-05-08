@@ -393,6 +393,7 @@ custname:string;
 devname:string;
 }
 response: DeviceDataListResponse{
+devid:number;
 custid:number;
 custname:string;
 serialno:string;
