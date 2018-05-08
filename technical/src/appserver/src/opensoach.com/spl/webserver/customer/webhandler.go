@@ -26,6 +26,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_CUST_OSU_ASSOCIATE_CUST_WITH_PROD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_PRODUCT_ASSCOCIATION_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CUSTOMER_PRODUCT_ASSCOCIATION_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_CUSTOMER_OSU_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -239,6 +240,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = CustomerService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.UpdateCPMState(reqData)
+
+		break
+
+	case constants.API_CUSTOMER_OSU_UPDATE:
+
+		reqData := &lmodels.DBCustomerUpdateRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CustomerService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.UpdateCust(reqData)
 
 		break
 

@@ -24,3 +24,10 @@ type DBCpmStateUpdateRowModel struct {
 	CpmState      int       `db:"cpm_state" json:"cpmstate"`
 	CpmStateSince time.Time `db:"cpm_state_since" json:"cpmstatesince"`
 }
+
+type DBCustomerUpdateRowModel struct {
+	CustId         int64     `dbattr:"pri,auto" db:"id" json:"custid"`
+	CustName       string    `db:"cust_name" json:"custname"`
+	CustState      int       `db:"cust_state" json:"custstate"`
+	CustStateSince time.Time `db:"cust_state_since" json:"custstatesince"`
+}

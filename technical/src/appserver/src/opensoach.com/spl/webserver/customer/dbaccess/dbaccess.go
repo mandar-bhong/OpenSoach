@@ -230,3 +230,19 @@ func CpmStateUpdate(dbConn string, updtStruct *lmodels.DBCpmStateUpdateRowModel)
 	}
 	return nil, updateCtx.AffectedRows
 }
+
+func CustomerUpdate(dbConn string, updtStruct *lmodels.DBCustomerUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CustomerUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_MASTER_CUSTOMER_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
