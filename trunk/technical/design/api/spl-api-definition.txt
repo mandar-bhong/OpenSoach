@@ -558,7 +558,7 @@ request: null
 response: 
 
 
-47. Get urole list
+47. Get urole list all
 API Name: /api/osu/v1/urole/list
 Request Method: GET
 request: null
@@ -566,10 +566,11 @@ response: UroleListShortDataModel {
 	uroleid:number;
 	urolecode:string;
 	urolename:string;
+	prodcode:string;
 }
 
 48. Get urole list
-API Name: /api/cu/v1/urole/list
+API Name: /api/v1/urole/list
 Request Method: GET
 request: APIUroleRequest{
 	prodcode:string;
