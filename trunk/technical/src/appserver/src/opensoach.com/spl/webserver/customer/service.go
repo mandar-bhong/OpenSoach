@@ -251,3 +251,29 @@ func (service CustomerService) UpdateCPMState(reqData *lmodels.DBCpmStateUpdateR
 
 	return true, nil
 }
+
+func (service CustomerService) UpdateCust(reqData *lmodels.DBCustomerUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CustStateSince = time.Now()
+
+	dbErr, affectedRow := dbaccess.CustomerUpdate(repo.Instance().Context.Master.DBConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer data updated successfully.")
+
+	return true, nil
+}
