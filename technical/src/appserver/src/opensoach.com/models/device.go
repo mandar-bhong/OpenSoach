@@ -6,10 +6,10 @@ type DevicePacket struct {
 }
 
 type DeviceHeaderData struct {
-	CRC        string `json:"crc"`
-	Category   int    `json:"category"`
-	CommandID  int    `json:"commandid"`
-	SeqID      int    `json:"seqid"`
-	LocationID int    `json:"locationid"`
-	Ack        int    `json:"ack"`
+	CRC       string `json:"crc"`
+	Category  int    `json:"category"`
+	CommandID int    `json:"commandid"`
+	SeqID     int    `json:"seqid"`
+	SPID      int64  `json:"spid"`
+	Ack       int    `json:"ack"`
 }

@@ -12,8 +12,12 @@ type ProductInfoModel struct {
 	NodeDbConn string `json:dbconn`
 }
 
+type DeviceTokenModel struct {
+	DevID int64 `json:"devid"`
+	CpmID int64 `json:"cpmid"`
+}
+
 type DeviceInfoModel struct {
-	DevID       int64  `json:"devid"`
-	CpmID       int64  `json:"cpmid"`
+	DeviceTokenModel
 	LocationUrl string `json:"locationurl"`
 }
