@@ -16,8 +16,3 @@ type DeviceTokenModel struct {
 	DevID int64 `json:"devid"`
 	CpmID int64 `json:"cpmid"`
 }
-
-type DeviceInfoModel struct {
-	DeviceTokenModel
-	LocationUrl string `json:"locationurl"`
-}
