@@ -68,7 +68,8 @@ type DBSearchDeviceRequestFilterDataModel struct {
 }
 
 type DBSearchDeviceResponseFilterDataModel struct {
-	CustId               *int64     `dbattr:"pri,auto" db:"id" json:"custid"`
+	DevId                int64      `dbattr:"pri,auto" db:"id" json:"devid"`
+	CustId               *int64     `db:"cust_id_fk" json:"custid"`
 	CustName             *string    `db:"cust_name" json:"custname"`
 	Serialno             *string    `db:"serialno" json:"serialno"`
 	DevState             int        `db:"dev_state" json:"devstate"`
