@@ -46,7 +46,7 @@ func CacheGetCPMKey(osContext *gcore.Context, cpmid int64) (bool, *gmodels.Produ
 
 }
 
-func CacheSetDeviceInfo(osContext *gcore.Context, DevInfoModel *gmodels.DeviceInfoModel) (bool, string) {
+func CacheSetDeviceInfo(osContext *gcore.Context, DevInfoModel *gmodels.DeviceTokenModel) (bool, string) {
 
 	isTokenCreateSuccess, DevAuthCacheToken := ghelper.CreateToken()
 	if !isTokenCreateSuccess {
@@ -65,9 +65,9 @@ func CacheSetDeviceInfo(osContext *gcore.Context, DevInfoModel *gmodels.DeviceIn
 	return isSetSuccess, DevAuthCacheToken
 }
 
-func CacheGetDeviceInfo(osContext *gcore.Context, token string) (bool, *gmodels.DeviceInfoModel) {
+func CacheGetDeviceInfo(osContext *gcore.Context, token string) (bool, *gmodels.DeviceTokenModel) {
 
-	DeviceInfoModel := &gmodels.DeviceInfoModel{}
+	DeviceInfoModel := &gmodels.DeviceTokenModel{}
 
 	isSuccess, jsonData := osContext.Master.Cache.Get(token)
 
