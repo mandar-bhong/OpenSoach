@@ -3,6 +3,7 @@ package processor
 import (
 	coremodels "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
+	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	pcmodels "opensoach.com/prodcore/models"
 )
@@ -18,16 +19,18 @@ func AuthorizeDevice(mstCache coremodels.CacheContext, authMap map[int]string, p
 	err := ghelper.ConvertFromJSONBytes(packet.Message, devicePacket)
 
 	if err != nil {
-		//Error
+		logger.Context().WithField("JSON Data", string(packet.Message)).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to convert from JSON packet", err)
+		result.StatusCode = gmodels.MOD_OPER_ERR_SERVER
+		result.IsSuccess = false
 		return result
 	}
 
 	isSuccess, _ := mstCache.Get(payload.Token)
 
-	//packet.AuthData = authData
-
 	if isSuccess == false {
-		//Error
+		logger.Context().WithField("JSON Data", string(packet.Message)).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to convert from JSON packet", err)
+		result.IsSuccess = false
+		result.StatusCode = gmodels.MOD_OPER_ERR_SERVER
 		return result
 	}
 
@@ -35,5 +38,23 @@ func AuthorizeDevice(mstCache coremodels.CacheContext, authMap map[int]string, p
 
 	result.IsSuccess = true
 
+	deviceAuthPacket := &gmodels.DevicePacket{}
+	deviceAuthPacket.Header.Category = 1
+	deviceAuthPacket.Header.CommandID = 1
+	deviceAuthPacket.Header.Ack = 1
+
+	result.AckPayload = append(result.AckPayload, deviceAuthPacket)
+
 	return result
+}
+
+func GetUnauthorizedDevicePacket() (bool, string) {
+
+	devicePacket := gmodels.DevicePacket{}
+
+	devicePacket.Header.Category = 1
+	devicePacket.Header.CommandID = 1
+	devicePacket.Header.Ack = 1
+
+	return ghelper.ConvertToJSON(devicePacket)
 }

@@ -36,19 +36,19 @@ func (WSHandler) OnDisConnection(wsconn int) {
 	fmt.Printf("Client disconnected %v\n", wsconn)
 }
 
-func (WSHandler) OnMessage(message wh.WebsocketDataReceivedMessageStruct) {
-	fmt.Printf("Client message %v\n", string(message.Message))
+func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
+	fmt.Printf("Client message %v\n", string(packet.Message))
 
 	packetProcessingTaskModel := &gmodels.PacketProcessingTaskModel{}
-	packetProcessingTaskModel.ChannelID = message.ChannelID
+	packetProcessingTaskModel.ChannelID = packet.ChannelID
 	packetProcessingTaskModel.Token = "Token1"
 	packetProcessingTaskModel.EPTaskListner = "TaskListner"
-	packetProcessingTaskModel.Message = message.Message
+	packetProcessingTaskModel.Message = packet.Message
 
-	err, packetHeader := processor.DecodeHeader(message.Message)
+	err, packetHeader := processor.DecodeHeader(packet.Message)
 
 	if err != nil {
-		//Packet err
+		logger.Context().WithField("Packet Ddata", string(packet.Message)).LogError(SUB_MODULE_NAME, logger.Normal, "Header decoding failed.", err)
 		return
 	}
 
@@ -59,6 +59,29 @@ func (WSHandler) OnMessage(message wh.WebsocketDataReceivedMessageStruct) {
 
 	if hasPreExecutor {
 		packetProcessingResult = preExecutor(packetProcessingTaskModel)
+
+		//If preexecutor available the result should be success
+
+		if packetProcessingResult.IsSuccess == false {
+
+			logger.Context().WithField("Status Code", packetProcessingResult.StatusCode).Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Pre-executor failed")
+
+			switch packetProcessingResult.StatusCode {
+			case gmodels.DEVICE_PROCESSING_AUTH_TOKEN_NOT_FOUND:
+
+				isSuccess, jsonPacket := processor.GetUnauthorizedDevicePacket()
+
+				if isSuccess == false {
+					//TODO: Need to stop communication if token not valid
+					//ws.DisconnectClient(packet.ChannelID)
+					return
+				}
+
+				ws.SendMessage(packet.ChannelID, []byte(jsonPacket))
+			}
+
+			return
+		}
 	}
 
 	executor, hasHandler := packetHandlers[cmd]

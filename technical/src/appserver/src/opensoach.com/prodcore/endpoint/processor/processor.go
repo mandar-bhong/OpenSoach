@@ -5,6 +5,8 @@ import (
 	gmodels "opensoach.com/models"
 )
 
+var SUB_MODULE_NAME = "ProdCore.Endpoint.Processor"
+
 func DecodeHeader(packet []byte) (error, gmodels.DeviceHeaderData) {
 	deveicePacket := &gmodels.DevicePacket{}
 	err := ghelper.ConvertFromJSONBytes(packet, deveicePacket)
