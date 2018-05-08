@@ -248,6 +248,7 @@ usrid:number;
 usrname:string;
 usrcategory:number;
 uroleid:number;
+urolename:string;
 usrstate:number;
 usrstatesince:number:
 createdon:Date;
