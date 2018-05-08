@@ -40,7 +40,6 @@ export class CustomerSearchComponent implements OnInit {
       }
     });
   }
-
   panelOpened() {
     this.isExpanded = true;
   }

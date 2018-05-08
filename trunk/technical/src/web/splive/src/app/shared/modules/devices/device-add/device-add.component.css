@@ -1,0 +1,4 @@
+#device-add{width: 400px}
+@media screen and (max-width:768px) {
+    #device-add{width: auto;}
+   }

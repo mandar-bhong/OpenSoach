@@ -13,6 +13,23 @@ export enum USER_CATEGORY {
     OSU = 1,
     CU = 2
 }
+export enum USER_STATE {
+    NOT_SET = 0,
+    ACTIVE = 1,
+    INACTIVE = 2,
+    SUSPENDED = 3
+}
+export enum USER_GENDER {
+    NOT_SELECTED = 0,
+    MALE = 1,
+    FEMALE = 2
+}
+export enum DEVICE_STATE {
+    NOT_SET = 0,
+    ACTIVE = 1,
+    INACTIVE = 2,
+    SUSPENDED = 3
+}
 
 export const DEFAULT_PAGE_MENU = 'DEFAULT_PAGE_MENU';
 

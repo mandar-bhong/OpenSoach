@@ -12,13 +12,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CorporateService } from './services/corporate.service';
 import { CustomerService } from './services/customer.service';
+import { UserService } from './services/user.service';
+import { DeviceService } from './services/device.service';
 import { DBInstanceService } from './services/db-instance.service';
 import { ProductService } from './services/product.service';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
 
   imports: [
@@ -44,6 +46,8 @@ import { ProductService } from './services/product.service';
   providers: [
     CustomerService,
     CorporateService,
+    UserService,
+    DeviceService,
     ProductService,
     DBInstanceService
   ],

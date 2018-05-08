@@ -46,14 +46,14 @@ export const APP_ROUTES: RoutingModel[] = [
     },
     {
         url: '/users/add-user',
-        linktitle: 'Add User',
+        linktitle: 'Add',
         pagetitle: 'Add New User',
         linkiconcss: 'fa fa-users'
     },
     {
         url: '/users/user-detail',
-        linktitle: 'User Detail',
-        pagetitle: 'User Detail',
+        linktitle: 'Details',
+        pagetitle: 'User Details',
         linkiconcss: 'fa fa-users'
     },
     {
@@ -61,7 +61,19 @@ export const APP_ROUTES: RoutingModel[] = [
         linktitle: 'Devices',
         pagetitle: 'Devices',
         linkiconcss: 'fa fa-tablet'
-    }
+    },
+    {
+        url: '/devices/add',
+        linktitle: 'Add',
+        pagetitle: 'Add New Device',
+        linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/devices/update',
+        linktitle: 'Details',
+        pagetitle: 'Device Details',
+        linkiconcss: 'fa fa-users'
+    },
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
