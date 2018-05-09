@@ -8,7 +8,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Fieldoperator"
+var SUB_MODULE_NAME = "HKT.API.Fieldoperator"
 
 type FieldoperatorService struct {
 	ExeCtx *gmodels.ExecutionContext

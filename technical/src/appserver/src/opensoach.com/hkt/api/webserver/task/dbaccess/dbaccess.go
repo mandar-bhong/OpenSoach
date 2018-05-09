@@ -7,7 +7,7 @@ import (
 	hktmodels "opensoach.com/hkt/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Task.DB"
+var SUB_MODULE_NAME = "HKT.API.Task.DB"
 
 func Insert(dbConn string, insrtStruct *hktmodels.DBTaskLibInsertRowModel) (error, int64) {
 

@@ -14,7 +14,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Service.DB"
+var SUB_MODULE_NAME = "HKT.API.Service.DB"
 
 func ServiceConfigInsert(dbConn string, insrtStruct *hktmodels.DBServiceConfInsertRowModel) (error, int64) {
 

@@ -14,7 +14,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Fieldoperator.DB"
+var SUB_MODULE_NAME = "HKT.API.Fieldoperator.DB"
 
 func Insert(dbConn string, insrtStruct *hktmodels.DBFieldOperatorRowModel) (error, int64) {
 

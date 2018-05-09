@@ -14,7 +14,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Complaint.DB"
+var SUB_MODULE_NAME = "HKT.API.Complaint.DB"
 
 func Insert(dbConn string, insrtStruct *hktmodels.DBComplaintInsertRowModel) (error, int64) {
 
