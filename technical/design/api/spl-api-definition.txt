@@ -605,6 +605,29 @@ cpmstate:number;
 }
 response:null
 
+51. Get user product association list
+API Name: /api/osu/v1/user/list/productassociation
+Request Method: GET
+request: null
+response:	UserProdAssociationList {
+custname:string;
+prodcode:string;
+urolecode:string;
+ucpmstate:number;
+ucpmstatesince:Date;
+}
+
+52. Get ucpm state update
+API Name: /api/osu/v1/user/productassociation/update
+Request Method: GET
+request: CpmStateUpdate{
+ucpmid:number;
+ucpmstate:number;
+}
+response:null
+
+
+
 
 
 
