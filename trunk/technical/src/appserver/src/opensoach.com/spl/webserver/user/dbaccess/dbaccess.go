@@ -333,14 +333,14 @@ func GetUroleListOSU(dbConn string) (error, *[]lmodels.DBUroleShortDataModel) {
 	return nil, data
 }
 
-func GetUroleListCU(dbConn string, productCode string) (error, *[]lmodels.DBUroleShortDataModel) {
+func GetUroleList(dbConn string, productCode string) (error, *[]lmodels.DBUroleShortDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUroleListCU")
 
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]lmodels.DBUroleShortDataModel{}
 	selDBCtx.DBConnection = dbConn
-	selDBCtx.Query = dbquery.QUERY_GET_UROLE_LIST_CU
+	selDBCtx.Query = dbquery.QUERY_GET_UROLE_LIST
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 	selErr := selDBCtx.Select(productCode)
@@ -348,4 +348,37 @@ func GetUroleListCU(dbConn string, productCode string) (error, *[]lmodels.DBUrol
 		return selErr, nil
 	}
 	return nil, data
+}
+
+func GetProdAssociationByUsrId(dbConn string, usrId int64) (error, *[]lmodels.DBUserProdAssociationDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetProdAssociationByUsrId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBUserProdAssociationDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_PRODUCT_ASSOCIATION_BY_USER_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(usrId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func UcpmStateUpdate(dbConn string, updtStruct *lmodels.DBUsrCpmStateUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UcpmStateUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_MASTER_USER_CPM_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
 }

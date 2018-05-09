@@ -74,11 +74,11 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 9.	method:POST	/api/osu/v1/user/associate/customer
 
-	{"cpmid":1,"uroleid":1,"usrname":"admin@customer2.com"}
+	{"cpmid":1,"uroleid":1,"usrname":"admin@customer2.com","ucpmstate":1}
 
 10.	method:POST	/api/cu/v1/user/associate/customer
 
-	{"uroleid":1,"usrname":"admin@customer2.com"}
+	{"uroleid":1,"usrname":"admin@customer2.com","ucpmstate":1}
 	
 	
 11. method:GET	/api/osu/v1/user/info/details
@@ -92,7 +92,18 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 13. method:GET /api/osu/v1/urole/list
 
 
-14. method:GET /api/cu/v1/urole/list
+14. method:GET /api/v1/urole/list
 
 	query parameter : params={"prodcode":""}
+	
+	
+15. method:GET /api/osu/v1/user/list/productassociation
+
+	query parameter : params={"recid":1} //usrid
+	
+	
+16. method:POST /api/osu/v1/user/productassociation/update
+
+	{"ucpmid":1,"ucpmstate":2}
+
 

@@ -1,8 +1,7 @@
 package user
 
 import (
-	"time"
-
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
@@ -19,7 +18,7 @@ type UserService struct {
 
 func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	userData.UsrStateSince = time.Now()
+	userData.UsrStateSince = ghelper.GetCurrentTime()
 
 	dbErr, userInsertedId := dbaccess.SplMasterUserTableInsert(repo.Instance().Context.Master.DBConn, userData)
 	if dbErr != nil {
@@ -94,7 +93,7 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 
 func (service UserService) UpdateUserState(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	userData.UsrStateSince = time.Now()
+	userData.UsrStateSince = ghelper.GetCurrentTime()
 
 	dbErr, _ := dbaccess.UpdateUsrState(repo.Instance().Context.Master.DBConn, userData)
 	if dbErr != nil {
@@ -270,6 +269,8 @@ func (service UserService) AssociateUserWithCust(reqData *lmodels.APICustomerAss
 		usrcpm.CpmId = reqData.CpmId
 		usrcpm.UroleId = reqData.UroleId
 		usrcpm.UserId = reqData.UserId
+		usrcpm.UcpmState = reqData.UcpmState
+		usrcpm.UcpmStateSince = ghelper.GetCurrentTime()
 
 		dbErr, insertedId := dbaccess.SplMasterUserCpmTableInsert(repo.Instance().Context.Master.DBConn, usrcpm)
 		if dbErr != nil {
@@ -306,9 +307,9 @@ func (UserService) GetUserRoleListOSU() (bool, interface{}) {
 
 }
 
-func (UserService) GetUserRoleListCU(prodCode string) (bool, interface{}) {
+func (UserService) GetUserRoleList(prodCode string) (bool, interface{}) {
 
-	dbErr, listData := dbaccess.GetUroleListCU(repo.Instance().Context.Master.DBConn, prodCode)
+	dbErr, listData := dbaccess.GetUroleList(repo.Instance().Context.Master.DBConn, prodCode)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -321,4 +322,43 @@ func (UserService) GetUserRoleListCU(prodCode string) (bool, interface{}) {
 
 	return true, listData
 
+}
+
+func (service UserService) GetUserProdAssociation(userID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetProdAssociationByUsrId(repo.Instance().Context.Master.DBConn, userID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecords := *data
+
+	if len(dbRecords) < 1 {
+		return true, dbRecords
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched User Product association list")
+	return true, dbRecords
+}
+
+func (service UserService) UpdateUcpmState(reqData *lmodels.DBUsrCpmStateUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.UcpmStateSince = ghelper.GetCurrentTime()
+
+	dbErr, _ := dbaccess.UcpmStateUpdate(repo.Instance().Context.Master.DBConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Ucpm state updated successfully.")
+
+	return true, nil
 }
