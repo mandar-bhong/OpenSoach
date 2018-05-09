@@ -25,7 +25,9 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_USER_OSU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_USER_CU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_UROLE_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.GET(constants.API_UROLE_CU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_UROLE_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_PRODUCT_ASSCOCIATION_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_PRODUCT_ASSCOCIATION_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -261,7 +263,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_UROLE_CU_LIST:
+	case constants.API_UROLE_LIST:
 
 		uroleReq := lmodels.APIUroleRequest{}
 
@@ -274,7 +276,41 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.GetUserRoleListCU(uroleReq.Prodcode)
+		}.GetUserRoleList(uroleReq.Prodcode)
+
+		break
+
+	case constants.API_USER_PRODUCT_ASSCOCIATION_LIST:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetUserProdAssociation(recReq.RecId)
+
+		break
+
+	case constants.API_USER_PRODUCT_ASSCOCIATION_UPDATE:
+
+		reqData := &lmodels.DBUsrCpmStateUpdateRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.UpdateUcpmState(reqData)
 
 		break
 

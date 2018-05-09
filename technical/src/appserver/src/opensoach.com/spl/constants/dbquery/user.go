@@ -35,8 +35,16 @@ const QUERY_GET_USER_TABLE_INFO_BY_ID = `Select usr_name,usr_category,urole_id_f
 
 const QUERY_GET_SPL_MASTER_USER_DETAILS_TABLE_SELECT_BY_ID = `Select usr_id_fk,fname,lname,mobile_no,alternate_contact_no,created_on,updated_on From spl_master_usr_details_tbl where usr_id_fk = ?`
 
-const QUERY_GET_UROLE_LIST_OSU = `Select id,urole_code,urole_name From spl_master_user_role_tbl Where prod_id_fk Is Null`
+const QUERY_GET_UROLE_LIST_OSU = `Select urole.id as id,urole.urole_code as urole_code,urole.urole_name as urole_name,prod.prod_code as prod_code From spl_master_user_role_tbl urole
+Left Join spl_master_product_tbl prod on prod.id=urole.prod_id_fk`
 
-const QUERY_GET_UROLE_LIST_CU = `Select urole.id as id ,urole.urole_code as urole_code,urole.urole_name as urole_name From spl_master_user_role_tbl urole
+const QUERY_GET_UROLE_LIST = `Select urole.id as id ,urole.urole_code as urole_code,urole.urole_name as urole_name From spl_master_user_role_tbl urole
 Inner Join spl_master_product_tbl prod On prod.id = urole.prod_id_fk
 Where prod_code = ?`
+
+const QUERY_GET_PRODUCT_ASSOCIATION_BY_USER_ID = `Select cust.cust_name,prod.prod_code,urole.urole_code as urole_code,ucpm.ucpm_state as ucpm_state,ucpm.ucpm_state_since as ucpm_state_since From spl_master_usr_cpm_tbl ucpm
+Left Join spl_master_cust_prod_mapping_tbl cpm on cpm.id = ucpm.cpm_id_fk
+Left Join spl_master_customer_tbl cust on cust.id = cpm.cust_id_fk
+Left Join spl_master_product_tbl prod on prod.id = cpm.prod_id_fk
+Left Join spl_master_user_role_tbl urole on urole.id =  ucpm.urole_id_fk
+Where ucpm.user_id_fk = ?`

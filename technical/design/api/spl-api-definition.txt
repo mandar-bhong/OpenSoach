@@ -443,6 +443,7 @@ request: CustomerAssociateUserRequest {
 cpmid: number;
 usrname:string;
 uroleid:number;
+ucpmstate:number;
 }
 
 response: null;
@@ -454,6 +455,7 @@ Request Method: POST
 request: CustomerAssociateUserRequest {
 usrname:string;
 uroleid:number;
+ucpmstate:number;
 }
 
 response: null;
