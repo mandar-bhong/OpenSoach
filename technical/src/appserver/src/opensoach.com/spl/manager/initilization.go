@@ -24,6 +24,8 @@ import (
 	"opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
 	"opensoach.com/spl/webserver"
+
+	taskque "opensoach.com/core/manager/taskqueue"
 )
 
 func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
@@ -51,7 +53,13 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return connErr
 	}
 
-	initModules(configSetting)
+	if taskErr := createTaskQue(configSetting); taskErr != nil {
+		return taskErr
+	}
+
+	if initErr := initModules(configSetting); initErr != nil {
+		return initErr
+	}
 
 	return nil
 
@@ -199,7 +207,7 @@ func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 	}
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     configSetting.MasterCache.Address + ":"+ strconv.Itoa(configSetting.MasterCache.Port),
+		Addr:     configSetting.MasterCache.Address + ":" + strconv.Itoa(configSetting.MasterCache.Port),
 		Password: configSetting.MasterCache.Password,
 		DB:       configSetting.MasterCache.DB,
 	})
@@ -226,4 +234,23 @@ func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodel
 
 	return nil
 
+}
+
+func createTaskQue(configSetting *gmodels.ConfigSettings) error {
+
+	mstTaskConfig := taskque.TaskConfig{}
+	mstTaskConfig.Broker = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
+	mstTaskConfig.ResultBackend = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
+	mstTaskConfig.DefaultQueue = "SPL"
+	mstTaskConfig.ResultsExpireIn = 1 // in min
+
+	mstTaskCtx := &taskque.TaskContext{}
+
+	if mstTaskQueErr := mstTaskCtx.CreateServer(mstTaskConfig); mstTaskQueErr != nil {
+		return mstTaskQueErr
+	}
+
+	repo.Instance().TaskQue = mstTaskCtx
+
+	return nil
 }
