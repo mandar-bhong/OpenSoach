@@ -12,6 +12,7 @@ import (
 	fieldoperator "opensoach.com/hkt/api/webserver/fieldoperator"
 	master "opensoach.com/hkt/api/webserver/master"
 	service "opensoach.com/hkt/api/webserver/service"
+	servicepoint "opensoach.com/hkt/api/webserver/servicepoint"
 	task "opensoach.com/hkt/api/webserver/task"
 	gmodels "opensoach.com/models"
 	pcmodels "opensoach.com/prodcore/models"
@@ -37,6 +38,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	complaint.Init(webConfig)
 	service.Init(webConfig)
 	master.Init(webConfig)
+	servicepoint.Init(webConfig)
 
 	var webServerStartErr error
 
