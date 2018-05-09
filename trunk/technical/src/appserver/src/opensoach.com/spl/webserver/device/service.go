@@ -1,8 +1,7 @@
 package device
 
 import (
-	"time"
-
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	"opensoach.com/spl/constants"
@@ -19,7 +18,7 @@ type DeviceService struct {
 
 func (service DeviceService) AddDevice(reqData *lmodels.DBSplMasterDeviceRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	reqData.DevStateSince = time.Now()
+	reqData.DevStateSince = ghelper.GetCurrentTime()
 
 	dbErr, insertedId := dbaccess.SplMasterDeviceTableInsert(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
@@ -40,7 +39,7 @@ func (service DeviceService) AddDevice(reqData *lmodels.DBSplMasterDeviceRowMode
 
 func (service DeviceService) UpdateDevState(reqData *lmodels.DBDevStateRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	reqData.DevStateSince = time.Now()
+	reqData.DevStateSince = ghelper.GetCurrentTime()
 
 	dbErr, _ := dbaccess.UpdateDeviceState(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
