@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
+	ghelper "opensoach.com/core/helper"
 )
 
 const MODEL_DB_ATTRIBUTE_TAG = "dbattr"
@@ -25,10 +27,11 @@ func GetInsertDynamicQuery(tablename string, insStruct interface{}) string {
 	if ok {
 		query = val
 	} else {
-		t := reflect.TypeOf(insStruct)
 		query = "INSERT INTO " + tablename + " ("
-		for i := 0; i < t.NumField(); i++ {
-			field := t.Field(i)
+
+		modelFields := ghelper.GetModelFields(insStruct)
+
+		for _, field := range modelFields {
 			tag := field.Tag.Get("db")
 			attrTagVal, _ := field.Tag.Lookup(MODEL_DB_ATTRIBUTE_TAG)
 			if strings.Contains(attrTagVal, MODEL_DB_AUTO_TAG) == false {
@@ -39,8 +42,7 @@ func GetInsertDynamicQuery(tablename string, insStruct interface{}) string {
 		query = strings.TrimRight(query, ",")
 		query = query + " ) values ( "
 
-		for i := 0; i < t.NumField(); i++ {
-			field := t.Field(i)
+		for _, field := range modelFields {
 			tag := field.Tag.Get("db")
 			attrTagVal, _ := field.Tag.Lookup(MODEL_DB_ATTRIBUTE_TAG)
 			if strings.Contains(attrTagVal, MODEL_DB_AUTO_TAG) == false {
