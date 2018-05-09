@@ -174,12 +174,14 @@ type DBSplMasterUserTableRowModel struct {
 }
 
 type DBSplMasterUsrCpmTableRowModel struct {
-	UcpmId    int64     `dbattr:"pri,auto" db:"id" json:"ucpmid"`
-	UserId    int64     `db:"user_id_fk" json:"userid"`
-	CpmId     int64     `db:"cpm_id_fk" json:"cpmid"`
-	UroleId   int64     `db:"urole_id_fk" json:"uroleid"`
-	CreatedOn time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
+	UcpmId         int64     `dbattr:"pri,auto" db:"id" json:"ucpmid"`
+	UserId         int64     `db:"user_id_fk" json:"userid"`
+	CpmId          int64     `db:"cpm_id_fk" json:"cpmid"`
+	UroleId        int64     `db:"urole_id_fk" json:"uroleid"`
+	UcpmState      int       `db:"ucpm_state" json:"ucpmstate"`
+	UcpmStateSince time.Time `db:"ucpm_state_since" json:"ucpmstatesince"`
+	CreatedOn      time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn      time.Time `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplMasterUsrDetailsTableRowModel struct {
