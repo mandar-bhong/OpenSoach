@@ -186,6 +186,8 @@ CREATE TABLE `spl_master_usr_cpm_tbl` (
   `user_id_fk` int(10) unsigned NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `urole_id_fk` int(10) unsigned NOT NULL,
+  `ucpm_state` TINYINT(3) UNSIGNED NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
+  `ucpm_state_since` DATETIME NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
