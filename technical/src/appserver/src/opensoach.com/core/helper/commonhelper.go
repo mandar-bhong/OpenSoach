@@ -8,6 +8,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
+	"time"
 )
 
 var BaseDir string
@@ -92,4 +94,31 @@ func CreateToken() (bool, string) {
 	uuid := fmt.Sprintf("%X-%X-%X-%X-%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
 
 	return true, uuid
+}
+
+func GetModelFields(model interface{}) []reflect.StructField {
+	fields := make([]reflect.StructField, 0)
+	modelval := reflect.ValueOf(model)
+	modeltype := reflect.TypeOf(model)
+
+	for i := 0; i < modeltype.NumField(); i++ {
+		v := modelval.Field(i)
+		t := modeltype.Field(i)
+		switch v.Kind() {
+		case reflect.Struct:
+			if t.Type == reflect.TypeOf(time.Time{}) {
+				fields = append(fields, t)
+			} else {
+				fields = append(fields, GetModelFields(v.Interface())...)
+			}
+		default:
+			fields = append(fields, t)
+		}
+	}
+	return fields
+}
+
+func GetCurrentTime() time.Time {
+	currentTime := time.Now()
+	return currentTime
 }
