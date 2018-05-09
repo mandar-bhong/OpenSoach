@@ -7,7 +7,7 @@ import (
 	hktmodels "opensoach.com/hkt/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Master.DB"
+var SUB_MODULE_NAME = "HKT.API.Master.DB"
 
 func GetHktMasterSpcTaskLibTableById(dbConn string, id int64) (error, *[]hktmodels.DBSplHktMasterSpcTaskLibTableRowModel) {
 
@@ -62,7 +62,7 @@ func GetSplProdMasterServConfTypeTableById(dbConn string, id int64) (error, *[]h
 
 func GetSplProdMasterSpCategoryTableById(dbConn string, id int64) (error, *[]hktmodels.DBSplProdMasterSpCategoryTableRowModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing Field GetHktProgMasterServConfTypeTableById")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing Field GetSplProdMasterSpCategoryTableById")
 
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]hktmodels.DBSplProdMasterSpCategoryTableRowModel{}

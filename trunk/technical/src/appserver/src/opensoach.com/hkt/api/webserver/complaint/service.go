@@ -1,7 +1,6 @@
 package complaint
 
 import (
-	"fmt"
 	"time"
 
 	"opensoach.com/core/logger"
@@ -11,7 +10,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Complaint"
+var SUB_MODULE_NAME = "HKT.API.Complaint"
 
 type ComplaintService struct {
 	ExeCtx *gmodels.ExecutionContext
@@ -51,8 +50,6 @@ func (service ComplaintService) Add(req lmodels.APIComplaintAddRequest) (isSucce
 func (service ComplaintService) Update(reqData *hktmodels.DBComplaintUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
-
-	fmt.Println(reqData)
 
 	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {

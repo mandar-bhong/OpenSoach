@@ -7,7 +7,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Master"
+var SUB_MODULE_NAME = "HKT.API.Master"
 
 type MasterService struct {
 	ExeCtx *gmodels.ExecutionContext
@@ -55,7 +55,7 @@ func (service MasterService) GetTaskLib(id int64) (bool, interface{}) {
 		return false, errModel
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully get SpcTask info")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully get Task info")
 	return true, dbRecord[0]
 }
 
@@ -78,7 +78,7 @@ func (service MasterService) GetServConfType(id int64) (bool, interface{}) {
 		return false, errModel
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully get SpcTask info")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully get ServConfType info")
 	return true, dbRecord[0]
 }
 
@@ -101,6 +101,6 @@ func (service MasterService) GetSpCategory(id int64) (bool, interface{}) {
 		return false, errModel
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully get SpcTask info")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully get Sp Category info")
 	return true, dbRecord[0]
 }

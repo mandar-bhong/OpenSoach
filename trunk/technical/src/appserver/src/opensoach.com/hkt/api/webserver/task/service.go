@@ -8,7 +8,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-var SUB_MODULE_NAME = "HKT.Task"
+var SUB_MODULE_NAME = "HKT.API.Task"
 
 type TaskService struct {
 	ExeCtx *gmodels.ExecutionContext
