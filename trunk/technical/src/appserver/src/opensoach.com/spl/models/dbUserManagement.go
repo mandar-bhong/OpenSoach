@@ -41,18 +41,30 @@ type DBSplMasterUsrDetailsRowModel struct {
 }
 
 type DBUsrCpmRowModel struct {
-	UserId  int64 `db:"user_id_fk" json:"userid"`
-	CpmId   int64 `db:"cpm_id_fk" json:"cpmid"`
-	UroleId int64 `db:"urole_id_fk" json:"uroleid"`
+	UserId         int64     `db:"user_id_fk" json:"userid"`
+	CpmId          int64     `db:"cpm_id_fk" json:"cpmid"`
+	UroleId        int64     `db:"urole_id_fk" json:"uroleid"`
+	UcpmState      int       `db:"ucpm_state" json:"ucpmstate"`
+	UcpmStateSince time.Time `db:"ucpm_state_since" json:"ucpmstatesince"`
 }
 
-type DBUsrCpmUpdateRowModel struct {
-	UcpmId int64 `dbattr:"pri,auto" db:"id" json:"ucpmid"`
-	DBUsrCpmRowModel
+type DBUsrCpmStateUpdateRowModel struct {
+	UcpmId         int64     `dbattr:"pri,auto" db:"id" json:"ucpmid"`
+	UcpmState      int       `db:"ucpm_state" json:"ucpmstate"`
+	UcpmStateSince time.Time `db:"ucpm_state_since" json:"ucpmstatesince"`
 }
 
 type DBUroleShortDataModel struct {
-	UroleId   int64  `dbattr:"pri,auto" db:"id" json:"uroleid"`
-	UroleCode string `db:"urole_code" json:"urolecode"`
-	UroleName string `db:"urole_name" json:"urolename"`
+	UroleId   int64   `dbattr:"pri,auto" db:"id" json:"uroleid"`
+	UroleCode string  `db:"urole_code" json:"urolecode"`
+	UroleName string  `db:"urole_name" json:"urolename"`
+	ProdCode  *string `db:"prod_code" json:"prodcode"`
+}
+
+type DBUserProdAssociationDataModel struct {
+	CustName       *string    `db:"cust_name" json:"custname"`
+	ProdCode       *string    `db:"prod_code" json:"prodcode"`
+	UroleCode      *string    `db:"urole_code" json:"urolecode"`
+	UcpmState      *int       `db:"ucpm_state" json:"ucpmstate"`
+	UcpmStateSince *time.Time `db:"ucpm_state_since" json:"ucpmstatesince"`
 }
