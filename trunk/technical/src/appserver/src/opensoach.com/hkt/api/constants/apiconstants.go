@@ -26,3 +26,8 @@ const API_MASTER_SPC_TASK_INFO = API_BASE_URL + "/v1/master/spctask/info"
 const API_MASTER_TASK_LIB_INFO = API_BASE_URL + "/v1/master/task/info"
 const API_MASTER_SERV_CONF_TYPE_INFO = API_BASE_URL + "/v1/master/servconftype/info"
 const API_MASTER_SP_CATEGORY_INFO = API_BASE_URL + "/v1/master/spcategory/info"
+
+const API_SERVICE_POINT_UPDATE = API_BASE_URL + "/v1/servicepoint/update"
+const API_SERVICE_POINT_CATEGORY_ADD = API_BASE_URL + "/v1/servicepoint/category/add"
+const API_SERVICE_POINT_ASSOCIATE_FOP = API_BASE_URL + "/v1/servicepoint/associate/fieldoperator"
+const API_SERVICE_POINT_FOP_ASSOCIATION_REMOVE = API_BASE_URL + "/v1/servicepoint/associate/fieldoperator/remove"

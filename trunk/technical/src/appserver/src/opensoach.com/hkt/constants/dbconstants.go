@@ -10,6 +10,9 @@ const DB_TABLE_HKT_MASTER_SPC_TASK_LIB_TBL string = "spl_hkt_master_spc_task_lib
 const DB_TABLE_HKT_MASTER_TASK_LIB_TBL string = "spl_hkt_master_task_lib_tbl"
 const DB_PROD_MASTER_SERV_CONF_TYPE_TBL string = "spl_prod_master_serv_conf_type_tbl"
 const DB_PROD_MASTER_SP_CATEGORY_TBL string = "spl_prod_master_sp_category_tbl"
+const DB_TABLE_SPL_NODE_SP_TBL string = "spl_node_sp_tbl"
+const DB_TABLE_SPL_NODE_SP_CATEGORY_TBL string = "spl_node_sp_category_tbl"
+const DB_TABLE_SPL_NODE_FOP_SP_TBL string = "spl_node_fop_sp_tbl"
 
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"
