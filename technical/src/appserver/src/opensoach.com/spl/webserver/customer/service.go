@@ -1,8 +1,7 @@
 package customer
 
 import (
-	"time"
-
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	lmodels "opensoach.com/spl/models"
@@ -23,7 +22,7 @@ func (service CustomerService) Add(req lmodels.CustomerAddRequest) (isSuccess bo
 	dbSplMasterCustomerTableRowModel.CorpId = req.CorporationID
 	dbSplMasterCustomerTableRowModel.CustName = req.CustomerName
 	dbSplMasterCustomerTableRowModel.CustState = req.CustomerState
-	dbSplMasterCustomerTableRowModel.CustStateSince = time.Now()
+	dbSplMasterCustomerTableRowModel.CustStateSince = ghelper.GetCurrentTime()
 
 	dbErr, dbData := dbaccess.AddCustomer(repo.Instance().Context.Master.DBConn, dbSplMasterCustomerTableRowModel)
 
@@ -194,7 +193,7 @@ func (CustomerService) GetCustomerDataList(custListReqData gmodels.APIDataListRe
 
 func (service CustomerService) AssociateCustWithProduct(reqData *lmodels.DBCustProdMappingInsertRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	reqData.CpmStateSince = time.Now()
+	reqData.CpmStateSince = ghelper.GetCurrentTime()
 
 	dbErr, insertedId := dbaccess.CpmTableInsert(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
@@ -236,7 +235,7 @@ func (service CustomerService) GetCustProdAssociation(customerID int64) (bool, i
 
 func (service CustomerService) UpdateCPMState(reqData *lmodels.DBCpmStateUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	reqData.CpmStateSince = time.Now()
+	reqData.CpmStateSince = ghelper.GetCurrentTime()
 
 	dbErr, _ := dbaccess.CpmStateUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
@@ -254,7 +253,7 @@ func (service CustomerService) UpdateCPMState(reqData *lmodels.DBCpmStateUpdateR
 
 func (service CustomerService) UpdateCust(reqData *lmodels.DBCustomerUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	reqData.CustStateSince = time.Now()
+	reqData.CustStateSince = ghelper.GetCurrentTime()
 
 	dbErr, affectedRow := dbaccess.CustomerUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
