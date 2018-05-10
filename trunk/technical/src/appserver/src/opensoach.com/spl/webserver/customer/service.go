@@ -209,10 +209,8 @@ func (service CustomerService) AssociateCustWithProduct(reqData *lmodels.DBCustP
 	taskAPICustProdAssociatedModel.ProdId = reqData.ProdId
 	taskAPICustProdAssociatedModel.DbiId = reqData.DbiId
 
-	if isSuccess := repo.Instance().TaskQue.
-		SubmitTask(gmodels.TASK_API_CUST_PROD_ASSOCIATED,
-			taskAPICustProdAssociatedModel); isSuccess == false {
-		logger.Context().Log(SUB_MODULE_NAME, logger.Error, logger.Normal, "Error occured while submiting task for cust prod assoc")
+	if isSuccess := repo.Instance().SendTaskToServer(gmodels.TASK_API_CUST_PROD_ASSOCIATED, service.ExeCtx.SessionToken, taskAPICustProdAssociatedModel); isSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while submiting task for cust prod assoc")
 	}
 
 	response := gmodels.APIRecordIdResponse{}
