@@ -20,7 +20,7 @@ use spl_hkt_node_0001;
 --
 
 CREATE TABLE `spl_node_cpm_tbl` (
-  `cpm_id_fk` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
   PRIMARY KEY (`cpm_id_fk`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cpm';
 
