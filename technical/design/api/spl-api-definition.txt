@@ -626,6 +626,16 @@ ucpmstate:number;
 }
 response:null
 
+53. Get device product association list
+API Name: /api/osu/v1/user/list/productassociation
+Request Method: GET
+request: null
+response:	DeviceProdAssociationList {
+custname:string;
+prodcode:string;
+}
+
+
 
 
 
