@@ -140,10 +140,6 @@ func (service CustomerService) GetCustomerDetailsInfo(customerID int64) (bool, i
 
 	dbRecord := *customerDetails
 
-	if len(dbRecord) < 1 {
-		return true, nil
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer details")
 	return true, dbRecord[0]
 }
@@ -233,10 +229,6 @@ func (service CustomerService) GetCustProdAssociation(customerID int64) (bool, i
 	}
 
 	dbRecords := *data
-
-	if len(dbRecords) < 1 {
-		return true, dbRecords
-	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Customer Product association list")
 	return true, dbRecords
