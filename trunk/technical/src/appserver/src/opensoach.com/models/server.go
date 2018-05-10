@@ -4,6 +4,7 @@ type ExecutionContext struct {
 	SessionInfo             UserSessionInfo
 	SelectedCustomerProduct int64
 	RequestJSON             string
+	SessionToken            string
 }
 
 type ServerListingResultModel struct {
@@ -23,4 +24,11 @@ type PacketProcessingTaskResult struct {
 	StatusCode int             `json:"status"`
 	AckPayload []*DevicePacket `json:"ackpayload"`
 	ChannelID  int             `json:"chnid"`
+}
+
+type APITaskProcessModel struct {
+	TaskToken    string      `json:"token"`
+	SessionToken string      `json:"sessionkey"`
+	TaskTag      string      `json:"tag"`
+	TaskPayload  interface{} `json:"payload"`
 }
