@@ -12,6 +12,7 @@ var apiTaskHandler map[string]lmodels.APITaskHandlerModel
 
 func init() {
 	apiTaskHandler = make(map[string]lmodels.APITaskHandlerModel)
+	apiTaskHandler[gmodels.TASK_API_CUST_PROD_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerCustProdAssociated, PayloadType: &gmodels.TaskAPICustProdAssociatedModel{}}
 }
 
 func RegisterHandler(handler map[string]interface{}) {

@@ -1,18 +1,27 @@
 package dbaccess
 
-func UpdateCPMIDToInstDB(dbConn string, customerId int64) (error, *[]lmodels.DBSplMasterCustomerTableRowModel) {
+import (
+	"fmt"
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustomerById")
+	"opensoach.com/core/logger"
+	dbmgr "opensoach.com/core/manager/db"
+	"opensoach.com/splserver/constants"
+	lmodels "opensoach.com/splserver/models"
+)
 
-	selDBCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSplMasterCustomerTableRowModel{}
-	selDBCtx.DBConnection = dbConn
-	selDBCtx.Query = dbquery.QUERY_GET_CUSTOMER_TABLE_INFO_BY_ID
-	selDBCtx.QueryType = dbmgr.Query
-	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(customerId)
-	if selErr != nil {
-		return selErr, &[]lmodels.DBSplMasterCustomerTableRowModel{}
+func UpdateCPMIDToInstDB(dbConn string, insrtStruct *lmodels.APIDBInstanceCpmIdInsertModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing InsertDbInstanceCpmId")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_CPM_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		fmt.Println(insertErr)
+		return insertErr, 0
 	}
-	return nil, data
+	return nil, insDBCtx.InsertID
 }
