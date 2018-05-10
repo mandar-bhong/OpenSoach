@@ -205,10 +205,6 @@ func (service UserService) GetUserDetailsInfo(userID int64) (bool, interface{}) 
 
 	dbRecord := *userDetails
 
-	if len(dbRecord) < 1 {
-		return true, nil
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user details")
 	return true, dbRecord[0]
 }
@@ -336,10 +332,6 @@ func (service UserService) GetUserProdAssociation(userID int64) (bool, interface
 	}
 
 	dbRecords := *data
-
-	if len(dbRecords) < 1 {
-		return true, dbRecords
-	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched User Product association list")
 	return true, dbRecords
