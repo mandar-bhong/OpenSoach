@@ -219,3 +219,20 @@ func CpmDevTableInsert(dbConn string, insrtStruct *lmodels.DBSplCpmDevRowModel) 
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func GetDeviceAssociationByDevId(dbConn string, devId int64) (error, *[]lmodels.DBDeviceAssociateProdDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceAssociationByDevId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBDeviceAssociateProdDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_PRODUCT_ASSOCIATION_BY_DEVICE_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(devId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

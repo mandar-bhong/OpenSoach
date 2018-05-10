@@ -256,10 +256,23 @@ func (service DeviceService) GetDeviceDetailsInfo(deviceID int64, userType strin
 
 	dbRecord := *deviceDetails
 
-	if len(dbRecord) < 1 {
-		return true, nil
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device details")
 	return true, dbRecord[0]
+}
+
+func (service DeviceService) GetDeviceProdAssociation(devID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetDeviceAssociationByDevId(repo.Instance().Context.Master.DBConn, devID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecords := *data
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Device Product association list")
+	return true, dbRecords
 }

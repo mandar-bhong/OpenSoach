@@ -18,3 +18,9 @@ $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 const QUERY_GET_DEV_ID_BY_CPM_ID = `Select dev_id_fk From spl_master_cpm_dev_mapping_tbl where cpm_id_fk = ? and dev_id_fk = ?`
 
 const QUERY_GET_MASTER_DEVICE_TABLE_BY_ID = `Select id,cust_id_fk,serialno,dev_state,dev_state_since,created_on,updated_on From spl_master_device_tbl Where id = ?`
+
+const QUERY_GET_PRODUCT_ASSOCIATION_BY_DEVICE_ID = `select cust.cust_name,prod.prod_code From spl_master_cpm_dev_mapping_tbl cpdm
+inner join spl_master_cust_prod_mapping_tbl cpm on cpm.id=cpdm.cpm_id_fk
+inner join spl_master_customer_tbl cust on cust.id = cpm.cust_id_fk
+inner join spl_master_product_tbl prod on prod.id = cpm.prod_id_fk
+where cpdm.dev_id_fk=?`
