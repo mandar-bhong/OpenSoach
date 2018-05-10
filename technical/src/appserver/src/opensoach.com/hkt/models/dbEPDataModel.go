@@ -5,3 +5,11 @@ type DBEPSPDataModel struct {
 	Name         string `db:"sp_name" json:"name"`
 	CategoryName string `db:"spc_name" json:"catname"`
 }
+
+type DBEPSPServConfDataModel struct {
+	ServInId     int64  `db:"id" dbattr:"pri,auto"  json:"servinid"`
+	ServConfId   int64  `db:"serv_conf_id_fk" json:"servconfid"`
+	ConfTypeCode string `db:"conf_type_code" json:"conftypecode"`
+	ServConfName string `db:"serv_conf_name" json:"servconfname"`
+	ServConf     string `db:"serv_conf" json:"servconf"`
+}

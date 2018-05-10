@@ -155,8 +155,8 @@ func GetInstanceDB(token string) (bool, string) {
 		return false, ""
 	}
 
-	deviceInfoModel := &gmodels.DeviceInfoModel{}
-	isSuccess = ghelper.ConvertFromJSONString(jsondata, deviceInfoModel)
+	deviceTokenModel := &gmodels.DeviceTokenModel{}
+	isSuccess = ghelper.ConvertFromJSONString(jsondata, deviceTokenModel)
 
 	if isSuccess == false {
 		return false, ""
