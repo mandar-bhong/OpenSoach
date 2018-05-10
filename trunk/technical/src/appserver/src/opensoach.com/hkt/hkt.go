@@ -9,8 +9,8 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	"opensoach.com/hkt/api"
-	//"opensoach.com/hkt/endpoint"
-	//"opensoach.com/hkt/server"
+	"opensoach.com/hkt/endpoint"
+	"opensoach.com/hkt/server"
 	gmodels "opensoach.com/models"
 )
 
@@ -27,13 +27,13 @@ func main() {
 		return
 	}
 
-	//	if startOk := endpoint.Init(dbconfig); startOk == false {
-	//		return
-	//	}
+	if startOk := endpoint.Init(dbconfig); startOk == false {
+		return
+	}
 
-	//	if startOk := server.Init(dbconfig); startOk == false {
-	//		return
-	//	}
+	if startOk := server.Init(dbconfig); startOk == false {
+		return
+	}
 
 	var gracefulStop = make(chan os.Signal)
 	signal.Notify(gracefulStop, syscall.SIGTERM)
@@ -51,8 +51,8 @@ func main() {
 
 func DeInit() {
 	api.DeInit()
-	//endpoint.DeInit()
-	//server.DeInit()
+	endpoint.DeInit()
+	server.DeInit()
 }
 
 func readConfiguration() (bool, *gmodels.ConfigDB) {

@@ -50,3 +50,18 @@ func EPGetSPAuthCodes(dbConn string, cpmid int64, spid int64) (error, *[]string)
 	}
 	return nil, data
 }
+
+func EPGetSPServConf(dbConn string, cpmid int64, spid int64) (error, *[]prodmodels.DBEPSPServConfDataModel) {
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]prodmodels.DBEPSPServConfDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_SP_SERV_CONF
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(cpmid, spid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
