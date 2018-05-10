@@ -103,12 +103,12 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	}
 
 	//handlerTaskCtx := &taskque.TaskContext{}
-	
 
 	var handler map[string]interface{}
 	handler = make(map[string]interface{})
 
-	handler[gmodels.TASK_HANDLER_SPL_CONTROLLER_KEY] = processor.TaskController
+	processor.RegisterHandler(handler)
+
 	mstTaskCtx.RegisterTaskHandlers(handler)
 
 	repo.Instance().TaskQue = mstTaskCtx
