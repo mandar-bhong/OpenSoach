@@ -1,14 +1,16 @@
 package dbaccess
 
 import (
+	"opensoach.com/core/logger"
+	dbmgr "opensoach.com/core/manager/db"
 	"opensoach.com/splserver/constants/dbquery"
 )
 
 const SUB_MODULE_NAME = "SPL.Server.DB"
 
-func GetDBConnectionByID(dbconn string, dbConnID int) (error, string) {
+func GetDBConnectionByID(dbConn string, dbConnID int64) (error, string) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustomerById")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDBConnectionByID")
 
 	selDBCtx := dbmgr.SelectContext{}
 	data := ""

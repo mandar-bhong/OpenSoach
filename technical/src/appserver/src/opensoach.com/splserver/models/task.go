@@ -8,4 +8,16 @@ type APITaskHandlerModel struct {
 }
 
 type APITaskResultModel struct {
+	IsSuccess bool                        `json:"isSuceess"`
+	Data      interface{}                 `json:"data"`
+	ErrorData APITaskResultErrorDataModel `json:"errordata"`
+}
+
+type APITaskResultErrorDataModel struct {
+	ErrorCode int         `json:"code"`
+	Data      interface{} `json:"data"`
+}
+
+type APIDBInstanceCpmIdInsertModel struct {
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 }

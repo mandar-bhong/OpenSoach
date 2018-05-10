@@ -1,3 +1,3 @@
 package dbquery
 
-const QUERY_GET_DB_CONN_BY_ID = "SELECT count(*) as count FROM spl_master_corp_tbl $WhereCondition$"
+const QUERY_GET_DB_CONN_BY_ID = "select connection_string from spl_master_database_instance_tbl where id = ?"
