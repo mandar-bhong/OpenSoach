@@ -87,17 +87,11 @@ func (ctx *TaskContext) processAsync(taskname string, jsonData string) (error, *
 	span.SetBaggageItem("batch.id", batchID)
 
 	asyncResult, err := ctx.Server.SendTaskWithContext(machineryctx, &command)
-	results, err := asyncResult.Get(time.Duration(time.Millisecond * 5))
-
-	resultData := tasks.HumanReadableResults(results)
-
-	fmt.Println(resultData)
 
 	return err, asyncResult
 }
 
 func (ctx *TaskContext) SubmitTask(taskname string, jsonData string) error {
-
 	err, _ := ctx.processAsync(taskname, jsonData)
 	return err
 }
@@ -115,5 +109,4 @@ func (ctx *TaskContext) ProcessTask(taskname string, jsonData string) (error, st
 	resultData := tasks.HumanReadableResults(results)
 
 	return err, resultData
-	//return nil
 }
