@@ -1,0 +1,17 @@
+Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_HKT"}
+
+1.	method POST : /api/v1/servicepoint/category/add
+
+	{"spcname":"spc2","shortdesc":"desc2"}
+	
+2. method POST : /api/v1/servicepoint/update
+
+	{"spid":1,"spcid":2,"spname":"sp1"}
+	
+3. method POST : /api/v1/servicepoint/associate/fieldoperator
+
+	{"fopid":1,"spid":1}
+	
+4. method POST : /api/v1/servicepoint/associate/fieldoperator/remove
+
+	{"fopid":1,"spid":1}
