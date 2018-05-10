@@ -34,3 +34,8 @@ type DBSplCpmDevRowModel struct {
 	CpmId int64 `dbattr:"pri" db:"cpm_id_fk" json:"cpmid"`
 	DevId int64 `dbattr:"pri" db:"dev_id_fk" json:"devid"`
 }
+
+type DBDeviceAssociateProdDataModel struct {
+	CustName *string `db:"cust_name" json:"custname"`
+	ProdCode *string `db:"prod_code" json:"prodcode"`
+}

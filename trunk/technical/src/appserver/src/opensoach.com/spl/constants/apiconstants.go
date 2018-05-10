@@ -58,3 +58,4 @@ const API_CUSTOMER_PRODUCT_ASSCOCIATION_UPDATE = API_BASE_URL + "/osu/v1/custome
 const API_CUSTOMER_OSU_UPDATE = API_BASE_URL + "/osu/v1/customer/update"
 const API_USER_PRODUCT_ASSCOCIATION_LIST = API_BASE_URL + "/osu/v1/user/list/productassociation"
 const API_USER_PRODUCT_ASSCOCIATION_UPDATE = API_BASE_URL + "/osu/v1/user/productassociation/update"
+const API_DEVICE_PRODUCT_ASSCOCIATION_LIST = API_BASE_URL + "/osu/v1/device/list/productassociation"
