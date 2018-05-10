@@ -80,6 +80,7 @@ func PrepareExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, 
 	}
 
 	dataModel.SessionInfo = *userInfo
+	dataModel.SessionToken = ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
 
 	return true, dataModel
 
