@@ -4,14 +4,36 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 	{"spcname":"spc2","shortdesc":"desc2"}
 	
+	
 2. method POST : /api/v1/servicepoint/update
 
 	{"spid":1,"spcid":2,"spname":"sp1"}
+	
 	
 3. method POST : /api/v1/servicepoint/associate/fieldoperator
 
 	{"fopid":1,"spid":1}
 	
+	
 4. method POST : /api/v1/servicepoint/associate/fieldoperator/remove
 
-	{"fopid":1,"spid":1}
+	{"fopid":1}
+	
+	
+5.	method POST : /api/v1/servicepoint/add
+
+	{"spid":1,"spcid":1,"spname":"spc1"}
+	
+	
+6.	method:GET	/api/v1/servicepoint/category/list/short
+
+
+
+7. method POST : /api/v1/servicepoint/associate/device
+
+	{"devid":1,"spid":1}
+	
+	
+8. method POST : /api/v1/servicepoint/associate/device/remove
+
+	{"devid":1,"cpmid":1}
