@@ -74,3 +74,68 @@ func FopSpDelete(dbConn string, deltStruct *lmodels.APIFopSpDeleteRequest) (erro
 	}
 	return nil, delDBCtx.AffectedRows
 }
+
+func SpInsert(dbConn string, insrtStruct *hktmodels.DBSpInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SpInsert.")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_SP_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
+
+func GetSpCategoryShortDataList(dbConn string) (error, *[]hktmodels.DBSpCategoryShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSpCategoryShortDataList")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSpCategoryShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_SP_CATEGORY_SHORT_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func DevSpMappingTableInsert(dbConn string, insrtStruct *hktmodels.DBDevSpMappingInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SpDevAssociation.")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_DEV_SP
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
+
+func DevSpMappingTableDelete(dbConn string, deltStruct *lmodels.APIDevSpAsscociationRemoveRequest) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SpDevAssociationDelete.")
+
+	delDBCtx := dbmgr.UpdateDeleteContext{}
+	delDBCtx.DBConnection = dbConn
+	delDBCtx.Args = deltStruct
+	delDBCtx.QueryType = dbmgr.Query
+	delDBCtx.Query = dbquery.QUERY_DELETE_DEV_SP_MAPPING_TABLE_ROW
+	deleteErr := delDBCtx.Delete()
+	if deleteErr != nil {
+		return deleteErr, 0
+	}
+	return nil, delDBCtx.AffectedRows
+}

@@ -107,3 +107,89 @@ func (service ServicePointService) FopSpDelete(reqdata *lmodels.APIFopSpDeleteRe
 
 	return true, nil
 }
+
+func (service ServicePointService) ServicePointAdd(req lmodels.APISpAddRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbRowModel := &hktmodels.DBSpInsertRowModel{}
+	dbRowModel.SpId = req.SpId
+	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.SpcId = req.SpcId
+	dbRowModel.SpName = req.SpName
+
+	dbErr, insertedId := dbaccess.SpInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	addResponse := gmodels.APIRecordAddResponse{}
+	addResponse.RecordID = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "New Service Point Added succesfully")
+
+	return true, addResponse
+}
+
+func (service ServicePointService) SpCategoryShortDataList() (bool, interface{}) {
+
+	dbErr, listData := dbaccess.GetSpCategoryShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Service Point Category short data list.")
+
+	return true, listData
+
+}
+
+func (service ServicePointService) DevSpAssociation(req lmodels.APIDevSpAsscociationRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbRowModel := &hktmodels.DBDevSpMappingInsertRowModel{}
+	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.DevId = req.DevId
+	dbRowModel.SpId = req.SpId
+
+	dbErr, insertedId := dbaccess.DevSpMappingTableInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	addResponse := gmodels.APIRecordAddResponse{}
+	addResponse.RecordID = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device associated with Service Point  succesfully")
+
+	return true, addResponse
+}
+
+func (service ServicePointService) DevSpAsscociationRemove(reqdata *lmodels.APIDevSpAsscociationRemoveRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbErr, affectedRow := dbaccess.DevSpMappingTableDelete(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqdata)
+	if dbErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device association with Service Point removed successfully.")
+
+	return true, nil
+}

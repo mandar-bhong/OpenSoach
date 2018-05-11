@@ -13,5 +13,18 @@ type APIFopSpAddRequest struct {
 }
 
 type APIFopSpDeleteRequest struct {
-	hktmodels.DBFopSpDataModel
+	FopId int64 `db:"fop_id_fk" dbattr:"pri"  json:"fopid"`
+}
+
+type APISpAddRequest struct {
+	hktmodels.DBSpDataRowModel
+}
+
+type APIDevSpAsscociationRequest struct {
+	hktmodels.DBDevSpMappingDataModelModel
+}
+
+type APIDevSpAsscociationRemoveRequest struct {
+	DevId int64 `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 }
