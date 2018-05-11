@@ -240,35 +240,9 @@ func (UserService) GetOSUDataList(usrListReqData gmodels.APIDataListRequest) (bo
 
 func (service UserService) AssociateUserWithCust(reqData *lmodels.APICustomerAssociateUserRequest) (isSuccess bool, successErrorData interface{}) {
 
-	dbErr, rsltData := dbaccess.GetUserIdByUserName(repo.Instance().Context.Master.DBConn, reqData.UserName)
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+	if reqData.UserId == 0 {
 
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	dbRecord := *rsltData
-
-	if len(dbRecord) < 1 {
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = constants.MOD_ERR_USER_NAME_NOT_FOUND
-		return false, errModel
-
-	} else {
-
-		reqData.UserId = dbRecord[0].UserId
-
-		usrcpm := lmodels.DBUsrCpmRowModel{}
-		usrcpm.CpmId = reqData.CpmId
-		usrcpm.UroleId = reqData.UroleId
-		usrcpm.UserId = reqData.UserId
-		usrcpm.UcpmState = reqData.UcpmState
-		usrcpm.UcpmStateSince = ghelper.GetCurrentTime()
-
-		dbErr, insertedId := dbaccess.SplMasterUserCpmTableInsert(repo.Instance().Context.Master.DBConn, usrcpm)
+		dbErr, rsltData := dbaccess.GetUserIdByUserName(repo.Instance().Context.Master.DBConn, reqData.UserName)
 		if dbErr != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -277,13 +251,43 @@ func (service UserService) AssociateUserWithCust(reqData *lmodels.APICustomerAss
 			return false, errModel
 		}
 
-		response := gmodels.APIRecordIdResponse{}
-		response.RecId = insertedId
+		dbRecord := *rsltData
 
-		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User associated with customer successfully.")
+		if len(dbRecord) < 1 {
 
-		return true, response
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = constants.MOD_ERR_USER_NAME_NOT_FOUND
+			return false, errModel
+
+		} else {
+			reqData.UserId = dbRecord[0].UserId
+		}
+
 	}
+
+	usrcpm := lmodels.DBUsrCpmRowModel{}
+	usrcpm.CpmId = reqData.CpmId
+	usrcpm.UroleId = reqData.UroleId
+	usrcpm.UserId = reqData.UserId
+	usrcpm.UcpmState = reqData.UcpmState
+	usrcpm.UcpmStateSince = ghelper.GetCurrentTime()
+
+	dbErr, insertedId := dbaccess.SplMasterUserCpmTableInsert(repo.Instance().Context.Master.DBConn, usrcpm)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	response := gmodels.APIRecordIdResponse{}
+	response.RecId = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User associated with customer successfully.")
+
+	return true, response
+
 }
 
 func (UserService) GetUserRoleListOSU() (bool, interface{}) {

@@ -42,7 +42,7 @@ const QUERY_GET_UROLE_LIST = `Select urole.id as id ,urole.urole_code as urole_c
 Inner Join spl_master_product_tbl prod On prod.id = urole.prod_id_fk
 Where prod_code = ?`
 
-const QUERY_GET_PRODUCT_ASSOCIATION_BY_USER_ID = `Select cust.cust_name,prod.prod_code,urole.urole_code as urole_code,ucpm.ucpm_state as ucpm_state,ucpm.ucpm_state_since as ucpm_state_since From spl_master_usr_cpm_tbl ucpm
+const QUERY_GET_PRODUCT_ASSOCIATION_BY_USER_ID = `Select ucpm.id as id,cust.cust_name,prod.prod_code,urole.urole_code as urole_code,ucpm.ucpm_state as ucpm_state,ucpm.ucpm_state_since as ucpm_state_since From spl_master_usr_cpm_tbl ucpm
 Left Join spl_master_cust_prod_mapping_tbl cpm on cpm.id = ucpm.cpm_id_fk
 Left Join spl_master_customer_tbl cust on cust.id = cpm.cust_id_fk
 Left Join spl_master_product_tbl prod on prod.id = cpm.prod_id_fk
