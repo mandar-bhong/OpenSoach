@@ -246,3 +246,20 @@ func CustomerUpdate(dbConn string, updtStruct *lmodels.DBCustomerUpdateRowModel)
 	}
 	return nil, updateCtx.AffectedRows
 }
+
+func GetCustShortDataList(dbConn string) (error, *[]lmodels.DBCustShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustShortDataList")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCustShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_TABLE_SELECT_SHORT_DATA_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

@@ -34,3 +34,5 @@ const QUERY_GET_PRODUCT_ASSOCIATION_BY_CUST_ID = `Select cpm.id as id,cpm.cpm_st
 Inner Join spl_master_product_tbl prod on cpm.prod_id_fk = prod.id
 Inner Join spl_master_database_instance_tbl dbi on cpm.dbi_id_fk= dbi.id
 Where cust_id_fk = ?`
+
+const QUERY_SPL_MASTER_CUST_TABLE_SELECT_SHORT_DATA_LIST = `select id,cust_name from spl_master_customer_tbl`
