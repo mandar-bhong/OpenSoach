@@ -25,3 +25,20 @@ func UpdateCPMIDToInstDB(dbConn string, insrtStruct *lmodels.APIDBInstanceCpmIdI
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func UpdateDevToInstDB(dbConn string, insrtStruct *lmodels.APIDBInstanceDevInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateDevToInstDB")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_DEV_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		fmt.Println(insertErr)
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}

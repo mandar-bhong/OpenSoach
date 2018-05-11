@@ -21,3 +21,8 @@ type APITaskResultErrorDataModel struct {
 type APIDBInstanceCpmIdInsertModel struct {
 	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 }
+
+type APIDBInstanceDevInsertRowModel struct {
+	DevId int64 `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+}
