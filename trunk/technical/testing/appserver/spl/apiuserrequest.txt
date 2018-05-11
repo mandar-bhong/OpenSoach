@@ -74,7 +74,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 9.	method:POST	/api/osu/v1/user/associate/customer
 
-	{"cpmid":1,"uroleid":1,"usrname":"admin@customer2.com","ucpmstate":1}
+	{"userid":1,"cpmid":1,"uroleid":1,"ucpmstate":1}
 
 10.	method:POST	/api/cu/v1/user/associate/customer
 

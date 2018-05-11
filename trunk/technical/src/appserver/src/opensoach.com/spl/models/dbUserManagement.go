@@ -62,6 +62,7 @@ type DBUroleShortDataModel struct {
 }
 
 type DBUserProdAssociationDataModel struct {
+	UcpmId         int64      `dbattr:"pri,auto" db:"id" json:"ucpmid"`
 	CustName       *string    `db:"cust_name" json:"custname"`
 	ProdCode       *string    `db:"prod_code" json:"prodcode"`
 	UroleCode      *string    `db:"urole_code" json:"urolecode"`
