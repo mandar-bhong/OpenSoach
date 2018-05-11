@@ -1,10 +1,8 @@
 package models
 
 type DBSpUpdateRowModel struct {
-	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
-	CpmId  int64  `db:"cpm_id_fk" json:"cpmid"`
-	SpcId  int64  `db:"spc_id_fk" json:"spcid"`
-	SpName string `db:"sp_name" json:"spname"`
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	DBSpDataRowModel
 }
 
 type DBSpCategoryDataModel struct {
@@ -24,5 +22,31 @@ type DBFopSpDataModel struct {
 
 type DBFopSpInsertRowModel struct {
 	DBFopSpDataModel
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+}
+
+type DBSpDataRowModel struct {
+	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	SpcId  int64  `db:"spc_id_fk" json:"spcid"`
+	SpName string `db:"sp_name" json:"spname"`
+}
+
+type DBSpInsertRowModel struct {
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	DBSpDataRowModel
+}
+
+type DBSpCategoryShortDataModel struct {
+	SpcId   int64  `db:"id" dbattr:"pri,auto"  json:"spcid"`
+	SpcName string `db:"spc_name" json:"spcname"`
+}
+
+type DBDevSpMappingDataModelModel struct {
+	DevId int64 `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	SpId  int64 `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+}
+
+type DBDevSpMappingInsertRowModel struct {
+	DBDevSpMappingDataModelModel
 	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 }
