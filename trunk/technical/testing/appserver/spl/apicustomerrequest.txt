@@ -84,6 +84,8 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 		"custname":"Customer 6",
 		"custstate":1
 	}
+	
+15.	method:GET	/api/osu/v1/customer/list/short
 
 	
 

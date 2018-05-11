@@ -31,3 +31,8 @@ type DBCustomerUpdateRowModel struct {
 	CustState      int       `db:"cust_state" json:"custstate"`
 	CustStateSince time.Time `db:"cust_state_since" json:"custstatesince"`
 }
+
+type DBCustShortDataModel struct {
+	CustId   int64  `dbattr:"pri,auto" db:"id" json:"custid"`
+	CustName string `db:"cust_name" json:"custname"`
+}

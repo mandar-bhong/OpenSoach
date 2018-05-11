@@ -440,8 +440,8 @@ devid:number;
 API Name: /api/osu/v1/user/associate/customer
 Request Method: POST
 request: CustomerAssociateUserRequest {
+userid:number;
 cpmid: number;
-usrname:string;
 uroleid:number;
 ucpmstate:number;
 }
@@ -596,7 +596,7 @@ prodcode:string;
 dbiname:string;
 }
 
-50. Get cpm state update
+50. cpm state update
 API Name: /api/osu/v1/customer/productassociation/update
 Request Method: GET
 request: CpmStateUpdate{
@@ -605,11 +605,22 @@ cpmstate:number;
 }
 response:null
 
-51. Get user product association list
+51. customer update
+API Name: /api/osu/v1/customer/update
+Request Method: POST
+request: CustomerUpdate{
+custid:number;
+custname:string;
+custstate:number;
+}
+response:null
+
+52. Get user product association list
 API Name: /api/osu/v1/user/list/productassociation
 Request Method: GET
 request: null
 response:	UserProdAssociationList {
+ucpmid:number;
 custname:string;
 prodcode:string;
 urolecode:string;
@@ -617,7 +628,7 @@ ucpmstate:number;
 ucpmstatesince:Date;
 }
 
-52. Get ucpm state update
+53. Get ucpm state update
 API Name: /api/osu/v1/user/productassociation/update
 Request Method: GET
 request: CpmStateUpdate{
@@ -626,14 +637,25 @@ ucpmstate:number;
 }
 response:null
 
-53. Get device product association list
-API Name: /api/osu/v1/user/list/productassociation
+54. Get device product association list
+API Name: /api/osu/v1/device/list/productassociation
 Request Method: GET
 request: null
 response:	DeviceProdAssociationList {
 custname:string;
 prodcode:string;
 }
+
+55. GetCustomerShortDataList
+API Name: /api/osu/v1/customer/list/short
+Request Method: GET
+request: null
+response: CorporateShortDataResponse{
+custid:number;
+custname:string;
+}
+Logic:
+get all customers from spl_master_customer_tbl
 
 
 
