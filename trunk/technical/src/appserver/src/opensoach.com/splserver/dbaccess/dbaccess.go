@@ -24,3 +24,20 @@ func GetDBConnectionByID(dbConn string, dbConnID int64) (error, string) {
 	}
 	return nil, data
 }
+
+func GetDBConnectionByCpmID(dbConn string, cpmID int64) (error, string) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDBConnectionByCpmID")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := ""
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_DB_CONN_BY_CPM_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = &data
+	selErr := selDBCtx.Get(cpmID)
+	if selErr != nil {
+		return selErr, ""
+	}
+	return nil, data
+}

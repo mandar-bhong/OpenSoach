@@ -200,6 +200,14 @@ func (service DeviceService) AssociateDevWithCustProduct(reqData *lmodels.DBSplC
 		return false, errModel
 	}
 
+	taskDevProdAsscociatedModel := gmodels.TaskDevProdAsscociatedModel{}
+	taskDevProdAsscociatedModel.CpmId = reqData.CpmId
+	taskDevProdAsscociatedModel.DevId = reqData.DevId
+
+	if isSuccess := repo.Instance().SendTaskToServer(gmodels.TASK_API_DEV_PROD_ASSOCIATED, service.ExeCtx.SessionToken, taskDevProdAsscociatedModel); isSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while submiting task for cust prod assoc")
+	}
+
 	response := gmodels.APIRecordIdResponse{}
 	response.RecId = insertedId
 

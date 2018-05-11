@@ -69,10 +69,62 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 
 }
 
-//taskAPICustProdAssociatedModel.DbiId = reqData.DbiId
+func APIHandlerDevProdAssociated(msg string, sessionkey string,
+	tasktoken string,
+	taskData interface{}) (error, lmodels.APITaskResultModel) {
 
-//	if isSuccess := repo.Instance().TaskQue.
-//		SubmitTask(gmodels.TASK_API_CUST_PROD_ASSOCIATED,
-//			taskAPICustProdAssociatedModel); isSuccess == false {
-//		logger.Context().Log(SUB_MODULE_NAME, logger.Error, logger.Normal, "Error occured while submiting task for cust prod assoc")
-//	}
+	result := lmodels.APITaskResultModel{}
+
+	taskDevProdAsscociatedModel := taskData.(*gmodels.TaskDevProdAsscociatedModel)
+
+	err, dbConn := dbaccess.GetDBConnectionByCpmID(repo.Instance().Context.Master.DBConn, taskDevProdAsscociatedModel.CpmId)
+
+	if err != nil {
+		//Error need to retry
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", repo.Instance().Context.Master.DBConn).
+			WithField("TaskExecData", taskDevProdAsscociatedModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", err)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+	}
+
+	dbInstanceDevInsertModel := &lmodels.APIDBInstanceDevInsertRowModel{}
+	dbInstanceDevInsertModel.CpmId = taskDevProdAsscociatedModel.CpmId
+	dbInstanceDevInsertModel.DevId = taskDevProdAsscociatedModel.DevId
+
+	dbErr, insertedId := dbaccess.UpdateDevToInstDB(dbConn, dbInstanceDevInsertModel)
+
+	if dbErr != nil {
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", dbConn).
+			WithField("TaskExecData", dbInstanceDevInsertModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to update dev data in instance db.", err)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully inserted dev data in instance db.")
+
+	apiRecordResponse := gmodels.APIRecordAddResponse{}
+	apiRecordResponse.RecordID = insertedId
+
+	result.IsSuccess = true
+	result.Data = apiRecordResponse
+
+	return nil, result
+
+}
