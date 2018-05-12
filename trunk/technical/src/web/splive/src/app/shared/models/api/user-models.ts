@@ -1,3 +1,4 @@
+import { USER_PRODUCT_MAPPING_STATE } from '../../app-common-constants';
 export class UserLoginInfoResponse {
     usrname: string;
     fname: string;
@@ -10,6 +11,7 @@ export class UserAddRequest {
     usrcategory: number;
     uroleid: number;
     usrstate: number;
+    urolecode: string;
 }
 
 export class UserAddDetailsRequest {
@@ -35,6 +37,7 @@ export class UserDataListResponse {
     usrname: string;
     usrcategory: number;
     uroleid: number;
+    urolename: string;
     usrstate: number;
     usrstatesince: number;
     fname: string;
@@ -51,4 +54,29 @@ export class RecordChangePassRequest {
     oldpassword: string;
     newpassword: string;
 
+}
+export class UserAssociateProductListItemResponse {
+    ucpmid: number;
+    cpmid: number;
+    custname: string;
+    prodcode: string;
+    urolecode: number;
+    ucpmstate: USER_PRODUCT_MAPPING_STATE;
+    ucpmstatesince: number;
+}
+export class UserAssociateProductRequest {
+    userid: number;
+    cpmid: number;
+    usrname: string;
+    uroleid: number;
+    ucpmstate: USER_PRODUCT_MAPPING_STATE;
+}
+export class UserAssociateProductUpdateRequest {
+    ucpmid: number;
+    ucpmstate: USER_PRODUCT_MAPPING_STATE;
+    ucpmstatesince: number;
+}
+export class UserRoleidListItemResponse {
+    uroleid: number;
+    urolecode: string;
 }

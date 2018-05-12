@@ -4,7 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { USER_CATEGORY, USER_STATE, USER_GENDER } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
-import { UserAddDetailsRequest, UserDetailsResponse, UserDataListResponse } from '../../../shared/models/api/user-models';
+import {
+  UserAddDetailsRequest,
+  UserDetailsResponse,
+  UserDataListResponse,
+  UserAssociateProductListItemResponse,
+  UserAssociateProductRequest,
+  UserAssociateProductUpdateRequest,
+  UserRoleidListItemResponse
+} from '../../../shared/models/api/user-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
@@ -52,11 +60,29 @@ export class UserService extends ListingService<UserFilterRequest, UserDataListR
   }
 
   getCorporateRoleId(request: RecordIDRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<UserDataListResponse[]>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/osu/v1/urole/list',
-            request, implicitErrorHandling);
-    }
+    Observable<PayloadResponse<UserDataListResponse[]>> {
+    return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/osu/v1/urole/list',
+      request, implicitErrorHandling);
+  }
 
+  associateUserToProduct(request: UserAssociateProductRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<RecordIDResponse>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/user/associate/customer',
+      request, implicitErrorHandling);
+  }
+
+  updateAssociateUserToProduct(request: UserAssociateProductUpdateRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/user/productassociation/update',
+      request, implicitErrorHandling);
+  }
+
+  getUserProductAssociation(request: RecordIDRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<UserAssociateProductListItemResponse[]>> {
+    return this.serverApiInterfaceService.getWithQueryParams(
+      EnvironmentProvider.baseurl + '/api/osu/v1/user/list/productassociation',
+      request, implicitErrorHandling);
+  }
   getUserStates(): EnumDataSourceItem<number>[] {
     return EnumNumberDatasource.getDataSource('USER_STATE_', USER_STATE);
   }
@@ -80,5 +106,9 @@ export class UserService extends ListingService<UserFilterRequest, UserDataListR
   getUserGenders(genders: number) {
     return 'USER_GENDER_' + genders;
   }
-
+  getRoleDataList(implicitErrorHandling = true):
+    Observable<PayloadResponse<UserRoleidListItemResponse[]>> {
+    return this.serverApiInterfaceService.get(EnvironmentProvider.baseurl + '/api/osu/v1/urole/list',
+      implicitErrorHandling);
+  }
 }

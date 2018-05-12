@@ -24,7 +24,7 @@ const routes: Routes = [
       {
         path: 'corporates',
         loadChildren: './modules/corporates/corporates.module#CorporatesModule',
-		data: { preload: false }
+        data: { preload: false }
       },
       {
         path: 'devices',

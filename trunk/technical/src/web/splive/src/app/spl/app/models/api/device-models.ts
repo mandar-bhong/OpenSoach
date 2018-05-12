@@ -49,3 +49,13 @@ export class DeviceDetailsResponse {
     updatedon: Date;
 }
 
+export class DeviceAssociateProductRequest {
+    cpmid: number;
+    devid: number;
+
+}
+
+export class DeviceAssociateProductListItemResponse {
+    custname: string;
+    prodcode: string;
+}

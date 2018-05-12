@@ -7,6 +7,7 @@ import { DeviceListComponent } from './device-list/device-list.component';
 import { DeviceAddComponent } from './device-add/device-add.component';
 import { DeviceSearchComponent } from './device-list/device-search/device-search.component';
 import { DeviceListViewComponent } from './device-list/device-list-view/device-list-view.component';
+import { DeviceAssociateProductComponent} from './device-associate-product/device-associate-product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppCommonModule } from '../../../shared/app-common.module';
 import { MaterialModules } from '../../../shared/modules/material/material-modules';
@@ -24,7 +25,8 @@ import { MaterialModules } from '../../../shared/modules/material/material-modul
     DeviceListComponent,
     DeviceAddComponent,
     DeviceSearchComponent,
-    DeviceListViewComponent
+    DeviceListViewComponent,
+    DeviceAssociateProductComponent
   ]
 })
 export class DevicesModule { }

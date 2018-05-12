@@ -30,7 +30,7 @@
               </td>
               <td>
                 <mat-form-field>
-                  <mat-select placeholder="Corporate" [(ngModel)]="dataModel.corpid">
+                  <mat-select placeholder="Corporate Name" [(ngModel)]="dataModel.corpid">
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let corp of corporates" [value]="corp.corpid">
                       {{corp.corpname}}

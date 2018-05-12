@@ -13,18 +13,18 @@ import { DataListRequest, DataListResponse } from '../../../../../../shared/mode
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
 import { UserFilterRequest } from '../../../../../app/models/api/user-models';
 import { UserService } from '../../../../services/user.service';
-import {UserDataListResponse} from '../../../../../../shared/models/api/user-models';
+import { UserDataListResponse } from '../../../../../../shared/models/api/user-models';
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
   styleUrls: ['./user-view.component.css']
 })
-export class UserViewComponent implements OnInit {
-  displayedColumns = ['usrname', 'usrcategory', 'uroleid', 'usrstate', 'fname', 'lname', 'mobileno', 'action'];
+export class UserViewComponent implements OnInit, OnDestroy {
+  displayedColumns = ['usrname', 'usrcategory', 'urolename', 'usrstate', 'fname', 'lname', 'mobileno', 'action'];
   sortByColumns = [{ text: 'User Name', value: 'usrname' },
   { text: 'User Category', value: 'corpname' },
-  { text: 'User Role Id', value: 'usrcategory' },
-  { text: 'User State', value: 'uroleid' },
+  { text: 'User State', value: 'usrcategory' },
+  { text: 'User Role Name', value: 'urolename' },
   { text: 'User State Since', value: 'usrstate' }
   ];
   @ViewChild(MatPaginator)
@@ -105,5 +105,16 @@ export class UserViewComponent implements OnInit {
   }
   editRecord(id: number) {
     this.router.navigate(['users', 'user-detail'], { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
+  }
+
+  associateProduct(id: number) {
+    this.router.navigate(['users', 'products'],
+      { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataListFilterChangedSubscription) {
+      this.dataListFilterChangedSubscription.unsubscribe();
+    }
   }
 }

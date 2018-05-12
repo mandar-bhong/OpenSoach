@@ -34,43 +34,57 @@
           <ng-container matColumnDef="serialno">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Serial Number</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">serialno</span>
+              <span class="mat-row-mobile-label">Serial Number</span>
               {{row.serialno}}
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="devname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Device Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">devname</span>
+              <span class="mat-row-mobile-label">Device Name</span>
               {{row.devname}}
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="custname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Customer Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">custname</span>
+              <span class="mat-row-mobile-label">Customer Name</span>
               {{row.custname}}
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="connectionstate">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Connection State</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">connectionstate</span>
+              <span class="mat-row-mobile-label">Connection State</span>
               {{row.connectionstate}}
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="batterylevel">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Battery Level</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">batterylevel</span>
+              <span class="mat-row-mobile-label">Battery Level</span>
               {{row.batterylevel}}
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 4%;">Action</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 4%;">
               <span class="mat-row-mobile-label">Action</span>
-              <i (click)="editRecord(row.devid)" style="color:#337AB7 !important;" class="fa fa-eye" aria-hidden="true" matTooltip="View Details"></i>
+              <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <ng-template matMenuContent>
+                  <button mat-menu-item (click)="editRecord(row.devid)">
+                    <mat-icon color='primary'>remove_red_eye</mat-icon>
+                    <span>Details</span>
+                  </button>
+                  <button mat-menu-item (click)="associateProduct(row.devid)">
+                    <mat-icon color='primary'>link</mat-icon>
+                    <span>Associated Products</span>
+                  </button>
+                </ng-template>
+              </mat-menu>
             </mat-cell>
           </ng-container>
         </mat-table>

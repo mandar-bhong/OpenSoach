@@ -16,6 +16,7 @@ import { UserSearchComponent } from './user-list/user-search/user-search.compone
 import { UserViewComponent } from './user-list/user-view/user-view.component';
 import { AppCommonModule } from '../../../../shared/app-common.module';
 import { MaterialModules } from '../../../../shared/modules/material/material-modules';
+import { UserAssociateProductComponent } from './user-associate-product/user-associate-product.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { MaterialModules } from '../../../../shared/modules/material/material-mo
     UserAddComponent,
     UserDetailsComponent,
     UserSearchComponent,
-    UserViewComponent]
+    UserViewComponent,
+    UserAssociateProductComponent]
 })
 export class UsersModule { }

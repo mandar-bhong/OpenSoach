@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { DeviceAddComponent} from './device-add/device-add.component';
 import { DeviceUpdateComponent} from './device-update/device-update.component';
+import { DeviceAssociateProductComponent} from './device-associate-product/device-associate-product.component';
 const routes: Routes = [
   {
     path: '',
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'update',
     component: DeviceUpdateComponent
+  },
+  {
+    path: 'products',
+    component: DeviceAssociateProductComponent
   }
 ];
 

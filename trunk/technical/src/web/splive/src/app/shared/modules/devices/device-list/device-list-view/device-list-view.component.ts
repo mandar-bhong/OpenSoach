@@ -103,6 +103,10 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
     console.log('devid sent', id);
     this.router.navigate(['devices', 'update'], { queryParams: { id: id, callbackurl: 'devices' }, skipLocationChange: true });
   }
+  associateProduct(id: number) {
+    this.router.navigate(['devices', 'products'],
+      { queryParams: { id: id, callbackurl: 'devices' }, skipLocationChange: true });
+  }
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
       this.dataListFilterChangedSubscription.unsubscribe();

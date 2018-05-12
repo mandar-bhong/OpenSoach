@@ -46,3 +46,18 @@ export class CustomerAssociateProductUpdateRequest {
     cpmstate: CUSTOMER_PRODUCT_MAPPING_STATE;
 }
 
+export class CustomerListItemResponse {
+    custid: number;
+    custname: string;
+    createdon: Date;
+    updatedon: Date;
+}
+export class CustomerRoleidListItemResponse {
+    uroleid: number;
+    urolecode: string;
+    urolename: string;
+    prodcode: string;
+}
+export class CustomerRoleListRequest {
+    prodcode: string;
+}

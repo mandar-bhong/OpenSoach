@@ -36,7 +36,7 @@
           <input type="tel" matInput placeholder="Alternate Contact" [(ngModel)]="dataModel.alternatecontactno" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
-      <div class="form-group form-primary">
+      <div class="form-group form-primary"> 
         <mat-form-field>
           <mat-select placeholder="Gender" [(ngModel)]="dataModel.gender" formControlName="userGenderControl">
             <mat-option *ngFor="let gender of userGenders" [value]="gender.value">
