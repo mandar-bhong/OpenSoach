@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'add',
     component: CorporateAddComponent
+  },
+  {
+    path: 'update',
+    component: CorporateAddComponent
   }
 ];
 @NgModule({

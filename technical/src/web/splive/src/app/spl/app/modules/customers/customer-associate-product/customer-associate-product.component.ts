@@ -39,7 +39,7 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
   currentRecord: CustomerAssociateProductListItemResponse;
   constructor(private productService: ProductService,
     private customerService: CustomerService,
-    private customerSharedService: CustomerSharedService,
+    public customerSharedService: CustomerSharedService,
     private dbInstanceService: DBInstanceService,
     private route: ActivatedRoute,
     private router: Router) {
@@ -48,7 +48,6 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
 
   ngOnInit() {
     this.createControls();
-
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.custid = Number(params['id']);
       this.callbackUrl = params['callbackurl'];
@@ -140,7 +139,9 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
       });
     }
   }
-
+  closeForms() {
+    this.router.navigate([this.callbackUrl], { skipLocationChange: true });
+  }
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();

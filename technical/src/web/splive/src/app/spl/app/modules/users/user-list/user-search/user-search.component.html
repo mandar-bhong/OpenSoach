@@ -30,7 +30,7 @@
             </td>
             <td>
               <mat-form-field>
-                <mat-select placeholder="User category" [(ngModel)]="dataModel.usrcategory">
+                <mat-select placeholder="Category" [(ngModel)]="dataModel.usrcategory">
                   <mat-option>None</mat-option>
                   <mat-option *ngFor="let usercategory of userCategories" [value]="usercategory.value">
                     {{usercategory.text | translate }}

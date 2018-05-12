@@ -58,7 +58,7 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
       this.dataModel.copyToAddRequest(request);
       this.corporateService.addCorporate(request).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          this.appNotificationService.success(this.translatePipe.transform('SUCCESS_USERS_DETAILS_SAVED'));
+          this.appNotificationService.success(this.translatePipe.transform('SUCCESS_CORPORATE_DETAILS_SAVED'));
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
         }
@@ -68,7 +68,7 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
       this.dataModel.copyToUpdateRequest(request);
       this.corporateService.updateCorporateDetails(request).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          this.appNotificationService.success(this.translatePipe.transform('SUCCESS_USERS_DETAILS_SAVED'));
+          this.appNotificationService.success(this.translatePipe.transform('SUCCESS_CORPORATE_DETAILS_SAVED'));
           this.setFormMode(FORM_MODE.VIEW);
         }
       });

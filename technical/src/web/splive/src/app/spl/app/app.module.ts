@@ -17,7 +17,6 @@ import { DeviceService } from './services/device.service';
 import { DBInstanceService } from './services/db-instance.service';
 import { ProductService } from './services/product.service';
 
-
 @NgModule({
   declarations: [
     AppComponent

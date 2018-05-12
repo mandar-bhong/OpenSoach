@@ -12,7 +12,7 @@ import { ServerApiInterfaceService } from '../../../shared/services/api/server-a
 import { ListingService } from '../../../shared/services/listing.service';
 import {
   DeviceFilterRequest, DeviceDataListResponse, DeviceAddRequest, DeviceDetailsResponse,
-  DeviceAddDetailsRequest
+  DeviceAddDetailsRequest, DeviceAssociateProductRequest, DeviceAssociateProductListItemResponse
 } from '../models/api/device-models';
 @Injectable()
 export class DeviceService extends ListingService<DeviceFilterRequest, DeviceDataListResponse> {
@@ -47,6 +47,19 @@ export class DeviceService extends ListingService<DeviceFilterRequest, DeviceDat
     Observable<PayloadResponse<null>> {
     return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/device/update/details',
       deviceAddDetailsRequest, implicitErrorHandling);
+  }
+
+  associateDeviceToProduct(request: DeviceAssociateProductRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<RecordIDResponse>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/device/associate/customerproduct',
+      request, implicitErrorHandling);
+  }
+
+  getDeviceProductAssociation(request: RecordIDRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<DeviceAssociateProductListItemResponse[]>> {
+    return this.serverApiInterfaceService.getWithQueryParams(
+      EnvironmentProvider.baseurl + '/api/osu/v1/device/list/productassociation',
+      request, implicitErrorHandling);
   }
 
   getDeviceStates(): EnumDataSourceItem<number>[] {

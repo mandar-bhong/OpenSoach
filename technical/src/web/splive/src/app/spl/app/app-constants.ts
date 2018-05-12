@@ -15,6 +15,18 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: 'fa fa-building-o'
     },
     {
+        url: '/corporates/add',
+        linktitle: 'Add',
+        pagetitle: 'Add New Corporates',
+        linkiconcss: 'fa fa-building-o'
+    },
+    {
+        url: '/corporates/update',
+        linktitle: 'Details',
+        pagetitle: 'Corporates Details',
+        linkiconcss: 'fa fa-building-o'
+    },
+    {
         url: '/customers',
         linktitle: 'Customers',
         pagetitle: 'Customers',
@@ -57,6 +69,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: 'fa fa-users'
     },
     {
+        url: '/users/products',
+        linktitle: 'Products',
+        pagetitle: 'Associated Products',
+        linkiconcss: ''
+    },
+    {
         url: '/devices',
         linktitle: 'Devices',
         pagetitle: 'Devices',
@@ -73,6 +91,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linktitle: 'Details',
         pagetitle: 'Device Details',
         linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/devices/products',
+        linktitle: 'Products',
+        pagetitle: 'Associated Products',
+        linkiconcss: ''
     },
 ];
 

@@ -1,4 +1,11 @@
-import { UserLoginInfoResponse, UserAddDetailsRequest, UserDetailsResponse, UserAddRequest } from '../api/user-models';
+import {
+    UserLoginInfoResponse, UserAddDetailsRequest, UserDetailsResponse, UserAddRequest,
+    UserAssociateProductListItemResponse,
+    UserAssociateProductRequest,
+    UserAssociateProductUpdateRequest
+} from '../api/user-models';
+import { USER_PRODUCT_MAPPING_STATE } from '../../app-common-constants';
+import { CustomerAssociateProductListItemResponse } from '../../../spl/app/models/api/customer-models';
 export class UserInfo {
     usrname: string;
     fname: string;
@@ -40,11 +47,48 @@ export class UserAddModel {
     usrpassword: string;
     usrcategory: number;
     uroleid: number;
+    urolecode: string;
     usrstate: number;
     copyTo(userAddRequest: UserAddRequest) {
         userAddRequest.usrname = this.usrname;
         userAddRequest.usrcategory = this.usrcategory;
         userAddRequest.uroleid = this.uroleid;
         userAddRequest.usrstate = this.usrstate;
+        userAddRequest.urolecode = this.urolecode;
+    }
+}
+
+export class UserAssociateProductModel {
+    usrid: number;
+    cpmid: number;
+    cpm: CustomerAssociateProductListItemResponse;
+    usrname: string;
+    uroleid: number;
+    ucpmstate: USER_PRODUCT_MAPPING_STATE;
+    ucpmid: number;
+    prodcode: string;
+    urolecode: number;
+    custname: string;
+    custid: number;
+
+    copyToAddRequest(request: UserAssociateProductRequest) {
+        request.userid = this.usrid;
+        request.cpmid = this.cpm.cpmid;
+        request.usrname = this.usrname;
+        request.uroleid = this.uroleid;
+        request.ucpmstate = this.ucpmstate;
+    }
+
+    copyToUpdateRequest(request: UserAssociateProductUpdateRequest) {
+        request.ucpmid = this.ucpmid;
+        request.ucpmstate = this.ucpmstate;
+    }
+
+    copyFrom(details: UserAssociateProductListItemResponse) {
+        this.ucpmid = details.ucpmid;
+        this.custname = details.custname;
+        this.ucpmstate = details.ucpmstate;
+        this.urolecode = details.urolecode;
+        this.prodcode = details.prodcode;
     }
 }

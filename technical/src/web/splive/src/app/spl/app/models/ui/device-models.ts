@@ -1,4 +1,7 @@
-import { DeviceFilterRequest, DeviceAddRequest, DeviceAddDetailsRequest, DeviceDetailsResponse } from '../api/device-models';
+import {
+    DeviceFilterRequest, DeviceAddRequest, DeviceAddDetailsRequest, DeviceDetailsResponse,
+    DeviceAssociateProductRequest, DeviceAssociateProductListItemResponse
+} from '../api/device-models';
 import { DEVICE_STATE } from '../../../../shared/app-common-constants';
 
 export class DeviceFilterModel {
@@ -51,5 +54,22 @@ export class DeviceDetailsModel {
         this.technology = deviceDetailsResponse.technology;
         this.techversion = deviceDetailsResponse.techversion;
         this.shortdesc = deviceDetailsResponse.shortdesc;
+    }
+}
+export class DeviceAssociateProductModel {
+    cpmid: number;
+    devid: number;
+    custname: string;
+    prodcode: string;
+    custid: number;
+
+    copyToAddRequest(request: DeviceAssociateProductRequest) {
+        request.cpmid = this.cpmid;
+        request.devid = this.devid;
+    }
+
+    copyFrom(details: DeviceAssociateProductListItemResponse) {
+        this.custname = details.custname;
+        this.prodcode = details.prodcode;
     }
 }

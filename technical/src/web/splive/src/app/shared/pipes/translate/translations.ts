@@ -89,6 +89,25 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* USER STATES END */
 
+  /* USER PRODUCT MAPPING STATES BEGIN */
+  {
+    key: 'USER_PRODUCT_MAPPING_STATE_0',
+    en: 'NOT SET'
+  },
+  {
+    key: 'USER_PRODUCT_MAPPING_STATE_1',
+    en: 'ACTIVE'
+  },
+  {
+    key: 'USER_PRODUCT_MAPPING_STATE_2',
+    en: 'INACTIVE'
+  },
+  {
+    key: 'USER_PRODUCT_MAPPING_STATE_3',
+    en: 'SUSPENDED'
+  },
+
+  /* USER PRODUCT MAPPING STATES  END */
 
   /* USER CATEGORYS BEGIN */
 

@@ -54,3 +54,4 @@ export class CustomerAddDetailsRequest {
     addresscity: string;
     addresspincode: string;
 }
+

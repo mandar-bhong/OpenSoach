@@ -39,3 +39,10 @@ export enum CUSTOMER_PRODUCT_MAPPING_STATE {
     INACTIVE = 2,
     SUSPENDED = 3
 }
+
+export enum USER_PRODUCT_MAPPING_STATE {
+    NOT_SET = 0,
+    ACTIVE = 1,
+    INACTIVE = 2,
+    SUSPENDED = 3
+}

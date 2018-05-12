@@ -98,9 +98,8 @@ export class CorporateListViewComponent implements OnInit, OnDestroy {
   }
 
   editRecord(id: number) {
-    this.router.navigate(['corporates', 'add'], { queryParams: { id: id, callbackurl: 'corporates' }, skipLocationChange: true });
+    this.router.navigate(['corporates', 'update'], { queryParams: { id: id, callbackurl: 'corporates' }, skipLocationChange: true });
   }
-
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
       this.dataListFilterChangedSubscription.unsubscribe();
