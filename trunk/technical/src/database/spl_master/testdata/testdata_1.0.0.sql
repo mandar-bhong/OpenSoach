@@ -118,3 +118,10 @@ INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_emai
 
 INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (1, 'fname1', 'lname1', '9813123121', '9713131334');
 INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (2, 'fname2', 'lname2', '9672123121', '9123131334');
+
+
+--
+-- Dumping data for table `spl_master_user_role_tbl`
+--
+
+INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (2,1,'ADMIN','Administrator');
