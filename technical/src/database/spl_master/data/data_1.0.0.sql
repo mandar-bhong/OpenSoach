@@ -42,3 +42,8 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Addre
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.Port','6379');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.Password','');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.DB','2');
+
+--
+-- Dumping data for table `spl_master_user_tbl`
+--
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (1,'admin@servicepoint.live','admin',1,1,1,UTC_TIMESTAMP);
