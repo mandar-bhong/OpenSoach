@@ -18,6 +18,7 @@ type UserService struct {
 
 func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
 
+	userData.UsrPassword = "password@!123"
 	userData.UsrStateSince = ghelper.GetCurrentTime()
 
 	dbErr, userInsertedId := dbaccess.SplMasterUserTableInsert(repo.Instance().Context.Master.DBConn, userData)
@@ -204,6 +205,10 @@ func (service UserService) GetUserDetailsInfo(userID int64) (bool, interface{}) 
 	}
 
 	dbRecord := *userDetails
+
+	if len(dbRecord) < 1 {
+		return true, nil
+	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user details")
 	return true, dbRecord[0]

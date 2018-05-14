@@ -264,6 +264,10 @@ func (service DeviceService) GetDeviceDetailsInfo(deviceID int64, userType strin
 
 	dbRecord := *deviceDetails
 
+	if len(dbRecord) < 1 {
+		return true, nil
+	}
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device details")
 	return true, dbRecord[0]
 }
