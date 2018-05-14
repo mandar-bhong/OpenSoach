@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  baseurl: 'http://localhost:80',
-  appbaseurl: 'http://localhost:81',
+  production: true,
+  baseurl: 'http://172.105.232.148:80',
+  appbaseurl: 'http://172.105.232.148:90',
   prodcode: 'SPL_HKT'
 };

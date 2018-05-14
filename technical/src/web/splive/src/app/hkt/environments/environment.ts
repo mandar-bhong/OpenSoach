@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  baseurl: 'http://192.168.1.51:80',
-  appbaseurl: 'http://localhost:81',
+  baseurl: 'http://172.105.232.148:80',
+  appbaseurl: 'http://172.105.232.148:90',
   prodcode: 'SPL_HKT'
 };
