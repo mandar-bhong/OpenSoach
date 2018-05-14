@@ -32,7 +32,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   populateEnvironmentProvider() {
     EnvironmentProvider.production = environment.production;
     EnvironmentProvider.baseurl = environment.baseurl;
-    EnvironmentProvider.appbaseurl = environment.appbaseurl;
     EnvironmentProvider.prodcode = environment.prodcode;
   }
 
