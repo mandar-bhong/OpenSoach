@@ -382,3 +382,19 @@ func UcpmStateUpdate(dbConn string, updtStruct *lmodels.DBUsrCpmStateUpdateRowMo
 	}
 	return nil, updateCtx.AffectedRows
 }
+
+func UserUpdate(dbConn string, updtStruct *lmodels.DBUserUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UserUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_USER_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}

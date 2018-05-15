@@ -363,3 +363,29 @@ func (service UserService) UpdateUcpmState(reqData *lmodels.DBUsrCpmStateUpdateR
 
 	return true, nil
 }
+
+func (service UserService) UpdateUser(reqData *lmodels.DBUserUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.UsrStateSince = ghelper.GetCurrentTime()
+
+	dbErr, affectedRow := dbaccess.UserUpdate(repo.Instance().Context.Master.DBConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User data updated successfully.")
+
+	return true, nil
+}
