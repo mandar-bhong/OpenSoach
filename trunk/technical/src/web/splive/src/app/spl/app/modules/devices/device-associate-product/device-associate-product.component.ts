@@ -4,22 +4,22 @@ import { MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
-import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../shared/views/edit-record-base';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import {
   CustomerAssociateProductListItemResponse,
   CustomerListItemResponse,
-} from '../../../../spl/app/models/api/customer-models';
+} from '../../../models/api/customer-models';
 import {
   DeviceAssociateProductListItemResponse,
   DeviceAssociateProductRequest,
-} from '../../../../spl/app/models/api/device-models';
-import { ProductListItemResponse } from '../../../../spl/app/models/api/product-models';
-import { DeviceAssociateProductModel } from '../../../../spl/app/models/ui/device-models';
-import { CustomerService } from '../../../../spl/app/services/customer.service';
-import { DeviceService } from '../../../../spl/app/services/device.service';
-import { ProductService } from '../../../../spl/app/services/product.service';
+} from '../../../models/api/device-models';
+import { ProductListItemResponse } from '../../../models/api/product-models';
+import { DeviceAssociateProductModel } from '../../../models/ui/device-models';
+import { CustomerService } from '../../../services/customer.service';
+import { DeviceService } from '../../../services/device.service';
+import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'app-device-associate-product',

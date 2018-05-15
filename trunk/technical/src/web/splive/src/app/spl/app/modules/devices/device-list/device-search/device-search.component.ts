@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DeviceFilterRequest } from '../../../../../spl/app/models/api/device-models';
-import { DeviceFilterModel } from '../../../../../spl/app/models/ui/device-models';
-import { DeviceService } from '../../../../../spl/app/services/device.service';
+import { DeviceFilterRequest } from '../../../../models/api/device-models';
+import { DeviceFilterModel } from '../../../../models/ui/device-models';
+import { DeviceService } from '../../../../services/device.service';
 
 @Component({
   selector: 'app-device-search',
