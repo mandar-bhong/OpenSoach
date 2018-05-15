@@ -322,6 +322,44 @@ cpmid:number;
 }
 response: null;
 
+26. Add task
+API Name: /api/v1/task/add
+Request Method: POST
+request: TaskAddRequest{
+spcid:number;
+taskname:string;
+shortdesc:string;
+}
+response: null
+
+27. Update task
+API Name: /api/v1/task/update
+Request Method: POST
+request: TaskUpdateRequest{
+tasklibid:number;
+spcid:number;
+taskname:string;
+shortdesc:string;
+}
+response: null
+
+28. Get Task info
+API Name: /api/v1/task/info
+Request Method: GET
+request:
+response: TaskInfoResponse{
+taskid:number;
+cpmid:number;
+spcid:number;
+taskname:string;
+shortdesc:string;
+createdon:Date;
+updatedon:Date;
+}
+
+read task_id from query parameters
+
+
 
 
 
