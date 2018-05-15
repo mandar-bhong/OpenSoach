@@ -8,13 +8,13 @@ import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
 import { Subscription } from 'rxjs/Subscription';
 
-import { DEVICE_STATE } from '../../../../../shared/app-common-constants';
-import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
-import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { DeviceDataListResponse, DeviceFilterRequest } from '../../../../../spl/app/models/api/device-models';
-import { DeviceService } from '../../../../../spl/app/services/device.service';
-import { TranslatePipe } from '../../../../pipes/translate/translate.pipe';
-import { AppNotificationService } from '../../../../services/notification/app-notification.service';
+import { DEVICE_STATE } from '../../../../../../shared/app-common-constants';
+import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
+import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
+import { DeviceDataListResponse, DeviceFilterRequest } from '../../../../../../spl/app/models/api/device-models';
+import { DeviceService } from '../../../../services/device.service';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 
 @Component({
   selector: 'app-device-list-view',

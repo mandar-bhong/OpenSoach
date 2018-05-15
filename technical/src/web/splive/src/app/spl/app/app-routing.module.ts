@@ -28,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'devices',
-        loadChildren: '../../shared/modules/devices/devices.module#DevicesModule',
+        loadChildren: './modules/devices/devices.module#DevicesModule',
         data: { preload: false }
       },
       {

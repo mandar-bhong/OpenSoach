@@ -3,13 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { EnumDataSourceItem } from '../../../../shared/models/ui/enum-datasource-item';
-import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
-import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../shared/views/edit-record-base';
-import { DeviceAddRequest } from '../../../../spl/app/models/api/device-models';
-import { DeviceAddModel } from '../../../../spl/app/models/ui/device-models';
-import { DeviceService } from '../../../../spl/app/services/device.service';
+import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
+import { DeviceAddRequest } from '../../../models/api/device-models';
+import { DeviceAddModel } from '../../../models/ui/device-models';
+import { DeviceService } from '../../../services/device.service';
 
 @Component({
   selector: 'app-device-add',

@@ -3,12 +3,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
-import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../shared/views/edit-record-base';
-import { DeviceAddDetailsRequest } from '../../../../spl/app/models/api/device-models';
-import { DeviceDetailsModel } from '../../../../spl/app/models/ui/device-models';
-import { DeviceService } from '../../../../spl/app/services/device.service';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
+import { DeviceAddDetailsRequest } from '../../../models/api/device-models';
+import { DeviceDetailsModel } from '../../../models/ui/device-models';
+import { DeviceService } from '../../../services/device.service';
 
 @Component({
   selector: 'app-device-update',

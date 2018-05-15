@@ -9,8 +9,8 @@ import { DeviceSearchComponent } from './device-list/device-search/device-search
 import { DeviceListViewComponent } from './device-list/device-list-view/device-list-view.component';
 import { DeviceAssociateProductComponent} from './device-associate-product/device-associate-product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppCommonModule } from '../../../shared/app-common.module';
-import { MaterialModules } from '../../../shared/modules/material/material-modules';
+import { AppCommonModule } from '../../../../shared/app-common.module';
+import { MaterialModules } from '../../../../shared/modules/material/material-modules';
 @NgModule({
   imports: [
     CommonModule,
