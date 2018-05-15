@@ -4,19 +4,23 @@ import { MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../shared/views/edit-record-base';
-import {
-  DeviceAssociateProductListItemResponse, DeviceAssociateProductRequest
-} from '../../../../spl/app/models/api/device-models';
-import { DeviceAssociateProductModel } from '../../../../spl/app/models/ui/device-models';
-import { ProductListItemResponse } from '../../../../spl/app/models/api/product-models';
-import { DeviceService } from '../../../../spl/app/services/device.service';
-import { ProductService } from '../../../../spl/app/services/product.service';
-import { CustomerService } from '../../../../spl/app/services/customer.service';
-import { CustomerListItemResponse } from '../../../../spl/app/models/api/customer-models';
-import { CustomerAssociateProductListItemResponse } from '../../../../spl/app/models/api/customer-models';
 import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../shared/views/edit-record-base';
+import {
+  CustomerAssociateProductListItemResponse,
+  CustomerListItemResponse,
+} from '../../../../spl/app/models/api/customer-models';
+import {
+  DeviceAssociateProductListItemResponse,
+  DeviceAssociateProductRequest,
+} from '../../../../spl/app/models/api/device-models';
+import { ProductListItemResponse } from '../../../../spl/app/models/api/product-models';
+import { DeviceAssociateProductModel } from '../../../../spl/app/models/ui/device-models';
+import { CustomerService } from '../../../../spl/app/services/customer.service';
+import { DeviceService } from '../../../../spl/app/services/device.service';
+import { ProductService } from '../../../../spl/app/services/product.service';
+
 @Component({
   selector: 'app-device-associate-product',
   templateUrl: './device-associate-product.component.html',
@@ -55,13 +59,18 @@ export class DeviceAssociateProductComponent extends EditRecordBase implements O
       if (payloadResponse && payloadResponse.issuccess) {
         this.products = payloadResponse.data;
         this.getDcpmList();
+
       }
     });
     this.customerService.getCustomerNameList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.cutomers = payloadResponse.data;
+        if (this.cutomers === null || this.cutomers.length === 0) {
+          this.appNotificationService.info(this.translatePipe.transform('CUSTOMER_IS_NOT_BEEN_ASSOCIATED_WITH_ANY_PRODUCT'));
+        }
       }
     });
+
   }
 
   createControls(): void {
@@ -91,7 +100,9 @@ export class DeviceAssociateProductComponent extends EditRecordBase implements O
       .subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.cpmlist = payloadResponse.data;
-          // TODD: display informative message saying customer is not been associated with any product yet.
+          if (this.cpmlist === null || this.cpmlist.length === 0) {
+            this.appNotificationService.info(this.translatePipe.transform('CUSTOMER_IS_NOT_BEEN_ASSOCIATED_WITH_ANY_PRODUCT'));
+          }
         }
       });
   }
@@ -110,6 +121,7 @@ export class DeviceAssociateProductComponent extends EditRecordBase implements O
       });
     }
   }
+
   add() {
     this.editableForm.reset();
     this.recordState = EDITABLE_RECORD_STATE.ADD;

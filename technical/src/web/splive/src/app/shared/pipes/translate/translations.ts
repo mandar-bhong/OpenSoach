@@ -159,12 +159,87 @@ export const TRANSLATIONS: TranslationValue[] = [
   /* DEVICE STATES END */
   {
     key: 'SUCCESS_CUSTOMER_DETAILS_SAVED',
-    en: 'Customer details saved successfully.'
+    en: 'Successfully add device.'
   },
   {
     key: 'ERROR_LOGIN_INVALID_CATEGORY',
     en: 'Unauthorized Access'
   },
+
+
+
+   /* CORPORATE STATES START */
+   {
+    key: 'SUCCESS_CORPORATE_ADD_SAVED',
+    en: 'Corporate add successfully.'
+  },
+  {
+    key: 'ERROR_LOGIN_INVALID_CATEGORY',
+    en: 'Unauthorized Access'
+  },
+  {
+    key: 'SUCCESS_CORPORATE_DETAILS_SAVED',
+    en: 'Corporate details save successfully'
+  },
+
+  /* CORPORATE APP NOTIFICATION END */
+
+    /* DEIVCE APP NOTIFICATION START */
+  {
+    key: 'CUSTOMER_IS_NOT_BEEN_ASSOCIATED_WITH_ANY_PRODUCT',
+    en: 'You need to add a customer before associating a device.'
+  },
+  {
+    key: 'SUCCESS_ADD_DEVICE_ASSOCIATE_SAVED',
+    en: 'Successfully added device associate.'
+  },
+  {
+    key: 'SUCCESS_ADD_DEVICE_SAVED',
+    en: 'Device added successfully. '
+  },
+  {
+    key: 'SUCCESS_DEVICE_DETAILS_SAVED',
+    en: 'Device updated successfully. '
+  },
+  {
+    key: 'INFO_NO_RECORDS_FOUND',
+    en: 'No record(s) found. '
+  },
+
+  /* DEIVCE APP NOTIFICATION END */
+
+
+  /* USER APP NOTIFICATION START */
+  {
+    key: 'SUCCESS_ADD_USER_SAVED',
+    en: 'User added successfully.'
+  },
+  {
+    key: 'SUCCESS_USERS_DETAILS_SAVED',
+    en: 'Successfully save user details.'
+  },
+  {
+    key: 'CUSTOMER_IS_NOT_BEEN_ASSOCIATED_WITH_ANY_PRODUCT_USER',
+    en: 'You need to add a customer before associating a user.'
+  },
+
+  /* USER APP NOTIFICATION END */
+
+
+
+
+  /* CUSTOMER APP NOTIFICATION START */
+  {
+    key: 'SUCCESS_ADD_CUSTOMERS_SAVED',
+    en: 'Customer added successfully.'
+  },
+  {
+    key: 'SUCCESS_CUSTOMER_DETAILS_SAVED',
+    en: 'Successfully save customer details.'
+  },
+
+  /* CUSTOMER APP NOTIFICATION END */
+
 
   /* CUSTOMER PRODUCT MAPPING STATES BEGIN */
   {
@@ -185,5 +260,10 @@ export const TRANSLATIONS: TranslationValue[] = [
   },
 
   /* CUSTOMER PRODUCT MAPPING STATES END */
+
+
+
+
+
 ];
 

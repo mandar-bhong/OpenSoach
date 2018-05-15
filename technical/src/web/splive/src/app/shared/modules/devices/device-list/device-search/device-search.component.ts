@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DeviceFilterModel } from '../../../../../spl/app/models/ui/device-models';
 import { DeviceFilterRequest } from '../../../../../spl/app/models/api/device-models';
+import { DeviceFilterModel } from '../../../../../spl/app/models/ui/device-models';
 import { DeviceService } from '../../../../../spl/app/services/device.service';
 
 @Component({
