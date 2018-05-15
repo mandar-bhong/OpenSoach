@@ -657,6 +657,16 @@ custname:string;
 Logic:
 get all customers from spl_master_customer_tbl
 
+56. user update
+API Name: /api/osu/v1/user/update
+Request Method: POST
+request: UserUpdate{
+userid:number;
+uroleid:number;
+usrstate:number;
+}
+response:null
+
 
 
 

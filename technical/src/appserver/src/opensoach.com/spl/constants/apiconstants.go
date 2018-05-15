@@ -41,6 +41,7 @@ const API_UROLE_OSU_LIST = API_BASE_URL + "/osu/v1/urole/list"
 const API_UROLE_LIST = API_BASE_URL + "/v1/urole/list"
 const API_USER_PRODUCT_ASSCOCIATION_LIST = API_BASE_URL + "/osu/v1/user/list/productassociation"
 const API_USER_PRODUCT_ASSCOCIATION_UPDATE = API_BASE_URL + "/osu/v1/user/productassociation/update"
+const API_USER_OSU_UPDATE = API_BASE_URL + "/osu/v1/user/update"
 
 const API_CORPORATE_OSU_LIST = API_BASE_URL + "/osu/v1/corporate/list"
 const API_CORPORATE_OSU_LIST_SHORT = API_BASE_URL + "/osu/v1/corporate/list/short"

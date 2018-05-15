@@ -69,3 +69,10 @@ type DBUserProdAssociationDataModel struct {
 	UcpmState      *int       `db:"ucpm_state" json:"ucpmstate"`
 	UcpmStateSince *time.Time `db:"ucpm_state_since" json:"ucpmstatesince"`
 }
+
+type DBUserUpdateRowModel struct {
+	UserId        int64     `dbattr:"pri,auto" db:"id" json:"userid"`
+	UroleId       *int64    `db:"urole_id_fk" json:"uroleid"`
+	UsrState      int       `db:"usr_state" json:"usrstate"`
+	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
+}
