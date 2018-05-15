@@ -1,0 +1,349 @@
+
+1. Add Field Operator
+API Name: /api/v1/fieldoperator/add
+Request Method: POST
+request: FieldOperatorAddRequest{
+fopcode:string;
+fopname:string;
+mobileno:string;
+emailid:string;
+shortdesc:string;
+fopstate:number;
+foparea:number;	
+}
+response: null
+
+2. Update Field Operator
+API Name: /api/v1/fieldoperator/update
+Request Method: POST
+request: FieldOperatorUpdateRequest{
+fopid:number;
+fopname:string;
+mobileno:string;
+emailid:string;
+shortdesc:string;
+fopstate:number;
+foparea:number;		
+}
+response: null
+
+3. Get Field Operator info
+API Name: /api/v1/fieldoperator/info
+Request Method: GET
+request:
+response: fieldOperatorInfoResponse{
+fopid:number;
+cpmid:number;
+fopcode:string;
+fopname:string;
+mobileno:string;
+emailid:string;
+shortdesc:string;
+fopstate:number;
+foparea:number;
+createdon:Date;
+updatedon:Date;
+}
+
+read fop_id from query parameters
+
+4. Get Field Operator List
+API Name: /api/v1/fieldoperator/list
+Request Method: GET
+request: FilterRequest{
+fopcode:string;
+fopname:string;
+mobileno:string;
+emailid:string;
+}
+response: ListResponse{
+fopid:number;
+fopcode:string;
+fopname:string;
+mobileno:string;
+emailid:string;
+fopstate:string;
+foparea:string;
+}
+
+5. Add Commplaint
+API Name: /api/v1/complaint/add
+Request Method: POST
+request: ComplaintAddRequest{
+spid:number;
+complainttitle:string;
+description:string;
+complaintby:string;
+mobileno:string;
+emailid:string;
+employeeid:string;
+complaintstate:number;
+}
+response: null
+
+6. Update Complaint
+API Name: /api/v1/complaint/update
+Request Method: POST
+request: ComplaintUpdateRequest{
+complaintid:number;
+complaintstate:number;
+remarks:string;
+closedon:Date;
+}
+response: null
+
+7. Get Complaint info
+API Name: /api/v1/complaint/info
+Request Method: GET
+request:
+response: complaintInfoResponse {
+complaintid:number;
+cpmid:number;
+spid:number;
+complainttitle:string;
+description:string;
+complaintby:string;
+mobileno:string;
+emailid:string;
+employeeid:string;
+raisedon:Date;
+complaintstate:number;
+closedon:Date;
+remarks:string;
+createdon:Date;
+updatedon:Date;
+}
+
+read complaint_id from query parameters
+
+8. Get Complaint list
+API Name: /api/v1/complaint/list
+Request Method: GET
+request: FilterRequest{
+complainttitle:string;
+complaintstate:number;
+}
+response: ListResponse{
+complaintid:number;
+spname:string;
+complainttitle:string;
+description:string;
+complaintby:string;
+raisedon:Date;
+complaintstate:number;
+closedon:Date;
+}
+
+9. Add Service Conf
+API Name: /api/v1/service/config/add
+Request Method: POST
+request: ServConfAddRequest{
+spcid:number;
+conftypecode:string;
+servconfname:string;
+shortdesc:string;
+servconf:string;   //json
+}
+response: null
+
+10. Service Conf Update
+API Name: /api/v1/service/config/update
+Request Method: POST
+request: ServConfUpdateRequest{
+servconfid:number;
+servconfname:string;
+shortdesc:string;
+servconf:string: //json
+}
+response: null
+
+11. Get Service Conf list
+API Name: /api/v1/service/config/list
+Request Method: GET
+request: FilterRequest{
+conftypecode:string;
+servconfname:string;
+}
+response: ListResponse{
+servconfid:number;
+cpmid:number;
+spcid:number;
+conftypecode:string;
+servconfname:string;
+shortdesc:string;
+createdon:Date;
+updatedon:Date;
+}
+
+12. Add Service Instance
+API Name: /api/v1/service/instance/add
+Request Method: POST
+request: ServInstanceAddRequest{
+servconfid:number;
+spid:number;
+}
+response: null
+
+13. Get Service Instance list
+API Name: /api/v1/service/instance/list
+Request Method: GET
+request: FilterRequest{
+spcname:string;
+}
+response: ListResponse{
+spid:number;
+servinid:number;
+conftypecode:string;
+servconfname:string;
+}
+
+14. Get hkt master spc task info
+API Name: /api/v1/master/spctask/info
+Request Method: GET
+request:
+response: spcTaskResponse {
+spcid:;
+mtaskid:;
+createdon:;
+updatedon:;
+}
+
+15. Get hkt master task info
+API Name: /api/v1/master/task/info
+Request Method: GET
+request:
+response: taskInfoResponse {
+taskid:number;
+taskname:string;
+shortdesc:string;
+createdon:Date;
+updatedon:Date:
+}
+
+read task_id from query parameters
+
+16. Get prod master serv conf type info
+API Name: /api/v1/master/servconftype/info
+Request Method: GET
+request:
+response: ServConfTypeInfoResponse {
+servconfid:number;
+conftypecode:string;
+createdon:Date;
+updatedon:Date;
+}
+
+read servconf_id from query parameters
+
+17. Get prod master sp category info
+API Name: /api/v1/master/spcategory/info
+Request Method: GET
+request:
+response: SpCategoryInfoResponse {
+spcid:number;
+spcname:string;
+shortdesc:string;
+createdon:Date;
+updatedon:Date;
+}
+
+read spc_id from query parameters
+
+18. Add Service Point
+API Name: /api/v1/servicepoint/add
+Request Method: POST
+request: ServicePointAddRequest{
+spid:number;
+spcid:number;
+spname:string;
+}
+response: null
+
+19. Service Point Update
+API Name: /api/v1/servicepoint/update
+Request Method: POST
+request: ServPointUpdateRequest{
+spid:number;
+spcid:number;
+spname:string;
+}
+response: null
+
+20. Add Service Point Category
+API Name: /api/v1/servicepoint/category/add
+Request Method: POST
+request: ServicePointCategoryAddRequest{
+spcname:string;
+shortdesc:string;
+}
+response: null
+
+21. Get ServicePointCategoryShortDataList
+API Name: /api/v1/servicepoint/category/list/short
+Request Method: GET
+request: null
+response: ServicePointCategoryShortDataResponse{
+spcid:number;
+spcname:string;
+}
+
+22. Associate SP with Fop.
+API Name: /api/v1/servicepoint/associate/fieldoperator
+Request Method: POST
+request: SPAssociateFopRequest {
+fopid: number;
+spid:number;
+}
+response: null;
+
+23. Remove Association SP with Fop.
+API Name: /api/v1/servicepoint/associate/fieldoperator/remove
+Request Method: POST
+request: SPAssociateFopRemoveRequest {
+fopid: number;
+}
+response: null;
+
+24. Associate ServicePoint with Device.
+API Name: /api/v1/servicepoint/associate/device
+Request Method: POST
+request: SPAssociateDeviceRequest {
+devid: number;
+spid:number;
+}
+response: null;
+
+25. Remove Association ServicePoint with Device.
+API Name: /api/v1/servicepoint/associate/device/remove
+Request Method: POST
+request: SPAssociateDeviceRemoveRequest {
+devid: number;
+cpmid:number;
+}
+response: null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
