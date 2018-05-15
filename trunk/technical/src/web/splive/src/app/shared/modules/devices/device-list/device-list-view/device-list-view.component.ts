@@ -8,10 +8,13 @@ import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
 import { Subscription } from 'rxjs/Subscription';
 
+import { DEVICE_STATE } from '../../../../../shared/app-common-constants';
 import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { DeviceFilterRequest, DeviceDataListResponse } from '../../../../../spl/app/models/api/device-models';
+import { DeviceDataListResponse, DeviceFilterRequest } from '../../../../../spl/app/models/api/device-models';
 import { DeviceService } from '../../../../../spl/app/services/device.service';
+import { TranslatePipe } from '../../../../pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../services/notification/app-notification.service';
 
 @Component({
   selector: 'app-device-list-view',
@@ -20,12 +23,13 @@ import { DeviceService } from '../../../../../spl/app/services/device.service';
 })
 
 export class DeviceListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['serialno', 'devname', 'custname', 'connectionstate', 'batterylevel', 'action'];
-  sortByColumns = [{ text: 'Customer Name', value: 'custname'},
-  { text: 'Serial Number', value: 'serialno'},
-  { text: 'Device Name', value: 'devname'},
-  { text: 'Connections', value: 'connectionstate'},
-  { text: 'Bettery Level', value: 'batterylevel'}
+  displayedColumns = ['serialno', 'devname', 'devstate', 'custname', 'connectionstate', 'batterylevel', 'action'];
+  sortByColumns = [{ text: 'Customer Name', value: 'custname' },
+  { text: 'Serial Number', value: 'serialno' },
+  { text: 'Device Name', value: 'devname' },
+  { text: 'State', value: 'devstate' },
+  { text: 'Connections', value: 'connectionstate' },
+  { text: 'Bettery Level', value: 'batterylevel' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
@@ -37,8 +41,11 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
   isLoadingResults = true;
   deviceFilterRequest: DeviceFilterRequest;
   dataListFilterChangedSubscription: Subscription;
+  deviceState = DEVICE_STATE;
   constructor(public deviceService: DeviceService,
-    private router: Router) { }
+    private router: Router,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
 
@@ -73,6 +80,10 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
         } else {
           this.dataSource = [];
         }
+
+        if (this.filteredrecords === 0) {
+          this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+        }
       }
     );
   }
@@ -100,7 +111,6 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
   }
 
   editRecord(id: number) {
-    console.log('devid sent', id);
     this.router.navigate(['devices', 'update'], { queryParams: { id: id, callbackurl: 'devices' }, skipLocationChange: true });
   }
   associateProduct(id: number) {

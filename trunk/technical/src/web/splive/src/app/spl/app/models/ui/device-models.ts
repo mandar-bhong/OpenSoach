@@ -3,7 +3,7 @@ import {
     DeviceAssociateProductRequest, DeviceAssociateProductListItemResponse
 } from '../api/device-models';
 import { DEVICE_STATE } from '../../../../shared/app-common-constants';
-
+import { CustomerAssociateProductListItemResponse } from '../../../../spl/app/models/api/customer-models';
 export class DeviceFilterModel {
     serialno: string;
     custid: number;
@@ -58,13 +58,14 @@ export class DeviceDetailsModel {
 }
 export class DeviceAssociateProductModel {
     cpmid: number;
+    cpm: CustomerAssociateProductListItemResponse;
     devid: number;
     custname: string;
     prodcode: string;
     custid: number;
 
     copyToAddRequest(request: DeviceAssociateProductRequest) {
-        request.cpmid = this.cpmid;
+        request.cpmid = this.cpm.cpmid;
         request.devid = this.devid;
     }
 

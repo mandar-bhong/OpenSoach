@@ -29,7 +29,7 @@
                         <td>
                             <mat-form-field>
                                 <input matInput placeholder="Device Name" [(ngModel)]="dataModel.devname">
-                                <button mat-button *ngIf="dataModel.devname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.devnames=''">
+                                <button mat-button *ngIf="dataModel.devname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.devname=''">
                                     <mat-icon>close</mat-icon>
                                 </button>
                             </mat-form-field>
