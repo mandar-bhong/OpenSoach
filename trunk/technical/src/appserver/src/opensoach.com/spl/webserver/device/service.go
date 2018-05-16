@@ -191,6 +191,56 @@ func (service DeviceService) AssociateDevWithCust(reqData *lmodels.DBDevCustRowM
 
 func (service DeviceService) AssociateDevWithCustProduct(reqData *lmodels.DBSplCpmDevRowModel) (isSuccess bool, successErrorData interface{}) {
 
+	dbErr, devData := dbaccess.GetDeviceById(repo.Instance().Context.Master.DBConn, reqData.DevId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbDevRecord := *devData
+
+	if len(dbDevRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	dbErr, data := dbaccess.GetCustIdByCpmId(repo.Instance().Context.Master.DBConn, reqData.CpmId)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbrecorddata := *data
+
+	if dbDevRecord[0].CustId == nil {
+
+		custID := dbrecorddata[0].CustId
+
+		devicecustmap := &lmodels.DBDevCustRowModel{}
+		devicecustmap.CustId = custID
+		devicecustmap.DevId = reqData.DevId
+
+		dberr, _ := dbaccess.SetDeviceCustId(repo.Instance().Context.Master.DBConn, devicecustmap)
+		if dberr != nil {
+			logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+	} else if *dbDevRecord[0].CustId != dbrecorddata[0].CustId {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = constants.MOD_ERR_DEVICE_UNAVAILABLE_FOR_CUSTOMER_PRODUCT_MAPPING
+		return false, errModel
+	}
+
 	dbErr, insertedId := dbaccess.CpmDevTableInsert(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)

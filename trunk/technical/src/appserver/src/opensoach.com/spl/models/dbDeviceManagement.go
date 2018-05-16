@@ -26,8 +26,8 @@ type DBDevStateRowModel struct {
 }
 
 type DBDevCustRowModel struct {
-	DevId  int `dbattr:"pri,auto" db:"id" json:"devid"`
-	CustId int `db:"cust_id_fk" json:"custid"`
+	DevId  int64 `dbattr:"pri,auto" db:"id" json:"devid"`
+	CustId int64 `db:"cust_id_fk" json:"custid"`
 }
 
 type DBSplCpmDevRowModel struct {

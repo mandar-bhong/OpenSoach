@@ -134,7 +134,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		listReq.Filter.(*lmodels.DBSearchDeviceRequestFilterDataModel).CustId = &successErrorData.(*gmodels.ExecutionContext).SessionInfo.CustomerID
+		listReq.Filter.(*lmodels.DBSearchDeviceRequestFilterDataModel).CpmId = &successErrorData.(*gmodels.ExecutionContext).SessionInfo.Product.CustProdID
 
 		isSuccess, resultData = DeviceService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),

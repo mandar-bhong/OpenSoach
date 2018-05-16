@@ -63,9 +63,9 @@ type DBSearchCustomerResponseFilterDataModel struct {
 
 type DBSearchDeviceRequestFilterDataModel struct {
 	Serialno *string `db:"serialno" json:"serialno"`
-	CustId   *int64  `dbattr:"pri,auto" db:"cust.id" json:"custid"` //This is specical condition as query has multiple table join
 	CustName *string `db:"cust_name" json:"custname"`
 	DevName  *string `db:"dev_name" json:"devname"`
+	CpmId    *int64  `dbattr:"pri,auto" db:"cpm.id" json:"cpmid"` //This is specical condition as query has multiple table join
 }
 
 type DBSearchDeviceResponseFilterDataModel struct {
