@@ -11,7 +11,7 @@ import { ServerApiInterfaceService } from './services/api/server-api-interface.s
 import { AppDataStoreService } from './services/app-data-store/app-data-store-service';
 import { AuthService } from './services/auth.service';
 import { CustomerSharedService } from './services/customer/customer-shared.service';
-import { DeviceSharedService } from './services/device-shared.service';
+import { AppDeviceService } from './services/device/app-device.service';
 import { FloatingButtonMenuService } from './services/floating-button-menu.service';
 import { LoginHandlerService } from './services/login-handler.service';
 import { LoginStatusProviderService } from './services/login-status-provider.service';
@@ -62,7 +62,7 @@ export class AppCommonModule {
         UserSharedService,
         CustomerSharedService,
         FloatingButtonMenuService,
-        DeviceSharedService
+        AppDeviceService
       ]
     };
   }

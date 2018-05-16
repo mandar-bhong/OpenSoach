@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { DEVICE_STATE } from '../app-common-constants';
-import { EnvironmentProvider } from '../environment-provider';
-import { RecordIDRequest } from '../models/api/common-models';
-import { DataListRequest, DataListResponse } from '../models/api/data-list-models';
-import { DeviceDataListResponse, DeviceDetailsResponse, DeviceFilterRequest } from '../models/api/device-models';
-import { PayloadResponse } from '../models/api/payload-models';
-import { EnumDataSourceItem } from '../models/ui/enum-datasource-item';
-import { EnumNumberDatasource } from '../utility/enum-number-datasource';
-import { ServerApiInterfaceService } from './api/server-api-interface.service';
-import { ListingService } from './listing.service';
+import { EnvironmentProvider } from '../../../shared/environment-provider';
+import { RecordIDRequest } from '../../../shared/models/api/common-models';
+import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
+import { DeviceDataListResponse, DeviceDetailsResponse, DeviceFilterRequest } from '../../models/api/device-models';
+import { PayloadResponse } from '../../../shared/models/api/payload-models';
+import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
+import { ListingService } from '../../../shared/services/listing.service';
 
 @Injectable()
-export class DeviceSharedService extends ListingService<DeviceFilterRequest, DeviceDataListResponse> {
+export class ProdDeviceService extends ListingService<DeviceFilterRequest, DeviceDataListResponse> {
     constructor(private serverApiInterfaceService: ServerApiInterfaceService) {
         super();
     }
@@ -33,13 +30,5 @@ export class DeviceSharedService extends ListingService<DeviceFilterRequest, Dev
         Observable<PayloadResponse<DeviceDetailsResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/device/info/details',
             request, implicitErrorHandling);
-    }
-
-    getDeviceStates(): EnumDataSourceItem<number>[] {
-        return EnumNumberDatasource.getDataSource('DEVICE_STATE_', DEVICE_STATE);
-    }
-
-    getDeviceState(state: number) {
-        return 'DEVICE_STATE_' + state;
     }
 }

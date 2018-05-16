@@ -7,14 +7,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
-import {
-  CustomerAssociateProductListItemResponse,
-  CustomerListItemResponse,
-} from '../../../models/api/customer-models';
-import {
-  DeviceAssociateProductListItemResponse,
-  DeviceAssociateProductRequest,
-} from '../../../models/api/device-models';
+import { CustomerAssociateProductListItemResponse, CustomerListItemResponse } from '../../../models/api/customer-models';
+import { DeviceAssociateProductListItemResponse, DeviceAssociateProductRequest } from '../../../models/api/device-models';
 import { ProductListItemResponse } from '../../../models/api/product-models';
 import { DeviceAssociateProductModel } from '../../../models/ui/device-models';
 import { CustomerService } from '../../../services/customer.service';

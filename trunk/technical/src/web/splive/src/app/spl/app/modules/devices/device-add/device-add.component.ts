@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppDeviceService } from '../../../../../shared/services/device/app-device.service';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { DeviceAddRequest } from '../../../models/api/device-models';
@@ -21,6 +22,7 @@ export class DeviceAddComponent extends EditRecordBase implements OnInit, OnDest
   deviceStates: EnumDataSourceItem<number>[];
   routeSubscription: Subscription;
   constructor(private deviceService: DeviceService,
+    private deviceSharedService: AppDeviceService,
     private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
@@ -30,8 +32,7 @@ export class DeviceAddComponent extends EditRecordBase implements OnInit, OnDest
 
   ngOnInit() {
     this.createControls();
-    this.deviceStates = this.deviceService.getDeviceStates();
-
+    this.deviceStates = this.deviceSharedService.getDeviceStates();
   }
   createControls(): void {
     this.editableForm = new FormGroup({

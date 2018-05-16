@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
+import { ProdCommonModule } from '../../prod-shared/prod-common.module';
 import { AppCommonModule } from '../../shared/app-common.module';
 import { LayoutModule } from '../../shared/layouts/layout.module';
 import { MaterialModules } from '../../shared/modules/material/material-modules';
@@ -23,6 +24,7 @@ import { AppComponent } from './app.component';
     MatSlideToggleModule,
     LayoutModule,
     AppCommonModule.forRoot(),
+    ProdCommonModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({

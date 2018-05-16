@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DEFAULT_PAGE_MENU } from '../../../../../shared/app-common-constants';
 import { FloatingMenu, FloatingMenuItem } from '../../../../../shared/models/ui/floating-menu';
 import { FloatingButtonMenuService } from '../../../../../shared/services/floating-button-menu.service';
+
 @Component({
   selector: 'app-device-list',
   templateUrl: './device-list.component.html',

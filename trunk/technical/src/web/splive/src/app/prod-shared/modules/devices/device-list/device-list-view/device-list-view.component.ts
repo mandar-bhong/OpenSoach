@@ -8,13 +8,14 @@ import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
 import { Subscription } from 'rxjs/Subscription';
 
-import { DEVICE_STATE } from '../../../../app-common-constants';
-import { DataListRequest, DataListResponse } from '../../../../models/api/data-list-models';
+import { DEVICE_STATE } from '../../../../../shared/app-common-constants';
+import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
+import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppDeviceService } from '../../../../../shared/services/device/app-device.service';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { DeviceDataListResponse, DeviceFilterRequest } from '../../../../models/api/device-models';
-import { PayloadResponse } from '../../../../models/api/payload-models';
-import { TranslatePipe } from '../../../../pipes/translate/translate.pipe';
-import { DeviceSharedService } from '../../../../services/device-shared.service';
-import { AppNotificationService } from '../../../../services/notification/app-notification.service';
+import { ProdDeviceService } from '../../../../services/device/prod-device.service';
 
 @Component({
   selector: 'app-device-list-view',
@@ -42,7 +43,8 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
   deviceFilterRequest: DeviceFilterRequest;
   dataListFilterChangedSubscription: Subscription;
   deviceState = DEVICE_STATE;
-  constructor(public deviceService: DeviceSharedService,
+  constructor(private deviceService: ProdDeviceService,
+    private appDeviceService: AppDeviceService,
     private router: Router,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) { }
