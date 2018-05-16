@@ -281,12 +281,12 @@ func GetOSUsrFilterList(dbConn string, filterModel *lmodels.DBSearchUserRequestF
 	return nil, data
 }
 
-func GetUserById(dbConn string, userId int64) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
+func GetUserById(dbConn string, userId int64) (error, *[]lmodels.DBUserInfoDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserById")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]lmodels.DBSplMasterUserTableRowModel{}
+	data := &[]lmodels.DBUserInfoDataModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_GET_USER_TABLE_INFO_BY_ID
 	selDBCtx.QueryType = dbmgr.Query

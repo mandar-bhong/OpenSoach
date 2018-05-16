@@ -31,7 +31,7 @@ Left Join spl_master_user_role_tbl urole On urole.id = usr.urole_id_fk $WhereCon
 
 const QUERY_GET_USERID_BY_USERNAME = `Select id From spl_master_user_tbl where usr_name = ? and usr_category = 2`
 
-const QUERY_GET_USER_TABLE_INFO_BY_ID = `Select usr_name,usr_category,urole_id_fk,usr_state,usr_state_since,created_on,updated_on  From spl_master_user_tbl where id =?`
+const QUERY_GET_USER_TABLE_INFO_BY_ID = `Select id,usr_name,usr_category,urole_id_fk,usr_state,usr_state_since,created_on,updated_on  From spl_master_user_tbl where id =?`
 
 const QUERY_GET_SPL_MASTER_USER_DETAILS_TABLE_SELECT_BY_ID = `Select usr_id_fk,fname,lname,mobile_no,alternate_contact_no,created_on,updated_on From spl_master_usr_details_tbl where usr_id_fk = ?`
 

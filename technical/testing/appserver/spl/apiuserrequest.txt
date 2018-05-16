@@ -110,5 +110,10 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 17. method POST : /api/osu/v1/user/update
 
 	{"userid":1,"uroleid":1,"usrstate":2}
+	
+	
+18.	method:GET	/api/osu/v1/user/info/master
+
+	query parameter : params={"recid":1} //userid
 
 
