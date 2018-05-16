@@ -106,21 +106,22 @@ CREATE TABLE `spl_master_cust_details_tbl` (
 --
 
 CREATE TABLE `spl_master_cust_prod_mapping_tbl` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cust_id_fk` int(10) unsigned NOT NULL,
-  `prod_id_fk` int(11) unsigned NOT NULL,
-  `dbi_id_fk` int(10) unsigned NOT NULL,
-  `cpm_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
-  `cpm_state_since` datetime NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `fk_cpm_prod_idx` (`prod_id_fk`),
-  KEY `fk_cpm_cust_idx` (`cust_id_fk`),
-  KEY `fk_cpm_dbi_idx` (`dbi_id_fk`),
-  CONSTRAINT `fk_cpm_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_cpm_dbi` FOREIGN KEY (`dbi_id_fk`) REFERENCES `spl_master_database_instance_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_cpm_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master_product_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cust_id_fk` INT(10) UNSIGNED NOT NULL,
+	`prod_id_fk` INT(11) UNSIGNED NOT NULL,
+	`dbi_id_fk` INT(10) UNSIGNED NOT NULL,
+	`cpm_state` TINYINT(3) UNSIGNED NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
+	`cpm_state_since` DATETIME NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `cust_id_fk_prod_id_fk` (`cust_id_fk`, `prod_id_fk`),
+	INDEX `fk_cpm_prod_idx` (`prod_id_fk`),
+	INDEX `fk_cpm_cust_idx` (`cust_id_fk`),
+	INDEX `fk_cpm_dbi_idx` (`dbi_id_fk`),
+	CONSTRAINT `fk_cpm_cust` FOREIGN KEY (`cust_id_fk`) REFERENCES `spl_master_customer_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_cpm_dbi` FOREIGN KEY (`dbi_id_fk`) REFERENCES `spl_master_database_instance_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_cpm_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master_product_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cpm';
 
 --
