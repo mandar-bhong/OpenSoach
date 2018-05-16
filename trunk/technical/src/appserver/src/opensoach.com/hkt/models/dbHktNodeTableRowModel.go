@@ -12,6 +12,7 @@ type DBSplHktSpComplaintTableRowModel struct {
 	MobileNo       *string    `db:"mobile_no" json:"mobileno"`
 	EmailId        *string    `db:"email_id" json:"emailid"`
 	EmployeeId     *string    `db:"employee_id" json:"employeeid"`
+	Severity       int        `db:"severity" json:"severity"`
 	RaisedOn       time.Time  `db:"raised_on" json:"raisedon"`
 	ComplaintState int        `db:"complaint_state" json:"complaintstate"`
 	ClosedOn       *time.Time `db:"closed_on" json:"closedon"`
@@ -88,6 +89,7 @@ type DBSplNodeServiceInTxnTableRowModel struct {
 	CpmId       int64     `db:"cpm_id_fk" json:"cpmid"`
 	ServInId    int64     `db:"serv_in_id_fk" json:"servinid"`
 	TxnData     int64     `db:"txn_data" json:"txndata"`
+	TxnDate     time.Time `db:"txn_date" json:"txndate"`
 	CreatedOn   time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn   time.Time `db:"updated_on" json:"updatedon"`
 }
@@ -111,10 +113,13 @@ type DBSplNodeSpCategoryTableRowModel struct {
 }
 
 type DBSplNodeSpTableRowModel struct {
-	SpId      int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
-	CpmId     int64     `db:"cpm_id_fk" json:"cpmid"`
-	SpcId     int64     `db:"spc_id_fk" json:"spcid"`
-	SpName    string    `db:"sp_name" json:"spname"`
-	CreatedOn time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
+	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
+	SpName       string    `db:"sp_name" json:"spname"`
+	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
+	SpState      int       `db:"sp_state" json:"spstate"`
+	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
+	CreatedOn    time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
 }
