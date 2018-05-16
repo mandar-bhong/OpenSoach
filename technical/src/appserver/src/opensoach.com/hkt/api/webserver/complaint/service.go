@@ -27,6 +27,7 @@ func (service ComplaintService) Add(req lmodels.APIComplaintAddRequest) (isSucce
 	dbRowModel.MobileNo = req.MobileNo
 	dbRowModel.EmailId = req.EmailId
 	dbRowModel.EmployeeId = req.EmployeeId
+	dbRowModel.Severity = req.Severity
 	dbRowModel.RaisedOn = time.Now()
 	dbRowModel.ComplaintState = req.ComplaintState
 
