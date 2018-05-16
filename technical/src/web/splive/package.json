@@ -10,6 +10,8 @@
     "build:hkt": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --app=hkt --prod --deploy-url /web",
     "dev:spl": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --app=spl --deploy-url /web",
     "dev:hkt": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --app=hkt --deploy-url /web",
+    "buildlocal:spl": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --app=spl --prod",
+    "buildlocal:hkt": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --app=hkt --prod",    
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
