@@ -1,6 +1,7 @@
 package servicepoint
 
 import (
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/api/webserver/servicepoint/dbaccess"
@@ -41,6 +42,7 @@ func (service ServicePointService) SpCategoryAdd(req lmodels.APISpCategoryAddReq
 func (service ServicePointService) SpUpdate(reqData *hktmodels.DBSpUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.SpStateSince = ghelper.GetCurrentTime()
 
 	dbErr, affectedRow := dbaccess.SpUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
@@ -111,10 +113,13 @@ func (service ServicePointService) FopSpDelete(reqdata *lmodels.APIFopSpDeleteRe
 func (service ServicePointService) ServicePointAdd(req lmodels.APISpAddRequest) (isSuccess bool, successErrorData interface{}) {
 
 	dbRowModel := &hktmodels.DBSpInsertRowModel{}
-	dbRowModel.SpId = req.SpId
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.SpId = req.SpId
 	dbRowModel.SpcId = req.SpcId
 	dbRowModel.SpName = req.SpName
+	dbRowModel.ShortDesc = req.ShortDesc
+	dbRowModel.SpState = req.SpState
+	dbRowModel.SpStateSince = ghelper.GetCurrentTime()
 
 	dbErr, insertedId := dbaccess.SpInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {

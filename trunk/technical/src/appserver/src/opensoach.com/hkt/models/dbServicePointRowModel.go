@@ -1,8 +1,14 @@
 package models
 
+import "time"
+
 type DBSpUpdateRowModel struct {
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
-	DBSpDataRowModel
+	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	SpName       string    `db:"sp_name" json:"spname"`
+	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
+	SpState      int       `db:"sp_state" json:"spstate"`
+	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
 }
 
 type DBSpCategoryDataModel struct {
@@ -26,13 +32,16 @@ type DBFopSpInsertRowModel struct {
 }
 
 type DBSpDataRowModel struct {
-	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
-	SpcId  int64  `db:"spc_id_fk" json:"spcid"`
-	SpName string `db:"sp_name" json:"spname"`
+	SpId      int64   `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	SpcId     int64   `db:"spc_id_fk" json:"spcid"`
+	SpName    string  `db:"sp_name" json:"spname"`
+	ShortDesc *string `db:"short_desc" json:"shortdesc"`
+	SpState   int     `db:"sp_state" json:"spstate"`
 }
 
 type DBSpInsertRowModel struct {
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
 	DBSpDataRowModel
 }
 
