@@ -31,7 +31,7 @@ INSERT INTO `spl_master_cust_prod_mapping_tbl` (`id`,`cust_id_fk`,`prod_id_fk`,`
 -- Dumping data for table `spl_master_device_tbl`
 --
 
-INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (1,'1234567890123456',1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`cust_id_fk`,`serialno`,`dev_state`,`dev_state_since`) VALUES (1,1,'1234567890123456',1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (2,'1345494544733456',1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (3,'1155623421323222',1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (4,'1235234322122343',2,UTC_TIMESTAMP);
