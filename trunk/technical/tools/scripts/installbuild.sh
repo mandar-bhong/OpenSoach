@@ -9,10 +9,12 @@ chmod  +777 $builddir/Build/spl
 
 
 service spl stop
+service splserver stop
 service hkt stop
 
 #this should be remove, currently service spl stop not working hence explicity kill
 killall -9 spl
+killall -9 splserver
 killall -9 hkt
 
 tar xvzf Build.tar.gz
@@ -49,6 +51,7 @@ fi
 
 sleep 5
 service spl start
+service splserver start
 
 service hkt start
 
