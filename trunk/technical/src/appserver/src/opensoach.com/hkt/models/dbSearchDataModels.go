@@ -30,6 +30,7 @@ type DBSearchComplaintResponseFilterDataModel struct {
 	ComplaintTitle string     `db:"complaint_title" json:"complainttitle"`
 	Description    *string    `db:"description" json:"description"`
 	ComplaintBy    string     `db:"complaint_by" json:"complaintby"`
+	Severity       int        `db:"severity" json:"severity"`
 	RaisedOn       time.Time  `db:"raised_on" json:"raisedon"`
 	ComplaintState int        `db:"complaint_state" json:"complaintstate"`
 	ClosedOn       *time.Time `db:"closed_on" json:"closedon"`

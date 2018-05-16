@@ -10,6 +10,7 @@ type DBComplaintDataModel struct {
 	MobileNo       *string `db:"mobile_no" json:"mobileno"`
 	EmailId        *string `db:"email_id" json:"emailid"`
 	EmployeeId     *string `db:"employee_id" json:"employeeid"`
+	Severity       int     `db:"severity" json:"severity"`
 	ComplaintState int     `db:"complaint_state" json:"complaintstate"`
 }
 

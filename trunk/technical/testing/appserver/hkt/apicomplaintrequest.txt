@@ -10,6 +10,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 		"mobileno":"1323453423",
 		"emailid":"user@gmail.com",
 		"employeeid":"1",
+		"severity":number,
 		"complaintstate":1,
 		"remarks":"remark1"	
 	}
