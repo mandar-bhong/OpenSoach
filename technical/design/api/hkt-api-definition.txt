@@ -77,6 +77,7 @@ complaintby:string;
 mobileno:string;
 emailid:string;
 employeeid:string;
+severity:number;
 complaintstate:number;
 }
 response: null
@@ -106,6 +107,7 @@ complaintby:string;
 mobileno:string;
 emailid:string;
 employeeid:string;
+severity:number;
 raisedon:Date;
 complaintstate:number;
 closedon:Date;
@@ -256,6 +258,8 @@ request: ServicePointAddRequest{
 spid:number;
 spcid:number;
 spname:string;
+shortdesc:string;
+spstate:number;
 }
 response: null
 
@@ -264,8 +268,9 @@ API Name: /api/v1/servicepoint/update
 Request Method: POST
 request: ServPointUpdateRequest{
 spid:number;
-spcid:number;
 spname:string;
+shortdesc:string;
+spstate:number;
 }
 response: null
 
