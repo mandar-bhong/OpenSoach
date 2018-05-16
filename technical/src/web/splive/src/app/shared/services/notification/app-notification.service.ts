@@ -9,7 +9,8 @@ export class AppNotificationService {
         private toastr: ToastrService) { }
 
     success(content?: any, override?: any): any {
-        return this.toastr.success(content, this.translatePipe.transform('AppNotificationSuccess'), override);
+        return this.toastr.success(content, this.translatePipe.transform('AppNotificationSuccess'),
+            { timeOut: 2000, extendedTimeOut: 1000 });
     }
 
     error(content?: any, override?: any): any {
@@ -18,7 +19,8 @@ export class AppNotificationService {
     }
 
     info(content?: any, override?: any): any {
-        return this.toastr.info(content, this.translatePipe.transform('AppNotificationInformation'), override);
+        return this.toastr.info(content, this.translatePipe.transform('AppNotificationInformation'),
+            { timeOut: 3000 });
     }
 
     warn(content?: any, override?: any): any {
