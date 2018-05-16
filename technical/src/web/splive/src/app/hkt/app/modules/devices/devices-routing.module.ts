@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {
   DeviceDetailsViewComponent,
-} from '../../../../shared/views/devices/device-details-view/device-details-view.component';
-import { DeviceListComponent } from '../../../../shared/views/devices/device-list/device-list.component';
+} from '../../../../prod-shared/modules/devices/device-details-view/device-details-view.component';
+import { DeviceListComponent } from '../../../../prod-shared/modules/devices/device-list/device-list.component';
 
 const routes: Routes = [
   {

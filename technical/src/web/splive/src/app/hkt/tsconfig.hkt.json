@@ -8,11 +8,13 @@
   },
   "include": [
     "**/*",
-    "../shared/**/*"
+    "../shared/**/*",
+    "../prod-shared/**/*"
   ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts",
-    "../shared/**/*.spec.ts"
+    "../shared/**/*.spec.ts",
+    "../prod-shared/**/*.spec.ts"
   ]
 }

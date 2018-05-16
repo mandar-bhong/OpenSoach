@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { DEVICE_STATE } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
-import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
-import { EnumNumberDatasource } from '../../../shared/utility/enum-number-datasource';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { ListingService } from '../../../shared/services/listing.service';
 import {
-  DeviceFilterRequest, DeviceDataListResponse, DeviceAddRequest, DeviceDetailsResponse,
-  DeviceAddDetailsRequest, DeviceAssociateProductRequest, DeviceAssociateProductListItemResponse
+  DeviceAddDetailsRequest,
+  DeviceAddRequest,
+  DeviceAssociateProductListItemResponse,
+  DeviceAssociateProductRequest,
+  DeviceDataListResponse,
+  DeviceDetailsResponse,
+  DeviceFilterRequest,
 } from '../models/api/device-models';
+
 @Injectable()
 export class DeviceService extends ListingService<DeviceFilterRequest, DeviceDataListResponse> {
   constructor(private serverApiInterfaceService: ServerApiInterfaceService) {
@@ -60,13 +63,5 @@ export class DeviceService extends ListingService<DeviceFilterRequest, DeviceDat
     return this.serverApiInterfaceService.getWithQueryParams(
       EnvironmentProvider.baseurl + '/api/osu/v1/device/list/productassociation',
       request, implicitErrorHandling);
-  }
-
-  getDeviceStates(): EnumDataSourceItem<number>[] {
-    return EnumNumberDatasource.getDataSource('DEVICE_STATE_', DEVICE_STATE);
-  }
-
-  getDeviceState(state: number) {
-    return 'DEVICE_STATE_' + state;
   }
 }
