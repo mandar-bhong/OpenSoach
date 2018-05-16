@@ -389,3 +389,26 @@ func (service UserService) UpdateUser(reqData *lmodels.DBUserUpdateRowModel) (is
 
 	return true, nil
 }
+
+func (service UserService) GetUserInfo(userID int64) (bool, interface{}) {
+
+	dbErr, userData := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, userID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *userData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user master details")
+	return true, dbRecord[0]
+}
