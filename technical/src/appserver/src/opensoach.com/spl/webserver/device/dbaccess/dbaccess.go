@@ -65,6 +65,23 @@ func GetDeviceId(dbConn string, cpmid int64, deviceid int64) (error, *[]lmodels.
 	return nil, data
 }
 
+func GetCustIdByCpmId(dbConn string, cpmid int64) (error, *[]lmodels.DBSplMasterCustProdMappingTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustIdByCpmId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterCustProdMappingTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CUST_ID_BY_CPM_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(cpmid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
 func GetDeviceById(dbConn string, devID int64) (error, *[]lmodels.DBSplMasterDeviceTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceById")
