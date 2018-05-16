@@ -15,9 +15,6 @@ func ValidateAuth(dbConn string, username, password string) (error, *[]lmodels.D
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ValidateAuth")
 
-	filter := lmodels.APIAuthRequest{}
-	filter.UserName = username
-	filter.Password = password
 	data := &[]lmodels.DBSplMasterUserTableRowModel{}
 	selDBCtx := dbmgr.SelectContext{}
 	selDBCtx.DBConnection = dbConn
@@ -26,7 +23,7 @@ func ValidateAuth(dbConn string, username, password string) (error, *[]lmodels.D
 	selDBCtx.Dest = data
 	selDBCtx.TableName = constants.DB_TABLE_USER_TBL
 
-	selErr := selDBCtx.SelectByFilter(filter, "usr_name", "usr_password")
+	selErr := selDBCtx.Select(username, password)
 
 	if selErr != nil {
 		return selErr, nil
