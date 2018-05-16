@@ -61,6 +61,7 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
 
   setDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
       startWith({}),
