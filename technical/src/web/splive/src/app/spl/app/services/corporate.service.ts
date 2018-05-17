@@ -7,8 +7,15 @@ import { DataListRequest, DataListResponse } from '../../../shared/models/api/da
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { ListingService } from '../../../shared/services/listing.service';
-import { CorporateDataListingItemResponse, CorporateFilterRequest, CorporateShortDataResponse } from '../models/api/corporate-models';
-import { CorporateAddRequest, CorpDetailsResponse, CorporateUpdateRequest } from '../models/api/corporate-models';
+import {
+    CorpDetailsResponse,
+    CorporateAddRequest,
+    CorporateDataListingItemResponse,
+    CorporateFilterRequest,
+    CorporateShortDataResponse,
+    CorporateUpdateRequest,
+} from '../models/api/corporate-models';
+
 @Injectable()
 export class CorporateService extends ListingService<CorporateFilterRequest, CorporateDataListingItemResponse> {
     constructor(private serverApiInterfaceService: ServerApiInterfaceService) {

@@ -4,11 +4,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { CustomerAddDetailsRequest } from '../../../../../shared/models/api/customer-models';
 import { CustomerDetailsModel } from '../../../../../shared/models/ui/customer-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { CustomerService } from '../../../services/customer.service';
 
 @Component({
@@ -73,7 +73,7 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
     this.dataModel.copyTo(customerAddDetailsRequest);
     this.customerService.updateCustomerDetails(customerAddDetailsRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
-        this.appNotificationService.success(this.translatePipe.transform('SUCCESS_CUSTOMER_DETAILS_SAVED'));
+        this.appNotificationService.success();
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
       }

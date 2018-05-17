@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { CorporateShortDataResponse, CorporateFilterRequest } from '../../../../models/api/corporate-models';
+import { CorporateFilterRequest, CorporateShortDataResponse } from '../../../../models/api/corporate-models';
 import { CorporateFilterModel } from '../../../../models/ui/corporate-models';
 import { CorporateService } from '../../../../services/corporate.service';
 

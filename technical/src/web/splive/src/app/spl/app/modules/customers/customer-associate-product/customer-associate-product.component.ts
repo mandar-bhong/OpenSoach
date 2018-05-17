@@ -107,7 +107,6 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
   editRecord(cpm: CustomerAssociateProductListItemResponse) {
     this.currentRecord = cpm;
     this.editableForm.reset();
-    console.log(this.editableForm.controls['productControl']);
     this.recordState = EDITABLE_RECORD_STATE.UPDATE;
     this.setFormMode(FORM_MODE.EDITABLE);
     this.editableForm.controls['productControl'].disable();
@@ -139,6 +138,7 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
       });
     }
   }
+
   closeForms() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }

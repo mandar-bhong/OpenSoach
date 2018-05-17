@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { CustomerDataListingItemResponse, CustomerFilterRequest } from '../../../../models/api/customer-models';
 import { CustomerService } from '../../../../services/customer.service';
 
@@ -40,7 +42,9 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
   dataListFilterChangedSubscription: Subscription;
 
   constructor(public customerService: CustomerService,
-    private router: Router) { }
+    private router: Router,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     // set default load parameters
@@ -59,6 +63,7 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
 
   setDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
         startWith({}),
@@ -75,6 +80,9 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
         if (payloadResponse && payloadResponse.issuccess) {
           this.filteredrecords = payloadResponse.data.filteredrecords;
           this.dataSource = payloadResponse.data.records;
+          if (this.filteredrecords === 0) {
+            this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+          }
         } else {
           this.dataSource = [];
         }
@@ -115,6 +123,9 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
       { queryParams: { id: id, callbackurl: 'customers' }, skipLocationChange: true });
   }
 
+  editRow(id: number) {
+    this.router.navigate(['customers', 'add'], { queryParams: { id: id, callbackurl: 'customers' }, skipLocationChange: true });
+  }
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
       this.dataListFilterChangedSubscription.unsubscribe();

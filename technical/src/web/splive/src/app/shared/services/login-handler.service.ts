@@ -11,7 +11,7 @@ import { APP_DATA_STORE_KEYS, AppDataStoreService } from './app-data-store/app-d
 import { AuthService } from './auth.service';
 import { CustomerSharedService } from './customer/customer-shared.service';
 import { LoginStatusProviderService } from './login-status-provider.service';
-import { UserSharedService } from './user/user-shared.service';
+import { AppUserService } from './user/app-user.service';
 
 @Injectable()
 export class LoginHandlerService {
@@ -21,7 +21,7 @@ export class LoginHandlerService {
         private router: Router,
         private authService: AuthService,
         private loginStatusProviderService: LoginStatusProviderService,
-        private userSharedService: UserSharedService,
+        private userSharedService: AppUserService,
         private customerSharedService: CustomerSharedService) {
         this.loginStatusProviderService.logginStatusChanged.subscribe(status => {
             this.logout();

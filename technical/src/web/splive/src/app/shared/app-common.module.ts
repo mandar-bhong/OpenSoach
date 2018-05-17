@@ -17,7 +17,7 @@ import { LoginHandlerService } from './services/login-handler.service';
 import { LoginStatusProviderService } from './services/login-status-provider.service';
 import { AppNotificationService } from './services/notification/app-notification.service';
 import { SidebarToggleService } from './services/sidebar-toggle.service';
-import { UserSharedService } from './services/user/user-shared.service';
+import { AppUserService } from './services/user/app-user.service';
 import {
   EditableFormFooterToolbarComponent,
 } from './views/editable-form-footer-toolbar/editable-form-footer-toolbar.component';
@@ -59,7 +59,7 @@ export class AppCommonModule {
         TranslateService,
         ApiErrorService,
         AppNotificationService,
-        UserSharedService,
+        AppUserService,
         CustomerSharedService,
         FloatingButtonMenuService,
         AppDeviceService

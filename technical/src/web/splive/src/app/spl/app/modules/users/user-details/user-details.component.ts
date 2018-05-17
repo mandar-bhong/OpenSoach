@@ -1,15 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
-import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { UserAddDetailsRequest } from '../../../../../shared/models/api/user-models';
+import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { UserDetailsModel } from '../../../../../shared/models/ui/user-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { UserService } from '../../../services/user.service';
+
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -41,8 +42,9 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
     this.editableForm = new FormGroup({
       fnameControl: new FormControl('', [Validators.required]),
       lnameControl: new FormControl('', [Validators.required]),
-      mobilenoControl: new FormControl('', [Validators.required]),
-      userGenderControl: new FormControl('', [Validators.required])
+      mobilenoControl: new FormControl(''),
+      userGenderControl: new FormControl(''),
+      alternateContactControl: new FormControl('')
     });
   }
   save() {
@@ -54,7 +56,7 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
         this.appNotificationService.success(this.translatePipe.transform('SUCCESS_USERS_DETAILS_SAVED'));
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
-      } else {}
+      } else { }
     });
   }
   getUserDetails() {

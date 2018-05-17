@@ -79,4 +79,18 @@ export class UserAssociateProductUpdateRequest {
 export class UserRoleidListItemResponse {
     uroleid: number;
     urolecode: string;
+    urolename: string;
+    prodcode: string;
+}
+export class UserMasterUpdateRequest {
+    userid: number;
+    uroleid: number;
+    usrstate: number;
+}
+export class UserMasterResponse {
+    userid: number;
+    usrname: string;
+    usrstate: number;
+    uroleid: number;
+    usrcategory: number;
 }

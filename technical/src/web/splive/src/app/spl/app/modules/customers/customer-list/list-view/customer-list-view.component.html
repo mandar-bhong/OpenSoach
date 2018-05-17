@@ -82,6 +82,10 @@
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
+                  <button mat-menu-item (click)="editRow(row.custid)">
+                    <mat-icon color='primary'>remove_red_eye</mat-icon>
+                    <span>Master</span>
+                  </button>
                   <button mat-menu-item (click)="editRecord(row.custid)">
                     <mat-icon color='primary'>remove_red_eye</mat-icon>
                     <span>Details</span>

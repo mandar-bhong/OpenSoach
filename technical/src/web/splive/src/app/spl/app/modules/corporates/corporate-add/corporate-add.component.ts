@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { FormControl, Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
-import { CorporateService } from '../../../services/corporate.service';
-import { CorporateShortDataResponse, CorporateUpdateRequest, CorpDetailsResponse } from '../../../models/api/corporate-models';
-import { CorporateAddRequest } from '../../../models/api/corporate-models';
-import { CorporateAddModel, CorporateDetailsModel } from '../../../models/ui/corporate-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
+import { CorporateAddRequest, CorporateUpdateRequest } from '../../../models/api/corporate-models';
+import { CorporateDetailsModel } from '../../../models/ui/corporate-models';
+import { CorporateService } from '../../../services/corporate.service';
 
 @Component({
   selector: 'app-corporate-add',
@@ -48,7 +47,6 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
         this.setFormMode(FORM_MODE.EDITABLE);
       }
       this.callbackUrl = params['callbackurl'];
-
     });
   }
   save() {
@@ -58,7 +56,8 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
       this.dataModel.copyToAddRequest(request);
       this.corporateService.addCorporate(request).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          this.appNotificationService.success(this.translatePipe.transform('SUCCESS_CORPORATE_DETAILS_SAVED'));
+          this.dataModel.corpid = payloadResponse.data.recid;
+          this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
         }
@@ -68,7 +67,7 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
       this.dataModel.copyToUpdateRequest(request);
       this.corporateService.updateCorporateDetails(request).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          this.appNotificationService.success(this.translatePipe.transform('SUCCESS_CORPORATE_DETAILS_SAVED'));
+          this.appNotificationService.success();
           this.setFormMode(FORM_MODE.VIEW);
         }
       });

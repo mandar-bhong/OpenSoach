@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { CorporateDataListingItemResponse, CorporateFilterRequest } from '../../../../models/api/corporate-models';
 import { CorporateService } from '../../../../services/corporate.service';
 
@@ -36,7 +38,9 @@ export class CorporateListViewComponent implements OnInit, OnDestroy {
   corporateFilterRequest: CorporateFilterRequest;
   dataListFilterChangedSubscription: Subscription;
   constructor(public corporateService: CorporateService,
-    private router: Router) { }
+    private router: Router,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.paginator.pageSize = 10;
@@ -51,6 +55,7 @@ export class CorporateListViewComponent implements OnInit, OnDestroy {
 
   setDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
         startWith({}),
@@ -67,6 +72,9 @@ export class CorporateListViewComponent implements OnInit, OnDestroy {
         if (payloadResponse && payloadResponse.issuccess) {
           this.filteredrecords = payloadResponse.data.filteredrecords;
           this.dataSource = payloadResponse.data.records;
+          if (this.filteredrecords === 0) {
+            this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+          }
         } else {
           this.dataSource = [];
         }
