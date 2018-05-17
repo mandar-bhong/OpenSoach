@@ -1,10 +1,10 @@
 <div class="row">
   <mat-card>
     <form [formGroup]="editableForm" class="md-float-material form-material" id="user-add" (ngSubmit)="save()">
-      <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+      <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="edit()"></app-editable-form-header>
       <div class="form-group form-primary">
         <mat-form-field>
-          <input matInput placeholder="User Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.usrname">
+          <input disableds matInput placeholder="User Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.usrname">
           <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
             User Name is Required
           </mat-error>
@@ -12,27 +12,29 @@
       </div>
       <div class="form-group form-primary">
         <mat-form-field>
-          <mat-select placeholder="Category" formControlName="userCategory" required [(ngModel)]="dataModel.usrcategory">
+          <mat-select placeholder="Category" formControlName="userCategory" required [(ngModel)]="dataModel.usrcategory" (change)="userCategoryChange()">
             <mat-option *ngFor="let usercategory of userCategories" [value]="usercategory.value">
               {{usercategory.text | translate }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="editableForm.controls['userCategory'].hasError('required') ">
+          <mat-error *ngIf="editableForm.controls['userCategory'].hasError('required')">
             Category Selection is Required
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="form-group form-primary">
-        <mat-form-field class="full-width" id="point-selection">
-          <mat-select placeholder="Role" [(ngModel)]="dataModel.uroleid" formControlName="userroleControl" required>
-            <mat-option *ngFor="let urole of uroleids" [value]="urole.uroleid">
-              {{urole.urolecode}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="editableForm.controls['userroleControl'].hasError('required')">
-            is Required
-          </mat-error>
-        </mat-form-field>
+      <div [hidden]="showCat===false">
+        <div class="form-group form-primary">
+          <mat-form-field class="full-width" id="point-selection">
+            <mat-select placeholder="Role" [(ngModel)]="dataModel.uroleid" formControlName="userroleControl" required>
+              <mat-option *ngFor="let urole of uroleids" [value]="urole.uroleid">
+                {{urole.urolename}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="editableForm.controls['userroleControl'].hasError('required')">
+              is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
       </div>
       <div class="form-group form-primary">
         <mat-form-field>
@@ -46,7 +48,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+      <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="edit()"></app-editable-form-footer-toolbar>
     </form>
   </mat-card>
 </div>

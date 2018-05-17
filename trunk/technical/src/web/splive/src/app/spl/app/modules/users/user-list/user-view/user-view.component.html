@@ -56,7 +56,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">State</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
               <span class="mat-row-mobile-label">State</span>
-              {{userService.getUserState(row.usrstate) | translate}}
+              {{userSharedService.getUserState(row.usrstate) | translate}}
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="fname">
@@ -89,11 +89,15 @@
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
+                    <button mat-menu-item (click)="editRow(row.usrid)">
+                    <mat-icon color='primary'>remove_red_eye</mat-icon>
+                    <span>Master</span>
+                  </button>
                   <button mat-menu-item (click)="editRecord(row.usrid)">
                     <mat-icon color='primary'>remove_red_eye</mat-icon>
                     <span>Details</span>
                   </button>
-                  <button mat-menu-item (click)="associateProduct(row.usrid)">
+                  <button mat-menu-item [hidden]="row.usrcategory === userCategories.OSU" (click)="associateProduct(row.usrid)">
                     <mat-icon color='primary'>link</mat-icon>
                     <span>Associated Products</span>
                   </button>

@@ -44,7 +44,7 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
   dataListFilterChangedSubscription: Subscription;
   deviceState = DEVICE_STATE;
   constructor(private deviceService: DeviceService,
-    private deviceSharedService: AppDeviceService,
+    public deviceSharedService: AppDeviceService,
     private router: Router,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) { }

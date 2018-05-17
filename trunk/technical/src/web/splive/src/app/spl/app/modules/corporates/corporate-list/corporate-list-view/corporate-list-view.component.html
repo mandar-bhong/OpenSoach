@@ -63,7 +63,9 @@
             <mat-header-cell *matHeaderCellDef style="flex:0 0 6%;">Action</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 6%;">
               <span class="mat-row-mobile-label">Action</span>
-              <i (click)="editRecord(row.corpid)" style="color:#337AB7 !important;" class="fa fa-eye" aria-hidden="true" matTooltip="View Details"></i>
+              <button mat-icon-button color="accent">
+                <i (click)="editRecord(row.corpid)" class="fa fa-eye" aria-hidden="true" matTooltip="View Details"></i>
+              </button>
             </mat-cell>
           </ng-container>
         </mat-table>

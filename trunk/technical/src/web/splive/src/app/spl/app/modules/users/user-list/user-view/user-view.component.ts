@@ -1,19 +1,24 @@
 // import * as console from 'console';
-import { Component, OnInit, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { merge } from 'rxjs/observable/merge';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
 import { Subscription } from 'rxjs/Subscription';
-import { Router } from '@angular/router';
 
+import { USER_CATEGORY } from '../../../../../../shared/app-common-constants';
 import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
+import { UserDataListResponse } from '../../../../../../shared/models/api/user-models';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
+import { AppUserService } from '../../../../../../shared/services/user/app-user.service';
 import { UserFilterRequest } from '../../../../../app/models/api/user-models';
 import { UserService } from '../../../../services/user.service';
-import { UserDataListResponse } from '../../../../../../shared/models/api/user-models';
+
 @Component({
   selector: 'app-user-view',
   templateUrl: './user-view.component.html',
@@ -37,16 +42,20 @@ export class UserViewComponent implements OnInit, OnDestroy {
   isLoadingResults = true;
   userFilterRequest: UserFilterRequest;
   dataListFilterChangedSubscription: Subscription;
+  showEditForm = false;
+  userCategories = USER_CATEGORY;
 
   constructor(public userService: UserService,
-    private router: Router) { }
+    public userSharedService: AppUserService,
+    private router: Router,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
   ngOnInit() {
     this.paginator.pageSize = 10;
     this.sort.active = 'usrname';
     this.sort.direction = 'asc';
 
     this.setDataListing();
-
     this.dataListFilterChangedSubscription = this.userService.dataListSubject.subscribe(value => {
       this.userFilterRequest = value;
       this.refreshTable.emit();
@@ -55,7 +64,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   setDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
+    this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
         startWith({}),
@@ -72,9 +81,11 @@ export class UserViewComponent implements OnInit, OnDestroy {
         if (payloadResponse && payloadResponse.issuccess) {
           this.filteredrecords = payloadResponse.data.filteredrecords;
           this.dataSource = payloadResponse.data.records;
+          if (this.filteredrecords === 0) {
+            this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+          }
         } else {
           this.dataSource = [];
-
         }
       }
     );
@@ -103,6 +114,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
+
   editRecord(id: number) {
     this.router.navigate(['users', 'user-detail'], { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
   }
@@ -110,6 +122,10 @@ export class UserViewComponent implements OnInit, OnDestroy {
   associateProduct(id: number) {
     this.router.navigate(['users', 'products'],
       { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
+  }
+
+  editRow(id: number) {
+    this.router.navigate(['users', 'add-user'], { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
   }
 
   ngOnDestroy(): void {

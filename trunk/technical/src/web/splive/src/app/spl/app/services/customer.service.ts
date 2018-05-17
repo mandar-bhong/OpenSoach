@@ -4,7 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { CUSTOMER_STATE } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
-import { CustomerAddDetailsRequest, CustomerDetailsResponse } from '../../../shared/models/api/customer-models';
+import {
+    CustomerAddDetailsRequest,
+    CustomerDetailsResponse,
+    CustomerMasterResponse,
+    CustomerMasterUpdateRequest,
+} from '../../../shared/models/api/customer-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
@@ -20,7 +25,7 @@ import {
     CustomerFilterRequest,
     CustomerListItemResponse,
     CustomerRoleidListItemResponse,
-    CustomerRoleListRequest
+    CustomerRoleListRequest,
 } from '../models/api/customer-models';
 
 @Injectable()
@@ -94,5 +99,16 @@ export class CustomerService extends ListingService<CustomerFilterRequest, Custo
         Observable<PayloadResponse<CustomerRoleidListItemResponse[]>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/v1/urole/list',
             request, implicitErrorHandling);
+    }
+
+    getCustomerMaster(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<CustomerMasterResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/osu/v1/customer/info/master',
+            request, implicitErrorHandling);
+    }
+    updateCustomerMaster(corporateUpadteRequest: CustomerMasterUpdateRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/customer/update',
+            corporateUpadteRequest, implicitErrorHandling);
     }
 }

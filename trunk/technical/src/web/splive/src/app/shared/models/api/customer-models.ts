@@ -31,6 +31,12 @@ export class CustomerMasterResponse {
     updateon: Date;
 }
 
+export class CustomerMasterUpdateRequest {
+    custid: number;
+    custname: string;
+    custstate: number;
+}
+
 export class CorporateDetailsResponse {
     corpid: number;
     corpname: string;

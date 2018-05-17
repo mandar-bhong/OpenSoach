@@ -33,14 +33,14 @@
       <div class="form-group form-primary">
         <mat-form-field id="telephone">
           <span matPrefix>+91 &nbsp;</span>
-          <input type="tel" matInput placeholder="Alternate Contact" [(ngModel)]="dataModel.alternatecontactno" [ngModelOptions]="{standalone: true}">
+          <input type="tel" matInput placeholder="Alternate Contact" [(ngModel)]="dataModel.alternatecontactno" formControlName="mobilenoControl" >
         </mat-form-field>
       </div>
-      <div class="form-group form-primary"> 
+      <div class="form-group form-primary">
         <mat-form-field>
-          <mat-select placeholder="Gender" [(ngModel)]="dataModel.gender" formControlName="userGenderControl">
-            <mat-option *ngFor="let gender of userGenders" [value]="gender.value">
-              {{gender.text | translate }}
+          <mat-select placeholder="Gender" [(ngModel)]="dataModel.gender" formControlName="userGenderControl" required>
+            <mat-option *ngFor="let gend of userGenders" [value]="gend.value">
+              {{gend.text | translate }}
             </mat-option>
           </mat-select>
           <mat-error *ngIf="editableForm.controls['userGenderControl'].hasError('required') ">

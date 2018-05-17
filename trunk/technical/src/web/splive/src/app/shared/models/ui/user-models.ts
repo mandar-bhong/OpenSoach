@@ -2,7 +2,9 @@ import {
     UserLoginInfoResponse, UserAddDetailsRequest, UserDetailsResponse, UserAddRequest,
     UserAssociateProductListItemResponse,
     UserAssociateProductRequest,
-    UserAssociateProductUpdateRequest
+    UserAssociateProductUpdateRequest,
+    UserMasterResponse,
+    UserMasterUpdateRequest
 } from '../api/user-models';
 import { USER_PRODUCT_MAPPING_STATE } from '../../app-common-constants';
 import { CustomerAssociateProductListItemResponse } from '../../../spl/app/models/api/customer-models';
@@ -43,6 +45,7 @@ export class UserDetailsModel {
     }
 }
 export class UserAddModel {
+    userid: number;
     usrname: string;
     usrpassword: string;
     usrcategory: number;
@@ -51,10 +54,23 @@ export class UserAddModel {
     usrstate: number;
     copyTo(userAddRequest: UserAddRequest) {
         userAddRequest.usrname = this.usrname;
+        userAddRequest.usrpassword = this.usrpassword;
         userAddRequest.usrcategory = this.usrcategory;
         userAddRequest.uroleid = this.uroleid;
         userAddRequest.usrstate = this.usrstate;
         userAddRequest.urolecode = this.urolecode;
+    }
+    copyToUpdateRequest(userEditUpdateRequest: UserMasterUpdateRequest) {
+        userEditUpdateRequest.userid = this.userid;
+        userEditUpdateRequest.uroleid = this.uroleid;
+        userEditUpdateRequest.usrstate = this.usrstate;
+    }
+    copyFrom(userEditResponse: UserMasterResponse) {
+        this.userid = userEditResponse.userid;
+        this.usrname = userEditResponse.usrname;
+        this.uroleid = userEditResponse.uroleid;
+        this.usrstate = userEditResponse.usrstate;
+        this.usrcategory = userEditResponse.usrcategory;
     }
 }
 
@@ -68,6 +84,7 @@ export class UserAssociateProductModel {
     ucpmid: number;
     prodcode: string;
     urolecode: number;
+    urolename: string;
     custname: string;
     custid: number;
 

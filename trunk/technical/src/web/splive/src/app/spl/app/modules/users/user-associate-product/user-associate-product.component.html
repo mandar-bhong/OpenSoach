@@ -66,6 +66,8 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div>
+        </div>
         <div class="form-group form-primary">
           <mat-form-field class="full-width" id="point-selection">
             <mat-select placeholder="Product" [(ngModel)]="dataModel.cpm" formControlName="productControl" (change)="getCustRoleList()"
@@ -83,45 +85,12 @@
           <mat-form-field class="full-width" id="point-selection">
             <mat-select placeholder="Role" [(ngModel)]="dataModel.uroleid" formControlName="userroleControl" required>
               <mat-option *ngFor="let urole of uroleids" [value]="urole.uroleid">
-                {{urole.urolecode}}
+                {{urole.urolename}}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="editableForm.controls['userroleControl'].hasError('required')">
               is Required
             </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-group form-primary">
-          <mat-form-field class="full-width" id="point-selection">
-            <mat-select placeholder="State" [(ngModel)]="dataModel.ucpmstate" formControlName="ucpmStateControl" required>
-              <mat-option *ngFor="let ucpmstate of ucpmstates" [value]="ucpmstate.value">
-                {{ucpmstate.text | translate}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="editableForm.controls['ucpmStateControl'].hasError('required')">
-              State is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
-      </form>
-    </div>
-    <div [hidden]="showEditForm===false">
-      <form class="md-float-material form-material" [formGroup]="editableForm" (ngSubmit)="save()">
-        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
-        <div class="form-group form-primary">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Customer Name" formControlName="custnameControl" [(ngModel)]="dataModel.custname">
-          </mat-form-field>
-        </div>
-        <div class="form-group form-primary">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Product" formControlName="productControl" [(ngModel)]="dataModel.prodcode">
-          </mat-form-field>
-        </div>
-        <div class="form-group form-primary">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Role" formControlName="userroleControl" [(ngModel)]="dataModel.urolecode">
           </mat-form-field>
         </div>
         <div class="form-group form-primary">

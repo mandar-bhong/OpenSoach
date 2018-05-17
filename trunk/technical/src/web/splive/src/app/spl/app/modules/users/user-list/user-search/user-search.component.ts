@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { EnumDataSourceItem } from '../../../../../../shared/models/ui/enum-datasource-item';
-import { CorporateShortDataResponse } from '../../../../models/api/corporate-models';
+import { AppUserService } from '../../../../../../shared/services/user/app-user.service';
 import { UserFilterRequest } from '../../../../../app/models/api/user-models';
 import { UserFilterModel } from '../../../../models/ui/user-models';
 import { CorporateService } from '../../../../services/corporate.service';
@@ -18,10 +18,11 @@ export class UserSearchComponent implements OnInit {
   userStates: EnumDataSourceItem<number>[];
   userCategories: EnumDataSourceItem<number>[];
   constructor(private userService: UserService,
+    private userSharedService: AppUserService,
     private corporateService: CorporateService) { }
 
   ngOnInit() {
-    this.userStates = this.userService.getUserStates();
+    this.userStates = this.userSharedService.getUserStates();
     this.userCategories = this.userService.getUsersCategories();
   }
   search() {
