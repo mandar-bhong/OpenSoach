@@ -18,11 +18,18 @@ type APITaskResultErrorDataModel struct {
 	Data      interface{} `json:"data"`
 }
 
-type APIDBInstanceCpmIdInsertModel struct {
+type APITaskDBInstanceCpmIdInsertModel struct {
 	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 }
 
-type APIDBInstanceDevInsertRowModel struct {
+type APITaskDBInstanceDevInsertRowModel struct {
 	DevId int64 `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
 	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+}
+
+type APITaskDBInstanceSpCategoryInsertModel struct {
+	SpcId     int64   `db:"id" dbattr:"pri,auto"  json:"spcid"`
+	CpmId     int64   `db:"cpm_id_fk" json:"cpmid"`
+	SpcName   string  `db:"spc_name" json:"spcname"`
+	ShortDesc *string `db:"short_desc" json:"shortdesc"`
 }

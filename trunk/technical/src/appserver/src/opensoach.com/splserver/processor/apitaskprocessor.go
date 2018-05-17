@@ -16,6 +16,22 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 
 	result := lmodels.APITaskResultModel{}
 
+	dbErr, spcmasterdata := dbaccess.GetDBHktMasterSpCategory(repo.Instance().Context.ProdMst.DBConn)
+
+	if dbErr != nil {
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", repo.Instance().Context.ProdMst.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return dbErr, result
+	}
+
 	taskAPICustProdAssociatedModel := taskData.(*gmodels.TaskAPICustProdAssociatedModel)
 
 	err, dbConn := dbaccess.GetDBConnectionByID(repo.Instance().Context.Master.DBConn, taskAPICustProdAssociatedModel.DbiId)
@@ -36,12 +52,34 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 		return err, result
 	}
 
-	dbInstanceCpmIdInsert := &lmodels.APIDBInstanceCpmIdInsertModel{}
+	dbInstanceCpmIdInsert := &lmodels.APITaskDBInstanceCpmIdInsertModel{}
 	dbInstanceCpmIdInsert.CpmId = taskAPICustProdAssociatedModel.CpmId
 
-	dbErr, insertedId := dbaccess.UpdateCPMIDToInstDB(dbConn, dbInstanceCpmIdInsert)
+	var isDBOpSuccess = true
 
-	if dbErr != nil {
+	dbTxErr, tx := dbaccess.GetDBTransaction(dbConn)
+
+	if dbTxErr != nil {
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+	}
+
+	dberr, _ := dbaccess.UpdateCPMIDToInstDB(tx, dbInstanceCpmIdInsert)
+
+	if dberr != nil {
+
+		isDBOpSuccess = false
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
 		logger.Context().WithField("Task Data", taskData).
 			WithField("TaskToken", tasktoken).
 			WithField("DBConn", dbConn).
@@ -57,16 +95,60 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully inserted cpm id in instance db.")
+	for _, spcmasteritem := range *spcmasterdata {
 
-	apiRecordResponse := gmodels.APIRecordAddResponse{}
-	apiRecordResponse.RecordID = insertedId
+		dbInstanceSpCategoryInsertModel := &lmodels.APITaskDBInstanceSpCategoryInsertModel{}
+		dbInstanceSpCategoryInsertModel.CpmId = taskAPICustProdAssociatedModel.CpmId
+		dbInstanceSpCategoryInsertModel.SpcId = spcmasteritem.SpcId
+		dbInstanceSpCategoryInsertModel.SpcName = spcmasteritem.SpcName
+		dbInstanceSpCategoryInsertModel.ShortDesc = spcmasteritem.ShortDesc
 
-	result.IsSuccess = true
-	result.Data = apiRecordResponse
+		dbErr, _ := dbaccess.UpdateSpCategoryToInstanceDB(tx, dbInstanceSpCategoryInsertModel)
 
-	return nil, result
+		if dbErr != nil {
 
+			logger.Context().WithField("Task Data", taskData).
+				WithField("TaskToken", tasktoken).
+				WithField("DBConn", repo.Instance().Context.Master.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
+			isDBOpSuccess = false
+
+			break
+		}
+	}
+
+	if isDBOpSuccess {
+
+		txErr := tx.Commit()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+			errModel := lmodels.APITaskResultErrorDataModel{}
+			errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+			result.IsSuccess = false
+			result.ErrorData = errModel
+			return nil, result
+		}
+
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Inserted cpm id and sp category in instance db")
+
+		result.IsSuccess = true
+
+		return nil, result
+
+	} else {
+		txErr := tx.Rollback()
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return nil, result
+	}
 }
 
 func APIHandlerDevProdAssociated(msg string, sessionkey string,
@@ -95,7 +177,7 @@ func APIHandlerDevProdAssociated(msg string, sessionkey string,
 		return err, result
 	}
 
-	dbInstanceDevInsertModel := &lmodels.APIDBInstanceDevInsertRowModel{}
+	dbInstanceDevInsertModel := &lmodels.APITaskDBInstanceDevInsertRowModel{}
 	dbInstanceDevInsertModel.CpmId = taskDevProdAsscociatedModel.CpmId
 	dbInstanceDevInsertModel.DevId = taskDevProdAsscociatedModel.DevId
 
