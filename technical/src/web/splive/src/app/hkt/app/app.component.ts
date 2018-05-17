@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs/Subscription';
 import { USER_CATEGORY } from '../../shared/app-common-constants';
 import { AppSpecificDataProvider } from '../../shared/app-specific-data-provider';
 import { EnvironmentProvider } from '../../shared/environment-provider';
+import { AppDataStoreService } from '../../shared/services/app-data-store/app-data-store-service';
 import { LoginHandlerService } from '../../shared/services/login-handler.service';
 import { environment } from '../environments/environment';
-import { APP_ROUTES, SIDE_MENU_LINKS } from './app-constants';
+import { APP_IN_MEMORY_STORE_KEYS, APP_LOCAL_STORAGE_KEYS, APP_ROUTES, SIDE_MENU_LINKS } from './app-constants';
 
 @Component({
   selector: 'app-root',
@@ -20,11 +21,13 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   routerEventSubscription: Subscription;
   loading: boolean;
   constructor(private loginHandlerService: LoginHandlerService,
-    private router: Router) { }
+    private router: Router,
+    private appDataStoreService: AppDataStoreService) { }
 
   ngOnInit() {
 
     this.populateEnvironmentProvider();
+    this.initAppDataStoreService();
     this.populateAppSpecificDataProvider();
     this.loginHandlerService.init();
   }
@@ -40,6 +43,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     AppSpecificDataProvider.sideMenuRoutes = SIDE_MENU_LINKS;
     AppSpecificDataProvider.userCateory = USER_CATEGORY.CU;
     AppSpecificDataProvider.createRouteMap(APP_ROUTES);
+  }
+
+  initAppDataStoreService() {
+    this.appDataStoreService.appInMemoryStoreKeys = APP_IN_MEMORY_STORE_KEYS;
+    this.appDataStoreService.appLocalStorageKeys = APP_LOCAL_STORAGE_KEYS;
+    this.appDataStoreService.init();
   }
 
   ngAfterViewInit() {
