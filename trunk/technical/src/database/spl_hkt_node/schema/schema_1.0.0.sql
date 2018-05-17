@@ -36,7 +36,6 @@ CREATE TABLE `spl_node_sp_category_tbl` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `spc_name_UNIQUE` (`spc_name`),
   KEY `fk_spc_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_spc_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spc';
