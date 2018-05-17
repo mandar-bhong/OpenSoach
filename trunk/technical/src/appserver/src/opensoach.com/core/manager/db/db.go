@@ -86,6 +86,17 @@ type SPDiscoveryParam struct {
 	ParamName []string
 }
 
+func (spc *contextTx) GetTransaction(dbconn string) (error, *sqlx.Tx) {
+
+	dbEng, err := sqlx.Connect("mysql", dbconn)
+	if err != nil {
+		return err, nil
+	}
+	tx, err := dbEng.Beginx()
+
+	return err, tx
+}
+
 func (spc *InsertContext) Insert() error {
 
 	switch spc.QueryType {
