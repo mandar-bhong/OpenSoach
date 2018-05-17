@@ -3,6 +3,7 @@ package dbaccess
 import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
+	hktmodels "opensoach.com/hkt/models"
 	"opensoach.com/splserver/constants/dbquery"
 )
 
@@ -38,6 +39,23 @@ func GetDBConnectionByCpmID(dbConn string, cpmID int64) (error, string) {
 	selErr := selDBCtx.Get(cpmID)
 	if selErr != nil {
 		return selErr, ""
+	}
+	return nil, data
+}
+
+func GetDBHktMasterSpCategory(dbConn string) (error, *[]hktmodels.DBSplProdMasterSpCategoryTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDBHktMasterSpCategory")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplProdMasterSpCategoryTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SELECT_ALL_PROD_MASTER_SP_CATEGORY_TBL
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
 	}
 	return nil, data
 }
