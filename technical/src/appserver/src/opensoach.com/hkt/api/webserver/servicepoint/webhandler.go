@@ -20,6 +20,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_SERVICE_POINT_CATEGORY_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_SERVICE_POINT_ASSOCIATE_DEVICE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_SERVICE_POINT_DEVICE_ASSOCIATION_REMOVE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_SERVICE_POINT_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -157,6 +158,24 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = ServicePointService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.DevSpAsscociationRemove(reqData)
+
+		break
+
+	case constants.API_SERVICE_POINT_LIST:
+
+		listReq := gmodels.APIDataListRequest{}
+		listReq.Filter = &hktmodels.DBSearchServicePointRequestFilterDataModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &listReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = ServicePointService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetSPList(listReq)
 
 		break
 
