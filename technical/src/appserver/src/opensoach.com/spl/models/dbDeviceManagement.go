@@ -39,3 +39,9 @@ type DBDeviceAssociateProdDataModel struct {
 	CustName *string `db:"cust_name" json:"custname"`
 	ProdCode *string `db:"prod_code" json:"prodcode"`
 }
+
+type DBDeviceShortDataModel struct {
+	DevId    int64   `dbattr:"pri,auto" db:"id" json:"devid"`
+	DevName  *string `db:"dev_name" json:"devname"`
+	Serialno string  `db:"serialno" json:"serialno"`
+}

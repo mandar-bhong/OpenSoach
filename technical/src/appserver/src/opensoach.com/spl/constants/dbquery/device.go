@@ -30,3 +30,6 @@ inner join spl_master_product_tbl prod on prod.id = cpm.prod_id_fk
 where cpdm.dev_id_fk=?`
 
 const QUERY_GET_CUST_ID_BY_CPM_ID = `Select cust_id_fk From spl_master_cust_prod_mapping_tbl where id = ?`
+
+const QUERY_SPL_MASTER_DEVICE_TABLE_SELECT_SHORT_DATA_LIST = `select dev.id,dev.serialno,devd.dev_name from spl_master_device_tbl dev
+left join spl_master_dev_details_tbl devd on devd.dev_id_fk=dev.id`
