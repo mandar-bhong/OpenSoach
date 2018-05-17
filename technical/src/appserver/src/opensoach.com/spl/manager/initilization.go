@@ -241,7 +241,7 @@ func createTaskQue(configSetting *gmodels.ConfigSettings) error {
 	mstTaskConfig := taskque.TaskConfig{}
 	mstTaskConfig.Broker = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
 	mstTaskConfig.ResultBackend = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
-	mstTaskConfig.DefaultQueue = "SPL"
+	mstTaskConfig.DefaultQueue = gmodels.SPL_SERVER_DEFAULT_TASK_QUEUE
 	mstTaskConfig.ResultsExpireIn = 1 // in min
 
 	mstTaskCtx := &taskque.TaskContext{}
