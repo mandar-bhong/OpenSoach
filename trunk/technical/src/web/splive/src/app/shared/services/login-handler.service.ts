@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 
-import { ROUTE_HOME, ROUTE_LOGIN, USER_CATEGORY } from '../app-common-constants';
-import { AppSpecificDataProvider } from '../app-specific-data-provider';
+import { APP_SHARED_DATA_STORE_KEYS, ROUTE_HOME, ROUTE_LOGIN } from '../app-common-constants';
 import { AuthResponse } from '../models/api/auth-models';
 import { CustomerInfo } from '../models/ui/customer-models';
 import { UserInfo } from '../models/ui/user-models';
-import { APP_DATA_STORE_KEYS, AppDataStoreService } from './app-data-store/app-data-store-service';
+import { AppDataStoreService } from './app-data-store/app-data-store-service';
 import { AuthService } from './auth.service';
 import { CustomerSharedService } from './customer/customer-shared.service';
 import { LoginStatusProviderService } from './login-status-provider.service';
@@ -29,16 +28,16 @@ export class LoginHandlerService {
     }
 
     init() {
-        this.loginStatusProviderService.authToken = this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.AUTH_TOKEN)
-            .getObject<string>(APP_DATA_STORE_KEYS.AUTH_TOKEN);
+        this.loginStatusProviderService.authToken = this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN)
+            .getObject<string>(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN);
         if (this.loginStatusProviderService.authToken) {
             this.validateAuthToken();
         } else {
             this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
         }
 
-        this.loginStatusProviderService.userRole = this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.USER_ROLE)
-            .getObject<string>(APP_DATA_STORE_KEYS.USER_ROLE);
+        this.loginStatusProviderService.userRole = this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.USER_ROLE)
+            .getObject<string>(APP_SHARED_DATA_STORE_KEYS.USER_ROLE);
     }
 
     login(authResponse: AuthResponse) {
@@ -46,11 +45,11 @@ export class LoginHandlerService {
         this.loginStatusProviderService.authToken = authResponse.token;
         this.loginStatusProviderService.userRole = authResponse.urolecode;
 
-        this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.AUTH_TOKEN)
-            .setObject<string>(APP_DATA_STORE_KEYS.AUTH_TOKEN, this.loginStatusProviderService.authToken);
+        this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN)
+            .setObject<string>(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN, this.loginStatusProviderService.authToken);
 
-        this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.USER_ROLE)
-            .setObject<string>(APP_DATA_STORE_KEYS.USER_ROLE, this.loginStatusProviderService.userRole);
+        this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.USER_ROLE)
+            .setObject<string>(APP_SHARED_DATA_STORE_KEYS.USER_ROLE, this.loginStatusProviderService.userRole);
         this.navigateToHome();
     }
 
@@ -59,11 +58,11 @@ export class LoginHandlerService {
         this.loginStatusProviderService.authToken = null;
         this.loginStatusProviderService.userRole = null;
 
-        this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.AUTH_TOKEN)
-            .removeObject(APP_DATA_STORE_KEYS.AUTH_TOKEN);
+        this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN)
+            .removeObject(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN);
 
-        this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.USER_ROLE)
-            .removeObject(APP_DATA_STORE_KEYS.USER_ROLE);
+        this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.USER_ROLE)
+            .removeObject(APP_SHARED_DATA_STORE_KEYS.USER_ROLE);
 
         this.authService.logout().subscribe();
         this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
@@ -85,26 +84,27 @@ export class LoginHandlerService {
             if (payloadResponse && payloadResponse.issuccess && payloadResponse.data) {
                 const userInfo = new UserInfo();
                 userInfo.copyFrom(payloadResponse.data);
-                this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.USER_INFO)
-                    .setObject<UserInfo>(APP_DATA_STORE_KEYS.USER_INFO, userInfo);
+                this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.USER_INFO)
+                    .setObject<UserInfo>(APP_SHARED_DATA_STORE_KEYS.USER_INFO, userInfo);
                 this.userInfoSubject.next(userInfo);
             }
         });
     }
 
-    getCustomerLoginInfo() {
-        if (AppSpecificDataProvider.userCateory === USER_CATEGORY.CU) {
-            this.customerSharedService.getCusomerLoginInfo().subscribe(payloadResponse => {
-                if (payloadResponse && payloadResponse.issuccess && payloadResponse.data) {
-                    const customerInfo = new CustomerInfo();
-                    customerInfo.copyFrom(payloadResponse.data);
-                    this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.USER_INFO)
-                        .setObject<CustomerInfo>(APP_DATA_STORE_KEYS.USER_INFO, customerInfo);
-                    this.customerInfoSubject.next(customerInfo);
-                }
-            });
-        }
-    }
+    // TODO: Need to move this method to prod_shared
+    // getCustomerLoginInfo() {
+    //     if (AppSpecificDataProvider.userCateory === USER_CATEGORY.CU) {
+    //         this.customerSharedService.getCusomerLoginInfo().subscribe(payloadResponse => {
+    //             if (payloadResponse && payloadResponse.issuccess && payloadResponse.data) {
+    //                 const customerInfo = new CustomerInfo();
+    //                 customerInfo.copyFrom(payloadResponse.data);
+    //                 this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.CUSTOMER_INFO)
+    //                     .setObject<CustomerInfo>(APP_SHARED_DATA_STORE_KEYS.CUSTOMER_INFO, customerInfo);
+    //                 this.customerInfoSubject.next(customerInfo);
+    //             }
+    //         });
+    //     }
+    // }
 
     navigateToHome() {
         this.router.navigate([ROUTE_HOME], { skipLocationChange: true }).then(a => {
@@ -114,6 +114,5 @@ export class LoginHandlerService {
 
     getBasicInfoPostLogin() {
         this.getUserLoginInfo();
-        this.getCustomerLoginInfo();
     }
 }

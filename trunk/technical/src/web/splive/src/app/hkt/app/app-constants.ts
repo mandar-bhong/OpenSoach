@@ -66,4 +66,15 @@ export const SIDE_MENU_LINKS: SideMenuModel[] = [
 export const TOP_MENU_LINKS = [
 ];
 
+export const APP_DATA_STORE_KEYS = {
+    CUSTOMER_INFO: 'CUSTOMER_INFO'
+};
+
+export const APP_IN_MEMORY_STORE_KEYS: string[] = [
+    APP_DATA_STORE_KEYS.CUSTOMER_INFO
+];
+
+export const APP_LOCAL_STORAGE_KEYS: string[] = [
+];
+
 
