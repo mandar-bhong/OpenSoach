@@ -125,7 +125,7 @@ func initTaskQue(configSetting *gmodels.ConfigSettings) error {
 	mstTaskConfig := taskque.TaskConfig{}
 	mstTaskConfig.Broker = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
 	mstTaskConfig.ResultBackend = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
-	mstTaskConfig.DefaultQueue = "SPL"
+	mstTaskConfig.DefaultQueue = gmodels.SPL_SERVER_DEFAULT_TASK_QUEUE
 
 	mstTaskCtx := &taskque.TaskContext{}
 
@@ -138,7 +138,7 @@ func initTaskQue(configSetting *gmodels.ConfigSettings) error {
 	prodTaskConfig := taskque.TaskConfig{}
 	prodTaskConfig.Broker = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
 	prodTaskConfig.ResultBackend = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
-	prodTaskConfig.DefaultQueue = "HKT"
+	prodTaskConfig.DefaultQueue = gmodels.HKT_SERVER_DEFAULT_TASK_QUEUE
 	prodTaskConfig.ResultsExpireIn = 1 // In minute
 
 	prodTaskCtx := &taskque.TaskContext{}
