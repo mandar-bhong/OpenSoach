@@ -12,6 +12,7 @@ import (
 	"opensoach.com/hkt/endpoint/processor"
 	pcconst "opensoach.com/prodcore/constants"
 	pcepmgr "opensoach.com/prodcore/endpoint/manager"
+
 	wm "opensoach.com/prodcore/endpoint/websocketmanager"
 )
 
@@ -31,13 +32,14 @@ func (EPHandler) RegisterHandler(handler map[string]pcepmgr.PacketProcessHandler
 	handler[pcconst.DEVICE_CMD_PRE_EXECUTOR] = processor.PreProcessExecutor
 }
 
-func (EPHandler) OnEPConnection(wsconn int) {
-
-	fmt.Printf("Client connected %v\n", wsconn)
+func (EPHandler) OnEPConnection(chnid int) {
+	logger.Context().WithField("ChannelID", chnid).LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Connected")
+	processor.EPOnConnectProcessExecutor(chnid)
 }
 
-func (EPHandler) OnEPDisConnection(wsconn int) {
-	fmt.Printf("Client disconnected %v\n", wsconn)
+func (EPHandler) OnEPDisConnection(chnid int) {
+	logger.Context().WithField("ChannelID", chnid).LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Disconnected")
+	processor.EPOnDisConnectProcessExecutor(chnid)
 }
 
 func (EPHandler) OnEPMessage(endPointToServerTaskModel *gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult {
