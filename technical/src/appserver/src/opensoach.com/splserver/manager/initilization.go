@@ -79,6 +79,7 @@ func SetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings
 	ctx := &core.Context{}
 	ctx.Master.DBConn = configSetting.DBConfig.ConnectionString
 	ctx.Master.Cache.CacheAddress = jsonMstCacheRedisAddress
+	ctx.ProdMst.DBConn = configSetting.ProdMstDBConfig.ConnectionString
 
 	repo.Init(configSetting, ctx)
 
