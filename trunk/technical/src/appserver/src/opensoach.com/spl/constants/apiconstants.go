@@ -61,6 +61,7 @@ const API_DEVICE_OSU_ASSOCIATE_DEV_WITH_CUSTPRODUCT = API_BASE_URL + "/osu/v1/de
 const API_DEVICE_OSU_INFO_DETAILS = API_BASE_URL + "/osu/v1/device/info/details"
 const API_DEVICE_CU_INFO_DETAILS = API_BASE_URL + "/cu/v1/device/info/details"
 const API_DEVICE_PRODUCT_ASSCOCIATION_LIST = API_BASE_URL + "/osu/v1/device/list/productassociation"
+const API_DEVICE_OSU_LIST_SHORT = API_BASE_URL + "/osu/v1/device/list/short"
 
 const API_DBINSTANCE_OSU_LIST = API_BASE_URL + "/osu/v1/dbinstance/list"
 const API_PRODUCT_OSU_LIST = API_BASE_URL + "/osu/v1/product/list"

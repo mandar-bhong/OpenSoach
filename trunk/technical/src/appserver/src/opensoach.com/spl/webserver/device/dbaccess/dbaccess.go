@@ -253,3 +253,20 @@ func GetDeviceAssociationByDevId(dbConn string, devId int64) (error, *[]lmodels.
 	}
 	return nil, data
 }
+
+func GetDeviceShortDataList(dbConn string) (error, *[]lmodels.DBDeviceShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceShortDataList")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBDeviceShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SPL_MASTER_DEVICE_TABLE_SELECT_SHORT_DATA_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

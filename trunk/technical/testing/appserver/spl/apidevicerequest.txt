@@ -54,4 +54,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 11. method GET : /api/osu/v1/device/list/productassociation
 
 	query parameter : params={"recid":1} //devid
+	
+	
+12.	method:GET	/api/osu/v1/device/list/short
 

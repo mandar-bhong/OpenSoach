@@ -338,3 +338,20 @@ func (service DeviceService) GetDeviceProdAssociation(devID int64) (bool, interf
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Device Product association list")
 	return true, dbRecords
 }
+
+func (service DeviceService) DeviceShortDataList() (bool, interface{}) {
+
+	dbErr, listData := dbaccess.GetDeviceShortDataList(repo.Instance().Context.Master.DBConn)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device short data list.")
+
+	return true, listData
+
+}
