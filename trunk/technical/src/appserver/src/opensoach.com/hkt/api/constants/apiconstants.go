@@ -29,6 +29,7 @@ const API_MASTER_SP_CATEGORY_INFO = API_BASE_URL + "/v1/master/spcategory/info"
 
 const API_SERVICE_POINT_ADD = API_BASE_URL + "/v1/servicepoint/add"
 const API_SERVICE_POINT_UPDATE = API_BASE_URL + "/v1/servicepoint/update"
+const API_SERVICE_POINT_LIST = API_BASE_URL + "/v1/servicepoint/list"
 const API_SERVICE_POINT_CATEGORY_ADD = API_BASE_URL + "/v1/servicepoint/category/add"
 const API_SERVICE_POINT_CATEGORY_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/category/list/short"
 const API_SERVICE_POINT_ASSOCIATE_FOP = API_BASE_URL + "/v1/servicepoint/associate/fieldoperator"

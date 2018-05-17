@@ -198,3 +198,32 @@ func (service ServicePointService) DevSpAsscociationRemove(reqdata *lmodels.APID
 
 	return true, nil
 }
+
+func (service ServicePointService) GetSPList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
+
+	dataListResponse := gmodels.APIDataListResponse{}
+
+	filterModel := listReqData.Filter.(*hktmodels.DBSearchServicePointRequestFilterDataModel)
+
+	CurrentPage := listReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
+
+	dbErr, listData := dbaccess.GetServicePointList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbListDataRecord := *listData
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched service point list data.")
+
+	return true, dataListResponse
+
+}

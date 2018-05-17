@@ -37,3 +37,12 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 8. method POST : /api/v1/servicepoint/associate/device/remove
 
 	{"devid":1,"cpmid":1}
+	
+
+9.  method GET : /api/v1/servicepoint/list
+
+	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc"}
+	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"spname":""}}
+	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"spcid":}}
+	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"spstate":}}
+	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"devid":}}

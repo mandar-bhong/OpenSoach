@@ -364,6 +364,24 @@ updatedon:Date;
 
 read task_id from query parameters
 
+29. Get Service Instance list
+API Name: /api/v1/servicepoint/list
+Request Method: GET
+request: FilterRequest{
+spname:string;
+spcid:number;
+spstate:number;
+devid:number;
+}
+response: ListResponse{
+spid:number;
+spcid:number;
+spname:string;
+shortdesc:string;
+spstate:number;
+spstatesince:number;
+}
+
 
 
 

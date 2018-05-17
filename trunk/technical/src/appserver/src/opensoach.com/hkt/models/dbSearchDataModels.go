@@ -62,3 +62,19 @@ type DBSearchServiceInstanceResponseFilterModel struct {
 	ConfTypeCode string `db:"conf_type_code" json:"conftypecode"`
 	ServConfName string `db:"serv_conf_name" json:"servconfname"`
 }
+
+type DBSearchServicePointRequestFilterDataModel struct {
+	SpName  *string `db:"sp_name" json:"spname"`
+	SpcId   *int64  `db:"spc_id_fk" json:"spcid"`
+	SpState *int    `db:"sp_state" json:"spstate"`
+	DevId   *int64  `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+}
+
+type DBSearchServicePointResponseFilterDataModel struct {
+	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
+	SpName       string    `db:"sp_name" json:"spname"`
+	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
+	SpState      int       `db:"sp_state" json:"spstate"`
+	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
+}
