@@ -6,7 +6,6 @@ import (
 
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
-	"opensoach.com/hkt/constants"
 	serconst "opensoach.com/hkt/server/constants"
 	"opensoach.com/hkt/server/dbaccess"
 	lhelper "opensoach.com/hkt/server/helper"
@@ -44,14 +43,6 @@ func InitProcessor() {
 
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 	PacketProcessExecutor[CAT_DR_DEV_REG_ACK] = endpoint.ProcessDevReg
-
-}
-
-func RegisterHandler(hkthandler map[string]interface{}) {
-	hkthandler[constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY] = ProcessEndPointReceivedPacket
-
-	hkthandler[gmodels.TASK_HKT_EP_CONNECTED] = endpoint.ProcessDeviceConnected
-	hkthandler[gmodels.TASK_HKT_EP_DISCONNECTED] = endpoint.ProcessDeviceDisConnected
 
 }
 

@@ -12,7 +12,6 @@ import (
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
-	"opensoach.com/splserver/processor"
 	repo "opensoach.com/splserver/repository"
 )
 
@@ -108,7 +107,7 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	var handler map[string]interface{}
 	handler = make(map[string]interface{})
 
-	processor.RegisterHandler(handler)
+	RegisterHandler(handler)
 
 	mstTaskCtx.RegisterTaskHandlers(handler)
 
