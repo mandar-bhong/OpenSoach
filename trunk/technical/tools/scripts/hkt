@@ -25,7 +25,7 @@ APPNAME="hkt"
 APPDIR="/opt/build/spl/Build/hkt"
 APPBIN="/opt/build/spl/Build/hkt/hkt"
 APPARGS=""
-LOGFILE="/var/log/$APPNAME/error.log"
+LOGFILE="/var/log/$APPNAME/hktError.log"
 LOCKFILE="/var/lock/subsys/$APPNAME"
 
 LOGPATH=$(dirname $LOGFILE)
