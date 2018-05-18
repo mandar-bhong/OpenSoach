@@ -21,10 +21,19 @@ func (service DeviceService) AddDevice(reqData *lmodels.DBSplMasterDeviceRowMode
 	reqData.DevStateSince = ghelper.GetCurrentTime()
 
 	dbErr, insertedId := dbaccess.SplMasterDeviceTableInsert(repo.Instance().Context.Master.DBConn, reqData)
+
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
+		errHandledIsSuccess, errorCode := ghelper.GetApplicationErrorCodeFromDBError(dbErr)
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		if errHandledIsSuccess == true {
+			errModel.Code = errorCode
+			return false, errModel
+		}
+
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
