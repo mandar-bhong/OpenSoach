@@ -501,7 +501,16 @@ updatedon:Date;
 API Name: /api/osu/v1/user/info/details
 Request Method: GET
 request: 
-response: 
+response: {
+usrid:number;
+fname:string;
+lname:string;
+gender:number;
+mobileno:string;
+alternatecontactno:string;
+createdon:Date;
+updatedon:Date;
+}
 Logic:
 
 read usr_id from query parameters
@@ -673,6 +682,8 @@ Request Method: GET
 request: 
 response: {
 userid:number;
+usrname:string;
+usrcategory:number;
 uroleid:number;
 usrstate:number;
 usrstatesince:number;
@@ -682,6 +693,49 @@ updatedon:Date;
 Logic:
 
 read user_id from query parameters
+
+58. Get user master details
+API Name: /api/cu/v1/user/info/master
+Request Method: GET
+request: 
+response: {
+userid:number;
+usrname:string;
+usrcategory:number;
+uroleid:number;
+usrstate:number;
+usrstatesince:number;
+createdon:Date;
+updatedon:Date;
+}
+
+59. Add CU User
+API Name: /api/cu/v1/user/add
+Request Method: POST
+request: UserAddRequest{
+usrname:string;
+uroleid:number;
+}
+response: null
+
+60. Get customer service point association 
+API Name: /api/osu/v1/customer/association/servicepoint
+Request Method: GET
+request: null
+response: null
+
+61. Update customer service point association 
+API Name: /api/osu/v1/customer/association/servicepoint/update
+Request Method: POST
+request: Request{
+cpmid:number;
+updatecount:number;
+}
+response: null
+
+
+
+
 
 
 

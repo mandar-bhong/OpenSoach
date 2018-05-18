@@ -36,3 +36,9 @@ Inner Join spl_master_database_instance_tbl dbi on cpm.dbi_id_fk= dbi.id
 Where cust_id_fk = ?`
 
 const QUERY_SPL_MASTER_CUST_TABLE_SELECT_SHORT_DATA_LIST = `select id,cust_name from spl_master_customer_tbl`
+
+const QUERY_GET_CUST_SERVICE_POINTS = `select cpm.id as id,prod.prod_code as prod_code, count(cpm.id) as count  from spl_master_servicepoint_tbl as sp
+inner join spl_master_cust_prod_mapping_tbl as cpm on cpm.id = sp.cpm_id_fk
+inner join spl_master_product_tbl as prod on cpm.prod_id_fk = prod.id
+where cpm.cust_id_fk = ? 
+group by cpm.id,prod.prod_code`

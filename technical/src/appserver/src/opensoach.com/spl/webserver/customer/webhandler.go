@@ -28,6 +28,8 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_CUSTOMER_PRODUCT_ASSCOCIATION_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CUSTOMER_OSU_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_OSU_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_CUSTOMER_SERVICE_POINT_ASSCOCIATION, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_CUSTOMER_SERVICE_POINT_ASSCOCIATION_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -273,6 +275,40 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = CustomerService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.CustShortDataList()
+
+		break
+
+	case constants.API_CUSTOMER_SERVICE_POINT_ASSCOCIATION:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CustomerService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetCustServicePoint(recReq.RecId)
+
+		break
+
+	case constants.API_CUSTOMER_SERVICE_POINT_ASSCOCIATION_UPDATE:
+
+		reqData := lmodels.APICustSpCountUpdateRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CustomerService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.CustServicePointAssociationCountUpdate(reqData)
 
 		break
 
