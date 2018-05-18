@@ -261,11 +261,14 @@ CREATE TABLE `spl_master_dev_status_tbl` (
 
 CREATE TABLE `spl_master_servicepoint_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
   `sp_state` tinyint(3) unsigned NOT NULL COMMENT '1: Active, 2: Inactive, 3: Suspended etc.',
   `sp_state_since` datetime NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  	INDEX `sp_cpm` (`cpm_id_fk`),
+	CONSTRAINT `sp_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_master_cust_prod_mapping_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 ) ENGINE=InnoDB COMMENT='Short Name for Table: sp';
 
 --
