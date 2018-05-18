@@ -13,10 +13,12 @@ import (
 
 var SUB_MODULE_NAME = "HKT.Endpoint.Manager.Processor"
 
-var chnIDAuthData map[int]string
+var chnIDvsToken map[int]string
+var tokenvsChnID map[string]int
 
 func init() {
-	chnIDAuthData = make(map[int]string)
+	chnIDvsToken = make(map[int]string)
+	tokenvsChnID = make(map[string]int)
 }
 
 func Init() {
@@ -57,7 +59,7 @@ func PreProcessExecutor(epModel *gmodels.PacketProcessingTaskModel) *gmodels.Pac
 		return packetProcessingResult
 	}
 
-	token := chnIDAuthData[epModel.ChannelID]
+	token := chnIDvsToken[epModel.ChannelID]
 
 	isKeyGetSuccess, _ := repo.Instance().Context.Master.Cache.Get(token)
 

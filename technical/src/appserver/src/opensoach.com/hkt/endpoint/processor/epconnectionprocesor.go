@@ -1,5 +1,11 @@
 package processor
 
+import (
+	"opensoach.com/core/logger"
+	repo "opensoach.com/hkt/endpoint/repository"
+	gmodels "opensoach.com/models"
+)
+
 func EPOnConnectProcessExecutor(chnid int) {
 	//TODO: Relation should be maintain that if device connected and does not send auth command
 	// for longer duration then device should be disconnected
@@ -7,8 +13,21 @@ func EPOnConnectProcessExecutor(chnid int) {
 
 func EPOnDisConnectProcessExecutor(chnid int) {
 
-	//TODO From the channel id find the device information and send it with device id
+	token, hasChnID := chnIDvsToken[chnid]
 
-	//repo.Instance().ProdTaskContext.SubmitTask(gmodels.TASK_HKT_EP_DISCONNECTED, "jsonMsg")
+	if hasChnID {
+		delete(chnIDvsToken, chnid)
+	}
 
+	_, hasToken := tokenvsChnID[token]
+
+	if hasToken {
+		delete(tokenvsChnID, token)
+	}
+
+	subErr := repo.Instance().ProdTaskContext.SubmitTask(gmodels.TASK_HKT_EP_DISCONNECTED, token)
+
+	if subErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Unable to submit endpoint disconnect task", subErr)
+	}
 }

@@ -1,20 +1,21 @@
 package processor
 
 import (
-	"fmt"
-
+	gcore "opensoach.com/core"
+	"opensoach.com/core/logger"
 	repo "opensoach.com/hkt/endpoint/repository"
 	gmodels "opensoach.com/models"
 	pcepproc "opensoach.com/prodcore/endpoint/processor"
 )
 
 func AuthProcessor(epmodel *gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult {
-
-	packetProcessingResult := &gmodels.PacketProcessingTaskResult{}
-	//chnIDAuthData
-
-	fmt.Printf("Repo ctx : %#v \n", repo.Instance().Context)
-	pcepproc.AuthorizeDevice(repo.Instance().Context.Master.Cache, chnIDAuthData, epmodel)
+	logger.Context().WithField("EndPointModel", epmodel).LogDebug(SUB_MODULE_NAME, logger.Normal, "Starting device authrization")
+	packetProcessingResult := pcepproc.AuthorizeDevice(repo.Instance().Context.Master.Cache, epmodel, authSuccessHandler)
 
 	return packetProcessingResult
+}
+
+func authSuccessHandler(cacheCtx gcore.CacheContext, token string, chnID int) {
+	chnIDvsToken[chnID] = token
+	tokenvsChnID[token] = chnID
 }

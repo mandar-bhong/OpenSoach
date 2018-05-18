@@ -22,9 +22,7 @@ type EPHandler struct {
 var connectionDeviceInfo map[int]string
 
 func SendPacket(connID int, message string) {
-
 	wm.SendMessage(connID, []byte(message))
-
 }
 
 func (EPHandler) RegisterHandler(handler map[string]pcepmgr.PacketProcessHandlerFunc) {

@@ -1,16 +1,19 @@
 package processor
 
 import (
-	coremodels "opensoach.com/core"
+	gcore "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	lhelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 )
 
-func AuthorizeDevice(mstCache coremodels.CacheContext, authMap map[int]string, packet *gmodels.PacketProcessingTaskModel) gmodels.PacketProcessingTaskResult {
+type authSuccessHandler func(cacheCtx gcore.CacheContext, token string, chnID int)
 
-	result := gmodels.PacketProcessingTaskResult{}
+func AuthorizeDevice(mstCache gcore.CacheContext, packet *gmodels.PacketProcessingTaskModel, successHandler authSuccessHandler) *gmodels.PacketProcessingTaskResult {
+
+	result := &gmodels.PacketProcessingTaskResult{}
 
 	payload := &pcmodels.DevicePacketAuth{}
 	devicePacket := &gmodels.DevicePacket{}
@@ -25,7 +28,8 @@ func AuthorizeDevice(mstCache coremodels.CacheContext, authMap map[int]string, p
 		return result
 	}
 
-	isSuccess, _ := mstCache.Get(payload.Token)
+	//isSuccess, deviceAuthData := lhelper.CacheGetDeviceInfo(mstCache, payload.Token)
+	isSuccess, _, _ := lhelper.CacheGetDeviceInfo(mstCache, payload.Token)
 
 	if isSuccess == false {
 		logger.Context().WithField("JSON Data", string(packet.Message)).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to convert from JSON packet", err)
@@ -34,7 +38,18 @@ func AuthorizeDevice(mstCache coremodels.CacheContext, authMap map[int]string, p
 		return result
 	}
 
-	authMap[packet.ChannelID] = payload.Token
+	//Info: Handle local cache updation e.g. chnId vs token, token vs chnid
+	successHandler(mstCache, payload.Token, packet.ChannelID)
+
+	//INFO: Storing Entity ID vs connection status in cache
+	//	isStatusSetSuccess := lhelper.CacheSetDeviceConnectionStatus(mstCache, deviceAuthData.DevID, true)
+
+	//	if isStatusSetSuccess {
+	//		logger.Context().WithField("CacheAddress", mstCache.CacheAddress).Log(SUB_MODULE_NAME, logger.Server, logger.Error, "Unable to set device connection status into cache")
+	//		result.IsSuccess = false
+	//		result.StatusCode = gmodels.MOD_OPER_ERR_SERVER
+	//		return result
+	//	}
 
 	result.IsSuccess = true
 
