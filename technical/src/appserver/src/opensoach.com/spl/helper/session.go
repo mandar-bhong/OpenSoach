@@ -1,13 +1,11 @@
 package helper
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	gcore "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
-	//gcache "opensoach.com/core/manager/cache"
 	gmodels "opensoach.com/models"
 )
 
@@ -22,12 +20,7 @@ func SessionSetTimeOut(timeoutMin int) {
 }
 
 func SessionCreate(osContext *gcore.Context, pSessionData *gmodels.UserSessionInfo) (bool, string) {
-	isTokenCreateSuccess, sessionToken := ghelper.CreateToken()
-	if !isTokenCreateSuccess {
-		//logger.Log(MODULENAME, logger.ERROR, "SessionCreate : Unable to create session token")
-		fmt.Println("Error occured while creating token")
-		return false, ""
-	}
+	sessionToken := ghelper.GenerateAPIToken()
 
 	isJsonSuccess, jsonData := ghelper.ConvertToJSON(pSessionData)
 
