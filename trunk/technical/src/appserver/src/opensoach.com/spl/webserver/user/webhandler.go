@@ -26,10 +26,12 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_USER_CU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_UROLE_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_UROLE_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.GET(constants.API_USER_PRODUCT_ASSCOCIATION_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_USER_PRODUCT_ASSCOCIATION_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_PRODUCT_ASSCOCIATION_OSU_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_PRODUCT_ASSCOCIATION_OSU_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_OSU_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_USER_OSU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_CU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_CU_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -54,6 +56,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.AddUser(userReqData)
+
+		break
+
+	case constants.API_USER_CU_ADD:
+
+		userReqData := lmodels.DBSplMasterUserRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &userReqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.AddCUUser(userReqData)
 
 		break
 
@@ -282,7 +301,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_USER_PRODUCT_ASSCOCIATION_LIST:
+	case constants.API_USER_PRODUCT_ASSCOCIATION_OSU_LIST:
 
 		recReq := gmodels.APIRecordIdRequest{}
 
@@ -299,7 +318,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_USER_PRODUCT_ASSCOCIATION_UPDATE:
+	case constants.API_USER_PRODUCT_ASSCOCIATION_OSU_UPDATE:
 
 		reqData := &lmodels.DBUsrCpmStateUpdateRowModel{}
 
@@ -345,6 +364,19 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		}
 
 		isSuccess, resultData = UserService.GetUserInfo(UserService{}, recReq.RecId)
+
+		break
+
+	case constants.API_USER_CU_INFO_MASTER:
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService.GetUserInfo(UserService{}, successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID)
 
 		break
 

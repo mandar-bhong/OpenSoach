@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/jmoiron/sqlx"
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	gmodels "opensoach.com/models"
@@ -16,12 +17,17 @@ import (
 
 var SUB_MODULE_NAME = "SPL.User.DB"
 
-func SplMasterUserTableInsert(dbConn string, insrtStruct lmodels.DBSplMasterUserRowModel) (error, int64) {
+func GetDBTransaction(dbconn string) (error, *sqlx.Tx) {
+	ctx := dbmgr.InsertTxContext{}
+	return ctx.GetTransaction(dbconn)
+}
+
+func SplMasterUserTableInsert(tx *sqlx.Tx, insrtStruct lmodels.DBSplMasterUserRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableInsert")
 
-	insDBCtx := dbmgr.InsertContext{}
-	insDBCtx.DBConnection = dbConn
+	insDBCtx := dbmgr.InsertTxContext{}
+	insDBCtx.Tx = tx
 	insDBCtx.Args = insrtStruct
 	insDBCtx.QueryType = dbmgr.AutoQuery
 	insDBCtx.TableName = constants.DB_TABLE_USER_TBL
@@ -151,12 +157,12 @@ func GetUserIdByUserName(dbConn string, usrname string) (error, *[]lmodels.DBSpl
 	return nil, data
 }
 
-func SplMasterUserCpmTableInsert(dbConn string, insrtStruct lmodels.DBUsrCpmRowModel) (error, int64) {
+func SplMasterUserCpmTableInsert(tx *sqlx.Tx, insrtStruct lmodels.DBUsrCpmRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUserTableInsert")
 
-	insDBCtx := dbmgr.InsertContext{}
-	insDBCtx.DBConnection = dbConn
+	insDBCtx := dbmgr.InsertTxContext{}
+	insDBCtx.Tx = tx
 	insDBCtx.Args = insrtStruct
 	insDBCtx.QueryType = dbmgr.AutoQuery
 	insDBCtx.TableName = constants.DB_TABLE_MASTER_USER_CPM_TBL
