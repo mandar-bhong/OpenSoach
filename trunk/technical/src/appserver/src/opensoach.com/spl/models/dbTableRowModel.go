@@ -132,7 +132,8 @@ type DBSplMasterProductTableRowModel struct {
 }
 
 type DBSplMasterServicepointTableRowModel struct {
-	Id           int       `dbattr:"pri,auto" db:"id" json:"id"`
+	SpId         int64     `dbattr:"pri,auto" db:"id" json:"spid"`
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
 	SpState      int       `db:"sp_state" json:"spstate"`
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
 	CreatedOn    time.Time `db:"created_on" json:"createdon"`

@@ -36,3 +36,21 @@ type DBCustShortDataModel struct {
 	CustId   int64  `dbattr:"pri,auto" db:"id" json:"custid"`
 	CustName string `db:"cust_name" json:"custname"`
 }
+
+type DBCpmShortDataModel struct {
+	CpmId    int64  `dbattr:"pri,auto" db:"id" json:"cpmid"`
+	ProdId   int64  `db:"prod_id_fk" json:"prodid"`
+	ProdCode string `db:"prod_code" json:"prodcode"`
+}
+
+type DBCustSpDataModel struct {
+	CpmId    int64  `db:"id" json:"cpmid"`
+	ProdCode string `db:"prod_code" json:"prodcode"`
+	SpCount  int    `db:"count" json:"spcount"`
+}
+
+type DBServicepointInsertRowModel struct {
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	SpState      int       `db:"sp_state" json:"spstate"`
+	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
+}

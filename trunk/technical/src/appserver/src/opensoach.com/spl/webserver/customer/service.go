@@ -4,9 +4,10 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	"opensoach.com/spl/constants"
 	lmodels "opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
-	"opensoach.com/spl/webserver/customer/dbaccess"
+	dbaccess "opensoach.com/spl/webserver/customer/dbaccess"
 )
 
 var SUB_MODULE_NAME = "SPL.Customer"
@@ -297,5 +298,45 @@ func (CustomerService) CustShortDataList() (bool, interface{}) {
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer short data list.")
 
 	return true, listData
+
+}
+
+func (CustomerService) GetCustServicePoint(customerId int64) (bool, interface{}) {
+
+	dbErr, customerSpModels := dbaccess.GetCustServicePoints(repo.Instance().Context.Master.DBConn, customerId)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	return true, customerSpModels
+
+}
+
+func (CustomerService) CustServicePointAssociationCountUpdate(reqData lmodels.APICustSpCountUpdateRequest) (bool, interface{}) {
+
+	servicepointrowmodel := &lmodels.DBServicepointInsertRowModel{}
+	servicepointrowmodel.CpmId = reqData.CpmId
+	servicepointrowmodel.SpState = constants.DB_SERVICE_POINT_STATE_ACTIVE
+	servicepointrowmodel.SpStateSince = ghelper.GetCurrentTime()
+
+	for i := 0; i < reqData.UpdateCount; i++ {
+		dbErr, _ := dbaccess.SpInsert(repo.Instance().Context.Master.DBConn, servicepointrowmodel)
+		if dbErr != nil {
+			logger.Context().WithField("InputRequest", servicepointrowmodel).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Service point added successfully.")
+
+	return true, nil
 
 }

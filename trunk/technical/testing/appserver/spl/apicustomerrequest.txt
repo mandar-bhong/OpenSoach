@@ -85,8 +85,15 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 		"custstate":1
 	}
 	
-15.	method:GET	/api/osu/v1/customer/list/short
+15.	method GET	/api/osu/v1/customer/list/short
 
+
+16.	method GET	/api/osu/v1/customer/association/servicepoint
+
+	query parameter : params={"recid":1} //custid
 	
+17.	method GET	/api/osu/v1/customer/association/servicepoint/update
+
+	{"cpmid":1,"updatecount":5}
 
 

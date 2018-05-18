@@ -11,6 +11,7 @@ const DB_TABLE_MASTER_DEVICE_DETAILS_TBL = "spl_master_dev_details_tbl"
 const DB_TABLE_MASTER_CPM_DEV_MAPPING_TBL = "spl_master_cpm_dev_mapping_tbl"
 const DB_TABLE_MASTER_USER_CPM_TBL = "spl_master_usr_cpm_tbl"
 const DB_TABLE_MASTER_CUST_PROD_MAPPING_TBL = "spl_master_cust_prod_mapping_tbl"
+const DB_TABLE_MASTER_SERVICE_POINT_TBL = "spl_master_servicepoint_tbl"
 
 const DB_CONFIG_WEB_SERVICE_ADDRESS string = "Web.Service.Address"
 const DB_CONFIG_CACHE_ADDRESS_HOST string = "Cache.Address.Host"
@@ -31,3 +32,7 @@ const DB_USER_CATEGORY_CUSTOMER = 2
 const DB_USER_CATEGORY_OS = 1
 
 const DB_DEVICE_STATE_ACTIVE = 1
+
+const DB_USER_CPM_STATE_ACTIVE = 1
+
+const DB_SERVICE_POINT_STATE_ACTIVE = 1

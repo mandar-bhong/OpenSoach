@@ -263,3 +263,36 @@ func GetCustShortDataList(dbConn string) (error, *[]lmodels.DBCustShortDataModel
 	}
 	return nil, data
 }
+
+func GetCustServicePoints(dbConn string, customerId int64) (error, *[]lmodels.DBCustSpDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustServicePoints")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCustSpDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CUST_SERVICE_POINTS
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(customerId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func SpInsert(dbConn string, insrtStruct *lmodels.DBServicepointInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SpInsert")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_MASTER_SERVICE_POINT_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
