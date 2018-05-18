@@ -12,6 +12,10 @@ service spl stop
 service splserver stop
 service hkt stop
 
+
+systemctl daemon-reload
+
+
 #this should be remove, currently service spl stop not working hence explicity kill
 killall -9 spl
 killall -9 splserver

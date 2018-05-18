@@ -25,7 +25,7 @@ APPNAME="spl"
 APPDIR="/opt/build/spl/Build/spl"
 APPBIN="/opt/build/spl/Build/spl/splserver"
 APPARGS=""
-LOGFILE="/var/log/$APPNAME/error.log"
+LOGFILE="/var/log/$APPNAME/SPLServerError.log"
 LOCKFILE="/var/lock/subsys/$APPNAME"
 
 LOGPATH=$(dirname $LOGFILE)
