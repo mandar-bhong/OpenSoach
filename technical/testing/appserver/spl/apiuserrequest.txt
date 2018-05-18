@@ -75,6 +75,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 9.	method:POST	/api/osu/v1/user/associate/customer
 
 	{"userid":1,"cpmid":1,"uroleid":1,"ucpmstate":1}
+	
 
 10.	method:POST	/api/cu/v1/user/associate/customer
 
@@ -115,5 +116,15 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 18.	method:GET	/api/osu/v1/user/info/master
 
 	query parameter : params={"recid":1} //userid
+	
+
+18.	method:GET	/api/cu/v1/user/info/master
+
+
+19.	method:POST	/api/cu/v1/user/add
+
+	{"usrname":"cust@customer6.com","uroleid":1}
+	
+
 
 

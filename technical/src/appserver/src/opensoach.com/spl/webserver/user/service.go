@@ -21,10 +21,33 @@ func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (is
 	userData.UsrPassword = "password@!123"
 	userData.UsrStateSince = ghelper.GetCurrentTime()
 
-	dbErr, userInsertedId := dbaccess.SplMasterUserTableInsert(repo.Instance().Context.Master.DBConn, userData)
+	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, userInsertedId := dbaccess.SplMasterUserTableInsert(tx, userData)
 	if dbErr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	txErr := tx.Commit()
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
@@ -34,6 +57,82 @@ func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (is
 	response.RecId = userInsertedId
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User added successfully.")
+
+	return true, response
+}
+
+func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	usrcpm := lmodels.DBUsrCpmRowModel{}
+	usrcpm.UroleId = *userData.UroleId
+	userData.UroleId = nil
+
+	userData.UsrPassword = "password@!123"
+	userData.UsrCategory = constants.DB_USER_CATEGORY_CUSTOMER
+	userData.UsrState = constants.DB_USER_STATE_ACTIVE
+	userData.UsrStateSince = ghelper.GetCurrentTime()
+
+	//var isDBOpSuccess = true
+
+	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, userInsertedId := dbaccess.SplMasterUserTableInsert(tx, userData)
+	if dbErr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User added successfully.")
+
+	usrcpm.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	usrcpm.UserId = userInsertedId
+	usrcpm.UcpmState = constants.DB_USER_CPM_STATE_ACTIVE
+	usrcpm.UcpmStateSince = ghelper.GetCurrentTime()
+
+	dberr, _ := dbaccess.SplMasterUserCpmTableInsert(tx, usrcpm)
+	if dberr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	response := gmodels.APIRecordIdResponse{}
+	response.RecId = userInsertedId
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Add user and associated with customer product")
 
 	return true, response
 }
@@ -277,10 +376,31 @@ func (service UserService) AssociateUserWithCust(reqData *lmodels.APICustomerAss
 	usrcpm.UcpmState = reqData.UcpmState
 	usrcpm.UcpmStateSince = ghelper.GetCurrentTime()
 
-	dbErr, insertedId := dbaccess.SplMasterUserCpmTableInsert(repo.Instance().Context.Master.DBConn, usrcpm)
+	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, insertedId := dbaccess.SplMasterUserCpmTableInsert(tx, usrcpm)
 	if dbErr != nil {
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	txErr := tx.Commit()
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
