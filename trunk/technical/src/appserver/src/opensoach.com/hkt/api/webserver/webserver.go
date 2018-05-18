@@ -14,6 +14,7 @@ import (
 	service "opensoach.com/hkt/api/webserver/service"
 	servicepoint "opensoach.com/hkt/api/webserver/servicepoint"
 	task "opensoach.com/hkt/api/webserver/task"
+	"opensoach.com/hkt/api/webserver/webcontent"
 	gmodels "opensoach.com/models"
 	pcmodels "opensoach.com/prodcore/models"
 	pcwebsermid "opensoach.com/prodcore/webserver/middleware"
@@ -30,6 +31,8 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	webConfig.WebHandlerEngine = ginEngine
 	webConfig.DBConfig = configSetting.DBConfig
 	webConfig.WebConf = configSetting.WebConfig
+
+	webcontent.Init(webConfig)
 
 	pcwebsermid.Init(repo.Instance().Context, webConfig)
 
