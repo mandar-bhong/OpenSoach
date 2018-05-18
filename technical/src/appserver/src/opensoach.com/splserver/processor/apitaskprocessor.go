@@ -107,6 +107,14 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 
 		if dbErr != nil {
 
+			isDBOpSuccess = false
+
+			txErr := tx.Rollback()
+
+			if txErr != nil {
+				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+			}
+
 			logger.Context().WithField("Task Data", taskData).
 				WithField("TaskToken", tasktoken).
 				WithField("DBConn", repo.Instance().Context.Master.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
