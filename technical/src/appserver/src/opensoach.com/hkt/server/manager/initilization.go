@@ -16,8 +16,6 @@ import (
 	ghelper "opensoach.com/core/helper"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
-
-	"opensoach.com/hkt/constants"
 )
 
 var SUB_MODULE_NAME = "HKT.Endpoint.Manager"
@@ -102,7 +100,7 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	mstTaskConfig := taskque.TaskConfig{}
 	mstTaskConfig.Broker = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
 	mstTaskConfig.ResultBackend = "redis://" + configSetting.MasterQueCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
-	mstTaskConfig.DefaultQueue = "SPL"
+	mstTaskConfig.DefaultQueue = gmodels.SPL_SERVER_DEFAULT_TASK_QUEUE
 	mstTaskConfig.ResultsExpireIn = 1 // in min
 
 	mstTaskCtx := &taskque.TaskContext{}
@@ -116,7 +114,7 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	prodTaskConfig := taskque.TaskConfig{}
 	prodTaskConfig.Broker = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
 	prodTaskConfig.ResultBackend = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
-	prodTaskConfig.DefaultQueue = "HKT"
+	prodTaskConfig.DefaultQueue = gmodels.HKT_SERVER_DEFAULT_TASK_QUEUE
 	prodTaskConfig.ResultsExpireIn = 1 // in min
 
 	prodTaskCtx := &taskque.TaskContext{}
@@ -130,13 +128,20 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	var hkthandler map[string]interface{}
 	hkthandler = make(map[string]interface{})
 
-	hkthandler[constants.TASK_HANDLER_END_POINT_TO_SERVER_KEY] = ProcessEndPointReceivedPacket
+	RegisterHandler(hkthandler)
+
 	prodTaskCtx.RegisterTaskHandlers(hkthandler)
 
 	repo.Instance().MasterTaskContext = mstTaskCtx
 	repo.Instance().ProdTaskContext = prodTaskCtx
 
-	go prodTaskCtx.StartWorker("EP")
+	go func(){ 
+		err:= prodTaskCtx.StartWorker("HKT_SERVER_WORKER")
+
+		if err!= nil{
+			logger.Context().LogError(SUB_MODULE_NAME,logger.Normal,"Error occured while starting worker",err)
+		}
+	}()
 
 	return nil
 }
