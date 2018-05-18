@@ -16,10 +16,6 @@ func init() {
 	apiTaskHandler[gmodels.TASK_API_DEV_PROD_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerDevProdAssociated, PayloadType: &gmodels.TaskDevProdAsscociatedModel{}}
 }
 
-func RegisterHandler(handler map[string]interface{}) {
-	handler[gmodels.TASK_HANDLER_API_SPL_CONTROLLER_KEY] = APITaskController
-}
-
 func APITaskController(msg string) (string, error) {
 
 	apiTaskProcessModel := &gmodels.APITaskProcessModel{}
