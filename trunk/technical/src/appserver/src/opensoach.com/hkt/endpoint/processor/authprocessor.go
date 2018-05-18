@@ -18,4 +18,10 @@ func AuthProcessor(epmodel *gmodels.PacketProcessingTaskModel) *gmodels.PacketPr
 func authSuccessHandler(cacheCtx gcore.CacheContext, token string, chnID int) {
 	chnIDvsToken[chnID] = token
 	tokenvsChnID[token] = chnID
+
+	subErr := repo.Instance().ProdTaskContext.SubmitTask(gmodels.TASK_HKT_EP_CONNECTED, token)
+
+	if subErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while submitting task to HKT task queue.", subErr)
+	}
 }
