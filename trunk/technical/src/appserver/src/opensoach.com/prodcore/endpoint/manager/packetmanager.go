@@ -1,8 +1,6 @@
 package manager
 
 import (
-	"fmt"
-
 	gmodels "opensoach.com/models"
 	wh "opensoach.com/prodcore/endpoint/websockethelper"
 
@@ -51,7 +49,7 @@ func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
 
 	packetProcessingTaskModel := &gmodels.PacketProcessingTaskModel{}
 	packetProcessingTaskModel.ChannelID = packet.ChannelID
-	packetProcessingTaskModel.Token = "Token1"
+	packetProcessingTaskModel.Token = ghelper.GenerateTaskToken()
 	packetProcessingTaskModel.EPTaskListner = "TaskListner"
 	packetProcessingTaskModel.Message = packet.Message
 
