@@ -1,7 +1,6 @@
 package helper
 
 import (
-	"fmt"
 	"strconv"
 
 	gcore "opensoach.com/core"
@@ -48,11 +47,7 @@ func CacheGetCPMKey(osContext *gcore.Context, cpmid int64) (bool, *gmodels.Produ
 
 func CacheSetDeviceInfo(osContext *gcore.Context, DevInfoModel *gmodels.DeviceTokenModel) (bool, string) {
 
-	isTokenCreateSuccess, DevAuthCacheToken := ghelper.CreateToken()
-	if !isTokenCreateSuccess {
-		fmt.Println("Error occured while creating token")
-		return false, ""
-	}
+	DevAuthCacheToken := ghelper.GenerateDeviceToken()
 
 	isJsonSuccess, jsonData := ghelper.ConvertToJSON(DevInfoModel)
 

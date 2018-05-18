@@ -1,22 +1,16 @@
 package helper
 
 import (
-	"crypto/rand"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
-	mrand "math/rand"
 	"os"
 	"path/filepath"
 	"reflect"
 	"time"
-
-	"opensoach.com/core/logger"
 )
 
 var BaseDir string
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 func GetExeFolder() string {
 
@@ -84,40 +78,6 @@ func ConvertFromJSONBytes(jsonData []byte, pConvertType interface{}) error {
 	}
 
 	return nil
-}
-
-func CreateToken() (bool, string) {
-	b := make([]byte, 16)
-	_, err := rand.Read(b)
-
-	if err != nil {
-		//logger.Log(MODULENAME, logger.ERROR, "createSessionToken:Unable to create session token. Error: %s", err.Error())
-		return false, ""
-	}
-
-	uuid := fmt.Sprintf("%X%X%X%X%X", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
-
-	return true, uuid
-}
-
-func GenerateTaskToken() string {
-	b := make([]byte, 8)
-	_, err := rand.Read(b)
-
-	if err != nil {
-		logger.Context().WithField("Error", err).Log("", logger.Server, logger.Error, "Unable to create Task token. Switchin algo")
-
-		b := make([]rune, 8)
-		for i := range b {
-			b[i] = letterRunes[mrand.Intn(len(letterRunes))]
-		}
-		randNum := string(b)
-		return "TaskToken" + randNum
-	}
-
-	uuid := fmt.Sprintf("TaskToken%X", b[0:])
-
-	return uuid
 }
 
 func GetModelFields(model interface{}) []reflect.StructField {
