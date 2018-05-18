@@ -28,16 +28,26 @@ func init() {
 }
 
 func (WSHandler) OnConnection(wsconn int) {
-	logger.Context().WithField("ConnectionID", wsconn).LogDebug(SUB_MODULE_NAME, logger.Normal, "Client disconnected.")
 
+	if epHandler == nil {
+		logger.Context().WithField("ConnectionID", wsconn).Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to raise event for device connected. End Point Handler is nil")
+		return
+	}
+
+	epHandler.OnEPConnection(wsconn)
 }
 
 func (WSHandler) OnDisConnection(wsconn int) {
-	fmt.Printf("Client disconnected %v\n", wsconn)
+
+	if epHandler == nil {
+		logger.Context().WithField("ConnectionID", wsconn).Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to raise event for device disconnected. End Point Handler is nil")
+		return
+	}
+
+	epHandler.OnEPDisConnection(wsconn)
 }
 
 func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
-	fmt.Printf("Client message %v\n", string(packet.Message))
 
 	packetProcessingTaskModel := &gmodels.PacketProcessingTaskModel{}
 	packetProcessingTaskModel.ChannelID = packet.ChannelID
