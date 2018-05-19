@@ -31,7 +31,11 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_USER_OSU_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_USER_OSU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_USER_CU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_USER_CU_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_CU_ROLE_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_CU_ROLE_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_USER_CU_ROLE_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_CU_ROLE_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_CU_ROLE_UPDATE_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -59,7 +63,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_USER_CU_ADD:
+	case constants.API_USER_CU_ROLE_ADD:
 
 		userReqData := lmodels.DBSplMasterUserRowModel{}
 
@@ -377,6 +381,72 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		}
 
 		isSuccess, resultData = UserService.GetUserInfo(UserService{}, successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID)
+
+		break
+
+	case constants.API_USER_CU_ROLE_INFO_MASTER:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService.GetUserInfo(UserService{}, recReq.RecId)
+
+		break
+
+	case constants.API_USER_CU_ROLE_INFO_DETAILS:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetUserDetailsInfo(recReq.RecId)
+
+		break
+
+	case constants.API_USER_CU_ROLE_UPDATE:
+
+		reqData := &lmodels.DBCUUserUpdateRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.UpdateCUUser(reqData)
+
+		break
+
+	case constants.API_USER_CU_ROLE_UPDATE_DETAILS:
+
+		usrDetailsReqData := lmodels.DBSplMasterUsrDetailsRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &usrDetailsReqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.UpdateUserDetails(usrDetailsReqData)
 
 		break
 

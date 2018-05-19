@@ -521,7 +521,16 @@ fetch data from spl_master_cust_details_tbl using cust_id.
 API Name: /api/cu/v1/user/info/details
 Request Method: GET
 request: 
-response: 
+response: {
+userid:number;
+usrname:string;
+usrcategory:number;
+uroleid:number;
+usrstate:number;
+usrstatesince:Date;
+createdon:Date;
+updatedon:Date;
+}
 Logic:
 
 read usr_id from session.
@@ -710,7 +719,7 @@ updatedon:Date;
 }
 
 59. Add CU User
-API Name: /api/cu/v1/user/add
+API Name: /api/cu/role/v1/user/add
 Request Method: POST
 request: UserAddRequest{
 usrname:string;
@@ -732,6 +741,62 @@ cpmid:number;
 updatecount:number;
 }
 response: null
+
+62. cu admin Get user master details
+API Name: /api/cu/role/v1/user/info/master
+Request Method: GET
+request: 
+response: {
+userid:number;
+usrname:string;
+usrcategory:number;
+uroleid:number;
+usrstate:number;
+usrstatesince:number;
+createdon:Date;
+updatedon:Date;
+}
+
+63. Get user details
+API Name: /api/cu/role/v1/user/info/details
+Request Method: GET
+request: 
+response: {
+usrid:number;
+usrname:string;
+usrcategory:number;
+uroleid:number;
+usrstate:number;
+usrstatesince:Date;
+createdon:Date;
+updatedon:Date;
+}
+
+64. update user master info
+API Name: /api/cu/role/v1/user/update
+Request Method: POST
+request: {
+userid:number;
+usrname:string;
+usrstate:number;
+} 
+response: null
+
+65. update user details
+API Name: /api/cu/role/v1/user/update/details
+Request Method: POST
+request: {
+usrid:number;
+fname:string;
+lname:string;
+gender:number;
+mobileno:string;
+alternatecontactno:string;
+} 
+response: null
+
+
+
 
 
 

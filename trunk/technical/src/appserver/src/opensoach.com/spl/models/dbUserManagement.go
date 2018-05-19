@@ -77,6 +77,13 @@ type DBUserUpdateRowModel struct {
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
 }
 
+type DBCUUserUpdateRowModel struct {
+	UserId        int64     `dbattr:"pri,auto" db:"id" json:"userid"`
+	UsrName       string    `db:"usr_name" json:"usrname"`
+	UsrState      int       `db:"usr_state" json:"usrstate"`
+	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
+}
+
 type DBUserInfoDataModel struct {
 	UserId        int64     `dbattr:"pri,auto" db:"id" json:"userid"`
 	UsrName       string    `db:"usr_name" json:"usrname"`
