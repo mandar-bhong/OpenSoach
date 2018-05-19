@@ -40,7 +40,7 @@ type DBCustShortDataModel struct {
 type DBCustSpDataModel struct {
 	CpmId    int64  `db:"id" json:"cpmid"`
 	ProdCode string `db:"prod_code" json:"prodcode"`
-	SpCount  int    `db:"count" json:"spcount"`
+	SpCount  int    `db:"spcount" json:"spcount"`
 }
 
 type DBServicepointInsertRowModel struct {
