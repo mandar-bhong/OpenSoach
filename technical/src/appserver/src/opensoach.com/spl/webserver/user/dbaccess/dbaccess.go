@@ -404,3 +404,19 @@ func UserUpdate(dbConn string, updtStruct *lmodels.DBUserUpdateRowModel) (error,
 	}
 	return nil, updateCtx.AffectedRows
 }
+
+func CUUserUpdate(dbConn string, updtStruct *lmodels.DBCUUserUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CUUserUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_USER_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}

@@ -121,9 +121,38 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 18.	method:GET	/api/cu/v1/user/info/master
 
 
-19.	method:POST	/api/cu/v1/user/add
+19.	method:POST	/api/cu/role/v1/user/add
 
 	{"usrname":"cust@customer6.com","uroleid":1}
+	
+
+20.	method:GET	/api/cu/role/v1/user/info/master
+
+	query parameter : params={"recid":1} //userid
+	
+	
+21. method:GET	/api/cu/role/v1/user/info/details
+
+	query parameter : params={"recid":1} //userid
+	
+	
+22. method POST : /api/cu/role/v1/user/update
+
+	{"userid":1,"usrname":"","usrstate":2}
+	
+	
+23.	method:POST	/api/cu/role/v1/user/update/details
+
+	{
+		"usrid":8,
+		"fname":"fname8",
+		"lname":"lname8",
+		"gender":1,
+		"mobileno":"9123332142",
+		"alternatecontactno":"8113446232"
+	}
+	
+
 	
 
 

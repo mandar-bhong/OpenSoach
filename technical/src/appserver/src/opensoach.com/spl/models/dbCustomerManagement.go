@@ -37,12 +37,6 @@ type DBCustShortDataModel struct {
 	CustName string `db:"cust_name" json:"custname"`
 }
 
-type DBCpmShortDataModel struct {
-	CpmId    int64  `dbattr:"pri,auto" db:"id" json:"cpmid"`
-	ProdId   int64  `db:"prod_id_fk" json:"prodid"`
-	ProdCode string `db:"prod_code" json:"prodcode"`
-}
-
 type DBCustSpDataModel struct {
 	CpmId    int64  `db:"id" json:"cpmid"`
 	ProdCode string `db:"prod_code" json:"prodcode"`
