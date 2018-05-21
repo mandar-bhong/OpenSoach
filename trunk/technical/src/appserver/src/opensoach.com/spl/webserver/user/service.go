@@ -72,8 +72,6 @@ func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (
 	userData.UsrState = constants.DB_USER_STATE_ACTIVE
 	userData.UsrStateSince = ghelper.GetCurrentTime()
 
-	//var isDBOpSuccess = true
-
 	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
 
 	if dbTxErr != nil {
@@ -91,9 +89,16 @@ func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
 		}
 
+		errModel := gmodels.APIResponseError{}
+		errHandledIsSuccess, errorCode := ghelper.GetApplicationErrorCodeFromDBError(dbErr)
+
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
-		errModel := gmodels.APIResponseError{}
+		if errHandledIsSuccess == true {
+			errModel.Code = errorCode
+			return false, errModel
+		}
+
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
