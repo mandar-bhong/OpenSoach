@@ -20,7 +20,9 @@ import (
 	"opensoach.com/core/logger"
 
 	coremodels "opensoach.com/core/models"
-	"opensoach.com/spl/constants"
+	pcconstants "opensoach.com/prodcore/constants"
+	pchelper "opensoach.com/prodcore/helper"
+	pcmgr "opensoach.com/prodcore/manager"
 	"opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
 	"opensoach.com/spl/webserver"
@@ -30,39 +32,83 @@ import (
 
 func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
-	err, configData := getConfiguration(dbconfig)
+	dbConnnErr := pchelper.VerifyDBConnection(dbconfig)
+
+	if dbConnnErr != nil {
+		logger.Context().WithField("DBConfig", dbconfig).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to verify master db connection.", dbConnnErr)
+		return dbConnnErr
+	}
+
+	err, masterConfigData := pchelper.GetMasterConfiguration(dbconfig)
 
 	if err != nil {
-		fmt.Println("Error occured while fetching configuration data: ", err.Error())
+		logger.Context().WithField("DBConfig", dbconfig).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching configuration data.", err)
 		return err
 	}
 
-	errPrepareConfig, configSetting := prepareConfiguration(dbconfig, configData)
+	errPrepareConfigErr, masterConfigSetting := pcmgr.PrepareMasterConfiguration(dbconfig, masterConfigData, gmodels.PRODUCT_TYPE_HKT)
 
-	if errPrepareConfig != nil {
-		//TODO: log message, need to identify fmt or file base or both
-		return errPrepareConfig
+	if errPrepareConfigErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while preparing master configuration data.", errPrepareConfigErr)
+		return errPrepareConfigErr
 	}
 
-	//init logger for fmt or file or both for temp then switch mode as per configuration after component connection verification
+	verifyErr, moduleType := pcmgr.VerifyConnection(dbconfig, masterConfigSetting)
 
-	connErr := verifyConnectionSetGlobal(dbconfig, configSetting)
+	if verifyErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while verifing connections.", verifyErr)
 
-	if connErr != nil {
-		//TODO: log message, need to identify fmt or file base or both
-		return connErr
+		switch moduleType {
+		case 2: //Redis server connection error
+			return verifyErr
+		case 3: //Redis server master que cache error
+			return verifyErr
+		case 4: //Redis server product cache error
+			return verifyErr
+		}
 	}
 
-	if taskErr := createTaskQue(configSetting); taskErr != nil {
+	pcmgr.SetLogger(masterConfigSetting)
+
+	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)
+
+	if setGlobalErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while setting global values.", setGlobalErr)
+		return setGlobalErr
+	}
+
+	if taskErr := createTaskQue(masterConfigSetting); taskErr != nil {
 		return taskErr
 	}
 
-	if initErr := initModules(configSetting); initErr != nil {
+	initErr := initModules(masterConfigSetting)
+
+	if initErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Initiliazation module error occured", initErr)
 		return initErr
 	}
 
 	return nil
+}
 
+func SetGlobal(dbconfig *gmodels.ConfigDB, masterConfigSetting *gmodels.ConfigSettings) error {
+
+	ghelper.BaseDir = masterConfigSetting.ServerConfig.BaseDir
+
+	isJsonConvMstCacheSuccess, jsonMstCacheRedisAddress := ghelper.ConvertToJSON(masterConfigSetting.MasterCache)
+
+	if isJsonConvMstCacheSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while converting ConfigCacheAddress structure to JSON")
+		return errors.New("Error occured while converting ConfigCacheAddress to json")
+
+	}
+	ctx := &core.Context{}
+	ctx.Master.Cache.CacheAddress = jsonMstCacheRedisAddress
+	ctx.Master.DBConn = dbconfig.ConnectionString
+
+	repo.Init(masterConfigSetting, ctx)
+
+	return nil
 }
 
 func getConfiguration(config *gmodels.ConfigDB) (error, *[]gmodels.DBMasterConfigRowModel) {
@@ -102,26 +148,29 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 	serverConfig := &gmodels.ConfigServer{}
 	globalConfiguration.ServerConfig = serverConfig
 
+	loggerConfig := &gmodels.ConfigLogger{}
+	globalConfiguration.LoggerConfig = loggerConfig
+
 	for _, dbRow := range *configData {
 
 		switch dbRow.ConfigKey {
-		case constants.DB_CONFIG_WEB_SERVICE_ADDRESS:
+		case pcconstants.DB_CONFIG_WEB_SERVICE_ADDRESS:
 			webConfig.ServiceAddress = dbRow.ConfigValue
 			break
-		case constants.DB_CONFIG_CACHE_ADDRESS_HOST:
+		case pcconstants.DB_CONFIG_CACHE_ADDRESS_HOST:
 			mstCacheConfig.Address = dbRow.ConfigValue
 			break
-		case constants.DB_CONFIG_CACHE_ADDRESS_PORT:
+		case pcconstants.DB_CONFIG_CACHE_ADDRESS_PORT:
 			mstAddPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
 				return errors.New(fmt.Sprintf("Unable to convert Master Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
 			}
 			mstCacheConfig.Port = mstAddPort
 			break
-		case constants.DB_CONFIG_CACHE_ADDRESS_PASSWORD:
+		case pcconstants.DB_CONFIG_CACHE_ADDRESS_PASSWORD:
 			mstCacheConfig.Password = dbRow.ConfigValue
 			break
-		case constants.DB_CONFIG_CACHE_ADDRESS_DB:
+		case pcconstants.DB_CONFIG_CACHE_ADDRESS_DB:
 			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
 				return errors.New(fmt.Sprintf("Unable to convert Master Cache DB value to interger. Received Value : %s", dbRow.ConfigValue)), nil
@@ -129,10 +178,10 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 			mstCacheConfig.DB = mstDBPort
 			break
 
-		case constants.DB_CONFIG_QUE_ADDRESS_HOST:
+		case pcconstants.DB_CONFIG_QUE_ADDRESS_HOST:
 			mstQueCacheConfig.Address = dbRow.ConfigValue
 			break
-		case constants.DB_CONFIG_QUE_ADDRESS_PORT:
+		case pcconstants.DB_CONFIG_QUE_ADDRESS_PORT:
 			mstQueAddPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
 				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
@@ -141,10 +190,10 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 
 			break
 
-		case constants.DB_CONFIG_QUE_ADDRESS_PASSWORD:
+		case pcconstants.DB_CONFIG_QUE_ADDRESS_PASSWORD:
 			mstQueCacheConfig.Password = dbRow.ConfigValue
 			break
-		case constants.DB_CONFIG_QUE_ADDRESS_DB:
+		case pcconstants.DB_CONFIG_QUE_ADDRESS_DB:
 			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
 				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache DB value to interger. Received Value : %s", dbRow.ConfigValue)), nil
@@ -152,13 +201,13 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 			mstQueCacheConfig.DB = mstDBPort
 			break
 
-		case constants.DB_CONFIG_SERVER_WIN_BASE_DIRECTORY:
+		case pcconstants.DB_CONFIG_SERVER_WIN_BASE_DIRECTORY:
 			if runtime.GOOS == "windows" {
 				serverConfig.BaseDir = dbRow.ConfigValue
 			}
 			break
 
-		case constants.DB_CONFIG_SERVER_LIN_BASE_DIRECTORY:
+		case pcconstants.DB_CONFIG_SERVER_LIN_BASE_DIRECTORY:
 			if runtime.GOOS == "linux" {
 				serverConfig.BaseDir = dbRow.ConfigValue
 			}
@@ -171,10 +220,15 @@ func prepareConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodels.DBMa
 
 func initModules(configSetting *gmodels.ConfigSettings) error {
 
-	logger.Init()
 	logger.SetModule("SPL")
-	logger.SetLogLevel(logger.Debug)
-	logger.SetLoggingService(logger.LoggingServiceFmt)
+
+	logger.Context().Log(SUB_MODULE_NAME, logger.Server, logger.Info, "This is test info msg")
+	logger.Context().Log(SUB_MODULE_NAME, logger.Performace, logger.Debug, "This is test debug msg")
+	logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "This is test error msg")
+
+	logger.Context().Log(SUB_MODULE_NAME, logger.Server, logger.Info, "This is test info msg")
+	logger.Context().Log(SUB_MODULE_NAME, logger.Performace, logger.Debug, "This is test debug msg")
+	logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "This is test error msg")
 
 	coreConfig := &coremodels.CoreConfig{}
 	err := core.Init(coreConfig)
@@ -195,10 +249,6 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 func verifyConnectionSetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings) error {
 
 	ghelper.BaseDir = configSetting.ServerConfig.BaseDir
-
-	//	if runtime.GOOS == "windows" {
-	//		fmt.Println("Hello from Windows")
-	//	}
 
 	_, dbErr := sqlx.Connect(configSetting.DBConfig.DBDriver, configSetting.DBConfig.ConnectionString)
 

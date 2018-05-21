@@ -3,7 +3,8 @@ package endpoint
 import (
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
-	"opensoach.com/spl/constants"
+	"opensoach.com/prodcore/constants"
+	pcconstants "opensoach.com/spl/constants"
 	lhelper "opensoach.com/spl/helper"
 	lmodels "opensoach.com/spl/models"
 	repo "opensoach.com/spl/repository"
@@ -32,7 +33,7 @@ func (EndpointService) DeviceAuth(serialno string) (bool, interface{}) {
 
 	if len(dbRecord) < 1 {
 		errModel := gmodels.APIResponseError{}
-		errModel.Code = constants.MOD_ERR_DEVICE_NOT_FOUND
+		errModel.Code = pcconstants.MOD_ERR_DEVICE_NOT_FOUND
 		return false, errModel
 	}
 
@@ -40,7 +41,7 @@ func (EndpointService) DeviceAuth(serialno string) (bool, interface{}) {
 
 	if deviceRecordItem.DevState != constants.DB_DEVICE_STATE_ACTIVE {
 		errModel := gmodels.APIResponseError{}
-		errModel.Code = constants.MOD_ERR_INACTIVE_DEVICE_STATE
+		errModel.Code = pcconstants.MOD_ERR_INACTIVE_DEVICE_STATE
 		return false, errModel
 	}
 
@@ -57,7 +58,7 @@ func (EndpointService) DeviceAuth(serialno string) (bool, interface{}) {
 
 	if len(dbdeviceAuthRecord) < 1 {
 		errModel := gmodels.APIResponseError{}
-		errModel.Code = constants.MOD_ERR_DEVICE_CUSTOMER_PRODUCT_MAPPING
+		errModel.Code = pcconstants.MOD_ERR_DEVICE_CUSTOMER_PRODUCT_MAPPING
 		return false, errModel
 	}
 

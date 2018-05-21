@@ -5,6 +5,7 @@ import (
 	gcore "opensoach.com/core"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcconstants "opensoach.com/prodcore/constants"
 	"opensoach.com/spl/constants"
 	lhelper "opensoach.com/spl/helper"
 	lmodels "opensoach.com/spl/models"
@@ -43,7 +44,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 	userRecordItem := dbRecord[0]
 
-	if userRecordItem.UsrState != constants.DB_USER_STATE_ACTIVE {
+	if userRecordItem.UsrState != pcconstants.DB_USER_STATE_ACTIVE {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = constants.MOD_ERR_LOGIN_INACTIVE_USER_STATE
 		return false, errModel
@@ -51,7 +52,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 	authResponse := lmodels.APIAuthResponse{}
 
-	if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_OS {
+	if userRecordItem.UsrCategory == pcconstants.DB_USER_CATEGORY_OS {
 
 		dbErr, authData := dbaccess.GetUserAuthInfo(repo.Instance().Context.Master.DBConn, userRecordItem.UroleId)
 
@@ -81,7 +82,7 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User login successfull")
 
-	} else if userRecordItem.UsrCategory == constants.DB_USER_CATEGORY_CUSTOMER {
+	} else if userRecordItem.UsrCategory == pcconstants.DB_USER_CATEGORY_CUSTOMER {
 		dbErr, authData := dbaccess.GetUserAuthInfoCategoryCustomer(repo.Instance().Context.Master.DBConn, prodcode, userRecordItem.UserId)
 
 		if dbErr != nil {
