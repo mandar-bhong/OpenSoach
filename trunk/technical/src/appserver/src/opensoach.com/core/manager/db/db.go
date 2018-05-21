@@ -542,11 +542,17 @@ func (spc *InsertTxContext) Insert() error {
 
 		query := GetInsertDynamicQuery(spc.TableName, spc.Args)
 		id, err := spc.Tx.NamedExec(query, spc.Args)
+		if err != nil {
+			return err
+		}
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
 	case Query:
 		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
+		if err != nil {
+			return err
+		}
 		spc.InsertID, _ = id.LastInsertId()
 		return err
 
