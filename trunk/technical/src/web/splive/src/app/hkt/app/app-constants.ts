@@ -27,6 +27,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: 'fa fa-table'
     },
     {
+        url: '/charts/configure',
+        linktitle: 'Chart Configuration',
+        pagetitle: 'Configure Chart',
+        linkiconcss: 'fa fa-table'
+    },
+    {
         url: '/foperators',
         linktitle: 'Operators',
         pagetitle: 'Operators',
@@ -67,14 +73,20 @@ export const TOP_MENU_LINKS = [
 ];
 
 export const APP_DATA_STORE_KEYS = {
-    CUSTOMER_INFO: 'CUSTOMER_INFO'
+    CUSTOMER_INFO: 'CUSTOMER_INFO',
+    CHART_CONFIG: 'CHART_CONFIG'
 };
 
 export const APP_IN_MEMORY_STORE_KEYS: string[] = [
-    APP_DATA_STORE_KEYS.CUSTOMER_INFO
+    APP_DATA_STORE_KEYS.CUSTOMER_INFO,
+    APP_DATA_STORE_KEYS.CHART_CONFIG
 ];
 
 export const APP_LOCAL_STORAGE_KEYS: string[] = [
 ];
+
+export enum SERVICE_CONF_TYPE {
+    SERVICE_DAILY_CHART = 'SERVICE_DAILY_CHART'
+}
 
 

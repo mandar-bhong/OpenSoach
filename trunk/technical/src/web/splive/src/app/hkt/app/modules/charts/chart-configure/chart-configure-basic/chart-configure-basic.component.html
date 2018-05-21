@@ -1,22 +1,26 @@
-<p>
-    Configure Basic
-  </p>
-<div class="row">
-  <form [formGroup]="editableForm">
-    <div class="col-md-6 col-sm-12">
+<form [formGroup]="editableForm" (ngSubmit)="nextClick()">
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
       <mat-form-field>
-        <input matInput placeholder="Chart Name" formControlName="configNameControl" required>
+        <input matInput placeholder="Chart Name" formControlName="configNameControl" required [(ngModel)]="dataModel.servconfname">
         <mat-error *ngIf="editableForm.controls['configNameControl'].hasError('required')">
           Chart Name is Required
         </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Category" formControlName="categoryControl" required>
-        <mat-error *ngIf="editableForm.controls['categoryControl'].hasError('required')">
-          Category is Required
-        </mat-error>
-      </mat-form-field>
-    </div>    
-    <button mat-raised-button type="submit" color="primary" (click)="nextClick()">Next</button>
-  </form>
-</div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-sm-6 col-md-4">
+        <mat-form-field>
+          <mat-select placeholder="Chart Category"  formControlName="categoryControl" [(ngModel)]="dataModel.spcid" required>
+            <mat-option [value]=1>Category 1</mat-option>
+            <mat-option [value]=2>Category 2</mat-option>            
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  <div class="row">
+    <button mat-raised-button type="submit" color="primary">Next</button>
+  </div>
+
+</form>

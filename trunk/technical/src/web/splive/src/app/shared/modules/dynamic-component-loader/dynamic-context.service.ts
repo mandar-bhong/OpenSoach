@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { FormGroup } from '@angular/forms/src/model';
 
 /**
  * DynamicContextService, holds the transferring context to the components rendered at runtime.
@@ -10,16 +9,11 @@ export class DynamicContextService {
   triggerSaveDynamicComponent: Subject<any> = new Subject<any>();
   triggerChangeDynamicComponent: Subject<string> = new Subject<string>();
   triggerToggleSaveButton: Subject<boolean> = new Subject<boolean>();
-  triggerSaveResult: Subject<boolean> = new Subject<boolean>();
-  triggerPassForm: Subject<FormGroup> = new Subject<FormGroup>();
+  triggerAction: Subject<any> = new Subject<any>();
 
   private dynamicComponentMappings = {};
 
   constructor() {
-  }
-
-  passForm(formGroup: FormGroup) {
-    this.triggerPassForm.next(formGroup);
   }
 
   /**
@@ -40,8 +34,8 @@ export class DynamicContextService {
     this.triggerToggleSaveButton.next(state);
   }
 
-  saveResult(result: boolean): void {
-    this.triggerSaveResult.next(result);
+  onAction(result: any): void {
+    this.triggerAction.next(result);
   }
 
   addDynamicComponentMaping(typeName: string, component: any) {

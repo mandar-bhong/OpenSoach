@@ -270,8 +270,13 @@ export const TRANSLATIONS: TranslationValue[] = [
   /* CUSTOMER PRODUCT MAPPING STATES END */
 
 
+/* VALIDATION MESSAGES START */
+  {
+    key: 'VALIDATION_REQUIRED_FIELD',
+    en: 'You can\'t leave this empty'
+  },
 
-
+/* VALIDATION MESSAGES END */
 
 ];
 

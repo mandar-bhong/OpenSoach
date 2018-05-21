@@ -14,6 +14,8 @@ import { ChartConfigureBasicComponent } from './chart-configure/chart-configure-
 import { ChartConfigureTimeComponent } from './chart-configure/chart-configure-time/chart-configure-time.component';
 import { ChartConfigurePreviewComponent } from './chart-configure/chart-configure-preview/chart-configure-preview.component';
 import { StepperModule } from '../../../../shared/modules/stepper/stepper.module';
+import { AmazingTimePickerModule, AmazingTimePickerService } from 'amazing-time-picker';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   imports: [
@@ -24,7 +26,9 @@ import { StepperModule } from '../../../../shared/modules/stepper/stepper.module
     ReactiveFormsModule,
     AppCommonModule,
     DynamicComponentLoaderModule,
-    StepperModule
+    StepperModule,
+    AmazingTimePickerModule,
+    DragulaModule
   ],
   declarations: [
     ChartListComponent,
@@ -38,6 +42,9 @@ import { StepperModule } from '../../../../shared/modules/stepper/stepper.module
     ChartConfigureBasicComponent,
     ChartConfigureTimeComponent,
     ChartConfigurePreviewComponent,
+  ],
+  providers:[
+    AmazingTimePickerService
   ]
 })
 export class ChartsModule {

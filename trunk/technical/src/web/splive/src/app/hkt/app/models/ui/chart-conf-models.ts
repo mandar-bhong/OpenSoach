@@ -1,4 +1,5 @@
-import { ServiceConfigurationRequest } from '../../../../shared/models/api/service-configuration-models';
+import { ServiceConfigurationRequest } from '../../../../prod-shared/models/api/service-configuration-models';
+import { TaskTemplateModel } from '../api/chart-conf-models';
 
 export class ChartConfigurationModel {
     servconfid: number;
@@ -7,7 +8,7 @@ export class ChartConfigurationModel {
     servconfname: string;
     shortdesc: string;
     servconf: string;
-    variableserviceconfig: VariableServiceConfig;
+    variableconf: VariableChartConfModel;
 
     copyTo(serviceConfigurationRequest: ServiceConfigurationRequest) {
         serviceConfigurationRequest.servconfid = this.servconfid;
@@ -15,23 +16,30 @@ export class ChartConfigurationModel {
         serviceConfigurationRequest.conftypecode = this.conftypecode;
         serviceConfigurationRequest.servconfname = this.servconfname;
         serviceConfigurationRequest.shortdesc = this.shortdesc;
-        serviceConfigurationRequest.servconf = JSON.stringify(this.variableserviceconfig);
+        serviceConfigurationRequest.servconf = JSON.stringify(this.variableconf);
         console.log('serviceConfigurationRequest', serviceConfigurationRequest);
     }
 }
 
-export class VariableServiceConfig {
-    timeconfig: TimeConfigurationModel;
-    taskconfig: TaskConfigurationModel;
+export class VariableChartConfModel {
+    timeconf: ChartTimeConfModel;
+    taskconf: ChartTaskListConfModel;
 }
 
-export class TimeConfigurationModel {
+export class ChartTaskListConfModel {
+    tasks: ChartTaskModel[];
+}
+
+export class ChartTimeConfModel {
     starttime: number;
     endtime: number;
     interval: number;
 }
 
-export class TaskConfigurationModel {
+export class ChartTaskModel {
     taskname: string;
-    taskorder: string;
+
+    copyFrom(taskTemplateModel: TaskTemplateModel) {
+        this.taskname = taskTemplateModel.taskname;
+    }
 }

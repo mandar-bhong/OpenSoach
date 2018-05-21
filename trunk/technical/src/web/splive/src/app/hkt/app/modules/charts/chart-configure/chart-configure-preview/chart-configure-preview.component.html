@@ -1,24 +1,32 @@
-<p>
-    Preview
-  </p>
-  <div class="row">
-      <form [formGroup]="editableForm">
-        <div class="col-md-6 col-sm-12">
-          <mat-form-field>
-            <input matInput placeholder="Chart Name" formControlName="configNameControl" required>
-            <mat-error *ngIf="editableForm.controls['configNameControl'].hasError('required')">
-              Chart Name is Required
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Category" formControlName="categoryControl" required>
-            <mat-error *ngIf="editableForm.controls['categoryControl'].hasError('required')">
-              Category is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <button mat-raised-button type="submit" color="primary" (click)="previousClick()">Previous</button>
-        <button mat-raised-button type="submit" color="primary" (click)="save()">Save</button>
-      </form>
+<form [formGroup]="editableForm" (ngSubmit)="save()">
+    <div id="resp-table">
+    <div id="resp-table-caption">
+      Chart Preview
     </div>
-  
+    <div id="resp-table-header">
+      <div class="table-header-cell table-body-cell-time">
+        Task/Time
+      </div>
+      <div *ngFor="let slot of slots" class="table-header-cell table-body-cell-input">
+        <div>{{slot}}</div>
+      </div>
+    </div>
+    <div id="resp-table-body">
+      <div *ngFor="let task of dataModel.variableconf.taskconf.tasks;let i=index" class="resp-table-row">
+        <div class="table-body-cell table-body-cell-time">
+          <div class="time-block">{{task.taskname}}</div>
+        </div>
+        <div *ngFor="let slot of slots;let j=index" class="table-body-cell table-body-cell-input input-block">
+          <!-- <div class="input-block">
+            
+          </div> -->
+          <!-- (click)="slotClick(dayWiseTimeSlotInput[j].list[i])" -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button mat-raised-button type="button" color="primary" (click)="previousClick()">Previous</button>
+    <button mat-raised-button type="submit" color="primary">Save</button>
+  </div>
+</form>

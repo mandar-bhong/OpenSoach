@@ -1,65 +1,82 @@
-import { Component, OnInit } from '@angular/core';
-import { StepData } from '../../../../../shared/modules/stepper/step-data';
-import { StepperService } from '../../../../../shared/modules/stepper/stepper.service';
-import { DynamicContextService } from '../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
-import { ChartConfigurationModel, VariableServiceConfig, TimeConfigurationModel } from '../../../models/ui/chart-conf-models';
-import { ServiceConfigurationModel } from '../../../../../shared/models/ui/service-configuration-models';
-import { ServiceConfigurationRequest } from '../../../../../shared/models/api/service-configuration-models';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
+import { DynamicContextService } from '../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
+import { StepData } from '../../../../../shared/modules/stepper/step-data';
+import { StepperService, StepperState } from '../../../../../shared/modules/stepper/stepper.service';
+import { ChartConfigureService } from '../../../services/chart-configure.service';
 
 @Component({
   selector: 'app-chart-configure',
   templateUrl: './chart-configure.component.html',
   styleUrls: ['./chart-configure.component.css']
 })
-export class ChartConfigureComponent implements OnInit {
-
-  step = 'app-chart-configure-basic';
+export class ChartConfigureComponent implements OnInit, OnDestroy {
   mode = 0; // 0:add, 1:update
-  steps = ['app-chart-configure-basic', 'app-chart-configure-time', 'app-chart-configure-task', 'app-chart-configure-preview'];
   count = 0;
   completedcount = 0;
-  dataModel: ChartConfigurationModel;
-  stepperList: StepData[] = [
-    { name: 'Basic', color: '', icon: 'fa fa-certificate', componentselector: 'app-banking-outlet-actions' },
-    { name: 'Time', color: '', icon: 'fa fa-table', componentselector: 'app-banking-channel-details' },
-    { name: 'Task', color: '', icon: 'fa fa-hourglass-start', componentselector: 'app-test-branch-hour' },
-    { name: 'Preview', color: '', icon: 'fa fa-map-marker', componentselector: 'app-banking-channel-location' }
+  steps: StepData[] = [
+    { name: 'Basic', color: '', icon: 'fa fa-cog', componentselector: 'app-chart-configure-basic' },
+    { name: 'Time', color: '', icon: 'fa fa-clock-o', componentselector: 'app-chart-configure-time' },
+    { name: 'Task', color: '', icon: 'fa fa-tasks', componentselector: 'app-chart-configure-task' },
+    { name: 'Preview', color: '', icon: 'fa fa-table', componentselector: 'app-chart-configure-preview' }
   ];
+
+  step: StepData;
+
   routeSubscription: Subscription;
+  dynamicComponentActionSubcription: Subscription;
   constructor(private stepperService: StepperService,
     private dynamicContextService: DynamicContextService,
-    private route: ActivatedRoute) {
-    //this.dynamicContextService
+    private route: ActivatedRoute,
+    private chartConfigureService: ChartConfigureService) {
   }
-  ngOnInit() {
 
+  ngOnInit() {
+    this.step = this.steps[0];
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['id']) {
-        this.dataModel.servconfid = Number(params['id']);
-        this.getConfiguration();
+        this.getConfiguration(Number(params['id']));
       } else {
-        this.dataModel = new ChartConfigurationModel();
+        this.chartConfigureService.createDataModel();
       }
+    });
+
+    this.dynamicComponentActionSubcription = this.dynamicContextService.triggerAction.subscribe(params => {
+      this.changeSteps(params);
     });
   }
 
-  getConfiguration() {
-    // call API to get existing configuration
+  getConfiguration(configid: number) {
+    // TODO: call API to get existing configuration
+    // this.chartConfigureService.dataModel = new ChartConfigurationModel();
   }
 
-  nextClick() {
-    this.dynamicContextService.save();
-    this.count++;
+  changeSteps(direction: any) {
+    const currentState = new StepperState();
+    if (direction === true) {
+      if (this.count < this.steps.length - 1) {
+        this.count++;
+      } else {
+        currentState.completed = true;
+      }
+    } else {
+      this.count--;
+    }
+
+    currentState.stepindex = this.count;
+    this.stepperService.stepperCount(currentState);
     this.step = this.steps[this.count];
-    console.log('step', this.step);
-    this.stepperService.stepperCount(this.count);
   }
 
-  previousClick() {
-    this.count--;
-    this.step = this.steps[this.count];
-    this.stepperService.stepperCount(this.count);
+  ngOnDestroy() {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+
+    if (this.dynamicComponentActionSubcription) {
+      this.dynamicComponentActionSubcription.unsubscribe();
+    }
   }
 }

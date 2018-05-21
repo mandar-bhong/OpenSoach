@@ -1,35 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { StepperService } from '../stepper.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+
+import { StepperService, StepperState } from '../stepper.service';
 
 @Component({
   selector: 'app-stepper-list',
   templateUrl: './stepper-list.component.html',
   styleUrls: ['./stepper-list.component.css']
 })
-export class StepperListComponent implements OnInit {
+export class StepperListComponent implements OnInit, OnDestroy {
 
   count = 0;
-  isDone = 0;
+  done = -1;
+  stepperSubscription: Subscription;
   @Input() stepperList;
 
   constructor(private stepperService: StepperService) {
-    this.stepperService.stepperCountSubject.subscribe((value) => {
-      this.count = value;
-      this.doneStepper();
+    this.stepperSubscription = this.stepperService.stepperCountSubject.subscribe((value) => {
+      this.doneStepper(value);
     });
   }
- ngOnInit() {
-    this.doneStepper();
-    console.log('stepperList', this.stepperList);
+  ngOnInit() {
+    this.changeState();
   }
-  doneStepper() {
- if (this.count > this.isDone) {
-      this.isDone++;
+  doneStepper(currentState: StepperState) {
+    this.count = currentState.stepindex;
+    if (this.count > this.done || (this.count < this.done && currentState.completed)) {
+      this.done++;
     }
     this.changeState();
   }
   changeState() {
-    // loop into stepper object
     if (this.stepperList) {
       for (let i = 0; i < this.stepperList.length; i++) {
         const stepperBlock = this.stepperList[i];
@@ -38,19 +39,16 @@ export class StepperListComponent implements OnInit {
     }
   }
   getCssClass(index) {
-    if (this.count > index) {
-      return 'done';
-    } else if (this.count === index) {
+    if (index === this.count && index !== this.done) {
       return 'processing';
-    } else if (this.count < index) {
-      if (this.isDone > index) {
-        if (this.isDone === index) {
-          return '';
-        }
-        return 'done';
-      }
-    } else if (index - 1 > this.isDone) {
-      return '';
+    } else if (index <= this.done) {
+      return 'done';
     }
+
+    return '';
+  }
+
+  ngOnDestroy() {
+    this.stepperSubscription.unsubscribe();
   }
 }
