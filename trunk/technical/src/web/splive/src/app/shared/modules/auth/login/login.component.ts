@@ -30,8 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // this.loginHandlerService.login({ token: '1', urolecode: '22', usrcategory: 2 });
-    // this.router.navigate([''], { skipLocationChange: true });
     const authRequest = new AuthRequest();
     authRequest.username = this.username;
     authRequest.password = this.password;
