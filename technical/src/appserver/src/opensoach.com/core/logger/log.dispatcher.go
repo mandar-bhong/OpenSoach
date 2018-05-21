@@ -48,7 +48,9 @@ func GetServiceLogger() LoggingService {
 	switch loggingServiceType {
 	case LoggingServiceFmt:
 		return StandardOutLoggingService{}
-		break
+
+	case LoggingServiceFluent:
+		return FluentLoggingService{}
 	}
 	return nil
 }

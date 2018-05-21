@@ -52,7 +52,6 @@ func init() {
 }
 
 func Init() {
-
 	initDispatcher()
 }
 
@@ -77,13 +76,14 @@ func GetLogLevel() severity {
 	return logLevel
 }
 
-func (ctx *loggerContext) Log(subcomp string, logtype logmsgType, loglevel severity, message string) {
+func (ctx *loggerContext) Log(subcomp string, logtype logmsgType, logginglevel severity, message string) {
 	ctx.logTime = time.Now()
 	ctx.appComponent = appComponent
 	ctx.subComponent = subcomp
-	ctx.level = logLevel
+	ctx.level = logginglevel
+	ctx.msgType = logtype
 	ctx.msg = message
-	chanbuffLog <- ctx
+	verifyAndPush(ctx)
 }
 
 func (ctx *loggerContext) LogDebug(subcomp string, logtype logmsgType, message string) {
@@ -92,7 +92,8 @@ func (ctx *loggerContext) LogDebug(subcomp string, logtype logmsgType, message s
 	ctx.subComponent = subcomp
 	ctx.msg = message
 	ctx.level = Debug
-	chanbuffLog <- ctx
+	ctx.msgType = logtype
+	verifyAndPush(ctx)
 }
 
 func (ctx *loggerContext) LogError(subcomp string, logtype logmsgType, message string, err error) {
@@ -102,10 +103,30 @@ func (ctx *loggerContext) LogError(subcomp string, logtype logmsgType, message s
 	ctx.msg = message
 	ctx.err = err
 	ctx.level = Error
-	chanbuffLog <- ctx
+	ctx.msgType = logtype
+	verifyAndPush(ctx)
 }
 
 func (ctx *loggerContext) WithField(field string, value interface{}) *loggerContext {
 	ctx.fields = append(ctx.fields, keyValueFields{Key: field, Value: value})
 	return ctx
+}
+
+func verifyAndPush(ctx *loggerContext) {
+	switch logLevel {
+	case Info:
+		chanbuffLog <- ctx
+	case Debug:
+		switch ctx.level {
+		case Info:
+		default:
+			chanbuffLog <- ctx
+		}
+	case Error:
+		switch ctx.level {
+		case Info, Debug:
+		default:
+			chanbuffLog <- ctx
+		}
+	}
 }

@@ -9,6 +9,7 @@ type ConfigSettings struct {
 	MasterQueCache  *ConfigCacheAddress `json:"mstquecacheconfiguration"`
 	ProductCache    *ConfigCacheAddress `json:"prodcacheconfiguration"`
 	ProductQueCache *ConfigCacheAddress `json:"prodquecacheconfiguration"`
+	LoggerConfig    *ConfigLogger       `json:"loggerconfig"`
 }
 
 type ConfigDB struct {
@@ -30,4 +31,10 @@ type ConfigCacheAddress struct {
 
 type ConfigServer struct {
 	BaseDir string `json:"basefolder"`
+}
+
+type ConfigLogger struct {
+	LogLevel          string `json:"loglevel"`
+	LoggingType       string `json:"logtype"`
+	LoggingFluentHost string `json:"fluenthost"`
 }

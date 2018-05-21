@@ -37,9 +37,21 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 	prodMstDBConfig := &gmodels.ConfigDB{}
 	globalConfiguration.ProdMstDBConfig = prodMstDBConfig
 
+	loggerConfig := &gmodels.ConfigLogger{}
+	globalConfiguration.LoggerConfig = loggerConfig
+
 	for _, dbRow := range *configData {
 
 		switch dbRow.ConfigKey {
+		case pcconst.DB_CONFIG_LOGGER_LOG_LEVEL:
+			loggerConfig.LogLevel = dbRow.ConfigValue
+			break
+		case pcconst.DB_CONFIG_LOGGER_LOGGING_TYPE:
+			loggerConfig.LoggingType = dbRow.ConfigValue
+			break
+		case pcconst.DB_CONFIG_LOGGER_FLUENT_HOST:
+			loggerConfig.LoggingFluentHost = dbRow.ConfigValue
+			break
 		case pcconst.DB_CONFIG_WEB_SERVICE_ADDRESS:
 			webConfig.ServiceAddress = dbRow.ConfigValue
 			break
@@ -266,4 +278,35 @@ func InitModules(configSetting *gmodels.ConfigSettings) error {
 
 func HandleEndPoint(wsport int, handler pcepmgr.EPHandler) error {
 	return pcepmgr.Init(wsport, handler)
+}
+
+func SetLogger(configSetting *gmodels.ConfigSettings) {
+	logger.Init()
+
+	if configSetting.LoggerConfig == nil {
+		logger.Context().LogError("Prod.Core", logger.Server, "Logger configuration is nil", nil)
+		return
+	}
+
+	switch configSetting.LoggerConfig.LogLevel {
+	case pcconst.LOGGER_LOGGING_LEVEL_ERROR:
+		logger.SetLogLevel(logger.Error)
+	case pcconst.LOGGER_LOGGING_LEVEL_DEBUG:
+		logger.SetLogLevel(logger.Debug)
+	case pcconst.LOGGER_LOGGING_LEVEL_INFO:
+		logger.SetLogLevel(logger.Info)
+	default:
+		logger.SetLogLevel(logger.Error)
+	}
+
+	switch configSetting.LoggerConfig.LoggingType {
+	case pcconst.LOGGER_LOGGING_TYPE_STDIO:
+		logger.SetLoggingService(logger.LoggingServiceFmt)
+	case pcconst.LOGGER_LOGGING_TYPE_FLUENT:
+		logger.SetLoggingService(logger.LoggingServiceFluent)
+		logger.SetFluentHost(configSetting.LoggerConfig.LoggingFluentHost)
+	default:
+		logger.SetLoggingService(logger.LoggingServiceFmt)
+	}
+
 }
