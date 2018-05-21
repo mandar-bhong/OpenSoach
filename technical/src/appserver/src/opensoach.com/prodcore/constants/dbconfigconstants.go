@@ -33,8 +33,7 @@ const DB_CONFIG_SERVER_LIN_BASE_DIRECTORY string = "Server.Lin.BaseDir"
 //const DB_CONFIG_SERVER_WIN_BASE_DIRECTORY string = "Server.Win.BaseDir"
 //const DB_CONFIG_SERVER_LIN_BASE_DIRECTORY string = "Server.Lin.BaseDir"
 
-//const DB_CONFIG_WEB_SERVICE_ADDRESS string = "Product.Web.Service.Address"
-
+const DB_CONFIG_PRODUCT_WEB_SERVICE_ADDRESS string = "Product.Web.Service.Address"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PASSWORD string = "Product.Cache.Address.Password"
