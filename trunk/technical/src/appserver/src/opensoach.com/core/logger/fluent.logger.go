@@ -37,7 +37,6 @@ func (FluentLoggingService) prepareLogMessage(l *loggerContext) string {
 
 func (r FluentLoggingService) logMessage(l *loggerContext) {
 	msg := r.prepareLogMessage(l)
-	fmt.Println(msg)
 	postMessage(fluentHost, []byte(msg))
 }
 
