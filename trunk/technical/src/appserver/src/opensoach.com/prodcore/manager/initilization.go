@@ -141,7 +141,7 @@ func UpdateProductConfiguration(globalConfiguration *gmodels.ConfigSettings, con
 	for _, dbRow := range *configData {
 		switch dbRow.ConfigKey {
 
-		case pcconst.DB_CONFIG_WEB_SERVICE_ADDRESS:
+		case pcconst.DB_CONFIG_PRODUCT_WEB_SERVICE_ADDRESS:
 			webconfig.ServiceAddress = dbRow.ConfigValue
 			break
 		case pcconst.DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST:
