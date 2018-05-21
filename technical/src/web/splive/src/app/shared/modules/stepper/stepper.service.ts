@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+
+export class StepperState {
+  completed: true;
+  stepindex: number;
+}
+
 @Injectable()
 export class StepperService {
-  stepperCountSubject: Subject<number> = new Subject<number>();
+  stepperCountSubject: Subject<StepperState> = new Subject<StepperState>();
 
   constructor() { }
-  stepperCount(stepcount: number) {
-    this.stepperCountSubject.next(stepcount);
+  stepperCount(stepperState: StepperState) {
+    this.stepperCountSubject.next(stepperState);
   }
 }

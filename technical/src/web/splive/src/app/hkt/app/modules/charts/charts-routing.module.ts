@@ -6,6 +6,10 @@ import { ChartConfigureComponent } from './chart-configure/chart-configure.compo
 const routes: Routes = [
   {
     path: '',
+    component: ChartListComponent
+  },
+  {
+    path: 'configure',
     component: ChartConfigureComponent
   }
 ];

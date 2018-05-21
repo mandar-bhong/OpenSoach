@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-stepper-block',
@@ -12,5 +12,4 @@ export class StepperBlockComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragulaModule } from 'ng2-dragula';
 import { ToastrModule } from 'ngx-toastr';
 
 import { ProdCommonModule } from '../../prod-shared/prod-common.module';
@@ -11,6 +12,7 @@ import { LayoutModule } from '../../shared/layouts/layout.module';
 import { MaterialModules } from '../../shared/modules/material/material-modules';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ChartConfigureService } from './services/chart-configure.service';
 
 @NgModule({
   declarations: [
@@ -36,9 +38,10 @@ import { AppComponent } from './app.component';
       preventDuplicates: true,
       tapToDismiss: false
     }),
-    MaterialModules.forRoot()
+    MaterialModules.forRoot(),
+    DragulaModule
   ],
-  providers: [],
+  providers: [ChartConfigureService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

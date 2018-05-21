@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col">
     <mat-card>
       <div class="row">
@@ -9,4 +9,29 @@
       </div>            
     </mat-card>
   </div>
-</div>
+</div> -->
+<mat-card>
+  <!-- <div class="">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field>
+          <input matInput placeholder="Input">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <textarea matInput placeholder="Textarea"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-select placeholder="Select">
+            <mat-option value="option">Option</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div> -->
+  <!-- <app-stepper-list [stepperList]="steps"></app-stepper-list> -->
+  <app-dynamic-content [type]="step.componentselector"></app-dynamic-content>
+</mat-card>
