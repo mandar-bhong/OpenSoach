@@ -88,7 +88,7 @@ type DBSplNodeServiceInTxnTableRowModel struct {
 	ServInTxnId int64     `db:"id" dbattr:"pri,auto"  json:"servintxnid"`
 	CpmId       int64     `db:"cpm_id_fk" json:"cpmid"`
 	ServInId    int64     `db:"serv_in_id_fk" json:"servinid"`
-	TxnData     int64     `db:"txn_data" json:"txndata"`
+	TxnData     string    `db:"txn_data" json:"txndata"`
 	TxnDate     time.Time `db:"txn_date" json:"txndate"`
 	CreatedOn   time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn   time.Time `db:"updated_on" json:"updatedon"`
