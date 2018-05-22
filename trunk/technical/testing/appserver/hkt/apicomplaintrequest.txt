@@ -35,3 +35,6 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	{"page":1,"limit":10,"orderby":"complaintid","orderdirection":"asc"}
 	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"complainttitle":""}}
 	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"complaintstate":}}
+	
+	
+5.	method: GET: /api/v1/complaint/list/topfive
