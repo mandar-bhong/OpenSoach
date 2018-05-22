@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/api/webserver/service/dbaccess"
@@ -96,7 +98,7 @@ func (service ServiceConfigService) ServiceConnfigUpdate(reqData *hktmodels.DBSe
 	return true, nil
 }
 
-func (service ServiceConfigService) ServiceInstanceAdd(req lmodels.APIServiceInstanceAdddRequest) (isSuccess bool, successErrorData interface{}) {
+func (service ServiceConfigService) ServiceInstanceAdd(req lmodels.APIServiceInstanceAddRequest) (isSuccess bool, successErrorData interface{}) {
 
 	dbRowModel := &hktmodels.DBServiceInstanceInsertRowModel{}
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
@@ -147,4 +149,19 @@ func (service ServiceConfigService) ServiceinstanceList(listReqData gmodels.APID
 
 	return true, dataListResponse
 
+}
+
+func (service ServiceConfigService) GetServiceInstanceTxn(StartDate, EndDate time.Time) (bool, interface{}) {
+
+	dbErr, complaintList := dbaccess.GetServiceInstTxn(service.ExeCtx.SessionInfo.Product.NodeDbConn, StartDate, EndDate)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched service instance  transaction data")
+	return true, complaintList
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
@@ -175,5 +176,22 @@ func GetServiceInstanceList(dbConn string, filterModel *hktmodels.DBSearchServic
 
 	data.RecordList = resdata
 
+	return nil, data
+}
+
+func GetServiceInstTxn(dbConn string, startdate time.Time, enddate time.Time) (error, *[]hktmodels.DBSplNodeServiceInTxnTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetServiceInstTxn")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplNodeServiceInTxnTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Query = dbquery.QUERY_GET_SERVICE_INSTANCE_TXN
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(startdate, enddate)
+	if selErr != nil {
+		return selErr, nil
+	}
 	return nil, data
 }

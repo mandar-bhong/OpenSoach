@@ -18,6 +18,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_SERVICE_CONFIG_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_SERVICE_INSTANCE_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_SERVICE_INSTANCE_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_SERVICE_TXN_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -81,7 +82,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_SERVICE_INSTANCE_ADD:
 
-		addReqData := lmodels.APIServiceInstanceAdddRequest{}
+		addReqData := lmodels.APIServiceInstanceAddRequest{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &addReqData)
 
@@ -110,6 +111,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = ServiceConfigService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.ServiceinstanceList(listReq)
+
+		break
+
+	case constants.API_SERVICE_TXN_LIST:
+
+		req := lmodels.APIServiceInstnaceTxnRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = ServiceConfigService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetServiceInstanceTxn(req.StartDate, req.EndDate)
 
 		break
 
