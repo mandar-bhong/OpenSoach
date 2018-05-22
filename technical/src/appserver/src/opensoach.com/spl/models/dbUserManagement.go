@@ -77,11 +77,15 @@ type DBUserUpdateRowModel struct {
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
 }
 
-type DBCUUserUpdateRowModel struct {
+type DBCUUserUpateRowModel struct {
 	UserId        int64     `dbattr:"pri,auto" db:"id" json:"userid"`
-	UsrName       string    `db:"usr_name" json:"usrname"`
 	UsrState      int       `db:"usr_state" json:"usrstate"`
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
+}
+
+type DBCUUcpmUpdateRowModel struct {
+	UserId  int64 `db:"user_id_fk" json:"userid"`
+	UroleId int64 `db:"urole_id_fk" json:"uroleid"`
 }
 
 type DBUserInfoDataModel struct {
@@ -89,6 +93,18 @@ type DBUserInfoDataModel struct {
 	UsrName       string    `db:"usr_name" json:"usrname"`
 	UsrCategory   int       `db:"usr_category" json:"usrcategory"`
 	UroleId       *int64    `db:"urole_id_fk" json:"uroleid"`
+	UsrState      int       `db:"usr_state" json:"usrstate"`
+	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
+	CreatedOn     time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn     time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBCUUserInfoDataModel struct {
+	UserId        int64     `dbattr:"pri,auto" db:"id" json:"userid"`
+	UsrName       string    `db:"usr_name" json:"usrname"`
+	UsrCategory   int       `db:"usr_category" json:"usrcategory"`
+	UroleId       int64     `db:"urole_id_fk" json:"uroleid"`
+	UroleName     string    `db:"urole_name" json:"urolename"`
 	UsrState      int       `db:"usr_state" json:"usrstate"`
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
 	CreatedOn     time.Time `db:"created_on" json:"createdon"`

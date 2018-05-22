@@ -29,3 +29,8 @@ type APIUpdatePasswordRequest struct {
 	OldPassword string `json:"oldpassword"`
 	NewPassword string `json:"newpassword"`
 }
+
+type APICUUserUpdateRequestModel struct {
+	DBCUUserUpateRowModel
+	UroleId int64 `json:"uroleid"`
+}

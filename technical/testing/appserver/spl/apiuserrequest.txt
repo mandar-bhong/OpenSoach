@@ -138,7 +138,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	
 22. method POST : /api/cu/role/v1/user/update
 
-	{"userid":1,"usrname":"","usrstate":2}
+	{"userid":6,"usrstate":2,"uroleid":3}
 	
 	
 23.	method:POST	/api/cu/role/v1/user/update/details

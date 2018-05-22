@@ -395,7 +395,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		isSuccess, resultData = UserService.GetUserInfo(UserService{}, recReq.RecId)
+		isSuccess, resultData = UserService.GetCUUserInfo(UserService{}, recReq.RecId)
 
 		break
 
@@ -418,7 +418,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_USER_CU_ROLE_UPDATE:
 
-		reqData := &lmodels.DBCUUserUpdateRowModel{}
+		reqData := &lmodels.APICUUserUpdateRequestModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
 
