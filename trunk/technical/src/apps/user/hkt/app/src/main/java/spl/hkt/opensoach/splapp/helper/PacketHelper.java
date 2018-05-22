@@ -1,6 +1,9 @@
 package spl.hkt.opensoach.splapp.helper;
 
+import com.google.gson.Gson;
+
 import spl.hkt.opensoach.splapp.manager.RequestManager;
+import spl.hkt.opensoach.splapp.model.communication.APIAuthRequesetModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketAuthenticationModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketFeedbackDataModel;
@@ -30,7 +33,13 @@ public class PacketHelper {
         return packetHeaderModel;
     }
 
-    public static String GetStartUpPacket(String serialNumber) {
+    public  static  String GetAPIAuthRequestJson(String serialnumber){
+        APIAuthRequesetModel apiAuthRequesetModel = new APIAuthRequesetModel();
+        apiAuthRequesetModel.SerialNumber = serialnumber;
+        return  new Gson().toJson(apiAuthRequesetModel);
+    }
+
+    public static String GetStartUpPacket(String authToken) {
 
         //{"header":{"crc":"12","category":1,"commandid":1,"seqid":3},"payload":{"serialno":"P314140101054022"}}
 
@@ -40,7 +49,7 @@ public class PacketHelper {
                 								CommandConstants.CMD_DEVICE_REGISTRATION, seqid, 0);
 
         PacketAuthenticationModel packetAuthenticationModel = new PacketAuthenticationModel();
-        packetAuthenticationModel.SerialNumber = serialNumber;
+        packetAuthenticationModel.AuthToken = authToken;
 
         packetModel.Payload = packetAuthenticationModel;
 

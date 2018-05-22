@@ -18,6 +18,11 @@ public final class AppRepo {
     private int currentLocationId;
     private int currentChartId;
     private String ServerWebSocketURL;
+
+    private String ServerAPIHOST;
+    private String ServerAPIURL;
+
+    private String AuthToken;
     private boolean isAuthCodeRequired;
     private ArrayList<String> authCodeList;
 
@@ -35,6 +40,9 @@ public final class AppRepo {
 
         isAuthCodeRequired = false;
 
+        ServerAPIHOST = "172.105.232.148";
+        ServerAPIURL = "http://"+ServerAPIHOST +"/api/v1/endpoint/deviceauthorization";
+
     }
 
     public static AppRepo getInstance() {
@@ -43,12 +51,32 @@ public final class AppRepo {
         return singleton;
     }
 
+    public String getDeviceSerial() {
+        return "1234567890123456";
+    }
+
+    public String getServerAPIURL() {
+        return ServerAPIURL;
+    }
+
+    public void setServerAPIURL(String serverAPIURL) {
+        ServerAPIURL = serverAPIURL;
+    }
+
     public String getServerWebSocketURL() {
         return ServerWebSocketURL;
     }
 
     public void setServerWebSocketURL(String serverWebSocketURL) {
         ServerWebSocketURL = serverWebSocketURL;
+    }
+
+    public String getAuthToken() {
+        return AuthToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        AuthToken = authToken;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
