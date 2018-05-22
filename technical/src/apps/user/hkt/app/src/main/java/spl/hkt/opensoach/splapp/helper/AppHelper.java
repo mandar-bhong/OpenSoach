@@ -20,6 +20,7 @@ import spl.hkt.opensoach.splapp.communication.CommunicationManager;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
 import spl.hkt.opensoach.splapp.manager.ChartDataRunnable;
 import spl.hkt.opensoach.splapp.manager.ConnectionRetryManager;
+import spl.hkt.opensoach.splapp.manager.HttpManager;
 import spl.hkt.opensoach.splapp.manager.PacketManager;
 import spl.hkt.opensoach.splapp.manager.SendPacketManager;
 import spl.hkt.opensoach.splapp.manager.ServerConnectionManager;
@@ -39,7 +40,13 @@ import spl.hkt.opensoach.splapp.processor.PacketProcessor;
 import spl.hkt.opensoach.splapp.view.ChartActivity;
 import spl.hkt.opensoach.splapp.view.ChartTableFragment;
 
-
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 /**
  * Created by Mandar on 2/25/2017.
  */
@@ -76,12 +83,10 @@ public class AppHelper {
         //Init Logger
         //Log4jHelper.Init();
 
-
-
         //ConnectionRetryManager.Instance().Init();
         AppRepo.getInstance().addPropertyChangeListener(ConnectionRetryManager.Instance());
 
-        PostConnectToServer(context);
+        HttpManager.ProcessWebSocketURL(AppRepo.getInstance().getServerAPIURL(),AppRepo.getInstance().getDeviceSerial());
     }
 
     public static void ReadAppSettings() {
@@ -247,4 +252,9 @@ public class AppHelper {
             }
         }.init());
     }
+
+    public  static  void OnWebSocketURLReceived(){
+        PostConnectToServer(mContext);
+    }
+
 }

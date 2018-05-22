@@ -1,6 +1,7 @@
 package spl.hkt.opensoach.splapp.manager;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import spl.hkt.opensoach.splapp.Constants;
@@ -36,7 +37,7 @@ public class ServerConnectionManager implements IWebSocketConnection {
 
 
     public void Connect() {
-        CommunicationManager.getInstance().Connect(Constants.WEB_SOCKET_URL);
+        CommunicationManager.getInstance().Connect(AppRepo.getInstance().getServerWebSocketURL());
     }
 
     @Override
@@ -46,7 +47,9 @@ public class ServerConnectionManager implements IWebSocketConnection {
             @Override
             public void run() {
                 AppRepo.getInstance().IsServerConnected(true);
-                String packetData = PacketHelper.GetStartUpPacket("123");
+
+                //String packetData = PacketHelper.GetStartUpPacket(Build.SERIAL);
+                String packetData = PacketHelper.GetStartUpPacket(AppRepo.getInstance().getAuthToken());
                 try {
                     CommunicationManager.getInstance().SendPacket(packetData);
                 } catch (Exception e) {

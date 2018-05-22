@@ -7,6 +7,6 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class PacketAuthenticationModel extends  PacketPayloadModel{
-    @SerializedName("serialno")
-    public String SerialNumber;
+    @SerializedName("token")
+    public String AuthToken;
 }

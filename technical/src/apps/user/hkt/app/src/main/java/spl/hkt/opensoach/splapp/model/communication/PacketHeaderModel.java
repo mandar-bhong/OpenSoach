@@ -12,5 +12,7 @@ public  class  PacketHeaderModel{
   public int  SeqID ;
   @SerializedName("locationid")
   public  int  LocationID  ;
+  @SerializedName("ack")
+  public  int  Ack;
 
 }
