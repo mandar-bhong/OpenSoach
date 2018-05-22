@@ -1,17 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-#logo{padding-top: 40px;}
-#form-id{padding-top: 120px;}
-mat-form-field{width: 100%;}
-/* #main-content{padding-top: 10px;padding-bottom: 10px} */
-#submit-button{width: 100%; background-color: #37A5CD !important;}
-html *
-{
-    font-family:  'Open Sans', 'sans-serif';
+#logo {
+  padding-top: 40px;
 }
 
-body
-{
+#form-id {
+  padding-top: 120px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+/* #main-content{padding-top: 10px;padding-bottom: 10px} */
+
+#submit-button {
+  width: 100%;
+  background-color: #37A5CD !important;
+}
+
+html * {
+  font-family: 'Open Sans', 'sans-serif';
+}
+
+body {
   background-color: snow;
 }
 
@@ -27,7 +40,7 @@ body
 }
 
 .mobile-sort {
-  display:none;
+  display: none;
 }
 
 .mat-header-row {
@@ -35,7 +48,7 @@ body
 }
 
 .mat-header-cell {
-  color:white !important;
+  color: white !important;
 }
 
 @media(max-width: 768px) {
@@ -52,8 +65,7 @@ body
     align-items: start;
     padding: 8px 24px;
   }
-  .mobile-sort
-  {
+  .mobile-sort {
     display: inline-block;
   }
 }
@@ -62,9 +74,44 @@ button:focus {
   outline: none !important;
 }
 
-.mat-card
-{
+.mat-card {
   margin: 0 auto;
   margin-bottom: 10px;
   margin-top: 10px;
+}
+
+.font-small {
+  font-size: 12px !important;
+}
+
+.bg-color-primary {
+  background-color: #446666;
+}
+
+.bg-color-secondary {
+  background-color: #FA902B;
+}
+
+.bg-color-alternate {
+  background-color: #37A5CD;
+}
+
+.color-primary {
+  color: #446666;
+}
+
+.color-secondary {
+  color: #FA902B;
+}
+
+.color-text-light {
+  color: black;
+}
+
+.color-text-dark {
+  color: white;
+}
+
+.color-text-alternate {
+  color: #989A7C;
 }

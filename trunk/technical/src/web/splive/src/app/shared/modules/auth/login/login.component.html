@@ -25,27 +25,22 @@
                   <mat-icon matSuffix class="{{hide ? 'fa fa-eye' : 'fa fa-eye-slash'}}" (click)="hide = !hide"></mat-icon>
                 </mat-form-field>
               </div>
-              <div class="row m-t-25 text-left">
-                <div class="col-12">
-                  <section>
-                    <mat-checkbox class="example-margin">Checked</mat-checkbox>
-                    <div class="forgot-phone text-right float-right">
-                      <a [routerLink]="['/auth/forgot']" class="text-right f-w-600"> Forgot Password?</a>
-                    </div>
-                  </section>
-                </div>
-              </div>
               <div class="row m-t-30">
                 <div class="col-md-12">
-                  <button type="button" (click)="login()" class="btn btn-primary btn-md btn-block waves-light text-center m-b-20" mdbRippleRadius>Sign in</button>
+                  <button mat-raised-button color="accent" type="button" style="width:100%" (click)="login()">Sign in</button>
                 </div>
               </div>
               <hr/>
               <div class="row">
-                <div class="col-md-12" style="text-align:right;">
-                  <p>Powered by
+                <div class="col-md-4">
+                  <div class="font-small" style="line-height:32px">
+                    <a [routerLink]="['/auth/forgot']"> Forgot Password?</a>
+                  </div>
+                </div>
+                <div class="col-md-8" style="text-align:right;">
+                  <span class="font-small color-text-alternate" style="line-height:32px">Powered by
                     <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
-                  </p>
+                  </span>
                 </div>
               </div>
             </mat-card>
