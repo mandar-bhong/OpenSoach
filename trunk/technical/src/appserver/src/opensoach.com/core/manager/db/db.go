@@ -582,6 +582,33 @@ func (spc *InsertTxContext) Insert() error {
 
 }
 
+func (spc *UpdateDeleteTxContext) UpdateByFilter(args ...string) error {
+
+	switch spc.QueryType {
+	case AutoQuery:
+		query := GetUpdateByFilterDynamicQuery(spc.TableName, spc.Args, args...)
+
+		id, err := spc.Tx.NamedExec(query, spc.Args)
+		if err != nil {
+			return err
+		}
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
+
+	case Query:
+		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
+		spc.AffectedRows, _ = id.RowsAffected()
+		return err
+
+	case StoredProcedure:
+
+		break
+
+	}
+
+	return nil
+}
+
 func (spc *UpdateDeleteTxContext) Update() error {
 
 	switch spc.QueryType {
