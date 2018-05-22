@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">SPLApp</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="btn_ok">Ok</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_send">Send</string>
+
+    <string name="title_activity_chart">ChartActivity</string>
+
+    <string name="txt_time_slot">Time/Task</string>
+    <string name="txt_already_sync_msg">Data is alreayd in sync</string>
+    <string name="enter_auth_code">Please try again with entering Auth Code</string>
+    <string name="footer_text">Copyright © 2016-2017 Powered by OpenSoach. All rights reserved.</string>
+    <string name="servicepoint_live">ServicePoint.live</string>
+
+    <!-- Dialog box text -->
+    <string name="dialog_enter_auth_code">Enter Authcode :</string>
+    <string name="dialog_complaint_title">Raise Complaint</string>
+    <string name="dialog_complaint_by">Complaint By</string>
+    <string name="dialog_complaint_description">Description</string>
+
+    <string name="invalid_auth_code">Entered auth code is invalid</string>
+    <string name="enter_valid_authcode">Please enter a valid authcode</string>
+
+
+</resources>
