@@ -1,7 +1,6 @@
 package spl.hkt.opensoach.splapp.manager;
 
 import android.os.AsyncTask;
-import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
