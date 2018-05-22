@@ -2,7 +2,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 1.	 method POST: /api/v1/task/add
 
-	{"spcid":1,"name":"task1","desc":"desc1"}
+	{"spcid":1,"taskname":"task1","shortdesc":"desc1"}
 	
 2.	 method POST: /api/v1/task/update
 	
@@ -12,4 +12,9 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 3.	 method GET: /api/v1/task/info
 
 	query parameter : params={"recid":1} //taskid
+	
+
+3.	 method GET: /api/v1/task/list
+
+	query parameter : params={"recid":1} //spcid
 
