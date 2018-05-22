@@ -1,17 +1,12 @@
 package spl.hkt.opensoach.splapp.model.communication;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import java.util.ArrayList;
 
 /**
- * Created by Mandar on 4/8/2017.
+ * Created by Sanjay on 22/05/2018.
  */
 
 public class PacketLocationDataModel {
 
-    @SerializedName("locationids")
-    public List<Integer> LocationIds;
-
-
+    public ArrayList<LocationDataModel> Locations;
 }

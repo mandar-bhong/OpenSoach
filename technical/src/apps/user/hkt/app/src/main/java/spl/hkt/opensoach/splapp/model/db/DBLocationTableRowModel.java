@@ -12,11 +12,11 @@ public class DBLocationTableRowModel {
 
     private int locationId;
     private String locationName;
-    private int locationCat;
+    private String locationCat;
 
     public DBLocationTableRowModel(){
         locationName = "";
-        locationCat = 0;
+        locationCat = "";
     }
 
     public int getLocationId() {
@@ -35,11 +35,11 @@ public class DBLocationTableRowModel {
         this.locationName = locationName;
     }
 
-    public int getLocationCat() {
+    public String getLocationCat() {
         return locationCat;
     }
 
-    public void setLocationCat(int locationCat) {
+    public void setLocationCat(String locationCat) {
         this.locationCat = locationCat;
     }
 }
