@@ -71,4 +71,10 @@ func ProcessDeviceSyncCompleted(ctx *lmodels.PacketProccessExecution, packetProc
 
 	}
 
+	serverSyncCompleted := &gmodels.DevicePacket{}
+	serverSyncCompleted.Header = gmodels.DeviceHeaderData{}
+	serverSyncCompleted.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
+	serverSyncCompleted.Header.CommandID = lconst.DEVCIE_CMD_CONFIG_SERVER_SYNC_COMPLETED
+
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, serverSyncCompleted)
 }

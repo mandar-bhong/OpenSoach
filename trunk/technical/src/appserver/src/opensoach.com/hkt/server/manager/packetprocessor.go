@@ -39,9 +39,9 @@ func InitProcessor() {
 		serconst.DEVICE_CMD_CONFIG_DEVICE_SYNC_COMPLETED,
 		serconst.DEVICE_CMD_KEY)
 
-	PacketProcessExecutor[CAT_CONFIG_DEV_SYNC_COMP] = epproc.ProcessDeviceSyncCompleted
-
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
+
+	PacketProcessExecutor[CAT_CONFIG_DEV_SYNC_COMP] = epproc.ProcessDeviceSyncCompleted
 	PacketProcessExecutor[CAT_DR_DEV_REG_ACK] = endpoint.ProcessDevReg
 
 }
