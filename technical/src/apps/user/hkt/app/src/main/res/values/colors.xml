@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorBrightGreent">#4EB200</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="color_nw_status_not_available">#FF0000</color>
+    <color name="color_ws_status_disconnected">#FFFF00</color>
+    <color name="color_ws_status_connected">#7CFC00</color>
+
+    <!-- Chart Screen Color-->
+    <color name="header_view_screen_border">#343436</color>
+    <color name="header_view_bg">#446666</color>
+    <color name="header_view_bg_trans">#b7b2b2</color>
+    <color name="footer_view_bg">#446666</color>
+    <color name="footer_view_text_color">#b7b2b2</color>
+
+    <!-- Chart View Colors -->
+    <color name="color_cell_not_available">#615F5F</color>
+    <color name="color_cell_available">#FFFFFF</color>
+    <color name="color_cell_available_complete">#7BBF6A</color>
+    <color name="color_table_border">#343436</color>
+    <color name="color_table_bg">#7BBF6A</color>
+
+
+    <color name="color_table_head_bg">#FFA500</color>
+    <color name="color_table_head_text">#FFFFFF</color>
+
+    <!-- Dialog View Colors -->
+    <color name="color_dialog_edit_border">#b7b2b2</color>
+    <color name="color_dialog_title_text">#615F5F</color>
+    <color name="color_dialog_text">#000000</color>
+
+</resources>
