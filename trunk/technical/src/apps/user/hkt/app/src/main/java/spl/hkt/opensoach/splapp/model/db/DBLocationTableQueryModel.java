@@ -26,7 +26,7 @@ public class DBLocationTableQueryModel implements IDBRowMapper<DBLocationTableRo
     public void PrepareModel(Cursor cursor, DBLocationTableRowModel dataModel) {
         dataModel.setLocationId(cursor.getInt(0));
         dataModel.setLocationName(cursor.getString(1));
-        dataModel.setLocationCat(cursor.getInt(2));
+        dataModel.setLocationCat(cursor.getString(2));
     }
 
     @Override

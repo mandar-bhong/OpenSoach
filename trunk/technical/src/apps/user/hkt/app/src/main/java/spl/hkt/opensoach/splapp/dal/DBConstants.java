@@ -95,7 +95,7 @@ public class DBConstants {
             TABLE_LOCATION + "( " +
             TABLE_LOCATION_ID + " INTEGER," +
             TABLE_LOCATION_NAME + " VARCHAR," +
-            TABLE_LOCATION_CAT + " INTEGER" + ")";
+            TABLE_LOCATION_CAT + " VARCHAR" + ")";
 
     public static final String CREATE_TABLE_AUTH_LOCATION = "CREATE TABLE " +
             TABLE_AUTH_LOCATION + "( " +

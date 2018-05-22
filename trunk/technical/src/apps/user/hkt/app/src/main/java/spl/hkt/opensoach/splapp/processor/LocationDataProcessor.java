@@ -9,6 +9,7 @@ import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
 import spl.hkt.opensoach.splapp.model.PacketDecodeResultModel;
 import spl.hkt.opensoach.splapp.model.PacketProcessResultModel;
+import spl.hkt.opensoach.splapp.model.communication.LocationDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketLocationDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketModel;
 import spl.hkt.opensoach.splapp.model.db.DBLocationTableQueryModel;
@@ -18,7 +19,7 @@ import spl.hkt.opensoach.splapp.model.db.DBLocationTableRowModel;
  * Created by Mandar on 4/8/2017.
  */
 
-public class LocationDataProcessor implements IProcessor  {
+public class LocationDataProcessor implements IProcessor {
     @Override
     public PacketProcessResultModel Process(PacketDecodeResultModel resultModel) {
 
@@ -26,36 +27,39 @@ public class LocationDataProcessor implements IProcessor  {
 
         try {
 
-            PacketModel<PacketLocationDataModel> packetLocationDataModel = (PacketModel<PacketLocationDataModel>)resultModel.Packet.Payload;
-            List<Integer> locationids = packetLocationDataModel.Payload.LocationIds;
+            PacketModel<PacketLocationDataModel> packetLocationDataModel = (PacketModel<PacketLocationDataModel>) resultModel.Packet.Payload;
+            List<LocationDataModel> locations = packetLocationDataModel.Payload.Locations;
 
-            List<DBLocationTableRowModel> dbLocationModels = DatabaseManager.SelectAll(new DBLocationTableQueryModel(),new DBLocationTableRowModel());
+            List<DBLocationTableRowModel> dbLocationModels = DatabaseManager.SelectAll(new DBLocationTableQueryModel(), new DBLocationTableRowModel());
 
 
-            for (Integer locationid:locationids) {
-                boolean isLocationExists=false;
-                for (DBLocationTableRowModel dbLocationTableRowModel:dbLocationModels) {
-                    if(dbLocationTableRowModel.getLocationId()  == locationid) {
-                        isLocationExists = true;
+            for (LocationDataModel location : locations) {
+                DBLocationTableRowModel existingLocation = null;
+                for (DBLocationTableRowModel dbLocationTableRowModel : dbLocationModels) {
+                    if (dbLocationTableRowModel.getLocationId() == location.SPID) {
+                        existingLocation = dbLocationTableRowModel;
+                        break;
                     }
                 }
 
-                if(!isLocationExists){
-                    DBLocationTableRowModel dbLocationTableRowModel = new DBLocationTableRowModel();
-                    dbLocationTableRowModel.setLocationCat(0);
-                    dbLocationTableRowModel.setLocationName("");
-                    dbLocationTableRowModel.setLocationId(locationid);
-                    DatabaseManager.InsertRow(dbLocationTableRowModel);
+                if (existingLocation != null) {
+                    DatabaseManager.DeleteByFilter(new DBLocationTableQueryModel(), existingLocation, DBLocationTableQueryModel.SELECT_ID_FILTER);
                 }
 
-                if(AppRepo.getInstance().getCurrentLocationId() == 0){
-                    AppRepo.getInstance().setCurrentLocationId(locationid);
+                DBLocationTableRowModel dbLocationTableRowModel = new DBLocationTableRowModel();
+                dbLocationTableRowModel.setLocationCat(location.CatgoryName);
+                dbLocationTableRowModel.setLocationName(location.LocationName);
+                dbLocationTableRowModel.setLocationId(location.SPID);
+                DatabaseManager.InsertRow(dbLocationTableRowModel);
+
+                if (AppRepo.getInstance().getCurrentLocationId() == 0) {
+                    AppRepo.getInstance().setCurrentLocationId(location.SPID);
                 }
             }
 
             packetProcessResultModel.IsSuccess = true;
 
-        }catch (Exception exeception){
+        } catch (Exception exeception) {
             Log.d("Exception", exeception.getMessage());
         }
 
