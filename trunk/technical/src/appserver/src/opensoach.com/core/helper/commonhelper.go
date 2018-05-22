@@ -106,3 +106,8 @@ func GetCurrentTime() time.Time {
 	currentTime := time.Now()
 	return currentTime
 }
+
+func GetUserPassword() string {
+	password := "password@!123"
+	return password
+}
