@@ -1,57 +1,51 @@
-<!-- Container-fluid starts -->
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <!-- Authentication card start -->
-      <form class="md-float-material form-material" action="javascript:">
-        <div class="row" id="form-id">
-          <div class="col-sm-4"></div>
-          <div class="col-sm-4">
-            <mat-card>
-              <div class="row m-b-30">
-                <div class="col-md-12">
-                  <h3 class="text-center">{{'LblLoginHeader' | translate}}</h3>
-                </div>
-              </div>
-              <div class="form-group form-primary">
-                <mat-form-field>
-                  <input matInput placeholder="Enter your email" required [(ngModel)]="username" name="username">
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary">
-                <mat-form-field>
-                  <input matInput placeholder="Enter your password" [(ngModel)]="password" name="password" [type]="hide ? 'password' : 'text'"
-                    required>
-                  <mat-icon matSuffix class="{{hide ? 'fa fa-eye' : 'fa fa-eye-slash'}}" (click)="hide = !hide"></mat-icon>
-                </mat-form-field>
-              </div>
-              <div class="row m-t-30">
-                <div class="col-md-12">
-                  <button mat-raised-button color="accent" type="button" style="width:100%" (click)="login()">Sign in</button>
-                </div>
-              </div>
-              <hr/>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="font-small" style="line-height:32px">
-                    <a [routerLink]="['/auth/forgot']"> Forgot Password?</a>
-                  </div>
-                </div>
-                <div class="col-md-8" style="text-align:right;">
-                  <span class="font-small color-text-alternate" style="line-height:32px">Powered by
-                    <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
-                  </span>
-                </div>
-              </div>
-            </mat-card>
+  <form class="" action="javascript:">
+    <div class="row" id="form-id">
+      <!-- <div class="col-sm-2 col-md-2"></div> -->
+      <div class="col">
+        <mat-card style="max-width:425px;">
+          <div class="row">
+            <div class="col">
+              <h3 class="text-center">{{'LblLoginHeader' | translate}}</h3>
+            </div>
           </div>
-          <div class="col-sm-4"></div>
-        </div>
-      </form>
-      <!-- end of form -->
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <input matInput placeholder="Enter your email" required [(ngModel)]="username" name="username">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <input matInput placeholder="Enter your password" [(ngModel)]="password" name="password" [type]="hide ? 'password' : 'text'"
+                  required>
+                <mat-icon matSuffix class="{{hide ? 'fa fa-eye' : 'fa fa-eye-slash'}}" (click)="hide = !hide"></mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button mat-raised-button color="accent" type="button" style="width:100%" (click)="login()">Sign in</button>
+            </div>
+          </div>
+          <hr/>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <div class="font-small" style="line-height:32px">
+                <a [routerLink]="['/auth/forgot']"> Forgot Password?</a>
+              </div>
+            </div>
+            <div class="col-md-8 col-sm-8" style="text-align:right;">
+              <span class="font-small color-text-alternate" style="line-height:32px">Powered by
+                <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
+              </span>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <!-- <div class="col-sm-2 col-md-2"></div> -->
     </div>
-    <!-- end of col-sm-12 -->
-  </div>
-  <!-- end of row -->
+  </form>
 </div>
-<!-- end of container-fluid -->
