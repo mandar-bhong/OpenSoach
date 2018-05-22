@@ -36,3 +36,7 @@ type APIDataListResponse struct {
 	FilteredRecords int         `json:"filteredrecords"`
 	Records         interface{} `json:"records"`
 }
+
+type APIRecordCountRequest struct {
+	Limit int `json:"limit"`
+}
