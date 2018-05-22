@@ -18,7 +18,7 @@ type UserService struct {
 
 func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	userData.UsrPassword = "password@!123"
+	userData.UsrPassword = ghelper.GetUserPassword()
 	userData.UsrStateSince = ghelper.GetCurrentTime()
 
 	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
@@ -67,7 +67,7 @@ func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (
 	usrcpm.UroleId = *userData.UroleId
 	userData.UroleId = nil
 
-	userData.UsrPassword = "password@!123"
+	userData.UsrPassword = ghelper.GetUserPassword()
 	userData.UsrCategory = constants.DB_USER_CATEGORY_CUSTOMER
 	userData.UsrState = constants.DB_USER_STATE_ACTIVE
 	userData.UsrStateSince = ghelper.GetCurrentTime()
@@ -538,28 +538,102 @@ func (service UserService) GetUserInfo(userID int64) (bool, interface{}) {
 	return true, dbRecord[0]
 }
 
-func (service UserService) UpdateCUUser(reqData *lmodels.DBCUUserUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+func (service UserService) GetCUUserInfo(userID int64) (bool, interface{}) {
 
-	reqData.UsrStateSince = ghelper.GetCurrentTime()
-
-	dbErr, affectedRow := dbaccess.CUUserUpdate(repo.Instance().Context.Master.DBConn, reqData)
+	dbErr, userData := dbaccess.GetCUUserById(repo.Instance().Context.Master.DBConn, userID)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
 
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+	dbRecord := *userData
 
+	if len(dbRecord) < 1 {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user master details")
+	return true, dbRecord[0]
+}
+
+func (service UserService) UpdateCUUser(reqData *lmodels.APICUUserUpdateRequestModel) (isSuccess bool, successErrorData interface{}) {
+
+	userupdatemodel := &lmodels.DBCUUserUpateRowModel{}
+	userupdatemodel.UserId = reqData.UserId
+	userupdatemodel.UsrState = reqData.UsrState
+	userupdatemodel.UsrStateSince = ghelper.GetCurrentTime()
+
+	reqData.UsrStateSince = ghelper.GetCurrentTime()
+
+	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, _ := dbaccess.CUUserUpdate(tx, userupdatemodel)
+
+	if dbErr != nil {
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		errModel := gmodels.APIResponseError{}
+		errHandledIsSuccess, errorCode := ghelper.GetApplicationErrorCodeFromDBError(dbErr)
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		if errHandledIsSuccess == true {
+			errModel.Code = errorCode
+			return false, errModel
+		}
+
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User data updated successfully.")
+
+	ucpmupdatemodel := &lmodels.DBCUUcpmUpdateRowModel{}
+	ucpmupdatemodel.UserId = reqData.UserId
+	ucpmupdatemodel.UroleId = reqData.UroleId
+
+	dberr, _ := dbaccess.CUUcpmUpdate(tx, ucpmupdatemodel)
+
+	if dberr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully update user and user role id")
 
 	return true, nil
 }

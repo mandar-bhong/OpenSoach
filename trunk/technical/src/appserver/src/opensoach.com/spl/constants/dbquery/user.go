@@ -33,6 +33,12 @@ const QUERY_GET_USERID_BY_USERNAME = `Select id From spl_master_user_tbl where u
 
 const QUERY_GET_USER_TABLE_INFO_BY_ID = `Select id,usr_name,usr_category,urole_id_fk,usr_state,usr_state_since,created_on,updated_on  From spl_master_user_tbl where id =?`
 
+const QUERY_GET_CU_USER_TABLE_INFO_BY_ID = `select usr.id as id,usr_name,usr_category,usr_state,usr_state_since,ucpm.urole_id_fk,urole.urole_name,usr.created_on,usr.updated_on 
+from spl_master_user_tbl usr 
+inner join spl_master_usr_cpm_tbl ucpm on usr.id = ucpm.user_id_fk
+inner join spl_master_user_role_tbl urole on ucpm.urole_id_fk = urole.id
+where usr.id = ?`
+
 const QUERY_GET_SPL_MASTER_USER_DETAILS_TABLE_SELECT_BY_ID = `Select usr_id_fk,fname,lname,gender,mobile_no,alternate_contact_no,created_on,updated_on From spl_master_usr_details_tbl where usr_id_fk = ?`
 
 const QUERY_GET_UROLE_LIST_OSU = `Select urole.id as id,urole.urole_code as urole_code,urole.urole_name as urole_name,prod.prod_code as prod_code From spl_master_user_role_tbl urole

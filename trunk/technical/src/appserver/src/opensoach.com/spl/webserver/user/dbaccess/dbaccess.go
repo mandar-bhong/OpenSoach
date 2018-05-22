@@ -304,6 +304,23 @@ func GetUserById(dbConn string, userId int64) (error, *[]lmodels.DBUserInfoDataM
 	return nil, data
 }
 
+func GetCUUserById(dbConn string, userId int64) (error, *[]lmodels.DBCUUserInfoDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCUUserById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCUUserInfoDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CU_USER_TABLE_INFO_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(userId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
 func GetUserDetailsById(dbConn string, userId int64) (error, *[]lmodels.DBSplMasterUsrDetailsTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserDetailsById")
@@ -405,16 +422,32 @@ func UserUpdate(dbConn string, updtStruct *lmodels.DBUserUpdateRowModel) (error,
 	return nil, updateCtx.AffectedRows
 }
 
-func CUUserUpdate(dbConn string, updtStruct *lmodels.DBCUUserUpdateRowModel) (error, int64) {
+func CUUserUpdate(tx *sqlx.Tx, updtStruct *lmodels.DBCUUserUpateRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CUUserUpdate")
 
-	updateCtx := dbmgr.UpdateDeleteContext{}
-	updateCtx.DBConnection = dbConn
+	updateCtx := dbmgr.UpdateDeleteTxContext{}
+	updateCtx.Tx = tx
 	updateCtx.Args = *updtStruct
 	updateCtx.QueryType = dbmgr.AutoQuery
 	updateCtx.TableName = constants.DB_TABLE_USER_TBL
 	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func CUUcpmUpdate(tx *sqlx.Tx, updtStruct *lmodels.DBCUUcpmUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CUUcpmUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteTxContext{}
+	updateCtx.Tx = tx
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_MASTER_USER_CPM_TBL
+	updateErr := updateCtx.UpdateByFilter("UserId")
 	if updateErr != nil {
 		return updateErr, 0
 	}
