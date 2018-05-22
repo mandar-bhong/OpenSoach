@@ -36,3 +36,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 	{"page":1,"limit":10,"orderby":"servinid","orderdirection":"asc"}
 	{"page":1,"limit":10,"orderby":"servinid","orderdirection":"asc","filter":{"SpcName":""}}
+	
+5.	method GET: /api/v1/service/transaction/list
+
+	{"startdate":"2018-05-20T00:00:00Z","enddate":"2018-05-22T00:00:00Z"}
