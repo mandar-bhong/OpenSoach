@@ -125,3 +125,18 @@ func (service ComplaintService) ComplaintList(listReqData gmodels.APIDataListReq
 	return true, dataListResponse
 
 }
+
+func (service ComplaintService) TopComplaints(limit int) (bool, interface{}) {
+
+	dbErr, complaintList := dbaccess.SelectTopComplaints(service.ExeCtx.SessionInfo.Product.NodeDbConn, limit)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched top five complaints")
+	return true, complaintList
+}

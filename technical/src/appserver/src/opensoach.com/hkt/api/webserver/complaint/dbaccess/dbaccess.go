@@ -139,3 +139,21 @@ func GetComplaintList(dbConn string, filterModel *hktmodels.DBSearchComplaintReq
 
 	return nil, data
 }
+
+func SelectTopComplaints(dbConn string, limit int) (error, *[]hktmodels.DBSplHktSpComplaintTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SelectTopFiveComplaints")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHktSpComplaintTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Query = dbquery.QUERY_GET_TOP_FIVE_COMPLAINTS
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(limit)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+
+}
