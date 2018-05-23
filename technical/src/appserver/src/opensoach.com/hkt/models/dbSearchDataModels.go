@@ -71,10 +71,12 @@ type DBSearchServicePointRequestFilterDataModel struct {
 }
 
 type DBSearchServicePointResponseFilterDataModel struct {
-	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
-	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
+	SpId         int64     `db:"sp_id_fk" json:"spid"`
 	SpName       string    `db:"sp_name" json:"spname"`
-	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
+	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
+	SpcName      string    `db:"spc_name" json:"spcname"`
+	DevId        int64     `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	ServConfId   *int64    `db:"id" json:"servconfid"`
 	SpState      int       `db:"sp_state" json:"spstate"`
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
 }

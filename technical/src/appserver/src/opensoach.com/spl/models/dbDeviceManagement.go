@@ -12,7 +12,6 @@ type DBSplMasterDeviceRowModel struct {
 
 type DBSplMasterDevDetailsRowModel struct {
 	DevId       int64   `dbattr:"pri" db:"dev_id_fk" json:"devid"`
-	DevName     *string `db:"dev_name" json:"devname"`
 	Make        *string `db:"make" json:"make"`
 	Technology  *string `db:"technology" json:"technology"`
 	TechVersion *string `db:"tech_version" json:"techversion"`
@@ -41,7 +40,6 @@ type DBDeviceAssociateProdDataModel struct {
 }
 
 type DBDeviceShortDataModel struct {
-	DevId    int64   `dbattr:"pri,auto" db:"id" json:"devid"`
-	DevName  *string `db:"dev_name" json:"devname"`
-	Serialno string  `db:"serialno" json:"serialno"`
+	DevId    int64  `dbattr:"pri,auto" db:"id" json:"devid"`
+	Serialno string `db:"serialno" json:"serialno"`
 }
