@@ -24,10 +24,9 @@ import { DeviceService } from '../../../../services/device.service';
 })
 
 export class DeviceListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['serialno', 'devname', 'devstate', 'custname', 'connectionstate', 'batterylevel', 'action'];
+  displayedColumns = ['serialno', 'devstate', 'custname', 'connectionstate', 'batterylevel', 'action'];
   sortByColumns = [{ text: 'Customer Name', value: 'custname' },
   { text: 'Serial Number', value: 'serialno' },
-  { text: 'Device Name', value: 'devname' },
   { text: 'State', value: 'devstate' },
   { text: 'Connections', value: 'connectionstate' },
   { text: 'Bettery Level', value: 'batterylevel' }
