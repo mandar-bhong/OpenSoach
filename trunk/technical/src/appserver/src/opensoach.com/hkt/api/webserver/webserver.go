@@ -9,6 +9,7 @@ import (
 	"github.com/itsjamie/gin-cors"
 	repo "opensoach.com/hkt/api/repository"
 	complaint "opensoach.com/hkt/api/webserver/complaint"
+	device "opensoach.com/hkt/api/webserver/device"
 	fieldoperator "opensoach.com/hkt/api/webserver/fieldoperator"
 	master "opensoach.com/hkt/api/webserver/master"
 	service "opensoach.com/hkt/api/webserver/service"
@@ -42,6 +43,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	service.Init(webConfig)
 	master.Init(webConfig)
 	servicepoint.Init(webConfig)
+	device.Init(webConfig)
 
 	var webServerStartErr error
 

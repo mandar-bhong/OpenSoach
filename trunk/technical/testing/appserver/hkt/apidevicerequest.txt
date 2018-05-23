@@ -1,0 +1,3 @@
+Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_HKT"}
+
+1.	method:GET	/api/v1/device/list/short
