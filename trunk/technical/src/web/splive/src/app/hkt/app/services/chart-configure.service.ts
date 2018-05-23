@@ -16,7 +16,7 @@ export class ChartConfigureService {
 
     getDataModel(): ChartConfigurationModel {
         return this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.CHART_CONFIG).
-            getObject<ChartConfigurationModel>(APP_DATA_STORE_KEYS.CHART_CONFIG);
+            getObject<ChartConfigurationModel>(APP_DATA_STORE_KEYS.CHART_CONFIG, ChartConfigurationModel);
     }
 
     setDataModel(dataModel: ChartConfigurationModel) {
