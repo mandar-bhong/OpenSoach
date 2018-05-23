@@ -1,6 +1,8 @@
 package processor
 
 import (
+	"strconv"
+
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	dbaccess "opensoach.com/splserver/dbaccess"
@@ -188,6 +190,7 @@ func APIHandlerDevProdAssociated(msg string, sessionkey string,
 	dbInstanceDevInsertModel := &lmodels.APITaskDBInstanceDevInsertRowModel{}
 	dbInstanceDevInsertModel.CpmId = taskDevProdAsscociatedModel.CpmId
 	dbInstanceDevInsertModel.DevId = taskDevProdAsscociatedModel.DevId
+	dbInstanceDevInsertModel.DevName = "device " + strconv.FormatInt(taskDevProdAsscociatedModel.DevId, 10)
 
 	dbErr, insertedId := dbaccess.UpdateDevToInstDB(dbConn, dbInstanceDevInsertModel)
 
@@ -217,4 +220,66 @@ func APIHandlerDevProdAssociated(msg string, sessionkey string,
 
 	return nil, result
 
+}
+
+func APIHandlerCustServPointAssociated(msg string, sessionkey string,
+	tasktoken string,
+	taskData interface{}) (error, lmodels.APITaskResultModel) {
+
+	result := lmodels.APITaskResultModel{}
+
+	taskCustServicePointAssociatedModel := taskData.(*gmodels.TaskCustServicePointAssociatedModel)
+
+	err, dbConn := dbaccess.GetDBConnectionByCpmID(repo.Instance().Context.Master.DBConn, taskCustServicePointAssociatedModel.CpmId)
+
+	if err != nil {
+		//Error need to retry
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", repo.Instance().Context.Master.DBConn).
+			WithField("TaskExecData", taskCustServicePointAssociatedModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", err)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+	}
+
+	for i := 0; i < len(taskCustServicePointAssociatedModel.SpIdList); i++ {
+
+		dbInstanceSpInsertModel := &lmodels.APITaskDBNodeSpInsertRowModel{}
+		dbInstanceSpInsertModel.SpId = taskCustServicePointAssociatedModel.SpIdList[i]
+		dbInstanceSpInsertModel.SpcId = 1
+		dbInstanceSpInsertModel.CpmId = taskCustServicePointAssociatedModel.CpmId
+		Spid := dbInstanceSpInsertModel.SpId
+		dbInstanceSpInsertModel.SpName = "Service Point " + strconv.FormatInt(Spid, 10)
+		dbInstanceSpInsertModel.SpState = taskCustServicePointAssociatedModel.SpState
+		dbInstanceSpInsertModel.SpStateSince = taskCustServicePointAssociatedModel.SpStateSince
+
+		dbErr, _ := dbaccess.UpdateServicePointsToInstDB(dbConn, dbInstanceSpInsertModel)
+
+		if dbErr != nil {
+			logger.Context().WithField("Task Data", taskData).
+				WithField("TaskToken", tasktoken).
+				WithField("DBConn", dbConn).
+				WithField("TaskExecData", dbInstanceSpInsertModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to update service points to instance db.", err)
+
+			//TODO: Need to handle only failure ids
+			// errModel := lmodels.APITaskResultErrorDataModel{}
+			// errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+			// result.IsSuccess = false
+			// result.ErrorData = errModel
+
+			//return err, result
+		}
+
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully inserted dev data in instance db.")
+
+		result.IsSuccess = true
+	}
+	return nil, result
 }
