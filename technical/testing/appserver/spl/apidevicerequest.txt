@@ -14,18 +14,17 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 3.	method:POST	/api/osu/v1/device/update/details
 
-	{"devid":7,"devname":"dev7","make":"make7","technology":"tech7","techversion":"techver7","shortdesc":"desc7"}
+	{"devid":7,"make":"make7","technology":"tech7","techversion":"techver7","shortdesc":"desc7"}
 
 
 4.	method:POST	/api/cu/v1/device/update/details
 
-	{"devname":"dev1","make":"make1","technology":"tech1","techversion":"techver1","shortdesc":"desc1"}
+	{"make":"make1","technology":"tech1","techversion":"techver1","shortdesc":"desc1"}
 
 5.	method:GET	/api/osu/v1/device/list
 
 	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc"}
 	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"custid":1}}
-	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"devname":"dev"}}
 	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"custname":"customer 1"}}
 	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"serialno":"1155623421323222"}}
 
