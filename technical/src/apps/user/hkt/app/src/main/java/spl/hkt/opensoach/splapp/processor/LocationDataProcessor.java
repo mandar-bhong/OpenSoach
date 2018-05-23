@@ -7,6 +7,7 @@ import java.util.List;
 
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
+import spl.hkt.opensoach.splapp.logger.AppLogger;
 import spl.hkt.opensoach.splapp.model.PacketDecodeResultModel;
 import spl.hkt.opensoach.splapp.model.PacketProcessResultModel;
 import spl.hkt.opensoach.splapp.model.communication.LocationDataModel;
@@ -27,13 +28,11 @@ public class LocationDataProcessor implements IProcessor {
 
         try {
 
-            PacketModel<PacketLocationDataModel> packetLocationDataModel = (PacketModel<PacketLocationDataModel>) resultModel.Packet.Payload;
-            List<LocationDataModel> locations = packetLocationDataModel.Payload.Locations;
+            PacketModel<PacketLocationDataModel[]> packetLocationDataModel = (PacketModel<PacketLocationDataModel[]>) resultModel.Packet.Payload;
 
             List<DBLocationTableRowModel> dbLocationModels = DatabaseManager.SelectAll(new DBLocationTableQueryModel(), new DBLocationTableRowModel());
 
-
-            for (LocationDataModel location : locations) {
+            for (PacketLocationDataModel location : packetLocationDataModel.Payload) {
                 DBLocationTableRowModel existingLocation = null;
                 for (DBLocationTableRowModel dbLocationTableRowModel : dbLocationModels) {
                     if (dbLocationTableRowModel.getLocationId() == location.SPID) {

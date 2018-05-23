@@ -1,5 +1,7 @@
 package spl.hkt.opensoach.splapp.model.communication;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -7,6 +9,13 @@ import java.util.ArrayList;
  */
 
 public class PacketLocationDataModel {
+//@SerializedName("payload")
+//    public ArrayList<LocationDataModel> Locations;
 
-    public ArrayList<LocationDataModel> Locations;
+    @SerializedName("spid")
+    public int SPID;
+    @SerializedName("spname")
+    public String LocationName;
+    @SerializedName("spcname")
+    public String CatgoryName;
 }
