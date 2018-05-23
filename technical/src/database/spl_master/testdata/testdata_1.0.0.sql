@@ -42,10 +42,10 @@ INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_sinc
 -- Dumping data for table `spl_master_dev_details_tbl`
 --
 
-INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`) VALUES (1, 'device 1');
-INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`, `make`, `technology`) VALUES (2, 'device 2', 'make2', 'tech2');
-INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`, `make`) VALUES (3, 'device 3', 'make3');
-INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `dev_name`, `make`, `technology`, `tech_version`, `short_desc`) VALUES (6, 'device 6', 'make4', 'tech6', 'techver6', 'desc6');
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`) VALUES (1);
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`, `technology`) VALUES (2, 'make2', 'tech2');
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`) VALUES (3, 'make3');
+INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`, `technology`, `tech_version`, `short_desc`) VALUES (6, 'make4', 'tech6', 'techver6', 'desc6');
 
 --
 -- Dumping data for table `spl_master_dev_status_tbl`

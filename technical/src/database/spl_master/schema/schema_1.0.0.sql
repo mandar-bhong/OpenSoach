@@ -226,7 +226,6 @@ CREATE TABLE `spl_master_device_tbl` (
 
 CREATE TABLE `spl_master_dev_details_tbl` (
   `dev_id_fk` int(10) unsigned NOT NULL,
-  `dev_name` varchar(30) DEFAULT NULL,
   `make` varchar(30) DEFAULT NULL,
   `technology` varchar(30) DEFAULT NULL,
   `tech_version` varchar(30) DEFAULT NULL,
