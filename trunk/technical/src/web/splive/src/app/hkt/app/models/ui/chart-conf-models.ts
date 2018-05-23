@@ -1,5 +1,8 @@
-import { ServiceConfigurationRequest } from '../../../../prod-shared/models/api/service-configuration-models';
-import { TaskTemplateResponse, TaskTemplateRequest, ServiceConfigurationUpdateRequest } from '../api/chart-conf-models';
+import {
+    ServiceConfigurationRequest,
+    ServiceConfigurationUpdateRequest
+} from '../../../../prod-shared/models/api/service-configuration-models';
+import { TaskTemplateResponse, TaskTemplateRequest } from '../api/chart-conf-models';
 
 export class ChartConfigurationModel {
     servconfid: number;
