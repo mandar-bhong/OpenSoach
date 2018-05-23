@@ -65,3 +65,20 @@ func UpdateSpCategoryToInstanceDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBIns
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func UpdateServicePointsToInstDB(dbConn string, insrtStruct *lmodels.APITaskDBNodeSpInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateServicePointsToInstDB")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_SP_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		fmt.Println(insertErr)
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}

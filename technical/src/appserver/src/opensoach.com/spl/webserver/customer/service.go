@@ -317,15 +317,17 @@ func (CustomerService) GetCustServicePoint(customerId int64) (bool, interface{})
 
 }
 
-func (CustomerService) CustServicePointAssociationCountUpdate(reqData lmodels.APICustSpCountUpdateRequest) (bool, interface{}) {
+func (service CustomerService) CustServicePointAssociationCountUpdate(reqData lmodels.APICustSpCountUpdateRequest) (bool, interface{}) {
 
 	servicepointrowmodel := &lmodels.DBServicepointInsertRowModel{}
 	servicepointrowmodel.CpmId = reqData.CpmId
 	servicepointrowmodel.SpState = constants.DB_SERVICE_POINT_STATE_ACTIVE
 	servicepointrowmodel.SpStateSince = ghelper.GetCurrentTime()
 
+	insertedIdList := []int64{}
+
 	for i := 0; i < reqData.UpdateCount; i++ {
-		dbErr, _ := dbaccess.SpInsert(repo.Instance().Context.Master.DBConn, servicepointrowmodel)
+		dbErr, insertedId := dbaccess.SpInsert(repo.Instance().Context.Master.DBConn, servicepointrowmodel)
 		if dbErr != nil {
 			logger.Context().WithField("InputRequest", servicepointrowmodel).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -333,6 +335,18 @@ func (CustomerService) CustServicePointAssociationCountUpdate(reqData lmodels.AP
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 			return false, errModel
 		}
+
+		insertedIdList = append(insertedIdList, insertedId)
+	}
+
+	taskCustServicePointAssociatedModel := gmodels.TaskCustServicePointAssociatedModel{}
+	taskCustServicePointAssociatedModel.CpmId = reqData.CpmId
+	taskCustServicePointAssociatedModel.SpIdList = insertedIdList
+	taskCustServicePointAssociatedModel.SpState = servicepointrowmodel.SpState
+	taskCustServicePointAssociatedModel.SpStateSince = servicepointrowmodel.SpStateSince
+
+	if isSuccess := repo.Instance().SendTaskToServer(gmodels.TASK_API_CUST_SERVICE_POINT_ASSOCIATED, service.ExeCtx.SessionToken, taskCustServicePointAssociatedModel); isSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while submiting task for cust prod assoc")
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Service point added successfully.")

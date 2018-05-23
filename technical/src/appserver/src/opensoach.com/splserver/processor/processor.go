@@ -14,6 +14,7 @@ func init() {
 	apiTaskHandler = make(map[string]lmodels.APITaskHandlerModel)
 	apiTaskHandler[gmodels.TASK_API_CUST_PROD_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerCustProdAssociated, PayloadType: &gmodels.TaskAPICustProdAssociatedModel{}}
 	apiTaskHandler[gmodels.TASK_API_DEV_PROD_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerDevProdAssociated, PayloadType: &gmodels.TaskDevProdAsscociatedModel{}}
+	apiTaskHandler[gmodels.TASK_API_CUST_SERVICE_POINT_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerCustServPointAssociated, PayloadType: &gmodels.TaskCustServicePointAssociatedModel{}}
 }
 
 func APITaskController(msg string) (string, error) {
