@@ -61,3 +61,12 @@ export class CustomerRoleidListItemResponse {
 export class CustomerRoleListRequest {
     prodcode: string;
 }
+export class CustomerServiceAssociateListResponse {
+    prodcode: string;
+    spcount: number;
+    cpmid: number;
+}
+export class CustomerServiceAssociateUpdateRequest {
+    updatecount: number;
+    cpmid: number;
+}

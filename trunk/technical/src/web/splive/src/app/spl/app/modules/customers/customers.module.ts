@@ -14,6 +14,7 @@ import { CustomerSearchComponent } from './customer-list/customer-search/custome
 import { CustomerListViewComponent } from './customer-list/list-view/customer-list-view.component';
 import { CustomerUpdateDetailsComponent } from './customer-update-details/customer-update-details.component';
 import { CustomersRoutingModule } from './customers-routing.module';
+import { CustomerServicepointAssociateComponent } from './customer-servicepoint-associate/customer-servicepoint-associate.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { CustomersRoutingModule } from './customers-routing.module';
     CustomerUpdateDetailsComponent,
     CustomerSearchComponent,
     CustomerListViewComponent,
-    CustomerAssociateProductComponent
+    CustomerAssociateProductComponent,
+    CustomerServicepointAssociateComponent
   ]
 })
 export class CustomersModule { }

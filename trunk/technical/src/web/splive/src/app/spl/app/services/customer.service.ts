@@ -26,6 +26,8 @@ import {
     CustomerListItemResponse,
     CustomerRoleidListItemResponse,
     CustomerRoleListRequest,
+    CustomerServiceAssociateListResponse,
+    CustomerServiceAssociateUpdateRequest
 } from '../models/api/customer-models';
 
 @Injectable()
@@ -111,4 +113,16 @@ export class CustomerService extends ListingService<CustomerFilterRequest, Custo
         return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/customer/update',
             corporateUpadteRequest, implicitErrorHandling);
     }
+
+    getCustomerServiceProductAssociation(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<CustomerServiceAssociateListResponse[]>> {
+        return this.serverApiInterfaceService.getWithQueryParams(
+            EnvironmentProvider.baseurl + '/api/osu/v1/customer/association/servicepoint',
+            request, implicitErrorHandling);
+    }
+    updateCustomerServicePointProduct(request: CustomerServiceAssociateUpdateRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/customer/association/servicepoint/update',
+        request, implicitErrorHandling);
+}
 }

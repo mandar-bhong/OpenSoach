@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { DynamicContextService } from '../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
 import { StepData } from '../../../../../shared/modules/stepper/step-data';
 import { StepperService, StepperState } from '../../../../../shared/modules/stepper/stepper.service';
+import { ChartConfigurationModel } from '../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../services/chart-configure.service';
 
 @Component({
@@ -22,7 +23,6 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
     { name: 'Task', color: '', icon: 'fa fa-tasks', componentselector: 'app-chart-configure-task' },
     { name: 'Preview', color: '', icon: 'fa fa-table', componentselector: 'app-chart-configure-preview' }
   ];
-
   step: StepData;
 
   routeSubscription: Subscription;
@@ -50,6 +50,11 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
 
   getConfiguration(configid: number) {
     // TODO: call API to get existing configuration
+    // this.chartConfigureService.getConfigList({ recid: configid }).subscribe(payloadResponse => {
+    //   if (payloadResponse && payloadResponse.issuccess) {
+        
+    //   }
+    // });
     // this.chartConfigureService.dataModel = new ChartConfigurationModel();
   }
 

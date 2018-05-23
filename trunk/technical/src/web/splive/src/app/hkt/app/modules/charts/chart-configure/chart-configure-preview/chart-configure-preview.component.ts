@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import { ServiceConfigurationRequest } from '../../../../../../prod-shared/models/api/service-configuration-models';
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
+import { ServiceConfigurationUpdateRequest } from '../../../../models/api/chart-conf-models';
 import { ChartConfigurationModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
 
@@ -16,7 +20,9 @@ export class ChartConfigurePreviewComponent implements OnInit {
   dataModel: ChartConfigurationModel;
   slots: string[] = [];
   constructor(private dynamicContextService: DynamicContextService,
-    private chartConfigureService: ChartConfigureService) { }
+    private chartConfigureService: ChartConfigureService,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.createControls();
@@ -30,15 +36,34 @@ export class ChartConfigurePreviewComponent implements OnInit {
 
   save() {
     if (this.editableForm.invalid) { return; }
-
-    // TODO: Call API to save configuration.
-
-    this.chartConfigureService.setDataModel(this.dataModel);
-    this.dynamicContextService.onAction(true);
+    if (this.dataModel.servconfid) {
+      // tod update
+      const request = new ServiceConfigurationUpdateRequest();
+      this.dataModel.copyToUpdate(request);
+      this.chartConfigureService.updateConfiguration(request).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.appNotificationService.success();
+          this.chartConfigureService.setDataModel(this.dataModel);
+          this.dynamicContextService.onAction(true);
+        }
+      });
+    } else {
+      const serviceConfigurationRequest = new ServiceConfigurationRequest();
+      this.dataModel.copyTo(serviceConfigurationRequest);
+      this.chartConfigureService.addChartData(serviceConfigurationRequest).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.dataModel.servconfid = payloadResponse.data.recid;
+          this.appNotificationService.success();
+          this.chartConfigureService.setDataModel(this.dataModel);
+          this.dynamicContextService.onAction(true);
+        }
+      });
+    }
   }
 
   previousClick() {
     this.dynamicContextService.onAction(false);
+    this.editableForm.controls['categoryControl'].disable();
   }
 
   createChartSlots() {

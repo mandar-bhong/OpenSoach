@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
-import { TaskTemplateModel } from '../../../../models/api/chart-conf-models';
+import { TaskTemplateRequest } from '../../../../models/api/chart-conf-models';
 import { ChartConfigurationModel, ChartTaskModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
 
@@ -40,22 +40,19 @@ export class ChartConfigureTaskComponent implements OnInit {
     });
   }
 
+
   getTaskLibrary() {
     // TODO:call api to get task library
-
-    const tasks: TaskTemplateModel[] = [];
-
-    for (let i = 1; i <= 10; i++) {
-      const a = new TaskTemplateModel();
-      a.taskname = 'task ' + i;
-      tasks.push(a);
-    }
-
-    tasks.forEach(item => {
-      if (!this.chartTasks.find(a => a.taskname === item.taskname)) {
-        const chartTaskConfModel = new ChartTaskModel();
-        chartTaskConfModel.copyFrom(item);
-        this.taskLibrary.push(chartTaskConfModel);
+    this.chartConfigureService.getTaskDataList({ recid: this.dataModel.spcid }).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        console.log('TaskTemplateResponse', payloadResponse.data);
+        payloadResponse.data.forEach(item => {
+          if (!this.chartTasks.find(a => a.taskname === item.taskname)) {
+            const chartTaskConfModel = new ChartTaskModel();
+            chartTaskConfModel.copyFrom(item);
+            this.taskLibrary.push(chartTaskConfModel);
+          }
+        });
       }
     });
   }
@@ -65,13 +62,13 @@ export class ChartConfigureTaskComponent implements OnInit {
     this.chartTasks.forEach(item => {
       this.dataModel.variableconf.taskconf.tasks.push(item);
     });
-
     this.chartConfigureService.setDataModel(this.dataModel);
     this.dynamicContextService.onAction(true);
   }
 
   previousClick() {
     this.dynamicContextService.onAction(false);
+
   }
 
   addTask() {
@@ -79,10 +76,16 @@ export class ChartConfigureTaskComponent implements OnInit {
     const task = new ChartTaskModel();
     task.taskname = this.addNewTaskName;
     this.chartTasks.push(task);
+    const taskTemplateRequest = new TaskTemplateRequest();
+    taskTemplateRequest.taskname = this.addNewTaskName;
+    taskTemplateRequest.spcid = this.dataModel.spcid;
+    taskTemplateRequest.shortdesc = this.dataModel.shortdesc;
+    this.chartConfigureService.addTask(taskTemplateRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+      }
+    });
     this.addNewTaskName = null;
     this.isTaskAdd = false;
-
-    // TODO: call API to save task in library
   }
 
   showAddTask() {

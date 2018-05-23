@@ -8,38 +8,36 @@
             <span style="padding-left:10px">Filter</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <table class="example-full-width" cellspacing="0">
-          <tr id="layout-set">
-            <td>
-              <mat-form-field>
-                <input matInput placeholder="User Name" [(ngModel)]="dataModel.usrname">
-                <button mat-button *ngIf="dataModel.usrname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.usrname=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field>
-                <mat-select placeholder="State" [(ngModel)]="dataModel.usrstate">
-                  <mat-option>None</mat-option>
-                  <mat-option *ngFor="let userstate of userStates" [value]="userstate.value">
-                    {{userstate.text | translate}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field>
-                <mat-select placeholder="Category" [(ngModel)]="dataModel.usrcategory">
-                  <mat-option>None</mat-option>
-                  <mat-option *ngFor="let usercategory of userCategories" [value]="usercategory.value">
-                    {{usercategory.text | translate }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </td>
-          </tr>
-        </table>
+        <div class="row">
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <input matInput placeholder="User Name" [(ngModel)]="dataModel.usrname">
+              <button mat-button *ngIf="dataModel.usrname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.usrname=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <mat-select placeholder="State" [(ngModel)]="dataModel.usrstate">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let userstate of userStates" [value]="userstate.value">
+                  {{userstate.text | translate}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <mat-select placeholder="Category" [(ngModel)]="dataModel.usrcategory">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let usercategory of userCategories" [value]="usercategory.value">
+                  {{usercategory.text | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
         <button type="button" mat-raised-button color="primary" (click)="search()">Apply</button>
       </mat-expansion-panel>
     </mat-card>

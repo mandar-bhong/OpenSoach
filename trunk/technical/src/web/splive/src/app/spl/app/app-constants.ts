@@ -51,6 +51,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: ''
     },
     {
+        url: '/customers/servicepoint',
+        linktitle: 'Servicepoint',
+        pagetitle: 'Servicepoint',
+        linkiconcss: ''
+    },
+    {
         url: '/users',
         linktitle: 'Users',
         pagetitle: 'Users',

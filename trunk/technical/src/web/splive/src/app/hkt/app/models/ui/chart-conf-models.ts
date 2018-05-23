@@ -1,5 +1,5 @@
 import { ServiceConfigurationRequest } from '../../../../prod-shared/models/api/service-configuration-models';
-import { TaskTemplateModel } from '../api/chart-conf-models';
+import { TaskTemplateResponse, TaskTemplateRequest, ServiceConfigurationUpdateRequest } from '../api/chart-conf-models';
 
 export class ChartConfigurationModel {
     servconfid: number;
@@ -18,6 +18,12 @@ export class ChartConfigurationModel {
         serviceConfigurationRequest.shortdesc = this.shortdesc;
         serviceConfigurationRequest.servconf = JSON.stringify(this.variableconf);
         console.log('serviceConfigurationRequest', serviceConfigurationRequest);
+    }
+    copyToUpdate(serviceConfigurationUpdateRequest: ServiceConfigurationUpdateRequest) {
+        serviceConfigurationUpdateRequest.servconfid = this.servconfid;
+        serviceConfigurationUpdateRequest.servconfname = this.servconfname;
+        serviceConfigurationUpdateRequest.shortdesc = this.shortdesc;
+        serviceConfigurationUpdateRequest.servconf = JSON.stringify(this.variableconf);
     }
 }
 
@@ -38,8 +44,13 @@ export class ChartTimeConfModel {
 
 export class ChartTaskModel {
     taskname: string;
-
-    copyFrom(taskTemplateModel: TaskTemplateModel) {
-        this.taskname = taskTemplateModel.taskname;
+    spcid: number;
+    shortdec: string;
+    copyFrom(taskTemplateResponse: TaskTemplateResponse) {
+        this.taskname = taskTemplateResponse.taskname;
+        this.spcid = taskTemplateResponse.spcid;
+    }
+    copyTo(taskTemplateRequest: TaskTemplateRequest) {
+        taskTemplateRequest.spcid = this.spcid;
     }
 }

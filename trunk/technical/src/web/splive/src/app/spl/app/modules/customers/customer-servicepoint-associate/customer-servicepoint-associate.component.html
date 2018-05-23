@@ -1,0 +1,55 @@
+<div class="row">
+  <mat-card>
+    <div class="form-group form-primary text-right">
+      <!-- <button type="button" color="accent" mat-icon-button (click)="add()" matTooltip="Add" [hidden]="addVisiblity===false">
+          <mat-icon aria-label="Add">add</mat-icon>
+        </button> -->
+      <button mat-icon-button color="accent" (click)="closeForms()" style="right:10px">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="example-container mat-elevation-z8" id="service-associate">
+      <mat-table [dataSource]="dataSource">
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <ng-container matColumnDef="prodcode">
+          <mat-header-cell *matHeaderCellDef style="flex:0 0 50%;">Product Code</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="flex:0 0 50%;">
+            <span class="mat-row-mobile-label">Product Code</span>
+            {{row.prodcode}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="spcount">
+          <mat-header-cell *matHeaderCellDef style="flex:0 0 40%;">Service Points Count</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="flex:0 0 40%;">
+            <span class="mat-row-mobile-label">Service Points Count</span>
+            {{row.spcount}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+            <span class="mat-row-mobile-label">Action</span>
+            <button mat-icon-button color="accent" (click)="editRecord(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+    </div>
+    <div [hidden]="showForm===false">
+      <form class="md-float-material form-material" [formGroup]="editableForm" (ngSubmit)="save()">
+        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+        <div class=" form-group form-primary">
+            <mat-form-field>
+              <input type="number" matInput placeholder="Service Points Count" formControlName="updatecountControl" required [(ngModel)]="dataModel.updatecount">
+              <mat-error *ngIf="editableForm.controls['updatecountControl'].hasError('required') ">
+                is Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+      </form>
+    </div>
+  </mat-card>
+</div>

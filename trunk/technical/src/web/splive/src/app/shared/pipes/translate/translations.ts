@@ -211,14 +211,6 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* USER APP NOTIFICATION START */
   {
-    key: 'SUCCESS_ADD_USER_SAVED',
-    en: 'User added.'
-  },
-  {
-    key: 'SUCCESS_USERS_DETAILS_SAVED',
-    en: 'User details.'
-  },
-  {
     key: 'CUSTOMER_IS_NOT_BEEN_ASSOCIATED_WITH_ANY_PRODUCT_USER',
     en: 'You need to add a customer before associating a user.'
   },
@@ -233,17 +225,10 @@ export const TRANSLATIONS: TranslationValue[] = [
 
 
   /* CUSTOMER APP NOTIFICATION START */
+
   {
-    key: 'SUCCESS_ADD_CUSTOMERS_SAVED',
-    en: 'Customer added.'
-  },
-  {
-    key: 'SUCCESS_CUSTOMER_DETAILS_SAVED',
-    en: 'Customer details.'
-  },
-  {
-    key: 'SUCCESS_CUSTOMERS_EDIT_SAVED',
-    en: 'Updated customer.'
+    key: 'CUSTOMER_IS_NOT_ASSOCIATED',
+    en: 'Customer not associated with any product.'
   },
 
   /* CUSTOMER APP NOTIFICATION END */

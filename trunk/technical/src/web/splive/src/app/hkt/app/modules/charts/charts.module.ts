@@ -1,21 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AmazingTimePickerModule, AmazingTimePickerService } from 'amazing-time-picker';
+import { DragulaModule } from 'ng2-dragula';
 
+import { AppCommonModule } from '../../../../shared/app-common.module';
+import {
+  DynamicComponentLoaderModule,
+} from '../../../../shared/modules/dynamic-component-loader/dynamic-component-loader.module';
+import { DynamicContextService } from '../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
+import { MaterialModules } from '../../../../shared/modules/material/material-modules';
+import { StepperModule } from '../../../../shared/modules/stepper/stepper.module';
+import { ChartConfigureBasicComponent } from './chart-configure/chart-configure-basic/chart-configure-basic.component';
+import { ChartConfigurePreviewComponent } from './chart-configure/chart-configure-preview/chart-configure-preview.component';
+import { ChartConfigureTaskComponent } from './chart-configure/chart-configure-task/chart-configure-task.component';
+import { ChartConfigureTimeComponent } from './chart-configure/chart-configure-time/chart-configure-time.component';
 import { ChartConfigureComponent } from './chart-configure/chart-configure.component';
 import { ChartListComponent } from './chart-list/chart-list.component';
 import { ChartsRoutingModule } from './charts-routing.module';
-import { MaterialModules } from '../../../../shared/modules/material/material-modules';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppCommonModule } from '../../../../shared/app-common.module';
-import { DynamicContextService } from '../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
-import { DynamicComponentLoaderModule } from '../../../../shared/modules/dynamic-component-loader/dynamic-component-loader.module';
-import { ChartConfigureTaskComponent } from './chart-configure/chart-configure-task/chart-configure-task.component';
-import { ChartConfigureBasicComponent } from './chart-configure/chart-configure-basic/chart-configure-basic.component';
-import { ChartConfigureTimeComponent } from './chart-configure/chart-configure-time/chart-configure-time.component';
-import { ChartConfigurePreviewComponent } from './chart-configure/chart-configure-preview/chart-configure-preview.component';
-import { StepperModule } from '../../../../shared/modules/stepper/stepper.module';
-import { AmazingTimePickerModule, AmazingTimePickerService } from 'amazing-time-picker';
-import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   imports: [
@@ -43,7 +45,7 @@ import { DragulaModule } from 'ng2-dragula';
     ChartConfigureTimeComponent,
     ChartConfigurePreviewComponent,
   ],
-  providers:[
+  providers: [
     AmazingTimePickerService
   ]
 })

@@ -31,7 +31,6 @@
       </div>
       <div [hidden]='!isTaskAdd'>
         <form [formGroup]="addTaskForm" (ngSubmit)="addTask()">
-
           <mat-card class="add-task-mat-card">
             <mat-form-field>
               <input matInput placeholder="Task Name" formControlName="taskNameControl" required [(ngModel)]="addNewTaskName">
