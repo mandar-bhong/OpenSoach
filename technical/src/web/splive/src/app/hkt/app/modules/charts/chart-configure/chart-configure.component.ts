@@ -52,7 +52,7 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
     // TODO: call API to get existing configuration
     // this.chartConfigureService.getConfigList({ recid: configid }).subscribe(payloadResponse => {
     //   if (payloadResponse && payloadResponse.issuccess) {
-        
+
     //   }
     // });
     // this.chartConfigureService.dataModel = new ChartConfigurationModel();

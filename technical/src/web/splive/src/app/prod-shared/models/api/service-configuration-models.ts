@@ -6,3 +6,16 @@ export class ServiceConfigurationRequest {
     shortdesc: string;
     servconf: string;
 }
+export class ServiceConfigurationUpdateRequest {
+    servconfid: number;
+    servconfname: string;
+    shortdesc: string;
+    servconf: string;
+}
+export class ServiceConfigurationlistResponse {
+    page: number;
+    limit: number;
+    orderby: number;
+    orderdirection: string;
+
+}

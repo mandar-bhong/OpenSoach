@@ -12,16 +12,4 @@ export class TaskTemplateRequest {
     taskname: string;
     shortdesc: string;
 }
-export class ServiceConfigurationUpdateRequest {
-    servconfid: number;
-    servconfname: string;
-    shortdesc: string;
-    servconf: string;
-}
-export class ServiceConfigurationlistResponse {
-    page: number;
-    limit: number;
-    orderby: number;
-    orderdirection: string;
 
-}
