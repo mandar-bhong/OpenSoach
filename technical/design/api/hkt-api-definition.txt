@@ -382,6 +382,14 @@ spstate:number;
 spstatesince:number;
 }
 
+30. Get deice short list
+API Name: /api/v1/device/list/short
+Request Method: GET
+request: null
+response: Response{
+devid:number;
+devname:string;
+}
 
 
 
