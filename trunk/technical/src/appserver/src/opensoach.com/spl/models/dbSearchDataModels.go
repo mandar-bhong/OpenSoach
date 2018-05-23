@@ -64,7 +64,6 @@ type DBSearchCustomerResponseFilterDataModel struct {
 type DBSearchDeviceRequestFilterDataModel struct {
 	Serialno *string `db:"serialno" json:"serialno"`
 	CustName *string `db:"cust_name" json:"custname"`
-	DevName  *string `db:"dev_name" json:"devname"`
 	CpmId    *int64  `dbattr:"pri,auto" db:"cpm.id" json:"cpmid"` //This is specical condition as query has multiple table join
 }
 
@@ -77,7 +76,6 @@ type DBSearchDeviceResponseFilterDataModel struct {
 	DevStateSince        time.Time  `db:"dev_state_since" json:"devstatesince"`
 	CreatedOn            time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn            time.Time  `db:"updated_on" json:"updatedon"`
-	DevName              *string    `db:"dev_name" json:"devname"`
 	ConnectionState      *int       `db:"connection_state" json:"connectionstate"`
 	ConnectionStateSince *time.Time `db:"connection_state_since" json:"connectionstatesince"`
 	SyncState            *int       `db:"sync_state" json:"syncstate"`

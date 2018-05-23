@@ -93,7 +93,6 @@ type DBSplMasterDatabaseInstanceTableRowModel struct {
 
 type DBSplMasterDevDetailsTableRowModel struct {
 	DevId       int64     `dbattr:"pri" db:"dev_id_fk" json:"devid"`
-	DevName     *string   `db:"dev_name" json:"devname"`
 	Make        *string   `db:"make" json:"make"`
 	Technology  *string   `db:"technology" json:"technology"`
 	TechVersion *string   `db:"tech_version" json:"techversion"`
