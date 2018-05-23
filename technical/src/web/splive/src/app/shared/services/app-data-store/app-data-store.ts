@@ -1,18 +1,28 @@
 
 export interface AppDataStore {
-    getObject<T>(key: string): T | null;
+    getObject<T>(key: string, type?: (new () => T)): T | null;
     setObject<T>(key: string, data: T): void;
     removeObject(key: string): void;
     clear(): void;
 }
 
 export class AppLocalStorage implements AppDataStore {
-    getObject<T>(key: string): T | null {
+
+    getObject<T>(key: string, type?: (new () => T)): T | null {
+        let obj = null;
         const valueJSON = localStorage.getItem(key);
         if (valueJSON) {
-            return JSON.parse(valueJSON);
+            if (type) {
+                obj = new type();
+                Object.assign(obj, JSON.parse(valueJSON));
+            } else {
+                obj = JSON.parse(valueJSON);
+            }
         }
+
+        return obj;
     }
+
     setObject<T>(key: string, data: T): void {
         if (data) {
             localStorage.setItem(key, JSON.stringify(data));
@@ -28,11 +38,20 @@ export class AppLocalStorage implements AppDataStore {
 
 export class AppInMemoryStore implements AppDataStore {
     private appDataStore = new Map<string, string>();
-    getObject<T>(key: string): T | null {
+
+    getObject<T>(key: string, type?: (new () => T)): T | null {
+        let obj = null;
         const valueJSON = this.appDataStore.get(key);
         if (valueJSON) {
-            return JSON.parse(valueJSON);
+            if (type) {
+                obj = new type();
+                Object.assign(obj, JSON.parse(valueJSON));
+            } else {
+                obj = JSON.parse(valueJSON);
+            }
         }
+
+        return obj;
     }
     setObject<T>(key: string, data: T): void {
         if (data) {
