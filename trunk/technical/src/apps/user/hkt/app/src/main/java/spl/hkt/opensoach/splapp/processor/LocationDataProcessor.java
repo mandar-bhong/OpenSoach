@@ -7,10 +7,8 @@ import java.util.List;
 
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
-import spl.hkt.opensoach.splapp.logger.AppLogger;
 import spl.hkt.opensoach.splapp.model.PacketDecodeResultModel;
 import spl.hkt.opensoach.splapp.model.PacketProcessResultModel;
-import spl.hkt.opensoach.splapp.model.communication.LocationDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketLocationDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketModel;
 import spl.hkt.opensoach.splapp.model.db.DBLocationTableQueryModel;
