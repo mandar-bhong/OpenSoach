@@ -36,7 +36,6 @@ export class DeviceUpdateComponent extends EditRecordBase implements OnInit, OnD
   }
   createControls(): void {
     this.editableForm = new FormGroup({
-      devnameControl: new FormControl('', [Validators.required]),
       makeControl: new FormControl('', [Validators.required]),
       technologyControl: new FormControl('', [Validators.required]),
       techversionControl: new FormControl('', [Validators.required])

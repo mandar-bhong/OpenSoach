@@ -8,13 +8,11 @@ export class DeviceFilterModel {
     serialno: string;
     custid: number;
     custname: string;
-    devname: string;
 
     copyTo(deviceFilterRequest: DeviceFilterRequest) {
         deviceFilterRequest.serialno = this.serialno;
         deviceFilterRequest.custid = this.custid;
         deviceFilterRequest.custname = this.custname;
-        deviceFilterRequest.devname = this.devname;
     }
 }
 
@@ -34,14 +32,12 @@ export class DeviceAddModel {
 
 export class DeviceDetailsModel {
     devid: number;
-    devname: string;
     make: string;
     technology: string;
     techversion: string;
     shortdesc: string;
     copyTo(deviceAddDetailsRequest: DeviceAddDetailsRequest) {
         deviceAddDetailsRequest.devid = this.devid;
-        deviceAddDetailsRequest.devname = this.devname;
         deviceAddDetailsRequest.make = this.make;
         deviceAddDetailsRequest.technology = this.technology;
         deviceAddDetailsRequest.techversion = this.techversion;
@@ -49,7 +45,6 @@ export class DeviceDetailsModel {
     }
     copyFrom(deviceDetailsResponse: DeviceDetailsResponse) {
         this.devid = deviceDetailsResponse.devid;
-        this.devname = deviceDetailsResponse.devname;
         this.make = deviceDetailsResponse.make;
         this.technology = deviceDetailsResponse.technology;
         this.techversion = deviceDetailsResponse.techversion;

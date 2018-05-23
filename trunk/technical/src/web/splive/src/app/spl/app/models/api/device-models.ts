@@ -7,7 +7,6 @@ export class DeviceAddRequest {
 
 export class DeviceAddDetailsRequest {
     devid: number;
-    devname: string;
     make: string;
     technology: string;
     techversion: string;
@@ -18,7 +17,6 @@ export class DeviceFilterRequest {
     serialno: string;
     custid: number;
     custname: string;
-    devname: string;
 }
 
 export class DeviceDataListResponse {
@@ -28,7 +26,6 @@ export class DeviceDataListResponse {
     serialno: string;
     devstate: number;
     devstatesince: Date;
-    devname: string;
     connectionstate: number;
     connectionstatesince: Date;
     syncstate: number;
@@ -40,7 +37,6 @@ export class DeviceDataListResponse {
 }
 export class DeviceDetailsResponse {
     devid: number;
-    devname: string;
     make: string;
     technology: string;
     techversion: string;
