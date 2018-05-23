@@ -14,7 +14,7 @@ import { PayloadResponse } from '../../../../../shared/models/api/payload-models
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppDeviceService } from '../../../../../shared/services/device/app-device.service';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { DeviceDataListResponse, DeviceFilterRequest } from '../../../../models/api/device-models';
+import { DeviceDataListResponse, DeviceFilterRequest, DeviceListItemResponse } from '../../../../models/api/device-models';
 import { ProdDeviceService } from '../../../../services/device/prod-device.service';
 
 @Component({
@@ -43,6 +43,7 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
   deviceFilterRequest: DeviceFilterRequest;
   dataListFilterChangedSubscription: Subscription;
   deviceState = DEVICE_STATE;
+  devices: DeviceListItemResponse[] = [];
   constructor(private deviceService: ProdDeviceService,
     private appDeviceService: AppDeviceService,
     private router: Router,
@@ -54,10 +55,20 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
     this.paginator.pageSize = 10;
     this.sort.active = 'serialno';
     this.sort.direction = 'asc';
-    this.setDataListing();
+    this.getDeviceList();
     this.dataListFilterChangedSubscription = this.deviceService.dataListSubject.subscribe(value => {
       this.deviceFilterRequest = value;
       this.refreshTable.emit();
+    });
+  }
+
+  getDeviceList() {
+    this.deviceService.getDeviceList().subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.devices = payloadResponse.data;
+      }
+
+      this.setDataListing();
     });
   }
 
@@ -79,6 +90,13 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
       payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.filteredrecords = payloadResponse.data.filteredrecords;
+
+          payloadResponse.data.records.forEach(element => {
+            const match = this.devices.find(d => d.devid === element.devid);
+            if (match) {
+              element.devname = match.devname;
+            }
+          });
           this.dataSource = payloadResponse.data.records;
           if (this.filteredrecords === 0) {
             this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
