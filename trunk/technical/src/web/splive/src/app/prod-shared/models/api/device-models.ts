@@ -28,3 +28,8 @@ export class DeviceDetailsResponse {
     createdon: Date;
     updatedon: Date;
 }
+
+export class DeviceListItemResponse {
+    devid: number;
+    devname: string;
+}

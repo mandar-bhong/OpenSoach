@@ -4,10 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest } from '../../../shared/models/api/common-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
-import { DeviceDataListResponse, DeviceDetailsResponse, DeviceFilterRequest } from '../../models/api/device-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { ListingService } from '../../../shared/services/listing.service';
+import {
+    DeviceDataListResponse,
+    DeviceDetailsResponse,
+    DeviceFilterRequest,
+    DeviceListItemResponse,
+} from '../../models/api/device-models';
 
 @Injectable()
 export class ProdDeviceService extends ListingService<DeviceFilterRequest, DeviceDataListResponse> {
@@ -20,10 +25,10 @@ export class ProdDeviceService extends ListingService<DeviceFilterRequest, Devic
             dataListRequest, implicitErrorHandling);
     }
 
-    getDeviceList(dataListFilter: DataListRequest<DeviceFilterRequest>, implicitErrorHandling = true):
-        Observable<PayloadResponse<DataListResponse<DeviceDataListResponse>>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/device/list',
-            dataListFilter, implicitErrorHandling);
+    getDeviceList(implicitErrorHandling = true):
+        Observable<PayloadResponse<DeviceListItemResponse[]>> {
+        return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/device/list/short',
+            implicitErrorHandling);
     }
 
     getDeviceDetails(request: RecordIDRequest, implicitErrorHandling = true):
