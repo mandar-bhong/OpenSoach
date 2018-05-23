@@ -7,21 +7,22 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-func AuthorizationHandler(c *gin.Context) {
+func AuthorizationHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var isSuccess bool
+		var successErrorData interface{}
 
-	var isSuccess bool
-	var successErrorData interface{}
+		responsePayload := gmodels.APIPayloadResponse{}
 
-	responsePayload := gmodels.APIPayloadResponse{}
-
-	isSuccess, successErrorData = requestHandler(c)
-	if isSuccess {
-		c.Next()
-	} else {
-		responsePayload.Success = isSuccess
-		responsePayload.Error = successErrorData
-		c.JSON(http.StatusUnauthorized, responsePayload)
-		c.Abort()
+		isSuccess, successErrorData = requestHandler(c)
+		if isSuccess {
+			c.Next()
+		} else {
+			responsePayload.Success = isSuccess
+			responsePayload.Error = successErrorData
+			c.JSON(http.StatusUnauthorized, responsePayload)
+			c.Abort()
+		}
 	}
 }
 
