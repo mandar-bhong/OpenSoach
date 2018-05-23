@@ -59,7 +59,7 @@ public class PayloadDecoder {
                                 }
 
                                 case CommandConstants.CMD_CONFIG_LOCATION_SYNC: {
-                                    TypeToken<PacketModel<PacketLocationDataModel>> typeToken = new TypeToken<PacketModel<PacketLocationDataModel>>() {
+                                    TypeToken<PacketModel<PacketLocationDataModel[]>> typeToken = new TypeToken<PacketModel<PacketLocationDataModel[]>>() {
                                     };
                                     packetType = typeToken.getType();
                                     packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
