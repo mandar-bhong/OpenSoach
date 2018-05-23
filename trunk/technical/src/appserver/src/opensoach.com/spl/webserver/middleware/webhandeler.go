@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	//pcmiddleware "opensoach.com/prodcore/webserver/middleware"
 	"opensoach.com/spl/constants"
 	lmodels "opensoach.com/spl/models"
 )
