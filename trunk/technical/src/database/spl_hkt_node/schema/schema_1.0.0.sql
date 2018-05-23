@@ -47,6 +47,7 @@ CREATE TABLE `spl_node_sp_category_tbl` (
 CREATE TABLE `spl_node_dev_tbl` (
   `dev_id_fk` int(10) unsigned NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
+  `dev_name` VARCHAR(30) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`dev_id_fk`),
