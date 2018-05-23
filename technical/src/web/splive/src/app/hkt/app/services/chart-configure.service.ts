@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
+import { ServiceConfigurationRequest } from '../../../prod-shared/models/api/service-configuration-models';
+import { EnvironmentProvider } from '../../../shared/environment-provider';
+import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
+import { PayloadResponse } from '../../../shared/models/api/payload-models';
+import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { AppDataStoreService } from '../../../shared/services/app-data-store/app-data-store-service';
 import { APP_DATA_STORE_KEYS } from '../app-constants';
+import {
+    CategoriesShortDataResponse, TaskTemplateRequest, TaskTemplateResponse,
+    ServiceConfigurationUpdateRequest,
+    ServiceConfigurationlistResponse
+} from '../models/api/chart-conf-models';
 import {
     ChartConfigurationModel,
     ChartTaskListConfModel,
@@ -12,7 +23,9 @@ import {
 
 @Injectable()
 export class ChartConfigureService {
-    constructor(private appDataStoreService: AppDataStoreService) { }
+    constructor(private appDataStoreService: AppDataStoreService,
+        private serverApiInterfaceService: ServerApiInterfaceService
+    ) { }
 
     getDataModel(): ChartConfigurationModel {
         return this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.CHART_CONFIG).
@@ -37,5 +50,35 @@ export class ChartConfigureService {
     removeDataModel() {
         this.appDataStoreService.getDataStore(APP_DATA_STORE_KEYS.CHART_CONFIG).
             removeObject(APP_DATA_STORE_KEYS.CHART_CONFIG);
+    }
+    getCategoriesShortDataList(implicitErrorHandling = true):
+        Observable<PayloadResponse<CategoriesShortDataResponse[]>> {
+        return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/category/list/short',
+            implicitErrorHandling);
+    }
+    addTask(deviceAddRequest: TaskTemplateRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<RecordIDResponse>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/task/add',
+            deviceAddRequest, implicitErrorHandling);
+    }
+    getTaskDataList(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<TaskTemplateResponse[]>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/task/list',
+            request, implicitErrorHandling);
+    }
+    addChartData(serviceConfigurationRequest: ServiceConfigurationRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<RecordIDResponse>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/service/config/add',
+            serviceConfigurationRequest, implicitErrorHandling);
+    }
+    updateConfiguration(serviceConfigurationUpdateRequest: ServiceConfigurationUpdateRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/v1/service/config/update',
+        serviceConfigurationUpdateRequest, implicitErrorHandling);
+    }
+    getConfigList(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<ServiceConfigurationlistResponse[]>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/service/config/list',
+            request, implicitErrorHandling);
     }
 }

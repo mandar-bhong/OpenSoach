@@ -8,34 +8,32 @@
             <span style="padding-left:10px">Filter</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <table class="example-full-width" cellspacing="0">
-          <tr id="layout-set">
-            <td>
-              <mat-form-field>
-                <input matInput placeholder="Corporate Name" [(ngModel)]="dataModel.corpname">
-                <button mat-button *ngIf="dataModel.corpname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.corpname=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field>
-                <input matInput placeholder="Mobile Number" [(ngModel)]="dataModel.corpmobileno">
-                <button mat-button *ngIf="dataModel.corpmobileno" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.corpmobileno=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </td>
-            <td>
-              <mat-form-field>
-                <input matInput placeholder="Email ID" [(ngModel)]="dataModel.corpemailid">
-                <button mat-button *ngIf="dataModel.corpemailid" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.corpemailid=''">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </td>
-          </tr>
-        </table>
+        <div class="row">
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <input matInput placeholder="Corporate Name" [(ngModel)]="dataModel.corpname">
+              <button mat-button *ngIf="dataModel.corpname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.corpname=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <input matInput placeholder="Mobile Number" [(ngModel)]="dataModel.corpmobileno">
+              <button mat-button *ngIf="dataModel.corpmobileno" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.corpmobileno=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <input matInput placeholder="Email ID" [(ngModel)]="dataModel.corpemailid">
+              <button mat-button *ngIf="dataModel.corpemailid" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.corpemailid=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
         <button type="button" mat-raised-button color="primary" (click)="search()">Apply</button>
       </mat-expansion-panel>
     </mat-card>

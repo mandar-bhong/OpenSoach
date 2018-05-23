@@ -5,6 +5,7 @@ import { CustomerAddComponent } from './customer-add/customer-add.component';
 import { CustomerAssociateProductComponent } from './customer-associate-product/customer-associate-product.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerUpdateDetailsComponent } from './customer-update-details/customer-update-details.component';
+import { CustomerServicepointAssociateComponent } from './customer-servicepoint-associate/customer-servicepoint-associate.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'products',
     component: CustomerAssociateProductComponent
+  },
+  {
+    path: 'servicepoint',
+    component: CustomerServicepointAssociateComponent
   }
 ];
 

@@ -6,6 +6,8 @@ import {
     CustomerAssociateProductRequest,
     CustomerAssociateProductUpdateRequest,
     CustomerFilterRequest,
+    CustomerServiceAssociateUpdateRequest,
+    CustomerServiceAssociateListResponse,
 } from '../api/customer-models';
 
 export class CustomerAddModel {
@@ -69,5 +71,24 @@ export class CustomerAssociateProductModel {
         this.cpmstate = details.cpmstate;
         this.dbiid = details.dbiid;
         this.prodid = details.prodid;
+    }
+}
+
+export class CustomerSeviceAssociateProductModel {
+    custid: number;
+    prodcode: string;
+    updatecount: number;
+    spcount: number;
+    cpmid: number;
+    copyToUpdateRequest(request: CustomerServiceAssociateUpdateRequest) {
+        request.cpmid = this.cpmid;
+        request.updatecount = this.updatecount;
+    }
+
+    copyFrom(details: CustomerServiceAssociateListResponse) {
+        this.prodcode = details.prodcode;
+        this.spcount = details.spcount;
+        this.cpmid = details.cpmid;
+
     }
 }

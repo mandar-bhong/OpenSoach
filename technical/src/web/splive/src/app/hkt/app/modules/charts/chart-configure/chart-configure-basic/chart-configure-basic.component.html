@@ -10,17 +10,20 @@
     </div>
   </div>
   <div class="row">
-      <div class="col-sm-6 col-md-4">
-        <mat-form-field>
-          <mat-select placeholder="Chart Category"  formControlName="categoryControl" [(ngModel)]="dataModel.spcid" required>
-            <mat-option [value]=1>Category 1</mat-option>
-            <mat-option [value]=2>Category 2</mat-option>            
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <div class="col-sm-6 col-md-4">
+      <mat-form-field>
+        <mat-select placeholder="Chart Category" formControlName="categoryControl" required [(ngModel)]="dataModel.spcid">
+          <mat-option *ngFor="let cat of categories" [value]="cat.spcid">
+            {{cat.spcname}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="editableForm.controls['categoryControl'].hasError('required')">
+          Categories Selection is Required
+        </mat-error>
+      </mat-form-field>
     </div>
+  </div>
   <div class="row">
     <button mat-raised-button type="submit" color="primary">Next</button>
   </div>
-
 </form>

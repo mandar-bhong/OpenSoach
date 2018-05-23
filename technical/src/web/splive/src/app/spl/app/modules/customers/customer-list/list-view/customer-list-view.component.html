@@ -94,6 +94,10 @@
                     <mat-icon color='primary'>link</mat-icon>
                     <span>Associated Products</span>
                   </button>
+                  <button mat-menu-item (click)="serviceAssociate(row.custid)">
+                    <mat-icon color='primary'>location_on</mat-icon>
+                    <span>Service Points</span>
+                  </button>
                 </ng-template>
               </mat-menu>
             </mat-cell>
