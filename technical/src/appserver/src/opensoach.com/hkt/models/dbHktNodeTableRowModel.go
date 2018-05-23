@@ -45,6 +45,7 @@ type DBSplNodeDevSpMappingRowModel struct {
 
 type DBSplNodeDevTableRowModel struct {
 	DevId     int64     `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	DevName   string    `db:"dev_name" json:"devname"`
 	CpmId     int64     `db:"cpm_id_fk" json:"cpmid"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
