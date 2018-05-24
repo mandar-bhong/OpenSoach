@@ -38,9 +38,10 @@ const (
 )
 
 const (
-	LoggingServiceFmt    serviceType = 1
-	LoggingServiceFile               = 2
-	LoggingServiceFluent             = 3
+	LoggingServiceFmt      serviceType = 1
+	LoggingServiceFile                 = 2
+	LoggingServiceFluent               = 3
+	LoggingServiceInfluxDB             = 4
 )
 
 var logLevel severity = Error

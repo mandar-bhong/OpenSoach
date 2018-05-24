@@ -34,7 +34,8 @@ type ConfigServer struct {
 }
 
 type ConfigLogger struct {
-	LogLevel          string `json:"loglevel"`
-	LoggingType       string `json:"logtype"`
-	LoggingFluentHost string `json:"fluenthost"`
+	LogLevel            string `json:"loglevel"`
+	LoggingType         string `json:"logtype"`
+	LoggingFluentHost   string `json:"fluenthost"`
+	LoggingInfluxDBHost string `json:"fluenthost"`
 }
