@@ -10,6 +10,9 @@ inner join spl_node_sp_category_tbl spc on spc.id = sp.spc_id_fk
 where devsp.cpm_id_fk = ? and devsp.dev_id_fk = ?`
 
 const QUERY_EP_PROC_GET_SP_OPERATOR = `select fopcode from spl_node_field_operator_tbl as fop
+where fop.fop_area =1
+union
+select fopcode from spl_node_field_operator_tbl as fop
 inner join spl_node_fop_sp_tbl as fopsp on fop.id = fopsp.fop_id_fk
 where fopsp.cpm_id_fk = ? and fopsp.sp_id_fk = ?`
 
