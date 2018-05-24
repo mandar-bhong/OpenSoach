@@ -65,6 +65,7 @@ INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (1
 --
 
 INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (1,1,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (2,1,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_cpm_sp_mapping_tbl`
