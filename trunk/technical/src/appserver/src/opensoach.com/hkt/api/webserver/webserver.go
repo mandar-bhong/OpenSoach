@@ -35,7 +35,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 
 	webcontent.Init(webConfig)
 
-	pcwebsermid.Init(repo.Instance().Context, webConfig)
+	pcwebsermid.Init(repo.Instance().Context, webConfig, func(url string) bool { return true }) // all api need to validated
 
 	task.Init(webConfig)
 	fieldoperator.Init(webConfig)
