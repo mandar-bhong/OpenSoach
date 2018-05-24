@@ -51,6 +51,8 @@ func GetServiceLogger() LoggingService {
 
 	case LoggingServiceFluent:
 		return FluentLoggingService{}
+	case LoggingServiceInfluxDB:
+		return InfluxDBLoggingService{}
 	}
 	return nil
 }

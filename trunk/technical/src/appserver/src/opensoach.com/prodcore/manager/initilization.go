@@ -52,6 +52,9 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 		case pcconst.DB_CONFIG_LOGGER_FLUENT_HOST:
 			loggerConfig.LoggingFluentHost = dbRow.ConfigValue
 			break
+		case pcconst.DB_CONFIG_LOGGER_INFLUXDB_HOST:
+			loggerConfig.LoggingInfluxDBHost = dbRow.ConfigValue
+			break
 		case pcconst.DB_CONFIG_WEB_SERVICE_ADDRESS:
 			webConfig.ServiceAddress = dbRow.ConfigValue
 			break
@@ -305,6 +308,9 @@ func SetLogger(configSetting *gmodels.ConfigSettings) {
 	case pcconst.LOGGER_LOGGING_TYPE_FLUENT:
 		logger.SetLoggingService(logger.LoggingServiceFluent)
 		logger.SetFluentHost(configSetting.LoggerConfig.LoggingFluentHost)
+	case pcconst.LOGGER_LOGGING_TYPE_INFLUXDB:
+		logger.SetLoggingService(logger.LoggingServiceInfluxDB)
+		logger.SetInfluxDBHost(configSetting.LoggerConfig.LoggingInfluxDBHost)
 	default:
 		logger.SetLoggingService(logger.LoggingServiceFmt)
 	}

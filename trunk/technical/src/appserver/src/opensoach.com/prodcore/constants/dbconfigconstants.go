@@ -5,6 +5,7 @@ const DB_CONFIG_HKT_MASTER_DB_CONNECTION = "HKT.Master.DB.Connection"
 const DB_CONFIG_LOGGER_LOG_LEVEL string = "Logger.Log.Level"
 const DB_CONFIG_LOGGER_LOGGING_TYPE string = "Logger.LogType"
 const DB_CONFIG_LOGGER_FLUENT_HOST string = "Logger.Fluent.Host"
+const DB_CONFIG_LOGGER_INFLUXDB_HOST string = "Logger.InfluxDB.Host"
 
 const DB_CONFIG_WEB_SERVICE_ADDRESS string = "Web.Service.Address"
 const DB_CONFIG_CACHE_ADDRESS_HOST string = "Cache.Address.Host"
