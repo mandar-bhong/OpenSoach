@@ -30,3 +30,12 @@ type DBServiceInstanceInsertRowModel struct {
 	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 	DBServiceInstanceDataModel
 }
+
+type DBServiceConfShortDataModel struct {
+	ServConfId   int64  `db:"id" dbattr:"pri,auto"  json:"servconfid"`
+	ServConfName string `db:"serv_conf_name" json:"servconfname"`
+}
+
+type DBServiceConfTemplateInsertDataModel struct {
+	ServConfId int64 `db:"id" json:"servconfid"`
+}

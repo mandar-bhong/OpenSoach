@@ -11,3 +11,9 @@ const QUERY_SERVICE_INSTANCE_TABLE_SELECT_BY_FILTER = `Select serv_conf_in.id as
 Inner Join spl_node_service_conf_tbl serv_conf on serv_conf.id = serv_conf_in.serv_conf_id_fk $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_GET_SERVICE_INSTANCE_TXN = `select * from spl_node_service_in_txn_tbl where txn_date between ? and ?`
+
+const QUERY_GET_SERVICE_CONF_SHORT_LIST = `select id,serv_conf_name from spl_node_service_conf_tbl`
+
+const QUERY_INSERT_SERVICE_CONF_COPY = `insert into spl_node_service_conf_tbl (cpm_id_fk,spc_id_fk,conf_type_code,serv_conf_name,short_desc,serv_conf)
+select cpm_id_fk,spc_id_fk,conf_type_code,serv_conf_name,short_desc,serv_conf from spl_node_service_conf_tbl 
+where id =:id`
