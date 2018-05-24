@@ -1,11 +1,11 @@
 package user
 
 import (
+	pcmodels "opensoach.com/prodcore/models"
 	"opensoach.com/spl/constants"
-	lmodels "opensoach.com/spl/models"
 )
 
-func Init(config *lmodels.WebServerConfiguration) {
+func Init(config *pcmodels.WebServerConfiguration) {
 
 	allGroup := config.AuthorizedRouterHandler[constants.API_AUTHORIZATION_ROUTER_GROUP_KEY]
 

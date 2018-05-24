@@ -5,6 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	gmodels "opensoach.com/models"
+
+	"opensoach.com/core/logger"
 )
 
 func AuthorizationHandler() gin.HandlerFunc {
@@ -12,6 +14,7 @@ func AuthorizationHandler() gin.HandlerFunc {
 		var isSuccess bool
 		var successErrorData interface{}
 
+		logger.Context().LogDebug("Authorization", logger.Instrumentation, "Executing authorization")
 		responsePayload := gmodels.APIPayloadResponse{}
 
 		isSuccess, successErrorData = requestHandler(c)
@@ -27,15 +30,11 @@ func AuthorizationHandler() gin.HandlerFunc {
 }
 
 func requestHandler(c *gin.Context) (bool, interface{}) {
-	var isSuccess bool
-	var successErrorData interface{}
 
-	switch c.Request.URL.Path {
+	requiredValidation := authFilter(c.Request.URL.Path)
 
-	default:
-		isSuccess, successErrorData = AuthorizationService.ValidateUserAuthorization(AuthorizationService{}, c)
-		break
+	if requiredValidation {
+		return AuthorizationService.ValidateUserAuthorization(AuthorizationService{}, c)
 	}
-
-	return isSuccess, successErrorData
+	return true, nil
 }

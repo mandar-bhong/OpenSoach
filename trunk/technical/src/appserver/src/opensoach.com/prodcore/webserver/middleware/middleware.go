@@ -6,10 +6,14 @@ import (
 	pcmodels "opensoach.com/prodcore/models"
 )
 
-var oscontext *core.Context
+type AuthFilterHandler func(url string) bool
 
-func Init(osctx *core.Context, config *pcmodels.WebServerConfiguration) {
+var oscontext *core.Context
+var authFilter AuthFilterHandler
+
+func Init(osctx *core.Context, config *pcmodels.WebServerConfiguration, authorizationFilter AuthFilterHandler) {
 	config.AuthorizedRouterHandler = make(map[string]*gin.RouterGroup)
 	oscontext = osctx
+	authFilter = authorizationFilter
 	registerRouters(config)
 }

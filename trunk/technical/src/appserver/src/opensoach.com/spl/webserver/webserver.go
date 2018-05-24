@@ -8,13 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
 	gmodels "opensoach.com/models"
-	lmodels "opensoach.com/spl/models"
+	pcmodels "opensoach.com/prodcore/models"
+	pcmiddleware "opensoach.com/prodcore/webserver/middleware"
+	repo "opensoach.com/spl/repository"
 	corporatemodule "opensoach.com/spl/webserver/corporate"
 	custmodule "opensoach.com/spl/webserver/customer"
 	devicemodule "opensoach.com/spl/webserver/device"
 	endpointmodule "opensoach.com/spl/webserver/endpoint"
 	loginModule "opensoach.com/spl/webserver/login"
-	middlewaremodule "opensoach.com/spl/webserver/middleware"
+	"opensoach.com/spl/webserver/middleware"
 	productmodule "opensoach.com/spl/webserver/product"
 	usermodule "opensoach.com/spl/webserver/user"
 	"opensoach.com/spl/webserver/webcontent"
@@ -27,14 +29,14 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 
 	enableCrossDomain(ginEngine)
 
-	webConfig := &lmodels.WebServerConfiguration{}
+	webConfig := &pcmodels.WebServerConfiguration{}
 	webConfig.WebHandlerEngine = ginEngine
 	webConfig.DBConfig = configSetting.DBConfig
 	webConfig.WebConf = configSetting.WebConfig
 	webConfig.AuthorizedRouterHandler = make(map[string]*gin.RouterGroup)
 
 	webcontent.Init(webConfig)
-	middlewaremodule.Init(webConfig)
+	pcmiddleware.Init(repo.Instance().Context, webConfig, middleware.AuthorizationFilter)
 	//webauth.Init(webConfig)
 	loginModule.Init(webConfig)
 	productmodule.Init(webConfig)
