@@ -40,3 +40,11 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 5.	method GET: /api/v1/service/transaction/list
 
 	{"startdate":"2018-05-20T00:00:00Z","enddate":"2018-05-22T00:00:00Z"}
+	
+	
+6.	method:GET	/api/v1/service/config/list/short
+
+
+7.  method POST /api/v1/service/config/copytemplate
+
+	{"servconfid":1}

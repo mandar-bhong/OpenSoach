@@ -195,3 +195,36 @@ func GetServiceInstTxn(dbConn string, startdate time.Time, enddate time.Time) (e
 	}
 	return nil, data
 }
+
+func GetServiceConfShortDataList(dbConn string) (error, *[]hktmodels.DBServiceConfShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetServiceConfShortDataList")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBServiceConfShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_SERVICE_CONF_SHORT_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func ServiceConfigInsertCopy(dbConn string, insrtStruct hktmodels.DBServiceConfTemplateInsertDataModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ServiceConfigInsertCopy.")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = insrtStruct
+	insDBCtx.QueryType = dbmgr.Query
+	insDBCtx.Query = dbquery.QUERY_INSERT_SERVICE_CONF_COPY
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}

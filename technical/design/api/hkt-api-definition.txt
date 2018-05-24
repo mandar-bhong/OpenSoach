@@ -382,7 +382,7 @@ spstate:number;
 spstatesince:number;
 }
 
-30. Get deice short list
+30. Get device short list
 API Name: /api/v1/device/list/short
 Request Method: GET
 request: null
@@ -391,7 +391,22 @@ devid:number;
 devname:string;
 }
 
+31. Get service conf short list
+API Name: /api/v1/service/config/list/short
+Request Method: GET
+request: null
+response: Response{
+servconfid:number;
+servconfname:string;
+}
 
+32. Service Conf Copy Template
+API Name: /api/v1/service/config/copytemplate
+Request Method: POST
+request: request{
+servconfid:number;
+}
+response: insertedid
 
 
 
