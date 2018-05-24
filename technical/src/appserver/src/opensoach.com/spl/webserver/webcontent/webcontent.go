@@ -1,10 +1,10 @@
 package webcontent
 
 import (
-	lmodels "opensoach.com/spl/models"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
-func Init(config *lmodels.WebServerConfiguration) {
+func Init(config *pcmodels.WebServerConfiguration) {
 
 	allGroup := config.WebHandlerEngine.Group("/")
 
