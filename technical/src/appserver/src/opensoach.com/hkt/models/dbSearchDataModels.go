@@ -75,8 +75,8 @@ type DBSearchServicePointResponseFilterDataModel struct {
 	SpName       string    `db:"sp_name" json:"spname"`
 	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
 	SpcName      string    `db:"spc_name" json:"spcname"`
-	DevId        int64     `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
-	DevName      string    `db:"dev_name" json:"devname"`
+	DevId        *int64    `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	DevName      *string   `db:"dev_name" json:"devname"`
 	ServConfId   *int64    `db:"id" json:"servconfid"`
 	SpState      int       `db:"sp_state" json:"spstate"`
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
