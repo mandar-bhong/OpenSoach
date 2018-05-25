@@ -11,5 +11,10 @@ type DeviceHeaderData struct {
 	CommandID int    `json:"commandid"`
 	SeqID     int    `json:"seqid"`
 	SPID      int64  `json:"spid"`
-	Ack       int    `json:"ack"`
+}
+
+type DeviceCommandAck struct {
+	Ack       bool        `json:"ack"`
+	ErrorCode int         `json:"errcode"`
+	Data      interface{} `json:"ackdata"`
 }

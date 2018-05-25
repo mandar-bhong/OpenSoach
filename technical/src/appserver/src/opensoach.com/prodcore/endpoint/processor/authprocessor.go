@@ -56,7 +56,7 @@ func AuthorizeDevice(mstCache gcore.CacheContext, packet *gmodels.PacketProcessi
 	deviceAuthPacket := &gmodels.DevicePacket{}
 	deviceAuthPacket.Header.Category = 1
 	deviceAuthPacket.Header.CommandID = 1
-	deviceAuthPacket.Header.Ack = 1
+	
 
 	result.AckPayload = append(result.AckPayload, deviceAuthPacket)
 
@@ -69,7 +69,7 @@ func GetUnauthorizedDevicePacket() (bool, string) {
 
 	devicePacket.Header.Category = 1
 	devicePacket.Header.CommandID = 1
-	devicePacket.Header.Ack = 1
+	
 
 	return ghelper.ConvertToJSON(devicePacket)
 }
