@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -11,7 +10,7 @@ import (
 )
 
 const (
-	MyDB = "influxd"
+	loginApplicationInfluxDB = "spl"
 )
 
 var influxDBHost string
@@ -31,49 +30,19 @@ func (i InfluxDBLoggingService) logMessage(l *loggerContext) {
 
 func (InfluxDBLoggingService) influxDBprepareLogMessage(l *loggerContext) *client.Point {
 
-	tags := map[string]string{"": ""}
+	lmsg := convertToLogMsg(*l)
 
+	tags := map[string]string{"": ""}
 	fields := map[string]interface{}{}
 
-	fields["AppComponent"] = l.appComponent
-	fields["SubComponent"] = l.subComponent
-	fields["Message"] = l.msg
-	fields["Time"] = l.logTime.Format("Jan 2, 2006 at 3:04:05pm (MST)")
-
-	switch l.level {
-	case Error:
-		fields["LogLevel"] = "Error"
-	case Debug:
-		fields["LogLevel"] = "Debug"
-	case Info:
-		fields["LogLevel"] = "Info"
-	}
-
-	switch l.msgType {
-	case Normal:
-		fields["MessageType"] = "Normal"
-	case Instrumentation:
-		fields["MessageType"] = "Instrumentation"
-	case Performace:
-		fields["MessageType"] = "Performace"
-	case Server:
-		fields["MessageType"] = "Server"
-	default:
-		fields["MessageType"] = "Unknown"
-	}
-
-	if l.err != nil {
-		fields["Error"] = l.err.Error()
-	} else {
-		fields["Error"] = ""
-	}
-
-	if l.fields == nil {
-		fields["Fields"] = ""
-	} else {
-		dataBytes, _ := json.Marshal(l.fields)
-		fields["Fields"] = string(dataBytes)
-	}
+	fields["AppComponent"] = lmsg.AppComponent
+	fields["SubComponent"] = lmsg.SubComponent
+	fields["Message"] = lmsg.Msg
+	fields["Time"] = lmsg.LogTime
+	fields["LogLevel"] = lmsg.Level
+	fields["MessageType"] = lmsg.MsgType
+	fields["Error"] = lmsg.Err
+	fields["Fields"] = lmsg.Fields
 
 	pt, err := client.NewPoint("spl.spl", tags, fields, time.Now())
 	if err != nil {
@@ -95,8 +64,8 @@ func influxDBpostMessage(host string, pt *client.Point) {
 	defer c.Close()
 
 	bp, err := client.NewBatchPoints(client.BatchPointsConfig{
-		Database:  MyDB,
-		Precision: "s",
+		Database:  loginApplicationInfluxDB,
+		Precision: "ns", //precision set nano seconds because other than this packets are not logged appropriately few packets are discarded
 	})
 	if err != nil {
 		fmt.Printf("Error occured while creating new batch points %#v \n", err)

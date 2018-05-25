@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"encoding/json"
 	"fmt"
 	"sync"
 )
@@ -96,4 +97,51 @@ func prepareLogMessage(logMsg *loggerContext) string {
 	}
 
 	return msg
+}
+
+func convertToLogMsg(l loggerContext) logMsg {
+	lmsg := logMsg{}
+
+	lmsg.AppComponent = l.appComponent
+	lmsg.LogTime = l.logTime.Format("Jan 2, 2006 at 3:04:05pm (MST)")
+	lmsg.Msg = l.msg
+	lmsg.SubComponent = l.subComponent
+
+	switch l.level {
+	case Error:
+		lmsg.Level = "Error"
+	case Debug:
+		lmsg.Level = "Debug"
+	case Info:
+		lmsg.Level = "Info"
+	}
+
+	switch l.msgType {
+	case Normal:
+		lmsg.MsgType = "Normal"
+	case Instrumentation:
+		lmsg.MsgType = "Instrumentation"
+	case Performace:
+		lmsg.MsgType = "Performace"
+	case Server:
+		lmsg.MsgType = "Server"
+	default:
+		lmsg.MsgType = "Unknown"
+	}
+
+	if l.err != nil {
+		lmsg.Err = l.err.Error()
+	} else {
+		lmsg.Err = ""
+	}
+
+	if l.fields == nil {
+		lmsg.Fields = ""
+	} else {
+		dataBytes, _ := json.Marshal(l.fields)
+		lmsg.Fields = string(dataBytes)
+	}
+
+	return lmsg
+
 }
