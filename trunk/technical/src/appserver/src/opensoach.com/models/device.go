@@ -14,7 +14,6 @@ type DeviceHeaderData struct {
 }
 
 type DeviceCommandAck struct {
-	Ack       bool        `json:"ack"`
-	ErrorCode int         `json:"errcode"`
-	Data      interface{} `json:"ackdata"`
+	Ack  bool        `json:"ack"`
+	Data interface{} `json:"ackdata"`
 }

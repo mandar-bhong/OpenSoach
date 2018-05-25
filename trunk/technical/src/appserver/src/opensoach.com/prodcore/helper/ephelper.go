@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	gmodels "opensoach.com/models"
-	pcconst "opensoach.com/prodcore/constants"
+	lconst "opensoach.com/prodcore/constants"
 )
 
 func GetDeviceCmdKeyFromHeader(deviceHeader gmodels.DeviceHeaderData) string {
@@ -17,9 +17,13 @@ func GetDeviceCmdKey(category int, command int) string {
 		strconv.Itoa(command)
 }
 
-func GetEPAckPacket(commandID int, seqid int, isSuccess bool, errorCode int, ackData interface{}) *gmodels.DevicePacket {
+func GetEPDefaultAckPacket(seqid int, isSuccess bool, ackData interface{}) *gmodels.DevicePacket {
+	return GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT, seqid, isSuccess, ackData)
+}
+
+func GetEPAckPacket(commandID int, seqid int, isSuccess bool, ackData interface{}) *gmodels.DevicePacket {
 	devicePacket := &gmodels.DevicePacket{}
-	devicePacket.Header.Category = pcconst.DEVICE_CMD_CAT_ACK
+	devicePacket.Header.Category = lconst.DEVICE_CMD_CAT_ACK
 	devicePacket.Header.CommandID = commandID
 	devicePacket.Header.SeqID = seqid
 

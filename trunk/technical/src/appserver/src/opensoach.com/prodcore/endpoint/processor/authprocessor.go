@@ -5,7 +5,6 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
-	pcconst "opensoach.com/prodcore/constants"
 	lhelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 )
@@ -55,10 +54,7 @@ func AuthorizeDevice(mstCache gcore.CacheContext, packet *gmodels.PacketProcessi
 
 	result.IsSuccess = true
 
-	deviceAuthPacket := &gmodels.DevicePacket{}
-	deviceAuthPacket.Header.Category = pcconst.DEVICE_CMD_CAT_DEVICE_VALIDATION
-	deviceAuthPacket.Header.CommandID = pcconst.DEVICE_CMD_DEVICE_AUTH
-	deviceAuthPacket.Header.SeqID = devicePacket.Header.SeqID
+	deviceAuthPacket := lhelper.GetEPDefaultAckPacket(devicePacket.Header.SeqID, true, nil)
 
 	result.AckPayload = append(result.AckPayload, deviceAuthPacket)
 

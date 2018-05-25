@@ -78,7 +78,7 @@ func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
 			case gmodels.DEVICE_PROCESSING_AUTH_TOKEN_NOT_FOUND:
 
 				devicePacket := pchelper.GetEPAckPacket(pcconst.DEVICE_CMD_CAT_ACK_DEFAULT,
-					packetHeader.SeqID, false, 0, nil) //TODO: Define error code for this
+					packetHeader.SeqID, false, nil) //TODO: Define error code for this
 
 				isSuccess, jsonPacket := ghelper.ConvertToJSON(devicePacket)
 
