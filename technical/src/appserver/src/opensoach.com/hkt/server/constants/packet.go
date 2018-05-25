@@ -1,5 +1,9 @@
 package constants
 
+import (
+	pccont "opensoach.com/prodcore/constants"
+)
+
 const DEVICE_CMD_CAT_DEVICE_REG int = 1
 const DEVICE_CMD_DEVICE_REGISTRATION int = 1
 
@@ -14,6 +18,6 @@ const DEVICE_CMD_CAT_DATA int = 3
 const DEVICE_CMD_SERVICE_INST_DATA int = 1
 const DEVICE_CMD_CONFIG_PART_DATA int = 6
 
-const DEVICE_CMD_CAT_ACK int = 7
-const DEVICE_CMD_CAT_ACK_DEFAULT int = 0
+const DEVICE_CMD_CAT_ACK int = pccont.DEVICE_CMD_CAT_ACK
+const DEVICE_CMD_CAT_ACK_DEFAULT int = pccont.DEVICE_CMD_CAT_ACK_DEFAULT
 const DEVICE_CMD_CAT_ACK_CHART_DATA int = 1
