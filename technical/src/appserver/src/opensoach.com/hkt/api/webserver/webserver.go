@@ -7,6 +7,7 @@ import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
+	"opensoach.com/hkt/api/constants"
 	repo "opensoach.com/hkt/api/repository"
 	complaint "opensoach.com/hkt/api/webserver/complaint"
 	device "opensoach.com/hkt/api/webserver/device"
@@ -14,6 +15,7 @@ import (
 	master "opensoach.com/hkt/api/webserver/master"
 	service "opensoach.com/hkt/api/webserver/service"
 	servicepoint "opensoach.com/hkt/api/webserver/servicepoint"
+	splprod "opensoach.com/hkt/api/webserver/splprod"
 	task "opensoach.com/hkt/api/webserver/task"
 	"opensoach.com/hkt/api/webserver/webcontent"
 	gmodels "opensoach.com/models"
@@ -35,7 +37,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 
 	webcontent.Init(webConfig)
 
-	pcwebsermid.Init(repo.Instance().Context, webConfig, func(url string) bool { return true }) // all api need to validated
+	pcwebsermid.Init(repo.Instance().Context, webConfig, AuthorizationFilter) // all api need to validated
 
 	task.Init(webConfig)
 	fieldoperator.Init(webConfig)
@@ -44,6 +46,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	master.Init(webConfig)
 	servicepoint.Init(webConfig)
 	device.Init(webConfig)
+	splprod.Init(webConfig)
 
 	var webServerStartErr error
 
@@ -66,4 +69,12 @@ func enableCrossDomain(c *gin.Engine) {
 		ValidateHeaders: true,
 		ExposedHeaders:  "Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma",
 	}))
+}
+
+func AuthorizationFilter(reqURL string) (isAuthorizationRequred bool) {
+	switch reqURL {
+	case constants.API_SPL_PROD_BASE_URL:
+		return false
+	}
+	return true
 }
