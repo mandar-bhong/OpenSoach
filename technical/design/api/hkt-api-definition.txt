@@ -408,6 +408,14 @@ servconfid:number;
 }
 response: insertedid
 
+33. Get Spl Base Url
+API Name: /api/v1/splprod/baseurl
+Request Method: GET
+request: null;
+response: {
+baseurl:string;
+}
+
 
 
 
