@@ -2,7 +2,9 @@ package dbaccess
 
 import (
 	dbmgr "opensoach.com/core/manager/db"
+	hktmodels "opensoach.com/hkt/models"
 	prodmodels "opensoach.com/hkt/models"
+	"opensoach.com/hkt/server/constants"
 	"opensoach.com/hkt/server/constants/dbquery"
 )
 
@@ -64,4 +66,17 @@ func EPGetSPServConf(dbConn string, cpmid int64, spid int64) (error, *[]prodmode
 		return selErr, nil
 	}
 	return nil, data
+}
+
+func EPInsertServiceInstanceData(dbConn string,
+	dbSerInstDataRowModel hktmodels.DBServiceInstanceDataRowModel) error {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = dbSerInstDataRowModel
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_NODE_SERVICE_INST_TXN_TBL
+	insertErr := insDBCtx.Insert()
+
+	return insertErr
 }

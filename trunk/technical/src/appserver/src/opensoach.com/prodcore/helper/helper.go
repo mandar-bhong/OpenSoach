@@ -8,12 +8,10 @@ import (
 
 func GetDeviceCmdKeyFromHeader(deviceHeader gmodels.DeviceHeaderData) string {
 	return strconv.Itoa(deviceHeader.Category) + "_" +
-		strconv.Itoa(deviceHeader.CommandID) + "_" +
-		strconv.Itoa(deviceHeader.Ack)
+		strconv.Itoa(deviceHeader.CommandID)
 }
 
-func GetDeviceCmdKey(category int, command int, ack int) string {
+func GetDeviceCmdKey(category int, command int) string {
 	return strconv.Itoa(category) + "_" +
-		strconv.Itoa(command) + "_" +
-		strconv.Itoa(ack)
+		strconv.Itoa(command)
 }
