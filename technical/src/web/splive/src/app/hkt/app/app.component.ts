@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
+import { SplConfService } from '../../prod-shared/services/spl-conf.service';
 import { USER_CATEGORY } from '../../shared/app-common-constants';
 import { AppSpecificDataProvider } from '../../shared/app-specific-data-provider';
 import { EnvironmentProvider } from '../../shared/environment-provider';
@@ -22,19 +23,19 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   loading: boolean;
   constructor(private loginHandlerService: LoginHandlerService,
     private router: Router,
-    private appDataStoreService: AppDataStoreService) { }
+    private appDataStoreService: AppDataStoreService,
+    private splConfService: SplConfService) { }
 
   ngOnInit() {
 
     this.populateEnvironmentProvider();
     this.initAppDataStoreService();
     this.populateAppSpecificDataProvider();
-    this.loginHandlerService.init();
+    this.getSplBaseUrl();
   }
 
   populateEnvironmentProvider() {
     EnvironmentProvider.production = environment.production;
-    EnvironmentProvider.baseurl = environment.baseurl;
     EnvironmentProvider.appbaseurl = environment.appbaseurl;
     EnvironmentProvider.prodcode = environment.prodcode;
   }
@@ -49,6 +50,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.appDataStoreService.appInMemoryStoreKeys = APP_IN_MEMORY_STORE_KEYS;
     this.appDataStoreService.appLocalStorageKeys = APP_LOCAL_STORAGE_KEYS;
     this.appDataStoreService.init();
+  }
+
+  getSplBaseUrl() {
+    this.splConfService.getSplBaseUrl().subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        EnvironmentProvider.baseurl = payloadResponse.data.baseurl;
+        this.loginHandlerService.init();
+      }
+    });
   }
 
   ngAfterViewInit() {
