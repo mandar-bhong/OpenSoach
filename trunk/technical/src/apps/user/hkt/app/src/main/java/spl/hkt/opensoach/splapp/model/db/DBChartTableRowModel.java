@@ -17,6 +17,7 @@ public class DBChartTableRowModel {
     private String chartPayload;
     private Date chartDispStartDate;
     private Date chartDispEndDate;
+    private String chartName;
 
 
     public int getChartId() {
@@ -65,5 +66,13 @@ public class DBChartTableRowModel {
 
     public void setChartDispEndDate(Date chartDispEndDate) {
         this.chartDispEndDate = chartDispEndDate;
+    }
+
+    public String getChartName() {
+        return chartName;
+    }
+
+    public void setChartName(String chartName) {
+        this.chartName = chartName;
     }
 }

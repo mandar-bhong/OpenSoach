@@ -10,5 +10,5 @@ import spl.hkt.opensoach.splapp.model.communication.PacketModel;
 
 public interface IProcessor {
 
-    PacketProcessResultModel Process(PacketDecodeResultModel resultModel);
+    PacketProcessResultModel Process(PacketDecodeResultModel packetDecodeResultModel);
 }

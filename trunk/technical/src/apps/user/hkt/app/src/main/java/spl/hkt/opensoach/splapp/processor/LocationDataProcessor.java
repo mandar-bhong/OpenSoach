@@ -26,7 +26,7 @@ public class LocationDataProcessor implements IProcessor {
 
         try {
 
-            PacketModel<PacketLocationDataModel[]> packetLocationDataModel = (PacketModel<PacketLocationDataModel[]>) resultModel.Packet.Payload;
+            PacketModel<PacketLocationDataModel[]> packetLocationDataModel = (PacketModel<PacketLocationDataModel[]>) resultModel.Packet;
 
             List<DBLocationTableRowModel> dbLocationModels = DatabaseManager.SelectAll(new DBLocationTableQueryModel(), new DBLocationTableRowModel());
 

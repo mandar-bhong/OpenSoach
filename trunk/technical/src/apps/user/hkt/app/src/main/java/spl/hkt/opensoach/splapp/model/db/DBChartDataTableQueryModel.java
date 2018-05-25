@@ -35,7 +35,7 @@ public class DBChartDataTableQueryModel implements IDBRowMapper<DBChartDataTable
     @Override
     public void PrepareModel(Cursor cursor, DBChartDataTableRowModel dataModel) {
         dataModel.setChartId(cursor.getInt(0));
-        dataModel.setTaskId(cursor.getInt(1));
+        dataModel.setTaskName(cursor.getString(1));
         dataModel.setSlotId(cursor.getInt(2));
         dataModel.setEntryTime(new Date(cursor.getLong(3)));
         dataModel.setSlotStartTime(new Date(cursor.getLong(4)));
@@ -50,7 +50,7 @@ public class DBChartDataTableQueryModel implements IDBRowMapper<DBChartDataTable
     public String[] SelectColumn() {
         return new String[]{
                 DBConstants.TABLE_CHART_DATA_CHART_ID,
-                DBConstants.TABLE_CHART_DATA_TASK_ID,
+                DBConstants.TABLE_CHART_DATA_TASK_NAME,
                 DBConstants.TABLE_CHART_DATA_SLOT_ID,
                 DBConstants.TABLE_CHART_DATA_ENTRY_TIME,
                 DBConstants.TABLE_CHART_DATA_SLOT_START_TIME,
@@ -69,7 +69,7 @@ public class DBChartDataTableQueryModel implements IDBRowMapper<DBChartDataTable
             case UPDATE_SYNC_STATE_WITH_CHART_ID:
                 return DBConstants.TABLE_CHART_DATA_CHART_ID + "=?";
             case UPDATE_SYNC_STATE_WITH_TASK_ID:
-                return DBConstants.TABLE_CHART_DATA_TASK_ID + "=?";
+                return DBConstants.TABLE_CHART_DATA_TASK_NAME + "=?";
             case UPDATE_SYNC_STATE_WITH_SLOT_ID:
                 return DBConstants.TABLE_CHART_DATA_SLOT_ID + "=?";
             case FILTER_BY_DAY:
@@ -79,9 +79,9 @@ public class DBChartDataTableQueryModel implements IDBRowMapper<DBChartDataTable
             case UPDATE_SYNC_STATE_WITH_CHART_ID_ENTRY_TIME:
                 return DBConstants.TABLE_CHART_DATA_CHART_ID + "=? and " + DBConstants.TABLE_CHART_DATA_ENTRY_TIME + "=?";
             case FILTER_BY_CHARTID_TODAY:
-                return DBConstants.TABLE_CHART_DATA_CHART_ID + "=? and "+DBConstants.TABLE_CHART_DATA_DAY +" = ?";
+                return DBConstants.TABLE_CHART_DATA_CHART_ID + "=? and " + DBConstants.TABLE_CHART_DATA_DAY + " = ?";
             case FILTER_BY_UNSYNC_DATA:
-                return DBConstants.TABLE_CHART_DATA_SERVER_SYNC +" = ?";
+                return DBConstants.TABLE_CHART_DATA_SERVER_SYNC + " = ?";
         }
         return "";
     }
@@ -92,19 +92,19 @@ public class DBChartDataTableQueryModel implements IDBRowMapper<DBChartDataTable
             case UPDATE_SYNC_STATE_WITH_CHART_ID:
                 return new String[]{String.valueOf(dataModel.getChartId())};
             case UPDATE_SYNC_STATE_WITH_TASK_ID:
-                return new String[]{String.valueOf(dataModel.getTaskId())};
+                return new String[]{String.valueOf(dataModel.getTaskName())};
             case UPDATE_SYNC_STATE_WITH_SLOT_ID:
                 return new String[]{String.valueOf(dataModel.getSlotId())};
             case FILTER_BY_DAY:
                 return new String[]{String.valueOf(dataModel.getChartDay())};
             case UPDATE_SYNC_STATE_WITH_CHART_TASK_SLOT_ID:
-                return new String[]{String.valueOf(dataModel.getChartId()), String.valueOf(dataModel.getTaskId()), String.valueOf(dataModel.getSlotId())};
+                return new String[]{String.valueOf(dataModel.getChartId()), String.valueOf(dataModel.getTaskName()), String.valueOf(dataModel.getSlotId())};
             case UPDATE_SYNC_STATE_WITH_CHART_ID_ENTRY_TIME:
-                return new String[]{String.valueOf(dataModel.getChartId()),String.valueOf(dataModel.getEntryTime().getTime())};
+                return new String[]{String.valueOf(dataModel.getChartId()), String.valueOf(dataModel.getEntryTime().getTime())};
             case FILTER_BY_CHARTID_TODAY:
-                return new String[]{String.valueOf(dataModel.getChartId()),String.valueOf(dataModel.getChartDay().getTime())};
+                return new String[]{String.valueOf(dataModel.getChartId()), String.valueOf(dataModel.getChartDay().getTime())};
             case FILTER_BY_UNSYNC_DATA:
-                return new String[]{String.valueOf((dataModel.isSynced())?1:0)};
+                return new String[]{String.valueOf((dataModel.isSynced()) ? 1 : 0)};
 
         }
 
@@ -117,9 +117,12 @@ public class DBChartDataTableQueryModel implements IDBRowMapper<DBChartDataTable
 
         switch (filterName) {
             case UPDATE_SYNC_STATE_WITH_CHART_TASK_SLOT_ID:
-            values.put(DBConstants.TABLE_CHART_DATA_SERVER_SYNC, dataModel.isSynced());
-            return values;
+                values.put(DBConstants.TABLE_CHART_DATA_SERVER_SYNC, dataModel.isSynced());
+                return values;
             case UPDATE_SYNC_STATE_WITH_CHART_ID_ENTRY_TIME:
+                values.put(DBConstants.TABLE_CHART_DATA_SERVER_SYNC, dataModel.isSynced());
+                return values;
+            case UPDATE_SYNC_STATE_WITH_CHART_ID:
                 values.put(DBConstants.TABLE_CHART_DATA_SERVER_SYNC, dataModel.isSynced());
                 return values;
         }

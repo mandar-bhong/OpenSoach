@@ -18,30 +18,12 @@ public class TaskRowViewModel implements ICellClick {
     private String taskName;
     private Date taskStartTime;
     private Date taskEndTime;
-    private int taskID;
-    private int taskOrder;
     private ArrayList<CellViewModel> cellViewModelList;
     private IRowClick iRowClick;
     private CellViewModel mCellViewModel;
 
     public TaskRowViewModel(){
         cellViewModelList =new ArrayList<CellViewModel>();
-    }
-
-    public int getTaskID() {
-        return taskID;
-    }
-
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
-    }
-
-    public int getTaskOrder() {
-        return taskOrder;
-    }
-
-    public void setTaskOrder(int taskOrder) {
-        this.taskOrder = taskOrder;
     }
 
     public String getTaskName() {

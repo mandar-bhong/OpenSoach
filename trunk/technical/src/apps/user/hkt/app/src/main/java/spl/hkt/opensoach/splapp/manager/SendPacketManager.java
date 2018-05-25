@@ -7,6 +7,8 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import spl.hkt.opensoach.splapp.model.ChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.DeviceChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.DeviceDataBaseModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketChartDataModel;
-import spl.hkt.opensoach.splapp.model.communication.PacketChartTaskDataModel;
+import spl.hkt.opensoach.splapp.model.communication.PacketServiceInstanceTxnModel;
 import spl.hkt.opensoach.splapp.model.db.DBChartDataTableRowModel;
 
 /**
@@ -90,9 +92,9 @@ class SendPacketHandler extends Handler {
 
         try {
 
-            switch (deviceDataBaseModel.getCommandType()){
+            switch (deviceDataBaseModel.getCommandType()) {
                 case CommandConstants.DEVICE_DATA_COMMAND_CHART_DATA:
-                    DeviceChartDataModel  devideChartDataModel = (DeviceChartDataModel)deviceDataBaseModel;
+                    DeviceChartDataModel devideChartDataModel = (DeviceChartDataModel) deviceDataBaseModel;
                     ProcessSendMessage(devideChartDataModel);
                     break;
                 case CommandConstants.DEVICE_DATA_COMMAND_CHART_UNSYNC_DATA:
@@ -100,21 +102,19 @@ class SendPacketHandler extends Handler {
             }
 
 
-        }catch (Exception ex){
-            Log.d("ParsingSendChartData",ex.getMessage());
+        } catch (Exception ex) {
+            Log.d("ParsingSendChartData", ex.getMessage());
         }
     }
 
     private void ProcessSendMessage(DeviceChartDataModel devideChartDataModel) {
-        int requestId = RequestManager.Instance().GenerateRequestID();
-
 
         ArrayList<ChartDataModel> chartDataList = devideChartDataModel.getChartDataModels();
 
         //TODO: Save packet to database
         try {
 
-            List<DBChartDataTableRowModel>  dbChartDataItems = updateTableChartData(devideChartDataModel);
+            List<DBChartDataTableRowModel> dbChartDataItems = updateTableChartData(devideChartDataModel);
 
             AppHelper.NotifyChartDataStatusUpdate(dbChartDataItems);
 
@@ -122,47 +122,41 @@ class SendPacketHandler extends Handler {
             e.printStackTrace();
         }
 
-
-        //List<DBChartDataTableRowModel> db= DatabaseManager.SelectAll(new DBChartDataTableQueryModel(),new DBChartDataTableRowModel());
-
         if (AppRepo.getInstance().IsServerConnected()) {
 
             SimpleDateFormat UTCEntryTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             UTCEntryTimeFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-            PacketChartDataModel packetChartDataModel = new PacketChartDataModel();
+            ArrayList<PacketServiceInstanceTxnModel> txns = new ArrayList<>();
+
             for (ChartDataModel model : devideChartDataModel.getChartDataModels()) {
-                packetChartDataModel.chartId = model.getChartId();
-
-                PacketChartTaskDataModel packetChartTaskDataModel = new PacketChartTaskDataModel();
-                packetChartTaskDataModel.taskId = model.getTaskId();
-                packetChartTaskDataModel.slot = model.getSlotId();
-
-                if(model.getEntryDate().getTime() < model.getSlotEndTime().getTime()){
-                    packetChartTaskDataModel.state = 1;//On time
-                }else{
-                    packetChartTaskDataModel.state = 2; // Delay
+                PacketServiceInstanceTxnModel txnModel = new PacketServiceInstanceTxnModel();
+                PacketChartDataModel packetChartDataModel = new PacketChartDataModel();
+                txnModel.servinid = model.getChartId();
+                txnModel.txndate = UTCEntryTimeFormat.format(model.getEntryDate());
+                txnModel.fopcode = model.getAuthCode();
+                if (model.getEntryDate().getTime() < model.getSlotEndTime().getTime()) {
+                    txnModel.status = 1;//On time
+                } else {
+                    txnModel.status = 2; // Delay
                 }
 
-                packetChartTaskDataModel.startSlotTime = UTCEntryTimeFormat.format(model.getSlotStartTime());
-                packetChartTaskDataModel.endSlotTimeObject = UTCEntryTimeFormat.format(model.getSlotEndTime());
-                packetChartTaskDataModel.entryTime = UTCEntryTimeFormat.format(model.getEntryDate());
+                packetChartDataModel.taskName = model.getTaskName();
 
+                Calendar calChartStart = Calendar.getInstance();
+                calChartStart.setTime(model.getSlotStartTime());
+                packetChartDataModel.slotStartTime = calChartStart.get(Calendar.HOUR_OF_DAY) * 60 + calChartStart.get(Calendar.MINUTE);
 
-                Calendar dayCal = Calendar.getInstance();
-                dayCal.setTime(model.getEntryDate());
-                dayCal.set(Calendar.HOUR,0);
-                dayCal.set(Calendar.MINUTE,0);
-                dayCal.set(Calendar.SECOND,0);
-                dayCal.set(Calendar.MILLISECOND,0);
+                Calendar calChartEnd = Calendar.getInstance();
+                calChartEnd.setTime(model.getSlotEndTime());
+                packetChartDataModel.slotEndTime = calChartEnd.get(Calendar.HOUR_OF_DAY) * 60 + calChartEnd.get(Calendar.MINUTE);
 
-                packetChartTaskDataModel.day = UTCEntryTimeFormat.format(dayCal.getTime());
+                txnModel.txndata = new Gson().toJson(packetChartDataModel);
 
-                packetChartDataModel.packetChartTaskDataModels.add(packetChartTaskDataModel);
+                txns.add(txnModel);
             }
 
-            RequestManager.Instance().AddRequest(requestId, devideChartDataModel);
-            String packet = PacketHelper.GetChartDataPacket(requestId, packetChartDataModel);
+            String packet = PacketHelper.GetChartDataPacket(txns);
 
             CommunicationManager.getInstance().SendPacket(packet);
         }
@@ -176,7 +170,7 @@ class SendPacketHandler extends Handler {
             DBChartDataTableRowModel dbChartDataTableRowModel = new DBChartDataTableRowModel();
 
             dbChartDataTableRowModel.setChartId(model.getChartId());
-            dbChartDataTableRowModel.setTaskId(model.getTaskId());
+            dbChartDataTableRowModel.setTaskName(model.getTaskName());
             dbChartDataTableRowModel.setSlotId(model.getSlotId());
             dbChartDataTableRowModel.setEntryTime(model.getEntryDate());
             dbChartDataTableRowModel.setSlotStartTime(model.getSlotStartTime());
@@ -202,5 +196,4 @@ class SendPacketHandler extends Handler {
 
         return dbChartDataItems;
     }
-
 }

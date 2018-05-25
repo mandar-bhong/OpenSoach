@@ -1,6 +1,5 @@
 package spl.hkt.opensoach.splapp.helper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -15,12 +14,12 @@ import spl.hkt.opensoach.splapp.SPLApplication;
 import spl.hkt.opensoach.splapp.SharedPreference.SharedPreferencesHelper;
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.logger.AppLogger;
-import spl.hkt.opensoach.splapp.logger.Log4jHelper;
 import spl.hkt.opensoach.splapp.communication.CommunicationManager;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
 import spl.hkt.opensoach.splapp.manager.ChartDataRunnable;
 import spl.hkt.opensoach.splapp.manager.ConnectionRetryManager;
 import spl.hkt.opensoach.splapp.manager.HttpManager;
+import spl.hkt.opensoach.splapp.manager.LocationChangeManager;
 import spl.hkt.opensoach.splapp.manager.PacketManager;
 import spl.hkt.opensoach.splapp.manager.SendPacketManager;
 import spl.hkt.opensoach.splapp.manager.ServerConnectionManager;
@@ -37,16 +36,7 @@ import spl.hkt.opensoach.splapp.model.view.ChartConfigModel;
 import spl.hkt.opensoach.splapp.model.view.DisplayChartDataModel;
 import spl.hkt.opensoach.splapp.model.view.DisplayChartItemDataModel;
 import spl.hkt.opensoach.splapp.processor.PacketProcessor;
-import spl.hkt.opensoach.splapp.view.ChartActivity;
-import spl.hkt.opensoach.splapp.view.ChartTableFragment;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 /**
  * Created by Mandar on 2/25/2017.
  */
@@ -85,8 +75,9 @@ public class AppHelper {
 
         //ConnectionRetryManager.Instance().Init();
         AppRepo.getInstance().addPropertyChangeListener(ConnectionRetryManager.Instance());
+        AppRepo.getInstance().addPropertyChangeListener(new LocationChangeManager());
 
-        HttpManager.ProcessWebSocketURL(AppRepo.getInstance().getServerAPIURL(),AppRepo.getInstance().getDeviceSerial());
+        HttpManager.ProcessWebSocketURL(AppRepo.getInstance().getServerAPIURL(), AppRepo.getInstance().getDeviceSerial());
     }
 
     public static void ReadAppSettings() {
@@ -116,7 +107,7 @@ public class AppHelper {
                 List<DBLocationTableRowModel> locationModels = DatabaseManager.SelectAll(new DBLocationTableQueryModel(), new DBLocationTableRowModel());
 
                 if (locationModels.size() == 0) {
-                    AppLogger.getInstance().Log(AppLogger.LogLevel.Debug,"No location Exists");
+                    AppLogger.getInstance().Log(AppLogger.LogLevel.Debug, "No location Exists");
                     return;
                 }
                 ;
@@ -128,19 +119,14 @@ public class AppHelper {
                 ArrayList<String> authCodes = GetLocationAuthCode(dbLocationTableRowModel.getLocationId());
 
                 AppRepo.getInstance().setAuthCodeList(authCodes);
-
-                if(authCodes.size() > 0){
-                    AppRepo.getInstance().setAuthCodeRequired(true);
-                }
-
             }
         };
 
         AsyncTask.execute(runnable);
     }
 
-    public static void LoadChartDataAync(int chartId){
-        Runnable runnable = new ChartDataRunnable(chartId) ;
+    public static void LoadChartDataAync(int chartId) {
+        Runnable runnable = new ChartDataRunnable(chartId);
         AsyncTask.execute(runnable);
     }
 
@@ -153,7 +139,7 @@ public class AppHelper {
 
             if (charts.size() <= 0) {
                 //Log: Location not found for "locationId"
-                AppLogger.getInstance().Log(AppLogger.LogLevel.Debug,"Chart not found for locationid ");
+                AppLogger.getInstance().Log(AppLogger.LogLevel.Debug, "Chart not found for locationid ");
                 return;
             }
 
@@ -161,23 +147,23 @@ public class AppHelper {
 
             AppRepo.getInstance().setCurrentChartId(chartModel.getChartId());
 
-            ChartConfigModel chartConfigModel = CommonHelper.CreateChartModel(0, 0, chartModel.getChartPayload());
+            ChartConfigModel chartConfigModel = CommonHelper.CreateChartModel(chartModel);
 
             AppNotificationModelBase notificationModelBase = new AppNotificationModelBase();
             notificationModelBase.DataProcessStatergyID = ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA;
             notificationModelBase.Data = chartConfigModel;
 
-            SPLApplication.getInstance().OnUIUpdateEvent(notificationModelBase);
+            // SPLApplication.getInstance().OnUIUpdateEvent(notificationModelBase);
 
             //Start Chart Data processing
-            //UpdateChartData(chartModel.getChartId());
+            // UpdateChartData(chartModel.getChartId());
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             AppLogger.getInstance().Log(ex);
         }
     }
 
-    public static void UpdateChartData(Integer chartId)  {
+    public static void UpdateChartData(Integer chartId) {
 
         try {
             //Start Chart Data processing
@@ -195,12 +181,12 @@ public class AppHelper {
             }
 
             NotifyChartDataStatusUpdate(chartDataItems);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             AppLogger.getInstance().Log(ex);
         }
     }
 
-    public static void NotifyChartDataStatusUpdate(List<DBChartDataTableRowModel> chartDataItems){
+    public static void NotifyChartDataStatusUpdate(List<DBChartDataTableRowModel> chartDataItems) {
 
         DisplayChartDataModel displayChartDataModel = new DisplayChartDataModel();
 
@@ -218,16 +204,16 @@ public class AppHelper {
     }
 
 
-    private static ArrayList<String> GetLocationAuthCode(int locationId){
-        ArrayList<String> authCodes= new ArrayList<>() ;
+    private static ArrayList<String> GetLocationAuthCode(int locationId) {
+        ArrayList<String> authCodes = new ArrayList<>();
 
 
         DBAuthCodeTableRowModel dbAuthCodeTableRowModel = new DBAuthCodeTableRowModel();
         dbAuthCodeTableRowModel.setLocationId(locationId);
 
-        List<DBAuthCodeTableRowModel> dbAuthCodeModes = DatabaseManager.SelectByFilter(new DBAuthCodeTableQueryModel(),dbAuthCodeTableRowModel,DBAuthCodeTableQueryModel.SELECT_BY_LOCATION_FILTER);
+        List<DBAuthCodeTableRowModel> dbAuthCodeModes = DatabaseManager.SelectByFilter(new DBAuthCodeTableQueryModel(), dbAuthCodeTableRowModel, DBAuthCodeTableQueryModel.SELECT_BY_LOCATION_FILTER);
 
-        if(dbAuthCodeModes.size() > 0){
+        if (dbAuthCodeModes.size() > 0) {
 
             DBAuthCodeTableRowModel dbAuthModel = dbAuthCodeModes.get(0);
             authCodes = DataConvertHelper.ConvertJSONStringArray(dbAuthModel.getAuthCodeJSON());
@@ -237,8 +223,7 @@ public class AppHelper {
     }
 
     //Delaying server connect till application init e.g. internal view initialization
-    private static void PostConnectToServer(Context ctr)
-    {
+    private static void PostConnectToServer(Context ctr) {
         Handler hdl = new Handler(ctr.getMainLooper());
         hdl.post(new Runnable() {
 
@@ -253,7 +238,7 @@ public class AppHelper {
         }.init());
     }
 
-    public  static  void OnWebSocketURLReceived(){
+    public static void OnWebSocketURLReceived() {
         PostConnectToServer(mContext);
     }
 

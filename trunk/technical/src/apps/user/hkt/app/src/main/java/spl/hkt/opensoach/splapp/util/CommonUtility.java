@@ -1,24 +1,13 @@
 package spl.hkt.opensoach.splapp.util;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
-import spl.hkt.opensoach.splapp.Constants;
-import spl.hkt.opensoach.splapp.model.communication.PacketChartConfigurationModel;
-import spl.hkt.opensoach.splapp.model.communication.PacketModel;
-import spl.hkt.opensoach.splapp.model.communication.PacketTaskModel;
 import spl.hkt.opensoach.splapp.viewModels.ChartViewModel;
-import spl.hkt.opensoach.splapp.viewModels.TaskRowViewModel;
 
 /**
  * Created by samir.s.bukkawar on 2/20/2017.
@@ -110,72 +99,5 @@ public class CommonUtility {
         } catch (ParseException e) {
             return null;
         }
-    }
-
-
-    public static ChartViewModel getChartViewModel() {
-        ChartViewModel chartViewModel = new ChartViewModel();
-
-        TypeToken<PacketModel<PacketChartConfigurationModel>> typeToken = new TypeToken<PacketModel<PacketChartConfigurationModel>>() {
-        };
-        Type packetType = typeToken.getType();
-        //packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
-
-        String packet = Constants.tempString1;
-        PacketModel<PacketChartConfigurationModel> packetChartConfigurationModel =
-                (PacketModel<PacketChartConfigurationModel>) new Gson().fromJson(packet, packetType);
-
-        PacketChartConfigurationModel chartConfigModel = packetChartConfigurationModel.Payload;
-        ArrayList<String> tableColumnTitleList = new ArrayList<String>();
-        ArrayList<String> tableRowTitleList = new ArrayList<String>();
-
-        chartViewModel.setLocationName(chartConfigModel.ChartName);
-        chartViewModel.setSlotInterval(chartConfigModel.SlotInterval);
-        chartViewModel.setTaskStartTime(CommonUtility.getDateTimeStamp(chartConfigModel.StartTime));
-        chartViewModel.setTaskEndTime(CommonUtility.getDateTimeStamp(chartConfigModel.EndTime));
-
-        ArrayList<TaskRowViewModel> taskRowViewModelList = new ArrayList<TaskRowViewModel>();
-        List<PacketTaskModel> tasksList = chartConfigModel.Tasks;
-        for (int i = 0; i < tasksList.size(); i++) {
-
-            TaskRowViewModel taskRowViewModel = new TaskRowViewModel();
-            taskRowViewModel.setTaskName(tasksList.get(i).TaskName);
-            taskRowViewModel.setTaskStartTime(CommonUtility.getDateTimeStamp(chartConfigModel.StartTime));
-            taskRowViewModel.setTaskEndTime(CommonUtility.getDateTimeStamp(chartConfigModel.EndTime));
-            taskRowViewModel.setTaskOrder(tasksList.get(i).TaskOrder);
-            taskRowViewModel.setTaskID(tasksList.get(i).TaskID);
-
-            tableRowTitleList.add(tasksList.get(i).TaskName);
-
-           /* ArrayList<CellViewModel> cellViewModelList = new ArrayList<CellViewModel>();
-            int cellCount = (chartConfigModel.EndTime - chartConfigModel.StartTime) / chartConfigModel.SlotInterval;
-            for (int j = 0; j < cellCount; j++) {
-                CellViewModel cellViewModel = new CellViewModel();
-
-                cellViewModel.setTaskID(tasksList.get(i).TaskID);
-                cellViewModel.setTaskName(tasksList.get(i).TaskName);
-                cellViewModel.setCellStartTime(CommonUtility.getDateTimeStamp(chartConfigModel.StartTime + chartConfigModel.SlotInterval * (j)));
-                cellViewModel.setCellEndTime(CommonUtility.getDateTimeStamp(chartConfigModel.StartTime + chartConfigModel.SlotInterval * (j + 1)));
-                cellViewModel.setCellState(Constants.CELL_STATE_NOT_AVAILABLE);
-                cellViewModel.setCellColumnID(j);
-                //TODO Need to confirm slotId = columnId
-                cellViewModel.setSlotID(j);
-                cellViewModel.setCellRowID(i);
-
-                cellViewModelList.add(cellViewModel);
-            }
-            taskRowViewModel.setCellViewModelList(cellViewModelList);
-            taskRowViewModelList.add(taskRowViewModel);*/
-        }
-        chartViewModel.setTableRowTitleList(tableRowTitleList);
-        chartViewModel.setTaskRowViewModelList(taskRowViewModelList);
-
-        int cellCount = (chartConfigModel.EndTime - chartConfigModel.StartTime) / chartConfigModel.SlotInterval;
-        for (int j = 0; j < cellCount; j++) {
-            tableColumnTitleList.add(CommonUtility.getTimeHHMM(chartConfigModel.StartTime + chartConfigModel.SlotInterval * j));
-        }
-        chartViewModel.setTableColumnTitleList(tableColumnTitleList);
-
-        return chartViewModel;
     }
 }

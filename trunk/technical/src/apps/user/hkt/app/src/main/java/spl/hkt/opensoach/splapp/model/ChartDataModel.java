@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class ChartDataModel {
     private int chartId;
-    private int taskId;
+    private String taskName;
     private int slotId;
     private Date slotStartTime;
     private Date slotEndTime;
@@ -25,12 +25,12 @@ public class ChartDataModel {
         this.chartId = chartId;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public int getSlotId() {

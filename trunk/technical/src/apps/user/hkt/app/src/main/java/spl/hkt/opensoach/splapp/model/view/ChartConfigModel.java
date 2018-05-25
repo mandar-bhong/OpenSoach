@@ -16,7 +16,7 @@ public class ChartConfigModel
     private int locationId;
     private int slotInterval;
     private HashMap<Integer, ChartConfigSlotModel> slots;
-    private HashMap<Integer, ChartConfigTaskModel> tasks;
+    private HashMap<String, ChartConfigTaskModel> tasks;
 
     public ChartConfigModel(){
         slots = new HashMap<>();
@@ -71,11 +71,11 @@ public class ChartConfigModel
         this.slots = slots;
     }
 
-    public HashMap<Integer, ChartConfigTaskModel> getTasks() {
+    public HashMap<String, ChartConfigTaskModel> getTasks() {
         return tasks;
     }
 
-    public void setTasks(HashMap<Integer, ChartConfigTaskModel> tasks) {
+    public void setTasks(HashMap<String, ChartConfigTaskModel> tasks) {
         this.tasks = tasks;
     }
 }
