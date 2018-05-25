@@ -56,7 +56,7 @@ func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
 	err, packetHeader := processor.DecodeHeader(packet.Message)
 
 	if err != nil {
-		logger.Context().WithField("Packet Ddata", string(packet.Message)).LogError(SUB_MODULE_NAME, logger.Normal, "Header decoding failed.", err)
+		logger.Context().WithField("Packet Data", string(packet.Message)).LogError(SUB_MODULE_NAME, logger.Normal, "Header decoding failed.", err)
 		return
 	}
 
@@ -77,15 +77,19 @@ func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
 			switch packetProcessingResult.StatusCode {
 			case gmodels.DEVICE_PROCESSING_AUTH_TOKEN_NOT_FOUND:
 
-				isSuccess, jsonPacket := processor.GetUnauthorizedDevicePacket()
+				devicePacket := pchelper.GetEPAckPacket(pcconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+					packetHeader.SeqID, false, 0, nil) //TODO: Define error code for this
+
+				isSuccess, jsonPacket := ghelper.ConvertToJSON(devicePacket)
 
 				if isSuccess == false {
-					//TODO: Need to stop communication if token not valid
+					//TODO: Validation failed and json convertion failed, disconnect device
 					//ws.DisconnectClient(packet.ChannelID)
-					return
 				}
 
 				ws.SendMessage(packet.ChannelID, []byte(jsonPacket))
+
+				//TODO Break device connection
 			}
 
 			return

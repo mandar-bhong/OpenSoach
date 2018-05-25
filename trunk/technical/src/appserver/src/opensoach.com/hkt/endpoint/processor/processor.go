@@ -39,8 +39,7 @@ func GetHeaderKey(packetBytes []byte) (error, string) {
 
 func GetAuthKey() string {
 	return strconv.Itoa(pcconst.DEVICE_CMD_CAT_DEVICE_VALIDATION) + "_" +
-		strconv.Itoa(pcconst.DEVICE_CMD_DEVICE_AUTH) + "_" +
-		strconv.Itoa(pcconst.DEVICE_CMD_KEY)
+		strconv.Itoa(pcconst.DEVICE_CMD_DEVICE_AUTH)
 }
 
 func PreProcessExecutor(epModel *gmodels.PacketProcessingTaskModel) *gmodels.PacketProcessingTaskResult {

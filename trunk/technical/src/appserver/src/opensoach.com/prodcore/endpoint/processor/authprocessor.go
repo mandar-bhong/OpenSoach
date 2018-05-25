@@ -5,6 +5,7 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	lhelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 )
@@ -42,6 +43,7 @@ func AuthorizeDevice(mstCache gcore.CacheContext, packet *gmodels.PacketProcessi
 	successHandler(mstCache, payload.Token, packet.ChannelID)
 
 	//INFO: Storing Entity ID vs connection status in cache
+	//TODO: Store this information into cache
 	//	isStatusSetSuccess := lhelper.CacheSetDeviceConnectionStatus(mstCache, deviceAuthData.DevID, true)
 
 	//	if isStatusSetSuccess {
@@ -54,22 +56,10 @@ func AuthorizeDevice(mstCache gcore.CacheContext, packet *gmodels.PacketProcessi
 	result.IsSuccess = true
 
 	deviceAuthPacket := &gmodels.DevicePacket{}
-	deviceAuthPacket.Header.Category = 1
-	deviceAuthPacket.Header.CommandID = 1
-	
+	deviceAuthPacket.Header.Category = pcconst.DEVICE_CMD_CAT_DEVICE_VALIDATION
+	deviceAuthPacket.Header.CommandID = pcconst.DEVICE_CMD_DEVICE_AUTH
 
 	result.AckPayload = append(result.AckPayload, deviceAuthPacket)
 
 	return result
-}
-
-func GetUnauthorizedDevicePacket() (bool, string) {
-
-	devicePacket := gmodels.DevicePacket{}
-
-	devicePacket.Header.Category = 1
-	devicePacket.Header.CommandID = 1
-	
-
-	return ghelper.ConvertToJSON(devicePacket)
 }
