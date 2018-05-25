@@ -58,6 +58,7 @@ func AuthorizeDevice(mstCache gcore.CacheContext, packet *gmodels.PacketProcessi
 	deviceAuthPacket := &gmodels.DevicePacket{}
 	deviceAuthPacket.Header.Category = pcconst.DEVICE_CMD_CAT_DEVICE_VALIDATION
 	deviceAuthPacket.Header.CommandID = pcconst.DEVICE_CMD_DEVICE_AUTH
+	deviceAuthPacket.Header.SeqID = devicePacket.Header.SeqID
 
 	result.AckPayload = append(result.AckPayload, deviceAuthPacket)
 
