@@ -30,34 +30,29 @@ public class ChartActivityClickHandler implements View.OnClickListener {
 
         switch (clickedView.getId()) {
             case R.id.uploadData: {
-                if (AppRepo.getInstance().isAuthCodeRequired()) {
-                    DialogHelper.showSingleLineEditTextAlert(
-                            clickedView.getContext(),
-                            clickedView.getContext().getResources().getString(R.string.dialog_enter_auth_code),
-                            new DialogHelper.DialogCallBack() {
+                DialogHelper.showSingleLineEditTextAlert(
+                        clickedView.getContext(),
+                        clickedView.getContext().getResources().getString(R.string.dialog_enter_auth_code),
+                        new DialogHelper.DialogCallBack() {
 
-                                @Override
-                                public void onSucess(String authText) {
+                            @Override
+                            public void onSucess(String authText) {
 
-                                    if (AppRepo.getInstance().getAuthCodeList().contains(authText)) {
-                                        processChartData(authText);
-                                    } else {
-                                        Toast.makeText(
-                                                clickedView.getContext(),
-                                                clickedView.getContext().getResources().getString(R.string.invalid_auth_code),
-                                                Toast.LENGTH_LONG).show();
-                                    }
+                                if (AppRepo.getInstance().getAuthCodeList().contains(authText)) {
+                                    processChartData(authText);
+                                } else {
+                                    Toast.makeText(
+                                            clickedView.getContext(),
+                                            clickedView.getContext().getResources().getString(R.string.invalid_auth_code),
+                                            Toast.LENGTH_LONG).show();
                                 }
+                            }
 
-                                @Override
-                                public void onSucess(String strData1, String strData2) {
+                            @Override
+                            public void onSucess(String strData1, String strData2) {
 
-                                }
-                            });
-                } else {
-                    processChartData(null);
-                }
-
+                            }
+                        });
             }
             break;
             case R.id.imgCommentView: {

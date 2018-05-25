@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
@@ -12,13 +13,9 @@ import spl.hkt.opensoach.splapp.helper.ApplicationConstants;
 import spl.hkt.opensoach.splapp.model.AppNotificationModelBase;
 import spl.hkt.opensoach.splapp.model.PacketDecodeResultModel;
 import spl.hkt.opensoach.splapp.model.PacketProcessResultModel;
-import spl.hkt.opensoach.splapp.model.communication.PacketAuthCodeDataModel;
-import spl.hkt.opensoach.splapp.model.communication.PacketLocationDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketModel;
 import spl.hkt.opensoach.splapp.model.db.DBAuthCodeTableQueryModel;
 import spl.hkt.opensoach.splapp.model.db.DBAuthCodeTableRowModel;
-import spl.hkt.opensoach.splapp.model.db.DBLocationTableQueryModel;
-import spl.hkt.opensoach.splapp.model.db.DBLocationTableRowModel;
 
 /**
  * Created by Mandar on 4/23/2017.
@@ -33,13 +30,13 @@ public class AuthCodeDataProcessor implements IProcessor {
 
         try {
 
-            PacketModel<PacketAuthCodeDataModel> packetAuthCodeDataModel = (PacketModel<PacketAuthCodeDataModel>)packetDecodeResultModel.Packet.Payload;
-            int locationId = packetAuthCodeDataModel.Payload.LocationId;
+            PacketModel<ArrayList<String>> packetAuthCodeDataModel = (PacketModel)packetDecodeResultModel.Packet.Payload;
+            int locationId = packetAuthCodeDataModel.Header.LocationID;
             //List<String> authCodes = packetAuthCodeDataModel.Payload.AuthCodes;
 
             JsonParser parser = new JsonParser();
             JsonElement root = parser.parse(packetDecodeResultModel.JSONPacket);
-            String authCodeJSON = root.getAsJsonObject().getAsJsonObject("payload").get("authcodes").toString();
+            String authCodeJSON = root.getAsJsonObject().getAsJsonArray("payload").toString();
 
             DBAuthCodeTableRowModel dbAuthCodeTableRowModel =new DBAuthCodeTableRowModel();
             dbAuthCodeTableRowModel.setLocationId(locationId);

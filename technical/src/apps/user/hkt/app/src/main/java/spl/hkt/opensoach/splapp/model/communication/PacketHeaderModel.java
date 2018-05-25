@@ -10,9 +10,7 @@ public  class  PacketHeaderModel{
   public  int  CommandID  ;
   @SerializedName("seqid")
   public int  SeqID ;
-  @SerializedName("locationid")
-  public  int  LocationID  ;
-  @SerializedName("ack")
-  public  int  Ack;
+  @SerializedName("spid")
+  public  int  LocationID;
 
 }

@@ -10,10 +10,7 @@ import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.communication.WebSocketConnector;
 import spl.hkt.opensoach.splapp.helper.AppHelper;
 import spl.hkt.opensoach.splapp.helper.ApplicationConstants;
-import spl.hkt.opensoach.splapp.manager.ChartDataRunnable;
-import spl.hkt.opensoach.splapp.manager.LocationChartRunnable;
 import spl.hkt.opensoach.splapp.model.AppNotificationModelBase;
-import spl.hkt.opensoach.splapp.model.communication.PacketAuthCodeDataModel;
 import spl.hkt.opensoach.splapp.model.view.ChartConfigModel;
 import spl.hkt.opensoach.splapp.model.view.DisplayChartDataModel;
 import spl.hkt.opensoach.splapp.scheduler.ScheduleManager;
@@ -110,12 +107,12 @@ public class SPLApplication extends Application {
                 }
                 break;
             case ApplicationConstants.UI_PROCESSING_STATERGY_AUTH_CODE_UPDATE: {
-                PacketAuthCodeDataModel packetAuthCodeDataModel = (PacketAuthCodeDataModel) model.Data;
+                ArrayList<String> packetAuthCodeDataModel = (ArrayList) model.Data;
 
-                if(packetAuthCodeDataModel.AuthCodes == null) {
+                if(packetAuthCodeDataModel == null) {
                     AppRepo.getInstance().setAuthCodeList(new ArrayList<String>());
                 }else{
-                    AppRepo.getInstance().setAuthCodeList(packetAuthCodeDataModel.AuthCodes);
+                    AppRepo.getInstance().setAuthCodeList(packetAuthCodeDataModel);
                 }
             }
             break;

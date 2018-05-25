@@ -8,15 +8,17 @@ import java.util.ArrayList;
  * Created by samir.s.bukkawar on 3/25/2017.
  */
 
-public class PacketChartDataModel  {
+public class PacketChartDataModel {
 
-    @SerializedName("tasks")
-   public ArrayList<PacketChartTaskDataModel> packetChartTaskDataModels;
+    @SerializedName("taskname")
+    public String taskName;
 
-    @SerializedName("chartid")
-   public int chartId;
+    @SerializedName("slotstartime")
+    public int slotStartTime;
+
+    @SerializedName("slotendime")
+    public int slotEndTime;
 
     public PacketChartDataModel() {
-        packetChartTaskDataModels = new ArrayList<PacketChartTaskDataModel>();
     }
 }

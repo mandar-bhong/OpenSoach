@@ -2,25 +2,27 @@ package spl.hkt.opensoach.splapp.helper;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 import spl.hkt.opensoach.splapp.manager.RequestManager;
 import spl.hkt.opensoach.splapp.model.communication.APIAuthRequesetModel;
+import spl.hkt.opensoach.splapp.model.communication.CommandRequest;
 import spl.hkt.opensoach.splapp.model.communication.PacketAuthenticationModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketFeedbackDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketHeaderModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketPayloadModel;
+import spl.hkt.opensoach.splapp.model.communication.PacketServiceInstanceTxnModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketUserComplaintDataModel;
+import spl.hkt.opensoach.splapp.processor.AckChartDataProcessor;
+import spl.hkt.opensoach.splapp.processor.AckDeviceRegProcessor;
 
 /**
  * Created by Mandar on 2/26/2017.
  */
 
 public class PacketHelper {
-
-    public static void CreatePacket() {
-
-    }
 
     public static PacketHeaderModel CreatePacketHeader(int category, int commandID, int seqID, int locationID) {
 
@@ -53,6 +55,12 @@ public class PacketHelper {
 
         packetModel.Payload = packetAuthenticationModel;
 
+        CommandRequest<PacketAuthenticationModel> commandRequest = new CommandRequest<>();
+        commandRequest.Packet= packetModel;
+        commandRequest.AckProcessor = new AckDeviceRegProcessor();
+
+        RequestManager.Instance().AddRequest(seqid, commandRequest);
+
         String packetJSON = CommonHelper.GetPacketJSON(packetModel);
 
         return packetJSON;
@@ -77,15 +85,19 @@ public class PacketHelper {
 
     }
 
-    public static String GetChartDataPacket(int requestId, PacketChartDataModel model) {
-
-
-        PacketModel<PacketChartDataModel> packetModel = new PacketModel<>();
+    public static String GetChartDataPacket(ArrayList<PacketServiceInstanceTxnModel> model) {
+        PacketModel<ArrayList<PacketServiceInstanceTxnModel>> packetModel = new PacketModel<>();
         int seqid = RequestManager.Instance().GenerateRequestID();
         packetModel.Header = CreatePacketHeader(CommandConstants.CMD_CAT_DATA,
-                CommandConstants.CMD_DATA_CHART_DATA, requestId, 0);
+                CommandConstants.CMD_DATA_CHART_DATA, seqid, 0);
 
         packetModel.Payload = model;
+
+        CommandRequest<ArrayList<PacketServiceInstanceTxnModel>> commandRequest = new CommandRequest<>();
+        commandRequest.Packet= packetModel;
+        commandRequest.AckProcessor = new AckChartDataProcessor();
+
+        RequestManager.Instance().AddRequest(seqid, commandRequest);
 
         String packetJSON = CommonHelper.GetPacketJSON(packetModel);
 

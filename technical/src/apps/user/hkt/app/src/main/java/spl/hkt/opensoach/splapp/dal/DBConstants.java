@@ -19,6 +19,7 @@ public class DBConstants {
     public static final String TABLE_CHART_LOCATION_ID = "locationId";
     public static final String TABLE_CHART_SERVER_CHART_ID = "serverChartId";
     public static final String TABLE_CHART_CHART_PAYLOAD = "chartPayload";
+    public static final String TABLE_CHART_CHART_NAME = "chartName";
     public static final String TABLE_CHART_CHART_DISP_START_DATE = "chartDispStartDate";
     public static final String TABLE_CHART_CHART_DISP_END_DATE = "chartDispEndDate";
 
@@ -30,7 +31,7 @@ public class DBConstants {
 
     public static final String TABLE_CHART_DATA = "TABLE_CHART_DATA";
     public static final String TABLE_CHART_DATA_CHART_ID = TABLE_CHART_CHART_ID;
-    public static final String TABLE_CHART_DATA_TASK_ID = TABLE_TASKS_TASK_ID;
+    public static final String TABLE_CHART_DATA_TASK_NAME = TABLE_TASKS_TASK_NAME;
     public static final String TABLE_CHART_DATA_SLOT_ID = "slotId";
     public static final String TABLE_CHART_DATA_ENTRY_TIME = "entryTime";
     public static final String TABLE_CHART_DATA_SLOT_START_TIME = "slotStartTime";
@@ -58,6 +59,7 @@ public class DBConstants {
     public static final String CREATE_TABLE_CHART = "CREATE TABLE " +
             TABLE_CHART + "( " +
             TABLE_CHART_CHART_ID + " INTEGER," +
+            TABLE_CHART_CHART_NAME + " VARCHAR, " +
             TABLE_CHART_SERVER_CHART_ID + " INTEGER," +
             TABLE_CHART_LOCATION_ID + " INTEGER," +
             TABLE_CHART_CHART_PAYLOAD + " VARCHAR, " +
@@ -79,7 +81,7 @@ public class DBConstants {
     public static final String CREATE_TABLE_CHART_DATA = "CREATE TABLE " +
             TABLE_CHART_DATA + "( " +
             TABLE_CHART_DATA_CHART_ID + " INTEGER," +
-            TABLE_CHART_DATA_TASK_ID + " INTEGER," +
+            TABLE_CHART_DATA_TASK_NAME + " VARCHAR," +
             TABLE_CHART_DATA_SLOT_ID + " TINYINT, " +
             TABLE_CHART_DATA_ENTRY_TIME + " VARCHAR, " +
             TABLE_CHART_DATA_SLOT_START_TIME + " VARCHAR, " +

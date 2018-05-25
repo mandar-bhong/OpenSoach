@@ -12,7 +12,7 @@ import spl.hkt.opensoach.splapp.dal.DBTableSchema;
 public class DBChartDataTableRowModel {
 
     private int chartId;
-    private int taskId;
+    private String taskName;
     private int slotId;
     private Date entryTime;
     private Date slotStartTime;
@@ -30,12 +30,12 @@ public class DBChartDataTableRowModel {
         this.chartId = chartId;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public int getSlotId() {

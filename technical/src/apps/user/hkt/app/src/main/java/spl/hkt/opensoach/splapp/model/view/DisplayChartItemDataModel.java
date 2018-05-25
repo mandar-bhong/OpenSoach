@@ -6,7 +6,7 @@ package spl.hkt.opensoach.splapp.model.view;
 
 public class DisplayChartItemDataModel {
     private int chartId;
-    private int taskId;
+    private String taskName;
     private int slotId;
 
     public int getState() {
@@ -27,12 +27,12 @@ public class DisplayChartItemDataModel {
         this.chartId = chartId;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public int getSlotId() {

@@ -246,8 +246,8 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
             for (DisplayChartItemDataModel dataItem : model.getChartData()) {
 
-                if (cellRefVMLookup.containsKey(dataItem.getTaskId() + "_" + dataItem.getChartId())) {
-                    CellViewModel cellVM = cellRefVMLookup.get(dataItem.getTaskId() + "_" + dataItem.getSlotId());
+                if (cellRefVMLookup.containsKey(dataItem.getTaskName() + "_" + dataItem.getChartId())) {
+                    CellViewModel cellVM = cellRefVMLookup.get(dataItem.getTaskName() + "_" + dataItem.getSlotId());
                     cellVM.setState(dataItem.getState());
                 }
             }
@@ -263,10 +263,10 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
     private void generateChartDataCell(int activeSlot, ChartConfigModel model) {
 
-        for (Map.Entry<Integer, ChartConfigTaskModel> chartTaskKV : model.getTasks().entrySet()) {
+        for (Map.Entry<String, ChartConfigTaskModel> chartTaskKV : model.getTasks().entrySet()) {
             try {
                 TaskRowViewModel taskRowViewModel = new TaskRowViewModel();
-                taskRowViewModel.setTaskID(model.getTasks().get(chartTaskKV.getKey()).getTaskId());
+                taskRowViewModel.setTaskName(model.getTasks().get(chartTaskKV.getKey()).getTaskName());
 
                 taskRowViewModel.setiRowClick(mChartViewModel);
                 mChartViewModel.getTaskRowViewModelList().add(taskRowViewModel);
@@ -305,21 +305,21 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         }
 
         CellViewModel cellViewModel = new CellViewModel();
-        cellViewModel.setTaskID(parent.getTaskID());
+        cellViewModel.setTaskName(parent.getTaskName());
         cellViewModel.setSlotID(slotID);
         cellViewModel.setiCellClick(parent);
         cellViewModel.setCheckBox(checkBox);
 
         checkBox.setOnClickListener(cellViewModel);
 
-        cellRefVMLookup.put(parent.getTaskID() + "_" + slotID, cellViewModel);
+        cellRefVMLookup.put(parent.getTaskName() + "_" + slotID, cellViewModel);
 
         return checkBox;
     }
 
     private void createChartTaskMenu(ChartConfigModel model) {
 
-        for (Map.Entry<Integer, ChartConfigTaskModel> chartConfTaskKV : model.getTasks().entrySet()) {
+        for (Map.Entry<String, ChartConfigTaskModel> chartConfTaskKV : model.getTasks().entrySet()) {
             ChartConfigTaskModel chartTaskModel = model.getTasks().get(chartConfTaskKV.getKey());
             View taskTemplateCell = createChartTaskCell(chartTaskModel.getTaskName());
             taskTemplateCell.setMinimumHeight(cellHeight);
@@ -465,10 +465,10 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         }
 
 
-        for (int taskId : chartConfigModel.getTasks().keySet()) {
-            if (cellRefVMLookup.containsKey(taskId + "_" + nextActiveSlot)) {
-                cellRefVMLookup.get(taskId + "_" + nextActiveSlot).getCheckBox().setBackgroundResource(R.drawable.custom_cell_available);
-                cellRefVMLookup.get(taskId + "_" + nextActiveSlot).getCheckBox().setEnabled(true);
+        for (String taskName : chartConfigModel.getTasks().keySet()) {
+            if (cellRefVMLookup.containsKey(taskName + "_" + nextActiveSlot)) {
+                cellRefVMLookup.get(taskName + "_" + nextActiveSlot).getCheckBox().setBackgroundResource(R.drawable.custom_cell_available);
+                cellRefVMLookup.get(taskName + "_" + nextActiveSlot).getCheckBox().setEnabled(true);
             }
         }
 
@@ -491,7 +491,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
         ChartDataModel chartDM = new ChartDataModel();
         chartDM.setChartId(chartConfigModel.getChartId());
-        chartDM.setTaskId(chartConfigTaskModel.getTaskId());
+        chartDM.setTaskName(chartConfigTaskModel.getTaskName());
         chartDM.setSlotId(chartConfigSlotModel.getIndex());
         //chartDM.setAuthCode();//This code will set later
         chartDM.setEntryDate(new Date());

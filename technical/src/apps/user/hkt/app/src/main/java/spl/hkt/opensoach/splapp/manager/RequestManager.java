@@ -2,6 +2,7 @@ package spl.hkt.opensoach.splapp.manager;
 
 import java.util.HashMap;
 
+import spl.hkt.opensoach.splapp.model.communication.CommandRequest;
 import spl.hkt.opensoach.splapp.model.communication.PacketPayloadModel;
 
 /**
@@ -13,7 +14,7 @@ public class RequestManager {
     private static RequestManager singleton;
 
     private int _currentId = 0;
-    private HashMap<Integer, Object> _requestMap;
+    private HashMap<Integer, CommandRequest> _requestMap;
 
     /* Static 'instance' method */
     public static RequestManager Instance() {
@@ -23,7 +24,7 @@ public class RequestManager {
     }
 
     private RequestManager() {
-        _requestMap = new HashMap<Integer, Object>();
+        _requestMap = new HashMap<Integer, CommandRequest>();
     }
 
     public int GenerateRequestID() {
@@ -48,7 +49,7 @@ public class RequestManager {
         }
     }
 
-    public void AddRequest(int requestID, Object packetPayloadModel) {
+    public void AddRequest(int requestID, CommandRequest packetPayloadModel) {
 
         _requestMap.put(requestID, packetPayloadModel);
     }
@@ -58,11 +59,13 @@ public class RequestManager {
             _requestMap.remove(requestID);
     }
 
-    public Object GetRequest(int requestID) {
+    public CommandRequest GetRequest(int requestID) {
 
         if(_requestMap.containsKey(requestID)){
             return  _requestMap.get(requestID);
         }
         return null;
     }
+
+
 }

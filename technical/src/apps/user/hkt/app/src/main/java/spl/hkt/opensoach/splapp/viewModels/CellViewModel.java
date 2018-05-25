@@ -14,7 +14,7 @@ import spl.hkt.opensoach.splapp.view.ICellClick;
 
 public class CellViewModel implements android.view.View.OnClickListener {
 
-    private int TaskID;
+    private String TaskName;
     private int slotID;
     private ICellClick iCellClick;
     private View checkBox;
@@ -31,12 +31,12 @@ public class CellViewModel implements android.view.View.OnClickListener {
     private boolean isCellSynced;*/
 
 
-    public int getTaskID() {
-        return TaskID;
+    public String getTaskID() {
+        return TaskName;
     }
 
-    public void setTaskID(int taskID) {
-        TaskID = taskID;
+    public void setTaskName(String taskName) {
+        TaskName = taskName;
     }
 
     public int getSlotID() {

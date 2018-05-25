@@ -3,7 +3,6 @@ package spl.hkt.opensoach.splapp.apprepo;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
  * Created by Mandar on 2/25/2017. This class will have all application level data
@@ -23,7 +22,6 @@ public final class AppRepo {
     private String ServerAPIURL;
 
     private String AuthToken;
-    private boolean isAuthCodeRequired;
     private ArrayList<String> authCodeList;
 
     public static final String IsServerConnectedPropName = "AppRepo.IsServerConnected";
@@ -36,9 +34,7 @@ public final class AppRepo {
 
         currentLocationId = 0;
         currentChartId = 0;
-        authCodeList = new ArrayList<String>();
-
-        isAuthCodeRequired = false;
+        authCodeList = new ArrayList<>();
 
         ServerAPIHOST = "172.105.232.148";
         ServerAPIURL = "http://"+ServerAPIHOST +"/api/v1/endpoint/deviceauthorization";
@@ -114,14 +110,6 @@ public final class AppRepo {
 
     public void setCurrentChartId(Integer currentChartId) {
         this.currentChartId = currentChartId;
-    }
-
-    public boolean isAuthCodeRequired() {
-        return isAuthCodeRequired;
-    }
-
-    public void setAuthCodeRequired(boolean authCodeRequired) {
-        isAuthCodeRequired = authCodeRequired;
     }
 
     public ArrayList<String> getAuthCodeList() {
