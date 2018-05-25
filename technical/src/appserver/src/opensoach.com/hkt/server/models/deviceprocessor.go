@@ -15,8 +15,8 @@ type PacketProccessExecution struct {
 
 type PacketServiceInstanceData struct {
 	ServiceInstanceID int64     `json:"servinid"`
+	FOPCode           string    `json:"fopcode"`
+	Status            int       `json:"status"`
 	TxnData           string    `json:"txndata"`
 	TxnDate           time.Time `json:"txndate"`
-	//	Status            int       `json:"status"`
-	//	FOPCode           string    `json:"fopcode"`
 }
