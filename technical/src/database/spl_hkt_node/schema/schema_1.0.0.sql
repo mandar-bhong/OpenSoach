@@ -143,6 +143,8 @@ CREATE TABLE `spl_node_service_in_txn_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `serv_in_id_fk` int(10) unsigned NOT NULL,
+  `fopcode` VARCHAR(20) NOT NULL,
+  `status` TINYINT(4) NOT NULL,
   `txn_data` json NOT NULL,
   `txn_date` DATETIME NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
