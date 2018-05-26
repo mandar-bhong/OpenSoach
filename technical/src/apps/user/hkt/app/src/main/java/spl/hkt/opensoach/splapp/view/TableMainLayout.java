@@ -115,8 +115,13 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         textView.setWidth(cellWidth);
         textView.setHeight(cellHeight);
         textView.setTextSize(getResources().getDimension(R.dimen.chart_time_slot_text_font_size));
-        componentATableRow.addView(textView);
-        this.tableA.addView(componentATableRow);
+
+        TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
+        params.setMargins(0, 0, 1, 1);
+
+        componentATableRow.addView(textView, params);
+
+		this.tableA.addView(componentATableRow);
 
 
         //for Initial Scroll
@@ -149,7 +154,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         this.tableA.setBackgroundColor(Color.GRAY);
         this.tableB.setBackgroundColor(Color.GRAY);
         this.tableC.setBackgroundColor(Color.GRAY);
-        this.tableD.setBackgroundColor(Color.WHITE);
+        this.tableD.setBackgroundColor(Color.GRAY);
 
         this.horizontalScrollViewB.setBackgroundColor(Color.WHITE);
         this.horizontalScrollViewD.setBackgroundColor(Color.WHITE);
@@ -273,7 +278,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
                 TableRow tableRow = new TableRow(this.context);
                 TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
-                //params.setMargins(0, 1, 0, 0);
+                params.setMargins(0, 0, 1, 1);
                 //tableRow.setBackgroundColor(Color.GRAY);
 
                 for (Integer slotIndex = 0; slotIndex < model.getSlots().size(); slotIndex++) {
@@ -328,8 +333,8 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
     private View createChartTaskCell(String taskName) {
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight - 1);
-        params.setMargins(0, 1, 0, 0);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
+        params.setMargins(0, 0, 1, 1);
 
         TableRow tableRowForTableC = new TableRow(this.context);
         // TextView bodyTextView = getTitleTextView(taskName);
@@ -355,7 +360,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
         TableRow componentBTableRow = new TableRow(this.context);
         TableRow.LayoutParams params = new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        params.setMargins(1, 0, 0, 0);
+        params.setMargins(0, 0, 1, 1);
 
         for (int i = 0; i < model.getSlots().size(); i++) {
             Format formatter = new SimpleDateFormat("hh:mm a");
@@ -364,7 +369,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
             TextView textView = this.getTitleTextView(slotDisplayText);
             textView.setBackgroundColor(getResources().getColor(R.color.color_table_head_bg));
             textView.setHeight(cellHeight);
-            textView.setWidth(cellWidth - 1);
+            textView.setWidth(cellWidth);
             textView.setTextColor(getResources().getColor(R.color.color_table_head_text));
             textView.setTextSize(getResources().getDimension(R.dimen.chart_time_slot_text_font_size));
 
