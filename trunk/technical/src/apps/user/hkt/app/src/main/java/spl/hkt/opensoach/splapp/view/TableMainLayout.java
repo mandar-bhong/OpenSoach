@@ -319,8 +319,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
     private void createChartTaskMenu(ChartConfigModel model) {
 
-        for (Map.Entry<String, ChartConfigTaskModel> chartConfTaskKV : model.getTasks().entrySet()) {
-            ChartConfigTaskModel chartTaskModel = model.getTasks().get(chartConfTaskKV.getKey());
+        for (ChartConfigTaskModel chartTaskModel : model.getTaskList()) {
             View taskTemplateCell = createChartTaskCell(chartTaskModel.getTaskName());
             taskTemplateCell.setMinimumHeight(cellHeight);
             this.tableC.addView(taskTemplateCell);
