@@ -17,10 +17,20 @@ public class ChartConfigModel
     private int slotInterval;
     private HashMap<Integer, ChartConfigSlotModel> slots;
     private HashMap<String, ChartConfigTaskModel> tasks;
+    private ArrayList<ChartConfigTaskModel> taskList;
 
     public ChartConfigModel(){
         slots = new HashMap<>();
         tasks =new HashMap<>();
+        this.taskList=new ArrayList<>();
+    }
+
+    public ArrayList<ChartConfigTaskModel> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(ArrayList<ChartConfigTaskModel> taskList) {
+        this.taskList = taskList;
     }
 
     public int getChartId() {

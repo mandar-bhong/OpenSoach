@@ -41,6 +41,7 @@ public class CommonHelper {
             ChartConfigTaskModel chartTaskModel = new ChartConfigTaskModel();
             chartTaskModel.setTaskName(model.TaskName);
             chartDataModel.getTasks().put(model.TaskName, chartTaskModel);
+            chartDataModel.getTaskList().add(chartTaskModel);
         }
 
         Calendar calChartStart = Calendar.getInstance();
