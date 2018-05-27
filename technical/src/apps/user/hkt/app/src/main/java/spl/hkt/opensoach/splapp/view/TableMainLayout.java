@@ -112,7 +112,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         TextView textView = this.getTitleTextView(getResources().getString(R.string.txt_time_slot));
         textView.setWidth(cellWidth);
         textView.setHeight(cellHeight);
-        textView.setTextSize(getResources().getDimension(R.dimen.chart_time_slot_text_font_size));
+        textView.setTextSize(getResources().getDimension(R.dimen.chart_cell_font_size));
 
         TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
         params.setMargins(0, 0, cellMargin, cellMargin);
@@ -208,8 +208,6 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         TextView bodyTextView = new TextView(this.context);
         bodyTextView.setText(label);
         bodyTextView.setGravity(Gravity.CENTER);
-        bodyTextView.setPadding(2, 4, 2, 4);
-        bodyTextView.setTextSize(getResources().getDimension(R.dimen.table_cell_font_size));
         bodyTextView.setBackgroundColor(getResources().getColor(R.color.color_table_head_bg));
         bodyTextView.setTextColor(getResources().getColor(R.color.color_table_head_text));
 
@@ -329,16 +327,12 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         params.setMargins(0, 0, cellMargin, cellMargin);
 
         TableRow tableRowForTableC = new TableRow(this.context);
-        // TextView bodyTextView = getTitleTextView(taskName);
-        //bodyTextView.setTypeface(null, Typeface.BOLD);
-        //tableRowForTableC.addView(bodyTextView, params);
-
         LayoutInflater mInflater = ((Activity) this.context).getLayoutInflater();
 
         View convertView = mInflater.inflate(R.layout.custom_cell_view, null);
         ViewHolder holder = new ViewHolder();
         holder.textView = (TextView) convertView.findViewById(R.id.textView);
-        holder.textView.setTextSize(getResources().getDimension(R.dimen.chart_time_slot_text_font_size));
+        holder.textView.setTextSize(getResources().getDimension(R.dimen.chart_cell_font_size));
         holder.textView.setText(taskName);
         holder.imageView = (View) convertView.findViewById(R.id.imageView);
         holder.imageView.setVisibility(View.GONE);
@@ -359,11 +353,9 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
             String slotDisplayText = formatter.format(model.getSlots().get(i).getStartTime());
 
             TextView textView = this.getTitleTextView(slotDisplayText);
-            textView.setBackgroundColor(getResources().getColor(R.color.color_table_head_bg));
             textView.setHeight(cellHeight);
             textView.setWidth(cellWidth);
-            textView.setTextColor(getResources().getColor(R.color.color_table_head_text));
-            textView.setTextSize(getResources().getDimension(R.dimen.chart_time_slot_text_font_size));
+            textView.setTextSize(getResources().getDimension(R.dimen.chart_cell_font_size));
 
             textView.setLayoutParams(params);
             componentBTableRow.addView(textView);
