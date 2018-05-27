@@ -66,10 +66,6 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
     private Context context;
 
-    //  List<SampleObject> sampleObjects = this.sampleObjects();
-
-    private int headerCellsWidth[];// = new int[10];
-
     public ChartConfigModel getChartDataModel() {
         return chartConfigModel;
     }
@@ -230,8 +226,6 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
             clearPreviousChart();
 
             chartConfigModel = model;
-
-            headerCellsWidth = new int[model.getSlots().size() + 1];
 
             currentActiveSlot = identifyCurrentActiveSlot(model);
 
