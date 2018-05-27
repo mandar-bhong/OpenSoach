@@ -153,7 +153,7 @@ public class AppHelper {
             notificationModelBase.DataProcessStatergyID = ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA;
             notificationModelBase.Data = chartConfigModel;
 
-            // SPLApplication.getInstance().OnUIUpdateEvent(notificationModelBase);
+            SPLApplication.getInstance().OnUIUpdateEvent(notificationModelBase);
 
             //Start Chart Data processing
             // UpdateChartData(chartModel.getChartId());
