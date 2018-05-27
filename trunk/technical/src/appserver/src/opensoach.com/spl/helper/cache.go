@@ -70,7 +70,7 @@ func CacheMapDeviceInfo(osContext *gcore.Context, DevInfoModel *gmodels.DeviceTo
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Auth token vs auth model set successfully")
 
-	isSetSuccess = osContext.Master.Cache.Set(deviceTokenKey, DevAuthCacheToken)
+	isSetSuccess = osContext.Master.Cache.Set(deviceTokenKey, DevAuthCacheToken, 0)
 
 	if isSetSuccess == false {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
