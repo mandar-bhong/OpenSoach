@@ -61,7 +61,7 @@ public class CellViewModel implements android.view.View.OnClickListener {
         isChecked = !isChecked;
         iCellClick.onCellClick(this);
         if (isChecked)
-            checkBox.setBackgroundResource(R.drawable.checkboxselected);
+            checkBox.setBackgroundResource(R.drawable.custom_cell_checked);
         else
             checkBox.setBackgroundResource(R.drawable.custom_cell_available);
     }
@@ -77,21 +77,17 @@ public class CellViewModel implements android.view.View.OnClickListener {
     public void setState(int state) {
         switch (state) {
             case ApplicationConstants.CHART_STATE_ENABLED:
-                checkBox.setBackgroundResource(R.drawable.checkbox_selector);
+                checkBox.setBackgroundResource(R.drawable.custom_cell_available);
                 break;
             case ApplicationConstants.CHART_STATE_BLOCKED:
-                checkBox.setBackgroundResource(R.drawable.checkbox_selector);
+                checkBox.setBackgroundResource(R.drawable.custom_cell_not_available);
                 break;
             case ApplicationConstants.CHART_STATE_ON_TIME:
-                //  checkBox.setButtonDrawable(R.drawable.checkbox_selected_ontime);
-                checkBox.setBackgroundResource(R.drawable.checkbox_selected_ontime);
-                //   checkBox.setChecked(true);
+                checkBox.setBackgroundResource(R.drawable.custom_cell_on_time);
                 checkBox.setEnabled(false);
                 break;
             case ApplicationConstants.CHART_STATE_DELAYED:
-                //  checkBox.setButtonDrawable(R.drawable.checkbox_selected_delayed);
-                checkBox.setBackgroundResource(R.drawable.checkbox_selected_delayed);
-                //   checkBox.setChecked(true);
+                checkBox.setBackgroundResource(R.drawable.custom_cell_delayed);
                 checkBox.setEnabled(false);
                 break;
         }

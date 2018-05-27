@@ -6,4 +6,5 @@
 
     <dimen name="chart_cellview_height">35dp</dimen>
     <dimen name="chart_cellview_width">65dp</dimen>
+    <dimen name="chart_cellview_margin">2dp</dimen>
 </resources>

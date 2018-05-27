@@ -49,13 +49,13 @@
 
         <ImageView
             android:id="@+id/imgNWState"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/imgCommentView"
-            android:background="@drawable/icon_server_ok" />
+            android:background="@drawable/online" />
 
         <ImageView
             android:id="@+id/imgCommentView"
@@ -65,30 +65,17 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/uploadData"
-            android:background="@drawable/selector_button_upload_color"
-            android:src="@drawable/icon_complaint_24dp" />
+            android:background="@drawable/flag" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/uploadData"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/menu"
-            android:background="@drawable/selector_button_upload_color"
-            android:src="@drawable/selector_button_upload_icon" />
-
-        <ImageView
-            android:id="@+id/menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/selector_button_upload_color"
-            android:src="@drawable/ic_more_vert_white_24dp" />
+            android:background="@drawable/send"/>
 
     </RelativeLayout>
 
