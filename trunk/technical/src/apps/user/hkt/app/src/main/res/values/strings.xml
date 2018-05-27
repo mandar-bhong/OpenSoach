@@ -9,9 +9,9 @@
     <string name="title_activity_chart">ChartActivity</string>
 
     <string name="txt_time_slot">Time/Task</string>
-    <string name="txt_already_sync_msg">Data is alreayd in sync</string>
+    <string name="txt_already_sync_msg">Data is already in sync</string>
     <string name="enter_auth_code">Please try again with entering Auth Code</string>
-    <string name="footer_text">Copyright © 2016-2017 Powered by OpenSoach. All rights reserved.</string>
+    <string name="footer_text">Powered by OpenSoach</string>
     <string name="servicepoint_live">housekeeping.live</string>
 
     <!-- Dialog box text -->
