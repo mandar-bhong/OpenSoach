@@ -5,7 +5,9 @@ import (
 
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
+	repo "opensoach.com/hkt/api/repository"
 	"opensoach.com/hkt/api/webserver/service/dbaccess"
+	hktconst "opensoach.com/hkt/constants"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
 )
@@ -116,6 +118,17 @@ func (service ServiceConfigService) ServiceInstanceAdd(req lmodels.APIServiceIns
 
 	addResponse := gmodels.APIRecordAddResponse{}
 	addResponse.RecordID = insertedId
+
+	taskSerConfigAddedOnSPModel := &hktmodels.TaskSerConfigAddedOnSPModel{}
+	taskSerConfigAddedOnSPModel.DeviceSPId = insertedId
+
+	isSendSuccess := repo.Instance().
+		SendTaskToServer(hktconst.TASK_HKT_API_SERVICE_CONFIG_ADDED_ON_SP,
+			service.ExeCtx.SessionToken, taskSerConfigAddedOnSPModel)
+
+	if isSendSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
+	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "New ServiceInstance Added succesfully")
 

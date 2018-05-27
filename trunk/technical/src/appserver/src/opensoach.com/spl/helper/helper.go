@@ -5,6 +5,8 @@ import (
 	"opensoach.com/core/manager/db"
 )
 
+var SUB_MODULE_NAME = "SPL.helper"
+
 func DBQueryParamValidate(queryInput string) bool {
 	return ghelper.DBQueryParamValidate(queryInput, true)
 }

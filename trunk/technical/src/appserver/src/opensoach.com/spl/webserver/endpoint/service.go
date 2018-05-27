@@ -68,7 +68,7 @@ func (EndpointService) DeviceAuth(serialno string) (bool, interface{}) {
 	deviceTokenModel.CpmID = deviceAuthRecordItem.CpmID
 	deviceTokenModel.DevID = deviceRecordItem.DevId
 
-	isSuccess, token := lhelper.CacheSetDeviceInfo(repo.Instance().Context, &deviceTokenModel)
+	isSuccess, token := lhelper.CacheMapDeviceInfo(repo.Instance().Context, &deviceTokenModel)
 	if isSuccess == false {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_SERVER

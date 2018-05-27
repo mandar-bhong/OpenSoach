@@ -69,7 +69,7 @@ func EPGetSPServConf(dbConn string, cpmid int64, spid int64) (error, *[]prodmode
 }
 
 func EPInsertServiceInstanceData(dbConn string,
-	dbSerInstDataRowModel hktmodels.DBServiceInstanceDataRowModel) error {
+	dbSerInstDataRowModel hktmodels.DBServiceInstanceTxDataRowModel) error {
 
 	insDBCtx := dbmgr.InsertContext{}
 	insDBCtx.DBConnection = dbConn

@@ -27,7 +27,7 @@ func ProcessServiceInstanceData(ctx *lmodels.PacketProccessExecution, packetProc
 	packetServiceInstanceDataList := *devicePacket.Payload.(*[]lmodels.PacketServiceInstanceData)
 
 	for _, packetServiceInstanceDataItem := range packetServiceInstanceDataList {
-		dbServiceInstanceDataRowModel := hktmodels.DBServiceInstanceDataRowModel{}
+		dbServiceInstanceDataRowModel := hktmodels.DBServiceInstanceTxDataRowModel{}
 		dbServiceInstanceDataRowModel.CpmId = ctx.TokenInfo.CpmID
 		dbServiceInstanceDataRowModel.ServiceInstanceID = packetServiceInstanceDataItem.ServiceInstanceID
 		dbServiceInstanceDataRowModel.TransactionData = packetServiceInstanceDataItem.TxnData
