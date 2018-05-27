@@ -258,19 +258,19 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     private void setNWStateIcon(Constants.NETWORK_STATE state) {
         switch (state) {
             case WEB_SOCKET_CONNECTED: {
-                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.icon_server_ok));
+                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.online));
                 break;
             }
             case WEB_SOCKET_DISSCONNECTED: {
-                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.icon_server_error));
+                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.offline));
                 break;
             }
             case NW_NOT_AVAILABLE: {
-                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.icon_server_warning));
+                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.offline));
                 break;
             }
             default: {
-                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.circle_nw_not_avlbl));
+                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.offline));
                 break;
             }
         }

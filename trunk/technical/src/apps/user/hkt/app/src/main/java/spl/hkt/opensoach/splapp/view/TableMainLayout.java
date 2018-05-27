@@ -42,7 +42,9 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
     //region Private Veriabls
     private final int cellHeight = (int) getResources().getDimension(R.dimen.chart_cellview_height);
     private final int cellWidth = (int) getResources().getDimension(R.dimen.chart_cellview_width);
-    ;
+
+    private final int cellMargin = (int) getResources().getDimension(R.dimen.chart_cellview_margin);
+
     private int currentActiveSlot = -1;
 
     private SPLApplication mSPLApplication;
@@ -117,11 +119,11 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         textView.setTextSize(getResources().getDimension(R.dimen.chart_time_slot_text_font_size));
 
         TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
-        params.setMargins(0, 0, 1, 1);
+        params.setMargins(0, 0, cellMargin, cellMargin);
 
         componentATableRow.addView(textView, params);
 
-		this.tableA.addView(componentATableRow);
+        this.tableA.addView(componentATableRow);
 
 
         //for Initial Scroll
@@ -151,10 +153,10 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         this.scrollViewC = new ChartDataVerticalScrollView(this.context);
         this.scrollViewD = new ChartDataVerticalScrollView(this.context);
 
-        this.tableA.setBackgroundColor(Color.GRAY);
-        this.tableB.setBackgroundColor(Color.GRAY);
-        this.tableC.setBackgroundColor(Color.GRAY);
-        this.tableD.setBackgroundColor(Color.GRAY);
+        this.tableA.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
+        this.tableB.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
+        this.tableC.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
+        this.tableD.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
 
         this.horizontalScrollViewB.setBackgroundColor(Color.WHITE);
         this.horizontalScrollViewD.setBackgroundColor(Color.WHITE);
@@ -278,8 +280,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
                 TableRow tableRow = new TableRow(this.context);
                 TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
-                params.setMargins(0, 0, 1, 1);
-                //tableRow.setBackgroundColor(Color.GRAY);
+                params.setMargins(0, 0, cellMargin, cellMargin);
 
                 for (Integer slotIndex = 0; slotIndex < model.getSlots().size(); slotIndex++) {
                     View cellView = CreateChartDataCell(activeSlot, taskRowViewModel, slotIndex);
@@ -303,7 +304,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         // checkBox.setTag(cellViewModel);
 
         if (activeSlot < slotID) {
-            checkBox.setBackgroundResource(R.drawable.checkbox_disabled);
+            checkBox.setBackgroundResource(R.drawable.custom_cell_not_available);
             checkBox.setEnabled(false);
         } else {
             checkBox.setBackgroundResource(R.drawable.custom_cell_available);
@@ -334,7 +335,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
     private View createChartTaskCell(String taskName) {
 
         TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
-        params.setMargins(0, 0, 1, 1);
+        params.setMargins(0, 0, cellMargin, cellMargin);
 
         TableRow tableRowForTableC = new TableRow(this.context);
         // TextView bodyTextView = getTitleTextView(taskName);
@@ -360,7 +361,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
         TableRow componentBTableRow = new TableRow(this.context);
         TableRow.LayoutParams params = new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-        params.setMargins(0, 0, 1, 1);
+        params.setMargins(0, 0, cellMargin, cellMargin);
 
         for (int i = 0; i < model.getSlots().size(); i++) {
             Format formatter = new SimpleDateFormat("hh:mm a");
@@ -508,7 +509,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
             currenChartDataModelMap.put(cellViewModel.getTaskID() + "_" + cellViewModel.getSlotID(), chartDM);
             AppLogger.getInstance().Log(AppLogger.LogLevel.Debug, "TableMainLayout :Selected Task ID : " + cellViewModel.getTaskID() + " SlotID " + cellViewModel.getSlotID());
         } else {
-            AppLogger.getInstance().Log(AppLogger.LogLevel.Debug,"TableMainLayout :Deselected Task ID : " + cellViewModel.getTaskID() + " SlotID " + cellViewModel.getSlotID());
+            AppLogger.getInstance().Log(AppLogger.LogLevel.Debug, "TableMainLayout :Deselected Task ID : " + cellViewModel.getTaskID() + " SlotID " + cellViewModel.getSlotID());
             currenChartDataModelMap.remove(cellViewModel.getTaskID() + "_" + cellViewModel.getSlotID());
         }
         MainViewModel.getInstance().setCurrenChartDataModelMap(currenChartDataModelMap);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SPLApp</string>
+    <string name="app_name">House Keeping</string>
     <string name="action_settings">Settings</string>
 
     <string name="btn_ok">Ok</string>
@@ -12,7 +12,7 @@
     <string name="txt_already_sync_msg">Data is alreayd in sync</string>
     <string name="enter_auth_code">Please try again with entering Auth Code</string>
     <string name="footer_text">Copyright © 2016-2017 Powered by OpenSoach. All rights reserved.</string>
-    <string name="servicepoint_live">ServicePoint.live</string>
+    <string name="servicepoint_live">housekeeping.live</string>
 
     <!-- Dialog box text -->
     <string name="dialog_enter_auth_code">Enter Authcode :</string>
