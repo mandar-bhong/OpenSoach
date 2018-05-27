@@ -11,7 +11,7 @@
     <color name="color_ws_status_connected">#7CFC00</color>
 
     <!-- Chart Screen Color-->
-    <color name="header_view_screen_border">#343436</color>
+    <color name="activity_default_bg_color">#446666</color>
     <color name="header_view_bg">#446666</color>
     <color name="header_view_bg_trans">#b7b2b2</color>
     <color name="footer_view_bg">#446666</color>
@@ -23,7 +23,7 @@
     <color name="color_cell_available_complete">#7BBF6A</color>
     <color name="color_table_border">#343436</color>
     <color name="color_table_bg">#7BBF6A</color>
-    <color name="color_chart_bg_for_border">#989A7C</color>
+    <color name="color_chart_bg_for_border">#446666</color>
 
     <!-- Chart Cell Colors -->
     <color name="color_chart_cell_enabled_bg_color">#FFFFFF</color>

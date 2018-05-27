@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="2dp"
-    android:background="@color/header_view_screen_border"
+    android:background="@color/activity_default_bg_color"
     android:orientation="vertical"
     android:weightSum="100"
     tools:context="spl.hkt.opensoach.splapp.view.ChartActivity">
