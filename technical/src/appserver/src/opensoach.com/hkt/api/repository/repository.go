@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"opensoach.com/core"
+	"opensoach.com/core/manager/taskqueue"
 	gmodels "opensoach.com/models"
 )
 
@@ -13,8 +14,9 @@ var (
 )
 
 type repo struct {
-	Config  *gmodels.ConfigSettings
-	Context *core.Context
+	Config          *gmodels.ConfigSettings
+	Context         *core.Context
+	ProdTaskContext *taskqueue.TaskContext
 }
 
 func Init(config *gmodels.ConfigSettings, ctx *core.Context) {

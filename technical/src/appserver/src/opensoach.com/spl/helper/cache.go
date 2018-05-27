@@ -1,11 +1,14 @@
 package helper
 
 import (
+	"fmt"
 	"strconv"
 
 	gcore "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
+	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 )
 
 func CacheSetCPMKey(osContext *gcore.Context, cpmid int64, productInfoModel *gmodels.ProductInfoModel) bool {
@@ -45,17 +48,34 @@ func CacheGetCPMKey(osContext *gcore.Context, cpmid int64) (bool, *gmodels.Produ
 
 }
 
-func CacheSetDeviceInfo(osContext *gcore.Context, DevInfoModel *gmodels.DeviceTokenModel) (bool, string) {
+func CacheMapDeviceInfo(osContext *gcore.Context, DevInfoModel *gmodels.DeviceTokenModel) (bool, string) {
 
 	DevAuthCacheToken := ghelper.GenerateDeviceToken()
 
 	isJsonSuccess, jsonData := ghelper.ConvertToJSON(DevInfoModel)
 
 	if !isJsonSuccess {
+		logger.Context().WithField("Method", "CacheSetDeviceInfo").LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while converting to json data", nil)
 		return false, ""
 	}
 
+	deviceTokenKey := fmt.Sprintf("%s%d", pcconst.CACHE_DEVICE_TOKEN_MAPPING_KEY_PREFIX, DevInfoModel.DevID)
+
 	isSetSuccess := osContext.Master.Cache.Set(DevAuthCacheToken, jsonData, 0)
+
+	if isSetSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to set Device auth token key into cache", nil)
+		return false, ""
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device Auth token vs auth model set successfully")
+
+	isSetSuccess = osContext.Master.Cache.Set(deviceTokenKey, DevAuthCacheToken)
+
+	if isSetSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+		return false, ""
+	}
 
 	return isSetSuccess, DevAuthCacheToken
 }

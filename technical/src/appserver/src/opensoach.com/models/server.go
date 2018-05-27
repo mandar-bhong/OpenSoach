@@ -25,10 +25,3 @@ type PacketProcessingTaskResult struct {
 	AckPayload []*DevicePacket `json:"ackpayload"`
 	ChannelID  int             `json:"chnid"`
 }
-
-type APITaskProcessModel struct {
-	TaskToken    string      `json:"token"`
-	SessionToken string      `json:"sessionkey"`
-	TaskTag      string      `json:"tag"`
-	TaskPayload  interface{} `json:"payload"`
-}
