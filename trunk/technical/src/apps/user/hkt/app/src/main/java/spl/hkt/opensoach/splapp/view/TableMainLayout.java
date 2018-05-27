@@ -299,9 +299,6 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
     private View CreateChartDataCell(int activeSlot, TaskRowViewModel parent, int slotID) {
 
         View checkBox = new View(this.context);
-        //checkBox.setGravity(Gravity.CENTER);
-        //  checkBox.setBackgroundResource(R.drawable.checkbox_selector);
-        // checkBox.setTag(cellViewModel);
 
         if (activeSlot < slotID) {
             checkBox.setBackgroundResource(R.drawable.custom_cell_not_available);
