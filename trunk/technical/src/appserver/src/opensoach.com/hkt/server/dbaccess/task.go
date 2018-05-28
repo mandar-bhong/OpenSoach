@@ -19,3 +19,17 @@ func TaskGetSerConfDetailsByConfInstId(instDBConn string, servConfInID int64) (e
 
 	return dbErr, dbDeviceSerConfigModel
 }
+
+func TaskGetSerConfDetails(instDBConn string, cpmid int64, devid int64, spid int64) (error, []hktmodels.DBDeviceSerConfigModel) {
+
+	dbDeviceSerConfigModel := []hktmodels.DBDeviceSerConfigModel{}
+	selectContext := dbmgr.SelectContext{}
+	selectContext.DBConnection = instDBConn
+	selectContext.Query = dbquery.QUERY_GET_SER_CONFIG_BY_CPM_DEV_SP
+	selectContext.QueryType = dbmgr.Query
+	selectContext.Dest = &dbDeviceSerConfigModel
+
+	dbErr := selectContext.Select(cpmid, devid, spid)
+
+	return dbErr, dbDeviceSerConfigModel
+}
