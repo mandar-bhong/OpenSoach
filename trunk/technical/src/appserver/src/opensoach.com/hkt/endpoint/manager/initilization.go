@@ -160,6 +160,8 @@ func initTaskQueHandler() {
 	var hkthandler map[string]interface{}
 	hkthandler = make(map[string]interface{})
 
+	RegisterTaskHandler(hkthandler)
+
 	repo.Instance().ProdTaskContext.RegisterTaskHandlers(hkthandler)
 
 	go repo.Instance().ProdTaskContext.StartWorker("EPAck")
