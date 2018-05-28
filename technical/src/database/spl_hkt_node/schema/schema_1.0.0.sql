@@ -224,13 +224,13 @@ CREATE TABLE `spl_hkt_sp_complaint_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
-  `complaint_title` varchar(250) NOT NULL,
+  `complaint_title` varchar(250) NULL DEFAULT NULL,
   `description` varchar(500) DEFAULT NULL,
   `complaint_by` varchar(50) NOT NULL,
   `mobile_no` varchar(15) DEFAULT NULL,
   `email_id` varchar(254) DEFAULT NULL,
   `employee_id` varchar(16) DEFAULT NULL,
-  `severity` TINYINT(4) UNSIGNED NOT NULL COMMENT '1: Low, 2: Medium, 3: High,4: Critical etc.',
+  `severity` TINYINT(4) UNSIGNED NULL DEFAULT NULL COMMENT '1: Low, 2: Medium, 3: High,4: Critical etc.',
   `raised_on` datetime NOT NULL,
   `complaint_state` tinyint(4) NOT NULL COMMENT '1: Open, 2: Closed, 3: Force Closed etc.',
   `closed_on` datetime DEFAULT NULL,
@@ -243,3 +243,22 @@ CREATE TABLE `spl_hkt_sp_complaint_tbl` (
   KEY `fk_spcomplaint_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_spcomplaint_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spcomplaint';
+
+--
+-- Table structure for table `spl_node_feedback_tbl`
+--
+
+CREATE TABLE `spl_node_feedback_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`sp_id_fk` INT(10) UNSIGNED NOT NULL,
+	`feedback` TINYINT(4) UNSIGNED NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_feedback_cpm` (`cpm_id_fk`),
+	INDEX `fk_feedback_sp` (`sp_id_fk`),
+	CONSTRAINT `fk_feedback_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_feedback_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+) 	ENGINE=InnoDB COMMENT='Short Name for Table: feedback';
+
+
