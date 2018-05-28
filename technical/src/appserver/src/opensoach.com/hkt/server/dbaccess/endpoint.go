@@ -3,7 +3,6 @@ package dbaccess
 import (
 	dbmgr "opensoach.com/core/manager/db"
 	hktmodels "opensoach.com/hkt/models"
-	prodmodels "opensoach.com/hkt/models"
 	"opensoach.com/hkt/server/constants"
 	"opensoach.com/hkt/server/constants/dbquery"
 )
@@ -23,10 +22,10 @@ func EPGetInstanceDB(dbConn string, cpmid, deviceid int64) (error, string) {
 	return nil, data
 }
 
-func EPGetDeviceServicePoints(dbConn string, cpmid int64, deviceid int64) (error, *[]prodmodels.DBEPSPDataModel) {
+func EPGetDeviceServicePoints(dbConn string, cpmid int64, deviceid int64) (error, *[]hktmodels.DBEPSPDataModel) {
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]prodmodels.DBEPSPDataModel{}
+	data := &[]hktmodels.DBEPSPDataModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_DEVICE_SP
 	selDBCtx.QueryType = dbmgr.Query
@@ -53,10 +52,10 @@ func EPGetSPAuthCodes(dbConn string, cpmid int64, spid int64) (error, *[]string)
 	return nil, data
 }
 
-func EPGetSPServConf(dbConn string, cpmid int64, spid int64) (error, *[]prodmodels.DBEPSPServConfDataModel) {
+func EPGetSPServConf(dbConn string, cpmid int64, spid int64) (error, *[]hktmodels.DBEPSPServConfDataModel) {
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]prodmodels.DBEPSPServConfDataModel{}
+	data := &[]hktmodels.DBEPSPServConfDataModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_SP_SERV_CONF
 	selDBCtx.QueryType = dbmgr.Query

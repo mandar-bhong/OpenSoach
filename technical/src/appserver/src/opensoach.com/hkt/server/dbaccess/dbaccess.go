@@ -17,7 +17,7 @@ func GetInstanceDBConn(mstDBConn string, cpmid int64) (error, string) {
 	selectContext.Query = dbquery.QUERY_GET_DB_CONN_BY_CPM_ID
 	selectContext.QueryType = dbmgr.Query
 
-	err := selectContext.Select(cpmid)
+	err := selectContext.Get(cpmid)
 
 	return err, dbInstConn
 }
