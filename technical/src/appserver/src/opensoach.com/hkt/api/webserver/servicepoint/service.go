@@ -4,7 +4,9 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
+	repo "opensoach.com/hkt/api/repository"
 	"opensoach.com/hkt/api/webserver/servicepoint/dbaccess"
+	hktconst "opensoach.com/hkt/constants"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
 )
@@ -173,6 +175,19 @@ func (service ServicePointService) DevSpAssociation(req lmodels.APIDevSpAsscocia
 
 	addResponse := gmodels.APIRecordAddResponse{}
 	addResponse.RecordID = insertedId
+
+	taskSPDevAsscociatedModel := &hktmodels.TaskSPDevAsscociatedModel{}
+	taskSPDevAsscociatedModel.CpmId = dbRowModel.CpmId
+	taskSPDevAsscociatedModel.DevId = dbRowModel.DevId
+	taskSPDevAsscociatedModel.SpId = dbRowModel.SpId
+
+	isSendSuccess := repo.Instance().
+		SendTaskToServer(hktconst.TASK_HKT_API_DEVICE_SP_ASSOCIATED,
+			service.ExeCtx.SessionToken, taskSPDevAsscociatedModel)
+
+	if isSendSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
+	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device associated with Service Point  succesfully")
 
