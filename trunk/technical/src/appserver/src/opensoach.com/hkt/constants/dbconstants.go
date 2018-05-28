@@ -24,3 +24,5 @@ const DB_CONFIG_PRODUCT_QUE_ADDRESS_HOST string = "Product.Que.Address.Host"
 const DB_CONFIG_PRODUCT_QUE_ADDRESS_PORT string = "Product.Que.Address.Port"
 const DB_CONFIG_PRODUCT_QUE_ADDRESS_PASSWORD string = "Product.Que.Address.Password"
 const DB_CONFIG_PRODUCT_QUE_ADDRESS_DB string = "Product.Que.Address.DB"
+
+const DB_COMPLAINT_STATE_OPEN = 1

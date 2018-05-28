@@ -4,13 +4,13 @@ import "time"
 
 type DBComplaintDataModel struct {
 	SpId           int64   `db:"sp_id_fk" json:"spid"`
-	ComplaintTitle string  `db:"complaint_title" json:"complainttitle"`
+	ComplaintTitle *string `db:"complaint_title" json:"complainttitle"`
 	Description    *string `db:"description" json:"description"`
 	ComplaintBy    string  `db:"complaint_by" json:"complaintby"`
 	MobileNo       *string `db:"mobile_no" json:"mobileno"`
 	EmailId        *string `db:"email_id" json:"emailid"`
 	EmployeeId     *string `db:"employee_id" json:"employeeid"`
-	Severity       int     `db:"severity" json:"severity"`
+	Severity       *int    `db:"severity" json:"severity"`
 	ComplaintState int     `db:"complaint_state" json:"complaintstate"`
 }
 
