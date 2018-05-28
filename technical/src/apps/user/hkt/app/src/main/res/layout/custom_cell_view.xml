@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_table_head_bg"
-    android:gravity="center"
+    android:gravity="left"
     android:orientation="horizontal">
 
     <TextView
@@ -14,6 +14,7 @@
         android:text="Task #"
         android:textColor="@color/color_table_head_text"
         android:textSize="@dimen/table_cell_font_size"
+        android:paddingLeft="10dp"
         android:textStyle="normal" />
 
     <View

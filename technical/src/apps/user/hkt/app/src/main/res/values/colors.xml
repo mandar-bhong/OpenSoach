@@ -23,16 +23,17 @@
     <color name="color_cell_available_complete">#7BBF6A</color>
     <color name="color_table_border">#343436</color>
     <color name="color_table_bg">#7BBF6A</color>
-    <color name="color_chart_bg_for_border">#446666</color>
+    <color name="color_chart_bg_for_border">#37A5CD</color>
 
     <!-- Chart Cell Colors -->
     <color name="color_chart_cell_enabled_bg_color">#FFFFFF</color>
-    <color name="color_chart_cell_disabled_bg_color">#D3D3D3</color>
+    <color name="color_chart_cell_disabled_icon_color">#D3D3D3</color>
+    <color name="color_chart_cell_disabled_bg_color">#FFFFFF</color>
     <color name="color_chart_cell_delayed_bg_color">#FFCC00</color>
     <color name="color_chart_cell_on_time_bg_color">#339900</color>
     <color name="color_chart_cell_selection_bg_color">#0000FF</color>
 
-    <color name="color_table_head_bg">#37A5CD</color>
+    <color name="color_table_head_bg">#446666</color>
     <color name="color_table_head_text">#FFFFFF</color>
 
     <!-- Dialog View Colors -->

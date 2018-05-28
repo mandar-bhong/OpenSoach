@@ -43,6 +43,10 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
     private final int cellHeight = (int) getResources().getDimension(R.dimen.chart_cellview_height);
     private final int cellWidth = (int) getResources().getDimension(R.dimen.chart_cellview_width);
 
+    private final int taskCellHeight = (int) getResources().getDimension(R.dimen.chart_cell_task_height);
+    private final int taskCellWidth = (int) getResources().getDimension(R.dimen.chart_cell_task_width);
+
+
     private final int cellMargin = (int) getResources().getDimension(R.dimen.chart_cellview_margin);
 
     private int currentActiveSlot = -1;
@@ -105,16 +109,16 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
         // add the components to be part of the main layout
         this.addComponentToMainLayout();
-        this.setBackgroundColor(Color.WHITE);
+        this.setBackgroundColor(getResources().getColor(R.color.color_table_head_bg));
 
         //Time Slot Template Cell Item
         TableRow componentATableRow = new TableRow(this.context);
-        TextView textView = this.getTitleTextView(getResources().getString(R.string.txt_time_slot));
-        textView.setWidth(cellWidth);
-        textView.setHeight(cellHeight);
+        TextView textView = this.getTitleTextView("");
+        textView.setWidth(taskCellWidth);
+        textView.setHeight(taskCellHeight);
         textView.setTextSize(getResources().getDimension(R.dimen.chart_cell_font_size));
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(taskCellWidth, taskCellHeight);
         params.setMargins(0, 0, cellMargin, cellMargin);
 
         componentATableRow.addView(textView, params);
@@ -149,9 +153,9 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
         this.scrollViewC = new ChartDataVerticalScrollView(this.context);
         this.scrollViewD = new ChartDataVerticalScrollView(this.context);
 
-        this.tableA.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
-        this.tableB.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
-        this.tableC.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
+        this.tableA.setBackgroundColor(getResources().getColor(R.color.color_table_head_bg));
+        this.tableB.setBackgroundColor(getResources().getColor(R.color.color_table_head_bg));
+        this.tableC.setBackgroundColor(getResources().getColor(R.color.color_table_head_bg));
         this.tableD.setBackgroundColor(getResources().getColor(R.color.color_chart_bg_for_border));
 
         this.horizontalScrollViewB.setBackgroundColor(Color.WHITE);
@@ -316,14 +320,14 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
         for (ChartConfigTaskModel chartTaskModel : model.getTaskList()) {
             View taskTemplateCell = createChartTaskCell(chartTaskModel.getTaskName());
-            taskTemplateCell.setMinimumHeight(cellHeight);
+            taskTemplateCell.setMinimumHeight(taskCellHeight);
             this.tableC.addView(taskTemplateCell);
         }
     }
 
     private View createChartTaskCell(String taskName) {
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellHeight);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(taskCellWidth, taskCellHeight);
         params.setMargins(0, 0, cellMargin, cellMargin);
 
         TableRow tableRowForTableC = new TableRow(this.context);
