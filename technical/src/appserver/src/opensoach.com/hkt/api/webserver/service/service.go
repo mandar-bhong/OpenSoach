@@ -109,7 +109,7 @@ func (service ServiceConfigService) ServiceInstanceAdd(req lmodels.APIServiceIns
 
 	dbErr, insertedId := dbaccess.ServiceInstanceInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding service instance data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -120,7 +120,8 @@ func (service ServiceConfigService) ServiceInstanceAdd(req lmodels.APIServiceIns
 	addResponse.RecordID = insertedId
 
 	taskSerConfigAddedOnSPModel := &hktmodels.TaskSerConfigAddedOnSPModel{}
-	taskSerConfigAddedOnSPModel.DeviceSPId = insertedId
+	taskSerConfigAddedOnSPModel.ServInstConfID = insertedId
+	taskSerConfigAddedOnSPModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
 	isSendSuccess := repo.Instance().
 		SendTaskToServer(hktconst.TASK_HKT_API_SERVICE_CONFIG_ADDED_ON_SP,
