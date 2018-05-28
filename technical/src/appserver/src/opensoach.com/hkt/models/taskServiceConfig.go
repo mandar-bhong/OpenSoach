@@ -8,8 +8,6 @@ type TaskSPDevAsscociatedModel struct {
 }
 
 type TaskSerConfigAddedOnSPModel struct {
-	CpmId      int64 `json:"cpmid"`
-	DeviceSPId int64 `json:"devspid"`
-	DevId      int64 `json:"devid"`
-	SpId       int64 `json:"spid"`
+	CpmId          int64 `json:"cpmid"`
+	ServInstConfID int64 `json:"servconfinid"`
 }
