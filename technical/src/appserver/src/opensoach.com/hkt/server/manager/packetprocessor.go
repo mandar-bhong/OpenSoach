@@ -39,12 +39,17 @@ func InitProcessor() {
 	CAT_DATA_SERVICE_INST_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_SERVICE_INST_DATA)
 
+	CAT_DATA_COMPLAINT_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+		serconst.DEVICE_CMD_COMPLAINT_DATA)
+
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 
 	PacketProcessExecutor[CAT_CONFIG_DEV_SYNC_COMP] = epproc.ProcessDeviceSyncCompleted
 	PacketProcessExecutor[CAT_DR_DEV_REG_ACK] = endpoint.ProcessDevReg
 
 	PacketProcessExecutor[CAT_DATA_SERVICE_INST_DATA] = endpoint.ProcessServiceInstanceData
+
+	PacketProcessExecutor[CAT_DATA_COMPLAINT_DATA] = endpoint.ProcessComplaintData
 
 }
 

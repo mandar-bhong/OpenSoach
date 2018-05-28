@@ -80,3 +80,16 @@ func EPInsertServiceInstanceData(dbConn string,
 
 	return insertErr
 }
+
+func EPInsertComplaintData(dbConn string,
+	dbComplaintInsertRowModel hktmodels.DBComplaintInsertRowModel) error {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = dbComplaintInsertRowModel
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_SPL_HKT_SP_COMPLAINT_TBL
+	insertErr := insDBCtx.Insert()
+
+	return insertErr
+}
