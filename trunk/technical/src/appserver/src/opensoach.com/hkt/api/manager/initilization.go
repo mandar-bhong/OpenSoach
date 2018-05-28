@@ -15,6 +15,9 @@ import (
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
+	taskque "opensoach.com/core/manager/taskqueue"
+	"strconv"
+
 )
 
 func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
@@ -22,7 +25,8 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 	dbConnnErr := pchelper.VerifyDBConnection(dbconfig)
 
 	if dbConnnErr != nil {
-		//TODO: LOG
+		logger.Context().WithField("DbConn ", dbconfig.ConnectionString).
+			LogError(SUB_MODULE_NAME, logger.Normal, "Unable to connect database.", dbConnnErr)
 		return dbConnnErr
 	}
 
@@ -30,6 +34,8 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	if err != nil {
 		fmt.Println("Error occured while fetching configuration data: ", err.Error())
+		logger.Context().WithField("Error ", err.Error()).
+			LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching configuration data.", err)
 		return err
 	}
 
@@ -37,13 +43,16 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 
 	if errPrepareConfig != nil {
 		fmt.Println("Error occured while fetching configuration data: ", err.Error())
+		logger.Context().WithField("DbConn ", dbconfig.ConnectionString).
+			LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching configuration data.", errPrepareConfig)
 		return err
 	}
 
 	dbConnnErr = pchelper.VerifyDBConnection(masterConfigSetting.ProdMstDBConfig)
 
 	if dbConnnErr != nil {
-		//TODO: LOG
+		fmt.Println("Error occured while fetching configuration data: ", dbConnnErr.Error())
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching configuration data.", dbConnnErr)
 		return dbConnnErr
 	}
 
@@ -60,6 +69,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		//TODO: log message, need to identify fmt or file base or both
 		return errPrepareConfig
 	}
+
 
 	//init logger for fmt or file or both for temp then switch mode as per configuration after component connection verification
 
@@ -138,6 +148,24 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	if err != nil {
 		return err
 	}
+
+
+	prodTaskConfig := taskque.TaskConfig{}
+	prodTaskConfig.Broker = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
+	prodTaskConfig.ResultBackend = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
+	prodTaskConfig.DefaultQueue = gmodels.HKT_SERVER_DEFAULT_TASK_QUEUE
+	prodTaskConfig.ResultsExpireIn = 1 // in min
+
+	prodTaskCtx := &taskque.TaskContext{}
+
+	prodTaskQueErr := prodTaskCtx.CreateServer(prodTaskConfig)
+
+	if prodTaskQueErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME,logger.Normal,"Error occured while creating queue server",prodTaskQueErr)
+		return prodTaskQueErr
+	}
+
+	repo.Instance().ProdTaskContext = prodTaskCtx
 
 	webServerInitError := webserver.Init(configSetting)
 
