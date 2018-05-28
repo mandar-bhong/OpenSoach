@@ -22,7 +22,6 @@ type PacketServiceInstanceData struct {
 }
 
 type PacketComplaintData struct {
-	SpId        int64   `db:"sp_id_fk" json:"spid"`
 	Description *string `db:"description" json:"description"`
 	ComplaintBy string  `db:"complaint_by" json:"complaintby"`
 }
