@@ -416,6 +416,25 @@ response: {
 baseurl:string;
 }
 
+34. Get Service Conf info
+API Name: /api/v1/service/config/info
+Request Method: GET
+request:
+response: Response {
+
+ervconfid:
+cpmid:number;
+spcid:number;
+conftypecode:string;
+servconfname:string;
+shortdesc:string;
+servconf:string;
+createdon:Date;
+updatedon:Date;
+}
+
+
+
 
 
 

@@ -48,3 +48,8 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 7.  method POST /api/v1/service/config/copytemplate
 
 	{"servconfid":1}
+	
+	
+8.	 method GET: /api/v1/service/config/info
+
+	query parameter : params={"recid":1} //servconfid
