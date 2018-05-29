@@ -99,7 +99,7 @@ func CommonWebRequestHandler(pContext *gin.Context, requestHandlerFunc RequestHa
 		},
 
 		Catch: func(e ghelper.Exception) {
-			//logger.Log(helper.MODULENAME, logger.ERROR, "Exception occured while processing websocket data: %#v", e)
+			//logger.Context().LogError("ProdCore.Helper.")
 			isSuccess = false
 			errorData := gmodels.APIResponseError{}
 			errorData.Code = gmodels.MOD_OPER_ERR_SERVER
@@ -121,4 +121,33 @@ func CommonWebRequestHandler(pContext *gin.Context, requestHandlerFunc RequestHa
 	pContext.JSON(ginRetStatus, responsePayload)
 
 	return
+}
+
+func FileDownloadHandler(pContext *gin.Context, requestHandlerFunc RequestHandler) {
+	var isSuccess bool
+	var successErrorData interface{}
+	var successData []byte
+
+	ghelper.Block{
+		Try: func() {
+			isSuccess, successErrorData = requestHandlerFunc(pContext)
+
+			if isSuccess {
+				successData = successErrorData.([]byte)
+			}
+		},
+		Catch: func(e ghelper.Exception) {
+			//TODO:
+		},
+		Finally: func() {
+			//Do something if required
+		},
+	}.Do()
+
+	if isSuccess {
+		pContext.Header("Content-Disposition", "attachment;")
+		pContext.Data(http.StatusOK, "attachment", successData)
+	} else {
+		pContext.Data(http.StatusNotFound, "attachment", nil)
+	}
 }
