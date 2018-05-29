@@ -26,6 +26,7 @@ const API_SERVICE_INSTANCE_LIST = API_BASE_URL + "/v1/service/instance/list"
 const API_SERVICE_TXN_LIST = API_BASE_URL + "/v1/service/transaction/list"
 const API_SERVICE_CONFIG_LIST_SHORT = API_BASE_URL + "/v1/service/config/list/short"
 const API_SERVICE_CONFIG_COPY_TEMPLATE = API_BASE_URL + "/v1/service/config/copytemplate"
+const API_SERVICE_CONFIG_INFO = API_BASE_URL + "/v1/service/config/info"
 
 const API_MASTER_SPC_TASK_INFO = API_BASE_URL + "/v1/master/spctask/info"
 const API_MASTER_TASK_LIB_INFO = API_BASE_URL + "/v1/master/task/info"

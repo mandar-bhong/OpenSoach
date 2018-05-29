@@ -228,3 +228,20 @@ func ServiceConfigInsertCopy(dbConn string, insrtStruct hktmodels.DBServiceConfT
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func ServiceConfSelectByID(dbConn string, servconfid int64) (error, *[]hktmodels.DBSplNodeServiceConfTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ServConfSelectByID")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplNodeServiceConfTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.AutoQuery
+	selDBCtx.TableName = constants.DB_SPL_NODE_SERVICE_CONF_TBL
+	selDBCtx.Dest = data
+	selErr := selDBCtx.SelectById(servconfid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
