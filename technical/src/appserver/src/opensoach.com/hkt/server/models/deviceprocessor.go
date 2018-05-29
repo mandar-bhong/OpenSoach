@@ -25,3 +25,7 @@ type PacketComplaintData struct {
 	Description *string `db:"description" json:"description"`
 	ComplaintBy string  `db:"complaint_by" json:"complaintby"`
 }
+
+type PacketFeedbackData struct {
+	Feedback int `jason:"feedback"`
+}
