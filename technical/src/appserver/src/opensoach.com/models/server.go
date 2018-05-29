@@ -25,3 +25,8 @@ type PacketProcessingTaskResult struct {
 	AckPayload []*DevicePacket `json:"ackpayload"`
 	ChannelID  int             `json:"chnid"`
 }
+
+type ExcelData struct {
+	Headers []string
+	Data    [][]string
+}
