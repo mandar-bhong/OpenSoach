@@ -44,7 +44,7 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Addre
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Que.Address.DB','2');
 
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Logger.Log.Level','Debug');
-INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Logger.LogType','Std');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Logger.LogType','InfluxDB');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Logger.Fluent.Host','http://172.105.232.148:9999');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Logger.InfluxDB.Host','http://172.105.232.148:8086');
 
