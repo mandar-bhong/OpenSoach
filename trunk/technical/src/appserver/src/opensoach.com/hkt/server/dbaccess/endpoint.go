@@ -92,3 +92,16 @@ func EPInsertComplaintData(dbConn string,
 
 	return insertErr
 }
+
+func EPInsertFeedbackData(dbConn string,
+	dbFeedbackInsertRowModel hktmodels.DBFeedbackInsertRowModel) error {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = dbFeedbackInsertRowModel
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_SPL_NODE_FEEDBACK_TBL
+	insertErr := insDBCtx.Insert()
+
+	return insertErr
+}

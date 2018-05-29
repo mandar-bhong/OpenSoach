@@ -124,3 +124,11 @@ type DBSplNodeSpTableRowModel struct {
 	CreatedOn    time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
 }
+
+type DBSplNodeFeedbackTableRowModel struct {
+	FeedbackId int64     `db:"id" dbattr:"pri,auto"  json:"FeedbackId"`
+	CpmIdFk    int64     `db:"cpm_id_fk" json:"cpmidfk"`
+	SpIdFk     int64     `db:"sp_id_fk" json:"spidfk"`
+	Feedback   int       `db:"feedback" json:"feedback"`
+	CreatedOn  time.Time `db:"created_on" json:"createdon"`
+}
