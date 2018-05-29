@@ -3,6 +3,7 @@ package logger
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -14,7 +15,7 @@ var chanbuffLog chan *loggerContext
 var wg sync.WaitGroup
 
 func init() {
-	chanbuffLog = make(chan *loggerContext)
+	chanbuffLog = make(chan *loggerContext, 1000)
 	wg.Add(1)
 	go dispatch()
 }
@@ -105,6 +106,7 @@ func convertToLogMsg(l loggerContext) logMsg {
 	lmsg.AppComponent = l.appComponent
 	lmsg.LogTime = l.logTime.Format("Jan 2, 2006 at 3:04:05pm (MST)")
 	lmsg.Msg = l.msg
+	lmsg.Msg = strings.Replace(lmsg.Msg, "\n", " ", -1)
 	lmsg.SubComponent = l.subComponent
 
 	switch l.level {
