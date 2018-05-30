@@ -421,8 +421,7 @@ API Name: /api/v1/service/config/info
 Request Method: GET
 request:
 response: Response {
-
-ervconfid:
+servconfid:number;
 cpmid:number;
 spcid:number;
 conftypecode:string;
@@ -431,6 +430,34 @@ shortdesc:string;
 servconf:string;
 createdon:Date;
 updatedon:Date;
+}
+
+35. Generate Report
+API Name: /api/v1/report/generate
+Request Method: GET
+request: null;
+response:
+
+36. View Report
+API Name: /api/v1/report/info
+Request Method: GET
+request: null;
+response: response{
+reportid:number;
+reportcode:string;
+reportdesc:string;
+reportheader:[]string;
+reportdata:[][]string;
+}
+
+37. Get Report Short List
+API Name: /api/v1/report/list/short
+Request Method: GET
+request: null;
+response: response{
+reportid:number;
+reportcode:string;
+reportdesc:string;
 }
 
 

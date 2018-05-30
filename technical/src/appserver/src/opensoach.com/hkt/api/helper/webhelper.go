@@ -17,3 +17,7 @@ func PrepareExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, 
 func CommonWebRequestHandler(pContext *gin.Context, requestHandlerFunc pchelper.RequestHandler) {
 	pchelper.CommonWebRequestHandler(pContext, requestHandlerFunc)
 }
+
+func FileDownloadHandler(pContext *gin.Context, requestHandlerFunc pchelper.RequestHandler) {
+	pchelper.FileDownloadHandler(pContext, requestHandlerFunc)
+}

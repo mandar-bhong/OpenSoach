@@ -132,3 +132,12 @@ type DBSplNodeFeedbackTableRowModel struct {
 	Feedback   int       `db:"feedback" json:"feedback"`
 	CreatedOn  time.Time `db:"created_on" json:"createdon"`
 }
+
+type DBSplNodeReportTemplateTableRowModel struct {
+	ReportId          int64  `db:"id" dbattr:"pri,auto"  json:"reportid"`
+	ReportCode        string `db:"report_code" json:"reportcode"`
+	ReportDesc        string `db:"report_desc" json:"reportdesc"`
+	ReportHeader      string `db:"report_header" json:"reportheader"`
+	ReportQueryParams string `db:"report_query_params" json:"reportqueryparams"`
+	ReportQuery       string `db:"report_query" json:"reportquery"`
+}

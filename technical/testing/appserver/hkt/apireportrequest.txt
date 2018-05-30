@@ -1,0 +1,13 @@
+Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_HKT"}
+
+1.	 method GET : /api/v1/report/generate
+	
+	query parameter : params={"reportid":1} //reportid
+
+2.	 method GET : /api/v1/report/info
+
+	query parameter : params={"reportid":1} //reportid
+
+
+3.	method  GET : /api/v1/report/list/short
+
