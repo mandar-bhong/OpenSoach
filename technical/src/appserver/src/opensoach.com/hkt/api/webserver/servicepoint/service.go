@@ -265,3 +265,20 @@ func (service ServicePointService) GetFopSpAssociation(fopID int64) (bool, inter
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched fopSp info")
 	return true, dbRecord
 }
+
+func (service ServicePointService) ServicePointShortDataList() (bool, interface{}) {
+
+	dbErr, listData := dbaccess.GetServicePointShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Service Point short data list.")
+
+	return true, listData
+
+}

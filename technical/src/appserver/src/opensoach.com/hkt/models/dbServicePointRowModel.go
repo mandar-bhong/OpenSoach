@@ -65,3 +65,8 @@ type DBFopSpAssociationDataModel struct {
 	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
 	SpName string `db:"sp_name" json:"spname"`
 }
+
+type DBServicePointShortDataModel struct {
+	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	SpName string `db:"sp_name" json:"spname"`
+}
