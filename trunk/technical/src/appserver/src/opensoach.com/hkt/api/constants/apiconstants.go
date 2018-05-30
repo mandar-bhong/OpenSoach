@@ -46,3 +46,7 @@ const API_SERVICE_POINT_DEVICE_ASSOCIATION_REMOVE = API_BASE_URL + "/v1/servicep
 const API_DEVICE_LIST_SHORT = API_BASE_URL + "/v1/device/list/short"
 
 const API_SPL_PROD_BASE_URL = API_BASE_URL + "/v1/splprod/baseurl"
+
+const API_REPORT_GENERATE = API_BASE_URL + "/v1/report/generate"
+const API_REPORT_INFO = API_BASE_URL + "/v1/report/info"
+const API_REPORT_LIST_SHORT = API_BASE_URL + "/v1/report/list/short"
