@@ -14,7 +14,7 @@ import (
 func ProcessFeedbackData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	devicePacket := &gmodels.DevicePacket{}
-	devicePacket.Payload = &lmodels.PacketFeedbackData{}
+	devicePacket.Payload = &[]lmodels.PacketFeedbackData{}
 
 	convErr := ghelper.ConvertFromJSONBytes(ctx.DevicePacket, devicePacket)
 
@@ -24,19 +24,21 @@ func ProcessFeedbackData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		return
 	}
 
-	packetFeedbackData := *devicePacket.Payload.(*lmodels.PacketFeedbackData)
+	packetFeedbackDataList := *devicePacket.Payload.(*[]lmodels.PacketFeedbackData)
 
-	dbFeedbackInsertRowModel := hktmodels.DBFeedbackInsertRowModel{}
-	dbFeedbackInsertRowModel.CpmIdFk = ctx.TokenInfo.CpmID
-	dbFeedbackInsertRowModel.SpIdFk = devicePacket.Header.SPID
-	dbFeedbackInsertRowModel.Feedback = packetFeedbackData.Feedback
-	dbFeedbackInsertRowModel.RaisedOn = packetFeedbackData.RaisedOn
+	for _, packetFeedbackDataItem := range packetFeedbackDataList {
+		dbFeedbackInsertRowModel := hktmodels.DBFeedbackInsertRowModel{}
+		dbFeedbackInsertRowModel.CpmIdFk = ctx.TokenInfo.CpmID
+		dbFeedbackInsertRowModel.SpIdFk = devicePacket.Header.SPID
+		dbFeedbackInsertRowModel.Feedback = packetFeedbackDataItem.Feedback
+		dbFeedbackInsertRowModel.RaisedOn = packetFeedbackDataItem.RaisedOn
 
-	dbErr := dbaccess.EPInsertFeedbackData(ctx.InstanceDBConn, dbFeedbackInsertRowModel)
+		dbErr := dbaccess.EPInsertFeedbackData(ctx.InstanceDBConn, dbFeedbackInsertRowModel)
 
-	if dbErr != nil {
-		logger.Context().WithField("Token", ctx.Token).
-			WithField("Feedback Data", packetFeedbackData).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving complaint data.", dbErr)
+		if dbErr != nil {
+			logger.Context().WithField("Token", ctx.Token).
+				WithField("Feedback Data", dbFeedbackInsertRowModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving complaint data.", dbErr)
+		}
 	}
 
 	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
