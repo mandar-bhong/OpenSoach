@@ -203,12 +203,12 @@ func GetServicePointList(dbConn string, filterModel *hktmodels.DBSearchServicePo
 	return nil, data
 }
 
-func FopSpSelectByID(dbConn string, fopId int64) (error, *[]hktmodels.DBSplNodeFopSpTableRowModel) {
+func FopSpSelectByID(dbConn string, fopId int64) (error, *[]hktmodels.DBFopSpAssociationDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing FopSpSelectByID")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplNodeFopSpTableRowModel{}
+	data := &[]hktmodels.DBFopSpAssociationDataModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Query = dbquery.QUERY_GET_FOP_SP_ASSOCIATIONS

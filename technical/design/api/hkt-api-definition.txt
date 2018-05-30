@@ -467,9 +467,7 @@ request: null;
 response: response{
 fopid:number;
 spid:number;
-cpmid:number;
-createdon:Date;
-updatedon:Date;
+spname:string;
 }
 
 

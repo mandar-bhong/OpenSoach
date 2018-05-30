@@ -20,4 +20,6 @@ left join spl_node_dev_tbl dev on dev.dev_id_fk = devsp.dev_id_fk
 left join spl_node_service_instance_tbl serv_conf_in on serv_conf_in.sp_id_fk = sp.sp_id_fk
  $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
-const QUERY_GET_FOP_SP_ASSOCIATIONS = `select * from spl_node_fop_sp_tbl where fop_id_fk = ?`
+const QUERY_GET_FOP_SP_ASSOCIATIONS = `select fop_id_fk,fopsp.sp_id_fk,sp_name from spl_node_fop_sp_tbl fopsp
+inner join spl_node_sp_tbl sp on sp.sp_id_fk = fopsp.sp_id_fk
+where fop_id_fk = ?`
