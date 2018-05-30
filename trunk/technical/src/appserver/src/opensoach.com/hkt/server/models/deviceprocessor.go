@@ -32,5 +32,6 @@ type PacketComplaintData struct {
 }
 
 type PacketFeedbackData struct {
-	Feedback int `jason:"feedback"`
+	Feedback int       `jason:"feedback"`
+	RaisedOn time.Time `db:"raised_on" json:"raisedon"`
 }

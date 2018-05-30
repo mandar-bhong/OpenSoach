@@ -254,6 +254,7 @@ CREATE TABLE `spl_node_feedback_tbl` (
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
 	`sp_id_fk` INT(10) UNSIGNED NOT NULL,
 	`feedback` TINYINT(4) UNSIGNED NOT NULL,
+	`raised_on` DATETIME NOT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
 	INDEX `fk_feedback_cpm` (`cpm_id_fk`),
