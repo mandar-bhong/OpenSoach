@@ -59,3 +59,9 @@ type DBDevSpMappingInsertRowModel struct {
 	DBDevSpMappingDataModelModel
 	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 }
+
+type DBFopSpAssociationDataModel struct {
+	FopId  int64  `db:"fop_id_fk" dbattr:"pri"  json:"fopid"`
+	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	SpName string `db:"sp_name" json:"spname"`
+}
