@@ -173,6 +173,7 @@ CREATE TABLE `spl_node_field_operator_tbl` (
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  UNIQUE INDEX `fopcode` (`fopcode`),
   KEY `fk_fop_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_fop_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: fop';
