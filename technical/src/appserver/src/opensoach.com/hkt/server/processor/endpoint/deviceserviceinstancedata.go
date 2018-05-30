@@ -4,7 +4,9 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	hktmodels "opensoach.com/hkt/models"
+	lconst "opensoach.com/hkt/server/constants"
 	"opensoach.com/hkt/server/dbaccess"
+	lhelper "opensoach.com/hkt/server/helper"
 	lmodels "opensoach.com/hkt/server/models"
 	gmodels "opensoach.com/models"
 )
@@ -39,11 +41,11 @@ func ProcessServiceInstanceData(ctx *lmodels.PacketProccessExecution, packetProc
 		}
 	}
 
-	dataReceivedAckPacket := &gmodels.DevicePacket{}
-	dataReceivedAckPacket.Header = devicePacket.Header
-	
+	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		true, 0, nil)
 
-	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, dataReceivedAckPacket)
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 
 	packetProcessingResult.IsSuccess = true
 }
