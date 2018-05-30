@@ -262,10 +262,10 @@ CREATE TABLE `spl_node_feedback_tbl` (
 ) 	ENGINE=InnoDB COMMENT='Short Name for Table: feedback';
 
 --
--- Table structure for table `spl_node_report_tbl`
+-- Table structure for table `spl_node_report_template_tbl`
 --
 
-CREATE TABLE `spl_node_report_tbl` (
+CREATE TABLE `spl_node_report_template_tbl` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`report_code` VARCHAR(100) NOT NULL,
 	`report_desc` VARCHAR(150) NOT NULL,
