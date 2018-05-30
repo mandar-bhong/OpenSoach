@@ -470,6 +470,15 @@ spid:number;
 spname:string;
 }
 
+39. Get service point short list
+API Name: /api/v1/servicepoint/list/short
+Request Method: GET
+request: null
+response: Response{
+spid:number;
+spname:string;
+}
+
 
 
 
