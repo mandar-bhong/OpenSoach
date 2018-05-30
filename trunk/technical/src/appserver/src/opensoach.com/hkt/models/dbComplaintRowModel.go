@@ -4,7 +4,7 @@ import "time"
 
 type DBComplaintDataModel struct {
 	SpId           int64   `db:"sp_id_fk" json:"spid"`
-	ComplaintTitle *string `db:"complaint_title" json:"complainttitle"`
+	ComplaintTitle string  `db:"complaint_title" json:"complainttitle"`
 	Description    *string `db:"description" json:"description"`
 	ComplaintBy    string  `db:"complaint_by" json:"complaintby"`
 	MobileNo       *string `db:"mobile_no" json:"mobileno"`

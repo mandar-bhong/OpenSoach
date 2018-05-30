@@ -31,9 +31,13 @@ func ProcessComplaintData(ctx *lmodels.PacketProccessExecution, packetProcessing
 		dbComplaintInsertRowModel := hktmodels.DBComplaintInsertRowModel{}
 		dbComplaintInsertRowModel.CpmId = ctx.TokenInfo.CpmID
 		dbComplaintInsertRowModel.SpId = devicePacket.Header.SPID
+		dbComplaintInsertRowModel.ComplaintTitle = packetComplaintDataItem.ComplaintTitle
 		dbComplaintInsertRowModel.Description = packetComplaintDataItem.Description
 		dbComplaintInsertRowModel.ComplaintBy = packetComplaintDataItem.ComplaintBy
-		dbComplaintInsertRowModel.RaisedOn = ghelper.GetCurrentTime()
+		dbComplaintInsertRowModel.MobileNo = packetComplaintDataItem.MobileNo
+		dbComplaintInsertRowModel.EmailId = packetComplaintDataItem.EmailId
+		dbComplaintInsertRowModel.EmployeeId = packetComplaintDataItem.EmployeeId
+		dbComplaintInsertRowModel.RaisedOn = packetComplaintDataItem.RaisedOn
 		dbComplaintInsertRowModel.ComplaintState = constants.DB_COMPLAINT_STATE_OPEN
 
 		dbErr := dbaccess.EPInsertComplaintData(ctx.InstanceDBConn, dbComplaintInsertRowModel)

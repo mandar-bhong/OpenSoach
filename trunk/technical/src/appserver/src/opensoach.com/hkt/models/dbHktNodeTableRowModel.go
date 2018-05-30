@@ -12,7 +12,7 @@ type DBSplHktSpComplaintTableRowModel struct {
 	MobileNo       *string    `db:"mobile_no" json:"mobileno"`
 	EmailId        *string    `db:"email_id" json:"emailid"`
 	EmployeeId     *string    `db:"employee_id" json:"employeeid"`
-	Severity       int        `db:"severity" json:"severity"`
+	Severity       *int       `db:"severity" json:"severity"`
 	RaisedOn       time.Time  `db:"raised_on" json:"raisedon"`
 	ComplaintState int        `db:"complaint_state" json:"complaintstate"`
 	ClosedOn       *time.Time `db:"closed_on" json:"closedon"`

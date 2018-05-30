@@ -225,7 +225,7 @@ CREATE TABLE `spl_hkt_sp_complaint_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
-  `complaint_title` varchar(250) NULL DEFAULT NULL,
+  `complaint_title` varchar(250) NOT NULL,
   `description` varchar(500) DEFAULT NULL,
   `complaint_by` varchar(50) NOT NULL,
   `mobile_no` varchar(15) DEFAULT NULL,
