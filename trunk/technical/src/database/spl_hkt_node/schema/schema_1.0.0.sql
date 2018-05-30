@@ -261,4 +261,17 @@ CREATE TABLE `spl_node_feedback_tbl` (
 	CONSTRAINT `fk_feedback_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
 ) 	ENGINE=InnoDB COMMENT='Short Name for Table: feedback';
 
+--
+-- Table structure for table `spl_node_report_tbl`
+--
+
+CREATE TABLE `spl_node_report_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`report_code` VARCHAR(100) NOT NULL,
+	`report_desc` VARCHAR(150) NOT NULL,
+	`report_header` JSON NOT NULL,
+	`report_query_params` VARCHAR(150) NOT NULL,
+	`report_query` VARCHAR(1000) NOT NULL,
+	PRIMARY KEY (`id`)
+)   ENGINE=InnoDB COMMENT='Short Name for Table: report';
 
