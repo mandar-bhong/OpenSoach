@@ -46,3 +46,8 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"spcid":}}
 	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"spstate":}}
 	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"devid":}}
+	
+	
+10. method GET : /api/v1/servicepoint/associate/fieldoperator/info
+
+	query parameter : params={"recid":1} //fopid

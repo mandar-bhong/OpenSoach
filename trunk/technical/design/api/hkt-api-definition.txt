@@ -460,6 +460,18 @@ reportcode:string;
 reportdesc:string;
 }
 
+38. Get ServicePoint FiedOperator Associations
+API Name: /api/v1/servicepoint/associate/fieldoperator/info
+Request Method: GET
+request: null;
+response: response{
+fopid:number;
+spid:number;
+cpmid:number;
+createdon:Date;
+updatedon:Date;
+}
+
 
 
 

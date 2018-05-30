@@ -242,3 +242,26 @@ func (service ServicePointService) GetSPList(listReqData gmodels.APIDataListRequ
 	return true, dataListResponse
 
 }
+
+func (service ServicePointService) GetFopSpAssociation(fopID int64) (bool, interface{}) {
+
+	dbErr, fopSpData := dbaccess.FopSpSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, fopID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *fopSpData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched fopSp info")
+	return true, dbRecord
+}
