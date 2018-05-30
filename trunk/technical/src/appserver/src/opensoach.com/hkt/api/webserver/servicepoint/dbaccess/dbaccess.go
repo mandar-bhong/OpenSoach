@@ -219,3 +219,20 @@ func FopSpSelectByID(dbConn string, fopId int64) (error, *[]hktmodels.DBFopSpAss
 	}
 	return nil, data
 }
+
+func GetServicePointShortDataList(dbConn string) (error, *[]hktmodels.DBServicePointShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSpCategoryShortDataList")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBServicePointShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_SERVICEPOINT_SHORT_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
