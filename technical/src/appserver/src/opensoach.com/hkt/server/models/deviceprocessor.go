@@ -22,8 +22,13 @@ type PacketServiceInstanceData struct {
 }
 
 type PacketComplaintData struct {
-	Description *string `db:"description" json:"description"`
-	ComplaintBy string  `db:"complaint_by" json:"complaintby"`
+	ComplaintTitle string    `db:"complaint_title" json:"complainttitle"`
+	Description    *string   `db:"description" json:"description"`
+	ComplaintBy    string    `db:"complaint_by" json:"complaintby"`
+	MobileNo       *string   `db:"mobile_no" json:"mobileno"`
+	EmailId        *string   `db:"email_id" json:"emailid"`
+	EmployeeId     *string   `db:"employee_id" json:"employeeid"`
+	RaisedOn       time.Time `db:"raised_on" json:"raisedon"`
 }
 
 type PacketFeedbackData struct {
