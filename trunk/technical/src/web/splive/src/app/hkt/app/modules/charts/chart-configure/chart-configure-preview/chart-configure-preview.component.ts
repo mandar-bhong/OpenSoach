@@ -3,14 +3,15 @@ import { FormGroup } from '@angular/forms';
 
 import {
   ServiceConfigurationRequest,
-  ServiceConfigurationUpdateRequest
+  ServiceConfigurationUpdateRequest,
+  ServicepointAssociateRequest,
 } from '../../../../../../prod-shared/models/api/service-configuration-models';
+import { SpServiceConfService } from '../../../../../../prod-shared/services/spservice/sp-service-conf.service';
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
 import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { ChartConfigurationModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
-import { SpServiceConfService } from '../../../../../../prod-shared/services/spservice/sp-service-conf.service';
 
 @Component({
   selector: 'app-chart-configure-preview',
@@ -26,7 +27,7 @@ export class ChartConfigurePreviewComponent implements OnInit {
     private chartConfigureService: ChartConfigureService,
     private spServiceConfService: SpServiceConfService,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe) { }
+    private translatePipe: TranslatePipe ) { }
 
   ngOnInit() {
     this.createControls();
@@ -49,6 +50,7 @@ export class ChartConfigurePreviewComponent implements OnInit {
           this.appNotificationService.success();
           this.chartConfigureService.setDataModel(this.dataModel);
           this.dynamicContextService.onAction(true);
+          this.associate();
         }
       });
     } else {
@@ -64,10 +66,16 @@ export class ChartConfigurePreviewComponent implements OnInit {
       });
     }
   }
-
+  associate() {
+    const request = new ServicepointAssociateRequest();
+    this.dataModel.copyToAssociateRequest(request);
+    this.spServiceConfService.associateConfigure(request).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+      }
+    });
+  }
   previousClick() {
     this.dynamicContextService.onAction(false);
-    this.editableForm.controls['categoryControl'].disable();
   }
 
   createChartSlots() {
@@ -84,5 +92,6 @@ export class ChartConfigurePreviewComponent implements OnInit {
       this.slots.push(startSlotTime);
     }
   }
+
 }
 

@@ -12,4 +12,13 @@ export class TaskTemplateRequest {
     taskname: string;
     shortdesc: string;
 }
-
+export class ChartsDetailsResponse {
+    servconfid: number;
+    spcid: number;
+    conftypecode: string;
+    servconfname: string;
+    shortdesc: string;
+    servconf: string;
+    createdon: Date;
+    updateon: Date;
+}
