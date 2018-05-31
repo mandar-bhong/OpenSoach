@@ -39,6 +39,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: ''
     },
     {
+        url: '/customers/masterupdate',
+        linktitle: 'Master Details',
+        pagetitle: 'Customer Master Details',
+        linkiconcss: 'fa fa-building-o'
+    },
+    {
         url: '/customers/update',
         linktitle: 'Details',
         pagetitle: 'Customer Details',
@@ -66,6 +72,12 @@ export const APP_ROUTES: RoutingModel[] = [
         url: '/users/add-user',
         linktitle: 'Add',
         pagetitle: 'Add New User',
+        linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/users/masterdetails',
+        linktitle: 'Master Details',
+        pagetitle: 'User Master Details',
         linkiconcss: 'fa fa-users'
     },
     {

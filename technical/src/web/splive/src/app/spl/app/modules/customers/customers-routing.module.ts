@@ -17,6 +17,10 @@ const routes: Routes = [
     component: CustomerAddComponent
   },
   {
+    path: 'masterupdate',
+    component: CustomerAddComponent
+  },
+  {
     path: 'update',
     component: CustomerUpdateDetailsComponent
   },
