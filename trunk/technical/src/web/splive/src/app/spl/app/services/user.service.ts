@@ -94,13 +94,6 @@ export class UserService extends ListingService<UserFilterRequest, UserDataListR
     return 'USER_CATEGORY_' + categories;
   }
 
-  getUsersGender(): EnumDataSourceItem<number>[] {
-    return EnumNumberDatasource.getDataSource('USER_GENDER_', USER_GENDER);
-  }
-
-  getUserGenders(genders: number) {
-    return 'USER_GENDER_' + genders;
-  }
   getRoleDataList(implicitErrorHandling = true):
     Observable<PayloadResponse<UserRoleidListItemResponse[]>> {
     return this.serverApiInterfaceService.get(EnvironmentProvider.baseurl + '/api/osu/v1/urole/list',

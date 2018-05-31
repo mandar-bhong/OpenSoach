@@ -7,20 +7,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 
-import { AppCommonModule } from '../../../../shared/app-common.module';
-import { MaterialModules } from '../../../../shared/modules/material/material-modules';
+import { AppCommonModule } from '../../../shared/app-common.module';
+import { MaterialModules } from '../../../shared/modules/material/material-modules';
 import { UserAddComponent } from './user-add/user-add.component';
-import { UserAssociateProductComponent } from './user-associate-product/user-associate-product.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserSearchComponent } from './user-list/user-search/user-search.component';
 import { UserViewComponent } from './user-list/user-view/user-view.component';
-import { UsersRoutingModule } from './users-routing.module';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    UsersRoutingModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -34,9 +32,9 @@ import { UsersRoutingModule } from './users-routing.module';
   declarations: [
     UserListComponent,
     UserAddComponent,
-    UserDetailsComponent,
     UserSearchComponent,
     UserViewComponent,
-    UserAssociateProductComponent]
+    UserDetailsComponent
+  ]
 })
-export class UsersModule { }
+export class ProdUsersModule { }

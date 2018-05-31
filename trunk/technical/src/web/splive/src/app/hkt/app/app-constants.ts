@@ -21,6 +21,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: 'fa fa-map-marker'
     },
     {
+        url: '/servicepoints/details',
+        linktitle: 'Details',
+        pagetitle: 'Servicepoints Details',
+        linkiconcss: 'fa fa-users'
+    },
+    {
         url: '/charts',
         linktitle: 'Charts',
         pagetitle: 'Charts',
@@ -36,6 +42,24 @@ export const APP_ROUTES: RoutingModel[] = [
         url: '/foperators',
         linktitle: 'Operators',
         pagetitle: 'Operators',
+        linkiconcss: 'fa fa-meh-o'
+    },
+    {
+        url: '/foperators/add',
+        linktitle: 'Add',
+        pagetitle: 'Add New Operators',
+        linkiconcss: 'fa fa-meh-o'
+    },
+    {
+        url: '/foperators/detail',
+        linktitle: 'Details',
+        pagetitle: 'Operator Details',
+        linkiconcss: 'fa fa-meh-o'
+    },
+    {
+        url: '/foperators/associate',
+        linktitle: 'Associate',
+        pagetitle: 'Operator Associate',
         linkiconcss: 'fa fa-meh-o'
     },
     {
@@ -55,7 +79,19 @@ export const APP_ROUTES: RoutingModel[] = [
         linktitle: 'Users',
         pagetitle: 'Users',
         linkiconcss: 'fa fa-users'
-    }
+    },
+    {
+        url: '/users/add-user',
+        linktitle: 'Add',
+        pagetitle: 'Add New User',
+        linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/users/user-detail',
+        linktitle: 'Details',
+        pagetitle: 'User Details',
+        linkiconcss: 'fa fa-users'
+    },
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [

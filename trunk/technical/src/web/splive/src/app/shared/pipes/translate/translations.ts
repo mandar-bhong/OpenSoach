@@ -69,6 +69,30 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* CUSTOMER STATES END */
 
+    /* OPERATOR STATES  */
+
+  {
+    key: 'OPERATOR_STATE_1',
+    en: 'ACTIVE'
+  },
+  {
+    key: 'OPERATOR_STATE_2',
+    en: 'INACTIVE'
+  },
+    /* OPERATOR STATES END */
+
+       /* OPERATOR AREA  START */
+
+  {
+    key: 'OPERATOR_AREA_1',
+    en: 'OPEN'
+  },
+  {
+    key: 'OPERATOR_AREA_2',
+    en: 'RESTRICTED'
+  },
+    /* OPERATOR AREA END */
+
   /* USER STATES BEGIN */
   {
     key: 'USER_STATE_0',
@@ -157,6 +181,22 @@ export const TRANSLATIONS: TranslationValue[] = [
   },
 
   /* DEVICE STATES END */
+
+  /*SERVICEPOINT STATE  */
+  {
+    key: 'SERVICEPOINT_STATE_1',
+    en: 'ACTIVE'
+  },
+  {
+    key: 'SERVICEPOINT_STATE_2',
+    en: 'INACTIVE'
+  },
+  {
+    key: 'SERVICEPOINT_STATE_3',
+    en: 'SUSPENDED'
+  },
+  /*SERVICEPOINT STATE  */
+
   {
     key: 'SUCCESS_CUSTOMER_DETAILS_SAVED',
     en: 'Successfully add device.'
