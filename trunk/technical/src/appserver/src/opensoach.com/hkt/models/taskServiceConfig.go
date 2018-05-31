@@ -10,3 +10,8 @@ type TaskSerConfigAddedOnSPModel struct {
 	CpmId          int64 `json:"cpmid"`
 	ServInstConfID int64 `json:"servconfinid"`
 }
+
+type TaskServConfigUpdatedModel struct {
+	CpmId      int64 `json:"cpmid"`
+	ServConfId int64 `json:"servconfid"`
+}

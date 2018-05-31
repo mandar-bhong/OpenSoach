@@ -106,3 +106,50 @@ func ProcessSerConfigOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.A
 
 	return nil, apiTaskProcessorResultModel
 }
+
+func ProcessSerConfigUpdated(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.APITaskProcessorResultModel) {
+
+	apiTaskProcessorResultModel := &pcmodels.APITaskProcessorResultModel{}
+
+	taskServConfigUpdatedModel := ctx.TaskData.(*hktmodels.TaskServConfigUpdatedModel)
+
+	dbErr, instDBConn := dbaccess.GetInstanceDBConn(repo.Instance().Context.Master.DBConn, taskServConfigUpdatedModel.CpmId)
+
+	if dbErr != nil {
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessSerConfigEditedOnSP:Unable to get device token. Device is offline. Skipping creation of packet")
+		return dbErr, apiTaskProcessorResultModel
+	}
+
+	dbSerErr, deviceSerConfigDataList := dbaccess.TaskGetSerConfDetailsByConfId(instDBConn, taskServConfigUpdatedModel.ServConfId)
+
+	if dbSerErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching service configuration by servinstconfigid.", dbSerErr)
+		return dbSerErr, apiTaskProcessorResultModel
+	}
+
+	epTaskSendPacketDataList := []pcmodels.EPTaskSendPacketDataModel{}
+
+	for _, deviceSerConfigData := range deviceSerConfigDataList {
+		deviceTokenKey := fmt.Sprintf("%s%d", pcconst.CACHE_DEVICE_TOKEN_MAPPING_KEY_PREFIX, deviceSerConfigData.DeviceId)
+		fmt.Println(deviceTokenKey)
+
+		isTokenGetSucc, deviceToken := repo.Instance().Context.Master.Cache.Get(deviceTokenKey)
+
+		if isTokenGetSucc == false {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+			continue
+		}
+
+		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
+		epTaskSendPacketDataModel.Token = deviceToken
+		epTaskSendPacketDataModel.Data = deviceSerConfigData
+		epTaskSendPacketDataModel.TaskType = "ServiceConfig"
+
+		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
+	}
+
+	apiTaskProcessorResultModel.EPSyncData = epTaskSendPacketDataList
+	apiTaskProcessorResultModel.IsEPSync = true
+
+	return nil, apiTaskProcessorResultModel
+}

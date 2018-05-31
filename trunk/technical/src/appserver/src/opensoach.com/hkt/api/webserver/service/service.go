@@ -95,6 +95,18 @@ func (service ServiceConfigService) ServiceConnfigUpdate(reqData *hktmodels.DBSe
 		return false, errModel
 	}
 
+	taskServConfigUpdatedModel := &hktmodels.TaskServConfigUpdatedModel{}
+	taskServConfigUpdatedModel.ServConfId = reqData.ServConfId
+	taskServConfigUpdatedModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	isSendSuccess := repo.Instance().
+		SendTaskToServer(hktconst.TASK_HKT_API_SERVICE_CONFIG_UPDATED,
+			service.ExeCtx.SessionToken, taskServConfigUpdatedModel)
+
+	if isSendSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
+	}
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Service Conf data updated successfully.")
 
 	return true, nil
