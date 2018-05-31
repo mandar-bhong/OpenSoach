@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/dialog_complaint_by"
+        android:text="@string/dialog_complaint_field_by"
         android:textColor="@color/color_dialog_text"
         android:textSize="20sp" />
 
@@ -41,7 +41,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/dialog_complaint_description"
+        android:text="@string/dialog_complaint_field_title"
+        android:textColor="@color/color_dialog_text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/etComplaintTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/edit_text_border"
+        android:gravity="top|left"
+        android:padding="10dp">
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/dialog_complaint_field_description"
         android:textColor="@color/color_dialog_text"
         android:textSize="20sp"/>
 
@@ -54,8 +73,6 @@
         android:background="@drawable/edit_text_border"
         android:gravity="top|left"
         android:lines="3"
-        android:padding="5dp"
-        android:textColor="@android:color/black"
-        android:textCursorDrawable="@null" />
+        android:padding="5dp" />
 
 </LinearLayout>

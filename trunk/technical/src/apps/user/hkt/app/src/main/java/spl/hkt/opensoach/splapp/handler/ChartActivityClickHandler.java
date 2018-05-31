@@ -7,18 +7,19 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 import spl.hkt.opensoach.splapp.R;
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
-import spl.hkt.opensoach.splapp.communication.CommunicationManager;
-import spl.hkt.opensoach.splapp.helper.CommandConstants;
-import spl.hkt.opensoach.splapp.helper.PacketHelper;
+import spl.hkt.opensoach.splapp.helper.AppAction;
 import spl.hkt.opensoach.splapp.manager.SendPacketManager;
 import spl.hkt.opensoach.splapp.model.ChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.DeviceChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketUserComplaintDataModel;
 import spl.hkt.opensoach.splapp.view.DialogHelper;
 import spl.hkt.opensoach.splapp.viewModels.MainViewModel;
+
+import static spl.hkt.opensoach.splapp.helper.ApplicationConstants.PACKET_DATE_FORMAT;
 
 /**
  * Created by Mandar on 4/1/2017.
@@ -52,6 +53,11 @@ public class ChartActivityClickHandler implements View.OnClickListener {
                             public void onSucess(String strData1, String strData2) {
 
                             }
+
+                            @Override
+                            public void onSucess(String strData1, String strData2, String strData3) {
+
+                            }
                         });
             }
             break;
@@ -66,8 +72,13 @@ public class ChartActivityClickHandler implements View.OnClickListener {
                             }
 
                             @Override
-                            public void onSucess(String complaintsBy, String userComments) {
-                                processUserComplaint(complaintsBy, userComments);
+                            public void onSucess(String strData1, String strData2) {
+
+                            }
+
+                            @Override
+                            public void onSucess(String complaintBy, String title, String details) {
+                                processUserComplaint(complaintBy, title, details);
                             }
                         });
             }
@@ -88,29 +99,29 @@ public class ChartActivityClickHandler implements View.OnClickListener {
             }
         }
 
-        DeviceChartDataModel deviceChartDataModel = new DeviceChartDataModel(chartDataList);
-        deviceChartDataModel.setCommandType(CommandConstants.DEVICE_DATA_COMMAND_CHART_DATA);
-        SendPacketManager.Instance().send(deviceChartDataModel);
+        final DeviceChartDataModel deviceChartDataModel = new DeviceChartDataModel(chartDataList);
+        deviceChartDataModel.setUserActionType(AppAction.CHART_DATA);
+        SendPacketManager.Instance().send(AppAction.CHART_DATA, deviceChartDataModel);
 
         MainViewModel.getInstance().createNewCurrenClickeCellModelMap();
     }
 
-    private void processUserComplaint(String complaintsBy, String userComments) {
+    private void processUserComplaint(String complaintBy, String title, String details) {
         //TODO Proces User Comments
-        Log.i("ClickHandler", "complaintsBy : " + complaintsBy + " userComments : " + userComments);
+        Log.i("ClickHandler", "complaintBy : " + complaintBy + " complaintDetails : " + details);
 
-        SimpleDateFormat raiseOnDateFormat = new SimpleDateFormat("yyyy:MM:dd");
 
+        SimpleDateFormat raiseOnDateFormat = new SimpleDateFormat(PACKET_DATE_FORMAT);
+        raiseOnDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        ArrayList<PacketUserComplaintDataModel> complaints = new ArrayList<>();
         PacketUserComplaintDataModel packetUserComplaintDataModel = new PacketUserComplaintDataModel();
-        packetUserComplaintDataModel.Description = userComments;
-        packetUserComplaintDataModel.ComplaintBy = complaintsBy;
-        packetUserComplaintDataModel.LocationId = AppRepo.getInstance().getCurrentLocationId();
+        packetUserComplaintDataModel.ComplaintBy = complaintBy;
+        packetUserComplaintDataModel.ComplaintTitle = title;
+        packetUserComplaintDataModel.Description = details;
         packetUserComplaintDataModel.RaisedOn = raiseOnDateFormat.format(new Date());
-        packetUserComplaintDataModel.EmailId = "";
-        packetUserComplaintDataModel.EmployeeID = "";
-        packetUserComplaintDataModel.MobileNo = "";
 
-        String JSONPacket = PacketHelper.GetComplaintPacket(packetUserComplaintDataModel);
-        CommunicationManager.getInstance().SendPacket(JSONPacket);
+        complaints.add(packetUserComplaintDataModel);
+        SendPacketManager.Instance().send(AppAction.COMPLAINT_DATA, complaints);
     }
 }

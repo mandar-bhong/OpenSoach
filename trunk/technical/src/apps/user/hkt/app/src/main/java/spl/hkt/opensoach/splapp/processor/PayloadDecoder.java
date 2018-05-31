@@ -107,7 +107,7 @@ public class PayloadDecoder {
                 case CommandConstants.CMD_CAT_ACK: {
                     packetType = new TypeToken<PacketModel<PacketSimpleAckModel>>() {
                     }.getType();
-                    packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
+                    packetDecodeResultModel.Packet = new Gson().fromJson(packet, packetType);
                     CommandRequest request =  RequestManager.Instance().GetRequest(packetDecodeResultModel.Packet.Header.SeqID);
                     if(request!=null) {
                         packetDecodeResultModel.Processor = request.AckProcessor;

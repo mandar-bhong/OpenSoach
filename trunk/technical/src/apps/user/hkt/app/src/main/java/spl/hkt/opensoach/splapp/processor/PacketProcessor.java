@@ -46,20 +46,22 @@ import spl.hkt.opensoach.splapp.model.PacketProcessResultModel;
             return;
         }
 
-        PacketProcessResultModel processResult = result.Processor.Process(result);
+        if(result.Processor!=null) {
+            PacketProcessResultModel processResult = result.Processor.Process(result);
 
-        if (!processResult.IsSuccess) {
-            //TODO: Log error and discard this packet
-            return;
-        }
+            if (!processResult.IsSuccess) {
+                //TODO: Log error and discard this packet
+                return;
+            }
 
-        if (processResult.CanUpdateUI) {
-            SPLApplication.getInstance().OnUIUpdateEvent(processResult.UINotifierModel);
-        }
+            if (processResult.CanUpdateUI) {
+                SPLApplication.getInstance().OnUIUpdateEvent(processResult.UINotifierModel);
+            }
 
-        if (processResult.CanSendServerCommand) {
-            //TODDO: Handle Server Online state
-            CommunicationManager.getInstance().SendPacket(processResult.ServerCommandPacket);
+            if (processResult.CanSendServerCommand) {
+                //TODDO: Handle Server Online state
+                CommunicationManager.getInstance().SendPacket(processResult.ServerCommandPacket);
+            }
         }
 
     }

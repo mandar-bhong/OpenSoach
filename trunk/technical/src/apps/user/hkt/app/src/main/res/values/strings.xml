@@ -16,9 +16,10 @@
 
     <!-- Dialog box text -->
     <string name="dialog_enter_auth_code">Enter Authcode :</string>
-    <string name="dialog_complaint_title">Raise Complaint</string>
-    <string name="dialog_complaint_by">Complaint By</string>
-    <string name="dialog_complaint_description">Description</string>
+    <string name="dialog_complaint_title">Raise a Complaint</string>
+    <string name="dialog_complaint_field_by">Enter your Name</string>
+    <string name="dialog_complaint_field_title">Complaint Title</string>
+    <string name="dialog_complaint_field_description">Complaint Details</string>
 
     <string name="invalid_auth_code">Entered auth code is invalid</string>
     <string name="enter_valid_authcode">Please enter a valid authcode</string>

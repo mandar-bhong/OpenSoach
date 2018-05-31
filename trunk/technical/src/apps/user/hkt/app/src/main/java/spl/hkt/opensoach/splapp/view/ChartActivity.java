@@ -158,65 +158,6 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
         }*/
     }
 
-    private void sendToPacketManager(ArrayList<CellViewModel> clickedCellList) {
-        DeviceChartDataModel deviceChartDataModel = new DeviceChartDataModel();
-        ArrayList<ChartConfigModel> chartDataList = new ArrayList<ChartConfigModel>();
-        for (CellViewModel cellView : clickedCellList) {
-
-            ChartConfigModel chartDataModel = new ChartConfigModel();
-
-            chartDataModel.setChartId(MainViewModel.getInstance().getChartViewModel().getChartId());
-           /* chartDataModel.setTaskId(cellView.getTaskID());
-            chartDataModel.setSlotId(cellView.getSlotID());
-            chartDataModel.setEntryTime(cellView.getTaskCompletionTime());
-            chartDataModel.setSlotStartTime(cellView.getCellStartTime());
-            chartDataModel.setSlotEndTime(cellView.getCellEndTime());
-            chartDataModel.setCellState(cellView.getCellState());
-            chartDataModel.setEntryDate(MainViewModel.getInstance().getChartViewModel().getTaskStartTime());
-            chartDataModel.setAuthCode(mAuthCode);
-
-            deviceChartDataModel.getChartDataModels().add(chartDataModel);
-
-            //TODO Get auth code from dialog
-            chartDataModel.setAuthCode("ABCD");
-
-            deviceChartDataModel.getChartDataModels().add(chartDataModel);
-
-            //TODO Get auth code from dialog
-            chartDataModel.setAuthCode("ABCD");
-*/
-            // deviceChartDataModel.getChartDataModels().add(chartDataModel);
-
-        }
-
-        SendPacketManager.Instance().send(deviceChartDataModel);
-    }
-
-
-    //Update the cell synced status
-    private void updateChartModel(CellViewModel clickedCellViewModel) {
-        ArrayList<TaskRowViewModel> rowViewModelList = MainViewModel.getInstance().getChartViewModel().getTaskRowViewModelList();
-        /*for (int i = 0; i < rowViewModelList.size(); i++) {
-            TaskRowViewModel rowViewModel = rowViewModelList.get(i);
-            if (i == clickedCellViewModel.getCellRowID()) {
-                ArrayList<CellViewModel> cellViewModelList = rowViewModel.getCellViewModelList();
-
-                for (int j = 0; j < cellViewModelList.size(); j++) {
-                    CellViewModel cellViewModel = cellViewModelList.get(j);
-                    if (j == clickedCellViewModel.getCellColumnID()) {
-                        cellViewModel.setCellSynced(true);
-                        cellViewModelList.set(j, cellViewModel);
-                        rowViewModel.setCellViewModelList(cellViewModelList);
-                        break;
-                    }//inner if
-                }//inner for
-                rowViewModelList.set(i, rowViewModel);
-                MainViewModel.getInstance().getChartViewModel().setTaskRowViewModelList(rowViewModelList);
-                break;
-            }// outer if
-        }*///outer for
-    }
-
     public void stopHandler() {
         mScreensaverHandler.removeCallbacks(mScreensaverThread);
     }

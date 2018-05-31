@@ -23,6 +23,7 @@ public final class AppRepo {
 
     private String AuthToken;
     private ArrayList<String> authCodeList;
+    private boolean isDeviceSyncInProgress;
 
     public static final String IsServerConnectedPropName = "AppRepo.IsServerConnected";
     public static final String CurrentLocationIdPropName = "AppRepo.currentLocationId";
@@ -37,7 +38,7 @@ public final class AppRepo {
         authCodeList = new ArrayList<>();
 
         ServerAPIHOST = "172.105.232.148";
-        ServerAPIURL = "http://"+ServerAPIHOST +"/api/v1/endpoint/deviceauthorization";
+        ServerAPIURL = "http://" + ServerAPIHOST + "/api/v1/endpoint/deviceauthorization";
 
     }
 
@@ -118,5 +119,13 @@ public final class AppRepo {
 
     public void setAuthCodeList(ArrayList<String> authCodeList) {
         this.authCodeList = authCodeList;
+    }
+
+    public boolean getIsDeviceSyncInProgress() {
+        return this.isDeviceSyncInProgress;
+    }
+
+    public void setIsDeviceSyncInProgress(boolean isDeviceSyncInProgress) {
+        this.isDeviceSyncInProgress = isDeviceSyncInProgress;
     }
 }

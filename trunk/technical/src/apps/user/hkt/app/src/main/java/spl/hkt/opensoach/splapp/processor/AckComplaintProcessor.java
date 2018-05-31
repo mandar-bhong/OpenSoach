@@ -10,29 +10,23 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
-import spl.hkt.opensoach.splapp.helper.CommandConstants;
 import spl.hkt.opensoach.splapp.helper.PacketHelper;
-import spl.hkt.opensoach.splapp.helper.SyncState;
 import spl.hkt.opensoach.splapp.manager.RequestManager;
-import spl.hkt.opensoach.splapp.manager.SendPacketManager;
 import spl.hkt.opensoach.splapp.model.PacketDecodeResultModel;
 import spl.hkt.opensoach.splapp.model.PacketProcessResultModel;
 import spl.hkt.opensoach.splapp.model.communication.CommandRequest;
-import spl.hkt.opensoach.splapp.model.communication.DeviceChartDataStartupSyncModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketServiceInstanceTxnModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketSimpleAckModel;
+import spl.hkt.opensoach.splapp.model.communication.PacketUserComplaintDataModel;
 import spl.hkt.opensoach.splapp.model.db.DBChartDataTableQueryModel;
 import spl.hkt.opensoach.splapp.model.db.DBChartDataTableRowModel;
 
-public class AckDeviceRegProcessor implements IProcessor {
+public class AckComplaintProcessor implements IProcessor {
     @Override
     public PacketProcessResultModel Process(PacketDecodeResultModel packetDecodeResultModel) {
-
-        AppRepo.getInstance().setIsDeviceSyncInProgress(true);
-        CommandRequest<ArrayList<PacketServiceInstanceTxnModel>> request = (CommandRequest) RequestManager.Instance().GetRequest(packetDecodeResultModel.Packet.Header.SeqID);
+        CommandRequest<ArrayList<PacketUserComplaintDataModel>> request = (CommandRequest) RequestManager.Instance().GetRequest(packetDecodeResultModel.Packet.Header.SeqID);
         PacketProcessResultModel packetProcessResultModel = new PacketProcessResultModel();
         if (request == null) {
             packetProcessResultModel.IsSuccess = true;
@@ -45,12 +39,14 @@ public class AckDeviceRegProcessor implements IProcessor {
 
         if (!ack.Ack) {
             packetProcessResultModel.IsSuccess = false;
+            // TODO: save in local storage
             return packetProcessResultModel;
         }
 
-        SendPacketManager.Instance().sendOnStateChange(SyncState.DEVICE_REGISTRATION_COMPLETED);
+        // TODO: save in local storage
 
         packetProcessResultModel.IsSuccess = true;
+
         return packetProcessResultModel;
     }
 }
