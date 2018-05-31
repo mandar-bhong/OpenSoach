@@ -1,7 +1,7 @@
 package report
 
 import (
-	core "opensoach.com/core/helper"
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	"opensoach.com/hkt/api/webserver/report/dbaccess"
 	hktmodels "opensoach.com/hkt/models"
@@ -14,9 +14,9 @@ type ReportService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (service ReportService) GenerateReport(reportID int64) (bool, interface{}) {
+func (service ReportService) GenerateReport(req hktmodels.DBGenerateReportRequestDataModel) (bool, interface{}) {
 
-	dbErr, reportData := dbaccess.GetReportInfo(service.ExeCtx.SessionInfo.Product.NodeDbConn, reportID)
+	dbErr, reportData := dbaccess.GetReportInfo(service.ExeCtx.SessionInfo.Product.NodeDbConn, req.ReportID)
 
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
@@ -26,15 +26,15 @@ func (service ReportService) GenerateReport(reportID int64) (bool, interface{}) 
 		return false, errModel
 	}
 
-	dbRecord := *reportData
+	reportDataRecord := *reportData
 
-	if len(dbRecord) < 1 {
+	if len(reportDataRecord) < 1 {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
-	dberr, cols, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRecord[0].ReportQuery)
+	dberr, _, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, reportDataRecord[0].ReportQuery)
 	if dberr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -43,11 +43,24 @@ func (service ReportService) GenerateReport(reportID int64) (bool, interface{}) 
 		return false, errModel
 	}
 
+	headerModel := hktmodels.ReportHeaderModel{}
+
+	isJsonConvertSuccess := ghelper.ConvertFromJSONString(reportDataRecord[0].ReportHeader, &headerModel)
+
+	if isJsonConvertSuccess == false {
+
+	}
+
 	exceldata := gmodels.ExcelData{}
-	exceldata.Headers = cols
 	exceldata.Data = resultRows
 
-	err, data := core.CreateExcel(exceldata)
+	if req.Language == "en" {
+		exceldata.Headers = headerModel.En
+	} else {
+		exceldata.Headers = headerModel.Hi
+	}
+
+	err, data := ghelper.CreateExcel(exceldata)
 	if err != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", dbErr)
 	}
@@ -58,9 +71,9 @@ func (service ReportService) GenerateReport(reportID int64) (bool, interface{}) 
 
 }
 
-func (service ReportService) ViewReport(reportID int64) (bool, interface{}) {
+func (service ReportService) ViewReport(req hktmodels.DBGenerateReportRequestDataModel) (bool, interface{}) {
 
-	dbErr, reportData := dbaccess.GetReportInfo(service.ExeCtx.SessionInfo.Product.NodeDbConn, reportID)
+	dbErr, reportData := dbaccess.GetReportInfo(service.ExeCtx.SessionInfo.Product.NodeDbConn, req.ReportID)
 
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
@@ -70,15 +83,15 @@ func (service ReportService) ViewReport(reportID int64) (bool, interface{}) {
 		return false, errModel
 	}
 
-	dbRecord := *reportData
+	reportDataRecord := *reportData
 
-	if len(dbRecord) < 1 {
+	if len(reportDataRecord) < 1 {
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
-	dberr, cols, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRecord[0].ReportQuery)
+	dberr, _, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, reportDataRecord[0].ReportQuery)
 	if dberr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -88,10 +101,10 @@ func (service ReportService) ViewReport(reportID int64) (bool, interface{}) {
 	}
 
 	reportDataModel := hktmodels.DBGetReportDataModel{}
-	reportDataModel.ReportId = dbRecord[0].ReportId
-	reportDataModel.ReportCode = dbRecord[0].ReportCode
-	reportDataModel.ReportDesc = dbRecord[0].ReportDesc
-	reportDataModel.ReportHeader = cols
+	reportDataModel.ReportId = reportDataRecord[0].ReportId
+	reportDataModel.ReportCode = reportDataRecord[0].ReportCode
+	reportDataModel.ReportDesc = reportDataRecord[0].ReportDesc
+	reportDataModel.ReportHeader = reportDataRecord[0].ReportHeader
 	reportDataModel.ReportData = resultRows
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Report Excel File")
