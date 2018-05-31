@@ -21,12 +21,17 @@ public final class AppRepo {
     private String ServerAPIHOST;
     private String ServerAPIURL;
 
+
+
+    private  int BatteryLevel;
+
     private String AuthToken;
     private ArrayList<String> authCodeList;
     private boolean isDeviceSyncInProgress;
 
     public static final String IsServerConnectedPropName = "AppRepo.IsServerConnected";
     public static final String CurrentLocationIdPropName = "AppRepo.currentLocationId";
+    public static final String DeviceSyncCompletedPropName = "AppRepo.isDeviceSyncInProgress";
 
     /* A private Constructor prevents any other
      * class from instantiating.
@@ -37,7 +42,7 @@ public final class AppRepo {
         currentChartId = 0;
         authCodeList = new ArrayList<>();
 
-        ServerAPIHOST = "172.105.232.148";
+        ServerAPIHOST = "172.105.232.148";//"192.168.1.65";//
         ServerAPIURL = "http://" + ServerAPIHOST + "/api/v1/endpoint/deviceauthorization";
 
     }
@@ -127,5 +132,15 @@ public final class AppRepo {
 
     public void setIsDeviceSyncInProgress(boolean isDeviceSyncInProgress) {
         this.isDeviceSyncInProgress = isDeviceSyncInProgress;
+        this.propertyChangeSupport.firePropertyChange(DeviceSyncCompletedPropName, !this.isDeviceSyncInProgress, this.isDeviceSyncInProgress);
+    }
+
+
+    public int getBatteryLevel() {
+        return BatteryLevel;
+    }
+
+    public void setBatteryLevel(int batteryLevel) {
+        BatteryLevel = batteryLevel;
     }
 }
