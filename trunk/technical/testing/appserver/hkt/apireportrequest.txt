@@ -2,7 +2,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 1.	 method GET : /api/v1/report/generate
 	
-	query parameter : params={"reportid":1} //reportid
+	query parameter : params={"reportid":1,"lang":"en"} //reportid
 
 2.	 method GET : /api/v1/report/info
 
