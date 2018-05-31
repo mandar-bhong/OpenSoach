@@ -257,9 +257,7 @@ func (service ServicePointService) GetFopSpAssociation(fopID int64) (bool, inter
 	dbRecord := *fopSpData
 
 	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
+		return true, nil
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched fopSp info")
