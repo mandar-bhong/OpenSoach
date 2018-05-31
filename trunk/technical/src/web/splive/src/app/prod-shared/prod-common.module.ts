@@ -6,7 +6,6 @@ import { ProdUserService } from './services/user/prod-user.service';
 import { SplConfService } from './services/spl-conf.service';
 import { SpServiceConfService } from './services/spservice/sp-service-conf.service';
 import { ProdOperatorService } from './services/operator/prod-operator.service';
-import { ProdComplaintService } from './services/complaint/prod-complaint.service';
 @NgModule({
     imports: [
         CommonModule,
@@ -25,8 +24,7 @@ export class ProdCommonModule {
                 ProdUserService,
                 SpServiceConfService,
                 ProdOperatorService,
-                SplConfService,
-                ProdComplaintService
+                SplConfService
 
             ]
         };
