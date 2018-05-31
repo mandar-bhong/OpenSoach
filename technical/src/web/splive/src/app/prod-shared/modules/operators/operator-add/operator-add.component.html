@@ -1,0 +1,58 @@
+<div class="row">
+  <mat-card>
+    <div class="col-sm col-md m-b-30 col">
+      <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save()">
+        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+        <div class=" form-group form-primary">
+          <mat-form-field>
+            <input disabled matInput placeholder="Operator Name" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname">
+            <mat-error *ngIf="editableForm.controls['fopnameControl'].hasError('required') ">
+              Name is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class=" form-group form-primary">
+          <mat-form-field>
+            <input matInput placeholder="Email Id" type="email" formControlName="emailidControl" required [(ngModel)]="dataModel.emailid">
+            <mat-error *ngIf="editableForm.controls['emailidControl'].hasError('required') ">
+              Email Id is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class=" form-group form-primary">
+          <mat-form-field>
+            <input matInput placeholder="Mobile Number" formControlName="mobilenoControl" required [(ngModel)]="dataModel.mobileno">
+            <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('required') ">
+              Mobile Number is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary">
+          <mat-form-field>
+            <mat-select placeholder="State" formControlName="fopstateControl" required [(ngModel)]="dataModel.fopstate">
+              <mat-option *ngFor="let opstate of operatorStates" [value]="opstate.value">
+                {{opstate.text | translate}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="editableForm.controls['fopstateControl'].hasError('required') ">
+              Selection is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary">
+          <mat-form-field>
+            <mat-select placeholder="Area" formControlName="fopareaControl" required [(ngModel)]="dataModel.foparea">
+              <mat-option *ngFor="let oparea of operatorAreas" [value]="oparea.value">
+                {{oparea.text | translate}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="editableForm.controls['fopareaControl'].hasError('required') ">
+              Selection is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+      </form>
+    </div>
+  </mat-card>
+</div>

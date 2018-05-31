@@ -16,7 +16,7 @@ import { ChartConfigureService } from '../../../services/chart-configure.service
 export class ChartConfigureComponent implements OnInit, OnDestroy {
   mode = 0; // 0:add, 1:update
   count = 0;
-  completedcount = 0;
+  // completedcount = 0;
   steps: StepData[] = [
     { name: 'Basic', color: '', icon: 'fa fa-cog', componentselector: 'app-chart-configure-basic' },
     { name: 'Time', color: '', icon: 'fa fa-clock-o', componentselector: 'app-chart-configure-time' },
@@ -24,6 +24,7 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
     { name: 'Preview', color: '', icon: 'fa fa-table', componentselector: 'app-chart-configure-preview' }
   ];
   step: StepData;
+  dataModel: ChartConfigurationModel;
 
   routeSubscription: Subscription;
   dynamicComponentActionSubcription: Subscription;
@@ -36,10 +37,26 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.step = this.steps[0];
     this.routeSubscription = this.route.queryParams.subscribe(params => {
+      this.dataModel = this.chartConfigureService.createDataModel();
+
       if (params['id']) {
-        this.getConfiguration(Number(params['id']));
+        this.dataModel.servconfid = Number(params['id']);
+      }
+
+      if (params['spid']) {
+        this.dataModel.spid = Number(params['spid']);
+      }
+
+      if (params['mode']) {
+        this.dataModel.mode = Number(params['spid']);
       } else {
-        this.chartConfigureService.createDataModel();
+        this.dataModel.mode = 0; // default add mode;
+      }
+
+      if (this.dataModel.servconfid) {
+        this.getConfiguration();
+      } else {
+        this.chartConfigureService.setDataModel(this.dataModel);
       }
     });
 
@@ -48,14 +65,15 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
     });
   }
 
-  getConfiguration(configid: number) {
+  getConfiguration() {
     // TODO: call API to get existing configuration
     // this.chartConfigureService.getConfigList({ recid: configid }).subscribe(payloadResponse => {
     //   if (payloadResponse && payloadResponse.issuccess) {
-
     //   }
     // });
     // this.chartConfigureService.dataModel = new ChartConfigurationModel();
+
+    this.chartConfigureService.setDataModel(this.dataModel);
   }
 
   changeSteps(direction: any) {

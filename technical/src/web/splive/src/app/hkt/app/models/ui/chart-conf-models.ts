@@ -1,8 +1,9 @@
 import {
     ServiceConfigurationRequest,
-    ServiceConfigurationUpdateRequest
+    ServiceConfigurationUpdateRequest,
+    ServicepointAssociateRequest
 } from '../../../../prod-shared/models/api/service-configuration-models';
-import { TaskTemplateResponse, TaskTemplateRequest } from '../api/chart-conf-models';
+import { TaskTemplateResponse, TaskTemplateRequest, ChartsDetailsResponse } from '../api/chart-conf-models';
 
 export class ChartConfigurationModel {
     servconfid: number;
@@ -12,6 +13,8 @@ export class ChartConfigurationModel {
     shortdesc: string;
     servconf: string;
     variableconf: VariableChartConfModel;
+    spid: number;
+    mode: number; // 0: new, 1: edit, 2: create new and associate
 
     copyTo(serviceConfigurationRequest: ServiceConfigurationRequest) {
         serviceConfigurationRequest.servconfid = this.servconfid;
@@ -27,6 +30,18 @@ export class ChartConfigurationModel {
         serviceConfigurationUpdateRequest.servconfname = this.servconfname;
         serviceConfigurationUpdateRequest.shortdesc = this.shortdesc;
         serviceConfigurationUpdateRequest.servconf = JSON.stringify(this.variableconf);
+    }
+    copyToAssociateRequest(request: ServicepointAssociateRequest) {
+        request.servconfid = this.servconfid;
+        request.spid = this.spid;
+    }
+    copyFrom(userDetailsResponse: ChartsDetailsResponse) {
+        this.servconfid = userDetailsResponse.servconfid;
+        this.spcid = userDetailsResponse.spcid;
+        this.conftypecode = userDetailsResponse.conftypecode;
+        this.servconfname = userDetailsResponse.servconfname;
+        this.shortdesc = userDetailsResponse.shortdesc;
+        this.servconf = userDetailsResponse.servconf;
     }
 }
 
@@ -57,3 +72,4 @@ export class ChartTaskModel {
         taskTemplateRequest.spcid = this.spcid;
     }
 }
+
