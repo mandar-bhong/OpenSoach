@@ -1,7 +1,11 @@
 package spl.hkt.opensoach.splapp.helper;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.BatteryManager;
 import android.os.Handler;
 
 import java.text.SimpleDateFormat;
@@ -16,8 +20,10 @@ import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.logger.AppLogger;
 import spl.hkt.opensoach.splapp.communication.CommunicationManager;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
+import spl.hkt.opensoach.splapp.manager.BroadCastReceiverManager;
 import spl.hkt.opensoach.splapp.manager.ChartDataRunnable;
 import spl.hkt.opensoach.splapp.manager.ConnectionRetryManager;
+import spl.hkt.opensoach.splapp.manager.DeviceSyncManager;
 import spl.hkt.opensoach.splapp.manager.HttpManager;
 import spl.hkt.opensoach.splapp.manager.LocationChangeManager;
 import spl.hkt.opensoach.splapp.manager.PacketManager;
@@ -76,6 +82,9 @@ public class AppHelper {
         //ConnectionRetryManager.Instance().Init();
         AppRepo.getInstance().addPropertyChangeListener(ConnectionRetryManager.Instance());
         AppRepo.getInstance().addPropertyChangeListener(new LocationChangeManager());
+        AppRepo.getInstance().addPropertyChangeListener(new DeviceSyncManager());
+
+        BroadCastReceiverManager.RegisterBatteryLevelReceiver(mContext);
 
         HttpManager.ProcessWebSocketURL(AppRepo.getInstance().getServerAPIURL(), AppRepo.getInstance().getDeviceSerial());
     }

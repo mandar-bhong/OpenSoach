@@ -20,10 +20,12 @@ import spl.hkt.opensoach.splapp.helper.SyncState;
 import spl.hkt.opensoach.splapp.model.ChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.CommandRequest;
 import spl.hkt.opensoach.splapp.model.communication.DeviceChartDataModel;
+import spl.hkt.opensoach.splapp.model.communication.PacketBatteryLevelModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketFeedbackDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketUserComplaintDataModel;
 import spl.hkt.opensoach.splapp.model.db.DBChartDataTableRowModel;
 import spl.hkt.opensoach.splapp.packetGenerator.AuthDataPacketGenerator;
+import spl.hkt.opensoach.splapp.packetGenerator.BatteryLevelGenerator;
 import spl.hkt.opensoach.splapp.packetGenerator.ChartDataPacketGenerator;
 import spl.hkt.opensoach.splapp.packetGenerator.ComplaintDataPacketGenerator;
 import spl.hkt.opensoach.splapp.packetGenerator.DeviceSyncCompletedDataPacketGenerator;
@@ -86,6 +88,10 @@ public class SendPacketManager {
                         case FEEDBACK_DATA:
                             FeedbackDataPacketGenerator feedbackDataPacketGenerator = new FeedbackDataPacketGenerator();
                             request = feedbackDataPacketGenerator.GenerateRequest(locationID, (ArrayList<PacketFeedbackDataModel>) data);
+                            break;
+                        case BATTERY_LEVEL:
+                            BatteryLevelGenerator batteryLevelGenerator = new BatteryLevelGenerator();
+                            request = batteryLevelGenerator.GenerateRequest(0, (PacketBatteryLevelModel) data);
                             break;
                     }
 
