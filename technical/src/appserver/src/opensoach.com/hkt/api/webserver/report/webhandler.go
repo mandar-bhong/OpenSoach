@@ -37,7 +37,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = ReportService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.GenerateReport(generateReportRequest.ReportID)
+		}.GenerateReport(generateReportRequest)
 
 		break
 
@@ -54,7 +54,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = ReportService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.ViewReport(generateReportRequest.ReportID)
+		}.ViewReport(generateReportRequest)
 
 		break
 
