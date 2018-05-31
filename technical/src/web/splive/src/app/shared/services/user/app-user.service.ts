@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { USER_PRODUCT_MAPPING_STATE, USER_STATE } from '../../app-common-constants';
+import { USER_GENDER, USER_PRODUCT_MAPPING_STATE, USER_STATE } from '../../app-common-constants';
 import { EnvironmentProvider } from '../../environment-provider';
 import { PayloadResponse } from '../../models/api/payload-models';
 import { UserLoginInfoResponse } from '../../models/api/user-models';
@@ -30,5 +30,12 @@ export class AppUserService {
 
     getUserState(state: number) {
         return 'USER_STATE_' + state;
+    }
+    getUsersGender(): EnumDataSourceItem<number>[] {
+        return EnumNumberDatasource.getDataSource('USER_GENDER_', USER_GENDER);
+    }
+
+    getUserGenders(genders: number) {
+        return 'USER_GENDER_' + genders;
     }
 }

@@ -27,8 +27,23 @@ const routes: Routes = [
         data: { preload: false }
       },
       {
+        path: 'servicepoints',
+        loadChildren: './modules/servicepoints/servicepoints.module#ServicepointsModule',
+        data: { preload: false }
+      },
+      {
         path: 'charts',
         loadChildren: './modules/charts/charts.module#ChartsModule',
+        data: { preload: false }
+      },
+      {
+        path: 'users',
+        loadChildren: './modules/users/users.module#UsersModule',
+        data: { preload: false }
+      },
+      {
+        path: 'foperators',
+        loadChildren: './modules/operators/operators.module#OperatorsModule',
         data: { preload: false }
       },
     ]

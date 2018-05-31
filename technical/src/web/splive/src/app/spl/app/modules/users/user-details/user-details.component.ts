@@ -10,7 +10,7 @@ import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.p
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { UserService } from '../../../services/user.service';
-
+import { AppUserService } from '../../../../../shared/services/user/app-user.service';
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -21,6 +21,7 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
   routeSubscription: Subscription;
   userGenders: EnumDataSourceItem<number>[];
   constructor(private userService: UserService,
+    private appUserService: AppUserService,
     private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
@@ -30,7 +31,7 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
   }
 
   ngOnInit() {
-    this.userGenders = this.userService.getUsersGender();
+    this.userGenders = this.appUserService.getUsersGender();
     this.createControls();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.usrid = Number(params['id']);

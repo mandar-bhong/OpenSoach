@@ -19,6 +19,11 @@ export enum USER_STATE {
     INACTIVE = 2,
     SUSPENDED = 3
 }
+export enum SERVICEPOINT_STATE {
+    ACTIVE = 1,
+    INACTIVE = 2,
+    SUSPENDED = 3
+}
 export enum USER_GENDER {
     NOT_SELECTED = 0,
     MALE = 1,
@@ -45,6 +50,14 @@ export enum USER_PRODUCT_MAPPING_STATE {
     ACTIVE = 1,
     INACTIVE = 2,
     SUSPENDED = 3
+}
+export enum OPERATOR_STATE {
+    ACTIVE = 1,
+    INACTIVE = 2
+}
+export enum OPERATOR_AREA {
+    OPEN = 1,
+    RESTRICTED = 2
 }
 
 export const APP_SHARED_DATA_STORE_KEYS = {
