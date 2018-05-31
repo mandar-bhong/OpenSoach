@@ -125,7 +125,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
   }
 
   editRow(id: number) {
-    this.router.navigate(['users', 'add-user'], { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
+    this.router.navigate(['users', 'masterdetails'], { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
   }
 
   ngOnDestroy(): void {

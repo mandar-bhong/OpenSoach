@@ -124,7 +124,7 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
   }
 
   editRow(id: number) {
-    this.router.navigate(['customers', 'add'], { queryParams: { id: id, callbackurl: 'customers' }, skipLocationChange: true });
+    this.router.navigate(['customers', 'masterupdate'], { queryParams: { id: id, callbackurl: 'customers' }, skipLocationChange: true });
   }
 
   serviceAssociate(id: number) {

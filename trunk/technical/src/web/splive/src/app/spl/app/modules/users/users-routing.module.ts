@@ -16,6 +16,10 @@ const routes: Routes = [
     component: UserAddComponent
   },
   {
+    path: 'masterdetails',
+    component: UserAddComponent
+  },
+  {
     path: 'user-detail',
     component: UserDetailsComponent
   },
