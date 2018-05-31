@@ -1,18 +1,20 @@
 package spl.hkt.opensoach.splapp.model.communication;
 
+import spl.hkt.opensoach.splapp.helper.AppAction;
+
 /**
  * Created by Mandar on 4/13/2017.
  */
 
 public class DeviceDataBaseModel {
 
-    private int commandType;
+    private AppAction commandType;
 
-    public int getCommandType() {
+    public AppAction getUserActionType() {
         return commandType;
     }
 
-    public void setCommandType(int commandType) {
+    public void setUserActionType(AppAction commandType) {
         this.commandType = commandType;
     }
 }

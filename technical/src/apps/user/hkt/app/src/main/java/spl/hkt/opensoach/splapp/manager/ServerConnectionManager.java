@@ -1,14 +1,12 @@
 package spl.hkt.opensoach.splapp.manager;
 
 import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
-import spl.hkt.opensoach.splapp.Constants;
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.communication.CommunicationManager;
 import spl.hkt.opensoach.splapp.communication.IWebSocketConnection;
-import spl.hkt.opensoach.splapp.helper.PacketHelper;
+import spl.hkt.opensoach.splapp.helper.AppAction;
 
 /**
  * Created by Mandar on 2/26/2017.
@@ -42,23 +40,8 @@ public class ServerConnectionManager implements IWebSocketConnection {
 
     @Override
     public void OnConnect() {
-
-        Runnable sendStartUpPacketRunnable = new Runnable() {
-            @Override
-            public void run() {
-                AppRepo.getInstance().IsServerConnected(true);
-
-                //String packetData = PacketHelper.GetStartUpPacket(Build.SERIAL);
-                String packetData = PacketHelper.GetStartUpPacket(AppRepo.getInstance().getAuthToken());
-                try {
-                    CommunicationManager.getInstance().SendPacket(packetData);
-                } catch (Exception e) {
-                    Log.i("Exception", " " + e.getMessage());
-                }
-            }
-        };
-
-        AsyncTask.execute(sendStartUpPacketRunnable);
+        AppRepo.getInstance().IsServerConnected(true);
+        SendPacketManager.Instance().send(AppAction.ON_CONNECTION, AppRepo.getInstance().getAuthToken());
     }
 
     @Override

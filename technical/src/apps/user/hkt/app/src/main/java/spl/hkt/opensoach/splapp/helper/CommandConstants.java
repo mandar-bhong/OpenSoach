@@ -20,8 +20,8 @@ public class CommandConstants {
 
     public static final int CMD_CAT_DATA = 3;//Category
     public static final int CMD_DATA_CHART_DATA = 1;
-    public static final int CMD_DATA_COMPLAINT_DATA = 2;
-    public static final int CMD_DATA_FEEDBACK_DATA = 3;
+    public static final int CMD_DATA_COMPLAINT_DATA = 256;
+    public static final int CMD_DATA_FEEDBACK_DATA = 257;
 
     //Category
     public static final int CMD_CAT_NOTIFICATION = 4;

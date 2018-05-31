@@ -21,6 +21,8 @@ public class DialogHelper {
         public void onSucess(String strData);
 
         public void onSucess(String strData1, String strData2);
+
+        public void onSucess(String strData1, String strData2, String strData3);
     }
 
     public static void showSingleLineEditTextAlert(Context context, String title, final DialogCallBack callback) {
@@ -80,6 +82,7 @@ public class DialogHelper {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(promptsView);
         final EditText etComplaintBy = (EditText) promptsView.findViewById(R.id.etComplaintBy);
+        final EditText etComplaintTitle = (EditText) promptsView.findViewById(R.id.etComplaintTitle);
         final EditText etDescription = (EditText) promptsView.findViewById(R.id.etComplaintDescription);
 
         // set dialog message
@@ -88,8 +91,8 @@ public class DialogHelper {
                 .setPositiveButton(context.getResources().getString(R.string.btn_ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                if (etComplaintBy.getText() != null && etDescription.getText() != null) {
-                                    callback.onSucess(etComplaintBy.getText().toString(), etDescription.getText().toString());
+                                if (etComplaintBy.getText() != null && etComplaintTitle.getText() != null) {
+                                    callback.onSucess(etComplaintBy.getText().toString(),etComplaintTitle.getText().toString(), etDescription.getText().toString());
                                 }
                                 dialog.dismiss();
                             }

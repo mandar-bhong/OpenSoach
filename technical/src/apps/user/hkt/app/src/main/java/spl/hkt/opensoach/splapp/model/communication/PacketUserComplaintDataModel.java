@@ -8,24 +8,24 @@ import com.google.gson.annotations.SerializedName;
 
 public class PacketUserComplaintDataModel {
 
-    @SerializedName("Description")
+    @SerializedName("complainttitle")
+    public String ComplaintTitle;
+
+    @SerializedName("description")
     public String Description;
 
-    @SerializedName("ComplaintBy")
+    @SerializedName("complaintby")
     public String ComplaintBy;
 
-    @SerializedName("LocationId")
-    public Integer LocationId;
+    @SerializedName("mobileno")
+    public String MobileNo;
 
-    @SerializedName("RaisedOn")
-    public String RaisedOn;
-
-    @SerializedName("EmailId")
+    @SerializedName("emailid")
     public String EmailId;
 
-    @SerializedName("EmployeeID")
+    @SerializedName("employeeid")
     public String EmployeeID;
 
-    @SerializedName("MobileNo")
-    public String MobileNo;
+    @SerializedName("raisedon")
+    public String RaisedOn;
 }

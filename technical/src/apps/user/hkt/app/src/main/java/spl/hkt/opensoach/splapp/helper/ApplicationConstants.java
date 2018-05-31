@@ -19,4 +19,7 @@ public class ApplicationConstants {
 
     public static final  int DB_CHART_STATE_ON_TIME = 1;
     public static final  int DB_CHART_STATE_DELAYED = 2;
+
+    public static final String PACKET_DATE_FORMAT =  "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
 }
