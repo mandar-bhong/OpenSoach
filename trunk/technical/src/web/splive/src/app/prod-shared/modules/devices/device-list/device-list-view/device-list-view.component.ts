@@ -20,7 +20,7 @@ import { ProdDeviceService } from '../../../../services/device/prod-device.servi
 @Component({
   selector: 'app-device-list-view',
   templateUrl: './device-list-view.component.html',
-  styleUrls: ['./device-list-view.component.css']
+  styleUrls: ['./device-list-view.component.scss']
 })
 
 export class DeviceListViewComponent implements OnInit, OnDestroy {
