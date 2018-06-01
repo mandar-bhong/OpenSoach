@@ -43,7 +43,6 @@ func UpdateDevToInstDB(dbConn string, insrtStruct *lmodels.APITaskDBInstanceDevI
 	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_DEV_TBL
 	insertErr := insDBCtx.Insert()
 	if insertErr != nil {
-		fmt.Println(insertErr)
 		return insertErr, 0
 	}
 	return nil, insDBCtx.InsertID
@@ -60,7 +59,6 @@ func UpdateSpCategoryToInstanceDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBIns
 	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_SP_CATEGORY_TBL
 	insertErr := insDBCtx.Insert()
 	if insertErr != nil {
-		fmt.Println(insertErr)
 		return insertErr, 0
 	}
 	return nil, insDBCtx.InsertID
@@ -77,7 +75,6 @@ func UpdateServicePointsToInstDB(dbConn string, insrtStruct *lmodels.APITaskDBNo
 	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_SP_TBL
 	insertErr := insDBCtx.Insert()
 	if insertErr != nil {
-		fmt.Println(insertErr)
 		return insertErr, 0
 	}
 	return nil, insDBCtx.InsertID
