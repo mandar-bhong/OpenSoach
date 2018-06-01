@@ -45,6 +45,9 @@ func InitProcessor() {
 	CAT_DATA_FEEDBACK_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_FEEDBACK_DATA)
 
+	CAT_DATA_DEVICE_STATE_BATTERY_LEVEL_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+		serconst.DEVICE_CMD_DEVICE_STATE_BATTERY_LEVEL_DATA)
+
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 
 	PacketProcessExecutor[CAT_CONFIG_DEV_SYNC_COMP] = epproc.ProcessDeviceSyncCompleted
@@ -54,6 +57,7 @@ func InitProcessor() {
 
 	PacketProcessExecutor[CAT_DATA_COMPLAINT_DATA] = endpoint.ProcessComplaintData
 	PacketProcessExecutor[CAT_DATA_FEEDBACK_DATA] = endpoint.ProcessFeedbackData
+	PacketProcessExecutor[CAT_DATA_DEVICE_STATE_BATTERY_LEVEL_DATA] = endpoint.ProcessDeviceStateBatteryLevelData
 
 }
 

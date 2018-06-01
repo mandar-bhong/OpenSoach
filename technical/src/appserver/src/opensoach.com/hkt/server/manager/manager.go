@@ -17,4 +17,5 @@ func RegisterHandler(hkthandler map[string]interface{}) {
 	hkthandler[gmodels.TASK_HKT_EP_DISCONNECTED] = endpoint.ProcessDeviceDisConnected
 
 	hkthandler[hktconst.TASK_HANDLER_HKT_API_CONTROLLER] = processor.APITaskController
+
 }

@@ -31,6 +31,7 @@ func ProcessFeedbackData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		dbFeedbackInsertRowModel.CpmIdFk = ctx.TokenInfo.CpmID
 		dbFeedbackInsertRowModel.SpIdFk = devicePacket.Header.SPID
 		dbFeedbackInsertRowModel.Feedback = packetFeedbackDataItem.Feedback
+		dbFeedbackInsertRowModel.FeedbackComment = packetFeedbackDataItem.FeedbackComment
 		dbFeedbackInsertRowModel.RaisedOn = packetFeedbackDataItem.RaisedOn
 
 		dbErr := dbaccess.EPInsertFeedbackData(ctx.InstanceDBConn, dbFeedbackInsertRowModel)
