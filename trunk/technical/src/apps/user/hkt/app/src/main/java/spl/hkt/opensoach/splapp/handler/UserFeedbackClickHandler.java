@@ -38,6 +38,7 @@ public class UserFeedbackClickHandler implements View.OnClickListener {
         PacketFeedbackDataModel packetFeedbackDataModel = new PacketFeedbackDataModel();
         packetFeedbackDataModel.Feedback = feedbackModel.UserRating;
         packetFeedbackDataModel.RaisedOn = raiseOnDateFormat.format(new Date());
+        packetFeedbackDataModel.Comment = feedbackModel.Comment;
 
         ArrayList<PacketFeedbackDataModel> feedbacks = new ArrayList<>();
         feedbacks.add(packetFeedbackDataModel);

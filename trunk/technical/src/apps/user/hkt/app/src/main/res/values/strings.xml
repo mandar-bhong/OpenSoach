@@ -24,5 +24,21 @@
     <string name="invalid_auth_code">Entered auth code is invalid</string>
     <string name="enter_valid_authcode">Please enter a valid authcode</string>
 
+    <string name="feed_back_success">Thank you for your feedback</string>
+    <string name="feed_back_input_required">Please select rating before submitting feedback.</string>
+
+    <string name="smile_rating_terrible">Terrible</string>
+    <string name="smile_rating_bad">Bad</string>
+    <string name="smile_rating_okay">Okay</string>
+    <string name="smile_rating_good">Good</string>
+    <string name="smile_rating_great">Great</string>
+
+    <string-array name="names">
+        <item>@string/smile_rating_terrible</item>
+        <item>@string/smile_rating_bad</item>
+        <item>@string/smile_rating_okay</item>
+        <item>@string/smile_rating_good</item>
+        <item>@string/smile_rating_great</item>
+    </string-array>
 
 </resources>

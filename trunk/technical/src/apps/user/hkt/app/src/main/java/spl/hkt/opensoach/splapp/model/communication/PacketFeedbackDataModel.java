@@ -11,6 +11,9 @@ public class PacketFeedbackDataModel extends DeviceDataBaseModel {
     @SerializedName("feedback")
     public int Feedback;
 
+    @SerializedName("comment")
+    public String Comment;
+
     @SerializedName("raisedon")
     public String RaisedOn;
 }

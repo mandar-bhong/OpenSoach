@@ -7,5 +7,6 @@ package spl.hkt.opensoach.splapp.model.view;
 public class UserFeedbackModel {
 
     public int UserRating;
+    public String Comment;
 
 }

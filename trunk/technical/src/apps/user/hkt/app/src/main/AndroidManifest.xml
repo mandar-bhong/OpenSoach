@@ -39,7 +39,8 @@
 
         <activity
             android:name=".view.ScreenSaverActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"            ></activity>
     </application>
 
 </manifest>
