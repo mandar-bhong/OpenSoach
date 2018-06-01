@@ -47,8 +47,21 @@ type DBSplNodeDevTableRowModel struct {
 	DevId     int64     `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
 	DevName   string    `db:"dev_name" json:"devname"`
 	CpmId     int64     `db:"cpm_id_fk" json:"cpmid"`
+	Serialno  string    `db:"serialno" json:"serialno"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplNodeDevStatusTableRowModel struct {
+	DevId                int64     `dbattr:"pri" db:"dev_id_fk" json:"devid"`
+	ConnectionState      int       `db:"connection_state" json:"connectionstate"`
+	ConnectionStateSince time.Time `db:"connection_state_since" json:"connectionstatesince"`
+	SyncState            int       `db:"sync_state" json:"syncstate"`
+	SyncStateSince       time.Time `db:"sync_state_since" json:"syncstatesince"`
+	BatteryLevel         int       `db:"battery_level" json:"batterylevel"`
+	BatteryLevelSince    time.Time `db:"battery_level_since" json:"batterylevelsince"`
+	CreatedOn            time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn            time.Time `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplNodeFieldOperatorTableRowModel struct {
@@ -126,12 +139,13 @@ type DBSplNodeSpTableRowModel struct {
 }
 
 type DBSplNodeFeedbackTableRowModel struct {
-	FeedbackId int64     `db:"id" dbattr:"pri,auto"  json:"FeedbackId"`
-	CpmIdFk    int64     `db:"cpm_id_fk" json:"cpmidfk"`
-	SpIdFk     int64     `db:"sp_id_fk" json:"spidfk"`
-	Feedback   int       `db:"feedback" json:"feedback"`
-	RaisedOn   time.Time `db:"raised_on" json:"raisedon"`
-	CreatedOn  time.Time `db:"created_on" json:"createdon"`
+	FeedbackId      int64     `db:"id" dbattr:"pri,auto"  json:"FeedbackId"`
+	CpmIdFk         int64     `db:"cpm_id_fk" json:"cpmidfk"`
+	SpIdFk          int64     `db:"sp_id_fk" json:"spidfk"`
+	Feedback        int       `db:"feedback" json:"feedback"`
+	FeedbackComment *string   `db:"feedback_comment" json:"feedbackcomment"`
+	RaisedOn        time.Time `db:"raised_on" json:"raisedon"`
+	CreatedOn       time.Time `db:"created_on" json:"createdon"`
 }
 
 type DBSplNodeReportTemplateTableRowModel struct {
