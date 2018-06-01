@@ -27,8 +27,9 @@ type TaskAPICustProdAssociatedModel struct {
 }
 
 type TaskDevProdAsscociatedModel struct {
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
-	DevId int64 `db:"dev_id_fk" json:"devid"`
+	CpmId    int64  `db:"cpm_id_fk" json:"cpmid"`
+	DevId    int64  `db:"dev_id_fk" json:"devid"`
+	Serialno string `db:"serialno" json:"serialno"`
 }
 
 type TaskCustServicePointAssociatedModel struct {

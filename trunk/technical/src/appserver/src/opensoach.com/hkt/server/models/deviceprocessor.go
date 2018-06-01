@@ -32,6 +32,11 @@ type PacketComplaintData struct {
 }
 
 type PacketFeedbackData struct {
-	Feedback int       `jason:"feedback"`
-	RaisedOn time.Time `db:"raised_on" json:"raisedon"`
+	Feedback        int       `jason:"feedback"`
+	FeedbackComment *string   `json:"comment"`
+	RaisedOn        time.Time `db:"raised_on" json:"raisedon"`
+}
+
+type PacketDeviceBatteryLevelUpdateData struct {
+	BatteryLevel int `db:"battery_level" json:"batterylevel"`
 }
