@@ -4,6 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+import spl.hkt.opensoach.splapp.R;
+
 /**
  * Created by Mandar on 2/25/2017. This class will have all application level data
  */
@@ -42,7 +44,7 @@ public final class AppRepo {
         currentChartId = 0;
         authCodeList = new ArrayList<>();
 
-        ServerAPIHOST = "172.105.232.148";//"192.168.1.65";//
+        ServerAPIHOST = "172.104.77.29";//"192.168.1.65";//
         ServerAPIURL = "http://" + ServerAPIHOST + "/api/v1/endpoint/deviceauthorization";
 
     }
