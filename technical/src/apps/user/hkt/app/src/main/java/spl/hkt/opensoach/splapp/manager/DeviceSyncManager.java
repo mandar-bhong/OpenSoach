@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.helper.AppAction;
 import spl.hkt.opensoach.splapp.logger.AppLogger;
+import spl.hkt.opensoach.splapp.model.communication.PacketBatteryLevelModel;
 
 public class DeviceSyncManager implements PropertyChangeListener {
     @Override
@@ -16,7 +17,9 @@ public class DeviceSyncManager implements PropertyChangeListener {
             case AppRepo.DeviceSyncCompletedPropName:
                 if (AppRepo.getInstance().getIsDeviceSyncInProgress() == false) {
                     AppLogger.getInstance().Log(AppLogger.LogLevel.Debug, "Device sync completed");
-                    SendPacketManager.Instance().send(AppAction.BATTERY_LEVEL, AppRepo.getInstance().getBatteryLevel());
+                    PacketBatteryLevelModel packetBatteryLevelModel = new PacketBatteryLevelModel();
+                    packetBatteryLevelModel.BatteryLevel= AppRepo.getInstance().getBatteryLevel();
+                    SendPacketManager.Instance().send(AppAction.BATTERY_LEVEL, packetBatteryLevelModel);
                 }
                 break;
         }
