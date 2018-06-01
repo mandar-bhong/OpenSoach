@@ -46,17 +46,14 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="devid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Device</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;text-align:center">Device</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;text-align:center">
               <span class="mat-row-mobile-label">Device</span>
-              <!-- {{row.devname}} -->
-              <span *ngIf="row.devid!==null&& row.devid">
+              <span *ngIf="row.devid">
                 {{row.devname}}
               </span>
-              <span *ngIf="!(row.devid!==null&& row.devid)">
-                <span (click)="link()">
-                  <a href="#">link</a>
-                </span>
+              <span *ngIf="!(row.devid)">
+                  <button mat-button color="accent" (click)="openServicePointDeviceAssociation(row)">Select</button>                
               </span>
             </mat-cell>
           </ng-container>

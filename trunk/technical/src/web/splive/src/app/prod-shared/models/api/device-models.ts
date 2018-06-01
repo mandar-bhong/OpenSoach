@@ -6,8 +6,6 @@ export class DeviceFilterRequest {
 export class DeviceDataListResponse {
     devid: number;
     serialno: string;
-    devstate: number;
-    devstatesince: Date;
     devname: string;
     connectionstate: number;
     connectionstatesince: Date;
@@ -32,4 +30,5 @@ export class DeviceDetailsResponse {
 export class DeviceListItemResponse {
     devid: number;
     devname: string;
+    serialno: string;
 }

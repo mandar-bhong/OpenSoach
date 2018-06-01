@@ -21,7 +21,7 @@ export class ProdDeviceService extends ListingService<DeviceFilterRequest, Devic
     }
     getDataList(dataListRequest: DataListRequest<DeviceFilterRequest>, implicitErrorHandling = true):
         Observable<PayloadResponse<DataListResponse<DeviceDataListResponse>>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/device/list',
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/device/list',
             dataListRequest, implicitErrorHandling);
     }
 
@@ -35,5 +35,11 @@ export class ProdDeviceService extends ListingService<DeviceFilterRequest, Devic
         Observable<PayloadResponse<DeviceDetailsResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/device/info/details',
             request, implicitErrorHandling);
+    }
+
+    getDevicesNotAssociatedWithSP(implicitErrorHandling = true):
+        Observable<PayloadResponse<DeviceListItemResponse[]>> {
+        return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/device/list/short/noassociation',
+            implicitErrorHandling);
     }
 }

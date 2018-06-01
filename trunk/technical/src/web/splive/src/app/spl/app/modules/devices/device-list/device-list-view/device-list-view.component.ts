@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable ,  merge ,  Subscription } from 'rxjs';
-import { map ,  startWith ,  switchMap } from 'rxjs/operators';
+import { merge, Observable, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 import { DEVICE_STATE } from '../../../../../../shared/app-common-constants';
 import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
@@ -20,12 +20,10 @@ import { DeviceService } from '../../../../services/device.service';
 })
 
 export class DeviceListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['serialno', 'devstate', 'custname', 'connectionstate', 'batterylevel', 'action'];
+  displayedColumns = ['serialno', 'devstate', 'custname', 'action'];
   sortByColumns = [{ text: 'Customer Name', value: 'custname' },
   { text: 'Serial Number', value: 'serialno' },
-  { text: 'State', value: 'devstate' },
-  { text: 'Connections', value: 'connectionstate' },
-  { text: 'Bettery Level', value: 'batterylevel' }
+  { text: 'State', value: 'devstate' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;

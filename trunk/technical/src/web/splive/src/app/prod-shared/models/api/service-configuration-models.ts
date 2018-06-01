@@ -52,3 +52,8 @@ export class ServicepointConfigureListResponse {
 export class ServicepointConfigureTemplateListRequest {
     servconfid: number;
 }
+
+export class AssociateServicePointDeviceRequest {
+    devid: number;
+    spid: number;
+}
