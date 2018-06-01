@@ -88,7 +88,11 @@ export class DeviceAssociateProductComponent extends EditRecordBase implements O
         }
       });
   }
-
+  getCustomerData() {
+    if (this.dataModel.custid && this.dataModel.custid > 0) {
+      this.getCpmList();
+    }
+  }
   getCpmList() {
     this.customerService.getCustomerProductAssociation({ recid: this.dataModel.custid })
       .subscribe(payloadResponse => {

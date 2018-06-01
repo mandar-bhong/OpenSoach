@@ -105,7 +105,9 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
   }
 
   getCustomerData() {
-    this.getCpmList();
+    if (this.dataModel.custid && this.dataModel.custid > 0) {
+      this.getCpmList();
+    }
   }
   getCpmList() {
     this.customerService.getCustomerProductAssociation({ recid: this.dataModel.custid })
@@ -119,12 +121,14 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
       });
   }
   getCustRoleList() {
+    if (this.dataModel.cpm.prodcode && this.dataModel.cpm.prodcode !== null) {
     this.customerService.getCustRoleDataList({ prodcode: this.dataModel.cpm.prodcode })
       .subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.uroleids = payloadResponse.data;
         }
       });
+    }
   }
 
   add() {
