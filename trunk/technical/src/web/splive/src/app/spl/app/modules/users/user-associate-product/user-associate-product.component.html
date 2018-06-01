@@ -56,7 +56,7 @@
         <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
         <div class="form-group form-primary">
           <mat-form-field class="full-width" id="point-selection">
-            <mat-select placeholder="Customer Name" [(ngModel)]="dataModel.custid" formControlName="custnameControl" required (change)="getCustomerData()">
+            <mat-select placeholder="Customer Name" [(ngModel)]="dataModel.custid" formControlName="custnameControl" required (ngModelChange)="getCustomerData()">
               <mat-option *ngFor="let cutomer of cutomers" [value]="cutomer.custid">
                 {{cutomer.custname}}
               </mat-option>
@@ -70,7 +70,7 @@
         </div>
         <div class="form-group form-primary">
           <mat-form-field class="full-width" id="point-selection">
-            <mat-select placeholder="Product" [(ngModel)]="dataModel.cpm" formControlName="productControl" (change)="getCustRoleList()"
+            <mat-select placeholder="Product" [(ngModel)]="dataModel.cpm" formControlName="productControl" (ngModelChange)="getCustRoleList()"
               required>
               <mat-option *ngFor="let product of cpmlist" [value]="product">
                 {{product.prodcode}}
