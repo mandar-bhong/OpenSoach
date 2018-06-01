@@ -19,15 +19,19 @@ import spl.hkt.opensoach.splapp.model.communication.APIResponseAuthDataModel;
 import spl.hkt.opensoach.splapp.model.communication.APIResponseModel;
 
 public class HttpManager {
-    public static void ProcessWebSocketURL(String authURL, String deviceSerialNumber) {
+
+
+
+    public static void ProcessWebSocketURL() {
         HttpHandler httpHandler = new HttpHandler();
-        httpHandler.execute(authURL,deviceSerialNumber);
+        httpHandler.execute(AppRepo.getInstance().getServerAPIURL(), AppRepo.getInstance().getDeviceSerial());
     }
 }
 
 
 class HttpHandler extends AsyncTask {
 
+    int retryWaitTime = 5 * 1000;
     OkHttpClient client = new OkHttpClient();
 
     @Override
@@ -62,17 +66,23 @@ class HttpHandler extends AsyncTask {
                         return responseDataModel;
 
                     } else {
-                        Thread.sleep(3 * 1000);
-                        //HttpManager.ProcessWebSocketURL();
+                        Thread.sleep(retryWaitTime);
+                        HttpManager.ProcessWebSocketURL();
                     }
                     break;
                 default:
-                    Thread.sleep(5 * 1000);
-                    //HttpManager.ProcessWebSocketURL();
+                    Thread.sleep(retryWaitTime);
+                    HttpManager.ProcessWebSocketURL();
                     break;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            AppLogger.getInstance().Log(e);
+            try {
+                Thread.sleep(retryWaitTime);
+            } catch (InterruptedException e1) {
+                AppLogger.getInstance().Log(e1);
+            }
+            HttpManager.ProcessWebSocketURL();
         }
 
         return null;
