@@ -15,6 +15,7 @@ import { CustomerService } from './services/customer.service';
 import { UserService } from './services/user.service';
 import { DeviceService } from './services/device.service';
 import { DBInstanceService } from './services/db-instance.service';
+import { ProductService } from './services/product.service';
 
 
 
@@ -50,7 +51,8 @@ import { DBInstanceService } from './services/db-instance.service';
     CorporateService,
     UserService,
     DeviceService,
-    DBInstanceService
+    DBInstanceService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
