@@ -1,0 +1,14 @@
+
+remove /etc/yum.repos.d/nodesource-el.repo or any other node related repos
+sudo yum clean all
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+sudo yum -y install nodejs
+
+
+update angular
+
+npm i -g @angular/cli
+npm i @angular/cli -> to be fired from web->splive folder.
+
+delete node_modules
+npm install. -> this will install all package.
