@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { DynamicContextService } from '../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
 import { StepData } from '../../../../../shared/modules/stepper/step-data';

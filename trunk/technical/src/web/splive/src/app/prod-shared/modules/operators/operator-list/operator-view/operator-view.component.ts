@@ -1,12 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { merge } from 'rxjs/observable/merge';
-import { map } from 'rxjs/operators/map';
-import { startWith } from 'rxjs/operators/startWith';
-import { switchMap } from 'rxjs/operators/switchMap';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  merge ,  Subscription } from 'rxjs';
+import { map ,  startWith ,  switchMap } from 'rxjs/operators';
 
 import { OPERATOR_AREA } from '../../../../../shared/app-common-constants';
 import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';

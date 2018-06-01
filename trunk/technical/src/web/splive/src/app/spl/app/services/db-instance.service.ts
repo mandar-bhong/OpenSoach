@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { PayloadResponse } from '../../models/api/payload-models';
 import { LoginStatusProviderService } from '../../services/login-status-provider.service';

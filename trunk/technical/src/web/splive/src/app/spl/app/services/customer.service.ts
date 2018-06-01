@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { CUSTOMER_STATE } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';

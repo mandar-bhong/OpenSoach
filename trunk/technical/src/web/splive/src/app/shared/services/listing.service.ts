@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable ,  Subject } from 'rxjs';
 
 import { DataListRequest, DataListResponse } from '../models/api/data-list-models';
 import { PayloadResponse } from '../models/api/payload-models';

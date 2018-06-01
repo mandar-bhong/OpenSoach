@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { SideMenuModel } from '../../../models/ui/routing-model';
