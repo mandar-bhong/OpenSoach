@@ -86,7 +86,7 @@ public class AppHelper {
 
         BroadCastReceiverManager.RegisterBatteryLevelReceiver(mContext);
 
-        HttpManager.ProcessWebSocketURL(AppRepo.getInstance().getServerAPIURL(), AppRepo.getInstance().getDeviceSerial());
+        HttpManager.ProcessWebSocketURL();
     }
 
     public static void ReadAppSettings() {
