@@ -46,6 +46,8 @@ const API_SERVICE_POINT_ASSOCIATE_FOP_INFO = API_BASE_URL + "/v1/servicepoint/as
 const API_SERVICE_POINT_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/list/short"
 
 const API_DEVICE_LIST_SHORT = API_BASE_URL + "/v1/device/list/short"
+const API_DEVICE_LIST = API_BASE_URL + "/v1/device/list"
+const API_DEVICE_NO_SP_ASSOCIATION_LIST_SHORT = API_BASE_URL + "/v1/device/list/short/noassociation"
 
 const API_SPL_PROD_BASE_URL = API_BASE_URL + "/v1/splprod/baseurl"
 
