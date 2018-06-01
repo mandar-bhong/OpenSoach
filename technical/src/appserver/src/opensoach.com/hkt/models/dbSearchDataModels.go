@@ -30,7 +30,7 @@ type DBSearchComplaintResponseFilterDataModel struct {
 	ComplaintTitle string     `db:"complaint_title" json:"complainttitle"`
 	Description    *string    `db:"description" json:"description"`
 	ComplaintBy    string     `db:"complaint_by" json:"complaintby"`
-	Severity       int        `db:"severity" json:"severity"`
+	Severity       *int       `db:"severity" json:"severity"`
 	RaisedOn       time.Time  `db:"raised_on" json:"raisedon"`
 	ComplaintState int        `db:"complaint_state" json:"complaintstate"`
 	ClosedOn       *time.Time `db:"closed_on" json:"closedon"`
@@ -80,4 +80,23 @@ type DBSearchServicePointResponseFilterDataModel struct {
 	ServConfId   *int64    `db:"serv_conf_id_fk" json:"servconfid"`
 	SpState      int       `db:"sp_state" json:"spstate"`
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
+}
+
+type DBSearchDeviceRequestFilterDataModel struct {
+	Serialno *string `db:"serialno" json:"serialno"`
+	DevName  *string `db:"dev_name" json:"devname"`
+}
+
+type DBSearchDeviceResponseFilterDataModel struct {
+	DevId                int64      `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	DevName              *string    `db:"dev_name" json:"devname"`
+	Serialno             string     `db:"serialno" json:"serialno"`
+	CreatedOn            time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn            time.Time  `db:"updated_on" json:"updatedon"`
+	ConnectionState      *int       `db:"connection_state" json:"connectionstate"`
+	ConnectionStateSince *time.Time `db:"connection_state_since" json:"connectionstatesince"`
+	SyncState            *int       `db:"sync_state" json:"syncstate"`
+	SyncStateSince       *time.Time `db:"sync_state_since" json:"syncstatesince"`
+	BatteryLevel         *int       `db:"battery_level" json:"batterylevel"`
+	BatteryLevelSince    *time.Time `db:"battery_level_since" json:"batterylevelsince"`
 }
