@@ -190,6 +190,7 @@ func APIHandlerDevProdAssociated(msg string, sessionkey string,
 	dbInstanceDevInsertModel := &lmodels.APITaskDBInstanceDevInsertRowModel{}
 	dbInstanceDevInsertModel.CpmId = taskDevProdAsscociatedModel.CpmId
 	dbInstanceDevInsertModel.DevId = taskDevProdAsscociatedModel.DevId
+	dbInstanceDevInsertModel.Serialno = taskDevProdAsscociatedModel.Serialno
 	dbInstanceDevInsertModel.DevName = "device " + strconv.FormatInt(taskDevProdAsscociatedModel.DevId, 10)
 
 	dbErr, insertedId := dbaccess.UpdateDevToInstDB(dbConn, dbInstanceDevInsertModel)

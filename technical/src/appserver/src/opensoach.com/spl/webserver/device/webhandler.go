@@ -23,6 +23,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DEVICE_CU_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DEVICE_PRODUCT_ASSCOCIATION_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DEVICE_OSU_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DEVICE_OSU_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -242,6 +243,21 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = DeviceService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.DeviceShortDataList()
+
+		break
+
+	case constants.API_DEVICE_OSU_INFO_MASTER:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DeviceService.GetDeviceInfo(DeviceService{}, recReq.RecId)
 
 		break
 

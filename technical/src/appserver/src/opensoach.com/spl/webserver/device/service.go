@@ -262,6 +262,7 @@ func (service DeviceService) AssociateDevWithCustProduct(reqData *lmodels.DBSplC
 	taskDevProdAsscociatedModel := gmodels.TaskDevProdAsscociatedModel{}
 	taskDevProdAsscociatedModel.CpmId = reqData.CpmId
 	taskDevProdAsscociatedModel.DevId = reqData.DevId
+	taskDevProdAsscociatedModel.Serialno = dbDevRecord[0].Serialno
 
 	if isSuccess := repo.Instance().SendTaskToServer(gmodels.TASK_API_DEV_PROD_ASSOCIATED, service.ExeCtx.SessionToken, taskDevProdAsscociatedModel); isSuccess == false {
 		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while submiting task for cust prod assoc")
@@ -363,4 +364,27 @@ func (service DeviceService) DeviceShortDataList() (bool, interface{}) {
 
 	return true, listData
 
+}
+
+func (service DeviceService) GetDeviceInfo(deviceID int64) (bool, interface{}) {
+
+	dbErr, deviceData := dbaccess.GetDeviceById(repo.Instance().Context.Master.DBConn, deviceID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *deviceData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device master details")
+	return true, dbRecord[0]
 }

@@ -25,9 +25,10 @@ type APITaskDBInstanceCpmIdInsertModel struct {
 }
 
 type APITaskDBInstanceDevInsertRowModel struct {
-	DevId   int64  `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
-	CpmId   int64  `db:"cpm_id_fk" json:"cpmid"`
-	DevName string `db:"dev_name" json:"devname"`
+	DevId    int64  `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	CpmId    int64  `db:"cpm_id_fk" json:"cpmid"`
+	DevName  string `db:"dev_name" json:"devname"`
+	Serialno string `db:"serialno" json:"serialno"`
 }
 
 type APITaskDBInstanceSpCategoryInsertModel struct {
