@@ -57,3 +57,8 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	
 12.	method:GET	/api/osu/v1/device/list/short
 
+
+13.	method:GET	/api/osu/v1/device/info/master
+
+	query parameter : params={"recid":1} //devid
+

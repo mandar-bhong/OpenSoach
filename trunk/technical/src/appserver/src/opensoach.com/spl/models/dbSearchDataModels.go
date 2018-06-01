@@ -65,21 +65,16 @@ type DBSearchDeviceRequestFilterDataModel struct {
 	Serialno *string `db:"serialno" json:"serialno"`
 	CustName *string `db:"cust_name" json:"custname"`
 	CpmId    *int64  `dbattr:"pri,auto" db:"cpm.id" json:"cpmid"` //This is specical condition as query has multiple table join
+	DevState *int    `db:"dev_state" json:"devstate"`
 }
 
 type DBSearchDeviceResponseFilterDataModel struct {
-	DevId                int64      `dbattr:"pri,auto" db:"id" json:"devid"`
-	CustId               *int64     `db:"cust_id_fk" json:"custid"`
-	CustName             *string    `db:"cust_name" json:"custname"`
-	Serialno             *string    `db:"serialno" json:"serialno"`
-	DevState             int        `db:"dev_state" json:"devstate"`
-	DevStateSince        time.Time  `db:"dev_state_since" json:"devstatesince"`
-	CreatedOn            time.Time  `db:"created_on" json:"createdon"`
-	UpdatedOn            time.Time  `db:"updated_on" json:"updatedon"`
-	ConnectionState      *int       `db:"connection_state" json:"connectionstate"`
-	ConnectionStateSince *time.Time `db:"connection_state_since" json:"connectionstatesince"`
-	SyncState            *int       `db:"sync_state" json:"syncstate"`
-	SyncStateSince       *time.Time `db:"sync_state_since" json:"syncstatesince"`
-	BatteryLevel         *int       `db:"battery_level" json:"batterylevel"`
-	BatteryLevelSince    *time.Time `db:"battery_level_since" json:"batterylevelsince"`
+	DevId         int64     `dbattr:"pri,auto" db:"id" json:"devid"`
+	CustId        *int64    `db:"cust_id_fk" json:"custid"`
+	CustName      *string   `db:"cust_name" json:"custname"`
+	Serialno      *string   `db:"serialno" json:"serialno"`
+	DevState      int       `db:"dev_state" json:"devstate"`
+	DevStateSince time.Time `db:"dev_state_since" json:"devstatesince"`
+	CreatedOn     time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn     time.Time `db:"updated_on" json:"updatedon"`
 }

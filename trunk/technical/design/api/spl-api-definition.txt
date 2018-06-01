@@ -795,6 +795,20 @@ alternatecontactno:string;
 } 
 response: null
 
+66. Get user master details
+API Name: /api/osu/v1/device/info/master
+Request Method: GET
+request: 
+response: {
+devid:number;
+custid:number;
+serialno:string;
+devstate:number;
+devstatesince:Date;
+createdon:Date;
+updatedon:Date;
+}
+
 
 
 
