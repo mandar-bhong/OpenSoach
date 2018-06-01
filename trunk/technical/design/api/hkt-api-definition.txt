@@ -389,6 +389,7 @@ request: null
 response: Response{
 devid:number;
 devname:string;
+serialno:string;
 }
 
 31. Get service conf short list
@@ -478,6 +479,39 @@ response: Response{
 spid:number;
 spname:string;
 }
+
+40. Get device list
+API Name: /api/v1/device/list
+Request Method: GET
+request: filterRequest{
+serialno:number;
+devname:string;
+}
+response: FilterResponse{
+devid:number;
+devname:string;
+serialno:string;
+createdon:Date;
+updatedon:Date;
+connectionstate:number
+connectionstatesince:Date;
+syncstate:number;
+syncstatesince:Date;
+batterylevel:number;
+batterylevelsince:Date;
+}
+
+41. Get device no sp association short list
+API Name: /api/v1/device/list/short/noassociation
+Request Method: GET
+request: null
+response: Response{
+devid:number;
+devname:string;
+serialno:string;
+}
+
+
 
 
 
