@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { CustomerSharedService } from '../../../../../shared/services/customer/customer-shared.service';

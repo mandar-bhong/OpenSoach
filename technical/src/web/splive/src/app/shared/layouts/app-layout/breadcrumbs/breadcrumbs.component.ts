@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { DEFAULT_PAGE_MENU } from '../../../app-common-constants';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';

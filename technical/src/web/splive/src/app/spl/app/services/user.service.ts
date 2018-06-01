@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { USER_CATEGORY, USER_GENDER } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';

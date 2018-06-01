@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { USER_CATEGORY } from '../../shared/app-common-constants';
 import { AppSpecificDataProvider } from '../../shared/app-specific-data-provider';

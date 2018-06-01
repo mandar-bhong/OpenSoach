@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';

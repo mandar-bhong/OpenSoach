@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { APP_SHARED_DATA_STORE_KEYS } from '../../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../../shared/environment-provider';

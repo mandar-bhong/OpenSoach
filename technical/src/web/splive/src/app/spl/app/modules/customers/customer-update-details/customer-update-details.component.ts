@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { CustomerAddDetailsRequest } from '../../../../../shared/models/api/customer-models';
 import { CustomerDetailsModel } from '../../../../../shared/models/ui/customer-models';

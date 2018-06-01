@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { EnvironmentProvider } from '../environment-provider';
 import { AuthRequest, AuthResponse, ValidateAuthTokenRequest } from '../models/api/auth-models';

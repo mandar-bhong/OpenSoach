@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { TranslatePipe } from '../../pipes/translate/translate.pipe';
 

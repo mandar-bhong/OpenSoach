@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 /**
  * DynamicContextService, holds the transferring context to the components rendered at runtime.
