@@ -73,7 +73,7 @@
                <div *ngIf="row.batterylevel>10 && row.batterylevel<=20" class="levelLow" [style.width]="row.batterylevel+'%'"></div>
                <div *ngIf="row.batterylevel>20"class="levelHigh" [style.width]="row.batterylevel+'%'"></div>
                </div>
-               <span style="display:inline-block;" class="percentage">100%</span>
+               <span style="display:inline-block;" class="percentage">{{row.batterylevel}}%</span>
                </div>
             </mat-cell>
           </ng-container>
