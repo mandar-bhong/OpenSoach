@@ -237,24 +237,6 @@ CREATE TABLE `spl_master_dev_details_tbl` (
 ) ENGINE=InnoDB COMMENT='Short Name for Table: devd';
 
 --
--- Table structure for table `spl_master_dev_status_tbl`
---
-
-CREATE TABLE `spl_master_dev_status_tbl` (
-  `dev_id_fk` int(10) unsigned NOT NULL,
-  `connection_state` tinyint(3) unsigned NOT NULL COMMENT '0: Unknown, 1: Connected, 2: Disconnected.',
-  `connection_state_since` datetime NOT NULL,
-  `sync_state` tinyint(3) unsigned NOT NULL COMMENT '0: Unknown, 1: InSync, 2: Outofsync.',
-  `sync_state_since` datetime NOT NULL,
-  `battery_level` tinyint(4) NOT NULL COMMENT 'In Percentage',
-  `battery_level_since` datetime NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`dev_id_fk`),
-  CONSTRAINT `fk_devstate_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_master_device_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB COMMENT='Short Name for Table: devstate';
-
---
 -- Table structure for table `spl_master_servicepoint_tbl`
 --
 

@@ -48,13 +48,6 @@ INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`) VALUES (3, 'make3
 INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`, `technology`, `tech_version`, `short_desc`) VALUES (6, 'make4', 'tech6', 'techver6', 'desc6');
 
 --
--- Dumping data for table `spl_master_dev_status_tbl`
---
-
-INSERT INTO `spl_master_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connection_state_since`,`sync_state`,`sync_state_since`,`battery_level`,`battery_level_since`) VALUES ('1', '2', UTC_TIMESTAMP, '1', UTC_TIMESTAMP, '0', UTC_TIMESTAMP);
-INSERT INTO `spl_master_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connection_state_since`,`sync_state`,`sync_state_since`,`battery_level`,`battery_level_since`) VALUES ('2', '2', UTC_TIMESTAMP, '1', UTC_TIMESTAMP, '0', UTC_TIMESTAMP);
-
---
 -- Dumping data for table `spl_master_cpm_dev_mapping_tbl`
 --
 

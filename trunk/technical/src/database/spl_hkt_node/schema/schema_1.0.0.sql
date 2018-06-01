@@ -47,6 +47,7 @@ CREATE TABLE `spl_node_sp_category_tbl` (
 CREATE TABLE `spl_node_dev_tbl` (
   `dev_id_fk` int(10) unsigned NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
+  `serialno` VARCHAR(16) NOT NULL,
   `dev_name` VARCHAR(30) NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -254,6 +255,7 @@ CREATE TABLE `spl_node_feedback_tbl` (
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
 	`sp_id_fk` INT(10) UNSIGNED NOT NULL,
 	`feedback` TINYINT(4) UNSIGNED NOT NULL,
+	`feedback_comment` VARCHAR(150) NULL DEFAULT NULL,
 	`raised_on` DATETIME NOT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
@@ -277,3 +279,20 @@ CREATE TABLE `spl_node_report_template_tbl` (
 	PRIMARY KEY (`id`)
 )   ENGINE=InnoDB COMMENT='Short Name for Table: report';
 
+--
+-- Table structure for table `spl_node_dev_status_tbl`
+--
+
+CREATE TABLE `spl_node_dev_status_tbl` (
+	`dev_id_fk` INT(10) UNSIGNED NOT NULL,
+	`connection_state` TINYINT(3) UNSIGNED NOT NULL COMMENT '0: Unknown, 1: Connected, 2: Disconnected.',
+	`connection_state_since` DATETIME NOT NULL,
+	`sync_state` TINYINT(3) UNSIGNED NOT NULL COMMENT '0: Connected., 1: Disconnected.2: Unknown',
+	`sync_state_since` DATETIME NOT NULL,
+	`battery_level` TINYINT(4) NOT NULL COMMENT 'In Percentage',
+	`battery_level_since` DATETIME NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`dev_id_fk`),
+	CONSTRAINT `fk_devstate_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_node_dev_tbl` (`dev_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='Short Name for Table: devstate';

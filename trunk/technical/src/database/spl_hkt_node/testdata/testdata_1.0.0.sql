@@ -8,7 +8,7 @@ INSERT INTO `spl_node_cpm_tbl` (`cpm_id_fk`) VALUES ('1');
 -- Dumping data for table `spl_node_dev_tbl`
 --
 
-INSERT INTO `spl_node_dev_tbl` (`dev_id_fk`, `cpm_id_fk`,`dev_name`) VALUES ('1', '1','device 1');
+INSERT INTO `spl_node_dev_tbl` (`dev_id_fk`, `cpm_id_fk`,`dev_name`, `serialno`) VALUES ('1', '1','device 1','1234567890123456');
 
 
 --
@@ -36,3 +36,15 @@ INSERT INTO `spl_node_field_operator_tbl` (`cpm_id_fk`, `fopcode`, `mobile_no`, 
 INSERT INTO `spl_node_field_operator_tbl` (`cpm_id_fk`, `fopcode`, `mobile_no`, `fop_state`, `fop_area`) VALUES ('1', '445', '222', '1', '2');
 
 INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES ('2', '1', '1');
+
+--
+-- Dumping data for table `spl_node_dev_status_tbl`
+--
+
+INSERT INTO `spl_node_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connection_state_since`,`sync_state`,`sync_state_since`,`battery_level`,`battery_level_since`) VALUES ('1', '2', UTC_TIMESTAMP, '1', UTC_TIMESTAMP, '0', UTC_TIMESTAMP);
+
+--
+-- Dumping data for table `spl_hkt_sp_complaint_tbl`
+--
+
+INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `closed_on`, `created_on`, `updated_on`) VALUES ('1', '1', '1', 'Complaint 1', 'Asda', '1', '2018-06-01 19:20:00', '1', '2018-06-01 19:20:01', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
