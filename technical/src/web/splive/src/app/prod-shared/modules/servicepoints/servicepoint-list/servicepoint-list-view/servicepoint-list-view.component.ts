@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatBottomSheet, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable ,  merge ,  Subscription } from 'rxjs';
-import { map ,  startWith ,  switchMap } from 'rxjs/operators';
+import { merge, Observable, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
@@ -13,6 +13,10 @@ import {
   SrevicepointFilterRequest,
 } from '../../../../models/api/service-configuration-models';
 import { SpServiceConfService } from '../../../../services/spservice/sp-service-conf.service';
+import {
+  ServicepointDeviceAssociateComponent,
+} from '../../servicepoint-device-associate/servicepoint-device-associate.component';
+
 
 @Component({
   selector: 'app-servicepoint-list-view',
@@ -41,7 +45,8 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
   constructor(public spServiceConfService: SpServiceConfService,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe) { }
+    private translatePipe: TranslatePipe,
+    private bottomSheet: MatBottomSheet) { }
 
   ngOnInit() {
     this.paginator.pageSize = 10;
@@ -58,15 +63,15 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
     this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.getDataList();
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          return data;
-        }),
+      startWith({}),
+      switchMap(() => {
+        this.isLoadingResults = true;
+        return this.getDataList();
+      }),
+      map(data => {
+        this.isLoadingResults = false;
+        return data;
+      }),
     ).subscribe(
       payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
@@ -79,7 +84,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
           this.dataSource = [];
         }
       }
-    );
+      );
   }
   getDataList(): Observable<PayloadResponse<DataListResponse<ServicepointDataListResponse>>> {
     const dataListRequest = new DataListRequest<SrevicepointFilterRequest>();
@@ -116,4 +121,14 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  openServicePointDeviceAssociation(sp: ServicepointDataListResponse): void {
+    const bottomSheetRef = this.bottomSheet.open(ServicepointDeviceAssociateComponent, { data: sp.spid });
+    bottomSheetRef.afterDismissed().subscribe(result => {
+      if (result) {
+        console.log('after dismiss', result);
+        sp.devid = Number(result.devid);
+        sp.devname = String(result.devname);
+      }
+    });
+  }
 }

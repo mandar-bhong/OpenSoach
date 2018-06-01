@@ -17,6 +17,7 @@ export class DeviceFilterRequest {
     serialno: string;
     custid: number;
     custname: string;
+    devstate: number;
 }
 
 export class DeviceDataListResponse {
@@ -26,12 +27,6 @@ export class DeviceDataListResponse {
     serialno: string;
     devstate: number;
     devstatesince: Date;
-    connectionstate: number;
-    connectionstatesince: Date;
-    syncstate: number;
-    syncstatesince: Date;
-    batterylevel: number;
-    batterylevelsince: Date;
     createdon: Date;
     updatedon: Date;
 }

@@ -2,24 +2,25 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
+    AssociateServicePointDeviceRequest,
     ServiceConfigurationlistResponse,
     ServiceConfigurationRequest,
     ServiceConfigurationUpdateRequest,
-    ServicepointDataListResponse,
-    SrevicepointFilterRequest,
     ServicepointAssociateRequest,
     ServicepointConfigureListResponse,
     ServicepointConfigureTemplateListRequest,
+    ServicepointDataListResponse,
+    SrevicepointFilterRequest,
 } from '../../../prod-shared/models/api/service-configuration-models';
+import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
+import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { ListingService } from '../../../shared/services/listing.service';
 import { EnumNumberDatasource } from '../../../shared/utility/enum-number-datasource';
-import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
-import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
 
 
 
@@ -69,7 +70,13 @@ export class SpServiceConfService extends ListingService<SrevicepointFilterReque
     copyTemplateList(request: ServicepointConfigureTemplateListRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<RecordIDResponse>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/service/config/copytemplate',
-          request,  implicitErrorHandling);
+            request, implicitErrorHandling);
+    }
+
+    associateDeviceServicePoint(request: AssociateServicePointDeviceRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/associate/device',
+            request, implicitErrorHandling);
     }
 }
 
