@@ -5,6 +5,7 @@ import "time"
 type DBSpUpdateRowModel struct {
 	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
 	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
 	SpName       string    `db:"sp_name" json:"spname"`
 	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
 	SpState      int       `db:"sp_state" json:"spstate"`
