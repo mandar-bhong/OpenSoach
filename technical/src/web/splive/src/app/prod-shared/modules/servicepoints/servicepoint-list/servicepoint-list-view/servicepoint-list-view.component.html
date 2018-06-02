@@ -61,7 +61,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Status</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-row-mobile-label">Status</span>
-              {{spServiceConfService.getServicepointState(row.spstate) | translate}}
+              {{prodServicepointService.getServicepointState(row.spstate) | translate}}
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="servconfid">

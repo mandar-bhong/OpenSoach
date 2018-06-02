@@ -48,11 +48,6 @@ export class ProdOperatorService extends ListingService<OperatorFiltrRequest, Op
       (EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/associate/fieldoperator/info',
       request, implicitErrorHandling);
   }
-  getServicepointList(implicitErrorHandling = true):
-    Observable<PayloadResponse<OperatorServicepointListResponse[]>> {
-    return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/list/short',
-      implicitErrorHandling);
-  }
   getOperatorStates(): EnumDataSourceItem<number>[] {
     return EnumNumberDatasource.getDataSource('OPERATOR_STATE_', OPERATOR_STATE);
   }
@@ -65,6 +60,4 @@ export class ProdOperatorService extends ListingService<OperatorFiltrRequest, Op
   getOperatorArea(areas: number) {
     return 'OPERATOR_AREA_' + areas;
   }
-
-
 }

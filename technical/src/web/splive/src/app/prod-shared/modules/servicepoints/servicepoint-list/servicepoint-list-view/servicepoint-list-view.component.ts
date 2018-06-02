@@ -8,11 +8,8 @@ import { DataListRequest, DataListResponse } from '../../../../../shared/models/
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import {
-  ServicepointDataListResponse,
-  SrevicepointFilterRequest,
-} from '../../../../models/api/service-configuration-models';
-import { SpServiceConfService } from '../../../../services/spservice/sp-service-conf.service';
+import { ServicepointDataListResponse, SrevicepointFilterRequest } from '../../../../models/api/servicepoint-models';
+import { ProdServicepointService } from '../../../../services/servicepoint/prod-servicepoint.service';
 import {
   ServicepointDeviceAssociateComponent,
 } from '../../servicepoint-device-associate/servicepoint-device-associate.component';
@@ -42,7 +39,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
   dataListFilterChangedSubscription: Subscription;
   servicepointDataListResponse: ServicepointDataListResponse;
   showEditForm = false;
-  constructor(public spServiceConfService: SpServiceConfService,
+  constructor(public prodServicepointService: ProdServicepointService,
     private router: Router,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
@@ -53,7 +50,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
     this.sort.active = 'spname';
     this.sort.direction = 'asc';
     this.setDataListing();
-    this.dataListFilterChangedSubscription = this.spServiceConfService.dataListSubject.subscribe(value => {
+    this.dataListFilterChangedSubscription = this.prodServicepointService.dataListSubject.subscribe(value => {
       this.srevicepointFilterRequest = value;
       this.refreshTable.emit();
     });
@@ -93,7 +90,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
     dataListRequest.limit = this.paginator.pageSize;
     dataListRequest.orderby = this.sort.active;
     dataListRequest.orderdirection = this.sort.direction;
-    return this.spServiceConfService.getDataList(dataListRequest);
+    return this.prodServicepointService.getDataList(dataListRequest);
   }
   sortByChanged() {
     this.sort.sortChange.next(this.sort);

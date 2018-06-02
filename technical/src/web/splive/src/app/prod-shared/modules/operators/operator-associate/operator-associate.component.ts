@@ -9,6 +9,7 @@ import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../sh
 import { OperatorServicePointListModel } from '../../../models/api/operator-models';
 import { OperatorServicePointsDataModel } from '../../../models/ui/operator-models';
 import { ProdOperatorService } from '../../../services/operator/prod-operator.service';
+import { ProdServicepointService } from '../../../services/servicepoint/prod-servicepoint.service';
 
 @Component({
   selector: 'app-operator-associate',
@@ -20,6 +21,7 @@ export class OperatorAssociateComponent extends EditRecordBase implements OnInit
   dataSource;
   routeSubscription: Subscription;
   constructor(public prodOperatorService: ProdOperatorService,
+    public prodServicepointService: ProdServicepointService,
     private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
@@ -67,7 +69,7 @@ export class OperatorAssociateComponent extends EditRecordBase implements OnInit
     });
   }
   getServicepointList() {
-    this.prodOperatorService.getServicepointList().subscribe(payloadResponse => {
+    this.prodServicepointService.getServicepointList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         payloadResponse.data.forEach(item => {
           const operatorServicePointListModel = new OperatorServicePointListModel();

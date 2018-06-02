@@ -7,12 +7,12 @@ import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe
 import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
 import { EditRecordBase } from '../../../../shared/views/edit-record-base';
 import {
-  ServicepointAssociateRequest,
   ServicepointConfigureListResponse,
   ServicepointConfigureTemplateListRequest,
-  ServicepointDataListResponse,
 } from '../../../models/api/service-configuration-models';
-import { ConfigureAssociateModel } from '../../../models/ui/service-configuration-models';
+import { ServicepointAssociateRequest, ServicepointDataListResponse } from '../../../models/api/servicepoint-models';
+import { ConfigureAssociateModel } from '../../../models/ui/servicepoint-models';
+import { ProdServicepointService } from '../../../services/servicepoint/prod-servicepoint.service';
 import { SpServiceConfService } from '../../../services/spservice/sp-service-conf.service';
 
 @Component({
@@ -30,6 +30,7 @@ export class ServicepointDetailsComponent extends EditRecordBase implements OnIn
   servconfid: number;
 
   constructor(public spServiceConfService: SpServiceConfService,
+    public prodServicepointService: ProdServicepointService,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
     private route: ActivatedRoute,
@@ -98,7 +99,7 @@ export class ServicepointDetailsComponent extends EditRecordBase implements OnIn
     // associate serivcepoint configure
     const request = new ServicepointAssociateRequest();
     this.dataModel.copyToAssociateRequest(request);
-    this.spServiceConfService.associateConfigure(request).subscribe(payloadResponse => {
+    this.prodServicepointService.associateConfigure(request).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
       }
     });
