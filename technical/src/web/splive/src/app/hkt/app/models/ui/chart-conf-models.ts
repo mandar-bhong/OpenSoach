@@ -1,9 +1,9 @@
 import {
     ServiceConfigurationRequest,
+    ServiceConfigurationResponse,
     ServiceConfigurationUpdateRequest,
-    ServicepointAssociateRequest
 } from '../../../../prod-shared/models/api/service-configuration-models';
-import { TaskTemplateResponse, TaskTemplateRequest, ChartsDetailsResponse } from '../api/chart-conf-models';
+import { TaskTemplateRequest, TaskTemplateResponse } from '../api/chart-conf-models';
 
 export class ChartConfigurationModel {
     servconfid: number;
@@ -23,7 +23,6 @@ export class ChartConfigurationModel {
         serviceConfigurationRequest.servconfname = this.servconfname;
         serviceConfigurationRequest.shortdesc = this.shortdesc;
         serviceConfigurationRequest.servconf = JSON.stringify(this.variableconf);
-        console.log('serviceConfigurationRequest', serviceConfigurationRequest);
     }
     copyToUpdate(serviceConfigurationUpdateRequest: ServiceConfigurationUpdateRequest) {
         serviceConfigurationUpdateRequest.servconfid = this.servconfid;
@@ -31,17 +30,15 @@ export class ChartConfigurationModel {
         serviceConfigurationUpdateRequest.shortdesc = this.shortdesc;
         serviceConfigurationUpdateRequest.servconf = JSON.stringify(this.variableconf);
     }
-    copyToAssociateRequest(request: ServicepointAssociateRequest) {
-        request.servconfid = this.servconfid;
-        request.spid = this.spid;
-    }
-    copyFrom(userDetailsResponse: ChartsDetailsResponse) {
-        this.servconfid = userDetailsResponse.servconfid;
-        this.spcid = userDetailsResponse.spcid;
-        this.conftypecode = userDetailsResponse.conftypecode;
-        this.servconfname = userDetailsResponse.servconfname;
-        this.shortdesc = userDetailsResponse.shortdesc;
-        this.servconf = userDetailsResponse.servconf;
+
+    copyFrom(response: ServiceConfigurationResponse) {
+        this.servconfid = response.servconfid;
+        this.spcid = response.spcid;
+        this.conftypecode = response.conftypecode;
+        this.servconfname = response.servconfname;
+        this.shortdesc = response.shortdesc;
+        this.servconf = response.servconf;
+        Object.assign(this.variableconf, JSON.parse(response.servconf));
     }
 }
 

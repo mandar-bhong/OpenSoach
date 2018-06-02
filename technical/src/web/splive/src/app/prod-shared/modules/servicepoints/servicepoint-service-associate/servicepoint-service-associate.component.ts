@@ -11,20 +11,20 @@ import {
   ServicepointConfigureTemplateListRequest,
 } from '../../../models/api/service-configuration-models';
 import { ServicepointAssociateRequest, ServicepointDataListResponse } from '../../../models/api/servicepoint-models';
-import { ConfigureAssociateModel } from '../../../models/ui/servicepoint-models';
+import { ServicePointServiceConfigureAssociateModel } from '../../../models/ui/servicepoint-models';
 import { ProdServicepointService } from '../../../services/servicepoint/prod-servicepoint.service';
 import { SpServiceConfService } from '../../../services/spservice/sp-service-conf.service';
 
 @Component({
-  selector: 'app-servicepoint-details',
-  templateUrl: './servicepoint-details.component.html',
-  styleUrls: ['./servicepoint-details.component.css']
+  selector: 'app-servicepoint-service-associate',
+  templateUrl: './servicepoint-service-associate.component.html',
+  styleUrls: ['./servicepoint-service-associate.component.css']
 })
-export class ServicepointDetailsComponent extends EditRecordBase implements OnInit, OnDestroy {
+export class ServicepointServiceAssociateComponent extends EditRecordBase implements OnInit, OnDestroy {
   routeSubscription: Subscription;
   editableForm: FormGroup;
   selectedStatus: number;
-  dataModel = new ConfigureAssociateModel();
+  dataModel = new ServicePointServiceConfigureAssociateModel();
   spconfigures: ServicepointConfigureListResponse[] = [];
   servicepointDataListResponse: ServicepointDataListResponse;
   servconfid: number;
@@ -69,7 +69,7 @@ export class ServicepointDetailsComponent extends EditRecordBase implements OnIn
   add() {
     // add new chart nevigate chart configure window with spid
     this.router.navigate(['charts', 'configure'], {
-      queryParams: { spid: this.dataModel.spid, callbackurl: 'servicepoints' }, skipLocationChange: true
+      queryParams: { spid: this.dataModel.spid, mode: 2, callbackurl: 'servicepoints' }, skipLocationChange: true
     });
 
   }
@@ -90,17 +90,25 @@ export class ServicepointDetailsComponent extends EditRecordBase implements OnIn
     this.spServiceConfService.copyTemplateList(servicepointConfigureTemplateListRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.dataModel.servconfid = payloadResponse.data.recid;
-        this.associate();
+        this.associate(true);
       }
     });
   }
 
-  associate() {
+  associate(navigate?: boolean) {
     // associate serivcepoint configure
     const request = new ServicepointAssociateRequest();
     this.dataModel.copyToAssociateRequest(request);
     this.prodServicepointService.associateConfigure(request).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
+        if (navigate) {
+          this.router.navigate(['charts', 'configure'], {
+            queryParams: { id: this.dataModel.servconfid, mode: 1, callbackurl: 'servicepoints' }, skipLocationChange: true
+          });
+        } else {
+          this.appNotificationService.success();
+          this.closeForm();
+        }
       }
     });
   }

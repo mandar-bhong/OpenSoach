@@ -29,3 +29,8 @@ export class ServicepointListResponse {
     spid: number;
     spname: string;
 }
+
+export class SPCategoriesShortDataResponse {
+    spcid: number;
+    spcname: string;
+}

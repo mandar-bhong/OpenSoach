@@ -1,5 +1,3 @@
-import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
-
 export class ServiceConfigurationRequest {
     servconfid: number;
     spcid: number;
@@ -32,6 +30,17 @@ export class ServiceConfigureFilterRequest {
     conftypecode: string;
     servconfname: string;
 }
+export class ServiceConfigurationResponse {
+    servconfid: number;
+    spcid: number;
+    conftypecode: string;
+    servconfname: string;
+    shortdesc: string;
+    servconf: string;
+    createdon: Date;
+    updateon: Date;
+}
+
 export class ServiceConfigureDataListResponse {
     servconfid: number;
     cpmid: number;

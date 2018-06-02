@@ -5,13 +5,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppCommonModule } from '../../../shared/app-common.module';
 import { MaterialModules } from '../../../shared/modules/material/material-modules';
 import { ProdCommonModule } from '../../prod-common.module';
-import { ServicepointDetailsComponent } from './servicepoint-details/servicepoint-details.component';
 import {
   ServicepointDeviceAssociateComponent,
 } from './servicepoint-device-associate/servicepoint-device-associate.component';
 import { ServicepointListViewComponent } from './servicepoint-list/servicepoint-list-view/servicepoint-list-view.component';
 import { ServicepointListComponent } from './servicepoint-list/servicepoint-list.component';
 import { ServicepointSearchComponent } from './servicepoint-list/servicepoint-search/servicepoint-search.component';
+import {
+  ServicepointServiceAssociateComponent,
+} from './servicepoint-service-associate/servicepoint-service-associate.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,7 @@ import { ServicepointSearchComponent } from './servicepoint-list/servicepoint-se
     ReactiveFormsModule,
   ],
   declarations: [
-    ServicepointDetailsComponent,
+    ServicepointServiceAssociateComponent,
     ServicepointListComponent,
     ServicepointListViewComponent,
     ServicepointSearchComponent,

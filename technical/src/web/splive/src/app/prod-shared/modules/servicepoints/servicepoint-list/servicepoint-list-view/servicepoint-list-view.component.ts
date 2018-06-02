@@ -106,10 +106,18 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
     this.sort.sortChange.next(this.sort);
   }
 
-  viewDetails(id: number) {
-    this.router.navigate(['servicepoints', 'details'], { queryParams: { id: id, callbackurl: 'servicepoints' }, skipLocationChange: true });
+  configure(row: ServicepointDataListResponse) {
+
+    if (row.servconfid) {
+      this.router.navigate(['charts', 'configure'], {
+        queryParams: { id: row.servconfid, mode: 1, callbackurl: 'servicepoints' }, skipLocationChange: true
+      });
+    } else {
+      this.router.navigate(['servicepoints', 'service-associate'],
+        { queryParams: { id: row.spid, callbackurl: 'servicepoints' }, skipLocationChange: true });
+    }
   }
-  link() {
+  editServicePoint(row: ServicepointDataListResponse) {
 
   }
   ngOnDestroy(): void {

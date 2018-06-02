@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { SPCategoriesShortDataResponse } from '../../../../../../prod-shared/models/api/servicepoint-models';
+import { ProdServicepointService } from '../../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
 import { SERVICE_CONF_TYPE } from '../../../../app-constants';
-import { CategoriesShortDataResponse } from '../../../../models/api/chart-conf-models';
 import { ChartConfigurationModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
 
@@ -16,8 +17,9 @@ export class ChartConfigureBasicComponent implements OnInit {
 
   editableForm: FormGroup;
   dataModel: ChartConfigurationModel;
-  categories: CategoriesShortDataResponse[] = [];
+  categories: SPCategoriesShortDataResponse[] = [];
   constructor(private dynamicContextService: DynamicContextService,
+    private prodServicePointService: ProdServicepointService,
     private chartConfigureService: ChartConfigureService) { }
 
   ngOnInit() {
@@ -33,7 +35,7 @@ export class ChartConfigureBasicComponent implements OnInit {
     });
   }
   getCategoriesList() {
-    this.chartConfigureService.getCategoriesShortDataList().subscribe(payloadResponse => {
+    this.prodServicePointService.getCategoriesShortDataList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.categories = payloadResponse.data;
       }

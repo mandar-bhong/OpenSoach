@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { SpServiceConfService } from '../../../../../prod-shared/services/spservice/sp-service-conf.service';
 import { DynamicContextService } from '../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
 import { StepData } from '../../../../../shared/modules/stepper/step-data';
 import { StepperService, StepperState } from '../../../../../shared/modules/stepper/stepper.service';
@@ -14,7 +15,6 @@ import { ChartConfigureService } from '../../../services/chart-configure.service
   styleUrls: ['./chart-configure.component.css']
 })
 export class ChartConfigureComponent implements OnInit, OnDestroy {
-  mode = 0; // 0:add, 1:update
   count = 0;
   // completedcount = 0;
   steps: StepData[] = [
@@ -31,11 +31,11 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
   constructor(private stepperService: StepperService,
     private dynamicContextService: DynamicContextService,
     private route: ActivatedRoute,
-    private chartConfigureService: ChartConfigureService) {
+    private chartConfigureService: ChartConfigureService,
+    private spServiceConfService: SpServiceConfService) {
   }
 
   ngOnInit() {
-    this.step = this.steps[0];
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel = this.chartConfigureService.createDataModel();
 
@@ -48,7 +48,7 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
       }
 
       if (params['mode']) {
-        this.dataModel.mode = Number(params['spid']);
+        this.dataModel.mode = Number(params['mode']);
       } else {
         this.dataModel.mode = 0; // default add mode;
       }
@@ -57,6 +57,7 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
         this.getConfiguration();
       } else {
         this.chartConfigureService.setDataModel(this.dataModel);
+        this.step = this.steps[0];
       }
     });
 
@@ -66,14 +67,13 @@ export class ChartConfigureComponent implements OnInit, OnDestroy {
   }
 
   getConfiguration() {
-    // TODO: call API to get existing configuration
-    // this.chartConfigureService.getConfigList({ recid: configid }).subscribe(payloadResponse => {
-    //   if (payloadResponse && payloadResponse.issuccess) {
-    //   }
-    // });
-    // this.chartConfigureService.dataModel = new ChartConfigurationModel();
-
-    this.chartConfigureService.setDataModel(this.dataModel);
+    this.spServiceConfService.getServiceConf({ recid: this.dataModel.servconfid }).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.copyFrom(payloadResponse.data);
+        this.chartConfigureService.setDataModel(this.dataModel);
+        this.step = this.steps[0];
+      }
+    });
   }
 
   changeSteps(direction: any) {

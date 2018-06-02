@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ServicepointListComponent } from '../../../../prod-shared/modules/servicepoints/servicepoint-list/servicepoint-list.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import {
-  ServicepointDetailsComponent
-} from '../../../../prod-shared/modules/servicepoints/servicepoint-details/servicepoint-details.component';
+  ServicepointListComponent,
+} from '../../../../prod-shared/modules/servicepoints/servicepoint-list/servicepoint-list.component';
+import {
+  ServicepointServiceAssociateComponent,
+} from '../../../../prod-shared/modules/servicepoints/servicepoint-service-associate/servicepoint-service-associate.component';
 
 const routes: Routes = [
   {
@@ -11,8 +14,8 @@ const routes: Routes = [
     component: ServicepointListComponent
   },
   {
-    path: 'details',
-    component: ServicepointDetailsComponent
+    path: 'service-associate',
+    component: ServicepointServiceAssociateComponent
   },
 
 ];

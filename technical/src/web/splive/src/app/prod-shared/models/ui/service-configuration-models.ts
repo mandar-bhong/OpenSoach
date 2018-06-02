@@ -1,6 +1,3 @@
-import {
-     ServicepointConfigureListResponse, ServicepointConfigureTemplateListRequest
-} from '../api/service-configuration-models';
 import { ServicepointAssociateRequest } from '../api/servicepoint-models';
 
 export class ServiceConfigurationModel {

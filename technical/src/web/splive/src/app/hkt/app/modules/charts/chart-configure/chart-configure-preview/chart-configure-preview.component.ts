@@ -5,14 +5,14 @@ import {
   ServiceConfigurationRequest,
   ServiceConfigurationUpdateRequest,
 } from '../../../../../../prod-shared/models/api/service-configuration-models';
+import { ServicepointAssociateRequest } from '../../../../../../prod-shared/models/api/servicepoint-models';
+import { ProdServicepointService } from '../../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
 import { SpServiceConfService } from '../../../../../../prod-shared/services/spservice/sp-service-conf.service';
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
 import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { ChartConfigurationModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
-import { ServicepointAssociateRequest } from '../../../../../../prod-shared/models/api/servicepoint-models';
-import { ProdServicepointService } from '../../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
 
 @Component({
   selector: 'app-chart-configure-preview',
@@ -29,7 +29,7 @@ export class ChartConfigurePreviewComponent implements OnInit {
     private spServiceConfService: SpServiceConfService,
     private prodServicepointService: ProdServicepointService,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe ) { }
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.createControls();
@@ -42,37 +42,55 @@ export class ChartConfigurePreviewComponent implements OnInit {
   }
 
   save() {
+    console.log('saving chart');
     if (this.editableForm.invalid) { return; }
-    if (this.dataModel.servconfid) {
-      // tod update
-      const request = new ServiceConfigurationUpdateRequest();
-      this.dataModel.copyToUpdate(request);
-      this.spServiceConfService.updateServiceConf(request).subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.appNotificationService.success();
-          this.chartConfigureService.setDataModel(this.dataModel);
-          this.dynamicContextService.onAction(true);
-          this.associate();
-        }
-      });
-    } else {
-      const serviceConfigurationRequest = new ServiceConfigurationRequest();
-      this.dataModel.copyTo(serviceConfigurationRequest);
-      this.spServiceConfService.addServiceConf(serviceConfigurationRequest).subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.dataModel.servconfid = payloadResponse.data.recid;
-          this.appNotificationService.success();
-          this.chartConfigureService.setDataModel(this.dataModel);
-          this.dynamicContextService.onAction(true);
-        }
-      });
+    switch (this.dataModel.mode) {
+      case 0:
+        this.addServiceConfig();
+        break;
+      case 1:
+        this.updateServiceConfig();
+        break;
+      case 2:
+        this.addServiceConfig(true);
+        break;
     }
   }
-  associate() {
+  associateWithServicePoint() {
     const request = new ServicepointAssociateRequest();
-    this.dataModel.copyToAssociateRequest(request);
+    request.servconfid = this.dataModel.servconfid;
+    request.spid = this.dataModel.spid;
     this.prodServicepointService.associateConfigure(request).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
+      }
+    });
+  }
+
+  addServiceConfig(associate?: boolean) {
+    const serviceConfigurationRequest = new ServiceConfigurationRequest();
+    this.dataModel.copyTo(serviceConfigurationRequest);
+    this.spServiceConfService.addServiceConf(serviceConfigurationRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.servconfid = payloadResponse.data.recid;
+        this.dataModel.mode = 1;
+        this.appNotificationService.success();
+        this.chartConfigureService.setDataModel(this.dataModel);
+        this.dynamicContextService.onAction(true);
+        if (associate) {
+          this.associateWithServicePoint();
+        }
+      }
+    });
+  }
+
+  updateServiceConfig() {
+    const request = new ServiceConfigurationUpdateRequest();
+    this.dataModel.copyToUpdate(request);
+    this.spServiceConfService.updateServiceConf(request).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.appNotificationService.success();
+        this.chartConfigureService.setDataModel(this.dataModel);
+        this.dynamicContextService.onAction(true);
       }
     });
   }

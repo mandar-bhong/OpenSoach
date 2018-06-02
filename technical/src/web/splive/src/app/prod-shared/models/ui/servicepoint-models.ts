@@ -1,5 +1,8 @@
-import { SrevicepointFilterRequest, ServicepointAssociateRequest } from '../api/servicepoint-models';
-import { ServicepointConfigureListResponse, ServicepointConfigureTemplateListRequest } from '../api/service-configuration-models';
+import {
+  ServicepointConfigureListResponse,
+  ServicepointConfigureTemplateListRequest,
+} from '../api/service-configuration-models';
+import { ServicepointAssociateRequest, SrevicepointFilterRequest } from '../api/servicepoint-models';
 
 export class ServicepointFilterModel {
     spname: string;
@@ -16,7 +19,7 @@ export class ServicepointFilterModel {
     }
 }
 
-export class ConfigureAssociateModel {
+export class ServicePointServiceConfigureAssociateModel {
     servconfid: number;
     spid: number;
     servconfname: string;
