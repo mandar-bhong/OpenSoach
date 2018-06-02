@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 import {
   ServiceConfigurationRequest,
   ServiceConfigurationUpdateRequest,
-  ServicepointAssociateRequest,
 } from '../../../../../../prod-shared/models/api/service-configuration-models';
 import { SpServiceConfService } from '../../../../../../prod-shared/services/spservice/sp-service-conf.service';
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
@@ -12,6 +11,8 @@ import { TranslatePipe } from '../../../../../../shared/pipes/translate/translat
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { ChartConfigurationModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
+import { ServicepointAssociateRequest } from '../../../../../../prod-shared/models/api/servicepoint-models';
+import { ProdServicepointService } from '../../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
 
 @Component({
   selector: 'app-chart-configure-preview',
@@ -26,6 +27,7 @@ export class ChartConfigurePreviewComponent implements OnInit {
   constructor(private dynamicContextService: DynamicContextService,
     private chartConfigureService: ChartConfigureService,
     private spServiceConfService: SpServiceConfService,
+    private prodServicepointService: ProdServicepointService,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe ) { }
 
@@ -69,7 +71,7 @@ export class ChartConfigurePreviewComponent implements OnInit {
   associate() {
     const request = new ServicepointAssociateRequest();
     this.dataModel.copyToAssociateRequest(request);
-    this.spServiceConfService.associateConfigure(request).subscribe(payloadResponse => {
+    this.prodServicepointService.associateConfigure(request).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
       }
     });

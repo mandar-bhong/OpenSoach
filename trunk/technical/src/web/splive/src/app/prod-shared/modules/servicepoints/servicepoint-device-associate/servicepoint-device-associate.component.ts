@@ -4,7 +4,7 @@ import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material';
 import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
 import { DeviceListItemResponse } from '../../../models/api/device-models';
 import { ProdDeviceService } from '../../../services/device/prod-device.service';
-import { SpServiceConfService } from '../../../services/spservice/sp-service-conf.service';
+import { ProdServicepointService } from '../../../services/servicepoint/prod-servicepoint.service';
 
 @Component({
   selector: 'app-servicepoint-device-associate',
@@ -18,7 +18,7 @@ export class ServicepointDeviceAssociateComponent implements OnInit {
   spid: number;
   constructor(private bottomSheetRef: MatBottomSheetRef<ServicepointDeviceAssociateComponent>,
     private deviceService: ProdDeviceService, private appNotificationService: AppNotificationService,
-    private servicePointService: SpServiceConfService,
+    private prodServicepointService: ProdServicepointService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
     this.spid = Number(data);
     console.log('in associate');
@@ -39,7 +39,7 @@ export class ServicepointDeviceAssociateComponent implements OnInit {
   save() {
     console.log('in save');
     if (this.selecteddevice != null) {
-      this.servicePointService.associateDeviceServicePoint(
+      this.prodServicepointService.associateDeviceServicePoint(
         { devid: this.selecteddevice.devid, spid: this.spid }).subscribe(payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
             this.appNotificationService.success();

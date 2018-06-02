@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-    AssociateServicePointDeviceRequest,
     ServiceConfigurationlistResponse,
     ServiceConfigurationRequest,
     ServiceConfigurationUpdateRequest,
-    ServicepointAssociateRequest,
     ServicepointConfigureListResponse,
     ServicepointConfigureTemplateListRequest,
-    ServicepointDataListResponse,
-    SrevicepointFilterRequest,
+    ServiceConfigureFilterRequest,
+    ServiceConfigureDataListResponse,
 } from '../../../prod-shared/models/api/service-configuration-models';
 import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
@@ -22,17 +20,15 @@ import { ServerApiInterfaceService } from '../../../shared/services/api/server-a
 import { ListingService } from '../../../shared/services/listing.service';
 import { EnumNumberDatasource } from '../../../shared/utility/enum-number-datasource';
 
-
-
 @Injectable()
-export class SpServiceConfService extends ListingService<SrevicepointFilterRequest, ServicepointDataListResponse> {
+export class SpServiceConfService extends ListingService<ServiceConfigureFilterRequest, ServiceConfigureDataListResponse> {
     constructor(
         private serverApiInterfaceService: ServerApiInterfaceService) {
         super();
     }
-    getDataList(dataListRequest: DataListRequest<SrevicepointFilterRequest>, implicitErrorHandling = true):
-        Observable<PayloadResponse<DataListResponse<ServicepointDataListResponse>>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/list',
+    getDataList(dataListRequest: DataListRequest<ServiceConfigureFilterRequest>, implicitErrorHandling = true):
+        Observable<PayloadResponse<DataListResponse<ServiceConfigureDataListResponse>>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/service/config/list',
             dataListRequest, implicitErrorHandling);
     }
     addServiceConf(serviceConfigurationRequest: ServiceConfigurationRequest, implicitErrorHandling = true):
@@ -50,18 +46,6 @@ export class SpServiceConfService extends ListingService<SrevicepointFilterReque
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/service/config/list',
             request, implicitErrorHandling);
     }
-    getServicepointStates(): EnumDataSourceItem<number>[] {
-        return EnumNumberDatasource.getDataSource('SERVICEPOINT_STATE_', SERVICEPOINT_STATE);
-    }
-
-    getServicepointState(state: number) {
-        return 'SERVICEPOINT_STATE_' + state;
-    }
-    associateConfigure(request: ServicepointAssociateRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<RecordIDResponse>> {
-        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/service/instance/add',
-            request, implicitErrorHandling);
-    }
     getServicepointConfigureList(implicitErrorHandling = true):
         Observable<PayloadResponse<ServicepointConfigureListResponse[]>> {
         return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/service/config/list/short',
@@ -73,10 +57,5 @@ export class SpServiceConfService extends ListingService<SrevicepointFilterReque
             request, implicitErrorHandling);
     }
 
-    associateDeviceServicePoint(request: AssociateServicePointDeviceRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<null>> {
-        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/associate/device',
-            request, implicitErrorHandling);
-    }
 }
 

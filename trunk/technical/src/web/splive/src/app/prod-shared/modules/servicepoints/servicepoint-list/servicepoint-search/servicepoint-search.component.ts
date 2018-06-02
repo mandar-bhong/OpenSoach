@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
-import { ServicepointFilterModel } from '../../../../models/ui/service-configuration-models';
-import { SpServiceConfService } from '../../../../services/spservice/sp-service-conf.service';
+import { ServicepointFilterModel } from '../../../../models/ui/servicepoint-models';
+import { ProdServicepointService } from '../../../../services/servicepoint/prod-servicepoint.service';
 
 @Component({
   selector: 'app-servicepoint-search',
@@ -13,16 +13,16 @@ export class ServicepointSearchComponent implements OnInit {
   dataModel = new ServicepointFilterModel();
   isExpanded = false;
   spStates: EnumDataSourceItem<number>[];
-  constructor(public spServiceConfService: SpServiceConfService) { }
+  constructor(public prodServicepointService: ProdServicepointService) { }
 
   ngOnInit() {
-    this.spStates = this.spServiceConfService.getServicepointStates();
+    this.spStates = this.prodServicepointService.getServicepointStates();
   }
   search() {
     this.isExpanded = false;
     const servicepointFilterModel = new ServicepointFilterModel();
     this.dataModel.copyTo(servicepointFilterModel);
-    this.spServiceConfService.dataListSubjectTrigger(servicepointFilterModel);
+    this.prodServicepointService.dataListSubjectTrigger(servicepointFilterModel);
   }
   panelOpened() {
     this.isExpanded = true;
