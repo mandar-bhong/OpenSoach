@@ -253,7 +253,7 @@ func APIHandlerCustServPointAssociated(msg string, sessionkey string,
 
 		dbInstanceSpInsertModel := &lmodels.APITaskDBNodeSpInsertRowModel{}
 		dbInstanceSpInsertModel.SpId = taskCustServicePointAssociatedModel.SpIdList[i]
-		dbInstanceSpInsertModel.SpcId = 1
+		dbInstanceSpInsertModel.SpcId = 0
 		dbInstanceSpInsertModel.CpmId = taskCustServicePointAssociatedModel.CpmId
 		Spid := dbInstanceSpInsertModel.SpId
 		dbInstanceSpInsertModel.SpName = "Service Point " + strconv.FormatInt(Spid, 10)
