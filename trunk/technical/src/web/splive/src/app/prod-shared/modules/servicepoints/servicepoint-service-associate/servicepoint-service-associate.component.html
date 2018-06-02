@@ -8,13 +8,13 @@
     <form [formGroup]="editableForm" (ngSubmit)="save()">
       <mat-radio-group [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}">
         <div>
-          <mat-radio-button [value]="1" name="rdoResult">Add New Chart</mat-radio-button>
+          <mat-radio-button [value]="1" name="rdoResult">Add new Chart</mat-radio-button>
         </div>
         <div>
-          <mat-radio-button [value]="2" name="rdoResult">Select Form Existing</mat-radio-button>
+          <mat-radio-button [value]="2" name="rdoResult">Use from existing Chart</mat-radio-button>
         </div>
         <div>
-          <mat-radio-button [value]="3" name="rdoResult">User Form Template</mat-radio-button>
+          <mat-radio-button [value]="3" name="rdoResult">Create New Chart From Template</mat-radio-button>
         </div>
       </mat-radio-group>
       <div class="form-group form-primary" [hidden]="selectedStatus===1">

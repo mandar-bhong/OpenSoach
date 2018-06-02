@@ -42,7 +42,15 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Category</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
               <span class="mat-row-mobile-label">Category</span>
-              {{row.spcname}}
+              <span *ngIf="row.spcid>0">
+                  {{row.spcname}}
+                </span>
+                <span *ngIf="row.spcid===0">
+                  <span>NOT SET</span>
+                  <button mat-icon-button color="accent" (click)="editServicePoint(row)">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="devid">
@@ -53,7 +61,9 @@
                 {{row.devname}}
               </span>
               <span *ngIf="!(row.devid)">
-                  <button mat-button color="accent" (click)="openServicePointDeviceAssociation(row)">Select</button>                
+                <button mat-icon-button color="accent" (click)="openServicePointDeviceAssociation(row)">
+                  <i class="fa fa-link"></i>
+                </button>
               </span>
             </mat-cell>
           </ng-container>
@@ -68,13 +78,12 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Chart</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-row-mobile-label">Chart</span>
-              <!-- {{row.servconfid }} -->
-              <span *ngIf="row.servconfid!==null&& row.servconfid">
-                Preview
-              </span>
-              <span *ngIf="!(row.servconfid!==null&& row.servconfid)" (click)="viewDetails(row.spid)">
-                <a routerLink="/servicepoints/details" >Configure </a>
-              </span>
+              <button mat-icon-button color="primary" *ngIf="row.servconfid">
+                <i class="fa fa-eye"></i>
+              </button>
+              <button mat-icon-button color="accent" *ngIf="!(row.servconfid)" (click)="configure(row)">
+                <span>Configure</span>
+              </button>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="action">
@@ -86,9 +95,14 @@
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
-                  <button mat-menu-item (click)="viewDetails(row.spid)">
+                    <button mat-menu-item (click)="editServicePoint(row)">
+                        <mat-icon color='primary'>edit</mat-icon>
+                        <span>Edit Service Point</span>
+                      </button>
+                  <button mat-menu-item (click)="configure(row)">
                     <mat-icon color='primary'>remove_red_eye</mat-icon>
-                    <span>configure</span>
+                    <span *ngIf="!row.servconfid">Configure Chart</span>
+                    <span *ngIf="row.servconfid">Edit Chart</span>
                   </button>
                 </ng-template>
               </mat-menu>

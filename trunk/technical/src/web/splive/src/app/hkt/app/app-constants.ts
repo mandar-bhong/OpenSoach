@@ -21,9 +21,9 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: 'fa fa-map-marker'
     },
     {
-        url: '/servicepoints/details',
-        linktitle: 'Details',
-        pagetitle: 'Servicepoints Details',
+        url: '/servicepoints/service-associate',
+        linktitle: 'Configure',
+        pagetitle: 'Configure Chart',
         linkiconcss: 'fa fa-users'
     },
     {

@@ -9,6 +9,7 @@ import {
     ServicepointConfigureTemplateListRequest,
     ServiceConfigureFilterRequest,
     ServiceConfigureDataListResponse,
+    ServiceConfigurationResponse,
 } from '../../../prod-shared/models/api/service-configuration-models';
 import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
@@ -42,8 +43,8 @@ export class SpServiceConfService extends ListingService<ServiceConfigureFilterR
             serviceConfigurationUpdateRequest, implicitErrorHandling);
     }
     getServiceConf(request: RecordIDRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<ServiceConfigurationlistResponse[]>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/service/config/list',
+        Observable<PayloadResponse<ServiceConfigurationResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/service/config/info',
             request, implicitErrorHandling);
     }
     getServicepointConfigureList(implicitErrorHandling = true):
