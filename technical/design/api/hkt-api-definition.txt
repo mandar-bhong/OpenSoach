@@ -511,6 +511,22 @@ devname:string;
 serialno:string;
 }
 
+42. Get service point info
+API Name: /api/v1/servicepoint/info
+Request Method: GET
+request: null
+response: Response{
+spid:number;
+cpmid:number;
+spcid:number;
+spname:string;
+shortdesc:string;
+spstate:number;
+spstatesince:Date;
+createdon:Date;
+updatedon:Date;
+}
+
 
 
 
