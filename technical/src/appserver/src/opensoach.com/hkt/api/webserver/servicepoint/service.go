@@ -87,6 +87,18 @@ func (service ServicePointService) FopSpAdd(req lmodels.APIFopSpAddRequest) (isS
 	addResponse := gmodels.APIRecordAddResponse{}
 	addResponse.RecordID = insertedId
 
+	taskFieldOperatorAddedRemovedOnSPModel := &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}
+	taskFieldOperatorAddedRemovedOnSPModel.FopId = req.FopId
+	taskFieldOperatorAddedRemovedOnSPModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	isSendSuccess := repo.Instance().
+		SendTaskToServer(hktconst.TASK_HKT_API_FIELD_OPERATOR_ADDED_ON_SP,
+			service.ExeCtx.SessionToken, taskFieldOperatorAddedRemovedOnSPModel)
+
+	if isSendSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
+	}
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Service Point associated with Field operater  succesfully")
 
 	return true, addResponse
@@ -105,6 +117,18 @@ func (service ServicePointService) FopSpDelete(reqdata *lmodels.APIFopSpDeleteRe
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
+	}
+
+	taskFieldOperatorAddedRemovedOnSPModel := &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}
+	taskFieldOperatorAddedRemovedOnSPModel.FopId = reqdata.FopId
+	taskFieldOperatorAddedRemovedOnSPModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	isSendSuccess := repo.Instance().
+		SendTaskToServer(hktconst.TASK_HKT_API_FIELD_OPERATOR_REMOVED_ON_SP,
+			service.ExeCtx.SessionToken, taskFieldOperatorAddedRemovedOnSPModel)
+
+	if isSendSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Service Point association with Field operater deleted successfully.")
