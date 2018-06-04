@@ -3,7 +3,10 @@ package endpoint
 import (
 	"fmt"
 
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
+	hktmodels "opensoach.com/hkt/models"
+	"opensoach.com/hkt/server/dbaccess"
 	repo "opensoach.com/hkt/server/repository"
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
@@ -20,11 +23,30 @@ func ProcessDeviceConnected(token string) error {
 		return fmt.Errorf("Unable to get information for provided token. Token: %s", token)
 	}
 
-	subErr := repo.Instance().MasterTaskContext.SubmitTask(gmodels.TASK_SPL_EP_CONNECTED, jsonData)
+	deviceTokenModel := &gmodels.DeviceTokenModel{}
 
-	if subErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while submitting device connection task to SPL server", subErr)
-		return fmt.Errorf("Error occured while submittin task to SPL server. Token: %s ", token)
+	if isSuccess := ghelper.ConvertFromJSONString(jsonData, deviceTokenModel); isSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to convert json data to deviceTokenModel")
+		return nil
+	}
+
+	dbErr, instDBConn := dbaccess.GetInstanceDBConn(repo.Instance().Context.Master.DBConn, deviceTokenModel.CpmID)
+
+	if dbErr != nil {
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessDeviceConnected:Unable to get device token. Device is offline. Skipping creation of packet")
+		return dbErr
+	}
+
+	dbDevStatusConnectionStateUpdateDataModel := hktmodels.DBDevStatusConnectionStateUpdateDataModel{}
+	dbDevStatusConnectionStateUpdateDataModel.DevId = deviceTokenModel.DevID
+	dbDevStatusConnectionStateUpdateDataModel.ConnectionState = gmodels.ENTITY_CONNECTION_STATUS_CONNECTED
+	dbDevStatusConnectionStateUpdateDataModel.ConnectionStateSince = ghelper.GetCurrentTime()
+
+	dberr := dbaccess.EPUpdateDeviceConnectionStatusData(instDBConn, dbDevStatusConnectionStateUpdateDataModel)
+
+	if dberr != nil {
+		logger.Context().WithField("Token", token).
+			WithField("DeviceConnectionStatusData", dbDevStatusConnectionStateUpdateDataModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating device connection state.", dbErr)
 	}
 
 	return nil
@@ -41,11 +63,30 @@ func ProcessDeviceDisConnected(token string) error {
 		return fmt.Errorf("Unable to get information for provided token. Token: %s", token)
 	}
 
-	subErr := repo.Instance().MasterTaskContext.SubmitTask(gmodels.TASK_SPL_EP_DISCONNECTED, jsonData)
+	deviceTokenModel := &gmodels.DeviceTokenModel{}
 
-	if subErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while submitting device disconnection task to SPL server", subErr)
-		return fmt.Errorf("Error occured while submittin task to SPL server. Token: %s ", token)
+	if isSuccess := ghelper.ConvertFromJSONString(jsonData, deviceTokenModel); isSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to convert json data to deviceTokenModel")
+		return nil
+	}
+
+	dbErr, instDBConn := dbaccess.GetInstanceDBConn(repo.Instance().Context.Master.DBConn, deviceTokenModel.CpmID)
+
+	if dbErr != nil {
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessDeviceConnected:Unable to get device token. Device is offline. Skipping creation of packet")
+		return dbErr
+	}
+
+	dbDevStatusConnectionStateUpdateDataModel := hktmodels.DBDevStatusConnectionStateUpdateDataModel{}
+	dbDevStatusConnectionStateUpdateDataModel.DevId = deviceTokenModel.DevID
+	dbDevStatusConnectionStateUpdateDataModel.ConnectionState = gmodels.ENTITY_CONNECTION_STATUS_DISCONNECTED
+	dbDevStatusConnectionStateUpdateDataModel.ConnectionStateSince = ghelper.GetCurrentTime()
+
+	dberr := dbaccess.EPUpdateDeviceConnectionStatusData(instDBConn, dbDevStatusConnectionStateUpdateDataModel)
+
+	if dberr != nil {
+		logger.Context().WithField("Token", token).
+			WithField("DeviceConnectionStatusData", dbDevStatusConnectionStateUpdateDataModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating device connection state.", dbErr)
 	}
 
 	return nil
