@@ -60,18 +60,19 @@ func GetInsertDynamicQuery(tablename string, insStruct interface{}) string {
 }
 
 func GetUpdateDynamicQuery(tablename string, updateStruct interface{}) (error, string) {
-	query := ""
-	key := tablename + "Update"
 
-	val, ok := queries[key]
+	t := reflect.TypeOf(updateStruct)
+	val := reflect.ValueOf(updateStruct)
+	modelName := reflect.Indirect(val).Type().Name()
+
+	query := ""
+	key := tablename + ":" + modelName + ":" + "Update"
+
+	cachedquery, ok := queries[key]
 	if ok {
-		query = val
+		query = cachedquery
 	} else {
 		primaryKey := ""
-		t := reflect.TypeOf(updateStruct)
-
-		val := reflect.ValueOf(updateStruct)
-		modelName := reflect.Indirect(val).Type().Name()
 
 		query = "UPDATE " + tablename + " SET "
 
