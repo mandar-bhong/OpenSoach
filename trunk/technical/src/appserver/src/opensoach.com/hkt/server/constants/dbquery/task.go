@@ -33,3 +33,11 @@ and devsp.cpm_id_fk = serv_conf_in.cpm_id_fk
 inner join spl_node_service_conf_tbl serv_conf
 on serv_conf.id = serv_conf_in.serv_conf_id_fk
 where serv_conf.id=?`
+
+const QUERY_GET_FIELD_OPERATOR_BY_FOP_ID = `select devsp.dev_id_fk,devsp.sp_id_fk,fopsp.fop_id_fk,fop.fopcode,fop.fop_name,fop.fop_state,fop.fop_area
+from spl_node_dev_sp_mapping devsp
+inner join spl_node_fop_sp_tbl fopsp on devsp.sp_id_fk = fopsp.sp_id_fk
+and devsp.cpm_id_fk = fopsp.cpm_id_fk
+inner join spl_node_field_operator_tbl fop
+on fop.id=fopsp.fop_id_fk
+where fopsp.sp_id_fk = ?`

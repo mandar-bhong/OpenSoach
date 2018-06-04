@@ -47,3 +47,17 @@ func TaskGetSerConfDetailsByConfId(instDBConn string, servConfID int64) (error, 
 
 	return dbErr, dbDeviceSerConfigModel
 }
+
+func TaskGetFieldOperatorDetailsByFopId(instDBConn string, fopID int64) (error, []hktmodels.DBDeviceFieldOperatorDataModel) {
+
+	dbDeviceFieldOperatorDataModel := []hktmodels.DBDeviceFieldOperatorDataModel{}
+	selectContext := dbmgr.SelectContext{}
+	selectContext.DBConnection = instDBConn
+	selectContext.Query = dbquery.QUERY_GET_FIELD_OPERATOR_BY_FOP_ID
+	selectContext.QueryType = dbmgr.Query
+	selectContext.Dest = &dbDeviceFieldOperatorDataModel
+
+	dbErr := selectContext.Select(fopID)
+
+	return dbErr, dbDeviceFieldOperatorDataModel
+}
