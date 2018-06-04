@@ -118,3 +118,16 @@ func EPUpdateDeviceBatteryLevelData(dbConn string,
 
 	return updateErr
 }
+
+func EPUpdateDeviceConnectionStatusData(dbConn string,
+	dbDevStatusConnectionStateUpdateDataModel hktmodels.DBDevStatusConnectionStateUpdateDataModel) error {
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = dbDevStatusConnectionStateUpdateDataModel
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_NODE_DEV_STATUS_TBL
+	updateErr := updateCtx.Update()
+
+	return updateErr
+}
