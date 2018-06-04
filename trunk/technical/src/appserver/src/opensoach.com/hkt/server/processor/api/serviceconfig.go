@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"opensoach.com/core/logger"
+	"opensoach.com/hkt/constants"
 	hktmodels "opensoach.com/hkt/models"
 	"opensoach.com/hkt/server/dbaccess"
 	repo "opensoach.com/hkt/server/repository"
@@ -47,7 +48,7 @@ func ProcessDeviceSPAssociated(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmod
 		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
 		epTaskSendPacketDataModel.Token = deviceToken
 		epTaskSendPacketDataModel.Data = deviceSerConfigData
-		epTaskSendPacketDataModel.TaskType = "ServiceConfig"
+		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_SERV_CONF
 
 		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
 	}
@@ -96,7 +97,7 @@ func ProcessSerConfigOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.A
 		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
 		epTaskSendPacketDataModel.Token = deviceToken
 		epTaskSendPacketDataModel.Data = deviceSerConfigData
-		epTaskSendPacketDataModel.TaskType = "ServiceConfig"
+		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_SERV_CONF
 
 		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
 	}
@@ -143,7 +144,7 @@ func ProcessSerConfigUpdated(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodel
 		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
 		epTaskSendPacketDataModel.Token = deviceToken
 		epTaskSendPacketDataModel.Data = deviceSerConfigData
-		epTaskSendPacketDataModel.TaskType = "ServiceConfig"
+		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_SERV_CONF
 
 		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
 	}
