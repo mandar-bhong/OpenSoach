@@ -38,7 +38,7 @@ func ProcessDeviceStateBatteryLevelData(ctx *lmodels.PacketProccessExecution, pa
 
 	if dbErr != nil {
 		logger.Context().WithField("Token", ctx.Token).
-			WithField("DeviceStatusBatterylevelData", dbDevStatusBatteryLevelUpdateDataModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving complaint data.", dbErr)
+			WithField("DeviceStatusBatterylevelData", dbDevStatusBatteryLevelUpdateDataModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving battery status data.", dbErr)
 	}
 
 	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
