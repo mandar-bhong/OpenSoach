@@ -7,7 +7,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	
 2. method POST : /api/v1/servicepoint/update
 
-	{"spid":1,"spname":"sp1","shortdesc":"desc1","spstate":1}
+	{"spid":1,"spname":"sp1","spcid":,"shortdesc":"desc1","spstate":1}
 	
 	
 3. method POST : /api/v1/servicepoint/associate/fieldoperator
