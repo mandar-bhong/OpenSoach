@@ -13,3 +13,9 @@ type DBDevStatusBatteryLevelUpdateDataModel struct {
 	BatteryLevel      int       `db:"battery_level" json:"batterylevel"`
 	BatteryLevelSince time.Time `db:"battery_level_since" json:"batterylevelsince"`
 }
+
+type DBDevStatusConnectionStateUpdateDataModel struct {
+	DevId                int64     `dbattr:"pri" db:"dev_id_fk" json:"devid"`
+	ConnectionState      int       `db:"connection_state" json:"connectionstate"`
+	ConnectionStateSince time.Time `db:"connection_state_since" json:"connectionstatesince"`
+}
