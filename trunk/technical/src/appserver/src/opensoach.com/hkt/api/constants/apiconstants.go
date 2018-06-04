@@ -44,6 +44,7 @@ const API_SERVICE_POINT_ASSOCIATE_DEVICE = API_BASE_URL + "/v1/servicepoint/asso
 const API_SERVICE_POINT_DEVICE_ASSOCIATION_REMOVE = API_BASE_URL + "/v1/servicepoint/associate/device/remove"
 const API_SERVICE_POINT_ASSOCIATE_FOP_INFO = API_BASE_URL + "/v1/servicepoint/associate/fieldoperator/info"
 const API_SERVICE_POINT_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/list/short"
+const API_SERVICE_POINT_INFO = API_BASE_URL + "/v1/servicepoint/info"
 
 const API_DEVICE_LIST_SHORT = API_BASE_URL + "/v1/device/list/short"
 const API_DEVICE_LIST = API_BASE_URL + "/v1/device/list"

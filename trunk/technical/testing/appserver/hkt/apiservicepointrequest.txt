@@ -52,4 +52,10 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 
 	query parameter : params={"recid":1} //fopid
 	
+	
 11.	method:GET	/api/v1/servicepoint/list/short
+
+
+12. method GET : /api/v1/servicepoint/info
+
+	query parameter : params={"recid":1} //spid

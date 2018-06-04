@@ -97,7 +97,7 @@ func SpInsert(dbConn string, insrtStruct *hktmodels.DBSpInsertRowModel) (error, 
 	return nil, insDBCtx.InsertID
 }
 
-func GetSpCategoryShortDataList(dbConn string) (error, *[]hktmodels.DBSpCategoryShortDataModel) {
+func GetSpCategoryShortDataList(dbConn string, cpmid int64) (error, *[]hktmodels.DBSpCategoryShortDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSpCategoryShortDataList")
 
@@ -107,7 +107,7 @@ func GetSpCategoryShortDataList(dbConn string) (error, *[]hktmodels.DBSpCategory
 	selDBCtx.Query = dbquery.QUERY_GET_SP_CATEGORY_SHORT_LIST
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select()
+	selErr := selDBCtx.Select(cpmid)
 	if selErr != nil {
 		return selErr, nil
 	}
@@ -231,6 +231,23 @@ func GetServicePointShortDataList(dbConn string) (error, *[]hktmodels.DBServiceP
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func ServicePointSelectByID(dbConn string, spId int64) (error, *[]hktmodels.DBSplNodeSpTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ServicePointSelectByID")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplNodeSpTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Query = dbquery.QUERY_GET_SERVICE_POINT_BY_ID
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(spId)
 	if selErr != nil {
 		return selErr, nil
 	}

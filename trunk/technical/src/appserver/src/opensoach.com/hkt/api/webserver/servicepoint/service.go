@@ -166,7 +166,9 @@ func (service ServicePointService) ServicePointAdd(req lmodels.APISpAddRequest) 
 
 func (service ServicePointService) SpCategoryShortDataList() (bool, interface{}) {
 
-	dbErr, listData := dbaccess.GetSpCategoryShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+	cpmID := service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, listData := dbaccess.GetSpCategoryShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -303,4 +305,27 @@ func (service ServicePointService) ServicePointShortDataList() (bool, interface{
 
 	return true, listData
 
+}
+
+func (service ServicePointService) GetServicePointInfo(spID int64) (bool, interface{}) {
+
+	dbErr, spData := dbaccess.ServicePointSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, spID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *spData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched ServicePOint info")
+	return true, dbRecord
 }

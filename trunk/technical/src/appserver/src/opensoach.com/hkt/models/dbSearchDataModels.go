@@ -68,6 +68,7 @@ type DBSearchServicePointRequestFilterDataModel struct {
 	SpcId   *int64  `db:"spc_id_fk" json:"spcid"`
 	SpState *int    `db:"sp_state" json:"spstate"`
 	DevId   *int64  `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	CpmId   *int64  `db:"sp.cpm_id_fk" json:"cpmid"`
 }
 
 type DBSearchServicePointResponseFilterDataModel struct {
