@@ -130,7 +130,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = ServiceConfigService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.GetServiceInstanceTxn(req.StartDate, req.EndDate)
+		}.GetServiceInstanceTxn(req.SPID, req.StartDate, req.EndDate)
 
 		break
 

@@ -177,9 +177,11 @@ func (service ServiceConfigService) ServiceinstanceList(listReqData gmodels.APID
 
 }
 
-func (service ServiceConfigService) GetServiceInstanceTxn(StartDate, EndDate time.Time) (bool, interface{}) {
+func (service ServiceConfigService) GetServiceInstanceTxn(spid int, StartDate time.Time, EndDate time.Time) (bool, interface{}) {
 
-	dbErr, complaintList := dbaccess.GetServiceInstTxn(service.ExeCtx.SessionInfo.Product.NodeDbConn, StartDate, EndDate)
+	cpmID := service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, complaintList := dbaccess.GetServiceInstTxn(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID, spid, StartDate, EndDate)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
