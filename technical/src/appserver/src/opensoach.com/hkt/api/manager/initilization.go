@@ -5,9 +5,12 @@ import (
 
 	"errors"
 
+	"strconv"
+
 	"opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
+	taskque "opensoach.com/core/manager/taskqueue"
 	coremodels "opensoach.com/core/models"
 	repo "opensoach.com/hkt/api/repository"
 	"opensoach.com/hkt/api/webserver"
@@ -15,9 +18,6 @@ import (
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
-	taskque "opensoach.com/core/manager/taskqueue"
-	"strconv"
-
 )
 
 func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
@@ -70,7 +70,6 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return errPrepareConfig
 	}
 
-
 	//init logger for fmt or file or both for temp then switch mode as per configuration after component connection verification
 
 	verifyErr, moduleType := pcmgr.VerifyConnection(dbconfig, masterConfigSetting)
@@ -86,6 +85,9 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 			return verifyErr
 		}
 	}
+
+	pcmgr.SetLogger(masterConfigSetting)
+	logger.SetModule("HKT.API")
 
 	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)
 
@@ -137,18 +139,12 @@ func SetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings
 
 func initModules(configSetting *gmodels.ConfigSettings) error {
 
-	logger.Init()
-	logger.SetModule("HKT")
-	logger.SetLogLevel(logger.Debug)
-	logger.SetLoggingService(logger.LoggingServiceFmt)
-
 	coreConfig := &coremodels.CoreConfig{}
 	err := core.Init(coreConfig)
 
 	if err != nil {
 		return err
 	}
-
 
 	prodTaskConfig := taskque.TaskConfig{}
 	prodTaskConfig.Broker = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
@@ -161,7 +157,7 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	prodTaskQueErr := prodTaskCtx.CreateServer(prodTaskConfig)
 
 	if prodTaskQueErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME,logger.Normal,"Error occured while creating queue server",prodTaskQueErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while creating queue server", prodTaskQueErr)
 		return prodTaskQueErr
 	}
 

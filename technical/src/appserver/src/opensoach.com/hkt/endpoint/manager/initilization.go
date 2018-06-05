@@ -85,6 +85,9 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return initErr
 	}
 
+	pcmgr.SetLogger(masterConfigSetting)
+	logger.SetModule("HKT.Endpoint")
+
 	initModErr := initModules(masterConfigSetting)
 
 	if initModErr != nil {
@@ -96,7 +99,6 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 }
 
 func initModules(configSetting *gmodels.ConfigSettings) error {
-	logger.SetModule("HKT.Endpoint")
 
 	//	broker: 'redis://localhost:6379'
 	//default_queue: machinery_tasks
