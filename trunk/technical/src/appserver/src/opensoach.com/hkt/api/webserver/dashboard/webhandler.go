@@ -12,6 +12,7 @@ import (
 
 func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DASHBOARD_DEVICE_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DASHBOARD_LOCATION_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -35,6 +36,19 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetDeviceSummary()
 
+		break
+
+	case constants.API_DASHBOARD_LOCATION_SUMMARY:
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionData(repo.Instance().Context, pContext)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetLocationSummary()
 		break
 	}
 
