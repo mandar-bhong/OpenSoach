@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {
     MatBottomSheetModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -52,7 +53,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         MatRadioModule,
         MatCardModule,
         MatProgressBarModule,
-        MatBottomSheetModule
+        MatBottomSheetModule,
+        MatButtonToggleModule
     ],
     exports: [MatButtonModule,
         MatCheckboxModule,
@@ -77,7 +79,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         MatRadioModule,
         MatCardModule,
         MatProgressBarModule,
-        MatBottomSheetModule
+        MatBottomSheetModule,
+        MatButtonToggleModule
     ]
 })
 export class MaterialModules {

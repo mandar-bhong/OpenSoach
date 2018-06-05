@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ChartListComponent } from './chart-list/chart-list.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import { ChartConfigureComponent } from './chart-configure/chart-configure.component';
+import { ChartDataComponent } from './chart-data/chart-data.component';
+import { ChartListComponent } from './chart-list/chart-list.component';
 
 const routes: Routes = [
   {
@@ -11,6 +13,10 @@ const routes: Routes = [
   {
     path: 'configure',
     component: ChartConfigureComponent
+  },
+  {
+    path: 'data',
+    component: ChartDataComponent
   }
 ];
 

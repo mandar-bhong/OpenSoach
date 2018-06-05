@@ -16,6 +16,7 @@ import { ChartConfigurePreviewComponent } from './chart-configure/chart-configur
 import { ChartConfigureTaskComponent } from './chart-configure/chart-configure-task/chart-configure-task.component';
 import { ChartConfigureTimeComponent } from './chart-configure/chart-configure-time/chart-configure-time.component';
 import { ChartConfigureComponent } from './chart-configure/chart-configure.component';
+import { ChartDataComponent } from './chart-data/chart-data.component';
 import { ChartListComponent } from './chart-list/chart-list.component';
 import { ChartsRoutingModule } from './charts-routing.module';
 
@@ -38,7 +39,9 @@ import { ChartsRoutingModule } from './charts-routing.module';
     ChartConfigureTaskComponent,
     ChartConfigureBasicComponent,
     ChartConfigureTimeComponent,
-    ChartConfigurePreviewComponent],
+    ChartConfigurePreviewComponent,
+    ChartDataComponent
+  ],
   entryComponents: [
     ChartConfigureTaskComponent,
     ChartConfigureBasicComponent,
