@@ -10,6 +10,7 @@ import (
 	"opensoach.com/hkt/api/constants"
 	repo "opensoach.com/hkt/api/repository"
 	complaint "opensoach.com/hkt/api/webserver/complaint"
+	"opensoach.com/hkt/api/webserver/dashboard"
 	device "opensoach.com/hkt/api/webserver/device"
 	fieldoperator "opensoach.com/hkt/api/webserver/fieldoperator"
 	master "opensoach.com/hkt/api/webserver/master"
@@ -49,6 +50,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	device.Init(webConfig)
 	splprod.Init(webConfig)
 	report.Init(webConfig)
+	dashboard.Init(webConfig)
 
 	var webServerStartErr error
 
