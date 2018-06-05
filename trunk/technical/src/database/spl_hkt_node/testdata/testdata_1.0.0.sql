@@ -48,3 +48,8 @@ INSERT INTO `spl_node_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connectio
 --
 
 INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `closed_on`, `created_on`, `updated_on`) VALUES ('1', '1', '1', 'Complaint 1', 'Asda', '1', '2018-06-01 19:20:00', '1', '2018-06-01 19:20:01', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
+
+
+INSERT INTO `spl_node_service_in_txn_tbl` (`id`, `cpm_id_fk`, `serv_in_id_fk`, `fopcode`, `status`, `txn_data`, `txn_date`, `created_on`, `updated_on`) VALUES
+	(1, 1, 1, '11', 1, '{"taskname": "Urinal", "slotendtime": 630, "slotstarttime": 600}', '2018-06-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(2, 1, 1, '23', 2, '{"taskname": "Hand Wash", "slotendtime": 510, "slotstarttime": 480}', '2018-06-05 14:59:44', '2018-06-05 15:00:07', '2018-06-05 15:00:07');
