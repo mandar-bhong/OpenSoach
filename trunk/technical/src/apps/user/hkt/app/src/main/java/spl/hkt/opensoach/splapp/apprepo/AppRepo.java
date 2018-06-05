@@ -44,7 +44,7 @@ public final class AppRepo {
         currentChartId = 0;
         authCodeList = new ArrayList<>();
 
-        ServerAPIHOST = "172.104.77.29";//"192.168.1.65";//
+        ServerAPIHOST = "172.105.232.148";//"172.105.232.148";//"192.168.1.65";//
         ServerAPIURL = "http://" + ServerAPIHOST + "/api/v1/endpoint/deviceauthorization";
 
     }
