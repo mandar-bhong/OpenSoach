@@ -222,14 +222,6 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 
 	logger.SetModule("SPL")
 
-	logger.Context().Log(SUB_MODULE_NAME, logger.Server, logger.Info, "This is test info msg")
-	logger.Context().Log(SUB_MODULE_NAME, logger.Performace, logger.Debug, "This is test debug msg")
-	logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "This is test error msg")
-
-	logger.Context().Log(SUB_MODULE_NAME, logger.Server, logger.Info, "This is test info msg")
-	logger.Context().Log(SUB_MODULE_NAME, logger.Performace, logger.Debug, "This is test debug msg")
-	logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "This is test error msg")
-
 	coreConfig := &coremodels.CoreConfig{}
 	err := core.Init(coreConfig)
 
