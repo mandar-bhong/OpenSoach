@@ -16,7 +16,24 @@ func GetDeviceSummary(dbConn string, cpmid int64) (error, []hktmodels.DBDashBoar
 	selectCtx := dbmgr.SelectContext{}
 	selectCtx.DBConnection = dbConn
 	selectCtx.Dest = &data
-	selectCtx.Query = dbquery.QUERY_SPL_NODE_DASHBOARD_DEVICE_SUMMARUY
+	selectCtx.Query = dbquery.QUERY_SPL_NODE_DASHBOARD_DEVICE_SUMMARY
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select(cpmid)
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetLocationSummary(dbConn string, cpmid int64) (error, []hktmodels.DBDashBoardLocationSummaryDataModel) {
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetComplaintList")
+	data := []hktmodels.DBDashBoardLocationSummaryDataModel{}
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = dbquery.QUERY_SPL_NODE_DASHBOARD_LOCATION_SUMMARY
 	selectCtx.QueryType = dbmgr.Query
 	selectCtxErr := selectCtx.Select(cpmid)
 	if selectCtxErr != nil {

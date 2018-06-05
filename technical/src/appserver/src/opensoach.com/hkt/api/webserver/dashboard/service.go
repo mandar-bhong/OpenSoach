@@ -16,7 +16,7 @@ type DashboardService struct {
 
 func (service DashboardService) GetDeviceSummary() (bool, interface{}) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution device summary")
 
 	dbErr, data := dbaccess.GetDeviceSummary(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 
@@ -38,11 +38,44 @@ func (service DashboardService) GetDeviceSummary() (bool, interface{}) {
 
 		case pcconst.DB_DEVICE_CONNECTION_STATE_CONNECTED:
 			apiResponse.Onlinedevices = dbDevSummaryDataModel.Count
-		case pcconst.DB_DEVICE_CONNECTION_STATE_DIS_CONNECTED:
+		case pcconst.DB_DEVICE_CONNECTION_STATE_DISCONNECTED:
 			apiResponse.Offlinedevices = dbDevSummaryDataModel.Count
 		case pcconst.DB_DEVICE_CONNECTION_STATE_UNKNOWN:
 		}
 	}
 
 	return true, apiResponse
+}
+
+func (service DashboardService) GetLocationSummary() (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution location summary")
+
+	dbErr, data := dbaccess.GetLocationSummary(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting location summary.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	apiResponse := lmodels.APIDashboardLocationSummaryResponse{}
+
+	for _, dbSummaryDataModel := range data {
+
+		apiResponse.Total = apiResponse.Total + dbSummaryDataModel.Count
+
+		switch dbSummaryDataModel.State {
+
+		case pcconst.DB_SERVICE_POINT_STATE_ACTIVE:
+			apiResponse.Active = dbSummaryDataModel.Count
+		case pcconst.DB_SERVICE_POINT_STATE_INACTIVE:
+		case pcconst.DB_SERVICE_POINT_STATE_SUSPENDED:
+		}
+	}
+
+	return true, apiResponse
+
 }
