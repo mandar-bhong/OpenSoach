@@ -78,7 +78,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Chart</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-row-mobile-label">Chart</span>
-              <button mat-icon-button color="primary" *ngIf="row.servconfid">
+              <button mat-icon-button color="primary" *ngIf="row.servconfid" (click)="showChartData(row)">
                 <i class="fa fa-eye"></i>
               </button>
               <button mat-icon-button color="accent" *ngIf="!(row.servconfid)" (click)="configure(row)">

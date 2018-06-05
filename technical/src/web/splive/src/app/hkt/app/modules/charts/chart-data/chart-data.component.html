@@ -1,0 +1,47 @@
+<div class="row">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Chart Live Data</mat-card-title>
+    </mat-card-header>
+    <div class="row">
+      <mat-button-toggle-group [(ngModel)]="dataModel.selecteddateoption" (ngModelChange)="optionChange()">
+        <mat-button-toggle value="1">Yesterday</mat-button-toggle>
+        <mat-button-toggle value="0">Today</mat-button-toggle>
+        <mat-button-toggle value="2" (click)="picker.opened=true">Select</mat-button-toggle>
+      </mat-button-toggle-group>
+      <mat-form-field style="width:0px;height:0px;visibility:collapse;">
+          <input matInput [matDatepicker]="picker"  (dateChange) ="dateChanged($event.value)">
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>    
+    <div id="resp-table" *ngIf="isDataLoaded">
+      <div id="resp-table-header">
+        <div class="table-header-cell table-body-cell-time">
+          Task/Time
+        </div>
+        <div *ngFor="let slot of dataModel.timeslots" class="table-header-cell table-body-cell-input">
+          <div>{{slot.slotdisplaytext}}</div>
+        </div>
+      </div>
+      <div id="resp-table-body">
+        <div *ngFor="let task of dataModel.variableconf.taskconf.tasks;let i=index" class="resp-table-row">
+          <div class="table-body-cell table-body-cell-time">
+            <div class="time-block">{{task.taskname}}</div>
+          </div>
+          <div *ngFor="let txnslot of dataModel.tasktxnslotmap.get(task.taskname);let j=index" class="table-body-cell table-body-cell-input input-block">
+            <div *ngIf="txnslot.txn" style="width:120px">
+              <div>
+                <div>
+                  <i style="color:white" class="fa fa-check {{setStatusCss(txnslot.txn)}}" aria-hidden="true"></i> by {{txnslot.txn.fopname}}
+                </div>
+                <div>
+                  at {{txnslot.txn.txndate | date:'hh:mm a'}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

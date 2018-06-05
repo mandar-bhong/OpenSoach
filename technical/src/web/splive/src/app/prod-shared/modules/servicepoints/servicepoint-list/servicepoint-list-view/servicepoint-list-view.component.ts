@@ -117,9 +117,17 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
         { queryParams: { id: row.spid, callbackurl: 'servicepoints' }, skipLocationChange: true });
     }
   }
+
   editServicePoint(row: ServicepointDataListResponse) {
 
   }
+
+  showChartData(row: ServicepointDataListResponse) {
+    this.router.navigate(['charts', 'data'], {
+      queryParams: { servconfid: row.servconfid, spid: row.spid, callbackurl: 'servicepoints' }, skipLocationChange: true
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
       this.dataListFilterChangedSubscription.unsubscribe();
