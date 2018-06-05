@@ -77,6 +77,9 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return initErr
 	}
 
+	pcmgr.SetLogger(masterConfigSetting)
+	logger.SetModule("HKT.Server")
+
 	InitProcessor()
 
 	initModules(masterConfigSetting)
@@ -85,7 +88,6 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 }
 
 func initModules(configSetting *gmodels.ConfigSettings) error {
-	logger.SetModule("HKT.Endpoint")
 
 	//	broker: 'redis://localhost:6379'
 	//default_queue: machinery_tasks
@@ -135,11 +137,11 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	repo.Instance().MasterTaskContext = mstTaskCtx
 	repo.Instance().ProdTaskContext = prodTaskCtx
 
-	go func(){ 
-		err:= prodTaskCtx.StartWorker("HKT_SERVER_WORKER")
+	go func() {
+		err := prodTaskCtx.StartWorker("HKT_SERVER_WORKER")
 
-		if err!= nil{
-			logger.Context().LogError(SUB_MODULE_NAME,logger.Normal,"Error occured while starting worker",err)
+		if err != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while starting worker", err)
 		}
 	}()
 
