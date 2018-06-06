@@ -8,7 +8,7 @@ public class Constants {
 
    //public static final String WEB_SOCKET_URL = "ws://servicepoint.live:8080/ws";
     public static final String WEB_SOCKET_URL = "ws://192.168.31.245:8080/ws";
-    public static final long SCREEN_IDLE_TIMEOUT = 1 * 10 * 1000; // 5 min = 5 * 60 * 1000 ms
+    public static final long SCREEN_IDLE_TIMEOUT = 1 * 60 * 1000; // 5 min = 5 * 60 * 1000 ms
 
     //SHARED_PREFERENCE key
     public static final String KEY_LOCATION_NAME = "KEY_LOCATION_NAME";
