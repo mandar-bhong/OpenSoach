@@ -327,7 +327,7 @@ func (service ServicePointService) GetServicePointInfo(spID int64) (bool, interf
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched ServicePOint info")
-	return true, dbRecord
+	return true, dbRecord[0]
 }
 
 func (service ServicePointService) ServicePointConfigShortDataList() (bool, interface{}) {
