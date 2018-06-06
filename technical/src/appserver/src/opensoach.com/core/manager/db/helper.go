@@ -55,7 +55,12 @@ func GetFilterConditionFormModel(model interface{}) string {
 		field := t.Field(i)
 		tag := field.Tag.Get("db")
 
-		isValueIsNil := reflect.Indirect(val).FieldByName(field.Name).IsNil()
+		isValueIsNil := false
+
+		switch reflect.Indirect(val).FieldByName(field.Name).Kind() {
+		case reflect.Ptr:
+			isValueIsNil = reflect.Indirect(val).FieldByName(field.Name).IsNil()
+		}
 
 		if isValueIsNil == false {
 
