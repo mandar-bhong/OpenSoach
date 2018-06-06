@@ -2,13 +2,17 @@ package helper
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	gcore "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
+	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 )
+
+var SUB_MODULE_NAME = "ProdCore.Helper"
 
 type RequestHandler func(pContext *gin.Context) (isSuccess bool, successErrorData interface{})
 
@@ -99,7 +103,7 @@ func CommonWebRequestHandler(pContext *gin.Context, requestHandlerFunc RequestHa
 		},
 
 		Catch: func(e ghelper.Exception) {
-			//logger.Context().LogError("ProdCore.Helper.")
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while executing api request", fmt.Errorf("Error:%+v", e))
 			isSuccess = false
 			errorData := gmodels.APIResponseError{}
 			errorData.Code = gmodels.MOD_OPER_ERR_SERVER

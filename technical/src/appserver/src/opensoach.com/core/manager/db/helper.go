@@ -29,6 +29,24 @@ func GetDBTagFromJSONTag(user interface{}, jsonTag string) string {
 	return ""
 }
 
+func GetDBTagFromPropName(datamodel interface{}, propName string) string {
+
+	dbTagName := "db"
+
+	t := reflect.TypeOf(datamodel)
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+
+		if field.Name == propName {
+			dbTagValue := field.Tag.Get(dbTagName)
+			return dbTagValue
+		}
+	}
+
+	return ""
+}
+
 func GetFilterConditionFormModel(model interface{}) string {
 	whereCond := ""
 	t := reflect.TypeOf(model)

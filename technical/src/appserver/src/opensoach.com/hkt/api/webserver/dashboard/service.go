@@ -4,6 +4,7 @@ import (
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/api/webserver/dashboard/dbaccess"
+	hktconst "opensoach.com/hkt/constants"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
 )
@@ -73,6 +74,44 @@ func (service DashboardService) GetLocationSummary() (bool, interface{}) {
 			apiResponse.Active = dbSummaryDataModel.Count
 		case pcconst.DB_SERVICE_POINT_STATE_INACTIVE:
 		case pcconst.DB_SERVICE_POINT_STATE_SUSPENDED:
+		}
+	}
+
+	return true, apiResponse
+
+}
+
+func (service DashboardService) GetFeedbackSummary(req lmodels.APIDashboardFeedbackRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution feedback summary")
+
+	req.CPMID = &service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, data := dbaccess.GetFeedbackSummary(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting feedback summary.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	apiResponse := lmodels.APIDashboardFeedbackResponse{}
+
+	for _, dbSummaryDataModel := range data {
+
+		switch dbSummaryDataModel.Feedback {
+		case hktconst.DB_FEEDBACK_RATING_1:
+			apiResponse.Rating1 = dbSummaryDataModel.Count
+		case hktconst.DB_FEEDBACK_RATING_2:
+			apiResponse.Rating2 = dbSummaryDataModel.Count
+		case hktconst.DB_FEEDBACK_RATING_3:
+			apiResponse.Rating3 = dbSummaryDataModel.Count
+		case hktconst.DB_FEEDBACK_RATING_4:
+			apiResponse.Rating4 = dbSummaryDataModel.Count
+		case hktconst.DB_FEEDBACK_RATING_5:
+			apiResponse.Rating5 = dbSummaryDataModel.Count
 		}
 	}
 

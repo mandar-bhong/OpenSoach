@@ -6,6 +6,7 @@ import (
 	"opensoach.com/core/logger"
 	"opensoach.com/hkt/api/constants"
 	lhelper "opensoach.com/hkt/api/helper"
+	lmodels "opensoach.com/hkt/api/models"
 	repo "opensoach.com/hkt/api/repository"
 	gmodels "opensoach.com/models"
 )
@@ -13,6 +14,7 @@ import (
 func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DASHBOARD_DEVICE_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_LOCATION_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_DASHBOARD_FEEDBACK_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -49,6 +51,21 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = DashboardService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetLocationSummary()
+		break
+
+	case constants.API_DASHBOARD_FEEDBACK_SUMMARY:
+
+		feedbackReq := lmodels.APIDashboardFeedbackRequest{}
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &feedbackReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetFeedbackSummary(feedbackReq)
 		break
 	}
 
