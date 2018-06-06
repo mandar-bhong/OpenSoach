@@ -329,3 +329,22 @@ func (service ServicePointService) GetServicePointInfo(spID int64) (bool, interf
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched ServicePOint info")
 	return true, dbRecord
 }
+
+func (service ServicePointService) ServicePointConfigShortDataList() (bool, interface{}) {
+
+	cpmID := service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, listData := dbaccess.GetServicePointConfigList(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched Service Point Config short data list.")
+
+	return true, listData
+
+}
