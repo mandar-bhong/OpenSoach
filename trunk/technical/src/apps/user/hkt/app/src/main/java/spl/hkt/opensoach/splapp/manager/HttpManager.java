@@ -20,8 +20,6 @@ import spl.hkt.opensoach.splapp.model.communication.APIResponseModel;
 
 public class HttpManager {
 
-
-
     public static void ProcessWebSocketURL() {
         HttpHandler httpHandler = new HttpHandler();
         httpHandler.execute(AppRepo.getInstance().getServerAPIURL(), AppRepo.getInstance().getDeviceSerial());
@@ -31,7 +29,7 @@ public class HttpManager {
 
 class HttpHandler extends AsyncTask {
 
-    int retryWaitTime = 5 * 1000;
+    int retryWaitTime = 60 * 1000;
     OkHttpClient client = new OkHttpClient();
 
     @Override
@@ -66,6 +64,11 @@ class HttpHandler extends AsyncTask {
                         return responseDataModel;
 
                     } else {
+
+                        if (responseModel.Error.Code == 20001){
+                            AppRepo.getInstance().setIsDeviceAuthorized(false);
+                        }
+
                         Thread.sleep(retryWaitTime);
                         HttpManager.ProcessWebSocketURL();
                     }

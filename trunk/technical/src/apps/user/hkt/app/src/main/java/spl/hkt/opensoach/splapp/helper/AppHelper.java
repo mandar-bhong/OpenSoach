@@ -1,11 +1,7 @@
 package spl.hkt.opensoach.splapp.helper;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
-import android.os.BatteryManager;
 import android.os.Handler;
 
 import java.text.SimpleDateFormat;
