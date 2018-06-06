@@ -15,8 +15,15 @@ type APIDashboardLocationSummaryResponse struct {
 	Active int `json:"active"`
 }
 
-type APIDashboardFeedbackRequest struct { //Parameter mapping is done from client side
-	CPMID     *int64     `db:"cpm_id_fk"`
+type APIDashboardFeedbackFilterModel struct { //Parameter mapping is done from client side
+	CPMID     int64      `db:"cpm_id_fk"`
+	SPId      *int       `db:"sp_id_fk"  json:"spid"`
+	StartTime *time.Time `db:"raised_on"  json:"startdate"`
+	EndTime   *time.Time `db:"raised_on"  json:"enddate"`
+}
+
+type APIDashboardComplaintFilterModel struct { //Parameter mapping is done from client side
+	CPMID     int64      `db:"cpm_id_fk"`
 	SPId      *int       `db:"sp_id_fk"  json:"spid"`
 	StartTime *time.Time `db:"raised_on"  json:"startdate"`
 	EndTime   *time.Time `db:"raised_on"  json:"enddate"`
@@ -28,4 +35,10 @@ type APIDashboardFeedbackResponse struct {
 	Rating3 int `json:"rating3"`
 	Rating4 int `json:"rating4"`
 	Rating5 int `json:"rating5"`
+}
+
+type APIDashboardComplaintResponse struct {
+	Open       int `json:"open"`
+	Close      int `json:"closed"`
+	Inprogress int `json:"inprogress"`
 }

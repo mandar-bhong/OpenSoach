@@ -19,3 +19,8 @@ type DBDashBoardFeedbackDataModel struct {
 	Feedback int `db:"feedback" json:"feedback"`
 	Count    int `db:"count" json:"count"`
 }
+
+type DBDashBoardComplaintDataModel struct {
+	ComplaintState int `db:"complaint_state" json:"complaintstate"`
+	Count          int `db:"count" json:"count"`
+}
