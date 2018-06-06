@@ -48,7 +48,7 @@ func GetLocationSummary(dbConn string, cpmid int64) (error, []hktmodels.DBDashBo
 	return nil, data
 }
 
-func GetFeedbackSummary(dbConn string, req lmodels.APIDashboardFeedbackRequest) (error, []hktmodels.DBDashBoardFeedbackDataModel) {
+func GetFeedbackSummary(dbConn string, req lmodels.APIDashboardFeedbackFilterModel) (error, []hktmodels.DBDashBoardFeedbackDataModel) {
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFeedbackSummary")
 	data := []hktmodels.DBDashBoardFeedbackDataModel{}
 
@@ -71,6 +71,45 @@ func GetFeedbackSummary(dbConn string, req lmodels.APIDashboardFeedbackRequest) 
 	}
 
 	query := strings.Replace(dbquery.QUERY_SPL_NODE_DASHBOARD_FEEDBACK, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetComplaintSummary(dbConn string, req lmodels.APIDashboardComplaintFilterModel) (error, []hktmodels.DBDashBoardComplaintDataModel) {
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFeedbackSummary")
+	data := []hktmodels.DBDashBoardComplaintDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(req)
+
+	if req.StartTime != nil && req.EndTime != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartTime.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndTime.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " raised_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_SPL_NODE_DASHBOARD_COMPLAINT_SUMMARY, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().WithField("Query", query).LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution query")
 
 	selectCtx := dbmgr.SelectContext{}
 	selectCtx.DBConnection = dbConn

@@ -80,11 +80,11 @@ func (service DashboardService) GetLocationSummary() (bool, interface{}) {
 
 }
 
-func (service DashboardService) GetFeedbackSummary(req lmodels.APIDashboardFeedbackRequest) (bool, interface{}) {
+func (service DashboardService) GetFeedbackSummary(req lmodels.APIDashboardFeedbackFilterModel) (bool, interface{}) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution feedback summary")
 
-	req.CPMID = &service.ExeCtx.SessionInfo.Product.CustProdID
+	req.CPMID = service.ExeCtx.SessionInfo.Product.CustProdID
 
 	dbErr, data := dbaccess.GetFeedbackSummary(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
 
@@ -111,6 +111,41 @@ func (service DashboardService) GetFeedbackSummary(req lmodels.APIDashboardFeedb
 			apiResponse.Rating4 = dbSummaryDataModel.Count
 		case hktconst.DB_FEEDBACK_RATING_5:
 			apiResponse.Rating5 = dbSummaryDataModel.Count
+		}
+	}
+
+	return true, apiResponse
+
+}
+
+func (service DashboardService) GetComplaintSummary(req lmodels.APIDashboardComplaintFilterModel) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution feedback summary")
+
+	req.CPMID = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, data := dbaccess.GetComplaintSummary(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting feedback summary.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	apiResponse := lmodels.APIDashboardComplaintResponse{}
+
+	for _, dbSummaryDataModel := range data {
+
+		switch dbSummaryDataModel.ComplaintState {
+		case hktconst.DB_COMPLAINT_STATE_OPEN:
+			apiResponse.Open = dbSummaryDataModel.Count
+		case hktconst.DB_COMPLAINT_STATE_CLOSED:
+			apiResponse.Close = dbSummaryDataModel.Count
+		case hktconst.DB_COMPLAINT_STATE_INPROGRESS:
+			apiResponse.Inprogress = dbSummaryDataModel.Count
+
 		}
 	}
 

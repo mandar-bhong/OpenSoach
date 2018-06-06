@@ -15,6 +15,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DASHBOARD_DEVICE_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_LOCATION_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_DASHBOARD_FEEDBACK_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_DASHBOARD_COMPLAINT_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -55,7 +56,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_DASHBOARD_FEEDBACK_SUMMARY:
 
-		feedbackReq := lmodels.APIDashboardFeedbackRequest{}
+		feedbackReq := lmodels.APIDashboardFeedbackFilterModel{}
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &feedbackReq)
 
 		if isPrepareExeSuccess == false {
@@ -66,6 +67,20 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = DashboardService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetFeedbackSummary(feedbackReq)
+		break
+
+	case constants.API_DASHBOARD_COMPLAINT_SUMMARY:
+		complaintReq := lmodels.APIDashboardComplaintFilterModel{}
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &complaintReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetComplaintSummary(complaintReq)
 		break
 	}
 
