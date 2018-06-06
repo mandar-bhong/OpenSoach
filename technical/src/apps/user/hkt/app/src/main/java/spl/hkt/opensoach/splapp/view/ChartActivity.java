@@ -206,6 +206,11 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
                 mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.offline));
                 break;
             }
+            case WEB_SOCKET_UNAUTHORIZED: {
+                mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.unauthorized));
+                break;
+            }
+
             case NW_NOT_AVAILABLE: {
                 mNWStateImageView.setBackground(getResources().getDrawable(R.drawable.offline));
                 break;
@@ -263,20 +268,44 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
         Handler uiHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message message) {
-                boolean isConnected = message.getData().getBoolean("ConnectionState");
-                if (isConnected) {
-                    setNWStateIcon(Constants.NETWORK_STATE.WEB_SOCKET_CONNECTED);
-                } else {
-                    setNWStateIcon(Constants.NETWORK_STATE.WEB_SOCKET_DISSCONNECTED);
-                }
+
+             switch (  message.getData().getString("PropertyName")){
+                 case AppRepo.IsServerConnectedPropName:
+                     boolean isConnected = message.getData().getBoolean("ConnectionState");
+                     if (isConnected) {
+                         setNWStateIcon(Constants.NETWORK_STATE.WEB_SOCKET_CONNECTED);
+                     } else {
+                         setNWStateIcon(Constants.NETWORK_STATE.WEB_SOCKET_DISSCONNECTED);
+                     }
+                     break;
+                 case AppRepo.DeviceAuthorizedPropName:
+
+                     boolean isAuthorized = message.getData().getBoolean("IsAuthorized");
+
+                     if (isAuthorized == false){
+                         setNWStateIcon(Constants.NETWORK_STATE.WEB_SOCKET_UNAUTHORIZED);
+                     }
+
+                     break;
+             }
+
+
             }
         };
 
+        Message msg = uiHandler.obtainMessage();
+        Bundle b = new Bundle();
+        b.putString("PropertyName", evt.getPropertyName());
+
         switch (evt.getPropertyName()) {
             case AppRepo.IsServerConnectedPropName:
-                Message msg = uiHandler.obtainMessage();
-                Bundle b = new Bundle();
                 b.putBoolean("ConnectionState", (boolean) evt.getNewValue());
+                msg.setData(b);
+                uiHandler.sendMessage(msg);
+                break;
+
+            case AppRepo.DeviceAuthorizedPropName:
+                b.putBoolean("IsAuthorized", (boolean) evt.getNewValue());
                 msg.setData(b);
                 uiHandler.sendMessage(msg);
                 break;

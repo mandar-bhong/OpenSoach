@@ -22,6 +22,7 @@ public class Constants {
 
     public static enum NETWORK_STATE {
         NW_NOT_AVAILABLE,
+        WEB_SOCKET_UNAUTHORIZED,
         WEB_SOCKET_DISSCONNECTED,
         WEB_SOCKET_CONNECTED
     }

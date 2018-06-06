@@ -26,6 +26,7 @@ public final class AppRepo {
     private String ServerAPIURL;
 
 
+    private boolean isDeviceAuthorized;
 
     private  int BatteryLevel;
 
@@ -36,6 +37,7 @@ public final class AppRepo {
     public static final String IsServerConnectedPropName = "AppRepo.IsServerConnected";
     public static final String CurrentLocationIdPropName = "AppRepo.currentLocationId";
     public static final String DeviceSyncCompletedPropName = "AppRepo.isDeviceSyncInProgress";
+    public static final String DeviceAuthorizedPropName = "AppRepo.isDeviceAuthorized";
 
     /* A private Constructor prevents any other
      * class from instantiating.
@@ -45,6 +47,8 @@ public final class AppRepo {
         currentLocationId = 0;
         currentChartId = 0;
         authCodeList = new ArrayList<>();
+
+        isDeviceAuthorized = true;
 
         ServerAPIHOST = "172.104.77.29";//"172.105.232.148";//"192.168.1.65";//
         ServerAPIURL = "http://" + ServerAPIHOST + "/api/v1/endpoint/deviceauthorization";
@@ -137,6 +141,16 @@ public final class AppRepo {
     public void setIsDeviceSyncInProgress(boolean isDeviceSyncInProgress) {
         this.isDeviceSyncInProgress = isDeviceSyncInProgress;
         this.propertyChangeSupport.firePropertyChange(DeviceSyncCompletedPropName, !this.isDeviceSyncInProgress, this.isDeviceSyncInProgress);
+    }
+
+    public boolean IsDeviceAuthorized() {
+        return isDeviceAuthorized;
+    }
+
+    public void setIsDeviceAuthorized(boolean deviceAuthorized) {
+        boolean oldValue = isDeviceAuthorized;
+        isDeviceAuthorized = deviceAuthorized;
+        this.propertyChangeSupport.firePropertyChange(DeviceAuthorizedPropName, oldValue, this.isDeviceAuthorized);
     }
 
 
