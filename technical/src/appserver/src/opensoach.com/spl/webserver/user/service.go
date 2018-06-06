@@ -468,7 +468,7 @@ func (service UserService) GetUserProdAssociation(userID int64) (bool, interface
 	dbRecords := *data
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched User Product association list")
-	return true, dbRecords
+	return true, dbRecords[0]
 }
 
 func (service UserService) UpdateUcpmState(reqData *lmodels.DBUsrCpmStateUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
