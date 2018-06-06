@@ -537,6 +537,18 @@ fopcode:string;
 fopname:string;
 }
 
+44. Get service point config short list
+API Name: /api/v1/servicepoint/config/list/short
+Request Method: GET
+request: null
+response: Response{
+spid:number;
+spname:string;
+spcid:number;
+servconfid:number;
+servconfname:string;
+}
+
 
 
 
