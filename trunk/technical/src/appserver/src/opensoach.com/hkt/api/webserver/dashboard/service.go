@@ -41,7 +41,6 @@ func (service DashboardService) GetDeviceSummary() (bool, interface{}) {
 			apiResponse.Onlinedevices = dbDevSummaryDataModel.Count
 		case pcconst.DB_DEVICE_CONNECTION_STATE_DISCONNECTED:
 			apiResponse.Offlinedevices = dbDevSummaryDataModel.Count
-		case pcconst.DB_DEVICE_CONNECTION_STATE_UNKNOWN:
 		}
 	}
 
