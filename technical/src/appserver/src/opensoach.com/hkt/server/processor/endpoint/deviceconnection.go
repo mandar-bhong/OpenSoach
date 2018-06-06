@@ -9,6 +9,7 @@ import (
 	"opensoach.com/hkt/server/dbaccess"
 	repo "opensoach.com/hkt/server/repository"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	pchelper "opensoach.com/prodcore/helper"
 )
 
@@ -39,7 +40,7 @@ func ProcessDeviceConnected(token string) error {
 
 	dbDevStatusConnectionStateUpdateDataModel := hktmodels.DBDevStatusConnectionStateUpdateDataModel{}
 	dbDevStatusConnectionStateUpdateDataModel.DevId = deviceTokenModel.DevID
-	dbDevStatusConnectionStateUpdateDataModel.ConnectionState = gmodels.ENTITY_CONNECTION_STATUS_CONNECTED
+	dbDevStatusConnectionStateUpdateDataModel.ConnectionState = pcconst.DB_DEVICE_CONNECTION_STATE_CONNECTED
 	dbDevStatusConnectionStateUpdateDataModel.ConnectionStateSince = ghelper.GetCurrentTime()
 
 	dberr := dbaccess.EPUpdateDeviceConnectionStatusData(instDBConn, dbDevStatusConnectionStateUpdateDataModel)
@@ -79,7 +80,7 @@ func ProcessDeviceDisConnected(token string) error {
 
 	dbDevStatusConnectionStateUpdateDataModel := hktmodels.DBDevStatusConnectionStateUpdateDataModel{}
 	dbDevStatusConnectionStateUpdateDataModel.DevId = deviceTokenModel.DevID
-	dbDevStatusConnectionStateUpdateDataModel.ConnectionState = gmodels.ENTITY_CONNECTION_STATUS_DISCONNECTED
+	dbDevStatusConnectionStateUpdateDataModel.ConnectionState = pcconst.DB_DEVICE_CONNECTION_STATE_DISCONNECTED
 	dbDevStatusConnectionStateUpdateDataModel.ConnectionStateSince = ghelper.GetCurrentTime()
 
 	dberr := dbaccess.EPUpdateDeviceConnectionStatusData(instDBConn, dbDevStatusConnectionStateUpdateDataModel)

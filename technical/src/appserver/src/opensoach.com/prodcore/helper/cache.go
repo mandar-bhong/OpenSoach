@@ -6,6 +6,7 @@ import (
 	gcore "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 )
 
 func CacheGetDeviceInfo(cacheCtx gcore.CacheContext, cacheKey string) (bool, *gmodels.DeviceTokenModel, string) {
@@ -32,10 +33,10 @@ func CacheSetDeviceConnectionStatus(cacheCtx gcore.CacheContext, deviceID int64,
 
 	cacheKey := fmt.Sprintf("%s%+v", gmodels.CACHE_KEY_ENTITY_CONNECTION_STATUS, deviceID)
 
-	status := gmodels.ENTITY_CONNECTION_STATUS_DISCONNECTED
+	status := pcconst.DB_DEVICE_CONNECTION_STATE_DISCONNECTED
 
 	if isconnected == true {
-		status = gmodels.ENTITY_CONNECTION_STATUS_CONNECTED
+		status = pcconst.DB_DEVICE_CONNECTION_STATE_CONNECTED
 	}
 
 	return cacheCtx.Set(cacheKey, status, 0)
