@@ -1,0 +1,11 @@
+
+1.	 method POST: /api/v1/dashboard/feedback/summary
+
+{"sp":1,"startdate":"2018-06-04T18:30:00.000Z","enddate":"2018-07-04T18:30:00.000Z"}
+
+
+2.	 method POST: /api/v1/dashboard/complaint/summary
+
+{"sp":1,"startdate":"2018-06-04T18:30:00.000Z","enddate":"2018-07-04T18:30:00.000Z"}
+
+
