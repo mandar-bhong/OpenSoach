@@ -1,5 +1,7 @@
 package constants
 
+const DB_TIME_FORMAT = "2006-01-02 15:04:05"
+
 const DB_USER_STATE_ACTIVE = 1
 const DB_USER_CATEGORY_CUSTOMER = 2
 const DB_USER_CATEGORY_OS = 1

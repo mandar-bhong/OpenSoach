@@ -28,3 +28,9 @@ const DB_CONFIG_PRODUCT_QUE_ADDRESS_PASSWORD string = "Product.Que.Address.Passw
 const DB_CONFIG_PRODUCT_QUE_ADDRESS_DB string = "Product.Que.Address.DB"
 
 const DB_COMPLAINT_STATE_OPEN = 1
+
+const DB_FEEDBACK_RATING_1 = 1
+const DB_FEEDBACK_RATING_2 = 2
+const DB_FEEDBACK_RATING_3 = 3
+const DB_FEEDBACK_RATING_4 = 4
+const DB_FEEDBACK_RATING_5 = 5
