@@ -12,3 +12,5 @@ $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_SELECT_DEVICE_WITH_NO_SP_ASSOCIATION_SHORT_DATA_LIST = `select dev_id_fk,dev_name,serialno from spl_node_dev_tbl 
 where dev_id_fk NOT IN (select dev_id_fk from  spl_node_dev_sp_mapping)`
+
+const QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_ID = `select * from spl_node_dev_tbl where dev_id_fk = ?`

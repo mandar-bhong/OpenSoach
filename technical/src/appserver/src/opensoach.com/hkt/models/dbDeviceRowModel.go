@@ -19,3 +19,9 @@ type DBDevStatusConnectionStateUpdateDataModel struct {
 	ConnectionState      int       `db:"connection_state" json:"connectionstate"`
 	ConnectionStateSince time.Time `db:"connection_state_since" json:"connectionstatesince"`
 }
+
+type DBDeviceUpdateRowModel struct {
+	DevId   int64  `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	CpmId   int64  `db:"cpm_id_fk" json:"cpmid"`
+	DevName string `db:"dev_name" json:"devname"`
+}

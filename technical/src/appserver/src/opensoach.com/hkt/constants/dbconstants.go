@@ -16,6 +16,7 @@ const DB_TABLE_SPL_NODE_FOP_SP_TBL string = "spl_node_fop_sp_tbl"
 const DB_TABLE_SPL_NODE_DEV_SP string = "spl_node_dev_sp_mapping"
 const DB_SPL_NODE_SERVICE_CONF_TBL string = "spl_node_service_conf_tbl"
 const DB_SPL_NODE_REPORT_TEMPLATE_TBL string = "spl_node_report_template_tbl"
+const DB_SPL_DEV_TBL string = "spl_node_dev_tbl"
 
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"
