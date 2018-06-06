@@ -527,6 +527,16 @@ createdon:Date;
 updatedon:Date;
 }
 
+43. Get field operator short list
+API Name: /api/v1/fieldoperator/list/short
+Request Method: GET
+request: null
+response: Response{
+fopid:number;
+fopcode:string;
+fopname:string;
+}
+
 
 
 
