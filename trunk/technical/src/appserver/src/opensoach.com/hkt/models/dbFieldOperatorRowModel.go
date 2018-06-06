@@ -35,3 +35,9 @@ type DBDeviceFieldOperatorDataModel struct {
 	FopState int     `db:"fop_state" json:"fopstate"`
 	FopArea  int     `db:"fop_area" json:"foparea"`
 }
+
+type DBFieldOperatorShortDataModel struct {
+	FopId   int64   `db:"id" dbattr:"pri,auto"  json:"fopid"`
+	Fopcode string  `db:"fopcode" json:"fopcode"`
+	FopName *string `db:"fop_name" json:"fopname"`
+}

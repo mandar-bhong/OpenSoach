@@ -121,3 +121,20 @@ func GetFieldOperatorList(dbConn string, filterModel *hktmodels.DBSearchFieldOpe
 
 	return nil, data
 }
+
+func GetFieldOperatorShortList(dbConn string, cpmid int64) (error, *[]hktmodels.DBFieldOperatorShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFieldOperatorShortList")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBFieldOperatorShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_FIELD_OPERATOR_SHORT_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(cpmid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

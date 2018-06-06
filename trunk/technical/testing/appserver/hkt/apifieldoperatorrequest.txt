@@ -36,3 +36,4 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 		"foparea":1		
 	}
 	
+5.	method:GET	/api/v1/fieldoperator/list/short

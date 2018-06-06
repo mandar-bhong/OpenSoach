@@ -11,6 +11,7 @@ const API_FIELD_OPERATOR_ADD = API_BASE_URL + "/v1/fieldoperator/add"
 const API_FIELD_OPERATOR_UPDATE = API_BASE_URL + "/v1/fieldoperator/update"
 const API_FIELD_OPERATOR_INFO_MASTER = API_BASE_URL + "/v1/fieldoperator/info"
 const API_FIELD_OPERATOR_LIST = API_BASE_URL + "/v1/fieldoperator/list"
+const API_FIELD_OPERATOR_LIST_SHORT = API_BASE_URL + "/v1/fieldoperator/list/short"
 
 const API_COMPLAINT_ADD = API_BASE_URL + "/v1/complaint/add"
 const API_COMPLAINT_UPDATE = API_BASE_URL + "/v1/complaint/update"
