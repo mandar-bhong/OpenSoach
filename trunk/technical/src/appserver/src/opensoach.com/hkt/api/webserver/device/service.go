@@ -75,3 +75,52 @@ func (service DeviceService) DeviceNoSpAssociationShortList() (bool, interface{}
 	return true, listData
 
 }
+
+func (service DeviceService) SelectById(devID int64) (bool, interface{}) {
+
+	dbErr, devData := dbaccess.GetDeviceById(service.ExeCtx.SessionInfo.Product.NodeDbConn, devID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *devData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched device info")
+	return true, dbRecord[0]
+}
+
+func (service DeviceService) Update(reqData *hktmodels.DBDeviceUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Device updated successfully.")
+
+	return true, nil
+}

@@ -18,6 +18,7 @@ const API_COMPLAINT_UPDATE = API_BASE_URL + "/v1/complaint/update"
 const API_COMPLAINT_INFO_MASTER = API_BASE_URL + "/v1/complaint/info"
 const API_COMPLAINT_LIST = API_BASE_URL + "/v1/complaint/list"
 const API_TOP_COMPLAINT_LIST = API_BASE_URL + "/v1/complaint/list/top"
+const API_NO_OF_COMPLAINT_PER_MONTH = API_BASE_URL + "/v1/noofcomplaints/permonth"
 
 const API_SERVICE_CONFIG_ADD = API_BASE_URL + "/v1/service/config/add"
 const API_SERVICE_CONFIG_LIST = API_BASE_URL + "/v1/service/config/list"
@@ -51,6 +52,8 @@ const API_SERVICE_POINT_CONFIG_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/con
 const API_DEVICE_LIST_SHORT = API_BASE_URL + "/v1/device/list/short"
 const API_DEVICE_LIST = API_BASE_URL + "/v1/device/list"
 const API_DEVICE_NO_SP_ASSOCIATION_LIST_SHORT = API_BASE_URL + "/v1/device/list/short/noassociation"
+const API_DEVICE_INFO = API_BASE_URL + "/v1/device/info"
+const API_DEVICE_UPDATE = API_BASE_URL + "/v1/device/update"
 
 const API_SPL_PROD_BASE_URL = API_BASE_URL + "/v1/splprod/baseurl"
 

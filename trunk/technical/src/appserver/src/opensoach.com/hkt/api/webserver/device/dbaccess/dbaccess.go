@@ -8,6 +8,7 @@ import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	hkthelper "opensoach.com/hkt/api/helper"
+	"opensoach.com/hkt/constants"
 	"opensoach.com/hkt/constants/dbquery"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
@@ -104,4 +105,37 @@ func GetDeviceWithNoSpAssociationShortDataList(dbConn string) (error, *[]hktmode
 		return selErr, nil
 	}
 	return nil, data
+}
+
+func GetDeviceById(dbConn string, devid int64) (error, *[]hktmodels.DBSplNodeDevTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplNodeDevTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(devid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func UpdateByFilter(dbConn string, updtStruct *hktmodels.DBDeviceUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing Device UpdateByFilter")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_DEV_TBL
+	updateErr := updateCtx.UpdateByFilter("DevId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
 }

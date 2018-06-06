@@ -549,6 +549,28 @@ servconfid:number;
 servconfname:string;
 }
 
+45. Update device 
+API Name: /api/v1/device/update
+Request Method: POST
+request: updateRequest{
+devid:number;
+devname:string;
+}
+response: null
+
+46. Get device info
+API Name: /api/v1/device/info
+Request Method: GET
+request:
+response: {
+devid:number;
+devname:string;
+cpmid:number;
+serialno:string;
+createdon:Date;
+updatedon:Date;
+}
+
 
 
 
