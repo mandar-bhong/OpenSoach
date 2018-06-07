@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type DBDashBoardDeviceSummaryDataModel struct {
 	ConnectionState int `db:"connection_state"  json:"connstate"`
 	Count           int `db:"count" json:"count"`
@@ -20,7 +22,26 @@ type DBDashBoardFeedbackDataModel struct {
 	Count    int `db:"count" json:"count"`
 }
 
+type DBDashBoardTaskDataModel struct {
+	Status int `db:"status" json:"status"`
+	Count  int `db:"count" json:"count"`
+}
+
+type DBTaskSummaryFilterDataModel struct {
+	SpId  *int64 `db:"sp_id_fk" json:"spid"`
+	CpmId int64  `db:"serv_in_txn.cpm_id_fk" json:"cpmid"`
+}
+
 type DBDashBoardComplaintDataModel struct {
 	ComplaintState int `db:"complaint_state" json:"complaintstate"`
 	Count          int `db:"count" json:"count"`
+}
+
+type DBFeedbackDataModel struct {
+	FeedbackId      int64     `db:"id" dbattr:"pri,auto"  json:"FeedbackId"`
+	SpId            int64     `db:"sp_id_fk" json:"spid"`
+	Feedback        int       `db:"feedback" json:"feedback"`
+	FeedbackComment *string   `db:"feedback_comment" json:"feedbackcomment"`
+	RaisedOn        time.Time `db:"raised_on" json:"raisedon"`
+	CreatedOn       time.Time `db:"created_on" json:"createdon"`
 }

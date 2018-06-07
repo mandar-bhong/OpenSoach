@@ -10,4 +10,10 @@ const QUERY_SPL_NODE_DASHBOARD_LOCATION_SUMMARY = `select sp_state,count(*) as c
 
 const QUERY_SPL_NODE_DASHBOARD_FEEDBACK = `select feedback , count(*) as count from spl_node_feedback_tbl $WhereCondition$ group by feedback`
 
+const QUERY_SPL_NODE_DASHBOARD_TASK = `select status,count(status) as count from spl_node_service_in_txn_tbl serv_in_txn
+inner join spl_node_service_instance_tbl serv_conf_in on serv_in_txn.serv_in_id_fk = serv_conf_in.id
+$WhereCondition$ group by status`
+
 const QUERY_SPL_NODE_DASHBOARD_COMPLAINT_SUMMARY = `select  complaint_state,count(*) as count from spl_hkt_sp_complaint_tbl $WhereCondition$ group by complaint_state`
+
+const QUERY_GET_FEEDBACK_BY_DATE = `select  id,sp_id_fk,feedback,feedback_comment,raised_on from spl_node_feedback_tbl $WhereCondition$`
