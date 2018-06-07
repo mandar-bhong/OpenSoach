@@ -1,6 +1,8 @@
 package manager
 
 import (
+	"time"
+
 	gmodels "opensoach.com/models"
 	wh "opensoach.com/prodcore/endpoint/websockethelper"
 
@@ -60,6 +62,10 @@ func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
 		return
 	}
 
+	logger.Context().WithField("ChannelID", packet.ChannelID).
+		WithField("Packet Data", string(packet.Message)).
+		LogDebug(SUB_MODULE_NAME, logger.Normal, "Message from Device")
+
 	cmd := pchelper.GetDeviceCmdKeyFromHeader(packetHeader)
 
 	var packetProcessingResult *gmodels.PacketProcessingTaskResult
@@ -84,12 +90,13 @@ func (WSHandler) OnMessage(packet wh.WebsocketDataReceivedMessageStruct) {
 
 				if isSuccess == false {
 					//TODO: Validation failed and json convertion failed, disconnect device
-					//ws.DisconnectClient(packet.ChannelID)
+					ws.DisconnectClient(packet.ChannelID)
+					return
 				}
 
 				ws.SendMessage(packet.ChannelID, []byte(jsonPacket))
-
-				//TODO Break device connection
+				time.Sleep(2 * 1000) //TODO: Waiting for 2 sec before disconnect
+				ws.DisconnectClient(packet.ChannelID)
 			}
 
 			return
