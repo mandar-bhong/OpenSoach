@@ -9,8 +9,9 @@ type DBGetReportDataModel struct {
 }
 
 type DBGenerateReportRequestDataModel struct {
-	ReportID int64  `db:"id" json:"reportid"`
-	Language string `json:"lang"`
+	ReportID    int64         `db:"id" json:"reportid"`
+	Language    string        `json:"lang"`
+	QueryParams []interface{} `json:"queryparams"`
 }
 
 type DBReportTemplateShortDataModel struct {

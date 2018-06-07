@@ -28,7 +28,7 @@ func GetReportInfo(dbConn string, reportid int64) (error, *[]hktmodels.DBSplNode
 	return nil, data
 }
 
-func GetReportQueryData(dbConn string, query string) (error, []string, [][]string) {
+func GetReportQueryData(dbConn string, query string, args ...interface{}) (error, []string, [][]string) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetReportQueryData")
 
@@ -38,7 +38,7 @@ func GetReportQueryData(dbConn string, query string) (error, []string, [][]strin
 		return err, nil, nil
 	}
 
-	rows, err := engine.Queryx(query)
+	rows, err := engine.Queryx(query, args...)
 
 	if err != nil {
 		return err, nil, nil

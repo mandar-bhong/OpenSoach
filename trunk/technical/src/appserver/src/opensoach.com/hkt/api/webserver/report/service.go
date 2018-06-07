@@ -91,7 +91,7 @@ func (service ReportService) ViewReport(req hktmodels.DBGenerateReportRequestDat
 		return false, errModel
 	}
 
-	dberr, _, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, reportDataRecord[0].ReportQuery)
+	dberr, _, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, reportDataRecord[0].ReportQuery, req.QueryParams...)
 	if dberr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -107,7 +107,7 @@ func (service ReportService) ViewReport(req hktmodels.DBGenerateReportRequestDat
 	reportDataModel.ReportHeader = reportDataRecord[0].ReportHeader
 	reportDataModel.ReportData = resultRows
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Report Excel File")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched report data")
 
 	return true, reportDataModel
 
