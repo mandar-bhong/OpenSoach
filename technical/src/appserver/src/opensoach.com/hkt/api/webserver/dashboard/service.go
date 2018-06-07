@@ -5,6 +5,7 @@ import (
 	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/api/webserver/dashboard/dbaccess"
 	hktconst "opensoach.com/hkt/constants"
+	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
 )
@@ -118,6 +119,42 @@ func (service DashboardService) GetFeedbackSummary(req lmodels.APIDashboardFeedb
 
 }
 
+func (service DashboardService) GetTaskSummary(req lmodels.APIDashboardTaskRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution task summary")
+
+	filterModel := hktmodels.DBTaskSummaryFilterDataModel{}
+	filterModel.SpId = req.SPId
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, data := dbaccess.GetTaskSummary(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting task summary.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	apiResponse := lmodels.APIDashboardTaskResponse{}
+
+	for _, dbSummaryDataModel := range data {
+
+		switch dbSummaryDataModel.Status {
+		case hktconst.DB_TASK_ONTIME:
+			apiResponse.Ontime = dbSummaryDataModel.Count
+		case hktconst.DB_TASK_DELAYED:
+			apiResponse.Delayed = dbSummaryDataModel.Count
+		}
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched task summary")
+
+	return true, apiResponse
+
+}
+
 func (service DashboardService) GetComplaintSummary(req lmodels.APIDashboardComplaintFilterModel) (bool, interface{}) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution feedback summary")
@@ -150,5 +187,25 @@ func (service DashboardService) GetComplaintSummary(req lmodels.APIDashboardComp
 	}
 
 	return true, apiResponse
+
+}
+
+func (service DashboardService) SelectAllFeedbackByDate(req lmodels.APIDashboardFeedbackFilterModel) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution AllFeedbackByDate")
+
+	req.CPMID = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, data := dbaccess.GetAllFeedbackByDate(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting feedbacks.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	return true, data
 
 }

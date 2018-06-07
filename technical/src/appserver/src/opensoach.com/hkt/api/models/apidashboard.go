@@ -37,6 +37,17 @@ type APIDashboardFeedbackResponse struct {
 	Rating5 int `json:"rating5"`
 }
 
+type APIDashboardTaskRequest struct {
+	SPId      *int64     `db:"sp_id_fk"  json:"spid"`
+	StartTime *time.Time `db:"raised_on"  json:"startdate"`
+	EndTime   *time.Time `db:"raised_on"  json:"enddate"`
+}
+
+type APIDashboardTaskResponse struct {
+	Ontime  int `json:"ontime"`
+	Delayed int `json:"delayed"`
+}
+
 type APIDashboardComplaintResponse struct {
 	Open       int `json:"open"`
 	Close      int `json:"closed"`
