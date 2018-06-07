@@ -8,10 +8,12 @@ import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	hkthelper "opensoach.com/hkt/api/helper"
+	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/constants"
 	"opensoach.com/hkt/constants/dbquery"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 )
 
 var SUB_MODULE_NAME = "HKT.API.Complaint.DB"
@@ -140,20 +142,66 @@ func GetComplaintList(dbConn string, filterModel *hktmodels.DBSearchComplaintReq
 	return nil, data
 }
 
-func SelectTopComplaints(dbConn string, limit int) (error, *[]hktmodels.DBSplHktSpComplaintTableRowModel) {
+func SelectTopComplaints(dbConn string, filtermodel hktmodels.DBTopComplaintsFilterDataModel, noofcomplaints int) (error, *[]lmodels.APITopActiveComplaintsResponse) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SelectTopFiveComplaints")
 
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	Query := strings.Replace(dbquery.QUERY_GET_TOP_COMPLAINTS, "$WhereCondition$", whereCondition, 1)
+
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplHktSpComplaintTableRowModel{}
+	data := &[]lmodels.APITopActiveComplaintsResponse{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.Query
-	selDBCtx.Query = dbquery.QUERY_GET_TOP_FIVE_COMPLAINTS
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(limit)
+	selDBCtx.Query = Query
+	selErr := selDBCtx.Select(noofcomplaints)
 	if selErr != nil {
 		return selErr, nil
 	}
 	return nil, data
+}
 
+func GetNoOfComplaintsPerMonth(dbConn string, req lmodels.APIComplaintsByMonthRequest, filtermodel hktmodels.DBNoOfComplaintsPerMonthsFilterDataModel) (error, []hktmodels.DBNoOfComplaintsPerMonthDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetNoOfComplaintsPerMonth")
+
+	data := []hktmodels.DBNoOfComplaintsPerMonthDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " raised_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_NO_OF_COMPLAINTS_PER_MONTH, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
 }

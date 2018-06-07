@@ -6,6 +6,7 @@ import (
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/api/webserver/complaint/dbaccess"
+	"opensoach.com/hkt/constants"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
 )
@@ -126,9 +127,14 @@ func (service ComplaintService) ComplaintList(listReqData gmodels.APIDataListReq
 
 }
 
-func (service ComplaintService) TopComplaints(limit int) (bool, interface{}) {
+func (service ComplaintService) TopComplaints(req lmodels.APITopActiveComplaintsRequest) (bool, interface{}) {
 
-	dbErr, complaintList := dbaccess.SelectTopComplaints(service.ExeCtx.SessionInfo.Product.NodeDbConn, limit)
+	filterModel := hktmodels.DBTopComplaintsFilterDataModel{}
+	filterModel.ComplaintState = constants.DB_COMPLAINT_STATE_OPEN
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	filterModel.SpId = req.SpID
+
+	dbErr, complaintList := dbaccess.SelectTopComplaints(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, req.NoOfComplaints)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -137,6 +143,25 @@ func (service ComplaintService) TopComplaints(limit int) (bool, interface{}) {
 		return false, errModel
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched top five complaints")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched top active complaints")
+	return true, complaintList
+}
+
+func (service ComplaintService) NoOfComplaints(req lmodels.APIComplaintsByMonthRequest) (bool, interface{}) {
+
+	filterModel := hktmodels.DBNoOfComplaintsPerMonthsFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	filterModel.SpId = req.SpID
+
+	dbErr, complaintList := dbaccess.GetNoOfComplaintsPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched complaint per month")
 	return true, complaintList
 }
