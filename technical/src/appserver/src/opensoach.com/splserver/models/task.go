@@ -46,3 +46,13 @@ type APITaskDBNodeSpInsertRowModel struct {
 	SpState      int       `db:"sp_state" json:"spstate"`
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
 }
+
+type APITaskDBInstanceDevStatusInsertModel struct {
+	DevId                int64     `dbattr:"pri" db:"dev_id_fk" json:"devid"`
+	ConnectionState      int       `db:"connection_state" json:"connectionstate"`
+	ConnectionStateSince time.Time `db:"connection_state_since" json:"connectionstatesince"`
+	SyncState            int       `db:"sync_state" json:"syncstate"`
+	SyncStateSince       time.Time `db:"sync_state_since" json:"syncstatesince"`
+	BatteryLevel         int       `db:"battery_level" json:"batterylevel"`
+	BatteryLevelSince    time.Time `db:"battery_level_since" json:"batterylevelsince"`
+}

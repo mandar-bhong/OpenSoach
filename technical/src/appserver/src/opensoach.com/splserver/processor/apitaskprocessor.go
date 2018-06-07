@@ -3,8 +3,10 @@ package processor
 import (
 	"strconv"
 
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	dbaccess "opensoach.com/splserver/dbaccess"
 	lmodels "opensoach.com/splserver/models"
 	repo "opensoach.com/splserver/repository"
@@ -187,15 +189,33 @@ func APIHandlerDevProdAssociated(msg string, sessionkey string,
 		return err, result
 	}
 
+	dbTxErr, tx := dbaccess.GetDBTransaction(dbConn)
+
+	if dbTxErr != nil {
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+	}
+
 	dbInstanceDevInsertModel := &lmodels.APITaskDBInstanceDevInsertRowModel{}
 	dbInstanceDevInsertModel.CpmId = taskDevProdAsscociatedModel.CpmId
 	dbInstanceDevInsertModel.DevId = taskDevProdAsscociatedModel.DevId
 	dbInstanceDevInsertModel.Serialno = taskDevProdAsscociatedModel.Serialno
 	dbInstanceDevInsertModel.DevName = "device " + strconv.FormatInt(taskDevProdAsscociatedModel.DevId, 10)
 
-	dbErr, insertedId := dbaccess.UpdateDevToInstDB(dbConn, dbInstanceDevInsertModel)
+	dbErr, _ := dbaccess.UpdateDevToInstDB(tx, dbInstanceDevInsertModel)
 
 	if dbErr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
 		logger.Context().WithField("Task Data", taskData).
 			WithField("TaskToken", tasktoken).
 			WithField("DBConn", dbConn).
@@ -211,13 +231,46 @@ func APIHandlerDevProdAssociated(msg string, sessionkey string,
 
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully inserted dev data in instance db.")
+	dbInstanceDevStatusInsertModel := &lmodels.APITaskDBInstanceDevStatusInsertModel{}
+	dbInstanceDevStatusInsertModel.DevId = taskDevProdAsscociatedModel.DevId
+	dbInstanceDevStatusInsertModel.ConnectionState = pcconst.DB_DEVICE_SYNC_STATE_DISCONNECTED
+	dbInstanceDevStatusInsertModel.ConnectionStateSince = ghelper.GetCurrentTime()
+	dbInstanceDevStatusInsertModel.SyncState = pcconst.DB_DEVICE_CONNECTION_STATE_DISCONNECTED
+	dbInstanceDevStatusInsertModel.SyncStateSince = ghelper.GetCurrentTime()
+	dbInstanceDevStatusInsertModel.BatteryLevel = 0
+	dbInstanceDevStatusInsertModel.BatteryLevelSince = ghelper.GetCurrentTime()
 
-	apiRecordResponse := gmodels.APIRecordAddResponse{}
-	apiRecordResponse.RecordID = insertedId
+	dberr, _ := dbaccess.UpdateDevStatusToInstDB(tx, dbInstanceDevStatusInsertModel)
+
+	if dberr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", dbConn).
+			WithField("TaskExecData", dbInstanceDevStatusInsertModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to update dev status data in instance db.", err)
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+		return nil, result
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Inserted device status data in instance db")
 
 	result.IsSuccess = true
-	result.Data = apiRecordResponse
 
 	return nil, result
 

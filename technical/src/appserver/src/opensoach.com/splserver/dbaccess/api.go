@@ -32,12 +32,12 @@ func UpdateCPMIDToInstDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBInstanceCpmI
 	return nil, insDBCtx.InsertID
 }
 
-func UpdateDevToInstDB(dbConn string, insrtStruct *lmodels.APITaskDBInstanceDevInsertRowModel) (error, int64) {
+func UpdateDevToInstDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBInstanceDevInsertRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateDevToInstDB")
 
-	insDBCtx := dbmgr.InsertContext{}
-	insDBCtx.DBConnection = dbConn
+	insDBCtx := dbmgr.InsertTxContext{}
+	insDBCtx.Tx = tx
 	insDBCtx.Args = *insrtStruct
 	insDBCtx.QueryType = dbmgr.AutoQuery
 	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_DEV_TBL
@@ -73,6 +73,22 @@ func UpdateServicePointsToInstDB(dbConn string, insrtStruct *lmodels.APITaskDBNo
 	insDBCtx.Args = *insrtStruct
 	insDBCtx.QueryType = dbmgr.AutoQuery
 	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_SP_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
+
+func UpdateDevStatusToInstDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBInstanceDevStatusInsertModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateDevStatusToInstDB")
+
+	insDBCtx := dbmgr.InsertTxContext{}
+	insDBCtx.Tx = tx
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_DEV_STATUS_TBL
 	insertErr := insDBCtx.Insert()
 	if insertErr != nil {
 		return insertErr, 0
