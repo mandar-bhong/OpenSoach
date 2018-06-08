@@ -20,10 +20,13 @@ import { DeviceSearchComponent } from './device-list/device-search/device-search
     ProdCommonModule
   ],
   declarations: [
-    DeviceDetailsViewComponent,
     DeviceListComponent,
     DeviceListViewComponent,
-    DeviceSearchComponent
+    DeviceSearchComponent,
+    DeviceDetailsViewComponent
+  ],
+  entryComponents: [
+    DeviceDetailsViewComponent,
   ]
 })
 export class ProdDevicesModule { }

@@ -12,6 +12,7 @@ import {
     DeviceDetailsResponse,
     DeviceFilterRequest,
     DeviceListItemResponse,
+    DeviceDetailsUpdateRequest,
 } from '../../models/api/device-models';
 
 @Injectable()
@@ -30,16 +31,19 @@ export class ProdDeviceService extends ListingService<DeviceFilterRequest, Devic
         return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/device/list/short',
             implicitErrorHandling);
     }
-
-    getDeviceDetails(request: RecordIDRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<DeviceDetailsResponse>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/device/info/details',
-            request, implicitErrorHandling);
-    }
-
     getDevicesNotAssociatedWithSP(implicitErrorHandling = true):
         Observable<PayloadResponse<DeviceListItemResponse[]>> {
         return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/device/list/short/noassociation',
             implicitErrorHandling);
+    }
+    getDeviceDetails(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<DeviceDetailsResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/device/info',
+            request, implicitErrorHandling);
+    }
+    updateDeviceDetails(deviceDetailsUpdateRequest: DeviceDetailsUpdateRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/device/update',
+        deviceDetailsUpdateRequest, implicitErrorHandling);
     }
 }

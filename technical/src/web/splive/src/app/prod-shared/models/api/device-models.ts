@@ -19,10 +19,6 @@ export class DeviceDataListResponse {
 export class DeviceDetailsResponse {
     devid: number;
     devname: string;
-    make: string;
-    technology: string;
-    techversion: string;
-    shortdesc: string;
     createdon: Date;
     updatedon: Date;
 }
@@ -31,4 +27,8 @@ export class DeviceListItemResponse {
     devid: number;
     devname: string;
     serialno: string;
+}
+export class DeviceDetailsUpdateRequest {
+    devid: number;
+    devname: string;
 }

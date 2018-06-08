@@ -1,4 +1,4 @@
-import { DeviceDetailsResponse, DeviceFilterRequest } from '../api/device-models';
+import { DeviceDetailsResponse, DeviceFilterRequest, DeviceDetailsUpdateRequest } from '../api/device-models';
 
 export class DeviceFilterModel {
     serialno: string;
@@ -13,16 +13,12 @@ export class DeviceFilterModel {
 export class DeviceDetailsModel {
     devid: number;
     devname: string;
-    make: string;
-    technology: string;
-    techversion: string;
-    shortdesc: string;
     copyFrom(deviceDetailsResponse: DeviceDetailsResponse) {
         this.devid = deviceDetailsResponse.devid;
         this.devname = deviceDetailsResponse.devname;
-        this.make = deviceDetailsResponse.make;
-        this.technology = deviceDetailsResponse.technology;
-        this.techversion = deviceDetailsResponse.techversion;
-        this.shortdesc = deviceDetailsResponse.shortdesc;
+    }
+    copyTo(deivceDetailsUpdateRequest: DeviceDetailsUpdateRequest) {
+        deivceDetailsUpdateRequest.devid = this.devid;
+        deivceDetailsUpdateRequest.devname = this.devname;
     }
 }
