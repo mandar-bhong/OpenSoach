@@ -1,3 +1,4 @@
+import { ServiceConfigureFilterRequest } from '../api/service-configuration-models';
 import { ServicepointAssociateRequest } from '../api/servicepoint-models';
 
 export class ServiceConfigurationModel {
@@ -12,6 +13,9 @@ export class ServiceConfigurationModel {
         request.servconfid = this.servconfid;
         request.spid = this.spid;
     }
+    copyTo(serviceConfigureFilterRequest: ServiceConfigureFilterRequest) {
+        serviceConfigureFilterRequest.conftypecode = this.conftypecode;
+        serviceConfigureFilterRequest.servconfname = this.servconfname;
+    }
 }
-
 

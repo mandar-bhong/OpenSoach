@@ -34,3 +34,21 @@ export class SPCategoriesShortDataResponse {
     spcid: number;
     spcname: string;
 }
+export class ServicepointDetailsResponse {
+    spid: number;
+    spcid: number;
+    spname: string;
+    shortdesc: string;
+    spcname: string;
+    spstate: number;
+    spstatesince: Date;
+    createdon: Date;
+    updatedon: Date;
+}
+export class ServicepointDetailsUpdateRequest {
+    spid: number;
+    spname: string;
+    shortdesc: string;
+    spstate: number;
+    spcid: number;
+}

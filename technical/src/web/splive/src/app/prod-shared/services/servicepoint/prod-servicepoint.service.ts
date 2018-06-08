@@ -12,7 +12,9 @@ import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-it
 import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
 import {
   SrevicepointFilterRequest,
-  ServicepointDataListResponse, ServicepointAssociateRequest, AssociateServicePointDeviceRequest, ServicepointListResponse, SPCategoriesShortDataResponse
+  ServicepointDataListResponse,
+  ServicepointAssociateRequest, AssociateServicePointDeviceRequest,
+  ServicepointListResponse, SPCategoriesShortDataResponse, ServicepointDetailsResponse, ServicepointDetailsUpdateRequest
 } from '../../models/api/servicepoint-models';
 import { OperatorServicepointListResponse } from '../../models/api/operator-models';
 @Injectable({
@@ -46,7 +48,6 @@ export class ProdServicepointService extends ListingService<SrevicepointFilterRe
     return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/category/list/short',
       implicitErrorHandling);
   }
-
   associateConfigure(request: ServicepointAssociateRequest, implicitErrorHandling = true):
     Observable<PayloadResponse<RecordIDResponse>> {
     return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/service/instance/add',
@@ -57,4 +58,20 @@ export class ProdServicepointService extends ListingService<SrevicepointFilterRe
     return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/associate/device',
       request, implicitErrorHandling);
   }
+  associateServicePoint(request: ServicepointAssociateRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/update',
+      request, implicitErrorHandling);
+  }
+  getServicepointDetails(request: RecordIDRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<ServicepointDetailsResponse>> {
+    return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/info',
+      request, implicitErrorHandling);
+  }
+  updateServicepointDetails(servicepointDetailsUpdateRequest: ServicepointDetailsUpdateRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/update',
+      servicepointDetailsUpdateRequest, implicitErrorHandling);
+  }
+
 }
