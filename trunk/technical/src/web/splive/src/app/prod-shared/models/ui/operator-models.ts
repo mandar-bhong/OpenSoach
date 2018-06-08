@@ -1,8 +1,12 @@
+import { OPERATOR_AREA, OPERATOR_STATE } from '../../../shared/app-common-constants';
 import {
+    OperatorAddRequest,
+    OperatorAssociateListResponse,
+    OperatorDetailsResponse,
     OperatorFiltrRequest,
-    OperatorAddRequest, OperatorUpdateRequest, OperatorDetailsResponse, OperatorAssociateListResponse, OperatorServicePointListModel
+    OperatorServicePointListModel,
+    OperatorUpdateRequest,
 } from '../api/operator-models';
-import { OPERATOR_STATE, OPERATOR_AREA } from '../../../shared/app-common-constants';
 
 export class OperatorFilterModel {
     fopid: number;
@@ -52,6 +56,7 @@ export class OperatorAddModel {
         operatorUpdateRequest.shortdesc = this.shortdesc;
         operatorUpdateRequest.fopstate = this.fopstate;
         operatorUpdateRequest.foparea = this.foparea;
+        operatorUpdateRequest.fopcode = this.fopcode;
     }
     copyFrom(operatorDetailsResponse: OperatorDetailsResponse) {
         this.fopid = operatorDetailsResponse.fopid;
@@ -61,6 +66,7 @@ export class OperatorAddModel {
         this.shortdesc = operatorDetailsResponse.shortdesc;
         this.fopstate = operatorDetailsResponse.fopstate;
         this.foparea = operatorDetailsResponse.foparea;
+        this.fopcode = operatorDetailsResponse.fopcode;
     }
 }
 export class OperatorServicePointsDataModel {

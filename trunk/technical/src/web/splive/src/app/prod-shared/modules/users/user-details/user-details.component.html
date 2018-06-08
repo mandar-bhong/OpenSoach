@@ -1,13 +1,8 @@
 <div class="row">
   <div class="col">
     <mat-card>
-      <div class="form-group form-primary text-right">
-        <button mat-icon-button color="accent" (click)="closeForm()" style="right:10px">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-6 col">
           <mat-card>
             <form [formGroup]="editableForm" (ngSubmit)="savemaster()">
               <app-editable-form-header [formMode]="formMode" (editClick)="editMaster()" (closeClick)="closeForm()" [hidden]="showForm===false"></app-editable-form-header>
@@ -46,7 +41,7 @@
             </form>
           </mat-card>
         </div>
-        <div class="col-6">
+        <div class="col-md-6 col">
           <mat-card>
             <h3 class="text-center"></h3>
             <form [formGroup]="editableForm" (ngSubmit)="save()">

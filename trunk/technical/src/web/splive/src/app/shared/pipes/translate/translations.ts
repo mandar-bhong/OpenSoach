@@ -69,7 +69,7 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* CUSTOMER STATES END */
 
-    /* OPERATOR STATES  */
+  /* OPERATOR STATES  */
 
   {
     key: 'OPERATOR_STATE_1',
@@ -79,9 +79,9 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'OPERATOR_STATE_2',
     en: 'INACTIVE'
   },
-    /* OPERATOR STATES END */
+  /* OPERATOR STATES END */
 
-       /* OPERATOR AREA  START */
+  /* OPERATOR AREA  START */
 
   {
     key: 'OPERATOR_AREA_1',
@@ -91,7 +91,37 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'OPERATOR_AREA_2',
     en: 'RESTRICTED'
   },
-    /* OPERATOR AREA END */
+  /* OPERATOR AREA END */
+
+  /* COMPLAINT STATE  START */
+  {
+    key: 'COMPLAINT_STATE_1',
+    en: 'OPEN'
+  },
+  {
+    key: 'COMPLAINT_STATE_2',
+    en: 'CLOSE'
+  },
+  {
+    key: 'COMPLAINT_STATE_3',
+    en: 'INPROGRESS'
+  },
+  /* COMPLAINT STATE END */
+
+  /* SEVERITY STATE  START */
+  {
+    key: 'SEVERIT_STATE_1',
+    en: 'HIGH'
+  },
+  {
+    key: 'SEVERIT_STATE_2',
+    en: 'MEDIUM'
+  },
+  {
+    key: 'SEVERIT_STATE_3',
+    en: 'LOW'
+  },
+  /* SEVERITY STATE END */
 
   /* USER STATES BEGIN */
   {
@@ -208,8 +238,8 @@ export const TRANSLATIONS: TranslationValue[] = [
 
 
 
-   /* CORPORATE STATES START */
-   {
+  /* CORPORATE STATES START */
+  {
     key: 'SUCCESS_CORPORATE_ADD_SAVED',
     en: 'Corporate add successfully.'
   },
@@ -224,7 +254,7 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* CORPORATE APP NOTIFICATION END */
 
-    /* DEIVCE APP NOTIFICATION START */
+  /* DEIVCE APP NOTIFICATION START */
   {
     key: 'CUSTOMER_IS_NOT_BEEN_ASSOCIATED_WITH_ANY_PRODUCT',
     en: 'You need to add a customer before associating a device.'
@@ -295,13 +325,13 @@ export const TRANSLATIONS: TranslationValue[] = [
   /* CUSTOMER PRODUCT MAPPING STATES END */
 
 
-/* VALIDATION MESSAGES START */
+  /* VALIDATION MESSAGES START */
   {
     key: 'VALIDATION_REQUIRED_FIELD',
     en: 'You can\'t leave this empty'
   },
 
-/* VALIDATION MESSAGES END */
+  /* VALIDATION MESSAGES END */
 
 ];
 
