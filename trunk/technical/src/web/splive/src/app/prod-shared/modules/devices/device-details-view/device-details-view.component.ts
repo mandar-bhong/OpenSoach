@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +27,7 @@ export class DeviceDetailsViewComponent extends EditRecordBase implements OnInit
     private router: Router,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
+    private changeDetectorRef: ChangeDetectorRef,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
   ) {
     super();
@@ -48,6 +49,8 @@ export class DeviceDetailsViewComponent extends EditRecordBase implements OnInit
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
+          // TODO: This is work around for the bug in angular material: #11351 Mat-sheet can not update mat-field from promise.
+          this.changeDetectorRef.markForCheck();
         }
       }
     });

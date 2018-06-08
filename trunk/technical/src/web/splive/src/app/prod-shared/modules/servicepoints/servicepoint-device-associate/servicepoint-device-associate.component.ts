@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material';
 
 import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
@@ -19,6 +19,7 @@ export class ServicepointDeviceAssociateComponent implements OnInit {
   constructor(private bottomSheetRef: MatBottomSheetRef<ServicepointDeviceAssociateComponent>,
     private deviceService: ProdDeviceService, private appNotificationService: AppNotificationService,
     private prodServicepointService: ProdServicepointService,
+    private changeDetectorRef: ChangeDetectorRef,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
     this.spid = Number(data);
     console.log('in associate');
@@ -32,6 +33,8 @@ export class ServicepointDeviceAssociateComponent implements OnInit {
     this.deviceService.getDevicesNotAssociatedWithSP().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.devices = payloadResponse.data;
+        // TODO: This is work around for the bug in angular material: #11351 Mat-sheet can not update mat-field from promise.
+        this.changeDetectorRef.markForCheck();
       }
     });
   }
