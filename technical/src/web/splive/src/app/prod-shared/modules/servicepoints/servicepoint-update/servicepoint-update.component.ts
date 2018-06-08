@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,7 +35,8 @@ export class ServicepointUpdateComponent extends EditRecordBase implements OnIni
     private prodServicepointService: ProdServicepointService,
     private router: Router,
     private route: ActivatedRoute,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+    private changeDetectorRef: ChangeDetectorRef) {
     super();
     this.dataModel.spid = Number(data);
     console.log('in associate');
@@ -60,6 +61,8 @@ export class ServicepointUpdateComponent extends EditRecordBase implements OnIni
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
+          // TODO: This is work around for the bug in angular material: #11351 Mat-sheet can not update mat-field from promise.
+          this.changeDetectorRef.markForCheck();
         }
       }
     });
