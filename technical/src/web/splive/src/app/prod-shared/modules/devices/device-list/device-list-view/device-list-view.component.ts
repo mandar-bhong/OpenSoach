@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatBottomSheet, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { AppDeviceService } from '../../../../../shared/services/device/app-devi
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { DeviceDataListResponse, DeviceFilterRequest } from '../../../../models/api/device-models';
 import { ProdDeviceService } from '../../../../services/device/prod-device.service';
+import { DeviceDetailsViewComponent } from '../../device-details-view/device-details-view.component';
 
 @Component({
   selector: 'app-device-list-view',
@@ -42,7 +43,8 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
     private appDeviceService: AppDeviceService,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe) { }
+    private translatePipe: TranslatePipe,
+    private bottomSheet: MatBottomSheet) { }
 
   ngOnInit() {
 
@@ -61,15 +63,15 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
     this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
-      startWith({}),
-      switchMap(() => {
-        this.isLoadingResults = true;
-        return this.getDataList();
-      }),
-      map(data => {
-        this.isLoadingResults = false;
-        return data;
-      }),
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.getDataList();
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          return data;
+        }),
     ).subscribe(
       payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
@@ -82,7 +84,7 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
           this.dataSource = [];
         }
       }
-      );
+    );
   }
   getDataList(): Observable<PayloadResponse<DataListResponse<DeviceDataListResponse>>> {
     const dataListRequest = new DataListRequest<DeviceFilterRequest>();
@@ -107,10 +109,16 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
     this.sort.sortChange.next(this.sort);
   }
 
-  viewDetails(id: number) {
-    this.router.navigate(['devices', 'details'], { queryParams: { id: id, callbackurl: 'devices' }, skipLocationChange: true });
+  viewDetails(row: DeviceDataListResponse): void {
+    const bottomSheetRef = this.bottomSheet.open(DeviceDetailsViewComponent, { data: row.devid });
+    bottomSheetRef.afterDismissed().subscribe(result => {
+      if (result) {
+        console.log('after dismiss', result);
+        row.devid = Number(result.devid);
+        row.devname = String(result.devname);
+      }
+    });
   }
-
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
       this.dataListFilterChangedSubscription.unsubscribe();

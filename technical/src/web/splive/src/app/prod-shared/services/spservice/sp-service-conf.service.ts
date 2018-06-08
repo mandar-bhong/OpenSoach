@@ -7,19 +7,16 @@ import {
     ServiceConfigurationUpdateRequest,
     ServicepointConfigureListResponse,
     ServicepointConfigureTemplateListRequest,
+    ServiceConfigurationResponse,
     ServiceConfigureFilterRequest,
     ServiceConfigureDataListResponse,
-    ServiceConfigurationResponse,
 } from '../../../prod-shared/models/api/service-configuration-models';
-import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
-import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { ListingService } from '../../../shared/services/listing.service';
-import { EnumNumberDatasource } from '../../../shared/utility/enum-number-datasource';
 
 @Injectable()
 export class SpServiceConfService extends ListingService<ServiceConfigureFilterRequest, ServiceConfigureDataListResponse> {

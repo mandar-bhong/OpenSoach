@@ -13,6 +13,7 @@ import { MaterialModules } from '../../shared/modules/material/material-modules'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChartConfigureService } from './services/chart-configure.service';
+import { ProdComplaintService } from './services/complaint/prod-complaint.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { ChartConfigureService } from './services/chart-configure.service';
     MaterialModules.forRoot(),
     DragulaModule
   ],
-  providers: [ChartConfigureService],
+  providers: [ChartConfigureService, ProdComplaintService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

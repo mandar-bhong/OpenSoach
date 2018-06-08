@@ -3,6 +3,7 @@ import {
     ServiceConfigurationResponse,
     ServiceConfigurationUpdateRequest,
 } from '../../../../prod-shared/models/api/service-configuration-models';
+import { ServicepointAssociateRequest } from '../../../../prod-shared/models/api/servicepoint-models';
 import { ServiceInstanceTransactionResponse } from '../../../../prod-shared/models/api/service-txn-models';
 import { TaskTemplateRequest, TaskTemplateResponse } from '../api/chart-conf-models';
 
@@ -24,6 +25,7 @@ export class ChartConfigurationModel {
         serviceConfigurationRequest.servconfname = this.servconfname;
         serviceConfigurationRequest.shortdesc = this.shortdesc;
         serviceConfigurationRequest.servconf = JSON.stringify(this.variableconf);
+        console.log('serviceConfigurationRequest', serviceConfigurationRequest);
     }
     copyToUpdate(serviceConfigurationUpdateRequest: ServiceConfigurationUpdateRequest) {
         serviceConfigurationUpdateRequest.servconfid = this.servconfid;
@@ -31,15 +33,17 @@ export class ChartConfigurationModel {
         serviceConfigurationUpdateRequest.shortdesc = this.shortdesc;
         serviceConfigurationUpdateRequest.servconf = JSON.stringify(this.variableconf);
     }
-
-    copyFrom(response: ServiceConfigurationResponse) {
-        this.servconfid = response.servconfid;
-        this.spcid = response.spcid;
-        this.conftypecode = response.conftypecode;
-        this.servconfname = response.servconfname;
-        this.shortdesc = response.shortdesc;
-        this.servconf = response.servconf;
-        Object.assign(this.variableconf, JSON.parse(response.servconf));
+    copyToAssociateRequest(request: ServicepointAssociateRequest) {
+        request.servconfid = this.servconfid;
+        request.spid = this.spid;
+    }
+    copyFrom(serviceConfigurationResponse: ServiceConfigurationResponse) {
+        this.servconfid = serviceConfigurationResponse.servconfid;
+        this.spcid = serviceConfigurationResponse.spcid;
+        this.conftypecode = serviceConfigurationResponse.conftypecode;
+        this.servconfname = serviceConfigurationResponse.servconfname;
+        this.shortdesc = serviceConfigurationResponse.shortdesc;
+        this.servconf = serviceConfigurationResponse.servconf;
     }
 }
 

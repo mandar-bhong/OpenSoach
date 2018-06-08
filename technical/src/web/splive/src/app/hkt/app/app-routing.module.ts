@@ -46,6 +46,11 @@ const routes: Routes = [
         loadChildren: './modules/operators/operators.module#OperatorsModule',
         data: { preload: false }
       },
+      {
+        path: 'complaints',
+        loadChildren: './modules/complaints/complaints.module#ComplaintsModule',
+        data: { preload: false }
+      },
     ]
   },
   {

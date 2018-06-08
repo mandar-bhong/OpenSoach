@@ -19,6 +19,8 @@ import { ChartConfigureComponent } from './chart-configure/chart-configure.compo
 import { ChartDataComponent } from './chart-data/chart-data.component';
 import { ChartListComponent } from './chart-list/chart-list.component';
 import { ChartsRoutingModule } from './charts-routing.module';
+import { ChartSearchComponent } from './chart-list/chart-search/chart-search.component';
+import { ChartViewComponent } from './chart-list/chart-view/chart-view.component';
 
 @NgModule({
   imports: [
@@ -39,6 +41,10 @@ import { ChartsRoutingModule } from './charts-routing.module';
     ChartConfigureTaskComponent,
     ChartConfigureBasicComponent,
     ChartConfigureTimeComponent,
+    ChartConfigurePreviewComponent,
+    ChartSearchComponent,
+    ChartViewComponent,
+    ChartConfigurePreviewComponent,
     ChartConfigurePreviewComponent,
     ChartDataComponent
   ],
