@@ -36,6 +36,7 @@ export class OperatorUpdateRequest {
     shortdesc: string;
     fopstate: number;
     foparea: number;
+    fopcode: string;
 }
 export class OperatorDetailsResponse {
     fopid: number;
