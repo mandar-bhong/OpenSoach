@@ -69,6 +69,12 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: 'fa fa-flag'
     },
     {
+        url: '/complaints/detail',
+        linktitle: 'Details',
+        pagetitle: 'Complaint Details',
+        linkiconcss: 'fa fa-meh-o'
+    },
+    {
         url: '/reports',
         linktitle: 'Reports',
         pagetitle: 'Reports',
