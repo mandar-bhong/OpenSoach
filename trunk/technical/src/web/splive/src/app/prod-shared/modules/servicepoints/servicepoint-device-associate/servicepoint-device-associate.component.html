@@ -1,11 +1,10 @@
-
 <mat-card>
     <mat-card-header>
-      <div mat-card-avatar>
-        <i class="fa fa-tablet"></i>
-      </div>
-      <mat-card-title>Select Device</mat-card-title>
-      <mat-card-subtitle>Select a device on which you wish to push the service point.</mat-card-subtitle>
+        <div mat-card-avatar>
+            <i class="fa fa-tablet"></i>
+        </div>
+        <mat-card-title>Select Device</mat-card-title>
+        <mat-card-subtitle>Select a device on which you wish to push the service point.</mat-card-subtitle>
     </mat-card-header>
     <mat-form-field>
         <mat-select placeholder="Select Device" [(ngModel)]="selecteddevice">
@@ -17,6 +16,5 @@
     <div class="form-group form-primary text-right">
         <button type="button" mat-raised-button color="primary" (click)="save()">Save</button>
         <button type="button" mat-button (click)="close()">Close</button>
-      </div>
-  </mat-card>
-
+    </div>
+</mat-card>

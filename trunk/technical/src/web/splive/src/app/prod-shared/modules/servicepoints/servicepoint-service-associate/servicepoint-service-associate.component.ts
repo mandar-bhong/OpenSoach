@@ -120,9 +120,4 @@ export class ServicepointServiceAssociateComponent extends EditRecordBase implem
       this.routeSubscription.unsubscribe();
     }
   }
-  // chartwindow() {
-  //   this.router.navigate(['charts', 'configure'], {
-  //     queryParams: {servconfid: this.dataModel.servconfid, callbackurl: 'servicepoints' }, skipLocationChange: true
-  //   });
-  // }
 }

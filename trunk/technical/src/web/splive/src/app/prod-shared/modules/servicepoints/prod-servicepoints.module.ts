@@ -14,6 +14,7 @@ import { ServicepointSearchComponent } from './servicepoint-list/servicepoint-se
 import {
   ServicepointServiceAssociateComponent,
 } from './servicepoint-service-associate/servicepoint-service-associate.component';
+import { ServicepointUpdateComponent } from './servicepoint-update/servicepoint-update.component';
 
 @NgModule({
   imports: [
@@ -30,9 +31,11 @@ import {
     ServicepointListViewComponent,
     ServicepointSearchComponent,
     ServicepointDeviceAssociateComponent,
+    ServicepointUpdateComponent,
   ],
   entryComponents: [
-    ServicepointDeviceAssociateComponent
+    ServicepointDeviceAssociateComponent,
+    ServicepointUpdateComponent
   ]
 })
 export class ProdServicepointsModule { }

@@ -13,6 +13,7 @@ import { ProdServicepointService } from '../../../../services/servicepoint/prod-
 import {
   ServicepointDeviceAssociateComponent,
 } from '../../servicepoint-device-associate/servicepoint-device-associate.component';
+import { ServicepointUpdateComponent } from '../../servicepoint-update/servicepoint-update.component';
 
 
 @Component({
@@ -60,15 +61,15 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
     this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
-      startWith({}),
-      switchMap(() => {
-        this.isLoadingResults = true;
-        return this.getDataList();
-      }),
-      map(data => {
-        this.isLoadingResults = false;
-        return data;
-      }),
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.getDataList();
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          return data;
+        }),
     ).subscribe(
       payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
@@ -81,7 +82,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
           this.dataSource = [];
         }
       }
-      );
+    );
   }
   getDataList(): Observable<PayloadResponse<DataListResponse<ServicepointDataListResponse>>> {
     const dataListRequest = new DataListRequest<SrevicepointFilterRequest>();
@@ -117,9 +118,19 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
         { queryParams: { id: row.spid, callbackurl: 'servicepoints' }, skipLocationChange: true });
     }
   }
-
-  editServicePoint(row: ServicepointDataListResponse) {
-
+  editServicePoint(row: ServicepointDataListResponse): void {
+    const bottomSheetRef = this.bottomSheet.open(ServicepointUpdateComponent, { data: row.spid });
+    bottomSheetRef.afterDismissed().subscribe(result => {
+      if (result) {
+        console.log('after dismiss check', result);
+        row.spid = Number(result.spid);
+        row.spname = String(result.spname);
+        row.spstate = Number(result.spstate);
+        row.spcid = Number(result.spcid);
+        row.spcname = String(result.spcname);
+        // row.spcid = Number(result.spcname);
+      }
+    });
   }
 
   showChartData(row: ServicepointDataListResponse) {
@@ -133,7 +144,6 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
       this.dataListFilterChangedSubscription.unsubscribe();
     }
   }
-
   openServicePointDeviceAssociation(sp: ServicepointDataListResponse): void {
     const bottomSheetRef = this.bottomSheet.open(ServicepointDeviceAssociateComponent, { data: sp.spid });
     bottomSheetRef.afterDismissed().subscribe(result => {
