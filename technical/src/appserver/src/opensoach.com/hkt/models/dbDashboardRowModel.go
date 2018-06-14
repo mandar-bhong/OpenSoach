@@ -53,11 +53,11 @@ type DBDashBoardInUseLocationDataModel struct {
 type DBFeedbacksPerMonthDataModel struct {
 	Year       int `db:"year" json:"year"`
 	Month      int `db:"month" json:"month"`
-	Rating1 int `json:"rating1"`
-	Rating2 int `json:"rating2"`
-	Rating3 int `json:"rating3"`
-	Rating4 int `json:"rating4"`
-	Rating5 int `json:"rating5"`
+	Rating1    int `db:"rating1" json:"rating1"`
+	Rating2    int `db:"rating2" json:"rating2"`
+	Rating3    int `db:"rating3" json:"rating3"`
+	Rating4    int `db:"rating4" json:"rating4"`
+	Rating5    int `db:"rating5" json:"rating5"`
 }
 
 type DBFeedbacksPerMonthFilterDataModel struct {
@@ -82,4 +82,16 @@ type DBTopComplaintsFilterDataModel struct {
 	SpId           *int64 `db:"sp_id_fk" json:"spid"`
 	CpmId          int64  `db:"cpm_id_fk" json:"cpmid"`
 	ComplaintState int    `db:"complaint_state" json:"complaintstate"`
+}
+
+type DBTaskPerMonthFilterDataModel struct {
+	SpId  *int64 `db:"sp_id_fk" json:"spid"`
+	CpmId int64  `db:"cpm_id_fk" json:"cpmid"`
+}
+
+type DBTaskSummaryPerMonthDataModel struct {
+	Year       int `db:"year" json:"year"`
+	Month      int `db:"month" json:"month"`
+	Ontime      int `db:"ontime" json:"ontime"`
+	Delayed      int `db:"delay" json:"delayed"`
 }

@@ -66,7 +66,15 @@ INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complain
 
 INSERT INTO `spl_node_service_in_txn_tbl` (`id`, `cpm_id_fk`, `serv_in_id_fk`, `fopcode`, `status`, `txn_data`, `txn_date`, `created_on`, `updated_on`) VALUES
 	(1, 1, 1, '11', 1, '{"taskname": "Urinal", "slotendtime": 630, "slotstarttime": 600}', '2018-06-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
-	(2, 1, 1, '23', 2, '{"taskname": "Hand Wash", "slotendtime": 510, "slotstarttime": 480}', '2018-06-05 14:59:44', '2018-06-05 15:00:07', '2018-06-05 15:00:07');
+	(2, 1, 1, '23', 2, '{"taskname": "Hand Wash", "slotendtime": 510, "slotstarttime": 480}', '2018-06-05 14:59:44', '2018-06-05 15:00:07', '2018-06-05 15:00:07'),
+	(3, 1, 1, '33', 1, '{"taskname": "Urinal", "slotendtime": 630, "slotstarttime": 600}', '2018-03-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(4, 1, 1, '44', 2, '{"taskname": "Urinal", "slotendtime": 510, "slotstarttime": 480}', '2018-03-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(5, 1, 1, '55', 1, '{"taskname": "Sanitary Ware", "slotendtime": 630, "slotstarttime": 600}', '2018-04-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(6, 1, 1, '66', 1, '{"taskname": "Dustbins", "slotendtime": 630, "slotstarttime": 600}', '2018-04-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(7, 1, 1, '77', 2, '{"taskname": "Mopping",  "slotendtime": 510, "slotstarttime": 480}', '2018-01-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(8, 1, 1, '88', 2, '{"taskname": "Air Freshner",  "slotendtime": 510, "slotstarttime": 480}', '2018-01-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(9, 1, 1, '88', 1, '{"taskname": "Doors", "slotendtime": 630, "slotstarttime": 600}', '2018-01-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20'),
+	(10, 1, 1, '77', 1, '{"taskname": "Sanitary Ware", "slotendtime": 630, "slotstarttime": 600}', '2018-02-05 13:00:17', '2018-06-05 13:00:18', '2018-06-05 14:58:20');
 	
 --
 -- Dumping data for table `spl_node_feedback_tbl`
