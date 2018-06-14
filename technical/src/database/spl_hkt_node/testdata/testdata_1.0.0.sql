@@ -59,10 +59,6 @@ INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complain
 INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `created_on`, `updated_on`) VALUES ('10', '1', '1', 'Complaint 10', 'Asda', '1', '2018-03-01 19:20:00', '2', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
 INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `created_on`, `updated_on`) VALUES ('11', '1', '1', 'Complaint 11', 'Asda', '2', '2018-02-01 19:20:00', '1', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
 INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `created_on`, `updated_on`) VALUES ('12', '1', '1', 'Complaint 12', 'Asda', '1', '2018-03-01 19:20:00', '3', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
-INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `created_on`, `updated_on`) VALUES ('13', '1', '2', 'Complaint 13', 'Asda', '1', '2018-03-01 19:20:00', '2', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
-INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `created_on`, `updated_on`) VALUES ('14', '1', '2', 'Complaint 14', 'Asda', '2', '2018-02-01 19:20:00', '1', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
-INSERT INTO `spl_hkt_sp_complaint_tbl` (`id`, `cpm_id_fk`, `sp_id_fk`, `complaint_title`, `complaint_by`, `severity`, `raised_on`, `complaint_state`, `created_on`, `updated_on`) VALUES ('15', '1', '2', 'Complaint 15', 'Asda', '1', '2018-03-01 19:20:00', '3', '2018-06-01 19:20:02', '2018-06-01 19:20:02');
-
 
 --
 -- Dumping data for table `spl_node_service_in_txn_tbl`
