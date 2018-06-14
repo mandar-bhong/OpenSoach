@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { EnvironmentProvider } from '../../../environment-provider';
@@ -9,13 +10,14 @@ import { AppDataStoreService } from '../../../services/app-data-store/app-data-s
 import { AuthService } from '../../../services/auth.service';
 import { LoginHandlerService } from '../../../services/login-handler.service';
 import { AppNotificationService } from '../../../services/notification/app-notification.service';
+import { EditRecordBase } from '../../../views/edit-record-base';
 
 @Component({
   selector: 'hkt-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends EditRecordBase implements OnInit {
   hide = true;
   username: string;
   password: string;
@@ -25,10 +27,18 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe
-  ) { }
+  ) {
+    super();
+   }
   ngOnInit() {
+    this.createControls();
   }
-
+  createControls(): void {
+    this.editableForm = new FormGroup({
+      emailControl: new FormControl('', [Validators.required]),
+      passwordControl: new FormControl('', [Validators.required]),
+    });
+  }
   login() {
     const authRequest = new AuthRequest();
     authRequest.username = this.username;
@@ -45,5 +55,7 @@ export class LoginComponent implements OnInit {
         }
       }
     });
+  }
+  closeForm() {
   }
 }
