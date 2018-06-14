@@ -28,8 +28,8 @@ export const APP_ROUTES: RoutingModel[] = [
     },
     {
         url: '/charts',
-        linktitle: 'Charts',
-        pagetitle: 'Charts',
+        linktitle: 'Chart Templates',
+        pagetitle: 'Chart Templates',
         linkiconcss: 'fa fa-table'
     },
     {
