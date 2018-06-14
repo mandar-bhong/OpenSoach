@@ -221,3 +221,67 @@ func GetFeedbackPerMonth(dbConn string, req lmodels.APIFeedbacksPerMonthRequest,
 
 	return nil, data
 }
+
+func GetNoOfComplaintsPerMonth(dbConn string, req lmodels.APIComplaintsByMonthRequest, filtermodel hktmodels.DBNoOfComplaintsPerMonthsFilterDataModel) (error, []hktmodels.DBNoOfComplaintsPerMonthDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetNoOfComplaintsPerMonth")
+
+	data := []hktmodels.DBNoOfComplaintsPerMonthDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " raised_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_NO_OF_COMPLAINTS_PER_MONTH, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func SelectTopComplaints(dbConn string, filtermodel hktmodels.DBTopComplaintsFilterDataModel, noofcomplaints int) (error, *[]lmodels.APITopActiveComplaintsResponse) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SelectTopFiveComplaints")
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	Query := strings.Replace(dbquery.QUERY_GET_TOP_COMPLAINTS, "$WhereCondition$", whereCondition, 1)
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.APITopActiveComplaintsResponse{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selDBCtx.Query = Query
+	selErr := selDBCtx.Select(noofcomplaints)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
