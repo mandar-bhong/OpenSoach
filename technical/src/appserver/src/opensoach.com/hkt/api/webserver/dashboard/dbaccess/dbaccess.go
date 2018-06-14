@@ -206,3 +206,20 @@ func GetAllFeedbackByDate(dbConn string, req lmodels.APIDashboardFeedbackFilterM
 
 	return nil, data
 }
+
+func GetInUseLocations(dbConn string, cpmid int64) (error, []hktmodels.DBDashBoardInUseLocationDataModel) {
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetLocationSummary")
+	data := []hktmodels.DBDashBoardInUseLocationDataModel{}
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = dbquery.QUERY_SPL_NODE_DASHBOARD_IN_USE_LOCATION_COUNT
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select(cpmid)
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}

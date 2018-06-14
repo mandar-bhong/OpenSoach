@@ -45,3 +45,7 @@ type DBFeedbackDataModel struct {
 	RaisedOn        time.Time `db:"raised_on" json:"raisedon"`
 	CreatedOn       time.Time `db:"created_on" json:"createdon"`
 }
+
+type DBDashBoardInUseLocationDataModel struct {
+	Count int `db:"count" json:"count"`
+}

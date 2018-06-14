@@ -13,6 +13,7 @@ type APIDashboardDeviceSummaryResponse struct {
 type APIDashboardLocationSummaryResponse struct {
 	Total  int `json:"total"`
 	Active int `json:"active"`
+	InUse  int `json:"inuse"`
 }
 
 type APIDashboardFeedbackFilterModel struct { //Parameter mapping is done from client side
