@@ -62,7 +62,19 @@ func (service DashboardService) GetLocationSummary() (bool, interface{}) {
 		return false, errModel
 	}
 
+	dberr, inUseCount := dbaccess.GetInUseLocations(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
+
+	if dberr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting location summary.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
 	apiResponse := lmodels.APIDashboardLocationSummaryResponse{}
+
+	apiResponse.InUse = inUseCount[0].Count
 
 	for _, dbSummaryDataModel := range data {
 

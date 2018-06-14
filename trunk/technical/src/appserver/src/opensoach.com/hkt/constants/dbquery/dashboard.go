@@ -17,3 +17,8 @@ $WhereCondition$ group by status`
 const QUERY_SPL_NODE_DASHBOARD_COMPLAINT_SUMMARY = `select  complaint_state,count(*) as count from spl_hkt_sp_complaint_tbl $WhereCondition$ group by complaint_state`
 
 const QUERY_GET_FEEDBACK_BY_DATE = `select  id,sp_id_fk,feedback,feedback_comment,raised_on from spl_node_feedback_tbl $WhereCondition$`
+
+const QUERY_SPL_NODE_DASHBOARD_IN_USE_LOCATION_COUNT = `select count( distinct sp.sp_id_fk) as count  from spl_node_sp_tbl sp
+inner join spl_node_dev_sp_mapping devsp on devsp.sp_id_fk = sp.sp_id_fk 
+inner join spl_node_service_instance_tbl serv_conf_in on serv_conf_in.sp_id_fk = sp.sp_id_fk 
+where sp.cpm_id_fk= ?`
