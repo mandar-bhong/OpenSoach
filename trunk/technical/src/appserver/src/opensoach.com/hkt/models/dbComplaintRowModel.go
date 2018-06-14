@@ -28,22 +28,3 @@ type DBComplaintUpdateRowModel struct {
 	Remarks        *string    `db:"remarks" json:"remarks"`
 	ClosedOn       *time.Time `db:"closed_on" json:"closedon"`
 }
-
-type DBTopComplaintsFilterDataModel struct {
-	SpId           *int64 `db:"sp_id_fk" json:"spid"`
-	CpmId          int64  `db:"cpm_id_fk" json:"cpmid"`
-	ComplaintState int    `db:"complaint_state" json:"complaintstate"`
-}
-
-type DBNoOfComplaintsPerMonthsFilterDataModel struct {
-	SpId  *int64 `db:"sp_id_fk" json:"spid"`
-	CpmId int64  `db:"cpm_id_fk" json:"cpmid"`
-}
-
-type DBNoOfComplaintsPerMonthDataModel struct {
-	Year       int `db:"year" json:"year"`
-	Month      int `db:"month" json:"month"`
-	Open 	   int `db:"open" json:"open"`
-	Closed     int `db:"closed" json:"closed"`
-	InProgress int `db:"inprogress" json:"inprogress"`
-}
