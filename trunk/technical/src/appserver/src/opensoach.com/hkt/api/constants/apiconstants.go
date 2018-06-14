@@ -66,4 +66,4 @@ const API_DASHBOARD_LOCATION_SUMMARY = API_BASE_URL + "/v1/dashboard/location/su
 const API_DASHBOARD_FEEDBACK_SUMMARY = API_BASE_URL + "/v1/dashboard/feedback/summary"
 const API_DASHBOARD_TASK_SUMMARY = API_BASE_URL + "/v1/dashboard/task/summary"
 const API_DASHBOARD_COMPLAINT_SUMMARY = API_BASE_URL + "/v1/dashboard/complaint/summary"
-const API_DASHBOARD_GET_ALL_FEEDBACKS = API_BASE_URL + "/v1/dashboard/feedback/info"
+const API_DASHBOARD_GET_FEEDBACKS_PER_MONTH = API_BASE_URL + "/v1/dashboard/feedback/permonth"

@@ -202,22 +202,21 @@ func (service DashboardService) GetComplaintSummary(req lmodels.APIDashboardComp
 
 }
 
-func (service DashboardService) SelectAllFeedbackByDate(req lmodels.APIDashboardFeedbackFilterModel) (bool, interface{}) {
+func (service DashboardService) FeedbackPerMonth(req lmodels.APIFeedbacksPerMonthRequest) (bool, interface{}) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution AllFeedbackByDate")
+	filterModel := hktmodels.DBFeedbacksPerMonthFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	filterModel.SpId = req.SpID
 
-	req.CPMID = service.ExeCtx.SessionInfo.Product.CustProdID
-
-	dbErr, data := dbaccess.GetAllFeedbackByDate(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
-
+	dbErr, feedbackList := dbaccess.GetFeedbackPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting feedbacks.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
 
-	return true, data
-
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched feedback per month")
+	return true, feedbackList
 }

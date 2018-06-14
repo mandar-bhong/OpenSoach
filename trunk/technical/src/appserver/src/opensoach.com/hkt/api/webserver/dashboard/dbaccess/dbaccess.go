@@ -166,47 +166,6 @@ func GetComplaintSummary(dbConn string, req lmodels.APIDashboardComplaintFilterM
 	return nil, data
 }
 
-func GetAllFeedbackByDate(dbConn string, req lmodels.APIDashboardFeedbackFilterModel) (error, []hktmodels.DBFeedbackDataModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFeedback")
-
-	data := []hktmodels.DBFeedbackDataModel{}
-
-	whereCondition := hkthelper.GetFilterConditionFormModel(req)
-
-	if req.StartTime != nil && req.EndTime != nil {
-
-		if whereCondition != "" {
-			whereCondition = whereCondition + " and "
-		}
-
-		dbStartTime := req.StartTime.Format(pcconst.DB_TIME_FORMAT)
-		dbEndTime := req.EndTime.Format(pcconst.DB_TIME_FORMAT)
-
-		whereCondition = whereCondition + " raised_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
-	}
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_GET_FEEDBACK_BY_DATE, "$WhereCondition$", whereCondition, 1)
-
-	logger.Context().WithField("Query", query).LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution query")
-
-	selectCtx := dbmgr.SelectContext{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = &data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectCtxErr := selectCtx.Select()
-	if selectCtxErr != nil {
-		return selectCtxErr, nil
-	}
-
-	return nil, data
-}
-
 func GetInUseLocations(dbConn string, cpmid int64) (error, []hktmodels.DBDashBoardInUseLocationDataModel) {
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetLocationSummary")
 	data := []hktmodels.DBDashBoardInUseLocationDataModel{}
@@ -217,6 +176,45 @@ func GetInUseLocations(dbConn string, cpmid int64) (error, []hktmodels.DBDashBoa
 	selectCtx.Query = dbquery.QUERY_SPL_NODE_DASHBOARD_IN_USE_LOCATION_COUNT
 	selectCtx.QueryType = dbmgr.Query
 	selectCtxErr := selectCtx.Select(cpmid)
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetFeedbackPerMonth(dbConn string, req lmodels.APIFeedbacksPerMonthRequest, filtermodel hktmodels.DBFeedbacksPerMonthFilterDataModel) (error, []hktmodels.DBFeedbacksPerMonthDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetFeedbackPerMonth")
+
+	data := []hktmodels.DBFeedbacksPerMonthDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " raised_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_FEEDBACKS_PER_MONTH, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
 	if selectCtxErr != nil {
 		return selectCtxErr, nil
 	}
