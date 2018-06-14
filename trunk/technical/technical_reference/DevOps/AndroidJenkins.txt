@@ -1,0 +1,12 @@
+https://www.digitalocean.com/community/tutorials/how-to-build-android-apps-with-jenkins
+
+
+https://medium.com/@pankaj.jangir1993/setting-up-android-package-kit-apk-generator-using-jenkins-gradle-git-41c9b792e168
+
+https://android.jlelse.eu/setting-up-jenkins-for-android-how-i-dealt-with-the-challenges-i-faced-1bbdb6580b8d
+http://www.vogella.com/tutorials/JenkinsAndroid/article.html
+
+wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
+
+
+export ANDROID_HOME="/opt/tools/android/android-sdk-linux"

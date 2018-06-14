@@ -1,0 +1,84 @@
+SVN installation
+
+https://linode.com/docs/development/version-control/manage-source-code-versions-with-subversion/
+
+du -ah /var/log --- space utilization
+
+sudo yum update -- updating system
+
+sudo yum install httpd
+
+
+1. yum install subversion
+2. create directory e.g. /opt/svn/rbi/cisbi
+3. svnadmin create /opt/svn/rbi/cisbi
+4. svnadmin verify /opt/svn/rbi/cisbi
+
+
+Installing Apache and mod_dav_svn - For web access 
+1. yum install mod_dav_svn httpd
+
+chown -R apache:apache /opt/svn/rbi/cisbi/
+chown -R apache /opt/svn/rbi/cisbi
+chown -R httpd /opt/svn/rbi/cisbi
+chown -R nobody /opt/svn/rbi/cisbi
+
+
+chmod -R +s /opt/svn/rbi/cisbi
+
+
+
+systemctl start httpd   - to start httpd in centos 7
+sudo systemctl enable httpd  - to start server on startup
+sudo systemctl enable httpd.service  - to start server on startup
+
+
+
+/opt/svn/rbi/cisbi/conf/
+svnserve.conf
+
+ anon-access = none
+ auth-access = write
+ password-db = passwd
+ authz-db = authz
+ 
+ 
+ To create svn user 
+ htpasswd  /opt/svn/servicepointlive/conf/passwd sanjay.sawant
+ htpasswd -c /opt/svn/rbi/cisbi/conf/passwd mandar.bhong -- new file
+
+ 
+ folder permission to user 
+[cisbi:/]
+om.kumar = rw
+mandar.bhong = rw
+
+
+/etc/httpd/conf.d
+create file subversion.conf
+
+copy content and change as per req
+<Location /cisbi>
+DAV svn
+SVNPath /opt/svn/rbi/cisbi
+Authtype Basic
+AuthName "CISBI dev-svn repository"
+AuthzSVNAccessFile //opt/svn/rbi/cisbi/conf/authz
+AuthUserFile /opt/svn/rbi/cisbi/conf/passwd
+Require valid-user
+</Location>
+
+
+
+
+#httpd restart
+/sbin/service httpd restart
+
+admin password
+6a636412453c4f628c1af58928275be4
+Hostname
+li1373-32.members.linode.com
+
+
+df command - Shows the amount of disk space used and available on Linux file systems.
+du command - Display the amount of disk space used by the specified files and for each subdirectory.
