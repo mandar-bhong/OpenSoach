@@ -79,3 +79,9 @@ type APITopActiveComplaintsResponse struct {
 	ComplaintState int       `db:"complaint_state" json:"complaintstate"`
 	Severity       *int      `db:"severity" json:"severity"`
 }
+
+type APITaskByMonthRequest struct {
+	SpID      *int64     `json:"spid"`
+	StartDate *time.Time `json:"startdate"`
+	EndDate   *time.Time `json:"enddate"`
+}

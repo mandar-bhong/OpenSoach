@@ -44,3 +44,11 @@ group by month,year`
 const QUERY_GET_TOP_COMPLAINTS = `select id,complaint_title,raised_on,complaint_state,severity from spl_hkt_sp_complaint_tbl $WhereCondition$
 order by severity desc ,raised_on desc
 limit ?`
+
+const QUERY_GET_TASK_SUMMARY_PER_MONTH = `select year(txn_date) as year,
+month(txn_date) as month,
+count(if(status=1,1,null)) as ontime,
+count(if(status=2,1,null)) as delay 
+from spl_node_service_in_txn_tbl
+$WhereCondition$
+group by month,year`

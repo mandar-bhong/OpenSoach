@@ -261,3 +261,23 @@ func (service DashboardService) TopComplaints(req lmodels.APITopActiveComplaints
 	return true, complaintList
 }
 
+func (service DashboardService) TaskSummaryPerMonth(req lmodels.APITaskByMonthRequest) (bool, interface{}) {
+
+	filterModel := hktmodels.DBTaskPerMonthFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	filterModel.SpId = req.SpID
+
+	dbErr, taskList := dbaccess.GetTaskSummaryPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched task summary per month")
+	return true, taskList
+}
+
+
