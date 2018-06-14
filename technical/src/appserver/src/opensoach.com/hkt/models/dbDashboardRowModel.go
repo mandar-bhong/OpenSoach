@@ -49,3 +49,18 @@ type DBFeedbackDataModel struct {
 type DBDashBoardInUseLocationDataModel struct {
 	Count int `db:"count" json:"count"`
 }
+
+type DBFeedbacksPerMonthDataModel struct {
+	Year       int `db:"year" json:"year"`
+	Month      int `db:"month" json:"month"`
+	Rating1 int `json:"rating1"`
+	Rating2 int `json:"rating2"`
+	Rating3 int `json:"rating3"`
+	Rating4 int `json:"rating4"`
+	Rating5 int `json:"rating5"`
+}
+
+type DBFeedbacksPerMonthFilterDataModel struct {
+	SpId  *int64 `db:"sp_id_fk" json:"spid"`
+	CpmId int64  `db:"cpm_id_fk" json:"cpmid"`
+}

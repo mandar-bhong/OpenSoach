@@ -17,7 +17,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DASHBOARD_FEEDBACK_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_TASK_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_COMPLAINT_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.GET(constants.API_DASHBOARD_GET_ALL_FEEDBACKS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DASHBOARD_GET_FEEDBACKS_PER_MONTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -101,9 +101,10 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_DASHBOARD_GET_ALL_FEEDBACKS:
+	case constants.API_DASHBOARD_GET_FEEDBACKS_PER_MONTH:
 
-		req := lmodels.APIDashboardFeedbackFilterModel{}
+		req := lmodels.APIFeedbacksPerMonthRequest{}
+
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
 
 		if isPrepareExeSuccess == false {
@@ -113,7 +114,8 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = DashboardService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.SelectAllFeedbackByDate(req)
+		}.FeedbackPerMonth(req)
+
 		break
 	}
 

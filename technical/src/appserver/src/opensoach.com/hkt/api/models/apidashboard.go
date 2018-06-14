@@ -54,3 +54,9 @@ type APIDashboardComplaintResponse struct {
 	Close      int `json:"closed"`
 	Inprogress int `json:"inprogress"`
 }
+
+type APIFeedbacksPerMonthRequest struct {
+	SpID      *int64     `json:"spid"`
+	StartDate *time.Time `json:"startdate"`
+	EndDate   *time.Time `json:"enddate"`
+}
