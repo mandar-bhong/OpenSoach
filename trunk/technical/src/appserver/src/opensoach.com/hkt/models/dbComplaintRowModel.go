@@ -43,5 +43,7 @@ type DBNoOfComplaintsPerMonthsFilterDataModel struct {
 type DBNoOfComplaintsPerMonthDataModel struct {
 	Year       int `db:"year" json:"year"`
 	Month      int `db:"month" json:"month"`
-	Complaints int `db:"count" json:"complaints"`
+	Open 	   int `db:"open" json:"open"`
+	Closed     int `db:"closed" json:"closed"`
+	InProgress int `db:"inprogress" json:"inprogress"`
 }

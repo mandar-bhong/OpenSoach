@@ -29,4 +29,5 @@ count(if(feedback=3,1,null)) as rating3,
 count(if(feedback=4,1,null)) as rating4,
 count(if(feedback=5,1,null)) as rating5  
 from spl_node_feedback_tbl
+$WhereCondition$
 group by month,year`
