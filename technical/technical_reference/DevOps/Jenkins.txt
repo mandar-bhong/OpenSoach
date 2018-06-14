@@ -1,0 +1,4 @@
+Updating Jenkins
+
+sudo yum update jenkins
+
