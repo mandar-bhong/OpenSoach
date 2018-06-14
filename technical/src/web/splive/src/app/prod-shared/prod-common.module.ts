@@ -11,7 +11,7 @@ import { ProdUserService } from './services/user/prod-user.service';
 
 @NgModule({
     imports: [
-        CommonModule,
+        CommonModule
     ],
     declarations: [
     ],
@@ -30,7 +30,6 @@ export class ProdCommonModule {
                 SplConfService,
                 ProdServicepointService,
                 SpServiceTxnService
-
             ]
         };
     }

@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChartConfigureService } from './services/chart-configure.service';
 import { ProdComplaintService } from './services/complaint/prod-complaint.service';
+import { DashboardService } from './services/dashboard.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,12 @@ import { ProdComplaintService } from './services/complaint/prod-complaint.servic
     MaterialModules.forRoot(),
     DragulaModule
   ],
-  providers: [ChartConfigureService, ProdComplaintService],
+  providers: [
+    ChartConfigureService,
+    DashboardService,
+    ProdComplaintService
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

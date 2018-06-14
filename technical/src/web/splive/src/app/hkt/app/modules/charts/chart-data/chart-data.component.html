@@ -1,7 +1,8 @@
 <div class="row">
+  <div class="col">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Chart Live Data</mat-card-title>
+      <mat-card-title>Showing data for Service Point 1 as on {{selectedDate| date:'dd/mm/yyyy'}} </mat-card-title>
     </mat-card-header>
     <div class="row">
       <mat-button-toggle-group [(ngModel)]="dataModel.selecteddateoption" (ngModelChange)="optionChange()">
@@ -44,4 +45,5 @@
       </div>
     </div>
   </mat-card>
+</div>
 </div>

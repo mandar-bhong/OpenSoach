@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
@@ -49,6 +49,7 @@ export class AppCommonModule {
       ngModule: AppCommonModule,
       providers: [
         DatePipe,
+        DecimalPipe,
         AppDataStoreService,
         LoginHandlerService,
         LoginStatusProviderService,
