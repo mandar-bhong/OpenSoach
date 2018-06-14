@@ -35,8 +35,6 @@ export class ServicePointSummaryModel {
         this.total = response.total;
         this.inuse = response.inuse;
         this.inusepercentage = 0;
-        // TODO remove after integration
-        this.inuse = this.total;
         if (this.total > 0) {
             this.inusepercentage = (this.inuse / this.total) * 100;
         }
