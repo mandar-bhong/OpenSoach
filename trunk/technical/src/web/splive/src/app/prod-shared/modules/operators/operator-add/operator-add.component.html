@@ -3,7 +3,7 @@
     <div class="col-sm col-md m-b-30 col">
       <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save()">
         <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
-        <div class=" form-group form-primary">
+        <div class=" form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <input disabled matInput placeholder="Operator Name" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname">
             <mat-error *ngIf="editableForm.controls['fopnameControl'].hasError('required') ">
@@ -11,7 +11,11 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class=" form-group form-primary">
+        <div *ngIf="formMode === 0">
+          <span class="viewlabel">Operator Name</span>
+          <label class="viewtext">{{ dataModel.fopname }}</label>
+        </div>
+        <div class=" form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <input matInput placeholder="Email Id" type="email" formControlName="emailidControl" required [(ngModel)]="dataModel.emailid">
             <mat-error *ngIf="editableForm.controls['emailidControl'].hasError('required') ">
@@ -19,7 +23,11 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class=" form-group form-primary">
+        <div *ngIf="formMode === 0">
+          <span class="viewlabel">Email Id</span>
+          <label class="viewtext">{{ dataModel.emailid }}</label>
+        </div>
+        <div class=" form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <input matInput placeholder="Mobile Number" formControlName="mobilenoControl" required [(ngModel)]="dataModel.mobileno">
             <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('required') ">
@@ -27,15 +35,23 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class=" form-group form-primary">
+        <div *ngIf="formMode === 0">
+          <span class="viewlabel">Mobile Number</span>
+          <label class="viewtext">{{ dataModel.mobileno }}</label>
+        </div>
+        <div class=" form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <input matInput placeholder="Operator Code" formControlName="fopcodeControl" required [(ngModel)]="dataModel.fopcode">
             <mat-error *ngIf="editableForm.controls['fopcodeControl'].hasError('required') ">
-              Mobile Number is Required
+              Required
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="form-group form-primary">
+        <div *ngIf="formMode === 0">
+          <span class="viewlabel">Operator Code</span>
+          <label class="viewtext">{{ dataModel.fopcode }}</label>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <mat-select placeholder="State" formControlName="fopstateControl" required [(ngModel)]="dataModel.fopstate">
               <mat-option *ngFor="let opstate of operatorStates" [value]="opstate.value">
@@ -47,7 +63,11 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="form-group form-primary">
+        <div *ngIf="formMode === 0">
+          <span class="viewlabel">State </span>
+          <label class="viewtext">{{ getoperatorstate(dataModel.fopstate)| translate }}</label>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <mat-select placeholder="Area" formControlName="fopareaControl" required [(ngModel)]="dataModel.foparea">
               <mat-option *ngFor="let oparea of operatorAreas" [value]="oparea.value">
@@ -58,6 +78,10 @@
               Selection is Required
             </mat-error>
           </mat-form-field>
+        </div>
+        <div *ngIf="formMode === 0">
+          <span class="viewlabel">Area </span>
+          <label class="viewtext">{{ getoperatorarea(dataModel.foparea)| translate }}</label>
         </div>
         <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
       </form>

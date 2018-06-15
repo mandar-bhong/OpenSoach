@@ -92,7 +92,6 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
           } else {
             this.showFormedit = false;
             this.showForm = true;
-
           }
         } else {
           // this.appNotificationService.info(this.translatePipe.transform('INFO_DETAILS_NOT_AVAILABLE'));
@@ -142,6 +141,7 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
     });
   }
   savemaster() {
+    if (this.editableForm.invalid) { return; }
     const request = new UserMasterUpdateRequest();
     this.dataModel.copyToUpdateRequest(request);
     this.prodUserService.updateUserEdit(request).subscribe(payloadResponse => {
@@ -170,9 +170,23 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
     this.editableForm.controls['lnameControl'].disable();
     this.editableForm.controls['mobilenoControl'].disable();
     this.editableForm.controls['userGenderControl'].disable();
-    this.editableForm.controls['userGenderControl'].disable();
+    this.editableForm.controls['alternateContactControl'].disable();
   }
-
+  getuserrole(value: number) {
+    if (this.uroleids && value) {
+      return this.uroleids.find(a => a.uroleid === value).urolename;
+    }
+  }
+  getgender(value: number) {
+    if (this.userGenders && value) {
+      return this.userGenders.find(a => a.value === value).text;
+    }
+  }
+  getuserstate(value: number) {
+    if (this.userStates && value) {
+      return this.userStates.find(a => a.value === value).text;
+    }
+  }
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();

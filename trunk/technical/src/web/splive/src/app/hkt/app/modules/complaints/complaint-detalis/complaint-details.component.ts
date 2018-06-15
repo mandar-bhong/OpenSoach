@@ -91,6 +91,17 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
       }
     });
   }
+  getcomplaintstate(value: number) {
+    if (this.complStates && value) {
+      return this.complStates.find(a => a.value === value).text;
+    }
+  }
+
+  getseveritystate(value: number) {
+    if (this.seveStates && value) {
+      return this.seveStates.find(a => a.value === value).text;
+    }
+  }
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
