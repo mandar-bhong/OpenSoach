@@ -88,8 +88,8 @@ INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`
 --
 
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (1,2,1,1,1,UTC_TIMESTAMP);
-INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (2,6,1,1,1,UTC_TIMESTAMP);
-INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (3,7,1,1,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (2,6,1,2,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (3,7,1,2,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_cust_prod_count_tbl`
