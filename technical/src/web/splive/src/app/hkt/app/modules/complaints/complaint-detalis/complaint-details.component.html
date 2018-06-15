@@ -9,21 +9,21 @@
       <form id="comp" [formGroup]="editableForm" (ngSubmit)="save()">
         <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()" [hidden]="showCat===false"></app-editable-form-header>
         <div class="form-group form-primary">
-          Complaint Title
+          <span class="viewlabel"> Complaint Title </span>
           <br>
           <label>{{ dataModel.complainttitle }}</label>
         </div>
         <div class="form-group form-primary">
-          Description
+          <span class="viewlabel"> Description</span>
           <br>
           <label>{{ dataModel.description }}</label>
         </div>
         <div class="form-group form-primary">
-          Raised By
+          <span class="viewlabel"> Raised By </span>
           <br>
           <label>{{ dataModel.complaintby }}</label>
         </div>
-        <div class="form-group form-primary">
+        <div class="form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <mat-select placeholder="State" formControlName="complaintstateControl" required [(ngModel)]="dataModel.complaintstate">
               <mat-option *ngFor="let opstate of complStates" [value]="opstate.value">
@@ -35,7 +35,12 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="form-group form-primary">
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel"> State</span>
+          <br>
+          <label>{{ complaintstate(dataModel.complaintstate)| translate }}</label>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field class="full-width">
             <input matInput placeholder="Remark" formControlName="remarksControl" [(ngModel)]="dataModel.remarks">
             <mat-error *ngIf="editableForm.controls['remarksControl'].hasError('required') ">
@@ -43,7 +48,12 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="form-group form-primary">
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel"> Remark </span>
+          <br>
+          <label>{{ dataModel.remarks }}</label>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <mat-select placeholder="Severity" formControlName="severityControl" required [(ngModel)]="dataModel.severity">
               <mat-option *ngFor="let opstate of seveStates" [value]="opstate.value">
@@ -54,6 +64,11 @@
               Selection is Required
             </mat-error>
           </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Severity</span>
+          <br>
+          <label>{{ severitystate(dataModel.severity)| translate }} </label>
         </div>
         <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()" [hidden]="showCat===false"></app-editable-form-footer-toolbar>
       </form>

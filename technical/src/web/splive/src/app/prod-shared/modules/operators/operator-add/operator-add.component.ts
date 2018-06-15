@@ -93,7 +93,16 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
-
+  getoperatorarea(value: number) {
+    if (this.operatorAreas && value) {
+      return this.operatorAreas.find(a => a.value === value).text;
+    }
+  }
+  getoperatorstate(value: number) {
+    if (this.operatorStates && value) {
+      return this.operatorStates.find(a => a.value === value).text;
+    }
+  }
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();

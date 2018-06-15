@@ -115,3 +115,14 @@ button:focus {
 .color-text-alternate {
   color: #989A7C;
 }
+
+
+.viewlabel {
+  color:#6c757d!important;
+  display: block;
+}
+
+.viewtext { 
+  display: block; 
+  color:black;
+}
