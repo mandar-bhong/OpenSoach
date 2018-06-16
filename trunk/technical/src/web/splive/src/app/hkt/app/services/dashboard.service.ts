@@ -17,6 +17,8 @@ import {
     FeedbackTrendRequest,
     TaskTrendRequest,
     TaskTrendResponse,
+    ComplaintTrendResponse,
+    ComplaintTrendRequest,
 } from '../models/api/dashboard-models';
 
 @Injectable()
@@ -62,6 +64,12 @@ export class DashboardService {
     getTaskTrend(request = new TaskTrendRequest(), implicitErrorHandling = true):
         Observable<PayloadResponse<TaskTrendResponse[]>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/task/permonth',
+            request, implicitErrorHandling);
+    }
+
+    getComplaintTrend(request = new ComplaintTrendRequest(), implicitErrorHandling = true):
+        Observable<PayloadResponse<ComplaintTrendResponse[]>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/complaint/permonth',
             request, implicitErrorHandling);
     }
 }
