@@ -1,5 +1,6 @@
 import {
     ComplaintSummaryResponse,
+    ComplaintTrendResponse,
     DeviceSummaryResponse,
     FeedbackSummaryResponse,
     FeedbackTrendResponse,
@@ -177,6 +178,23 @@ export class TaskTrendModel {
     copyFrom(response: TaskTrendResponse) {
         this.ontime = response.ontime;
         this.delayed = response.delayed;
+
+        this.month = response.month;
+        this.year = response.year;
+    }
+}
+
+export class ComplaintTrendModel {
+    month: number;
+    year: number;
+    open: number;
+    closed: number;
+    inprogress: number;
+
+    copyFrom(response: ComplaintTrendResponse) {
+        this.open = response.open;
+        this.inprogress = response.inprogress;
+        this.closed = response.closed;
 
         this.month = response.month;
         this.year = response.year;

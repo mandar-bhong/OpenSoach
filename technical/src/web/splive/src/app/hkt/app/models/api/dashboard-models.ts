@@ -76,3 +76,18 @@ export class TaskTrendResponse {
     delayed: number;
 }
 
+export class ComplaintTrendRequest {
+    spid: number;
+    startdate: Date;
+    enddate: Date;
+}
+
+export class ComplaintTrendResponse {
+    month: number;
+    year: number;
+    open: number;
+    closed: number;
+    inprogress: number;
+}
+
+

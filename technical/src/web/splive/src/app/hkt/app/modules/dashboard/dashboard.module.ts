@@ -12,6 +12,7 @@ import { FeedbackSummaryComponent } from './feedback-summary/feedback-summary.co
 import { FeedbackTrendComponent } from './feedback-trend/feedback-trend.component';
 import { TaskSummaryComponent } from './task-summary/task-summary.component';
 import { TaskTrendComponent } from './task-trend/task-trend.component';
+import { ComplaintSummaryComponent } from './complaint-summary/complaint-summary.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { TaskTrendComponent } from './task-trend/task-trend.component';
     TaskSummaryComponent,
     TaskTrendComponent,
     FeedbackTrendComponent,
-    ComplaintTrendComponent
+    ComplaintTrendComponent,
+    ComplaintSummaryComponent
   ]
 })
 export class DashboardModule { }
