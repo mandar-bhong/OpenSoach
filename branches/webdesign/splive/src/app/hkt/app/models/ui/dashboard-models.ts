@@ -1,9 +1,12 @@
 import {
     ComplaintSummaryResponse,
+    ComplaintTrendResponse,
     DeviceSummaryResponse,
     FeedbackSummaryResponse,
+    FeedbackTrendResponse,
     ServicePointSummaryResponse,
     TaskSummaryResponse,
+    TaskTrendResponse,
 } from '../api/dashboard-models';
 
 export class DeviceSummaryModel {
@@ -125,5 +128,75 @@ export class TaskSummaryModel {
             this.ontimepercentage = (this.ontime / this.total) * 100;
             this.delayedpercentage = (this.delayed / this.total) * 100;
         }
+    }
+}
+
+export class FeedbackTrendModel {
+    month: number;
+    year: number;
+    rating1: number;
+    rating2: number;
+    rating3: number;
+    rating4: number;
+    rating5: number;
+    total: number;
+    averagerating: number;
+
+    copyFrom(response: FeedbackTrendResponse) {
+        this.rating1 = response.rating1;
+        this.rating2 = response.rating2;
+        this.rating3 = response.rating3;
+        this.rating4 = response.rating4;
+        this.rating5 = response.rating5;
+        this.month = response.month;
+        this.year = response.year;
+
+        this.total = this.rating1 + this.rating2 + this.rating3 + this.rating4 + this.rating5;
+        this.averagerating = 0;
+
+        if (this.total > 0) {
+            this.averagerating = (this.rating1 * 1
+                + this.rating2 * 2
+                + this.rating3 * 3
+                + this.rating4 * 4
+                + this.rating5 * 5) / this.total;
+        }
+    }
+}
+
+export class TrendChartPerMonthXaxis {
+    year: number;
+    month: number;
+}
+
+export class TaskTrendModel {
+    month: number;
+    year: number;
+    ontime: number;
+    delayed: number;
+
+    copyFrom(response: TaskTrendResponse) {
+        this.ontime = response.ontime;
+        this.delayed = response.delayed;
+
+        this.month = response.month;
+        this.year = response.year;
+    }
+}
+
+export class ComplaintTrendModel {
+    month: number;
+    year: number;
+    open: number;
+    closed: number;
+    inprogress: number;
+
+    copyFrom(response: ComplaintTrendResponse) {
+        this.open = response.open;
+        this.inprogress = response.inprogress;
+        this.closed = response.closed;
+
+        this.month = response.month;
+        this.year = response.year;
     }
 }

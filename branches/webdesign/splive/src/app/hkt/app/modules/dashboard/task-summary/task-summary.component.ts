@@ -15,12 +15,26 @@ export class TaskSummaryComponent implements OnInit {
 
   selectedoption = '0';
   constructor(private dashboardService: DashboardService) { }
+  onTimeLabel = 'On Time';
+  delayedLabel = 'Delayed';
+  customColors = [
+    {
+      name: this.onTimeLabel,
+      value: '#008000'
+    },
+    {
+      name: this.delayedLabel,
+      value: '#ffcc00'
+    }
+  ];
 
+  taskchartdata = [];
   ngOnInit() {
     this.getTaskSummaryTillDate();
   }
 
   optionChange() {
+    this.taskchartdata = [];
     if (this.selectedoption === '1') {
       this.getTaskSummaryThisMonth();
     } else {
@@ -33,6 +47,7 @@ export class TaskSummaryComponent implements OnInit {
       if (payloadResponse && payloadResponse.issuccess) {
         this.tasksummary.copyFrom(payloadResponse.data);
         console.log('task summary till date', this.tasksummary);
+        this.generateChartData();
       }
     });
   }
@@ -48,8 +63,22 @@ export class TaskSummaryComponent implements OnInit {
         if (payloadResponse && payloadResponse.issuccess) {
           this.tasksummary.copyFrom(payloadResponse.data);
           console.log('task summary month', this.tasksummary);
+          this.generateChartData();
         }
       });
+  }
+
+  generateChartData() {
+    this.taskchartdata = [
+      {
+        name: this.onTimeLabel,
+        value: this.tasksummary.ontime
+      },
+      {
+        name: this.delayedLabel,
+        value: this.tasksummary.delayed
+      },
+    ];
   }
 
 }
