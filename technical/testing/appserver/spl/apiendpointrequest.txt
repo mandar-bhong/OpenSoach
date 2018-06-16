@@ -1,5 +1,0 @@
-
-
-1. method POST : /api/v1/endpoint/deviceauthorization
-
-	{"serialno":"1234567890123456"}
