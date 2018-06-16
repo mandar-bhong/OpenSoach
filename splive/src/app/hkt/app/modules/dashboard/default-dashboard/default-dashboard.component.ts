@@ -40,7 +40,6 @@ export class DefaultDashboardComponent implements OnInit {
     this.dashboardService.getComplaintSummary().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.complaintsummary.copyFrom(payloadResponse.data);
-        console.log('complaint', this.complaintsummary);
       }
     });
   }
