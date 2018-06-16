@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <form class="" [formGroup]="editableForm" action="javascript:">
+    <div class="row" id="form-id">
+      <!-- <div class="col-sm-2 col-md-2"></div> -->
+      <div class="col">
+        <mat-card style="max-width:425px;">
+          <div class="row">
+            <div class="col">
+              <h3 class="text-center">{{'LblLoginHeader' | translate}}</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <input matInput placeholder="Enter your email" required [(ngModel)]="username" name="username" formControlName="emailControl">
+                <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
+                  Email is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <input matInput placeholder="Enter your password" [(ngModel)]="password" name="password" [type]="hide ? 'password' : 'text'"
+                  required formControlName="passwordControl">
+                <mat-icon matSuffix class="{{hide ? 'fa fa-eye' : 'fa fa-eye-slash'}}" (click)="hide = !hide"></mat-icon>
+                <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
+                 Password is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button mat-raised-button color="accent" type="button" style="width:100%" (click)="login()">Sign in</button>
+            </div>
+          </div>
+          <hr/>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <div class="font-small" style="line-height:32px">
+                <a [routerLink]="['/auth/forgot']"> Forgot Password?</a>
+              </div>
+            </div>
+            <div class="col-md-8 col-sm-8" style="text-align:right;">
+              <span class="font-small color-text-alternate" style="line-height:32px">Powered by
+                <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
+              </span>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <!-- <div class="col-sm-2 col-md-2"></div> -->
+    </div>
+  </form>
+</div>

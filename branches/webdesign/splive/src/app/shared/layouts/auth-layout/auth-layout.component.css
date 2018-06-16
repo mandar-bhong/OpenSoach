@@ -1,0 +1,18 @@
+
+#top,
+	#bottom {
+		position: fixed;
+		left: 0;
+		right: 0;
+		height: 71%;
+	}
+	
+	#top {
+		top: 0;
+		background-color: #446666;
+	}
+	
+	#bottom {
+		bottom: 0;
+		background-color: snow;
+	}

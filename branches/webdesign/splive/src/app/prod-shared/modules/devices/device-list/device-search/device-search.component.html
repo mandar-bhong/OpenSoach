@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col">
+        <mat-card>
+            <mat-expansion-panel [expanded]="isExpanded" (opened)="panelOpened()">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                        <span style="padding-left:10px">Filter</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Serial Number" [(ngModel)]="dataModel.serialno">
+                            <button mat-button *ngIf="dataModel.serialno" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.serialno=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Device Name" [(ngModel)]="dataModel.devname">
+                            <button mat-button *ngIf="dataModel.devname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.devname=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <button type="button" mat-raised-button color="primary" (click)="search()">Apply</button>
+            </mat-expansion-panel>
+        </mat-card>
+    </div>
+</div>

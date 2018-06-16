@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-light " id="header">
+  <div class="navbar-brand ">
+      <ul style="padding-left:20px;margin-bottom:0px">
+          <li>
+            <i class="fa fa-bars" (click)="toggleChange()" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
+            </i>
+          </li>
+          <li>
+              <img src="assets/images/logo.png" style="padding-left:31px;margin-top:-15px" alt="logo.png">
+          </li>
+        </ul>
+  
+    
+  </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fa fa-ellipsis-h fa-2x" style="color:white"></i>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto" id="box">
+      <li class="nav-item dropdown">
+        <i class="fa fa-bell " href="#" style="color:white"></i>
+      </li>
+    </ul>
+    <ul class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="color:white; margin-top:14px;">
+        {{username}}
+      </a>
+      <div class="dropdown-menu">
+        <i class="dropdown-item" href="#">Setting
+          <span class="fa fa-cog pull-right"></span>
+        </i>
+        <i class="dropdown-item " href="#">Profile
+          <span class="	fa fa-user pull-right"></span>
+        </i>
+        <i class="dropdown-item" (click)="logout()">Logout
+          <span class="fa fa-sign-out pull-right"></span>
+        </i>
+      </div>
+    </ul>
+  </div>
+</nav>

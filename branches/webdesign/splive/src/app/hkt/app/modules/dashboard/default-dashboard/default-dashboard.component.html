@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Devices</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{devicesummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar bg-c-green" [ngStyle]="{'width.%': devicesummary.onlinepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-green">
+        <h6 class="text-white m-b-0">Online: {{devicesummary.online}}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Devices</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{devicesummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar bg-c-red" [ngClass]="{'bg-c-red': devicesummary.offline>0, 'bg-c-blue': devicesummary.offline===0}"
+            [ngStyle]="{'width.%': devicesummary.offlinepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-red" [ngClass]="{'bg-c-red': devicesummary.offline>0, 'bg-c-blue': devicesummary.offline===0}">
+        <h6 class="text-white m-b-0">Offline: {{devicesummary.offline}}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Service Points</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{spsummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar" [ngClass]="spsummary.total===spsummary.inuse?'bg-c-blue':'bg-c-red'" [ngStyle]="{'width.%': spsummary.inusepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="spsummary.total===spsummary.inuse?'bg-c-blue':'bg-c-red'">
+        <h6 class="text-white m-b-0">Used: {{spsummary.inuse}}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Complaints</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{complaintsummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'" [ngStyle]="{'width.%': complaintsummary.activepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'">
+        <h6 class="text-white m-b-0">Active: {{complaintsummary.active}}</h6>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-md-6">    
+    <app-feedback-summary></app-feedback-summary>
+  </div>
+  <div class="col-sm-12 col-md-6">    
+    Trend chart for average rating for last 12 months
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-md-6">    
+    <app-task-summary></app-task-summary>
+  </div>
+  <div class="col-sm-12 col-md-6">    
+    Trend chart for task dealyed for last 12 months
+  </div>
+</div>

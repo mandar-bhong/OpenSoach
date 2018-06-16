@@ -1,0 +1,4 @@
+#user-details{width: 400px}
+@media screen and (max-width:768px) {
+    #user-details{width: auto;}
+   }

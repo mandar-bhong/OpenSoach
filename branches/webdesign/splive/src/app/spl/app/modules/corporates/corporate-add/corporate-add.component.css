@@ -1,0 +1,4 @@
+#corporate-add{width: 400px;}
+@media screen and (max-width:768px) {
+    #coporate-add{width: auto;}
+   }

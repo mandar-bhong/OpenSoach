@@ -1,0 +1,4 @@
+#comp{width: 400px}
+@media screen and (max-width:768px) {
+    #comp{width: auto;}
+   }
