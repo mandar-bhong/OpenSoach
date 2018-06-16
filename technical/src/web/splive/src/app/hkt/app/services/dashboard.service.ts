@@ -13,6 +13,10 @@ import {
     ServicePointSummaryResponse,
     TaskSummaryRequest,
     TaskSummaryResponse,
+    FeedbackTrendResponse,
+    FeedbackTrendRequest,
+    TaskTrendRequest,
+    TaskTrendResponse,
 } from '../models/api/dashboard-models';
 
 @Injectable()
@@ -46,6 +50,18 @@ export class DashboardService {
     getTaskSummary(request = new TaskSummaryRequest(), implicitErrorHandling = true):
         Observable<PayloadResponse<TaskSummaryResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/task/summary',
+            request, implicitErrorHandling);
+    }
+
+    getFeedbackTrend(request = new FeedbackTrendRequest(), implicitErrorHandling = true):
+        Observable<PayloadResponse<FeedbackTrendResponse[]>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/feedback/permonth',
+            request, implicitErrorHandling);
+    }
+
+    getTaskTrend(request = new TaskTrendRequest(), implicitErrorHandling = true):
+        Observable<PayloadResponse<TaskTrendResponse[]>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/task/permonth',
             request, implicitErrorHandling);
     }
 }
