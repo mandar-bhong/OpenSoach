@@ -83,7 +83,7 @@ export class ChartConfigureTimeComponent implements OnInit {
   }
 
   minutesToTimeString(time: number) {
-    if (time) {
+    if (time || time === 0) {
       const hours = Math.floor(time / 60);
       const hourstr = hours < 10 ? '0' + hours : hours;
       const minutes = time % 60;
