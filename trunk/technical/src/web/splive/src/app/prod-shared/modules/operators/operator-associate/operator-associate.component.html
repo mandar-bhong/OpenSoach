@@ -2,13 +2,13 @@
   <mat-card>
     <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save ()">
       <div class="col" id="operator-add">
-        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
         <section disable class="radio-style-grid">
           <mat-checkbox  *ngFor="let cat of dataModel.list, let i=index" [ngModelOptions]="{standalone: true}" [(ngModel)]="cat.ischecked">
              {{cat.spname}}
           </mat-checkbox>
         </section>
-        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
       </div>
     </form>
   </mat-card>

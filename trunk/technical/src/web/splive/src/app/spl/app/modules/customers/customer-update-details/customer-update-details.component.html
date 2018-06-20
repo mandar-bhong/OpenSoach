@@ -2,7 +2,7 @@
   <mat-card>
     <div class="col-sm col-md m-b-30 col">
       <form class="md-float-material form-material" [formGroup]="editableForm" (ngSubmit)="save()">
-        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
         <h5>First Contact </h5>
         <div class="form-group form-primary">
           <mat-form-field class="full-width" id="point-selection">
@@ -100,7 +100,7 @@
             </tr>
           </table>
         </div>
-        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
       </form>
     </div>
   </mat-card>
