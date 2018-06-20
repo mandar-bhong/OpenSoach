@@ -110,7 +110,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
   configure(row: ServicepointDataListResponse) {
 
     if (row.servconfid) {
-      this.router.navigate(['charts', 'configure'], {
+      this.router.navigate(['servicepoints/charts', 'configure'], {
         queryParams: { id: row.servconfid, mode: 1, callbackurl: 'servicepoints' }, skipLocationChange: true
       });
     } else {
@@ -134,7 +134,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
   }
 
   showChartData(row: ServicepointDataListResponse) {
-    this.router.navigate(['charts', 'data'], {
+    this.router.navigate(['servicepoints/charts', 'data'], {
       queryParams: { servconfid: row.servconfid, spid: row.spid, callbackurl: 'servicepoints' }, skipLocationChange: true
     });
   }

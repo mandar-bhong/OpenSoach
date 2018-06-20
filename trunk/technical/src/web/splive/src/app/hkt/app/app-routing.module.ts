@@ -28,13 +28,16 @@ const routes: Routes = [
       },
       {
         path: 'servicepoints',
-        loadChildren: './modules/servicepoints/servicepoints.module#ServicepointsModule',
-        data: { preload: false }
-      },
-      {
-        path: 'charts',
-        loadChildren: './modules/charts/charts.module#ChartsModule',
-        data: { preload: false }
+        children: [{
+          path: '',
+          loadChildren: './modules/servicepoints/servicepoints.module#ServicepointsModule',
+          data: { preload: true }
+        },
+        {
+          path: 'charts',
+          loadChildren: './modules/charts/charts.module#ChartsModule',
+          data: { preload: false }
+        }]
       },
       {
         path: 'users',
