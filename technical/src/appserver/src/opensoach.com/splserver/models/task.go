@@ -56,3 +56,11 @@ type APITaskDBInstanceDevStatusInsertModel struct {
 	BatteryLevel         int       `db:"battery_level" json:"batterylevel"`
 	BatteryLevelSince    time.Time `db:"battery_level_since" json:"batterylevelsince"`
 }
+
+type APITaskDBInstanceTaskLibInsertModel struct {
+	TaskId    int64   `db:"id" dbattr:"pri,auto"  json:"taskid"`
+	CpmId     int64   `db:"cpm_id_fk" json:"cpmid"`
+	SpcId     int64   `db:"spc_id_fk" json:"spcid"`
+	TaskName  string  `db:"task_name" json:"taskname"`
+	ShortDesc *string `db:"short_desc" json:"shortdesc"`
+}

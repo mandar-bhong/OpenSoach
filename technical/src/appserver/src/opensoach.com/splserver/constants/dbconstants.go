@@ -10,6 +10,7 @@ const DB_TABLE_SPL_NODE_DEV_TBL = "spl_node_dev_tbl"
 const DB_TABLE_SPL_NODE_DEV_STATUS_TBL = "spl_node_dev_status_tbl"
 const DB_TABLE_SPL_NODE_SP_CATEGORY_TBL = "spl_node_sp_category_tbl"
 const DB_TABLE_SPL_NODE_SP_TBL = "spl_node_sp_tbl"
+const DB_TABLE_HKT_TASK_LIB_TBL = "spl_hkt_task_lib_tbl"
 
 const DB_EMAIL_TML_USER_CREATED = "USER_CREATED"
 const DB_EMAIL_SEND_SUCCESS = 1
