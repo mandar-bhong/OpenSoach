@@ -205,7 +205,7 @@ CREATE TABLE `spl_node_fop_sp_tbl` (
 CREATE TABLE `spl_hkt_task_lib_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cpm_id_fk` int(10) unsigned NOT NULL,
-  `spc_id_fk` int(10) unsigned DEFAULT NULL,
+  `spc_id_fk` int(10) unsigned NOT NULL,
   `task_name` varchar(50) NOT NULL,
   `short_desc` varchar(250) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
