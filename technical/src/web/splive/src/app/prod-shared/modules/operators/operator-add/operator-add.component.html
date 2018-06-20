@@ -1,8 +1,8 @@
 <div class="row">
   <mat-card>
     <div class="col-sm col-md m-b-30 col">
-      <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save()">
-        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+      <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save()" >
+        <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
         <div class=" form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <input disabled matInput placeholder="Operator Name" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname">
@@ -83,7 +83,7 @@
           <span class="viewlabel">Area </span>
           <label class="viewtext">{{ getoperatorarea(dataModel.foparea)| translate }}</label>
         </div>
-        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
       </form>
     </div>
   </mat-card>

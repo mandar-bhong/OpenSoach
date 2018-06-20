@@ -7,7 +7,7 @@
         </button>
       </div>
       <form id="comp" [formGroup]="editableForm" (ngSubmit)="save()">
-        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()" [hidden]="showCat===false"></app-editable-form-header>
+          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
         <div class="form-group form-primary">
           <span class="viewlabel"> Complaint Title </span>
           <br>
@@ -70,7 +70,7 @@
           <br>
           <label>{{ severitystate(dataModel.severity)| translate }} </label>
         </div>
-        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()" [hidden]="showCat===false"></app-editable-form-footer-toolbar>
+        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
       </form>
     </div>
   </mat-card>
