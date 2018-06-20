@@ -347,3 +347,39 @@ CREATE TABLE `spl_master`.`spl_master_server_register` (
 ) ENGINE=InnoDB COMMENT = 'Short Name for Table: sreg';
 
 
+CREATE TABLE `spl_master_email_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email_tml_id_fk` int(10) NOT NULL,
+  `subject` varchar(150) NOT NULL,
+  `body` longtext NOT NULL,
+  `bcc` varchar(500) DEFAULT '0',
+  `retrycount` int(10) NOT NULL DEFAULT '0' COMMENT 'No of retries completed',
+  `status` int(10) NOT NULL COMMENT '0:unknown, 1:success, 2:failed',
+  `comment` varchar(5000) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_spl_master_email_tbl_spl_master_email_template_tbl` (`email_tml_id_fk`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Short Name for Table: email';
+
+CREATE TABLE `spl_master_email_template_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `subject` varchar(150) NOT NULL,
+  `body` longtext NOT NULL,
+  `bcc` varchar(500) DEFAULT NULL,
+  `maxretry` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Short Name for Table: emiltml';
+
+CREATE TABLE `spl_master_usr_activation_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `usr_id_fk` int(10) unsigned NOT NULL,
+  `code` varchar(150) NOT NULL,
+  `password_changed` bit(1) NOT NULL DEFAULT b'0' COMMENT 'false: Not updated, true: Updated',
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `FK_spl_master_usr_activation_tbl_spl_master_user_tbl` (`usr_id_fk`),
+  CONSTRAINT `FK_spl_master_usr_activation_tbl_spl_master_user_tbl` FOREIGN KEY (`usr_id_fk`) REFERENCES `spl_master_user_tbl` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Short Name for Table: usract';
+
