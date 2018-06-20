@@ -40,6 +40,9 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 	loggerConfig := &gmodels.ConfigLogger{}
 	globalConfiguration.LoggerConfig = loggerConfig
 
+	emailConfig := &gmodels.ConfigEmail{}
+	globalConfiguration.EmailConfig = emailConfig
+
 	for _, dbRow := range *configData {
 
 		switch dbRow.ConfigKey {
@@ -121,8 +124,23 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 				prodMstDBConfig.DBDriver = "mysql"
 				break
 			}
-
 			break
+
+		case pcconst.DB_CONFIG_SMTP_FROM:
+			emailConfig.From = dbRow.ConfigValue
+		case pcconst.DB_CONFIG_SMTP_ADDRESS:
+			emailConfig.SMTPAddress = dbRow.ConfigValue
+		case pcconst.DB_CONFIG_SMTP_USERNAME:
+			emailConfig.SMTPUsername = dbRow.ConfigValue
+		case pcconst.DB_CONFIG_SMTP_PASSWORD:
+			emailConfig.SMTPPassword = dbRow.ConfigValue
+		case pcconst.DB_CONFIG_SMTP_PORT:
+			mstSMTPPort, err := strconv.Atoi(dbRow.ConfigValue)
+			if err != nil {
+				return errors.New(fmt.Sprintf("Unable to convert Master Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+			}
+
+			emailConfig.SMTPPort = mstSMTPPort
 
 		}
 	}

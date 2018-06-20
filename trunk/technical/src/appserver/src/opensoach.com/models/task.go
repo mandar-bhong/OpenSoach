@@ -38,3 +38,8 @@ type TaskCustServicePointAssociatedModel struct {
 	SpState      int       `json:"spstate"`
 	SpStateSince time.Time `json:"spstatesince"`
 }
+
+type TaskUserCreatedModel struct {
+	UserID    int64  `json:"userid"`
+	UserEmail string `json:"spidlist"`
+}

@@ -9,6 +9,7 @@ import (
 	pcconst "opensoach.com/prodcore/constants"
 	dbaccess "opensoach.com/splserver/dbaccess"
 	lmodels "opensoach.com/splserver/models"
+	engemail "opensoach.com/splserver/notification"
 	repo "opensoach.com/splserver/repository"
 )
 
@@ -335,5 +336,30 @@ func APIHandlerCustServPointAssociated(msg string, sessionkey string,
 
 		result.IsSuccess = true
 	}
+	return nil, result
+}
+
+func APIHandlerUserCreated(msg string, sessionkey string,
+	tasktoken string,
+	taskData interface{}) (error, lmodels.APITaskResultModel) {
+
+	result := lmodels.APITaskResultModel{}
+
+	taskUserCreatedModel := taskData.(*gmodels.TaskUserCreatedModel)
+
+	dbUserActivationRowModel := lmodels.DBUserActivationRowModel{}
+	dbUserActivationRowModel.Code = ghelper.GenerateToken(15, "act")
+	dbUserActivationRowModel.UserId = taskUserCreatedModel.UserID
+	dbUserActivationRowModel.PasswordChanged = false
+
+	dbErr := dbaccess.InsertUserActivation(repo.Instance().Context.Master.DBConn, dbUserActivationRowModel)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to insert user activation data into database", dbErr)
+		return dbErr, result
+	}
+
+	engemail.SendUserCreatedEmailNotification(taskUserCreatedModel.UserEmail)
+	
 	return nil, result
 }

@@ -95,3 +95,14 @@ func UpdateDevStatusToInstDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBInstance
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func InsertUserActivation(dbConn string, dbUserActivationRowModel lmodels.DBUserActivationRowModel) error {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_MASTER_USER_ACTIVATION_TBL
+	insDBCtx.Args = dbUserActivationRowModel
+
+	return insDBCtx.Insert()
+}
