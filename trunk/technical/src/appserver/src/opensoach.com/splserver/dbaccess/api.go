@@ -96,6 +96,23 @@ func UpdateDevStatusToInstDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBInstance
 	return nil, insDBCtx.InsertID
 }
 
+func UpdateTaskLibToInstanceDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBInstanceTaskLibInsertModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UpdateTaskLibToInstanceDB")
+
+	insDBCtx := dbmgr.InsertTxContext{}
+	insDBCtx.Tx = tx
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_HKT_TASK_LIB_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
+
+
 func InsertUserActivation(dbConn string, dbUserActivationRowModel lmodels.DBUserActivationRowModel) error {
 
 	insDBCtx := dbmgr.InsertContext{}

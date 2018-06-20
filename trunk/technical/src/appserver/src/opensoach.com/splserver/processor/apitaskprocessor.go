@@ -37,6 +37,22 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 		return dbErr, result
 	}
 
+	dbErr, tasklibmasterdata := dbaccess.GetDBHktMasterTaskLib(repo.Instance().Context.ProdMst.DBConn)
+
+	if dbErr != nil {
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", repo.Instance().Context.ProdMst.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get task lib.", dbErr)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return dbErr, result
+	}
+
 	taskAPICustProdAssociatedModel := taskData.(*gmodels.TaskAPICustProdAssociatedModel)
 
 	err, dbConn := dbaccess.GetDBConnectionByID(repo.Instance().Context.Master.DBConn, taskAPICustProdAssociatedModel.DbiId)
@@ -109,6 +125,35 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 		dbInstanceSpCategoryInsertModel.ShortDesc = spcmasteritem.ShortDesc
 
 		dbErr, _ := dbaccess.UpdateSpCategoryToInstanceDB(tx, dbInstanceSpCategoryInsertModel)
+
+		if dbErr != nil {
+
+			isDBOpSuccess = false
+
+			txErr := tx.Rollback()
+
+			if txErr != nil {
+				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+			}
+
+			logger.Context().WithField("Task Data", taskData).
+				WithField("TaskToken", tasktoken).
+				WithField("DBConn", repo.Instance().Context.Master.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
+			isDBOpSuccess = false
+
+			break
+		}
+	}
+
+	for _, tasklibmasteritem := range *tasklibmasterdata {
+
+		dbInstanceTaskLibInsertModel := &lmodels.APITaskDBInstanceTaskLibInsertModel{}
+		dbInstanceTaskLibInsertModel.CpmId = taskAPICustProdAssociatedModel.CpmId
+		dbInstanceTaskLibInsertModel.SpcId = tasklibmasteritem.SpcId
+		dbInstanceTaskLibInsertModel.TaskName = tasklibmasteritem.TaskName
+		dbInstanceTaskLibInsertModel.ShortDesc = tasklibmasteritem.ShortDesc
+
+		dbErr, _ := dbaccess.UpdateTaskLibToInstanceDB(tx, dbInstanceTaskLibInsertModel)
 
 		if dbErr != nil {
 

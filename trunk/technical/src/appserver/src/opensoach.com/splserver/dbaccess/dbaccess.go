@@ -59,3 +59,20 @@ func GetDBHktMasterSpCategory(dbConn string) (error, *[]hktmodels.DBSplProdMaste
 	}
 	return nil, data
 }
+
+func GetDBHktMasterTaskLib(dbConn string) (error, *[]hktmodels.DBSplHktMasterTaskLibTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDBHktMasterTaskLib")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHktMasterTaskLibTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SELECT_ALL_HKT_MASTER_TASK_LIB_TBL
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
