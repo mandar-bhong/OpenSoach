@@ -27,15 +27,21 @@ export const APP_ROUTES: RoutingModel[] = [
         linkiconcss: 'fa fa-users'
     },
     {
-        url: '/charts',
-        linktitle: 'Chart Templates',
-        pagetitle: 'Chart Templates',
+        url: '/servicepoints/charts',
+        linktitle: 'Charts',
+        pagetitle: 'Charts',
         linkiconcss: 'fa fa-table'
     },
     {
-        url: '/charts/configure',
+        url: '/servicepoints/charts/configure',
         linktitle: 'Chart Configuration',
         pagetitle: 'Configure Chart',
+        linkiconcss: 'fa fa-table'
+    },
+    {
+        url: '/servicepoints/charts/data',
+        linktitle: 'Live Chart',
+        pagetitle: 'Live Chart',
         linkiconcss: 'fa fa-table'
     },
     {
@@ -104,7 +110,6 @@ export const SIDE_MENU_LINKS: SideMenuModel[] = [
     { url: '/dashboard', level: 0, routingModel: null },
     { url: '/devices', level: 0, routingModel: null },
     { url: '/servicepoints', level: 0, routingModel: null },
-    { url: '/charts', level: 0, routingModel: null },
     { url: '/foperators', level: 0, routingModel: null },
     { url: '/complaints', level: 0, routingModel: null },
     { url: '/reports', level: 0, routingModel: null },
