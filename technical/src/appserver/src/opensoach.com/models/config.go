@@ -10,6 +10,7 @@ type ConfigSettings struct {
 	ProductCache    *ConfigCacheAddress `json:"prodcacheconfiguration"`
 	ProductQueCache *ConfigCacheAddress `json:"prodquecacheconfiguration"`
 	LoggerConfig    *ConfigLogger       `json:"loggerconfig"`
+	EmailConfig     *ConfigEmail        `json:"emailconfig"`
 }
 
 type ConfigDB struct {
@@ -38,4 +39,12 @@ type ConfigLogger struct {
 	LoggingType         string `json:"logtype"`
 	LoggingFluentHost   string `json:"fluenthost"`
 	LoggingInfluxDBHost string `json:"fluenthost"`
+}
+
+type ConfigEmail struct {
+	From         string `json:"from"`
+	SMTPAddress  string `json:"smtpaddr"`
+	SMTPPort     int    `json:"smtpport"`
+	SMTPUsername string `json:"smtpusername"`
+	SMTPPassword string `json:"smtpassword"`
 }

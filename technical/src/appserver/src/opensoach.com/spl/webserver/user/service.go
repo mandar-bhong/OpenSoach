@@ -58,6 +58,15 @@ func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (is
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User added successfully.")
 
+	//	taskUserCreatedModel := gmodels.TaskUserCreatedModel{}
+	//	taskUserCreatedModel.UserEmail = userData.UsrName
+	//	taskUserCreatedModel.UserID = userInsertedId
+	//	isSendSuccess := repo.Instance().SendTaskToServer(gmodels.TASK_API_USER_CREATED, service.ExeCtx.SessionToken, taskUserCreatedModel)
+
+	//	if isSendSuccess == false {
+	//		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to submit task for user created")
+	//	}
+
 	return true, response
 }
 
