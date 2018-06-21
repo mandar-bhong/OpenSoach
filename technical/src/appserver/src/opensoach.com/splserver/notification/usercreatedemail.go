@@ -15,10 +15,10 @@ type UserEmailNotification struct {
 	gnotmodels.NotificationConfigModel
 }
 
-func SendUserCreatedEmailNotification(toEmail string) {
+func SendUserAssociatedEmailNotification(toEmail string) {
 	userEmailNotification := &UserEmailNotification{}
 
-	dbErr, templateData := dbaccess.GetEmailTemplate(repo.Instance().Context.Master.DBConn, constants.DB_EMAIL_TML_USER_CREATED)
+	dbErr, templateData := dbaccess.GetEmailTemplate(repo.Instance().Context.Master.DBConn, constants.DB_EMAIL_TML_USER_ASSOCIATED)
 
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting email template from database", dbErr)

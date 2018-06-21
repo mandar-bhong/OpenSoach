@@ -76,3 +76,20 @@ func GetDBHktMasterTaskLib(dbConn string) (error, *[]hktmodels.DBSplHktMasterTas
 	}
 	return nil, data
 }
+
+func GetUserName(dbConn string, userid int64) (error, string) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserName")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := ""
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_USER_USERNAME_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = &data
+	selErr := selDBCtx.Get(userid)
+	if selErr != nil {
+		return selErr, ""
+	}
+	return nil, data
+}

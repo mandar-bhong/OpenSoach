@@ -13,3 +13,5 @@ const QUERY_SELECT_ALL_HKT_MASTER_TASK_LIB_TBL = `select * from spl_hkt_master_t
 const QUERY_SELECT_EMAIL_TML_BY_CODE = `select id,code,subject,body,bcc,maxretry from spl_master_email_template_tbl where code = ?`
 
 const QUERY_UPDATE_EMAIL_EMAIL_STATUS = `update spl_master_email_tbl set status = :status, comment=:comment where id = :id`
+
+const QUERY_GET_USER_USERNAME_BY_ID = `select usr_name from spl_master_user_tbl where id = ?`
