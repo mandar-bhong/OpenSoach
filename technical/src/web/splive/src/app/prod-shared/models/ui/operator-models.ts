@@ -70,7 +70,9 @@ export class OperatorAddModel {
     }
 }
 export class OperatorServicePointsDataModel {
-    list: OperatorServicePointListModel[];
+    splist: OperatorServicePointListModel[];
     fopid: number;
-    previouslist: OperatorAssociateListResponse[];
+    associatedsplist: OperatorServicePointListModel[];
+    availablesplist: OperatorServicePointListModel[];
+
 }

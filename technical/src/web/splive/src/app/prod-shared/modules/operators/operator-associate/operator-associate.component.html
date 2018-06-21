@@ -1,15 +1,35 @@
 <div class="row">
   <mat-card>
-    <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save ()">
-      <div class="col" id="operator-add">
-          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
-        <section disable class="radio-style-grid">
-          <mat-checkbox  *ngFor="let cat of dataModel.list, let i=index" [ngModelOptions]="{standalone: true}" [(ngModel)]="cat.ischecked">
-             {{cat.spname}}
-          </mat-checkbox>
-        </section>
-        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+    <div class="col" id="operator-add">
+      <div class="row">
+        <div class="col-10">
+          <mat-select placeholder="Select a service point to associate" [(ngModel)]="selectedsp">
+            <mat-option *ngFor="let sp of dataModel.availablesplist" [value]="sp">
+              {{sp.spname}}
+            </mat-option>
+          </mat-select>
+        </div>
+        <div class="col-2 text-right">
+          <button type="button" color="accent" mat-icon-button [hidden]='!selectedsp' (click)="add()" matTooltip="Add">
+            <mat-icon aria-label="Add">add</mat-icon>
+          </button>
+        </div>
       </div>
-    </form>
+      <div class="row" style="min-height:200px">
+        <mat-list>
+          <mat-list-item *ngFor="let sp of dataModel.associatedsplist">
+            <div class="col-10">
+              {{sp.spname}}
+            </div>
+            <div class="col-2 text-right">
+              <button type="button" color="accent" mat-icon-button (click)="remove(sp)" matTooltip="Remove">
+                <mat-icon aria-label="Remove">remove</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+
+      </div>
+    </div>
   </mat-card>
 </div>
