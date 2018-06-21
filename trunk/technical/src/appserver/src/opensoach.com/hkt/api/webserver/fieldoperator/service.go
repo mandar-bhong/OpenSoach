@@ -223,10 +223,6 @@ func (service FieldoperatorService) GetFopSpAssociation(fopID int64) (bool, inte
 
 	dbRecord := *fopSpData
 
-	if len(dbRecord) < 1 {
-		return true, nil
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched fopSp info")
 	return true, dbRecord
 }
