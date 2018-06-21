@@ -384,17 +384,60 @@ func APIHandlerCustServPointAssociated(msg string, sessionkey string,
 	return nil, result
 }
 
-func APIHandlerUserCreated(msg string, sessionkey string,
+// func APIHandlerUserCreated(msg string, sessionkey string,
+// 	tasktoken string,
+// 	taskData interface{}) (error, lmodels.APITaskResultModel) {
+
+// 	result := lmodels.APITaskResultModel{}
+
+// 	taskUserCreatedModel := taskData.(*gmodels.TaskUserCreatedModel)
+
+// 	dbUserActivationRowModel := lmodels.DBUserActivationRowModel{}
+// 	dbUserActivationRowModel.Code = ghelper.GenerateToken(15, "act")
+// 	dbUserActivationRowModel.UserId = taskUserCreatedModel.UserID
+// 	dbUserActivationRowModel.PasswordChanged = false
+
+// 	dbErr := dbaccess.InsertUserActivation(repo.Instance().Context.Master.DBConn, dbUserActivationRowModel)
+
+// 	if dbErr != nil {
+// 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to insert user activation data into database", dbErr)
+// 		return dbErr, result
+// 	}
+
+// 	engemail.SendUserCreatedEmailNotification(taskUserCreatedModel.UserEmail)
+
+// 	return nil, result
+// }
+
+func APIHandlerUserAssociated(msg string, sessionkey string,
 	tasktoken string,
 	taskData interface{}) (error, lmodels.APITaskResultModel) {
 
 	result := lmodels.APITaskResultModel{}
 
-	taskUserCreatedModel := taskData.(*gmodels.TaskUserCreatedModel)
+	taskUserAssociatedModel := taskData.(*gmodels.TaskUserAssociatedModel)
+
+	err, username := dbaccess.GetUserName(repo.Instance().Context.Master.DBConn, taskUserAssociatedModel.UserID)
+
+	if err != nil {
+		//Error need to retry
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", repo.Instance().Context.Master.DBConn).
+			WithField("TaskExecData", taskUserAssociatedModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get user email by userid.", err)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+	}
 
 	dbUserActivationRowModel := lmodels.DBUserActivationRowModel{}
 	dbUserActivationRowModel.Code = ghelper.GenerateToken(15, "act")
-	dbUserActivationRowModel.UserId = taskUserCreatedModel.UserID
+	dbUserActivationRowModel.UserId = taskUserAssociatedModel.UserID
 	dbUserActivationRowModel.PasswordChanged = false
 
 	dbErr := dbaccess.InsertUserActivation(repo.Instance().Context.Master.DBConn, dbUserActivationRowModel)
@@ -404,7 +447,7 @@ func APIHandlerUserCreated(msg string, sessionkey string,
 		return dbErr, result
 	}
 
-	engemail.SendUserCreatedEmailNotification(taskUserCreatedModel.UserEmail)
-	
+	engemail.SendUserAssociatedEmailNotification(username)
+
 	return nil, result
 }
