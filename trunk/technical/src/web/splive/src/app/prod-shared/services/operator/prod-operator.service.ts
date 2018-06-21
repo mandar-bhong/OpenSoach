@@ -13,6 +13,7 @@ import { EnumNumberDatasource } from '../../../shared/utility/enum-number-dataso
 import {
   OperatorAddRequest,
   OperatorAssociateListResponse,
+  OperatorAssociateRequest,
   OperatorDataListResponse,
   OperatorDetailsResponse,
   OperatorFiltrRequest,
@@ -45,12 +46,27 @@ export class ProdOperatorService extends ListingService<OperatorFiltrRequest, Op
     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/fieldoperator/info',
       request, implicitErrorHandling);
   }
-  getOperatorServicpoint(request: RecordIDRequest, implicitErrorHandling = true):
+  getOperatorServicepoint(request: RecordIDRequest, implicitErrorHandling = true):
     Observable<PayloadResponse<OperatorAssociateListResponse[]>> {
     return this.serverApiInterfaceService.getWithQueryParams
-      (EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/associate/fieldoperator/info',
+      (EnvironmentProvider.appbaseurl + '/api/v1/fieldoperator/associate/servicepoint/info',
       request, implicitErrorHandling);
   }
+
+  associateOperatorToServicepoint(request: OperatorAssociateRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post
+      (EnvironmentProvider.appbaseurl + '/api/v1/fieldoperator/associate/servicepoint',
+      request, implicitErrorHandling);
+  }
+
+  removeOperatorServicepointAssociation(request: OperatorAssociateRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post
+      (EnvironmentProvider.appbaseurl + '/api/v1/fieldoperator/associate/servicepoint/remove',
+      request, implicitErrorHandling);
+  }
+
   getOperatorStates(): EnumDataSourceItem<number>[] {
     return EnumNumberDatasource.getDataSource('OPERATOR_STATE_', OPERATOR_STATE);
   }

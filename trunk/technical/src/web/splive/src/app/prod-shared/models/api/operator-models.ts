@@ -61,5 +61,8 @@ export class OperatorServicepointListResponse {
 export class OperatorServicePointListModel {
     spid: number;
     spname: string;
-    ischecked: boolean;
+}
+export class OperatorAssociateRequest {
+    fopid: number;
+    spid: number;
 }
