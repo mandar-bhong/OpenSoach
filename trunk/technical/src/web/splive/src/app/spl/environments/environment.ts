@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  baseurl: 'http://192.168.1.51:80',
+  baseurl: 'http://172.105.232.148:80',
   prodcode: 'SPL'
 };
