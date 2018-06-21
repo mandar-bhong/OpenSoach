@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    flavorDimensions "default"
     compileSdkVersion 25
     buildToolsVersion '27.0.3'
     defaultConfig {
@@ -14,10 +15,35 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
+    productFlavors {
+        prod {
+            applicationId = "com.opensoach.com.hkt.prod"
+            versionName = "1.0"
+            buildConfigField "String", "ServiceAPIHost", "\" 172.104.77.29\""
+        }
+
+        dev {
+            applicationId = "com.opensoach.com.hkt.dev"
+            versionName = "1.0"
+            buildConfigField "String", "ServiceAPIHost", "\" 172.104.77.29\""
+        }
+
+        qa {
+            applicationId = "com.opensoach.com.hkt.qa"
+            versionName = "1.0"
+            buildConfigField "String", "ServiceAPIHost", "\" 172.104.77.29\""
+        }
+    }
+
+
 }
 
 dependencies {

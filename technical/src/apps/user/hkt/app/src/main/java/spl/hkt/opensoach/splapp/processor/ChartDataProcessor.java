@@ -45,6 +45,9 @@ public class ChartDataProcessor implements IProcessor {
                 DatabaseManager.DeleteByFilter(new DBChartTableQueryModel(), deleteModel, DBChartTableQueryModel.SELECT_LOCATION_ID_FILTER);
 
                 packetProcessResultModel.IsSuccess = true;
+
+                ChartConfigModel chartDataModel = new ChartConfigModel();
+                FillUpdateUIData(packetProcessResultModel, chartDataModel);
                 return packetProcessResultModel;
             }
 
