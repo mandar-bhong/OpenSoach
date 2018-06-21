@@ -35,7 +35,7 @@ android {
         dev {
             applicationId = "com.opensoach.com.hkt.dev"
             versionName = "1.0"
-            buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
+            buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
         }
 
         qa {
