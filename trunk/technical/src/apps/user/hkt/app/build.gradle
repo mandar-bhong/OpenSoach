@@ -15,13 +15,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            shrinkResources false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-
+	
+	lintOptions {
+        abortOnError false
+    }
 
     productFlavors {
         prod {
@@ -42,6 +44,7 @@ android {
             buildConfigField "String", "ServiceAPIHost", "\" 172.104.77.29\""
         }
     }
+
 
 
 }
