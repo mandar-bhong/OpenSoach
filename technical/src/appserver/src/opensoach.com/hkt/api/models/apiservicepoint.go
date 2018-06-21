@@ -8,14 +8,6 @@ type APISpCategoryAddRequest struct {
 	hktmodels.DBSpCategoryDataModel
 }
 
-type APIFopSpAddRequest struct {
-	hktmodels.DBFopSpDataModel
-}
-
-type APIFopSpDeleteRequest struct {
-	hktmodels.DBFopSpDataModel
-}
-
 type APISpAddRequest struct {
 	hktmodels.DBSpDataRowModel
 }

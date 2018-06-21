@@ -68,74 +68,6 @@ func (service ServicePointService) SpUpdate(reqData *hktmodels.DBSpUpdateRowMode
 	return true, nil
 }
 
-func (service ServicePointService) FopSpAdd(req lmodels.APIFopSpAddRequest) (isSuccess bool, successErrorData interface{}) {
-
-	dbRowModel := &hktmodels.DBFopSpInsertRowModel{}
-	dbRowModel.FopId = req.FopId
-	dbRowModel.SpId = req.SpId
-	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
-
-	dbErr, insertedId := dbaccess.FopSpInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	addResponse := gmodels.APIRecordAddResponse{}
-	addResponse.RecordID = insertedId
-
-	taskFieldOperatorAddedRemovedOnSPModel := &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}
-	taskFieldOperatorAddedRemovedOnSPModel.FopId = req.FopId
-	taskFieldOperatorAddedRemovedOnSPModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
-
-	isSendSuccess := repo.Instance().
-		SendTaskToServer(hktconst.TASK_HKT_API_FIELD_OPERATOR_ADDED_ON_SP,
-			service.ExeCtx.SessionToken, taskFieldOperatorAddedRemovedOnSPModel)
-
-	if isSendSuccess == false {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
-	}
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Service Point associated with Field operater  succesfully")
-
-	return true, addResponse
-}
-
-func (service ServicePointService) FopSpDelete(reqdata *lmodels.APIFopSpDeleteRequest) (isSuccess bool, successErrorData interface{}) {
-
-	dbErr, affectedRow := dbaccess.FopSpDelete(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqdata)
-	if dbErr != nil {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
-	taskFieldOperatorAddedRemovedOnSPModel := &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}
-	taskFieldOperatorAddedRemovedOnSPModel.FopId = reqdata.FopId
-	taskFieldOperatorAddedRemovedOnSPModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
-
-	isSendSuccess := repo.Instance().
-		SendTaskToServer(hktconst.TASK_HKT_API_FIELD_OPERATOR_REMOVED_ON_SP,
-			service.ExeCtx.SessionToken, taskFieldOperatorAddedRemovedOnSPModel)
-
-	if isSendSuccess == false {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
-	}
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Service Point association with Field operater deleted successfully.")
-
-	return true, nil
-}
-
 func (service ServicePointService) ServicePointAdd(req lmodels.APISpAddRequest) (isSuccess bool, successErrorData interface{}) {
 
 	dbRowModel := &hktmodels.DBSpInsertRowModel{}
@@ -267,27 +199,6 @@ func (service ServicePointService) GetSPList(listReqData gmodels.APIDataListRequ
 
 	return true, dataListResponse
 
-}
-
-func (service ServicePointService) GetFopSpAssociation(fopID int64) (bool, interface{}) {
-
-	dbErr, fopSpData := dbaccess.FopSpSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, fopID)
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	dbRecord := *fopSpData
-
-	if len(dbRecord) < 1 {
-		return true, nil
-	}
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched fopSp info")
-	return true, dbRecord
 }
 
 func (service ServicePointService) ServicePointShortDataList() (bool, interface{}) {
