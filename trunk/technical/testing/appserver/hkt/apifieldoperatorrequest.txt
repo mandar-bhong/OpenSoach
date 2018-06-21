@@ -37,3 +37,18 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	}
 	
 5.	method:GET	/api/v1/fieldoperator/list/short
+
+
+6. method POST : /api/v1/fieldoperator/associate/servicepoint
+
+	{"fopid":1,"spid":1}
+	
+	
+7. method POST : /api/v1/fieldoperator/associate/servicepoint/remove
+
+	{"fopid":1,"spid":1}
+	
+
+8. method GET : /api/v1/fieldoperator/associate/servicepoint/info
+
+	query parameter : params={"recid":1} //fopid

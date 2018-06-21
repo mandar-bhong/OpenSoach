@@ -10,36 +10,27 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	{"spid":1,"spname":"sp1","spcid":,"shortdesc":"desc1","spstate":1}
 	
 	
-3. method POST : /api/v1/servicepoint/associate/fieldoperator
-
-	{"fopid":1,"spid":1}
 	
-	
-4. method POST : /api/v1/servicepoint/associate/fieldoperator/remove
-
-	{"fopid":1}
-	
-	
-5.	method POST : /api/v1/servicepoint/add
+3.	method POST : /api/v1/servicepoint/add
 
 	{"spid":1,"spcid":1,"spname":"spc1","shortdesc":"desc1","spstate":1}
 	
 	
-6.	method:GET	/api/v1/servicepoint/category/list/short
+4.	method:GET	/api/v1/servicepoint/category/list/short
 
 
 
-7. method POST : /api/v1/servicepoint/associate/device
+5. method POST : /api/v1/servicepoint/associate/device
 
 	{"devid":1,"spid":1}
 	
 	
-8. method POST : /api/v1/servicepoint/associate/device/remove
+6. method POST : /api/v1/servicepoint/associate/device/remove
 
 	{"devid":1,"cpmid":1}
 	
 
-9.  method GET : /api/v1/servicepoint/list
+7.  method GET : /api/v1/servicepoint/list
 
 	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc"}
 	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"spname":""}}
@@ -48,17 +39,13 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 	{"page":1,"limit":10,"orderby":"spid","orderdirection":"asc","filter":{"devid":}}
 	
 	
-10. method GET : /api/v1/servicepoint/associate/fieldoperator/info
-
-	query parameter : params={"recid":1} //fopid
 	
-	
-11.	method:GET	/api/v1/servicepoint/list/short
+8.	method:GET	/api/v1/servicepoint/list/short
 
 
-12. method GET : /api/v1/servicepoint/info
+9. method GET : /api/v1/servicepoint/info
 
 	query parameter : params={"recid":1} //spid
 	
 	
-13.	method:GET	/api/v1/servicepoint/config/list/short
+10.	method:GET	/api/v1/servicepoint/config/list/short
