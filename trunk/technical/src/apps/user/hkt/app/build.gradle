@@ -29,19 +29,19 @@ android {
         prod {
             applicationId = "com.opensoach.com.hkt.prod"
             versionName = "1.0"
-            buildConfigField "String", "ServiceAPIHost", "\" 172.104.77.29\""
+            buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
         }
 
         dev {
             applicationId = "com.opensoach.com.hkt.dev"
             versionName = "1.0"
-            buildConfigField "String", "ServiceAPIHost", "\" 172.104.77.29\""
+            buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
         }
 
         qa {
             applicationId = "com.opensoach.com.hkt.qa"
             versionName = "1.0"
-            buildConfigField "String", "ServiceAPIHost", "\" 172.104.77.29\""
+            buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
         }
     }
 
