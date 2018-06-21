@@ -6,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+import spl.hkt.opensoach.splapp.BuildConfig;
 import spl.hkt.opensoach.splapp.R;
 
 /**
@@ -50,7 +51,7 @@ public final class AppRepo {
 
         isDeviceAuthorized = true;
 
-        ServerAPIHOST = "172.104.77.29";//"172.105.232.148";//"192.168.1.65";//
+        ServerAPIHOST = BuildConfig.ServiceAPIHost;
         ServerAPIURL = "http://" + ServerAPIHOST + "/api/v1/endpoint/deviceauthorization";
 
     }
