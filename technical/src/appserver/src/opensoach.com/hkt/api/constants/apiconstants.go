@@ -58,6 +58,7 @@ const API_SPL_PROD_BASE_URL = API_BASE_URL + "/v1/splprod/baseurl"
 const API_REPORT_GENERATE = API_BASE_URL + "/v1/report/generate"
 const API_REPORT_INFO = API_BASE_URL + "/v1/report/info"
 const API_REPORT_LIST_SHORT = API_BASE_URL + "/v1/report/list/short"
+const API_REPORT_LOCATION_SUMMARY = API_BASE_URL + "/v1/report/location/summary"
 
 const API_DASHBOARD_DEVICE_SUMMARY = API_BASE_URL + "/v1/dashboard/device/summary"
 const API_DASHBOARD_LOCATION_SUMMARY = API_BASE_URL + "/v1/dashboard/location/summary"

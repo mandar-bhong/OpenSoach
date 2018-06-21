@@ -4,11 +4,11 @@ import (
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/api/webserver/dashboard/dbaccess"
+	"opensoach.com/hkt/constants"
 	hktconst "opensoach.com/hkt/constants"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
-	"opensoach.com/hkt/constants"
 )
 
 var SUB_MODULE_NAME = "HKT.API.Dashboard"
@@ -279,5 +279,3 @@ func (service DashboardService) TaskSummaryPerMonth(req lmodels.APITaskByMonthRe
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched task summary per month")
 	return true, taskList
 }
-
-
