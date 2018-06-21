@@ -22,16 +22,6 @@ type DBSpCategoryInsertRowModel struct {
 	DBSpCategoryDataModel
 }
 
-type DBFopSpDataModel struct {
-	FopId int64 `db:"fop_id_fk" dbattr:"pri"  json:"fopid"`
-	SpId  int64 `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
-}
-
-type DBFopSpInsertRowModel struct {
-	DBFopSpDataModel
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
-}
-
 type DBSpDataRowModel struct {
 	SpId      int64   `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
 	SpcId     int64   `db:"spc_id_fk" json:"spcid"`
@@ -59,12 +49,6 @@ type DBDevSpMappingDataModelModel struct {
 type DBDevSpMappingInsertRowModel struct {
 	DBDevSpMappingDataModelModel
 	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
-}
-
-type DBFopSpAssociationDataModel struct {
-	FopId  int64  `db:"fop_id_fk" dbattr:"pri"  json:"fopid"`
-	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
-	SpName string `db:"sp_name" json:"spname"`
 }
 
 type DBServicePointShortDataModel struct {

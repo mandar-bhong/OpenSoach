@@ -49,38 +49,6 @@ func SpCategoryInsert(dbConn string, insrtStruct *hktmodels.DBSpCategoryInsertRo
 	return nil, insDBCtx.InsertID
 }
 
-func FopSpInsert(dbConn string, insrtStruct *hktmodels.DBFopSpInsertRowModel) (error, int64) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing FopSpInsert.")
-
-	insDBCtx := dbmgr.InsertContext{}
-	insDBCtx.DBConnection = dbConn
-	insDBCtx.Args = *insrtStruct
-	insDBCtx.QueryType = dbmgr.AutoQuery
-	insDBCtx.TableName = constants.DB_TABLE_SPL_NODE_FOP_SP_TBL
-	insertErr := insDBCtx.Insert()
-	if insertErr != nil {
-		return insertErr, 0
-	}
-	return nil, insDBCtx.InsertID
-}
-
-func FopSpDelete(dbConn string, deltStruct *lmodels.APIFopSpDeleteRequest) (error, int64) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing FopSpDelete.")
-
-	delDBCtx := dbmgr.UpdateDeleteContext{}
-	delDBCtx.DBConnection = dbConn
-	delDBCtx.Args = deltStruct
-	delDBCtx.QueryType = dbmgr.Query
-	delDBCtx.Query = dbquery.QUERY_DELETE_FOP_SP_TABLE_ROW
-	deleteErr := delDBCtx.Delete()
-	if deleteErr != nil {
-		return deleteErr, 0
-	}
-	return nil, delDBCtx.AffectedRows
-}
-
 func SpInsert(dbConn string, insrtStruct *hktmodels.DBSpInsertRowModel) (error, int64) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SpInsert.")
@@ -200,23 +168,6 @@ func GetServicePointList(dbConn string, filterModel *hktmodels.DBSearchServicePo
 
 	data.RecordList = resdata
 
-	return nil, data
-}
-
-func FopSpSelectByID(dbConn string, fopId int64) (error, *[]hktmodels.DBFopSpAssociationDataModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing FopSpSelectByID")
-
-	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBFopSpAssociationDataModel{}
-	selDBCtx.DBConnection = dbConn
-	selDBCtx.QueryType = dbmgr.Query
-	selDBCtx.Query = dbquery.QUERY_GET_FOP_SP_ASSOCIATIONS
-	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(fopId)
-	if selErr != nil {
-		return selErr, nil
-	}
 	return nil, data
 }
 

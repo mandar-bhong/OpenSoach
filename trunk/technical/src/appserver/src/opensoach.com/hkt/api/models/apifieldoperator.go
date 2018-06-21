@@ -7,3 +7,11 @@ import (
 type APIFieldOperatorAddRequest struct {
 	hktmodels.DBFieldOperatorDataModel
 }
+
+type APIFopSpAddRequest struct {
+	hktmodels.DBFopSpDataModel
+}
+
+type APIFopSpDeleteRequest struct {
+	hktmodels.DBFopSpDataModel
+}

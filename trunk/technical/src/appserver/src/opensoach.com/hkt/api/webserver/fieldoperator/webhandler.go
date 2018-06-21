@@ -18,6 +18,9 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_FIELD_OPERATOR_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_FIELD_OPERATOR_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_FIELD_OPERATOR_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_FIELD_OPERATOR_ASSOCIATE_SP, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_FIELD_OPERATOR_SP_ASSOCIATION_REMOVE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_FIELD_OPERATOR_ASSOCIATE_SP_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -108,6 +111,56 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = FieldoperatorService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.FieldOperatorShortDataList()
+
+		break
+
+	case constants.API_FIELD_OPERATOR_ASSOCIATE_SP:
+
+		reqData := lmodels.APIFopSpAddRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = FieldoperatorService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.FopSpAdd(reqData)
+
+		break
+
+	case constants.API_FIELD_OPERATOR_SP_ASSOCIATION_REMOVE:
+
+		reqData := &lmodels.APIFopSpDeleteRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = FieldoperatorService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.FopSpDelete(reqData)
+
+		break
+
+	case constants.API_FIELD_OPERATOR_ASSOCIATE_SP_INFO:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = FieldoperatorService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetFopSpAssociation(recReq.RecId)
 
 		break
 

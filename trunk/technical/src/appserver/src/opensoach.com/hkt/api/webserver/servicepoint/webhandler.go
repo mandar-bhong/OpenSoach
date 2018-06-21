@@ -14,14 +14,11 @@ import (
 func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_SERVICE_POINT_CATEGORY_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_SERVICE_POINT_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_SERVICE_POINT_ASSOCIATE_FOP, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_SERVICE_POINT_FOP_ASSOCIATION_REMOVE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_SERVICE_POINT_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_SERVICE_POINT_CATEGORY_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_SERVICE_POINT_ASSOCIATE_DEVICE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_SERVICE_POINT_DEVICE_ASSOCIATION_REMOVE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_SERVICE_POINT_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.GET(constants.API_SERVICE_POINT_ASSOCIATE_FOP_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_SERVICE_POINT_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_SERVICE_POINT_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_SERVICE_POINT_CONFIG_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
@@ -65,39 +62,6 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = ServicePointService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.SpUpdate(reqData)
-
-		break
-
-	case constants.API_SERVICE_POINT_ASSOCIATE_FOP:
-
-		reqData := lmodels.APIFopSpAddRequest{}
-
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
-
-		if isPrepareExeSuccess == false {
-			return false, successErrorData
-		}
-
-		isSuccess, resultData = ServicePointService{
-			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.FopSpAdd(reqData)
-
-		break
-
-	case constants.API_SERVICE_POINT_FOP_ASSOCIATION_REMOVE:
-
-		reqData := &lmodels.APIFopSpDeleteRequest{}
-
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
-
-		if isPrepareExeSuccess == false {
-			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
-			return false, successErrorData
-		}
-
-		isSuccess, resultData = ServicePointService{
-			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.FopSpDelete(reqData)
 
 		break
 
@@ -182,23 +146,6 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = ServicePointService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetSPList(listReq)
-
-		break
-
-	case constants.API_SERVICE_POINT_ASSOCIATE_FOP_INFO:
-
-		recReq := gmodels.APIRecordIdRequest{}
-
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
-
-		if isPrepareExeSuccess == false {
-			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
-			return false, successErrorData
-		}
-
-		isSuccess, resultData = ServicePointService{
-			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.GetFopSpAssociation(recReq.RecId)
 
 		break
 
