@@ -113,6 +113,3 @@ INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_emai
 INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (1, 'fname1', 'lname1', '9813123121', '9713131334');
 INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (2, 'fname2', 'lname2', '9672123121', '9123131334');
 
-
-
-INSERT INTO `spl_master_server_register` (`id`, `server_type_code`, `server_address`, `prod_id_fk`, `server_state`, `server_state_since`) VALUES (1, 'SPL', 'ws://172.105.232.148:8080/ws', 1, 1, '2018-05-05 20:08:55');
