@@ -11,6 +11,7 @@ type DBSplHktMasterSpcTaskLibTableRowModel struct {
 
 type DBSplHktMasterTaskLibTableRowModel struct {
 	TaskId    int64     `db:"id" dbattr:"pri,auto"  json:"taskid"`
+	SpcId     int64     `db:"spc_id_fk" json:"spcid"`
 	TaskName  string    `db:"task_name" json:"taskname"`
 	ShortDesc *string   `db:"short_desc" json:"shortdesc"`
 	CreatedOn time.Time `db:"created_on" json:"createdon"`
