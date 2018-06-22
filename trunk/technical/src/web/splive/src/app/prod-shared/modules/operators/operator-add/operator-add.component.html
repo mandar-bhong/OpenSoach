@@ -1,8 +1,23 @@
 <div class="row">
-  <mat-card>
-    <div class="col-sm col-md m-b-30 col">
-      <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save()" >
-        <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
+  <div class="col">
+    <mat-card style="max-width:500px">
+      <mat-card-header>
+        <div mat-card-avatar>
+          <i *ngIf="recordState===recordStateEnum.ADD" class="material-icons">
+            add
+          </i>
+          <i *ngIf="recordState===recordStateEnum.UPDATE" class="material-icons">
+            list_alt
+          </i>
+        </div>
+        <mat-card-title>{{ recordState===recordStateEnum.ADD? 'Add Operator': 'Operator Details'}}</mat-card-title>
+        <mat-card-subtitle>{{ recordState===recordStateEnum.ADD? 'Add Details of Operator': 'Details of '}}
+          <b>{{dataModel.fopname}}</b>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <form [formGroup]="editableForm" id="operator-add" (ngSubmit)="save()">
+        <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
         <div class=" form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
             <input disabled matInput placeholder="Operator Name" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname">
@@ -83,8 +98,9 @@
           <span class="viewlabel">Area </span>
           <label class="viewtext">{{ getoperatorarea(dataModel.foparea)| translate }}</label>
         </div>
-        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
       </form>
-    </div>
-  </mat-card>
+
+    </mat-card>
+  </div>
 </div>
