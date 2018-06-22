@@ -82,3 +82,28 @@ li1373-32.members.linode.com
 
 df command - Shows the amount of disk space used and available on Linux file systems.
 du command - Display the amount of disk space used by the specified files and for each subdirectory.
+
+
+#Start firewall
+systemctl enable firewalld
+systemctl start firewalld
+
+#Open Port in firewall
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --reload
+
+#remove port in firewall
+firewall-cmd --zone=public --remove-port=80/tcp
+firewall-cmd --runtime-to-permanent 
+firewall-cmd --reload
+
+#We can check the ports that are opened in the current default zone with ‘--list-ports’.
+firewall-cmd --list-ports
+
+
+
+#To start svn through firewall
+https://www.vultr.com/docs/how-to-setup-an-apache-subversion-svn-server-on-centos-7
+
+sudo firewall-cmd --zone=public --permanent --add-service=http
+sudo firewall-cmd --reload
