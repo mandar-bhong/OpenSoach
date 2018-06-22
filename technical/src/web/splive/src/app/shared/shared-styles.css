@@ -125,4 +125,10 @@ button:focus {
 .viewtext { 
   display: block; 
   color:black;
+  word-break: break-all;
+}
+
+.mat-card-subtitle
+{
+  word-break: break-all;
 }
