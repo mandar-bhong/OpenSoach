@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
+import { EditRecordBase } from '../../../../shared/views/edit-record-base';
 import { OperatorServicePointListModel } from '../../../models/api/operator-models';
 import { OperatorServicePointsDataModel } from '../../../models/ui/operator-models';
 import { ProdOperatorService } from '../../../services/operator/prod-operator.service';
@@ -14,7 +15,7 @@ import { ProdServicepointService } from '../../../services/servicepoint/prod-ser
   templateUrl: './operator-associate.component.html',
   styleUrls: ['./operator-associate.component.css']
 })
-export class OperatorAssociateComponent implements OnInit, OnDestroy {
+export class OperatorAssociateComponent extends EditRecordBase implements OnInit, OnDestroy {
   dataModel = new OperatorServicePointsDataModel();
   dataSource;
   routeSubscription: Subscription;
@@ -27,15 +28,20 @@ export class OperatorAssociateComponent implements OnInit, OnDestroy {
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe
   ) {
+    super();
     this.dataModel.splist = [];
     this.dataModel.associatedsplist = [];
     this.dataModel.availablesplist = [];
+    this.iconCss = 'material-icons';
+    this.iconName = 'link';
+    this.pageTitle = 'Associate Operator';
   }
 
   ngOnInit() {
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.fopid = Number(params['id']);
       this.dataModel.fopname = String(params['fopname']);
+      this.subTitle = 'Associate ' + this.dataModel.fopname + ' with service point(s)';
       this.getServicepointList();
 
       this.callbackUrl = params['callbackurl'];

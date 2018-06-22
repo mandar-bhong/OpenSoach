@@ -1,30 +1,10 @@
 <div class="row">
   <div class="col">
     <mat-card style="max-width:500px">
-      <mat-card-header>
-        <div mat-card-avatar>
-          <i class="material-icons">
-            link
-          </i>
-        </div>
-        <mat-card-title>Associate Operator</mat-card-title>
-        <mat-card-subtitle>Associate
-          <b> {{dataModel.fopname}}</b> with service point(s)
-        </mat-card-subtitle>
-      </mat-card-header>
-      <div class="row">
-        <div class="col-sm-8 col-10">
-          <mat-divider [inset]="true"></mat-divider>
-        </div>
-        <div class="col-sm-4 col-2 text-right" style="padding-right:0;margin-top:-24px">
-          <button type="button" class="view-form-backButton" mat-icon-button (click)="closeForm()" matTooltip="Back">
-            <mat-icon aria-label="Back">arrow_back</mat-icon>
-          </button>
-        </div>
-      </div>
-      <div class="col" id="operator-add" style="padding-top: 20px;">
+      <app-editable-form-header [editRecordBase]="this"></app-editable-form-header>
+      <div class="col" id="operator-add">
         <div class="row">
-          <div class="col">
+          <div class="col-10">
             <mat-form-field>
               <mat-select placeholder="Select a service point to associate" [(ngModel)]="selectedsp">
                 <mat-option>None</mat-option>
@@ -32,17 +12,13 @@
                   {{sp.spname}}
                 </mat-option>
               </mat-select>
-              <button style="width:48px;height:48px;margin-right:-24px" matSuffix type="button" color="accent" mat-icon-button [hidden]='!selectedsp'
-                (click)="add()" matTooltip="Add">
-                <mat-icon aria-label="Add" style="font-size:24px">add</mat-icon>
-              </button>
             </mat-form-field>
           </div>
-          <!-- <div class="col-2 text-right">
+          <div class="col-2 text-right">
             <button matSuffix type="button" color="accent" mat-icon-button [hidden]='!selectedsp' (click)="add()" matTooltip="Add">
               <mat-icon aria-label="Add">add</mat-icon>
             </button>
-          </div> -->
+          </div>
         </div>
         <div class="row" style="padding-top: 10px;">
           <div class="col">
@@ -64,7 +40,6 @@
               </div>
             </mat-list-item>
           </mat-list>
-
         </div>
       </div>
     </mat-card>
