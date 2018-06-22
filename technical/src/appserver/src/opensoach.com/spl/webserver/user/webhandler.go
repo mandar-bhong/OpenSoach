@@ -36,6 +36,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_USER_CU_ROLE_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_CU_ROLE_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_USER_CU_ROLE_UPDATE_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_USER_ACTIVATION, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -447,6 +448,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = UserService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.UpdateUserDetails(usrDetailsReqData)
+
+		break
+
+	case constants.API_USER_ACTIVATION:
+
+		reqData := lmodels.APIUserActivateRequestModel{}
+
+		err := pContext.Bind(&reqData)
+
+		if err != nil {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			resultData = errModel
+			return false, resultData
+		}
+
+		isSuccess, resultData = UserService.UserActivation(UserService{}, reqData)
 
 		break
 

@@ -182,3 +182,33 @@ type DBSplMasterUsrDetailsTableRowModel struct {
 	CreatedOn          time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn          time.Time `db:"updated_on" json:"updatedon"`
 }
+
+type DBSplMasterEmailTableRowModel struct {
+	EmailId    int64     `db:"id" dbattr:"pri,auto"  json:"emailid"`
+	EmailTmlId int64     `db:"email_tml_id_fk" json:"emailtmlid"`
+	Subject    string    `db:"subject" json:"subject"`
+	Body       string    `db:"body" json:"body"`
+	Bcc        *string   `db:"bcc" json:"bcc"`
+	Retrycount int       `db:"retrycount" json:"retrycount"`
+	Status     int       `db:"status" json:"status"`
+	Comment    *string   `db:"comment" json:"comment"`
+	CreatedOn  time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn  time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplMasterEmailTemplateTableRowModel struct {
+	EmailTmlId int64   `db:"id" dbattr:"pri,auto"  json:"emailtmlid"`
+	Code       string  `db:"code" json:"code"`
+	Subject    string  `db:"subject" json:"subject"`
+	Body       string  `db:"body" json:"body"`
+	Bcc        *string `db:"bcc" json:"bcc"`
+	Maxretry   int     `db:"maxretry" json:"maxretry"`
+}
+
+type DBSplMasterUsrActivationTableRowModel struct {
+	UsrActivationId int64     `db:"id" dbattr:"pri,auto"  json:"usractivationid"`
+	UsrId           int64     `db:"usr_id_fk" json:"usrid"`
+	Code            string    `db:"code" json:"code"`
+	PasswordChanged bool      `db:"password_changed" json:"passwordchanged"`
+	CreatedOn       time.Time `db:"created_on" json:"createdon"`
+}

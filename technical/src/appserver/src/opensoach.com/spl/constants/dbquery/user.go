@@ -54,3 +54,7 @@ Left Join spl_master_customer_tbl cust on cust.id = cpm.cust_id_fk
 Left Join spl_master_product_tbl prod on prod.id = cpm.prod_id_fk
 Left Join spl_master_user_role_tbl urole on urole.id =  ucpm.urole_id_fk
 Where ucpm.user_id_fk = ?`
+
+const QUERY_GET_USER_ID_BY_ACTIVATION_CODE = `select id,usr_id_fk from spl_master_usr_activation_tbl where code = ?`
+
+const QUERY_DELETE_USER_ACTIVATION_TABLE_ROW = `Delete From spl_master_usr_activation_tbl Where code = :code`

@@ -34,3 +34,8 @@ type APICUUserUpdateRequestModel struct {
 	DBCUUserUpateRowModel
 	UroleId int64 `json:"uroleid"`
 }
+
+type APIUserActivateRequestModel struct {
+	Code        string `json:"code"`
+	UsrPassword string `json:"usrpassword"`
+}

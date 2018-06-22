@@ -110,3 +110,13 @@ type DBCUUserInfoDataModel struct {
 	CreatedOn     time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn     time.Time `db:"updated_on" json:"updatedon"`
 }
+
+type DBUserUpdateActivationDataModel struct {
+	UserId      int64  `dbattr:"pri,auto" db:"id" json:"userid"`
+	UsrPassword string `db:"usr_password" json:"usrpassword"`
+	UsrState    int    `db:"usr_state" json:"usrstate"`
+}
+
+type DBUserDeleteActivationDataModel struct {
+	Code string `db:"code" json:"code"`
+}
