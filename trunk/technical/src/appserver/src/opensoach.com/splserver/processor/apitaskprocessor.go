@@ -384,31 +384,6 @@ func APIHandlerCustServPointAssociated(msg string, sessionkey string,
 	return nil, result
 }
 
-// func APIHandlerUserCreated(msg string, sessionkey string,
-// 	tasktoken string,
-// 	taskData interface{}) (error, lmodels.APITaskResultModel) {
-
-// 	result := lmodels.APITaskResultModel{}
-
-// 	taskUserCreatedModel := taskData.(*gmodels.TaskUserCreatedModel)
-
-// 	dbUserActivationRowModel := lmodels.DBUserActivationRowModel{}
-// 	dbUserActivationRowModel.Code = ghelper.GenerateToken(15, "act")
-// 	dbUserActivationRowModel.UserId = taskUserCreatedModel.UserID
-// 	dbUserActivationRowModel.PasswordChanged = false
-
-// 	dbErr := dbaccess.InsertUserActivation(repo.Instance().Context.Master.DBConn, dbUserActivationRowModel)
-
-// 	if dbErr != nil {
-// 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to insert user activation data into database", dbErr)
-// 		return dbErr, result
-// 	}
-
-// 	engemail.SendUserCreatedEmailNotification(taskUserCreatedModel.UserEmail)
-
-// 	return nil, result
-// }
-
 func APIHandlerUserAssociated(msg string, sessionkey string,
 	tasktoken string,
 	taskData interface{}) (error, lmodels.APITaskResultModel) {
@@ -447,7 +422,7 @@ func APIHandlerUserAssociated(msg string, sessionkey string,
 		return dbErr, result
 	}
 
-	engemail.SendUserAssociatedEmailNotification(username)
+	engemail.SendUserAssociatedEmailNotification(username, dbUserActivationRowModel.Code)
 
 	return nil, result
 }

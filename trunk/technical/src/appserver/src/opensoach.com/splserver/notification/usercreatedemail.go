@@ -1,6 +1,8 @@
 package notification
 
 import (
+	"strings"
+
 	"opensoach.com/core/logger"
 	engnotemail "opensoach.com/engine/notification/email"
 	gnotmodels "opensoach.com/models/notification"
@@ -15,7 +17,7 @@ type UserEmailNotification struct {
 	gnotmodels.NotificationConfigModel
 }
 
-func SendUserAssociatedEmailNotification(toEmail string) {
+func SendUserAssociatedEmailNotification(toEmail, code string) {
 	userEmailNotification := &UserEmailNotification{}
 
 	dbErr, templateData := dbaccess.GetEmailTemplate(repo.Instance().Context.Master.DBConn, constants.DB_EMAIL_TML_USER_ASSOCIATED)
@@ -29,7 +31,7 @@ func SendUserAssociatedEmailNotification(toEmail string) {
 	userEmailNotification.From = repo.Instance().Config.EmailConfig.From
 
 	userEmailNotification.Subject = templateData.Subject
-	userEmailNotification.Body = templateData.Body
+	userEmailNotification.Body = strings.Replace(templateData.Body, "$ActivationCode$", code, 1)
 
 	userEmailNotification.SMTPAddress = repo.Instance().Config.EmailConfig.SMTPAddress
 	userEmailNotification.SMTPUsername = repo.Instance().Config.EmailConfig.SMTPUsername
