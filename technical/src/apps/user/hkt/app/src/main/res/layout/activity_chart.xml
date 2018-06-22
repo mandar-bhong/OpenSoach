@@ -56,7 +56,7 @@
             android:layout_toLeftOf="@+id/imgCommentView"
             android:background="@drawable/online" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/imgCommentView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,9 +64,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/uploadData"
+            android:saveEnabled="false"
+            android:alpha="0.2"
             android:background="@drawable/flag" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/uploadData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,6 +76,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
+            android:saveEnabled="false"
+            android:alpha="0.2"
             android:background="@drawable/send"/>
 
     </RelativeLayout>
