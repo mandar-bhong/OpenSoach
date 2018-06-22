@@ -43,8 +43,11 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     private Runnable mScreensaverThread;
     private Spinner mLocationSpinner;
     private ImageView mNWStateImageView;
+    private ImageView mUploadDataImageView;
+    private ImageView mComplaintmageView;
     private Context mContext;
     private Fragment chartTableFragment;
+    private  boolean canShowScreenSaver;
 
 
     @Override
@@ -53,6 +56,7 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_chart);
             mContext = this;
+            canShowScreenSaver = false;
 
             AppLogger.getInstance().Log(AppLogger.LogLevel.Debug, "ChartActivity Launched");
             
@@ -63,8 +67,12 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
             mNWStateImageView = (ImageView) findViewById(R.id.imgNWState);
             mLocationSpinner = (Spinner) findViewById(R.id.locationSpinner);
 
-            findViewById(R.id.uploadData).setOnClickListener(new ChartActivityClickHandler());
-            findViewById(R.id.imgCommentView).setOnClickListener(new ChartActivityClickHandler());
+            mUploadDataImageView = (ImageView)findViewById(R.id.uploadData);
+            mUploadDataImageView.setOnClickListener(new ChartActivityClickHandler());
+
+            mComplaintmageView = (ImageView) findViewById(R.id.imgCommentView);
+            mComplaintmageView.setOnClickListener(new ChartActivityClickHandler());
+
 
             initMainViewModel();
 
@@ -163,6 +171,7 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     }
 
     public void startHandler() {
+        if (!canShowScreenSaver)return;
         mScreensaverHandler.postDelayed(mScreensaverThread, Constants.SCREEN_IDLE_TIMEOUT);
     }
 
@@ -287,9 +296,17 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
                      }
 
                      break;
+
+                 case AppRepo.CurrentLocationIdPropName:
+                     mUploadDataImageView.setEnabled(true);
+                     mComplaintmageView.setEnabled(true);
+                     mUploadDataImageView.setAlpha(1f);
+                     mComplaintmageView.setAlpha(1f);
+
+                     canShowScreenSaver= true;
+                     startHandler();
+                     break;
              }
-
-
             }
         };
 
@@ -306,6 +323,12 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
 
             case AppRepo.DeviceAuthorizedPropName:
                 b.putBoolean("IsAuthorized", (boolean) evt.getNewValue());
+                msg.setData(b);
+                uiHandler.sendMessage(msg);
+                break;
+            case AppRepo.CurrentLocationIdPropName:
+                //Setting value in bundle is required
+                b.putInt("locationid", (int) evt.getNewValue());
                 msg.setData(b);
                 uiHandler.sendMessage(msg);
                 break;
