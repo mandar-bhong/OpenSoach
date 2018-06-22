@@ -26,7 +26,7 @@ export class ServicepointListViewComponent implements OnInit, OnDestroy {
   sortByColumns = [{ text: 'Service Point', value: 'spname' },
   { text: 'Category', value: 'spcname' },
   { text: 'Device', value: 'devname' },
-  { text: 'status', value: 'spstate' }
+  { text: 'Status', value: 'spstate' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
