@@ -141,3 +141,9 @@ td-agent.config setting:
       </buffer>
   </store>
 </match>
+
+
+
+
+In WebSocket plugin
+https://github.com/sebryu/fluent_plugin_in_websocket

@@ -2,7 +2,7 @@ https://docs.fluentd.org/v0.12/articles/install-by-rpm
 
 Sending data 
 curl -X POST 'http://localhost:8086/db?u=root&p=root' -d '{"name": "test"}'
-curl -X POST -d 'json={"json":"message"}' http://localhost:8888/debug.test
+curl -X POST -d 'json={"json":"message"}' http://localhost:9999/debug.test
 
 $ /etc/init.d/td-agent start
 $ /etc/init.d/td-agent stop   -- this command is not working properly need to use restart

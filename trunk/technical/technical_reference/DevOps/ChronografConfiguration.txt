@@ -1,0 +1,7 @@
+
+#Auth2.0 setting
+
+export TOKEN_SECRET=chronografpass
+export GH_CLIENT_ID=9404cbd0566d384854dc
+export GH_CLIENT_SECRET=409680ba9dadfc9af4d066288c425ea4e2c87746
+export GH_ORGS=biffs-gang
