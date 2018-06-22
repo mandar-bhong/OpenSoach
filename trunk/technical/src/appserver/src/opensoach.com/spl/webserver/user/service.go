@@ -645,3 +645,85 @@ func (service UserService) UpdateCUUser(reqData *lmodels.APICUUserUpdateRequestM
 
 	return true, nil
 }
+
+func (service UserService) UserActivation(req lmodels.APIUserActivateRequestModel) (bool, interface{}) {
+
+	dbErr, userData := dbaccess.ValidateUsrActivation(repo.Instance().Context.Master.DBConn, req.Code)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *userData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	dbUserUpdateActivationDataModel := lmodels.DBUserUpdateActivationDataModel{}
+	dbUserUpdateActivationDataModel.UserId = dbRecord[0].UsrId
+	dbUserUpdateActivationDataModel.UsrState = constants.DB_USER_STATE_ACTIVE
+	dbUserUpdateActivationDataModel.UsrPassword = req.UsrPassword
+
+	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dberr, _ := dbaccess.UpdateUsrActivationInfo(tx, &dbUserUpdateActivationDataModel)
+	if dberr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dberr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbUserDeleteActivationDataModel := lmodels.DBUserDeleteActivationDataModel{}
+	dbUserDeleteActivationDataModel.Code = req.Code
+
+	err, _ := dbaccess.SplMasterUsrActivationDelete(tx, &dbUserDeleteActivationDataModel)
+	if err != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", err)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully updated user activation details")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully deleted user activation row")
+
+	return true, nil
+}
