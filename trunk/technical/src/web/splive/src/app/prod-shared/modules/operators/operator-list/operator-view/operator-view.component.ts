@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable ,  merge ,  Subscription } from 'rxjs';
-import { map ,  startWith ,  switchMap } from 'rxjs/operators';
+import { Observable, merge, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 import { OPERATOR_AREA } from '../../../../../shared/app-common-constants';
 import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
@@ -59,15 +59,15 @@ export class OperatorViewComponent implements OnInit, OnDestroy {
     this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
       .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.getDataList();
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          return data;
-        }),
+      startWith({}),
+      switchMap(() => {
+        this.isLoadingResults = true;
+        return this.getDataList();
+      }),
+      map(data => {
+        this.isLoadingResults = false;
+        return data;
+      }),
     ).subscribe(
       payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
@@ -80,7 +80,7 @@ export class OperatorViewComponent implements OnInit, OnDestroy {
           this.dataSource = [];
         }
       }
-    );
+      );
   }
   getDataList(): Observable<PayloadResponse<DataListResponse<OperatorDataListResponse>>> {
     const dataListRequest = new DataListRequest<OperatorFiltrRequest>();
@@ -109,8 +109,9 @@ export class OperatorViewComponent implements OnInit, OnDestroy {
   viewDetails(id: number) {
     this.router.navigate(['foperators', 'detail'], { queryParams: { id: id, callbackurl: 'foperators' }, skipLocationChange: true });
   }
-  viewAssocate(id: number) {
-    this.router.navigate(['foperators', 'associate'], { queryParams: { id: id, callbackurl: 'foperators' }, skipLocationChange: true });
+  viewAssocate(row: OperatorDataListResponse) {
+    this.router.navigate(['foperators', 'associate'],
+      { queryParams: { id: row.fopid, fopname: row.fopname, callbackurl: 'foperators' }, skipLocationChange: true });
   }
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
