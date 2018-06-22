@@ -381,7 +381,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		isSuccess, resultData = UserService.GetUserInfo(UserService{}, successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID)
+		isSuccess, resultData = UserService.GetCUUserInfo(UserService{}, successErrorData.(*gmodels.ExecutionContext).SessionInfo.UserID)
 
 		break
 
