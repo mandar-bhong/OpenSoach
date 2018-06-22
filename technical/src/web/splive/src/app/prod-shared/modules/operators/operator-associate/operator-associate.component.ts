@@ -35,6 +35,7 @@ export class OperatorAssociateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.fopid = Number(params['id']);
+      this.dataModel.fopname = String(params['fopname']);
       this.getServicepointList();
 
       this.callbackUrl = params['callbackurl'];
