@@ -32,8 +32,8 @@ INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp
 INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('1', '1', '2');
 
 
-INSERT INTO `spl_node_field_operator_tbl` (`cpm_id_fk`, `fopcode`, `mobile_no`, `fop_state`, `fop_area`) VALUES ('1', '1234', '1222', '1', '1');
-INSERT INTO `spl_node_field_operator_tbl` (`cpm_id_fk`, `fopcode`, `mobile_no`, `fop_state`, `fop_area`) VALUES ('1', '445', '222', '1', '2');
+INSERT INTO `spl_node_field_operator_tbl` (`fop_name`,`email_id`,`cpm_id_fk`, `fopcode`, `mobile_no`, `fop_state`, `fop_area`) VALUES ('Operator 1','operator1@cust1.com','1', '1234', '1222', '1', '1');
+INSERT INTO `spl_node_field_operator_tbl` (`fop_name`,`email_id`,`cpm_id_fk`, `fopcode`, `mobile_no`, `fop_state`, `fop_area`) VALUES ('Operator 2','operator2@cust1.com','1', '445', '222', '1', '2');
 
 INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES ('2', '1', '1');
 
