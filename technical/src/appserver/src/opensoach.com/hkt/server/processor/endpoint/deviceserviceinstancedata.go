@@ -32,6 +32,8 @@ func ProcessServiceInstanceData(ctx *lmodels.PacketProccessExecution, packetProc
 		dbServiceInstanceDataRowModel.ServiceInstanceID = packetServiceInstanceDataItem.ServiceInstanceID
 		dbServiceInstanceDataRowModel.TransactionData = packetServiceInstanceDataItem.TxnData
 		dbServiceInstanceDataRowModel.TransactionDate = packetServiceInstanceDataItem.TxnDate
+		dbServiceInstanceDataRowModel.FOPCode = packetServiceInstanceDataItem.FOPCode
+		dbServiceInstanceDataRowModel.Status = packetServiceInstanceDataItem.Status
 
 		dbErr := dbaccess.EPInsertServiceInstanceData(ctx.InstanceDBConn, dbServiceInstanceDataRowModel)
 
