@@ -1,0 +1,2 @@
+INSERT INTO `spl_node_report_template_tbl` (`id`, `report_code`, `report_desc`, `report_header`, `report_query_params`, `report_query`) VALUES
+	(1, 'TASKLIST', 'This will produce task list', '{"en": ["Task Name", "On Time", "Delayed", "Total"]}', '1', 'Select 1');
