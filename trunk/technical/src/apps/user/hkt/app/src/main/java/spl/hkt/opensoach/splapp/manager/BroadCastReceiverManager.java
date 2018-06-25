@@ -10,28 +10,28 @@ import spl.hkt.opensoach.splapp.helper.AppAction;
 
 public class BroadCastReceiverManager {
 
-    public static void RegisterBatteryLevelReceiver(Context ctx) {
-        BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
-            public void onReceive(Context context, Intent intent) {
-                context.unregisterReceiver(this);
-                int rawlevel = intent.getIntExtra("level", -1);
-                int scale = intent.getIntExtra("scale", -1);
-                int level = -1;
-                if (rawlevel >= 0 && scale > 0) {
-                    level = (rawlevel * 100) / scale;
-                }
+    private static BroadCastReceiverManager singleton;
+    private BatteryLevelManager broadcastBatteryLevelReceiver;
 
-                AppRepo.getInstance().setBatteryLevel(level);
+    private BroadCastReceiverManager() {
+        broadcastBatteryLevelReceiver = new BatteryLevelManager();
+    }
 
-                //TODO Raise event once 5% change is occured
+    /* Static 'instance' method */
+    public static BroadCastReceiverManager Instance() {
+        if (singleton == null)
+            singleton = new BroadCastReceiverManager();
+        return singleton;
+    }
 
-                if (AppRepo.getInstance().getIsDeviceSyncInProgress() == false){
-                    SendPacketManager.Instance().send(AppAction.BATTERY_LEVEL, level);
-                }
-            }
-        };
+    public  void RegisterBatteryLevelReceiver(Context ctx) {
+        broadcastBatteryLevelReceiver.setDeregitered(false);
         IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        //registerReceiver(batteryLevelReceiver, batteryLevelFilter);
-        ctx.registerReceiver(batteryLevelReceiver, batteryLevelFilter);
+        ctx.registerReceiver(broadcastBatteryLevelReceiver, batteryLevelFilter);
+    }
+
+    public void DeregisterBatteryLevelReceiver(Context ctx){
+        broadcastBatteryLevelReceiver.setDeregitered(true);
+        ctx.unregisterReceiver(broadcastBatteryLevelReceiver);
     }
 }

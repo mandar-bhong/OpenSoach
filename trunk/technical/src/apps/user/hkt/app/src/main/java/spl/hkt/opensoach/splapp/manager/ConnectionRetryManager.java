@@ -40,6 +40,11 @@ public class ConnectionRetryManager implements PropertyChangeListener {
         return true;
     }
 
+    public boolean DeInit(){
+        StopRetryConnection();
+        return  true;
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

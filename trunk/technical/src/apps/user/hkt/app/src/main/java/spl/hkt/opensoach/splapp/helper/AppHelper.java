@@ -38,6 +38,7 @@ import spl.hkt.opensoach.splapp.model.view.ChartConfigModel;
 import spl.hkt.opensoach.splapp.model.view.DisplayChartDataModel;
 import spl.hkt.opensoach.splapp.model.view.DisplayChartItemDataModel;
 import spl.hkt.opensoach.splapp.processor.PacketProcessor;
+import spl.hkt.opensoach.splapp.scheduler.ScheduleManager;
 
 /**
  * Created by Mandar on 2/25/2017.
@@ -77,10 +78,10 @@ public class AppHelper {
 
         //ConnectionRetryManager.Instance().Init();
         AppRepo.getInstance().addPropertyChangeListener(ConnectionRetryManager.Instance());
-        AppRepo.getInstance().addPropertyChangeListener(new LocationChangeManager());
-        AppRepo.getInstance().addPropertyChangeListener(new DeviceSyncManager());
+        AppRepo.getInstance().addPropertyChangeListener(LocationChangeManager.Instance());
+        AppRepo.getInstance().addPropertyChangeListener(DeviceSyncManager.Instance());
 
-        BroadCastReceiverManager.RegisterBatteryLevelReceiver(mContext);
+        BroadCastReceiverManager.Instance().RegisterBatteryLevelReceiver(mContext);
 
         HttpManager.ProcessWebSocketURL();
     }
@@ -99,8 +100,12 @@ public class AppHelper {
 
     public static void DeInit() {
         AppRepo.getInstance().removePropertyChangeListener(ConnectionRetryManager.Instance());
-        // Init all modules
-        // PacketManager.getInstance().stop();
+        AppRepo.getInstance().removePropertyChangeListener(LocationChangeManager.Instance());
+        AppRepo.getInstance().removePropertyChangeListener(DeviceSyncManager.Instance());
+
+        CommunicationManager.getInstance().DeInit();
+        SendPacketManager.Instance().DeInit();
+        ConnectionRetryManager.Instance().DeInit();
     }
 
     public static void ExecuteStartUpProcess() {
