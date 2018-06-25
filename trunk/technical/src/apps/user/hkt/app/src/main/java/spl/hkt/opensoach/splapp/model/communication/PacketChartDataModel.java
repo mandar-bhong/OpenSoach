@@ -13,10 +13,10 @@ public class PacketChartDataModel {
     @SerializedName("taskname")
     public String taskName;
 
-    @SerializedName("slotstartime")
+    @SerializedName("slotstarttime")
     public int slotStartTime;
 
-    @SerializedName("slotendime")
+    @SerializedName("slotendtime")
     public int slotEndTime;
 
     public PacketChartDataModel() {
