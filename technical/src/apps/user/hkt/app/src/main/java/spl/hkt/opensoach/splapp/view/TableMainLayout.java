@@ -417,9 +417,12 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
     @Override
     public void notifyTimeChange() {
 
-        if (chartConfigModel == null) {
+        if (chartConfigModel == null ) {
             return;
         }
+
+        if (chartConfigModel.getSlots().size() == 0)
+            return;
 
         if (chartConfigModel.getSlots().size() <= currentActiveSlot + 1) {
             Date firstTimeSlot = chartConfigModel.getSlots().get(0).getStartTime();
