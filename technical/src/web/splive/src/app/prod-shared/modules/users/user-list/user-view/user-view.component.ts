@@ -20,7 +20,6 @@ import { ProdUserService } from '../../../../services/user/prod-user.service';
 export class UserViewComponent implements OnInit, OnDestroy {
   displayedColumns = ['usrname', 'urolename', 'usrstate', 'fname', 'lname', 'mobileno', 'action'];
   sortByColumns = [{ text: 'User Name', value: 'usrname' },
-  { text: 'Category', value: 'usrcategory' },
   { text: 'Role Name', value: 'urolename' },
   { text: 'Status', value: 'usrstate' }
   ];
