@@ -103,7 +103,7 @@ export class ChartViewComponent implements OnInit, OnDestroy {
     this.sort.sortChange.next(this.sort);
   }
   configure(row: ServicepointDataListResponse) {
-    this.router.navigate(['charts', 'configure'], {
+    this.router.navigate(['servicepoints/charts', 'configure'], {
       queryParams: { id: row.servconfid, mode: 1, callbackurl: 'servicepoints' }, skipLocationChange: true
     });
   }

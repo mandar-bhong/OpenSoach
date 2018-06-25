@@ -5,7 +5,7 @@
         <div class="col-md-6 col-12">
           <mat-card>
             <form [formGroup]="editableForm" (ngSubmit)="savemaster()">
-              <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editMaster()" [hidden]="showForm===false"></app-editable-form-header>
+                <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>              
               <div class="form-group form-primary" *ngIf="formMode === 1">
                 <mat-form-field>
                   <input disabled matInput placeholder="User Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.usrname">
@@ -57,7 +57,7 @@
           <mat-card>
             <h3 class="text-center"></h3>
             <form [formGroup]="editableForm" (ngSubmit)="save()">
-              <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editInfo()" [hidden]="showFormedit===false"></app-editable-form-header>
+                <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
               <h5>First Contact </h5>
               <div class="form-group form-primary " *ngIf="formMode === 1">
                 <mat-form-field class="full-width" id="point-selection ">
@@ -123,7 +123,7 @@
                 <span class="viewlabel">Gender</span>
                 <label class="viewtext">{{ getgender(dataModel.gender) | translate }}</label>
               </div>
-              <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editInfo()" [hidden]="showFormedit===false"></app-editable-form-footer-toolbar>
+              <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
             </form>
           </mat-card>
         </div>

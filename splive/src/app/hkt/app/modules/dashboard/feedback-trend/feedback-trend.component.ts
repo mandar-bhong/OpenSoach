@@ -72,7 +72,6 @@ export class FeedbackTrendComponent implements OnInit {
           this.feedbacktrenddata.push(trendModel);
         });
 
-        console.log('feedback till date', this.feedbacktrenddata);
         this.generateSeriesTimeline();
         this.generateRatingChartData();
       }
@@ -112,7 +111,6 @@ export class FeedbackTrendComponent implements OnInit {
         rating1Data.series.push({ name: xAxisDate, value: 0 });
       }
     });
-    console.log('trend rating chart data', this.feedbacktrendchartdata);
   }
 
   generateSeriesTimeline() {
@@ -126,8 +124,6 @@ export class FeedbackTrendComponent implements OnInit {
         year = year + 1;
       }
     }
-
-    console.log(this.timeline);
   }
 
   formatXAxis(value: string) {

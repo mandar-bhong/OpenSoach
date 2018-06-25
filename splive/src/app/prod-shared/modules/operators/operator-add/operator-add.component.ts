@@ -27,6 +27,8 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
     super();
+    this.iconCss = 'fa fa-meh-o';
+    this.pageTitle = 'Operator Details';
   }
 
   ngOnInit() {
@@ -40,6 +42,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
         this.setFormMode(FORM_MODE.VIEW);
         this.getOperatorDetails();
       } else {
+        this.subTitle = 'Add Details of Operator';
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
@@ -68,6 +71,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.fopname;
         }
       });
     } else {
@@ -77,6 +81,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
         if (payloadResponse && payloadResponse.issuccess) {
           this.appNotificationService.success();
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.fopname;
         }
       });
     }
@@ -86,6 +91,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
+          this.subTitle = this.dataModel.fopname;
         }
       }
     });

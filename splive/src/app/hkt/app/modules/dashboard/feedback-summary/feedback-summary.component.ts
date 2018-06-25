@@ -44,25 +44,18 @@ export class FeedbackSummaryComponent implements OnInit {
     this.dashboardService.getFeedbackSummary().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.feedbacksummary.copyFrom(payloadResponse.data);
-        console.log('feedback till date', this.feedbacksummary);
       }
     });
   }
 
   getFeedbackSummaryThisMonth() {
     const dt = new Date();
-
     const firstDayofMonth = new Date(dt.getFullYear(), dt.getMonth(), 1);
-    const lastDayofMonth = new Date(dt.getFullYear(), dt.getMonth() + 1, 1);
-
-    console.log(firstDayofMonth);
-    console.log(lastDayofMonth);
 
     this.dashboardService.getFeedbackSummary(
-      { spid: undefined, startdate: firstDayofMonth, enddate: lastDayofMonth }).subscribe(payloadResponse => {
+      { spid: undefined, startdate: firstDayofMonth, enddate: dt }).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.feedbacksummary.copyFrom(payloadResponse.data);
-          console.log('feedback month', this.feedbacksummary);
         }
       });
   }

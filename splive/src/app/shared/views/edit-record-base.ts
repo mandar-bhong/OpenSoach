@@ -15,7 +15,14 @@ export abstract class EditRecordBase {
     formMode = FORM_MODE.VIEW;
     recordState = EDITABLE_RECORD_STATE.ADD;
     callbackUrl: string;
-    formModeEnum: FORM_MODE;
+    formModeEnum = FORM_MODE;
+    recordStateEnum = EDITABLE_RECORD_STATE;
+    isEditable = true;
+    showBackButton = true;
+    pageTitle = '';
+    subTitle = '';
+    iconCss: string;
+    iconName: string;
 
     editForm() {
         this.setFormMode(FORM_MODE.EDITABLE);

@@ -2,7 +2,7 @@
   <mat-card>
     <h3 class="text-center"></h3>
     <form class="md-float-material form-material" id="device-details" [formGroup]="editableForm" (ngSubmit)="save()">
-      <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>      
+        <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
       <div class="form-group form-primary">
         <mat-form-field class="full-width">
           <input matInput placeholder="Make" formControlName="makeControl" required [(ngModel)]="dataModel.make">
@@ -27,7 +27,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+      <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
     </form>
   </mat-card>
 </div>

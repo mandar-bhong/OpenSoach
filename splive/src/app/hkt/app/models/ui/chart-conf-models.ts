@@ -44,6 +44,8 @@ export class ChartConfigurationModel {
         this.servconfname = serviceConfigurationResponse.servconfname;
         this.shortdesc = serviceConfigurationResponse.shortdesc;
         this.servconf = serviceConfigurationResponse.servconf;
+        this.variableconf = new VariableChartConfModel();
+        Object.assign(this.variableconf, JSON.parse(serviceConfigurationResponse.servconf));
     }
 }
 

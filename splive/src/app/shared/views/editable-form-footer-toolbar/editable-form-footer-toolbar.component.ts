@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { FORM_MODE } from '../edit-record-base';
+import { EditRecordBase, FORM_MODE } from '../edit-record-base';
 
 @Component({
   selector: 'app-editable-form-footer-toolbar',
@@ -10,11 +10,9 @@ import { FORM_MODE } from '../edit-record-base';
 export class EditableFormFooterToolbarComponent implements OnInit {
 
   @Input()
-  formMode: FORM_MODE;
+  editRecordBase: EditRecordBase;
   @Output()
   editClick = new EventEmitter<null>();
-  @Output()
-  closeClick = new EventEmitter<null>();
 
   constructor() { }
 
@@ -26,6 +24,10 @@ export class EditableFormFooterToolbarComponent implements OnInit {
   }
 
   close() {
-    this.closeClick.emit();
+    this.editRecordBase.closeForm();
+  }
+
+  cancel() {
+    this.editRecordBase.setFormMode(FORM_MODE.VIEW);
   }
 }

@@ -51,7 +51,6 @@ export class ComplaintSummaryComponent implements OnInit {
     this.dashboardService.getComplaintSummary().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.complaintsummary.copyFrom(payloadResponse.data);
-        console.log('complaint summary till date', this.complaintsummary);
         this.generateChartData();
       }
     });
@@ -59,15 +58,12 @@ export class ComplaintSummaryComponent implements OnInit {
 
   getComplaintSummaryThisMonth() {
     const dt = new Date();
-
     const firstDayofMonth = new Date(dt.getFullYear(), dt.getMonth(), 1);
-    const lastDayofMonth = new Date(dt.getFullYear(), dt.getMonth() + 1, 1);
 
     this.dashboardService.getComplaintSummary(
-      { spid: undefined, startdate: firstDayofMonth, enddate: lastDayofMonth }).subscribe(payloadResponse => {
+      { spid: undefined, startdate: firstDayofMonth, enddate: dt }).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.complaintsummary.copyFrom(payloadResponse.data);
-          console.log('complaint summary month', this.complaintsummary);
           this.generateChartData();
         }
       });

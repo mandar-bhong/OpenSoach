@@ -1,7 +1,7 @@
 <div class="row">
   <mat-card>
     <form [formGroup]="editableForm" class="md-float-material form-material" id="user-add" (ngSubmit)="save()">
-      <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="edit()"></app-editable-form-header>
+        <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
       <div class="form-group form-primary">
         <mat-form-field>
           <input disableds matInput placeholder="User Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.usrname">
@@ -48,7 +48,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="edit()"></app-editable-form-footer-toolbar>
+      <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
     </form>
   </mat-card>
 </div>
