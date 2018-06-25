@@ -54,6 +54,11 @@ const routes: Routes = [
         loadChildren: './modules/complaints/complaints.module#ComplaintsModule',
         data: { preload: false }
       },
+      {
+        path: 'reports',
+        loadChildren: './modules/report/report.module#ReportModule',
+        data: { preload: false }
+      }
     ]
   },
   {
