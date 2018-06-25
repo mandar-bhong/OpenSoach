@@ -11,6 +11,20 @@ import spl.hkt.opensoach.splapp.logger.AppLogger;
 import spl.hkt.opensoach.splapp.model.communication.PacketBatteryLevelModel;
 
 public class DeviceSyncManager implements PropertyChangeListener {
+
+    private static DeviceSyncManager singleton;
+
+    private DeviceSyncManager() {
+
+    }
+
+    /* Static 'instance' method */
+    public static DeviceSyncManager Instance() {
+        if (singleton == null)
+            singleton = new DeviceSyncManager();
+        return singleton;
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {

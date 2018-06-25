@@ -33,6 +33,11 @@ public class CommunicationManager {
 
     public void DeInit() {
         //stop();//TODO: Deint this class
+
+        if (_webSocket != null){
+            _webSocket.disconnect();
+            _webSocket = null;
+        }
     }
 
     public boolean Init(IWebSocketConnection handler) {

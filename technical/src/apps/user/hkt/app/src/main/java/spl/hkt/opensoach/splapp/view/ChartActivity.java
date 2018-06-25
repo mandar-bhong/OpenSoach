@@ -1,6 +1,7 @@
 package spl.hkt.opensoach.splapp.view;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -16,17 +17,21 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import spl.hkt.opensoach.splapp.Constants;
 import spl.hkt.opensoach.splapp.R;
 import spl.hkt.opensoach.splapp.SPLApplication;
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.handler.ChartActivityClickHandler;
+import spl.hkt.opensoach.splapp.helper.AppHelper;
 import spl.hkt.opensoach.splapp.logger.AppLogger;
+import spl.hkt.opensoach.splapp.manager.BroadCastReceiverManager;
 import spl.hkt.opensoach.splapp.manager.LocationChartRunnable;
 import spl.hkt.opensoach.splapp.manager.SendPacketManager;
 import spl.hkt.opensoach.splapp.model.communication.DeviceChartDataModel;
@@ -48,6 +53,15 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     private Context mContext;
     private Fragment chartTableFragment;
     private  boolean canShowScreenSaver;
+    private boolean doubleBackToExitPressedOnce;
+    private Handler mHandler = new Handler();
+
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doubleBackToExitPressedOnce = false;
+        }
+    };
 
 
     @Override
@@ -176,6 +190,21 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     }
 
     @Override
+    public void onBackPressed() {
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            finish();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        mHandler.postDelayed(mRunnable, 2000);
+    }
+
+    @Override
     public void onUserInteraction() {
         super.onUserInteraction();
         stopHandler();
@@ -186,12 +215,14 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     protected void onResume() {
         super.onResume();
         startHandler();
+        BroadCastReceiverManager.Instance().RegisterBatteryLevelReceiver(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         stopHandler();
+        BroadCastReceiverManager.Instance().DeregisterBatteryLevelReceiver(this);
     }
 
     @Override
@@ -201,8 +232,17 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
 
     @Override
     protected  void onDestroy(){
+        AppLogger.getInstance().Log(AppLogger.LogLevel.Error, "Activity getting distroyed");
         AppRepo.getInstance().removePropertyChangeListener(this);
+
+        removeFromRecent(this);
+
+        AppHelper.DeInit();
+
         super.onDestroy();
+
+        finishAffinity();
+        System.exit(0);
     }
 
     private void setNWStateIcon(Constants.NETWORK_STATE state) {
@@ -338,6 +378,18 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     private void processUserComments(String strComments) {
         //TODO : Send User comments to server
         Log.i("ChartActivity", "User COmments : " + strComments);
+    }
+
+
+    public void removeFromRecent(Context context)
+    {
+        ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        if(am != null) {
+            List<ActivityManager.AppTask> tasks = am.getAppTasks();
+            if (tasks != null && tasks.size() > 0) {
+                tasks.get(0).setExcludeFromRecents(true);
+            }
+        }
     }
 
 }

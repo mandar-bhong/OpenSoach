@@ -6,6 +6,7 @@ import android.util.Log;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Timer;
 
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.dal.DatabaseManager;
@@ -18,6 +19,20 @@ import spl.hkt.opensoach.splapp.model.db.DBLocationTableRowModel;
  */
 
 public class LocationChangeManager implements PropertyChangeListener {
+
+    private static LocationChangeManager singleton;
+
+    private LocationChangeManager() {
+
+    }
+
+    /* Static 'instance' method */
+    public static LocationChangeManager Instance() {
+        if (singleton == null)
+            singleton = new LocationChangeManager();
+        return singleton;
+    }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
