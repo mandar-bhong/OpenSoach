@@ -56,7 +56,6 @@ export class TaskTrendComponent implements OnInit {
           this.tasktrenddata.push(trendModel);
         });
 
-        console.log('task till date', this.tasktrenddata);
         this.generateSeriesTimeline();
         this.generateRatingChartData();
       }
@@ -84,7 +83,6 @@ export class TaskTrendComponent implements OnInit {
         delayedData.series.push({ name: xAxisDate, value: 0 });
       }
     });
-    console.log('trend rating chart data', this.tasktrendchartdata);
   }
 
   generateSeriesTimeline() {
@@ -98,8 +96,6 @@ export class TaskTrendComponent implements OnInit {
         year = year + 1;
       }
     }
-
-    console.log(this.timeline);
   }
 
   formatXAxis(value: string) {
