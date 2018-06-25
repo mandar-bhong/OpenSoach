@@ -1,5 +1,9 @@
-<div class="form-group form-primary text-right">
-    <button type="submit" mat-raised-button color="primary" [hidden]="formMode===0">Save</button>
-    <button type="button" mat-raised-button color="primary" [hidden]="formMode!==0" (click)="edit()">Edit</button>                
-    <button type="button" mat-raised-button (click)="close()">Close</button>
+<div class="row">
+  <div class="col-12 text-right" style="padding-right:0">
+    <button type="button" mat-button color="accent" [hidden]="!editRecordBase.isEditable || editRecordBase.formMode!==editRecordBase.formModeEnum.VIEW"
+      (click)="edit()">Edit</button>
+    <button type="submit" mat-button class="saveButton" [hidden]="editRecordBase.formMode===editRecordBase.formModeEnum.VIEW">Save</button>
+    <button type="button" mat-button color="warn" [hidden]="editRecordBase.formMode===editRecordBase.formModeEnum.VIEW||editRecordBase.recordState===editRecordBase.recordStateEnum.ADD"
+      (click)="cancel()">Cancel</button>
   </div>
+</div>

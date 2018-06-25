@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { ChartConfigureService } from './services/chart-configure.service';
 import { ProdComplaintService } from './services/complaint/prod-complaint.service';
 import { DashboardService } from './services/dashboard.service';
+import { ReportService } from './services/report.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { DashboardService } from './services/dashboard.service';
   providers: [
     ChartConfigureService,
     DashboardService,
-    ProdComplaintService
+    ProdComplaintService,
+    ReportService
   ],
 
   bootstrap: [AppComponent]

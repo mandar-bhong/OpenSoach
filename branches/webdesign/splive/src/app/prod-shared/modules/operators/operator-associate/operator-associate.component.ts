@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
-import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../shared/views/edit-record-base';
+import { EditRecordBase } from '../../../../shared/views/edit-record-base';
 import { OperatorServicePointListModel } from '../../../models/api/operator-models';
 import { OperatorServicePointsDataModel } from '../../../models/ui/operator-models';
 import { ProdOperatorService } from '../../../services/operator/prod-operator.service';
@@ -20,6 +19,8 @@ export class OperatorAssociateComponent extends EditRecordBase implements OnInit
   dataModel = new OperatorServicePointsDataModel();
   dataSource;
   routeSubscription: Subscription;
+  selectedsp: OperatorServicePointListModel;
+  callbackUrl: string;
   constructor(public prodOperatorService: ProdOperatorService,
     public prodServicepointService: ProdServicepointService,
     private route: ActivatedRoute,
@@ -28,43 +29,36 @@ export class OperatorAssociateComponent extends EditRecordBase implements OnInit
     private translatePipe: TranslatePipe
   ) {
     super();
+    this.dataModel.splist = [];
+    this.dataModel.associatedsplist = [];
+    this.dataModel.availablesplist = [];
+    this.iconCss = 'material-icons';
+    this.iconName = 'link';
+    this.pageTitle = 'Associate Operator';
   }
 
   ngOnInit() {
-    this.createControls();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
-      if (params['id']) {
-        this.dataModel.fopid = Number(params['id']);
-        this.dataModel.list = [];
-        this.dataModel.previouslist = [];
-        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        this.setFormMode(FORM_MODE.VIEW);
-        this.getServicepointList();
-      } else {
-        this.recordState = EDITABLE_RECORD_STATE.ADD;
-        this.setFormMode(FORM_MODE.EDITABLE);
-      }
+      this.dataModel.fopid = Number(params['id']);
+      this.dataModel.fopname = String(params['fopname']);
+      this.subTitle = 'Associate ' + this.dataModel.fopname + ' with service point(s)';
+      this.getServicepointList();
+
       this.callbackUrl = params['callbackurl'];
     });
   }
-  createControls(): void {
-    this.editableForm = new FormGroup({
-      // fopnameControl: new FormControl(''),
-    });
-  }
-  getOperatorServicpoint() {
-    this.prodOperatorService.getOperatorServicpoint({ recid: this.dataModel.fopid }).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        if (payloadResponse.data) {
-          payloadResponse.data.forEach(item => {
-            const spSelected = this.dataModel.list.find(sp => sp.spid === item.spid);
-            if (spSelected) {
-              spSelected.ischecked = true;
-            }
-          });
-        }
-        this.dataModel.previouslist = payloadResponse.data;
 
+  getOperatorServicpoint() {
+    this.prodOperatorService.getOperatorServicepoint({ recid: this.dataModel.fopid }).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.splist.forEach(item => {
+          const association = payloadResponse.data.find(sp => sp.spid === item.spid);
+          if (association) {
+            this.dataModel.associatedsplist.push(item);
+          } else {
+            this.dataModel.availablesplist.push(item);
+          }
+        });
       }
     });
   }
@@ -75,15 +69,36 @@ export class OperatorAssociateComponent extends EditRecordBase implements OnInit
           const operatorServicePointListModel = new OperatorServicePointListModel();
           operatorServicePointListModel.spid = item.spid;
           operatorServicePointListModel.spname = item.spname;
-          this.dataModel.list.push(operatorServicePointListModel);
+
+          this.dataModel.splist.push(operatorServicePointListModel);
         });
         this.getOperatorServicpoint();
       }
     });
   }
-  save() {
 
+  add() {
+    this.prodOperatorService.associateOperatorToServicepoint(
+      { fopid: this.dataModel.fopid, spid: this.selectedsp.spid }).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.dataModel.associatedsplist.push(this.selectedsp);
+          this.dataModel.availablesplist.splice(this.dataModel.availablesplist.indexOf(this.selectedsp), 1);
+        }
+      });
   }
+
+  remove(item: OperatorServicePointListModel) {
+    if (confirm('Are you sure you want to remove the operator association from the service point?')) {
+      this.prodOperatorService.removeOperatorServicepointAssociation(
+        { fopid: this.dataModel.fopid, spid: item.spid }).subscribe(payloadResponse => {
+          if (payloadResponse && payloadResponse.issuccess) {
+            this.dataModel.availablesplist.push(item);
+            this.dataModel.associatedsplist.splice(this.dataModel.associatedsplist.indexOf(item), 1);
+          }
+        });
+    }
+  }
+
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }

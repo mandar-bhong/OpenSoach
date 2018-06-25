@@ -46,7 +46,6 @@ export class TaskSummaryComponent implements OnInit {
     this.dashboardService.getTaskSummary().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.tasksummary.copyFrom(payloadResponse.data);
-        console.log('task summary till date', this.tasksummary);
         this.generateChartData();
       }
     });
@@ -54,15 +53,11 @@ export class TaskSummaryComponent implements OnInit {
 
   getTaskSummaryThisMonth() {
     const dt = new Date();
-
     const firstDayofMonth = new Date(dt.getFullYear(), dt.getMonth(), 1);
-    const lastDayofMonth = new Date(dt.getFullYear(), dt.getMonth() + 1, 1);
-
     this.dashboardService.getTaskSummary(
-      { spid: undefined, startdate: firstDayofMonth, enddate: lastDayofMonth }).subscribe(payloadResponse => {
+      { spid: undefined, startdate: firstDayofMonth, enddate: dt }).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.tasksummary.copyFrom(payloadResponse.data);
-          console.log('task summary month', this.tasksummary);
           this.generateChartData();
         }
       });

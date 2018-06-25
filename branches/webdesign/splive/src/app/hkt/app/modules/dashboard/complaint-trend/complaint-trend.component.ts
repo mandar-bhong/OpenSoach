@@ -61,7 +61,6 @@ export class ComplaintTrendComponent implements OnInit {
           this.complainttrenddata.push(trendModel);
         });
 
-        console.log('complaint till date', this.complainttrenddata);
         this.generateSeriesTimeline();
         this.generateRatingChartData();
       }
@@ -93,7 +92,6 @@ export class ComplaintTrendComponent implements OnInit {
         closedData.series.push({ name: xAxisDate, value: 0 });
       }
     });
-    console.log('trend rating chart data', this.complainttrendchartdata);
   }
 
   generateSeriesTimeline() {
@@ -107,8 +105,6 @@ export class ComplaintTrendComponent implements OnInit {
         year = year + 1;
       }
     }
-
-    console.log(this.timeline);
   }
 
   formatXAxis(value: string) {

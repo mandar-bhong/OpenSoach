@@ -2,7 +2,7 @@
   <mat-card>
     <div class="col-sm col-md m-b-30 col">
       <form [formGroup]="editableForm" class="md-float-material form-material" id="corporate-add" (ngSubmit)="save()">
-        <app-editable-form-header [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-header>
+          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
         <div class=" form-group form-primary">
           <mat-form-field>
             <input disabled matInput placeholder="Corporate Name" formControlName="corpnameControl" required [(ngModel)]="dataModel.corpname">
@@ -35,7 +35,7 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <app-editable-form-footer-toolbar [formMode]="formMode" (closeClick)="closeForm()" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
       </form>
     </div>
   </mat-card>

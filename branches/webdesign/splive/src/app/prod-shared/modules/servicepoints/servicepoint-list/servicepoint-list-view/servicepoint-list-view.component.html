@@ -75,11 +75,11 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="servconfid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Chart</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Chart</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-row-mobile-label">Chart</span>
               <button mat-icon-button color="primary" *ngIf="row.servconfid" (click)="showChartData(row)">
-                <i class="fa fa-eye"></i>
+                  <mat-icon><i class="fa fa-table" aria-hidden="true"></i></mat-icon>
               </button>
               <button mat-icon-button color="accent" *ngIf="!(row.servconfid)" (click)="configure(row)">
                 <span>Configure</span>
@@ -100,7 +100,7 @@
                         <span>Edit Service Point</span>
                       </button>
                   <button mat-menu-item (click)="configure(row)">
-                    <mat-icon color='primary'>remove_red_eye</mat-icon>
+                    <mat-icon color='primary'>settings</mat-icon>
                     <span *ngIf="!row.servconfid">Configure Chart</span>
                     <span *ngIf="row.servconfid">Edit Chart</span>
                   </button>

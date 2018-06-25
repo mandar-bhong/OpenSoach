@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { FORM_MODE } from '../edit-record-base';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../edit-record-base';
 
 
 @Component({
@@ -11,11 +11,9 @@ import { FORM_MODE } from '../edit-record-base';
 export class EditableFormHeaderComponent implements OnInit {
 
   @Input()
-  formMode: FORM_MODE;
+  editRecordBase: EditRecordBase;
   @Output()
   editClick = new EventEmitter<null>();
-  @Output()
-  closeClick = new EventEmitter<null>();
 
   constructor() { }
 
@@ -27,6 +25,10 @@ export class EditableFormHeaderComponent implements OnInit {
   }
 
   close() {
-    this.closeClick.emit();
+    this.editRecordBase.closeForm();
+  }
+
+  cancel() {
+    this.editRecordBase.setFormMode(FORM_MODE.VIEW);
   }
 }
