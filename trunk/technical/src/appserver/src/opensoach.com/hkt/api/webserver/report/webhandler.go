@@ -13,9 +13,8 @@ import (
 
 func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_REPORT_GENERATE, func(c *gin.Context) { lhelper.FileDownloadHandler(c, requestHandler) })
-	router.GET(constants.API_REPORT_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_REPORT_VIEW, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_REPORT_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.GET(constants.API_REPORT_LOCATION_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -28,7 +27,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_REPORT_GENERATE:
 
-		generateReportRequest := hktmodels.DBGenerateReportRequestDataModel{}
+		generateReportRequest := hktmodels.DBReportRequestDataModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &generateReportRequest)
 
@@ -43,11 +42,11 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_REPORT_INFO:
+	case constants.API_REPORT_VIEW:
 
-		generateReportRequest := hktmodels.DBGenerateReportRequestDataModel{}
+		viewReportRequest := lmodels.APIViewReportRequestModel{}
 
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &generateReportRequest)
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &viewReportRequest)
 
 		if isPrepareExeSuccess == false {
 			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
@@ -56,7 +55,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = ReportService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.ViewReport(generateReportRequest)
+		}.ViewReport(viewReportRequest)
 
 		break
 
@@ -74,21 +73,6 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		}.ReportShortList()
 
 		break
-
-	case constants.API_REPORT_LOCATION_SUMMARY:
-
-		req := lmodels.APIReportLocationSummaryRequest{}
-
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
-
-		if isPrepareExeSuccess == false {
-			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
-			return false, successErrorData
-		}
-
-		isSuccess, resultData = ReportService{
-			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.ReportLocationSummary(req)
 
 	}
 
