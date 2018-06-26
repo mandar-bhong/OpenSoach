@@ -8,12 +8,12 @@ import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
 import { Subscription } from 'rxjs/Subscription';
 
+import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
+import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { ComplaintDataListResponse, ComplaintFiltrRequest } from '../../../../models/api/complaint-models';
 import { ProdComplaintService } from '../../../../services/complaint/prod-complaint.service';
-import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
-import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
-import { DataListResponse, DataListRequest } from '../../../../../../shared/models/api/data-list-models';
-import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
 
 @Component({
   selector: 'app-complaint-view',
@@ -24,7 +24,7 @@ export class ComplaintViewComponent implements OnInit, OnDestroy {
   displayedColumns = ['spname', 'complainttitle', 'description', 'complaintby', 'complaintstate', 'action'];
   sortByColumns = [{ text: 'Service Point Name', value: 'spname' },
   { text: 'Compalint Title', value: 'complainttitle' },
-  { text: 'complaintby', value: 'Complaint By' }
+  { text: 'Complaint By', value: 'complaintby' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
