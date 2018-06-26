@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -49,6 +50,8 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
     private Spinner mLocationSpinner;
     private ImageView mNWStateImageView;
     private ImageView mUploadDataImageView;
+    private FrameLayout fl_UploadData;
+    private FrameLayout fl_comment;
     private ImageView mComplaintmageView;
     private Context mContext;
     private Fragment chartTableFragment;
@@ -82,11 +85,10 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
             mLocationSpinner = (Spinner) findViewById(R.id.locationSpinner);
 
             mUploadDataImageView = (ImageView)findViewById(R.id.uploadData);
-            mUploadDataImageView.setOnClickListener(new ChartActivityClickHandler());
-
             mComplaintmageView = (ImageView) findViewById(R.id.imgCommentView);
-            mComplaintmageView.setOnClickListener(new ChartActivityClickHandler());
 
+            fl_UploadData = ((FrameLayout)findViewById(R.id.fl_uploadData));
+            fl_comment = ((FrameLayout)findViewById(R.id.fl_comment));
 
             initMainViewModel();
 
@@ -338,6 +340,12 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
                      break;
 
                  case AppRepo.CurrentLocationIdPropName:
+                     fl_UploadData.setClickable(true);
+                     fl_UploadData.setOnClickListener(new ChartActivityClickHandler());
+
+                     fl_comment.setClickable(true);
+                     fl_comment.setOnClickListener(new ChartActivityClickHandler());
+
                      mUploadDataImageView.setEnabled(true);
                      mComplaintmageView.setEnabled(true);
                      mUploadDataImageView.setAlpha(1f);

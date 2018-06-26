@@ -46,39 +46,54 @@
             android:minWidth="150dp"
             android:visibility="gone" />
 
+        <FrameLayout
+            android:id="@+id/fl_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/fl_uploadData"
+            android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/imgCommentView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:saveEnabled="false"
+            android:alpha="0.2"
+            android:background="@drawable/flag" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_uploadData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imgNWState"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/uploadData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_centerVertical="true"
+                android:alpha="0.2"
+                android:background="@drawable/send"
+                android:duplicateParentState="true"/>
+        </FrameLayout>
+
+
         <ImageView
             android:id="@+id/imgNWState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/imgCommentView"
-            android:background="@drawable/online" />
-
-        <ImageButton
-            android:id="@+id/imgCommentView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/uploadData"
-            android:saveEnabled="false"
-            android:alpha="0.2"
-            android:background="@drawable/flag" />
-
-        <ImageButton
-            android:id="@+id/uploadData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
-            android:saveEnabled="false"
-            android:alpha="0.2"
-            android:background="@drawable/send"/>
+            android:background="@drawable/online" />
 
     </RelativeLayout>
 
