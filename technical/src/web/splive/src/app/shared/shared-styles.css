@@ -136,3 +136,17 @@ button:focus {
 .view-form-backButton {
   color: #37A5CD !important;
 }
+
+.statusBlock {
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  display: inline-block;
+  text-align: center;
+  width: 6em;
+}

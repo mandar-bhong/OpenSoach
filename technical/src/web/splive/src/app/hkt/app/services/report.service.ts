@@ -11,8 +11,8 @@ export class ReportService {
     constructor(private serverApiInterfaceService: ServerApiInterfaceService) { }
 
     getReportData(request: ReportRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<ReportResponse>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/report/location/summary',
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/report/view',
             request, implicitErrorHandling);
     }
 }

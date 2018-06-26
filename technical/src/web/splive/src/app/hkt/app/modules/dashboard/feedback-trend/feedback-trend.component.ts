@@ -30,7 +30,7 @@ export class FeedbackTrendComponent implements OnInit {
   customColors = [
     {
       name: this.rating5Label,
-      value: '#008000'
+      value: '#28a745'
     },
     {
       name: this.rating4Label,
@@ -42,11 +42,11 @@ export class FeedbackTrendComponent implements OnInit {
     },
     {
       name: this.rating2Label,
-      value: '#ffcc00'
+      value: '#ffc107'
     },
     {
       name: this.rating1Label,
-      value: '#cc3300'
+      value: '#dc3545'
     }
   ];
 
