@@ -1,26 +1,30 @@
 <form [formGroup]="editableForm" (ngSubmit)="nextClick()">
   <div class="row">
     <div class="col-sm-6 col-md-4">
-      <mat-form-field>
-        <input matInput placeholder="Chart Name" formControlName="configNameControl" required [(ngModel)]="dataModel.servconfname">
-        <mat-error *ngIf="editableForm.controls['configNameControl'].hasError('required')">
-          Chart Name is Required
-        </mat-error>
-      </mat-form-field>
+      <div class="form-group form-primary">
+        <mat-form-field>
+          <input matInput placeholder="Chart Name" formControlName="configNameControl" required [(ngModel)]="dataModel.servconfname">
+          <mat-error *ngIf="editableForm.controls['configNameControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-6 col-md-4">
-      <mat-form-field>
-        <mat-select placeholder="Chart Category" formControlName="categoryControl" required [(ngModel)]="dataModel.spcid">
-          <mat-option *ngFor="let cat of categories" [value]="cat.spcid">
-            {{cat.spcname}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="editableForm.controls['categoryControl'].hasError('required')">
-          Categories Selection is Required
-        </mat-error>
-      </mat-form-field>
+      <div class="form-group form-primary">
+        <mat-form-field>
+          <mat-select placeholder="Chart Category" formControlName="categoryControl" required [(ngModel)]="dataModel.spcid">
+            <mat-option *ngFor="let cat of categories" [value]="cat.spcid">
+              {{cat.spcname}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="editableForm.controls['categoryControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <div class="row">
