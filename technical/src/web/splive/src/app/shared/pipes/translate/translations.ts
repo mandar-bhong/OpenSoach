@@ -48,6 +48,14 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'INFO_DETAILS_NOT_AVAILABLE',
     en: 'Details are not available, please fill in the details and save.'
   },
+  {
+    key: 'USER_INFO_DETAILS_NOT_AVAILABLE',
+    en: 'User profile details are not available.'
+  },
+  {
+    key: 'TASK_NOT_AVAILABLE',
+    en: 'Charts task are not availbale, please fill in chats task'
+  },
 
   /* CUSTOMER STATES BEGIN */
   {
@@ -120,6 +128,10 @@ export const TRANSLATIONS: TranslationValue[] = [
   {
     key: 'SEVERIT_STATE_3',
     en: 'LOW'
+  },
+  {
+    key: 'SEVERIT_STATE_4',
+    en: 'CRITICAL'
   },
   /* SEVERITY STATE END */
 
