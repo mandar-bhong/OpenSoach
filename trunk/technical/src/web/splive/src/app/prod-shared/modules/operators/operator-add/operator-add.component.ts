@@ -52,7 +52,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   createControls(): void {
     this.editableForm = new FormGroup({
       fopnameControl: new FormControl('', [Validators.required]),
-      emailidControl: new FormControl('', [Validators.required]),
+      emailidControl: new FormControl(''),
       mobilenoControl: new FormControl('', [Validators.required]),
       fopcodeControl: new FormControl('', [Validators.required]),
       shortdescControl: new FormControl(''),
