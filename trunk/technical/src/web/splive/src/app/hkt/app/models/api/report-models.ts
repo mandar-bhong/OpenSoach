@@ -1,8 +1,7 @@
 export class ReportRequest {
-    reportid: number;
-    spid: number;
-    startdate: Date;
-    enddate: Date;
+    reportcode: string;
+    lang:string;
+    queryparams: any[];
 }
 
 export class ReportResponse {

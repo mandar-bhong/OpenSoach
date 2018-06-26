@@ -26,11 +26,11 @@ export class TaskTrendComponent implements OnInit {
   customColors = [
     {
       name: this.ontimeLabel,
-      value: '#008000'
+      value: '#28a745'
     },
     {
       name: this.delayedLabel,
-      value: '#ffcc00'
+      value: '#ffc107'
     },
   ];
 
