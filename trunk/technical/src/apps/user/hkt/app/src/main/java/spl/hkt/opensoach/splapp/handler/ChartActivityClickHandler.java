@@ -28,8 +28,8 @@ import static spl.hkt.opensoach.splapp.helper.ApplicationConstants.PACKET_DATE_F
 public class ChartActivityClickHandler implements View.OnClickListener {
     @Override
     public void onClick(final View clickedView) {
-
         switch (clickedView.getId()) {
+            case R.id.fl_uploadData:
             case R.id.uploadData: {
                 DialogHelper.showSingleLineEditTextAlert(
                         clickedView.getContext(),
@@ -61,6 +61,7 @@ public class ChartActivityClickHandler implements View.OnClickListener {
                         });
             }
             break;
+            case R.id.fl_comment:
             case R.id.imgCommentView: {
                 DialogHelper.showComplaintDialog(clickedView.getContext(),
                         clickedView.getContext().getResources().getString(R.string.dialog_complaint_title),
