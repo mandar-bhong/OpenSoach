@@ -48,7 +48,7 @@ export class TopHeaderComponent implements OnInit {
   viewProfile() {
     this.router.navigate(['users', 'user-detail'], { queryParams: { callbackurl: 'users' }, skipLocationChange: true });
   }
-  changePassword(id: number) {
-    this.router.navigate(['users', 'change-password'], { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
+  changePassword() {
+    this.router.navigate(['users', 'change-password'], { queryParams: { callbackurl: 'users' }, skipLocationChange: true });
   }
 }
