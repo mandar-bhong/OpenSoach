@@ -23,9 +23,6 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
   routeSubscription: Subscription;
   complStates: EnumDataSourceItem<number>[];
   seveStates: EnumDataSourceItem<number>[];
-  showCat = true;
-  show = false;
-  formModeEnum;
   constructor(private prodComplaintService: ProdComplaintService,
     private route: ActivatedRoute,
     private appDataStoreService: AppDataStoreService,
@@ -34,8 +31,9 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
     private translatePipe: TranslatePipe
   ) {
     super();
+    this.iconCss = 'fa fa-flag';
+    this.pageTitle = 'Complaint Details';
   }
-
   ngOnInit() {
     this.createControls();
     this.complStates = this.prodComplaintService.getComplaintStates();
@@ -46,9 +44,6 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
         this.getComplaintDetails();
-      } else {
-        this.recordState = EDITABLE_RECORD_STATE.ADD;
-        this.setFormMode(FORM_MODE.EDITABLE);
       }
       this.callbackUrl = params['callbackurl'];
     });
@@ -65,13 +60,13 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
+          this.subTitle = this.dataModel.complainttitle;
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
           if (this.dataModel.complaintstate === COMPLAINT_STATE.INPROGRESS) {
             this.complStates = this.complStates.filter(a => a.value !== COMPLAINT_STATE.OPEN);
           } else if (this.dataModel.complaintstate === COMPLAINT_STATE.CLOSE) {
-            this.showCat = false;
-            this.show = true;
+            this.isEditable = false;
           }
         } else {
           this.appNotificationService.info(this.translatePipe.transform('INFO_DETAILS_NOT_AVAILABLE'));
@@ -88,6 +83,12 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
         this.appNotificationService.success(this.translatePipe.transform('SUCCESS_USERS_DETAILS_SAVED'));
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
+        this.subTitle = this.dataModel.complainttitle;
+        if (this.dataModel.complaintstate === COMPLAINT_STATE.INPROGRESS) {
+          this.complStates = this.complStates.filter(a => a.value !== COMPLAINT_STATE.OPEN);
+        } else if (this.dataModel.complaintstate === COMPLAINT_STATE.CLOSE) {
+          this.isEditable = false;
+        }
       }
     });
   }
@@ -96,7 +97,6 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
       return this.complStates.find(a => a.value === value).text;
     }
   }
-
   getseveritystate(value: number) {
     if (this.seveStates && value) {
       return this.seveStates.find(a => a.value === value).text;
