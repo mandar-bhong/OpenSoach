@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserListComponent } from '../../../../prod-shared/modules/users/user-list/user-list.component';
 import { UserAddComponent } from '../../../../prod-shared/modules/users/user-add/user-add.component';
 import { UserDetailsComponent } from '../../../../prod-shared/modules/users/user-details/user-details.component';
+import { ChangePasswordComponent } from '../../../../prod-shared/modules/users/change-password/change-password.component';
 const routes: Routes = [
   {
     path: '',
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'user-detail',
     component: UserDetailsComponent
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent
   },
 ];
 

@@ -1,16 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-light " id="header">
   <div class="navbar-brand ">
-      <ul style="padding-left:20px;margin-bottom:0px">
-          <li>
-            <i class="fa fa-bars" (click)="toggleChange()" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
-            </i>
-          </li>
-          <li>
-              <img src="assets/images/logo.png" style="padding-left:31px;margin-top:-15px" alt="logo.png">
-          </li>
-        </ul>
-  
-    
+    <ul style="padding-left:20px;margin-bottom:0px">
+      <li>
+        <i class="fa fa-bars" (click)="toggleChange()" data-toggle="collapse" data-target="#sidebar" aria-expanded="false" aria-label="Toggle navigation">
+        </i>
+      </li>
+      <li>
+        <img src="assets/images/logo.png" style="padding-left:31px;margin-top:-15px" alt="logo.png">
+      </li>
+    </ul>
+
+
   </div>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -27,11 +27,11 @@
         {{username}}
       </a>
       <div class="dropdown-menu">
-        <i class="dropdown-item" href="#">Setting
-          <span class="fa fa-cog pull-right"></span>
-        </i>
-        <i class="dropdown-item " href="#">Profile
+        <i class="dropdown-item" (click)="viewProfile()">Profile
           <span class="	fa fa-user pull-right"></span>
+        </i>
+        <i class="dropdown-item" (click)="changePassword()">Change Password
+          <span class="fa fa-key pull-right"></span>
         </i>
         <i class="dropdown-item" (click)="logout()">Logout
           <span class="fa fa-sign-out pull-right"></span>
