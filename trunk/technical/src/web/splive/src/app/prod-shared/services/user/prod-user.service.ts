@@ -68,4 +68,14 @@ export class ProdUserService extends ListingService<UserFilterRequest, UserDataL
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/v1/urole/list',
             request, implicitErrorHandling);
     }
+    getUserProfileMasterDetails(implicitErrorHandling = true):
+        Observable<PayloadResponse<UserMasterResponse>> {
+        return this.serverApiInterfaceService.get(EnvironmentProvider.baseurl + '/api/cu/v1/user/info/master',
+            implicitErrorHandling);
+    }
+    getUserProfileDetails( implicitErrorHandling = true):
+        Observable<PayloadResponse<UserDetailsResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/user/info/details',
+         implicitErrorHandling);
+    }
 }

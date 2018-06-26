@@ -14,6 +14,9 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserSearchComponent } from './user-list/user-search/user-search.component';
 import { UserViewComponent } from './user-list/user-view/user-view.component';
+import { UserMasterDetailsComponent } from './user-details/user-master-details/user-master-details.component';
+import { UserInfoComponent } from './user-details/user-info/user-info.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
@@ -34,7 +37,10 @@ import { UserViewComponent } from './user-list/user-view/user-view.component';
     UserAddComponent,
     UserSearchComponent,
     UserViewComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    UserMasterDetailsComponent,
+    UserInfoComponent,
+    ChangePasswordComponent
   ]
 })
 export class ProdUsersModule { }

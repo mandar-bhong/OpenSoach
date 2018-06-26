@@ -104,6 +104,12 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'User Details',
         linkiconcss: 'fa fa-users'
     },
+    {
+        url: '/users/change-password',
+        linktitle: 'Change Password',
+        pagetitle: 'Change Password',
+        linkiconcss: 'fa fa-users'
+    },
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
