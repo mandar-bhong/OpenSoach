@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <form class="" [formGroup]="editableForm" action="javascript:">
+  <form class="" [formGroup]="loginform" action="javascript:" (ngSubmit)="login()">
     <div class="row" id="form-id">
       <!-- <div class="col-sm-2 col-md-2"></div> -->
       <div class="col">
@@ -11,29 +11,33 @@
           </div>
           <div class="row">
             <div class="col">
-              <mat-form-field>
-                <input matInput placeholder="Enter your email" required [(ngModel)]="username" name="username" formControlName="emailControl">
-                <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
-                  Email is Required
-                </mat-error>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput placeholder="Enter your email" required [(ngModel)]="username" name="username" formControlName="emailControl">
+                  <mat-error *ngIf="loginform.controls['emailControl'].hasError('required')">
+                    {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <mat-form-field>
-                <input matInput placeholder="Enter your password" [(ngModel)]="password" name="password" [type]="hide ? 'password' : 'text'"
-                  required formControlName="passwordControl">
-                <mat-icon matSuffix class="{{hide ? 'fa fa-eye' : 'fa fa-eye-slash'}}" (click)="hide = !hide"></mat-icon>
-                <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
-                 Password is Required
-                </mat-error>
-              </mat-form-field>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput placeholder="Enter your password" [(ngModel)]="password" name="password" [type]="hide ? 'password' : 'text'"
+                    required formControlName="passwordControl">
+                  <mat-icon matSuffix class="{{hide ? 'fa fa-eye' : 'fa fa-eye-slash'}}" (click)="hide = !hide"></mat-icon>
+                  <mat-error *ngIf="loginform.controls['emailControl'].hasError('required')">
+                    {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <button mat-raised-button color="accent" type="button" style="width:100%" (click)="login()">Sign in</button>
+              <button mat-raised-button color="accent" type="submit" style="width:100%">Sign in</button>
             </div>
           </div>
           <hr/>
@@ -51,7 +55,6 @@
           </div>
         </mat-card>
       </div>
-      <!-- <div class="col-sm-2 col-md-2"></div> -->
     </div>
   </form>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { EnvironmentProvider } from '../../../environment-provider';
@@ -10,17 +10,17 @@ import { AppDataStoreService } from '../../../services/app-data-store/app-data-s
 import { AuthService } from '../../../services/auth.service';
 import { LoginHandlerService } from '../../../services/login-handler.service';
 import { AppNotificationService } from '../../../services/notification/app-notification.service';
-import { EditRecordBase } from '../../../views/edit-record-base';
 
 @Component({
   selector: 'hkt-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent extends EditRecordBase implements OnInit {
+export class LoginComponent implements OnInit {
   hide = true;
   username: string;
   password: string;
+  loginform: FormGroup;
   constructor(private appDataStoreService: AppDataStoreService,
     private loginHandlerService: LoginHandlerService,
     private router: Router,
@@ -28,18 +28,21 @@ export class LoginComponent extends EditRecordBase implements OnInit {
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe
   ) {
-    super();
-   }
+  }
   ngOnInit() {
     this.createControls();
   }
   createControls(): void {
-    this.editableForm = new FormGroup({
+    this.loginform = new FormGroup({
       emailControl: new FormControl('', [Validators.required]),
       passwordControl: new FormControl('', [Validators.required]),
     });
   }
+
   login() {
+    if (this.loginform.invalid) {
+      return;
+    }
     const authRequest = new AuthRequest();
     authRequest.username = this.username;
     authRequest.password = this.password;
@@ -55,7 +58,5 @@ export class LoginComponent extends EditRecordBase implements OnInit {
         }
       }
     });
-  }
-  closeForm() {
   }
 }
