@@ -266,10 +266,11 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
     private void generateChartDataCell(int activeSlot, ChartConfigModel model) {
 
-        for (Map.Entry<String, ChartConfigTaskModel> chartTaskKV : model.getTasks().entrySet()) {
+        //INFO: To manage task seq vs generated data cell, looping is done in similar manner
+        for (ChartConfigTaskModel chartTaskModel : model.getTaskList()) {
             try {
                 TaskRowViewModel taskRowViewModel = new TaskRowViewModel();
-                taskRowViewModel.setTaskName(model.getTasks().get(chartTaskKV.getKey()).getTaskName());
+                taskRowViewModel.setTaskName(chartTaskModel.getTaskName());
 
                 taskRowViewModel.setiRowClick(mChartViewModel);
                 mChartViewModel.getTaskRowViewModelList().add(taskRowViewModel);
@@ -287,7 +288,7 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
                 this.tableD.addView(tableRow);
 
             } catch (Exception ex) {
-
+                AppLogger.getInstance().Log(ex);
             }
         }
     }
