@@ -1,17 +1,12 @@
 package dbaccess
 
 import (
-	"strings"
-
 	"github.com/jmoiron/sqlx"
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
-	hkthelper "opensoach.com/hkt/api/helper"
-	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/constants"
 	"opensoach.com/hkt/constants/dbquery"
 	hktmodels "opensoach.com/hkt/models"
-	pcconst "opensoach.com/prodcore/constants"
 )
 
 var SUB_MODULE_NAME = "HKT.API.Report.DB"
@@ -106,41 +101,19 @@ func GetReportShortDataList(dbConn string) (error, *[]hktmodels.DBReportTemplate
 	return nil, data
 }
 
-func GetReportLocationSummary(dbConn string, req lmodels.APIReportLocationSummaryRequest, filtermodel hktmodels.DBReportLocationSummaryFilterDataModel) (error, []hktmodels.DBReportLocationSummaryDataModel) {
+func GetReportInfoByCode(dbConn string, reportcode string) (error, *[]hktmodels.DBSplNodeReportTemplateTableRowModel) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetReportLocationSummary")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetReportInfoByCode")
 
-	data := []hktmodels.DBReportLocationSummaryDataModel{}
-
-	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
-
-	if req.StartDate != nil && req.EndDate != nil {
-
-		if whereCondition != "" {
-			whereCondition = whereCondition + " and "
-		}
-
-		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
-		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
-
-		whereCondition = whereCondition + " txn_date between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplNodeReportTemplateTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Query = dbquery.QUERY_SELECT_REPORT_TEMPLATE_BY_REPORT_CODE
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(reportcode)
+	if selErr != nil {
+		return selErr, nil
 	}
-
-	if whereCondition != "" {
-		whereCondition = " where " + whereCondition
-	}
-
-	query := strings.Replace(dbquery.QUERY_GET_REPORT_TASK_SUMMARY_PER_MONTH, "$WhereCondition$", whereCondition, 1)
-
-	selectCtx := dbmgr.SelectContext{}
-	selectCtx.DBConnection = dbConn
-	selectCtx.Dest = &data
-	selectCtx.Query = query
-	selectCtx.QueryType = dbmgr.Query
-	selectCtxErr := selectCtx.Select()
-	if selectCtxErr != nil {
-		return selectCtxErr, nil
-	}
-
 	return nil, data
 }
