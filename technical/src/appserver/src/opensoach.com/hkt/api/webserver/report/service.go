@@ -18,55 +18,46 @@ type ReportService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (service ReportService) GenerateReport(req hktmodels.DBReportRequestDataModel) (bool, interface{}) {
+func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequestModel) (bool, interface{}) {
 
-	dbErr, reportData := dbaccess.GetReportInfoByCode(service.ExeCtx.SessionInfo.Product.NodeDbConn, req.ReportCode)
-
-	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
-
+	issuccess, respData := service.ViewReport(req.APIViewReportRequestModel)
+	if issuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to generate report failed to get report data")
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
 
-	reportDataRecord := *reportData
+	exceldatalist := []gmodels.ExcelData{}
 
-	if len(reportDataRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
-	dberr, _, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, reportDataRecord[0].ReportQuery)
-	if dberr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
-
+	if len(respData.([]hktmodels.DBGetReportDataModel)) < 2 {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to generate report insufficient report data")
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
 
-	headerModel := hktmodels.ReportHeaderModel{}
+	taskSummaryData := respData.([]hktmodels.DBGetReportDataModel)[0]
 
-	isJsonConvertSuccess := ghelper.ConvertFromJSONString(reportDataRecord[0].ReportHeader, &headerModel)
-
-	if isJsonConvertSuccess == false {
-
-	}
+	taskDetailsData := respData.([]hktmodels.DBGetReportDataModel)[1]
 
 	exceldata := gmodels.ExcelData{}
-	exceldata.Data = resultRows
+	exceldata.SheetName = "Summary"
+	exceldata.IsVertical = false
+	exceldata.Headers = taskSummaryData.ReportHeader
+	exceldata.Data = taskSummaryData.ReportData
+	exceldatalist = append(exceldatalist, exceldata)
 
-	if req.Language == "en" {
-		exceldata.Headers = headerModel.En
-	} else {
-		exceldata.Headers = headerModel.Hi
-	}
+	exceldata = gmodels.ExcelData{}
+	exceldata.SheetName = "Details"
+	exceldata.IsVertical = true
+	exceldata.Headers = taskDetailsData.ReportHeader
+	exceldata.Data = taskDetailsData.ReportData
+	exceldatalist = append(exceldatalist, exceldata)
 
-	err, data := ghelper.CreateExcel(exceldata)
+	err, data := ghelper.CreateExcel(exceldatalist)
 	if err != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", err)
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Report Excel File")
@@ -115,7 +106,8 @@ func (service ReportService) ViewReport(reqList lmodels.APIViewReportRequestMode
 		isJsonConvertSuccess := ghelper.ConvertFromJSONString(reportDataRecord[0].ReportHeader, &headerModel)
 
 		if isJsonConvertSuccess == false {
-
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to convert from json string")
+			return false, nil
 		}
 
 		reportDataModel := hktmodels.DBGetReportDataModel{}
@@ -127,7 +119,11 @@ func (service ReportService) ViewReport(reqList lmodels.APIViewReportRequestMode
 			reportDataModel.ReportHeader = headerModel.Hi
 		}
 
-		reportDataModel.ReportData = resultRows
+		if resultRows == nil {
+			reportDataModel.ReportData = [][]string{}
+		} else {
+			reportDataModel.ReportData = resultRows
+		}
 
 		respList = append(respList, reportDataModel)
 

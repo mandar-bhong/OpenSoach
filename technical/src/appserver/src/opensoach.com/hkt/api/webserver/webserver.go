@@ -67,10 +67,10 @@ func enableCrossDomain(c *gin.Engine) {
 	c.Use(cors.Middleware(cors.Config{
 		Origins:         "*",
 		Methods:         "GET, PUT, POST, DELETE",
-		RequestHeaders:  "Origin, Authorization, Content-Type, Cookies",
+		RequestHeaders:  "Origin, Authorization, Content-Type, Cookies,responseType",
 		MaxAge:          5000 * time.Second, // original value was 50
 		Credentials:     true,
-		ValidateHeaders: true,
+		ValidateHeaders: false,
 		ExposedHeaders:  "Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma",
 	}))
 }

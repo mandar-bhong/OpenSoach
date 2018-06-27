@@ -8,24 +8,46 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-func CreateExcel(excelData gmodels.ExcelData) (error, []byte) {
+func CreateExcel(excelDataList []gmodels.ExcelData) (error, []byte) {
 
 	file := xlsx.NewFile()
-	sheet, err := file.AddSheet("Sheet1")
 
-	if err != nil {
-		return err, nil
-	}
+	for i := 0; i < len(excelDataList); i++ {
 
-	row := sheet.AddRow()
-	for _, headerItem := range excelData.Headers {
-		row.AddCell().Value = headerItem
-	}
+		if excelDataList[i].IsVertical == false {
 
-	for _, rowlist := range excelData.Data {
-		row = sheet.AddRow()
-		for _, colData := range rowlist {
-			row.AddCell().Value = colData
+			sheet, err := file.AddSheet(excelDataList[i].SheetName)
+
+			if err != nil {
+				return err, nil
+			}
+
+			for j := 0; j < len(excelDataList[i].Headers); j++ {
+				row := sheet.AddRow()
+				row.AddCell().Value = excelDataList[i].Headers[j]
+				for _, data := range excelDataList[i].Data {
+					row.AddCell().Value = data[j]
+				}
+			}
+
+		} else {
+			sheet, err := file.AddSheet(excelDataList[i].SheetName)
+
+			if err != nil {
+				return err, nil
+			}
+
+			row := sheet.AddRow()
+			for _, headerItem := range excelDataList[i].Headers {
+				row.AddCell().Value = headerItem
+			}
+
+			for _, rowlist := range excelDataList[i].Data {
+				row = sheet.AddRow()
+				for _, colData := range rowlist {
+					row.AddCell().Value = colData
+				}
+			}
 		}
 	}
 
