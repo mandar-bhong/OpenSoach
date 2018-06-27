@@ -22,10 +22,12 @@ type DBSearchFieldOperatorResponseFilterDataModel struct {
 type DBSearchComplaintRequestFilterDataModel struct {
 	ComplaintTitle *string `db:"complaint_title" json:"complainttitle"`
 	ComplaintState *int    `db:"complaint_state" json:"complaintstate"`
+	SpId           *int64  `db:"sp.sp_id_fk" json:"spid"`
 }
 
 type DBSearchComplaintResponseFilterDataModel struct {
 	ComplaintId    int64      `db:"id" dbattr:"pri,auto"  json:"complaintid"`
+	SpId           int64      `db:"sp_id_fk"  json:"spid"`
 	SpName         string     `db:"sp_name" json:"spname"`
 	ComplaintTitle string     `db:"complaint_title" json:"complainttitle"`
 	Description    *string    `db:"description" json:"description"`
@@ -84,8 +86,9 @@ type DBSearchServicePointResponseFilterDataModel struct {
 }
 
 type DBSearchDeviceRequestFilterDataModel struct {
-	Serialno *string `db:"serialno" json:"serialno"`
-	DevName  *string `db:"dev_name" json:"devname"`
+	Serialno        *string `db:"serialno" json:"serialno"`
+	DevName         *string `db:"dev_name" json:"devname"`
+	ConnectionState *int    `db:"connection_state" json:"connectionstate"`
 }
 
 type DBSearchDeviceResponseFilterDataModel struct {
