@@ -42,6 +42,9 @@ public class BatteryLevelManager extends BroadcastReceiver {
             level = (rawlevel * 100) / scale;
         }
 
+        if (AppRepo.getInstance().getBatteryLevel() == level)
+            return;
+
         AppRepo.getInstance().setBatteryLevel(level);
 
         //TODO Raise event once 5% change is occured
