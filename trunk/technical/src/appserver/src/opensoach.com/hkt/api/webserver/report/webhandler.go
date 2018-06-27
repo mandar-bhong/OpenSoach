@@ -7,7 +7,6 @@ import (
 	lhelper "opensoach.com/hkt/api/helper"
 	lmodels "opensoach.com/hkt/api/models"
 	repo "opensoach.com/hkt/api/repository"
-	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
 )
 
@@ -27,7 +26,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_REPORT_GENERATE:
 
-		generateReportRequest := hktmodels.DBReportRequestDataModel{}
+		generateReportRequest := lmodels.APIGenerateReportRequestModel{}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &generateReportRequest)
 

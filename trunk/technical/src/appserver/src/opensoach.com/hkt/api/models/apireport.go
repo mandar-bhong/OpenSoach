@@ -13,5 +13,5 @@ type APIViewReportRequestModel struct {
 type APIGenerateReportRequestModel struct {
 	APIViewReportRequestModel
 	StartDate time.Time `json:"startdate"`
-	EndDAte   time.Time `json:"enddate"`
+	EndDate   time.Time `json:"enddate"`
 }

@@ -27,6 +27,9 @@ type PacketProcessingTaskResult struct {
 }
 
 type ExcelData struct {
-	Headers []string
-	Data    [][]string
+	SheetName  string
+	StartCell  string
+	IsVertical bool
+	Headers    []string
+	Data       [][]string
 }
