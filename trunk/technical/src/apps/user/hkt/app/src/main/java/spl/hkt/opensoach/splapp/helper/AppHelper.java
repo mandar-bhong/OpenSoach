@@ -106,6 +106,9 @@ public class AppHelper {
         CommunicationManager.getInstance().DeInit();
         SendPacketManager.Instance().DeInit();
         ConnectionRetryManager.Instance().DeInit();
+
+
+        BroadCastReceiverManager.Instance().DeregisterBatteryLevelReceiver(mContext);
     }
 
     public static void ExecuteStartUpProcess() {
