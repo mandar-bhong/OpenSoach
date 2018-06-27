@@ -9,9 +9,9 @@
     <form [formGroup]="editableForm" (ngSubmit)="save()">
         <div class="form-group form-primary ">
             <mat-form-field class="full-width">
-                <input matInput placeholder="Servie Point"  formControlName="spnameControl" [(ngModel)]="dataModel.spname">
+                <input matInput placeholder="Servie Point"  formControlName="spnameControl" [(ngModel)]="dataModel.spname" maxlength="50">
                 <mat-error *ngIf="editableForm.controls['spnameControl'].hasError('required') ">
-                    This field is required
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -23,7 +23,7 @@
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="editableForm.controls['spStateControl'].hasError('required') ">
-                    This field is required
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
                 </mat-error>
             </mat-form-field>
         </div>
@@ -35,7 +35,7 @@
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="editableForm.controls['categoryControl'].hasError('required')">
-                    Selection is Required
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
                 </mat-error>
             </mat-form-field>
         </div>
