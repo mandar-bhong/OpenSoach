@@ -94,7 +94,7 @@ func (service ReportService) ViewReport(reqList lmodels.APIViewReportRequestMode
 
 		dberr, _, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, Query, req.QueryParams...)
 		if dberr != nil {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().WithField("DBErr", dberr.Error()).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
