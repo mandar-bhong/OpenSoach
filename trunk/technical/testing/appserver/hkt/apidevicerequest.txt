@@ -5,6 +5,7 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 2.	method:GET	/api/v1/device/list
 
 	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc"}
+	{"page":1,"limit":10,"orderby":"devid","orderdirection":"asc","filter":{"connectionstate":1}}
 	
 3.	method:GET	/api/v1/device/list/short/noassociation
 

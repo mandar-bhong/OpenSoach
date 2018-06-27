@@ -34,8 +34,9 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 4.	method: GET: /api/v1/complaint/list
 
 	{"page":1,"limit":10,"orderby":"complaintid","orderdirection":"asc"}
-	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"complainttitle":""}}
-	{"page":1,"limit":10,"orderby":"fopid","orderdirection":"asc","filter":{"complaintstate":}}
+	{"page":1,"limit":10,"orderby":"complaintid","orderdirection":"asc","filter":{"complainttitle":""}}
+	{"page":1,"limit":10,"orderby":"complaintid","orderdirection":"asc","filter":{"complaintstate":}}
+	{"page":1,"limit":10,"orderby":"complaintid","orderdirection":"asc","filter":{"spid":}}
 	
 	
 5.	method: GET: /api/v1/complaint/list/top
