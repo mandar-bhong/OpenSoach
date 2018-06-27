@@ -85,7 +85,7 @@ func prepareLogMessage(logMsg *loggerContext) string {
 	}
 
 	if logMsg.err != nil {
-		msg = msg + fmt.Sprintf("%+v", logMsg.err) + "\n"
+		msg = msg + fmt.Sprintf("%+v", logMsg.err.Error()) + "\n"
 	}
 
 	if len(logMsg.fields) > 0 {
