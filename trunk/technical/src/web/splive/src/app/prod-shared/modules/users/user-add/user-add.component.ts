@@ -78,7 +78,11 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
       });
     }
   }
-
+  getuserrole(value: number) {
+    if (this.uroleids && value) {
+      return this.uroleids.find(a => a.uroleid === value).urolename;
+    }
+  }
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
