@@ -3,7 +3,7 @@
     <div class="col-sm-6 col-md-4">
       <div class="form-group form-primary">
         <mat-form-field>
-          <input matInput placeholder="Chart Name" formControlName="configNameControl" required [(ngModel)]="dataModel.servconfname">
+          <input matInput placeholder="Chart Name" formControlName="configNameControl" required [(ngModel)]="dataModel.servconfname" maxlength="50">
           <mat-error *ngIf="editableForm.controls['configNameControl'].hasError('required')">
             {{'VALIDATION_REQUIRED_FIELD'|translate}}
           </mat-error>
