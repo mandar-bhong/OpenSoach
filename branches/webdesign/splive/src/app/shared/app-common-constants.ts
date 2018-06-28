@@ -68,7 +68,8 @@ export enum COMPLAINT_STATE {
 export enum SEVERIT_STATE {
     HIGH = 1,
     MEDIUM = 2,
-    LOW = 3
+    LOW = 3,
+    CRITICAL = 4
 }
 export const APP_SHARED_DATA_STORE_KEYS = {
     AUTH_TOKEN: 'AUTH_TOKEN',

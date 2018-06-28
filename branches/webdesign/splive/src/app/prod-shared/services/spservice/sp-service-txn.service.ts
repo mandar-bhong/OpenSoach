@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-
-import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
-import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { Observable } from 'rxjs/internal/Observable';
+
+import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
-import { ServiceTxnRequest, ServiceInstanceTransactionResponse } from '../../models/api/service-txn-models';
+import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
+import { ServiceInstanceTransactionResponse, ServiceTxnRequest } from '../../models/api/service-txn-models';
 
 @Injectable()
 export class SpServiceTxnService {

@@ -20,11 +20,11 @@ export class TaskSummaryComponent implements OnInit {
   customColors = [
     {
       name: this.onTimeLabel,
-      value: '#008000'
+      value: '#28a745'
     },
     {
       name: this.delayedLabel,
-      value: '#ffcc00'
+      value: '#ffc107'
     }
   ];
 

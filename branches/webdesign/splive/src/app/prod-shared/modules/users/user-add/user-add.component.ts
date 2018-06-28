@@ -27,6 +27,8 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
     super();
+    this.iconCss = 'fa fa-user';
+    this.pageTitle = 'User Details';
   }
   ngOnInit() {
     this.createControls();
@@ -36,8 +38,8 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
         this.dataModel.userid = Number(params['id']);
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
-        // this.getUserEdit();
       } else {
+        this.subTitle = 'Add Details of User';
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
@@ -71,11 +73,16 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.usrname;
         }
       });
     }
   }
-
+  getuserrole(value: number) {
+    if (this.uroleids && value) {
+      return this.uroleids.find(a => a.uroleid === value).urolename;
+    }
+  }
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }

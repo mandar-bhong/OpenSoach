@@ -16,6 +16,7 @@ import { FloatingButtonMenuService } from './services/floating-button-menu.servi
 import { LoginHandlerService } from './services/login-handler.service';
 import { LoginStatusProviderService } from './services/login-status-provider.service';
 import { AppNotificationService } from './services/notification/app-notification.service';
+import { SaveFileService } from './services/save-file.service';
 import { SidebarToggleService } from './services/sidebar-toggle.service';
 import { AppUserService } from './services/user/app-user.service';
 import {
@@ -64,7 +65,8 @@ export class AppCommonModule {
         AppUserService,
         CustomerSharedService,
         FloatingButtonMenuService,
-        AppDeviceService
+        AppDeviceService,
+        SaveFileService
       ]
     };
   }

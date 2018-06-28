@@ -22,9 +22,9 @@ export class ServicepointListComponent implements OnInit {
     floatingMenu.items = new Array<FloatingMenuItem>();
     const item = new FloatingMenuItem();
     item.icon = 'view_list';
-    item.title = 'Charts';
+    item.title = 'Chart Templates';
     item.navigate = true;
-    item.url = 'servicepoints/charts';
+    item.url = 'charts/templatelist';
     item.data = { queryParams: { callbackurl: 'servicepoints' }, skipLocationChange: true };
     floatingMenu.items.push(item);
     this.floatingButtonMenuService.setFloatingMenu(floatingMenu);
