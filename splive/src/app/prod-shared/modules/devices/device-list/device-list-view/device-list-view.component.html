@@ -46,14 +46,13 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="connectionstate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;text-align:center;">Connection Status</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;text-align:center;">Connection</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;text-align:center;">
-              <span class="mat-row-mobile-label">Connection Status</span>
-              <span [ngSwitch]="row.connectionstate">             
-              <i *ngSwitchCase="0" class="fa fa-circle" style="color:#bd362f"></i>
-              <i *ngSwitchCase="1" class="fa fa-circle" style="color:#51a351"></i>
-              <i *ngSwitchCase="2" class="fa fa-circle" style="color:#f89406"></i>
-              <i *ngSwitchDefault class="fa fa-circle" style="color:#bd362f"></i>
+              <span class="mat-row-mobile-label">Connection</span>
+              <span [ngSwitch]="row.connectionstate" >             
+              <div  class="statusBlock" *ngSwitchCase="0" style="background-color:#dc3545">Offline</div>
+              <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Online</div>              
+              <div class="statusBlock" *ngSwitchDefault style="background-color:#dc3545">Offline</div>
               </span>  
             </mat-cell>
           </ng-container>

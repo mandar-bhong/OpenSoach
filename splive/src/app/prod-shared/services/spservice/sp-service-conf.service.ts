@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
-    ServiceConfigurationlistResponse,
     ServiceConfigurationRequest,
+    ServiceConfigurationResponse,
     ServiceConfigurationUpdateRequest,
+    ServiceConfigureDataListResponse,
+    ServiceConfigureFilterRequest,
     ServicepointConfigureListResponse,
     ServicepointConfigureTemplateListRequest,
-    ServiceConfigurationResponse,
-    ServiceConfigureFilterRequest,
-    ServiceConfigureDataListResponse,
+    ServicePointWithConfigurationResponse,
 } from '../../../prod-shared/models/api/service-configuration-models';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
@@ -53,6 +53,12 @@ export class SpServiceConfService extends ListingService<ServiceConfigureFilterR
         Observable<PayloadResponse<RecordIDResponse>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/service/config/copytemplate',
             request, implicitErrorHandling);
+    }
+
+    getServicePointsWithConfigurations(implicitErrorHandling = true):
+        Observable<PayloadResponse<ServicePointWithConfigurationResponse[]>> {
+        return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/service/spconfig/list/short',
+            implicitErrorHandling);
     }
 
 }

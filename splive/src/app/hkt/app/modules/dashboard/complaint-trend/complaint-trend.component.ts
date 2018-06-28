@@ -27,7 +27,7 @@ export class ComplaintTrendComponent implements OnInit {
   customColors = [
     {
       name: this.openLabel,
-      value: '#cc3300'
+      value: '#dc3545'
     },
     {
       name: this.inprogressLabel,
@@ -35,7 +35,7 @@ export class ComplaintTrendComponent implements OnInit {
     },
     {
       name: this.closedLabel,
-      value: '#008000'
+      value: '#28a745'
     }
   ];
 

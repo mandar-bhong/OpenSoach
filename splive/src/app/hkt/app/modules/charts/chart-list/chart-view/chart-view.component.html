@@ -32,9 +32,9 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           <ng-container matColumnDef="conftypecode">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Chart Name</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Chart Type</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 45%;">
-              <span class="mat-row-mobile-label">Chart Name</span>
+              <span class="mat-row-mobile-label">Chart Type</span>
               {{row.conftypecode}}
             </mat-cell>
           </ng-container>

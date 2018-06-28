@@ -1,77 +1,65 @@
 <div class="row">
-  <mat-card>
-    <div class="col-sm col-md m-b-30 col">
-      <div class="form-group form-primary text-right">
-        <button mat-icon-button color="accent" (click)="closeForm()" style="right:10px" [hidden]="show===false">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-      <form id="comp" [formGroup]="editableForm" (ngSubmit)="save()">
-          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
-        <div class="form-group form-primary">
-          <span class="viewlabel"> Complaint Title </span>
-          <br>
-          <label>{{ dataModel.complainttitle }}</label>
-        </div>
-        <div class="form-group form-primary">
-          <span class="viewlabel"> Description</span>
-          <br>
-          <label>{{ dataModel.description }}</label>
-        </div>
-        <div class="form-group form-primary">
-          <span class="viewlabel"> Raised By </span>
-          <br>
-          <label>{{ dataModel.complaintby }}</label>
-        </div>
-        <div class="form-group form-primary" *ngIf="formMode === 1">
-          <mat-form-field>
-            <mat-select placeholder="State" formControlName="complaintstateControl" required [(ngModel)]="dataModel.complaintstate">
-              <mat-option *ngFor="let opstate of complStates" [value]="opstate.value">
-                {{opstate.text | translate}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="editableForm.controls['complaintstateControl'].hasError('required')">
-              Selection is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-group form-primary" *ngIf="formMode === 0">
-          <span class="viewlabel"> State</span>
-          <br>
-          <label>{{ complaintstate(dataModel.complaintstate)| translate }}</label>
-        </div>
-        <div class="form-group form-primary" *ngIf="formMode === 1">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Remark" formControlName="remarksControl" [(ngModel)]="dataModel.remarks">
-            <mat-error *ngIf="editableForm.controls['remarksControl'].hasError('required') ">
-              This field is required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-group form-primary" *ngIf="formMode === 0">
-          <span class="viewlabel"> Remark </span>
-          <br>
-          <label>{{ dataModel.remarks }}</label>
-        </div>
-        <div class="form-group form-primary" *ngIf="formMode === 1">
-          <mat-form-field>
-            <mat-select placeholder="Severity" formControlName="severityControl" required [(ngModel)]="dataModel.severity">
-              <mat-option *ngFor="let opstate of seveStates" [value]="opstate.value">
-                {{opstate.text | translate}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="editableForm.controls['severityControl'].hasError('required') ">
-              Selection is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-group form-primary" *ngIf="formMode === 0">
-          <span class="viewlabel">Severity</span>
-          <br>
-          <label>{{ severitystate(dataModel.severity)| translate }} </label>
-        </div>
-        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+  <div class=" col">
+    <mat-card style="max-width:500px">
+      <form [formGroup]="editableForm" (ngSubmit)="save()">
+        <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+        <mat-card-content>
+          <div class="form-group form-primary">
+            <span class="viewlabel"> Complaint Title </span>
+            <label class="viewtext">{{ dataModel.complainttitle }}</label>
+          </div>
+          <div class="form-group form-primary">
+            <span class="viewlabel"> Raised By </span>
+            <label class="viewtext">{{ dataModel.complaintby }}</label>
+          </div>
+          <div class="form-group form-primary">
+            <span class="viewlabel"> Description</span>
+            <label class="viewtext">{{ dataModel.description }}</label>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <mat-select placeholder="State" formControlName="complaintstateControl" required [(ngModel)]="dataModel.complaintstate">
+                <mat-option *ngFor="let opstate of complStates" [value]="opstate.value">
+                  {{opstate.text | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="editableForm.controls['complaintstateControl'].hasError('required')">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">State</span>
+            <label class="viewtext">{{ getcomplaintstate(dataModel.complaintstate)| translate }}</label>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <mat-select placeholder="Severity" formControlName="severityControl" required [(ngModel)]="dataModel.severity">
+                <mat-option *ngFor="let opstate of seveStates" [value]="opstate.value">
+                  {{opstate.text | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="editableForm.controls['severityControl'].hasError('required') ">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Severity</span>
+            <label class="viewtext">{{ getseveritystate(dataModel.severity)| translate }} </label>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Remark" formControlName="remarksControl" [(ngModel)]="dataModel.remarks">
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel"> Remark </span>
+            <label class="viewtext">{{ dataModel.remarks }}</label>
+          </div>
+          <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        </mat-card-content>
       </form>
-    </div>
-  </mat-card>
+    </mat-card>
+  </div>
 </div>

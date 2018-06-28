@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { TaskTemplateRequest } from '../../../../models/api/chart-conf-models';
 import { ChartConfigurationModel, ChartTaskModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
@@ -22,7 +24,9 @@ export class ChartConfigureTaskComponent implements OnInit {
   addNewTaskName: string;
   constructor(private dynamicContextService: DynamicContextService,
     private chartConfigureService: ChartConfigureService,
-    private dragulaService: DragulaService) { }
+    private dragulaService: DragulaService,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.createControls();
@@ -39,7 +43,6 @@ export class ChartConfigureTaskComponent implements OnInit {
       taskNameControl: new FormControl('', [Validators.required])
     });
   }
-
 
   getTaskLibrary() {
     // TODO:call api to get task library
@@ -58,12 +61,16 @@ export class ChartConfigureTaskComponent implements OnInit {
   }
 
   nextClick() {
-    this.dataModel.variableconf.taskconf.tasks.length = 0;
-    this.chartTasks.forEach(item => {
-      this.dataModel.variableconf.taskconf.tasks.push(item);
-    });
-    this.chartConfigureService.setDataModel(this.dataModel);
-    this.dynamicContextService.onAction(true);
+    if (this.chartTasks.length > 0) {
+      this.dataModel.variableconf.taskconf.tasks.length = 0;
+      this.chartTasks.forEach(item => {
+        this.dataModel.variableconf.taskconf.tasks.push(item);
+      });
+      this.chartConfigureService.setDataModel(this.dataModel);
+      this.dynamicContextService.onAction(true);
+    } else {
+      this.appNotificationService.info(this.translatePipe.transform('TASK_NOT_AVAILABLE'));
+    }
   }
 
   previousClick() {

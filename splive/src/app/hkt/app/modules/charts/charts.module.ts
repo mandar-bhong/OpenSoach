@@ -21,7 +21,7 @@ import { ChartListComponent } from './chart-list/chart-list.component';
 import { ChartsRoutingModule } from './charts-routing.module';
 import { ChartSearchComponent } from './chart-list/chart-search/chart-search.component';
 import { ChartViewComponent } from './chart-list/chart-view/chart-view.component';
-
+import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +33,8 @@ import { ChartViewComponent } from './chart-list/chart-view/chart-view.component
     DynamicComponentLoaderModule,
     StepperModule,
     AmazingTimePickerModule,
-    DragulaModule
+    DragulaModule,
+    Ng2CarouselamosModule
   ],
   declarations: [
     ChartListComponent,

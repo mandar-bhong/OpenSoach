@@ -68,7 +68,7 @@ export class ServicepointServiceAssociateComponent extends EditRecordBase implem
   }
   add() {
     // add new chart nevigate chart configure window with spid
-    this.router.navigate(['servicepoints/charts', 'configure'], {
+    this.router.navigate(['charts', 'configure'], {
       queryParams: { spid: this.dataModel.spid, mode: 2, callbackurl: 'servicepoints' }, skipLocationChange: true
     });
 
@@ -102,7 +102,7 @@ export class ServicepointServiceAssociateComponent extends EditRecordBase implem
     this.prodServicepointService.associateConfigure(request).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         if (navigate) {
-          this.router.navigate(['servicepoints/charts', 'configure'], {
+          this.router.navigate(['charts', 'configure'], {
             queryParams: { id: this.dataModel.servconfid, mode: 1, callbackurl: 'servicepoints' }, skipLocationChange: true
           });
         } else {

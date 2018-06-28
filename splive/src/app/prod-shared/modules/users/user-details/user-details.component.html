@@ -1,131 +1,17 @@
 <div class="row">
   <div class="col">
     <mat-card>
+      <div class="text-right">
+        <button mat-icon-button class="view-form-backButton" (click)="closeForm()" style="right:10px">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
       <div class="row">
         <div class="col-md-6 col-12">
-          <mat-card>
-            <form [formGroup]="editableForm" (ngSubmit)="savemaster()">
-                <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>              
-              <div class="form-group form-primary" *ngIf="formMode === 1">
-                <mat-form-field>
-                  <input disabled matInput placeholder="User Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.usrname">
-                  <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
-                    User Name is Required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0">
-                <span class="viewlabel">User Name</span>
-                <label class="viewtext">{{ dataModel.usrname }}</label>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 1">
-                <mat-form-field class="full-width" id="point-selection">
-                  <mat-select placeholder="Role Name" [(ngModel)]="dataModel.uroleid" formControlName="userroleControl" required>
-                    <mat-option *ngFor="let urole of uroleids" [value]="urole.uroleid">
-                      {{urole.urolename}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="editableForm.controls['userroleControl'].hasError('required')">
-                    is Required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0">
-                <span class="viewlabel">Role Name </span>
-                <label class="viewtext">{{ getuserrole(dataModel.uroleid) }}</label>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 1">
-                <mat-form-field>
-                  <mat-select placeholder="State" formControlName="userStateControl" required [(ngModel)]="dataModel.usrstate">
-                    <mat-option *ngFor="let userstate of userStates" [value]="userstate.value">
-                      {{userstate.text | translate}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="editableForm.controls['userStateControl'].hasError('required') ">
-                    User State Selection is Required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0">
-                <span class="viewlabel">State </span>
-                <label class="viewtext">{{ getuserstate(dataModel.usrstate) | translate }}</label>
-              </div>
-            </form>
-          </mat-card>
+          <app-user-master-details></app-user-master-details>
         </div>
         <div class="col-md-6 col-12">
-          <mat-card>
-            <h3 class="text-center"></h3>
-            <form [formGroup]="editableForm" (ngSubmit)="save()">
-                <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
-              <h5>First Contact </h5>
-              <div class="form-group form-primary " *ngIf="formMode === 1">
-                <mat-form-field class="full-width" id="point-selection ">
-                  <input disabled matInput placeholder="First Name" formControlName="fnameControl" required [(ngModel)]="dataModel.fname">
-                  <mat-error *ngIf="editableForm.controls['fnameControl'].hasError('required') ">
-                    This field is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0">
-                <span class="viewlabel">First Name</span>
-                <label class="viewtext">{{ dataModel.fname }}</label>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 1">
-                <mat-form-field class="full-width">
-                  <input disabled matInput placeholder="Last Name" formControlName="lnameControl" required [(ngModel)]="dataModel.lname">
-                  <mat-error *ngIf="editableForm.controls['lnameControl'].hasError('required') ">
-                    This field is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
-                <span class="viewlabel">Last Name </span>
-                <label class="viewtext">{{ dataModel.lname }}</label>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 1">
-                <mat-form-field id="telephone">
-                  <!-- <span matPrefix>+91 &nbsp;</span> -->
-                  <input disabled type="tel" matInput placeholder="Telephone" formControlName="mobilenoControl" required [(ngModel)]="dataModel.mobileno">
-                  <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('required') ">
-                    This field is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
-                <span class="viewlabel">Telephone</span>
-                <label class="viewtext">{{ dataModel.mobileno }}</label>
-              </div>
-              <h5>Alternate Contact</h5>
-              <div class="form-group form-primary" *ngIf="formMode === 1">
-                <mat-form-field id="telephone">
-                  <!-- <span matPrefix>+91 &nbsp;</span> -->
-                  <input disabled type="tel" matInput placeholder="Alternate Contact" [(ngModel)]="dataModel.alternatecontactno" formControlName="mobilenoControl">
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0">
-                <span class="viewlabel">Telephone</span>
-                <label class="viewtext">{{ dataModel.alternatecontactno }}</label>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 1">
-                <mat-form-field>
-                  <mat-select placeholder="Gender" [(ngModel)]="dataModel.gender" formControlName="userGenderControl" required>
-                    <mat-option *ngFor="let gend of userGenders" [value]="gend.value">
-                      {{gend.text | translate }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="editableForm.controls['userGenderControl'].hasError('required') ">
-                    This field is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
-                <span class="viewlabel">Gender</span>
-                <label class="viewtext">{{ getgender(dataModel.gender) | translate }}</label>
-              </div>
-              <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
-            </form>
-          </mat-card>
+          <app-user-info></app-user-info>
         </div>
       </div>
     </mat-card>

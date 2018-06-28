@@ -51,3 +51,11 @@ export class ServiceConfigureDataListResponse {
     createdon: Date;
     updatedon: Date;
 }
+
+export class ServicePointWithConfigurationResponse {
+    spid: number;
+    spname: string;
+    servconfid: number;
+    spcid: number;
+    spcname: string;
+}
