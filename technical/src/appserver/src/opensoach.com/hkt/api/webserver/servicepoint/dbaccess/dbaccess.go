@@ -204,20 +204,3 @@ func ServicePointSelectByID(dbConn string, spId int64) (error, *[]hktmodels.DBSp
 	}
 	return nil, data
 }
-
-func GetServicePointConfigList(dbConn string, cpmid int64) (error, *[]hktmodels.DBServicePointConfigShortDataModel) {
-
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetServicePointConfigList")
-
-	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBServicePointConfigShortDataModel{}
-	selDBCtx.DBConnection = dbConn
-	selDBCtx.Query = dbquery.QUERY_GET_SERVICE_POINT_CONFIG_SHORT_LIST
-	selDBCtx.QueryType = dbmgr.Query
-	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(cpmid)
-	if selErr != nil {
-		return selErr, nil
-	}
-	return nil, data
-}

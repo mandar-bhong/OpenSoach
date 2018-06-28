@@ -46,6 +46,3 @@ Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_
 9. method GET : /api/v1/servicepoint/info
 
 	query parameter : params={"recid":1} //spid
-	
-	
-10.	method:GET	/api/v1/servicepoint/config/list/short

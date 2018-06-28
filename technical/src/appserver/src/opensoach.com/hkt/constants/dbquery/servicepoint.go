@@ -21,10 +21,3 @@ left join spl_node_service_instance_tbl serv_conf_in on serv_conf_in.sp_id_fk = 
 const QUERY_GET_SERVICEPOINT_SHORT_LIST = `select sp_id_fk,sp_name from spl_node_sp_tbl`
 
 const QUERY_GET_SERVICE_POINT_BY_ID = `select * from spl_node_sp_tbl where sp_id_fk = ?`
-
-const QUERY_GET_SERVICE_POINT_CONFIG_SHORT_LIST = `select sp.sp_id_fk,sp.sp_name,sp.spc_id_fk,spc.spc_name,serv_conf_in.serv_conf_id_fk,serv_conf.serv_conf_name 
-from spl_node_sp_tbl sp
-left join spl_node_service_instance_tbl serv_conf_in on serv_conf_in.sp_id_fk = sp.sp_id_fk
-left join spl_node_service_conf_tbl serv_conf on serv_conf.id = serv_conf_in.serv_conf_id_fk
-inner join spl_node_sp_category_tbl spc on sp.spc_id_fk = spc.id 
-where sp.cpm_id_fk = ?`

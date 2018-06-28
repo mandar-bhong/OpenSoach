@@ -30,6 +30,7 @@ const API_SERVICE_TXN_LIST = API_BASE_URL + "/v1/service/transaction/list"
 const API_SERVICE_CONFIG_LIST_SHORT = API_BASE_URL + "/v1/service/config/list/short"
 const API_SERVICE_CONFIG_COPY_TEMPLATE = API_BASE_URL + "/v1/service/config/copytemplate"
 const API_SERVICE_CONFIG_INFO = API_BASE_URL + "/v1/service/config/info"
+const API_SERVICE_SP_CONFIG_LIST_SHORT = API_BASE_URL + "/v1/service/spconfig/list/short"
 
 const API_MASTER_SPC_TASK_INFO = API_BASE_URL + "/v1/master/spctask/info"
 const API_MASTER_TASK_LIB_INFO = API_BASE_URL + "/v1/master/task/info"
@@ -45,7 +46,8 @@ const API_SERVICE_POINT_ASSOCIATE_DEVICE = API_BASE_URL + "/v1/servicepoint/asso
 const API_SERVICE_POINT_DEVICE_ASSOCIATION_REMOVE = API_BASE_URL + "/v1/servicepoint/associate/device/remove"
 const API_SERVICE_POINT_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/list/short"
 const API_SERVICE_POINT_INFO = API_BASE_URL + "/v1/servicepoint/info"
-const API_SERVICE_POINT_CONFIG_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/config/list/short"
+
+// const API_SERVICE_POINT_CONFIG_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/config/list/short"
 
 const API_DEVICE_LIST_SHORT = API_BASE_URL + "/v1/device/list/short"
 const API_DEVICE_LIST = API_BASE_URL + "/v1/device/list"
