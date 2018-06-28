@@ -60,6 +60,7 @@ type DBServicePointConfigShortDataModel struct {
 	SpId         int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
 	SpName       string `db:"sp_name" json:"spname"`
 	SpcId        int64  `db:"spc_id_fk" json:"spcid"`
-	ServConfId   int64  `db:"id" dbattr:"pri,auto"  json:"servconfid"`
+	SpcName      string `db:"spc_name" json:"spcname"`
+	ServConfId   int64  `db:"serv_conf_id_fk" json:"servconfid"`
 	ServConfName string `db:"serv_conf_name" json:"servconfname"`
 }
