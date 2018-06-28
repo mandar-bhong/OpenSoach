@@ -57,7 +57,7 @@ export class SpServiceConfService extends ListingService<ServiceConfigureFilterR
 
     getServicePointsWithConfigurations(implicitErrorHandling = true):
         Observable<PayloadResponse<ServicePointWithConfigurationResponse[]>> {
-        return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/config/list/short',
+        return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/service/spconfig/list/short',
             implicitErrorHandling);
     }
 
