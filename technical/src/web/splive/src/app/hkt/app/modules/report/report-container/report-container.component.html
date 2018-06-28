@@ -59,14 +59,29 @@
         </div>
 
         <div class="row">
+          <span>Summary</span>
+        </div>
+        <div class="row" *ngFor="let summaryitem of summarydata;let i=index">
+          <div class="col-sm-12 col-md-6">
+            <mat-card>
+              <mat-card-content>
+                <div class="row" *ngFor="let item of summaryheader;let j = index">
+                  <div class="col-6 text-muted">{{item}}</div>
+                  <div class="col-6">{{summaryitem[j]}}</div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+        <div class="row">
           <div class="col">
             <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
-              <ng-container *ngFor="let col of parsedHeaderArray;let i=index" matColumnDef={{col}}>
+              <ng-container *ngFor="let col of listheader;let i=index" matColumnDef={{col}}>
                 <mat-header-cell *matHeaderCellDef mat-sort-header>{{ col }} </mat-header-cell>
                 <mat-cell *matCellDef="let row">{{row[i]}} </mat-cell>
               </ng-container>
-              <mat-header-row *matHeaderRowDef="parsedHeaderArray"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: parsedHeaderArray;"></mat-row>
+              <mat-header-row *matHeaderRowDef="listheader"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: listheader;"></mat-row>
             </mat-table>
             <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5,10,25,100]">
             </mat-paginator>

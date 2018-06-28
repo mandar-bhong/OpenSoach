@@ -2,9 +2,10 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+
 import { PayloadResponse } from '../../models/api/payload-models';
-import { LoginStatusProviderService } from '../../services/login-status-provider.service';
 import { ApiErrorService } from '../../services/api/api-error.service';
+import { LoginStatusProviderService } from '../../services/login-status-provider.service';
 
 @Injectable()
 export class ServerApiInterfaceService {
@@ -75,7 +76,7 @@ export class ServerApiInterfaceService {
                 }
             ),
             catchError(this.apiErrorService.handleError<PayloadResponse<any>>(url)));
-    }
+    }    
 
     get(url: string, implicitErrorHandling = true): Observable<PayloadResponse<any>> {
         let httpOptions = {
@@ -106,5 +107,18 @@ export class ServerApiInterfaceService {
                 }
             ),
             catchError(this.apiErrorService.handleError<PayloadResponse<any>>(url)));
+    }
+
+    downloadFile(url: string, queryParams: any, implicitErrorHandling = true): Observable<Blob> {
+        return this.http.get(url, {
+            headers: new HttpHeaders(
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.loginStatusProviderService.authToken
+                }),
+            responseType: 'blob',
+            withCredentials: true,
+            params: new HttpParams().set('params', JSON.stringify(queryParams))
+        }).pipe(catchError(this.apiErrorService.handleError<any>(url)));
     }
 }

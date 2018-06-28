@@ -25,8 +25,8 @@ export class ChartListComponent implements OnInit {
     item.icon = 'add_circle';
     item.title = 'Chart';
     item.navigate = true;
-    item.url = 'servicepoints/charts/configure';
-    item.data = { queryParams: { callbackurl: 'servicepoints/charts' }, skipLocationChange: true };
+    item.url = 'charts/configure';
+    item.data = { queryParams: { callbackurl: 'charts' }, skipLocationChange: true };
     floatingMenu.items.push(item);
     this.floatingButtonMenuService.setFloatingMenu(floatingMenu);
   }

@@ -345,5 +345,10 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* VALIDATION MESSAGES END */
 
+  {
+    key: 'CHART_DATA_NO_CHART_CONFIGURED',
+    en: 'No Chart has been configured yet. Goto Service Points-> List -> Configure to configure a chart'
+  },
+
 ];
 

@@ -2,8 +2,9 @@ import {
     ServiceConfigurationRequest,
     ServiceConfigurationResponse,
     ServiceConfigurationUpdateRequest,
+    ServicePointWithConfigurationResponse
 } from '../../../../prod-shared/models/api/service-configuration-models';
-import { ServicepointAssociateRequest } from '../../../../prod-shared/models/api/servicepoint-models';
+import { ServicepointAssociateRequest, ServicepointListResponse } from '../../../../prod-shared/models/api/servicepoint-models';
 import { ServiceInstanceTransactionResponse } from '../../../../prod-shared/models/api/service-txn-models';
 import { TaskTemplateRequest, TaskTemplateResponse } from '../api/chart-conf-models';
 
@@ -78,26 +79,23 @@ export class ChartTaskModel {
 }
 
 export class ChartDataViewModel {
-    servconfid: number;
-    spcid: number;
     conftypecode: string;
     servconfname: string;
     shortdesc: string;
     servconf: string;
     variableconf: VariableChartConfModel;
-    spid: number;
     txns: ChartTransactionModel[];
     timeslots: ChartTimeSlot[];
     tasktxnslotmap: Map<string, ChartTxnSlot[]>;
     startdate: Date;
     enddate: Date;
     selecteddateoption = '0'; // 0: Today, 1: Yesterday, 2: Selected Date
+    splist:ServicePointWithConfigurationResponse[];
+    selectedsp:ServicePointWithConfigurationResponse;
     constructor() {
     }
 
     copyFromConfiguration(response: ServiceConfigurationResponse) {
-        this.servconfid = response.servconfid;
-        this.spcid = response.spcid;
         this.conftypecode = response.conftypecode;
         this.servconfname = response.servconfname;
         this.shortdesc = response.shortdesc;
