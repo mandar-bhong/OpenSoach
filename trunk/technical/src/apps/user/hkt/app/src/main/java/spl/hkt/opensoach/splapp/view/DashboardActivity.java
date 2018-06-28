@@ -1,5 +1,6 @@
 package spl.hkt.opensoach.splapp.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +14,7 @@ import java.util.TimerTask;
 import spl.hkt.opensoach.splapp.R;
 import spl.hkt.opensoach.splapp.SPLApplication;
 
-public class DashboardActivity extends AppCompatActivity implements UpdateChartListner {
+public class DashboardActivity extends Activity implements UpdateChartListner {
 
     private TextView tvResponseData;
     private String strResponse = "";

@@ -32,7 +32,7 @@ import spl.hkt.opensoach.splapp.model.communication.DeviceChartDataModel;
 import spl.hkt.opensoach.splapp.model.communication.PacketFeedbackDataModel;
 import spl.hkt.opensoach.splapp.model.view.UserFeedbackModel;
 
-public class ScreenSaverActivity extends AppCompatActivity {
+public class ScreenSaverActivity extends Activity {
 
     private String MY_JSON_EXAMPLE = "{\"name\":\"John Doe\",\"email\":\"jdoe@testco.com\"}";
 
