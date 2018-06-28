@@ -29,19 +29,15 @@ import spl.hkt.opensoach.splapp.Constants;
 import spl.hkt.opensoach.splapp.R;
 import spl.hkt.opensoach.splapp.SPLApplication;
 import spl.hkt.opensoach.splapp.apprepo.AppRepo;
+
 import spl.hkt.opensoach.splapp.handler.ChartActivityClickHandler;
 import spl.hkt.opensoach.splapp.helper.AppHelper;
 import spl.hkt.opensoach.splapp.logger.AppLogger;
 import spl.hkt.opensoach.splapp.manager.BroadCastReceiverManager;
 import spl.hkt.opensoach.splapp.manager.LocationChartRunnable;
-import spl.hkt.opensoach.splapp.manager.SendPacketManager;
-import spl.hkt.opensoach.splapp.model.communication.DeviceChartDataModel;
 import spl.hkt.opensoach.splapp.model.view.ChartConfigModel;
 import spl.hkt.opensoach.splapp.model.view.DisplayChartDataModel;
-import spl.hkt.opensoach.splapp.viewModels.CellViewModel;
-import spl.hkt.opensoach.splapp.viewModels.HeaderViewModel;
 import spl.hkt.opensoach.splapp.viewModels.MainViewModel;
-import spl.hkt.opensoach.splapp.viewModels.TaskRowViewModel;
 
 public class ChartActivity extends Activity implements ChartTableFragment.OnFragmentInteractionListener, PropertyChangeListener {
 
@@ -154,9 +150,8 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
         locationList.add("ServicePoint1");
 
         //TODO How to initi HeaderViewModel
-        HeaderViewModel headerViewModel = new HeaderViewModel();
-        headerViewModel.setLocationList(locationList);
-        MainViewModel.getInstance().setHeaderViewModel(headerViewModel);
+
+        MainViewModel.getInstance().getHeaderViewModel().setLocationList(locationList);
 
         //Temp set NW STATE
         MainViewModel.getInstance().getHeaderViewModel().setNetworkState(Constants.NETWORK_STATE.WEB_SOCKET_CONNECTED);
@@ -339,20 +334,39 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
 
                      break;
 
-                 case AppRepo.CurrentLocationIdPropName:
-                     fl_UploadData.setClickable(true);
-                     fl_UploadData.setOnClickListener(new ChartActivityClickHandler());
+                 case AppRepo.IsChartRenderedPropName:
+                     boolean ischartrendered = message.getData().getBoolean("ischartrendered");
 
-                     fl_comment.setClickable(true);
-                     fl_comment.setOnClickListener(new ChartActivityClickHandler());
+                     if (ischartrendered){
+                         fl_UploadData.setClickable(true);
+                         fl_UploadData.setOnClickListener(new ChartActivityClickHandler());
 
-                     mUploadDataImageView.setEnabled(true);
-                     mComplaintmageView.setEnabled(true);
-                     mUploadDataImageView.setAlpha(1f);
-                     mComplaintmageView.setAlpha(1f);
+                         fl_comment.setClickable(true);
+                         fl_comment.setOnClickListener(new ChartActivityClickHandler());
 
-                     canShowScreenSaver= true;
-                     startHandler();
+                         mUploadDataImageView.setEnabled(true);
+                         mComplaintmageView.setEnabled(true);
+                         mUploadDataImageView.setAlpha(1f);
+                         mComplaintmageView.setAlpha(1f);
+
+                         canShowScreenSaver= true;
+                         startHandler();
+                     }else{
+                         fl_UploadData.setClickable(false);
+                         fl_UploadData.setOnClickListener(null);
+                         fl_comment.setClickable(false);
+                         fl_comment.setOnClickListener(null);
+
+                         mUploadDataImageView.setEnabled(false);
+                         mComplaintmageView.setEnabled(false);
+                         mUploadDataImageView.setAlpha(.2f);
+                         mComplaintmageView.setAlpha(0.2f);
+
+                         canShowScreenSaver= false;
+                         stopHandler();
+                     }
+
+
                      break;
              }
             }
@@ -374,9 +388,9 @@ public class ChartActivity extends Activity implements ChartTableFragment.OnFrag
                 msg.setData(b);
                 uiHandler.sendMessage(msg);
                 break;
-            case AppRepo.CurrentLocationIdPropName:
+            case AppRepo.IsChartRenderedPropName:
                 //Setting value in bundle is required
-                b.putInt("locationid", (int) evt.getNewValue());
+                b.putBoolean("ischartrendered", (boolean) evt.getNewValue());
                 msg.setData(b);
                 uiHandler.sendMessage(msg);
                 break;

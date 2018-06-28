@@ -22,6 +22,7 @@ public class MainViewModel {
  */
     private MainViewModel() {
         currenChartDataModelMap = new HashMap<String, ChartDataModel>();
+        headerViewModel = new HeaderViewModel();
     }
 
     public static MainViewModel getInstance() {
@@ -32,10 +33,6 @@ public class MainViewModel {
 
     public HeaderViewModel getHeaderViewModel() {
         return headerViewModel;
-    }
-
-    public void setHeaderViewModel(HeaderViewModel headerViewModel) {
-        this.headerViewModel = headerViewModel;
     }
 
     public ChartViewModel getChartViewModel() {

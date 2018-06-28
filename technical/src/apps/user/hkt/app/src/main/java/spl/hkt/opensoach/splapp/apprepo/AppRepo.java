@@ -30,6 +30,7 @@ public final class AppRepo {
     private boolean isDeviceAuthorized;
 
     private  int BatteryLevel;
+    private  boolean isChartRendered;
 
     private String AuthToken;
     private ArrayList<String> authCodeList;
@@ -39,6 +40,7 @@ public final class AppRepo {
     public static final String CurrentLocationIdPropName = "AppRepo.currentLocationId";
     public static final String DeviceSyncCompletedPropName = "AppRepo.isDeviceSyncInProgress";
     public static final String DeviceAuthorizedPropName = "AppRepo.isDeviceAuthorized";
+    public static final String IsChartRenderedPropName = "AppRepo.isChartRendered";
 
     /* A private Constructor prevents any other
      * class from instantiating.
@@ -161,5 +163,15 @@ public final class AppRepo {
 
     public void setBatteryLevel(int batteryLevel) {
         BatteryLevel = batteryLevel;
+    }
+
+    public boolean isChartRendered() {
+        return isChartRendered;
+    }
+
+    public void setChartRendered(boolean chartRendered) {
+        boolean oldValue = isChartRendered;
+        isChartRendered = chartRendered;
+        this.propertyChangeSupport.firePropertyChange(IsChartRenderedPropName, oldValue, isChartRendered);
     }
 }

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import spl.hkt.opensoach.splapp.R;
 import spl.hkt.opensoach.splapp.SPLApplication;
+import spl.hkt.opensoach.splapp.apprepo.AppRepo;
 import spl.hkt.opensoach.splapp.logger.AppLogger;
 import spl.hkt.opensoach.splapp.model.ChartDataModel;
 import spl.hkt.opensoach.splapp.model.view.ChartConfigModel;
@@ -229,6 +230,12 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
 
             chartConfigModel = model;
 
+            if (chartConfigModel.getSlots().size() > 0 ){
+                AppRepo.getInstance().setChartRendered(true);
+            }else{
+                AppRepo.getInstance().setChartRendered(false);
+            }
+
             currentActiveSlot = identifyCurrentActiveSlot(model);
 
             this.createChartSlotMenu(model);
@@ -419,11 +426,16 @@ public class TableMainLayout extends RelativeLayout implements TimeChangeListner
     public void notifyTimeChange() {
 
         if (chartConfigModel == null ) {
+            AppRepo.getInstance().setChartRendered(false);
             return;
         }
 
-        if (chartConfigModel.getSlots().size() == 0)
+        if (chartConfigModel.getSlots().size() == 0) {
+            AppRepo.getInstance().setChartRendered(false);
             return;
+        }
+
+        AppRepo.getInstance().setChartRendered(true);
 
         if (chartConfigModel.getSlots().size() <= currentActiveSlot + 1) {
             Date firstTimeSlot = chartConfigModel.getSlots().get(0).getStartTime();
