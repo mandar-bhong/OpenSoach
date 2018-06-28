@@ -83,6 +83,8 @@ public class AppHelper {
 
         BroadCastReceiverManager.Instance().RegisterBatteryLevelReceiver(mContext);
 
+        ExecuteStartUpProcess();
+
         HttpManager.ProcessWebSocketURL();
     }
 
