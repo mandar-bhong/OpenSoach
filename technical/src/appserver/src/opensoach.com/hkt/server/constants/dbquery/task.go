@@ -40,4 +40,4 @@ inner join spl_node_fop_sp_tbl fopsp on devsp.sp_id_fk = fopsp.sp_id_fk
 and devsp.cpm_id_fk = fopsp.cpm_id_fk
 inner join spl_node_field_operator_tbl fop
 on fop.id=fopsp.fop_id_fk
-where fopsp.sp_id_fk = ?`
+where fopsp.fop_id_fk = ?`
