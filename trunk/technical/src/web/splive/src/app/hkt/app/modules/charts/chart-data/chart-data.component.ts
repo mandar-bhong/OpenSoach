@@ -2,14 +2,21 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { ServicePointWithConfigurationResponse } from '../../../../../prod-shared/models/api/service-configuration-models';
+import { ProdServicepointService } from '../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
 import { SpServiceConfService } from '../../../../../prod-shared/services/spservice/sp-service-conf.service';
 import { SpServiceTxnService } from '../../../../../prod-shared/services/spservice/sp-service-txn.service';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import {
   ChartDataViewModel,
   ChartTimeSlot,
   ChartTransactionModel,
   ChartTxnSlot,
 } from '../../../models/ui/chart-conf-models';
+import { FloatingMenu, FloatingMenuItem } from '../../../../../shared/models/ui/floating-menu';
+import { DEFAULT_PAGE_MENU } from '../../../../../shared/app-common-constants';
+import { FloatingButtonMenuService } from '../../../../../shared/services/floating-button-menu.service';
 
 @Component({
   selector: 'app-chart-data',
@@ -24,36 +31,71 @@ export class ChartDataComponent implements OnInit, OnDestroy {
   optionYesterday = 1;
   optionToday = 0;
   optionCustomDate = 2;
+  spidparam: number;
 
   selectedDate = new Date();
 
   constructor(private route: ActivatedRoute,
     private spServiceConfService: SpServiceConfService,
-    private spServiceTxnService: SpServiceTxnService) { }
+    private spServiceTxnService: SpServiceTxnService,
+    public prodServicepointService: ProdServicepointService,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe,
+    private floatingButtonMenuService: FloatingButtonMenuService) { }
 
   ngOnInit() {
     this.routeSubscription = this.route.queryParams.subscribe(params => {
-      this.dataModel.spid = Number(params['spid']);
-      this.dataModel.servconfid = Number(params['servconfid']);
-      this.getConfiguration();
+      if (params['spid']) {
+        this.spidparam = Number(params['spid']);
+      }
     });
+
+    this.getServicepointList();
+    this.setFloatingMenu();
   }
 
-  getConfiguration() {
-    this.spServiceConfService.getServiceConf({ recid: this.dataModel.servconfid }).subscribe(payloadResponse => {
+  getServicepointList() {
+    this.spServiceConfService.getServicePointsWithConfigurations().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
-        this.dataModel.copyFromConfiguration(payloadResponse.data);
-        this.createChartSlots();
-        this.getChartTransactions();
+        this.dataModel.splist = payloadResponse.data;
+
+        if (this.spidparam) {
+          this.dataModel.selectedsp = this.dataModel.splist.find(sp => sp.spid === this.spidparam);
+        } else if (this.dataModel.splist.length > 0) {
+          this.dataModel.selectedsp = this.dataModel.splist[0];
+        }
+
+        this.getConfiguration();
       }
     });
   }
 
+  getConfiguration() {
+    this.isDataLoaded = false;
+    if (!this.dataModel.selectedsp) {
+      return;
+    }
+
+    if (this.dataModel.selectedsp.servconfid > 0) {
+      this.spServiceConfService.getServiceConf({ recid: this.dataModel.selectedsp.servconfid }).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.dataModel.copyFromConfiguration(payloadResponse.data);
+          this.createChartSlots();
+          this.getChartTransactions();
+        }
+      });
+    } else {
+      this.appNotificationService.info(this.translatePipe.transform('CHART_DATA_NO_CHART_CONFIGURED'));
+    }
+  }
+
   getChartTransactions() {
-    this.dataModel.startdate = new Date(this.selectedDate.setHours(0, 0, 0, 0));
-    this.dataModel.enddate = new Date(this.selectedDate.setHours(24, 0, 0, 0));
+    this.dataModel.startdate = new Date(this.selectedDate);
+    this.dataModel.enddate = new Date(this.selectedDate);
+    this.dataModel.startdate.setHours(0, 0, 0, 0);
+    this.dataModel.enddate.setHours(24, 0, 0, 0);
     this.spServiceTxnService.getServiceTransactions({
-      spid: this.dataModel.spid,
+      spid: this.dataModel.selectedsp.spid,
       startdate: this.dataModel.startdate,
       enddate: this.dataModel.enddate
     }).subscribe(payloadResponse => {
@@ -64,8 +106,6 @@ export class ChartDataComponent implements OnInit, OnDestroy {
         this.isDataLoaded = true;
       }
     });
-
-    console.log('datamodel', this.dataModel);
   }
   createChartSlots() {
     this.dataModel.timeslots = [];
@@ -148,5 +188,24 @@ export class ChartDataComponent implements OnInit, OnDestroy {
       case 2:
         return 'delayedTask';
     }
+  }
+
+  selectedSpChange(sp: ServicePointWithConfigurationResponse) {
+    this.dataModel.selectedsp = sp;
+    this.getConfiguration();
+  }
+
+  setFloatingMenu() {
+    const floatingMenu = new FloatingMenu();
+    floatingMenu.menuInstanceKey = DEFAULT_PAGE_MENU;
+    floatingMenu.items = new Array<FloatingMenuItem>();
+    const item = new FloatingMenuItem();
+    item.icon = 'view_list';
+    item.title = 'Chart Templates';
+    item.navigate = true;
+    item.url = 'charts/templatelist';
+    item.data = { queryParams: { callbackurl: 'servicepoints' }, skipLocationChange: true };
+    floatingMenu.items.push(item);
+    this.floatingButtonMenuService.setFloatingMenu(floatingMenu);
   }
 }

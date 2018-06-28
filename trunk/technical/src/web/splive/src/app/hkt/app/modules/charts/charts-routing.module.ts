@@ -8,15 +8,15 @@ import { ChartListComponent } from './chart-list/chart-list.component';
 const routes: Routes = [
   {
     path: '',
-    component: ChartListComponent
+    component: ChartDataComponent
   },
   {
     path: 'configure',
     component: ChartConfigureComponent
   },
   {
-    path: 'data',
-    component: ChartDataComponent
+    path: 'templatelist',
+    component: ChartListComponent
   }
 ];
 
