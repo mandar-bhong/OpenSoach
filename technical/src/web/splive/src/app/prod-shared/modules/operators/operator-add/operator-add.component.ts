@@ -21,11 +21,13 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   routeSubscription: Subscription;
   operatorStates: EnumDataSourceItem<number>[];
   operatorAreas: EnumDataSourceItem<number>[];
+
   constructor(private prodOperatorService: ProdOperatorService,
     private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe) {
+    private translatePipe: TranslatePipe,
+  ) {
     super();
     this.iconCss = 'fa fa-meh-o';
     this.pageTitle = 'Operator Details';
@@ -62,6 +64,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const operatorAddRequest = new OperatorAddRequest();
       this.dataModel.copyTo(operatorAddRequest);
@@ -73,6 +76,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
           this.setFormMode(FORM_MODE.VIEW);
           this.subTitle = this.dataModel.fopname;
         }
+        this.inProgress = false;
       });
     } else {
       const operatorUpdateRequest = new OperatorUpdateRequest();
@@ -83,6 +87,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
           this.setFormMode(FORM_MODE.VIEW);
           this.subTitle = this.dataModel.fopname;
         }
+        this.inProgress = false;
       });
     }
   }

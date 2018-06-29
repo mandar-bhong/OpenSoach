@@ -76,6 +76,7 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const complaintUpdateRequest = new ComplaintUpdateRequest();
     this.dataModel.copyToUpdateRequest(complaintUpdateRequest);
     this.prodComplaintService.updateComplaintDetails(complaintUpdateRequest).subscribe(payloadResponse => {
@@ -90,6 +91,7 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
           this.isEditable = false;
         }
       }
+      this.inProgress = false;
     });
   }
   getcomplaintstate(value: number) {

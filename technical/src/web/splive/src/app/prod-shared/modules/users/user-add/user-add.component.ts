@@ -64,6 +64,8 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
   }
 
   save() {
+    if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const userAddRequest = new UserAddRequest();
       this.dataModel.copyTo(userAddRequest);
@@ -75,6 +77,7 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
           this.setFormMode(FORM_MODE.VIEW);
           this.subTitle = this.dataModel.usrname;
         }
+        this.inProgress = false;
       });
     }
   }
