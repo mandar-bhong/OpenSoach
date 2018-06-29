@@ -34,60 +34,58 @@
           <ng-container matColumnDef="usrname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">User Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">User Name</span>
-              {{row.usrname}}
+              <span class="mat-cell-responsive-label">User Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.usrname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="urolename">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Role Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Role Name</span>
-              {{row.urolename}}
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="usrstate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Status</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">Status</span>
-              {{userSharedService.getUserState(row.usrstate) | translate}}
+              <span class="mat-cell-responsive-label">Role Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.urolename}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="fname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">First Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">First Name</span>
-              {{row.fname}}
+              <span class="mat-cell-responsive-label">First Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.fname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="lname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Last Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Last Name</span>
-              {{row.lname}}
+              <span class="mat-cell-responsive-label">Last Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.lname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="mobileno">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Mobile Number</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Mobile Number</span>
-              {{row.mobileno}}
+              <span class="mat-cell-responsive-label">Mobile Number</span>
+              <span class="ellipsis mat-cell-text">{{row.mobileno}}</span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
+          <ng-container matColumnDef="usrstate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;justify-content:center">Status</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;justify-content:center;">
+              <span class="mat-cell-responsive-label">Status</span>
+              <span [ngSwitch]="row.usrstate">
+                <div class="statusBlock" *ngSwitchCase="0" style="background-color:#dc3545">Not Set</div>
+                <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Active</div>
+                <div class="statusBlock" *ngSwitchCase="2" style="background-color:#dc3545">Inactive</div>
+                <div class="statusBlock" *ngSwitchCase="3" style="background-color:#FFBF00">Suspended</div>
+                <!-- <div class="statusBlock" *ngSwitchDefault style="background-color:#dc3545">Inactive</div> -->
+              </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="details">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Details</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">Action</span>
-              <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+              <span class="mat-cell-responsive-label">Details</span>
+              <button mat-icon-button (click)="viewDetails(row.usrid)">
+                <mat-icon color='primary'>remove_red_eye</mat-icon>
               </button>
-              <mat-menu #menu="matMenu">
-                <ng-template matMenuContent>
-                  <button mat-menu-item (click)="viewDetails(row.usrid)">
-                    <mat-icon color='primary'>remove_red_eye</mat-icon>
-                    <span>Details</span>
-                  </button>
-                </ng-template>
-              </mat-menu>
             </mat-cell>
           </ng-container>
         </mat-table>
