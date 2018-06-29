@@ -1,6 +1,8 @@
 export class ComplaintFiltrRequest {
     complainttitle: string;
     complaintstate: number;
+    spname: string;
+    spid: number;
 }
 export class ComplaintDataListResponse {
     complaintid: number;
@@ -9,6 +11,7 @@ export class ComplaintDataListResponse {
     description: string;
     complaintby: string;
     raisedon: Date;
+    severity: number;
     complaintstate: number;
     closedon: Date;
 }

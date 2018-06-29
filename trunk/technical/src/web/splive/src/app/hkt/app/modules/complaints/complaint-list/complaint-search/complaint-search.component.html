@@ -27,6 +27,16 @@
               </mat-select>
             </mat-form-field>
           </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <mat-select placeholder="Service Point" [(ngModel)]="dataModel.spid">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let cat of splist" [value]="cat.spid">
+                  {{cat.spname}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
         <button type="button" mat-raised-button color="primary" (click)="search()">Apply</button>
       </mat-expansion-panel>

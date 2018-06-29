@@ -5,10 +5,14 @@ import { SEVERIT_STATE, COMPLAINT_STATE } from '../../../../shared/app-common-co
 export class ComplaintFilterModel {
     complainttitle: string;
     complaintstate: COMPLAINT_STATE;
+    spname: string;
+    spid: number;
 
-    copyTo(operatorFiltrRequest: ComplaintFiltrRequest) {
-        operatorFiltrRequest.complainttitle = this.complainttitle;
-        operatorFiltrRequest.complaintstate = this.complaintstate;
+    copyTo(complaintFiltrRequest: ComplaintFiltrRequest) {
+        complaintFiltrRequest.complainttitle = this.complainttitle;
+        complaintFiltrRequest.complaintstate = this.complaintstate;
+        complaintFiltrRequest.spname = this.spname;
+        complaintFiltrRequest.spid = this.spid;
 
     }
 }
