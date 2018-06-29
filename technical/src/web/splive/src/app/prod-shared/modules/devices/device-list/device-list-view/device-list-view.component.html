@@ -34,57 +34,49 @@
           <ng-container matColumnDef="serialno">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Serial Number</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Serial Number</span>
-              {{row.serialno}}
+              <span class="mat-cell-responsive-label">Serial Number</span>
+              <span class="ellipsis mat-cell-text">{{row.serialno}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="devname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 17%;">Device Name</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 17%;">
-              <span class="mat-row-mobile-label">Device Name</span>
-              {{row.devname}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Device Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+              <span class="mat-cell-responsive-label">Device Name</span>
+              <span class="ellipsis mat-cell-text">{{row.devname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="connectionstate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;text-align:center;">Connection</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;text-align:center;">
-              <span class="mat-row-mobile-label">Connection</span>
-              <span [ngSwitch]="row.connectionstate" >             
-              <div  class="statusBlock" *ngSwitchCase="0" style="background-color:#dc3545">Offline</div>
-              <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Online</div>              
-              <div class="statusBlock" *ngSwitchDefault style="background-color:#dc3545">Offline</div>
-              </span>  
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;justify-content:center;">Connection</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;justify-content:center;">
+              <span class="mat-cell-responsive-label">Connection</span>
+              <span [ngSwitch]="row.connectionstate">
+                <div class="statusBlock" *ngSwitchCase="0" style="background-color:#dc3545">Offline</div>
+                <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Online</div>
+                <div class="statusBlock" *ngSwitchDefault style="background-color:#dc3545">Offline</div>
+              </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="batterylevel">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;">Battery Level</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 16%;">
-              <span class="mat-row-mobile-label">Battery Level</span>
-              <div style="display:inline-block">              
-              <div *ngIf="row.batterylevel" class="battery" style="display:inline-block">               
-               <div *ngIf="row.batterylevel<=10" class="levelCritical" [style.width]="row.batterylevel+'%'"></div>
-               <div *ngIf="row.batterylevel>10 && row.batterylevel<=20" class="levelLow" [style.width]="row.batterylevel+'%'"></div>
-               <div *ngIf="row.batterylevel>20"class="levelHigh" [style.width]="row.batterylevel+'%'"></div>
-               </div>
-               <span *ngIf="row.batterylevel" style="display:inline-block;" class="percentage">{{row.batterylevel}}%</span>
-               </div>
+              <span class="mat-cell-responsive-label">Battery Level</span>
+              <div style="display:inline-block">
+                <div *ngIf="row.batterylevel" class="battery" style="display:inline-block">
+                  <div *ngIf="row.batterylevel<=10" class="levelCritical" [style.width]="row.batterylevel+'%'"></div>
+                  <div *ngIf="row.batterylevel>10 && row.batterylevel<=20" class="levelLow" [style.width]="row.batterylevel+'%'"></div>
+                  <div *ngIf="row.batterylevel>20" class="levelHigh" [style.width]="row.batterylevel+'%'"></div>
+                </div>
+                <span *ngIf="row.batterylevel" style="display:inline-block;" class="percentage">{{row.batterylevel}}%</span>
+              </div>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef style="flex:0 0 5%;">Action</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 5%;">
-              <span class="mat-row-mobile-label">Action</span>
-              <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+          <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Edit</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+              <span class="mat-cell-responsive-label">Edit</span>
+              <button mat-icon-button (click)="viewDetails(row)">
+                <mat-icon color='primary'>edit</mat-icon>
               </button>
-              <mat-menu #menu="matMenu">
-                <ng-template matMenuContent>
-                  <button mat-menu-item (click)="viewDetails(row)">
-                    <mat-icon color='primary'>remove_red_eye</mat-icon>
-                    <span>Details</span>
-                  </button>                  
-                </ng-template>
-              </mat-menu>
             </mat-cell>
           </ng-container>
         </mat-table>
