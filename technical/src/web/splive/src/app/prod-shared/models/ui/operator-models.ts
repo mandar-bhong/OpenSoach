@@ -74,6 +74,6 @@ export class OperatorServicePointsDataModel {
     fopid: number;
     associatedsplist: OperatorServicePointListModel[];
     availablesplist: OperatorServicePointListModel[];
-    fopname:string;
+    fopname: string;
 
 }

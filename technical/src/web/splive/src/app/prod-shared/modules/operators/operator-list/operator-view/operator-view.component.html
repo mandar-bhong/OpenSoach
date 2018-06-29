@@ -34,49 +34,53 @@
           <ng-container matColumnDef="fopname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Operator Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Operator Name</span>
-              {{row.fopname}}
+              <span class="mat-cell-responsive-label">Operator Name</span>
+              <span class="ellipsis mat-cell-text">{{row.fopname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="emailid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Email Id</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Email Id</span>
-              {{row.emailid}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Email Id</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+              <span class="mat-cell-responsive-label">Email Id</span>
+              <span class="ellipsis mat-cell-text">{{row.emailid}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="mobileno">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Mobile Number</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Mobile Number</span>
-              {{row.mobileno}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Mobile Number</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
+              <span class="mat-cell-responsive-label">Mobile Number</span>
+              <span class="ellipsis mat-cell-text"> {{row.mobileno}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="fopcode">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Operator Code</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
-              <span class="mat-row-mobile-label">Operator Code</span>
-              {{row.fopcode}}
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="fopstate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Status</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Status</span>
-              {{prodOperatorService.getOperatorState(row.fopstate) | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Operator Code</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+              <span class="mat-cell-responsive-label">Operator Code</span>
+              <span class="ellipsis mat-cell-text"> {{row.fopcode}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="foparea">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Area</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
-              <span class="mat-row-mobile-label">Area</span>
-              {{prodOperatorService.getOperatorArea(row.foparea) | translate}}
+              <span class="mat-cell-responsive-label">Area</span>
+              <span class="ellipsis mat-cell-text"> {{prodOperatorService.getOperatorArea(row.foparea) | translate}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="fopstate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;justify-content:center;">Status</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 16%;justify-content:center;">
+              <span class="mat-cell-responsive-label">Status</span>
+              <span [ngSwitch]="row.fopstate">
+                <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Active</div>
+                <div class="statusBlock" *ngSwitchCase="2" style="background-color:#dc3545">Inactive</div>
+                <div class="statusBlock" *ngSwitchDefault style="background-color:#dc3545">Inactive</div>
+              </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef style="flex:0 0 5%;">Action</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 5%;">
-              <span class="mat-row-mobile-label">Action</span>
+              <span class="mat-cell-responsive-label">Action</span>
               <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
