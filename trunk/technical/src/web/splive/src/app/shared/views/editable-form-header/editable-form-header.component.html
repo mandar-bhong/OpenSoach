@@ -28,7 +28,7 @@
       <mat-icon aria-label="Edit">edit</mat-icon>
     </button>
     <button type="submit" class="saveButton" mat-icon-button [hidden]="editRecordBase.formMode===editRecordBase.formModeEnum.VIEW"
-      matTooltip="Save">
+      [disabled]="editRecordBase.inProgress" matTooltip="Save">
       <mat-icon aria-label="Save">check</mat-icon>
     </button>
     <button type="button" color="warn" mat-icon-button [hidden]="editRecordBase.formMode===editRecordBase.formModeEnum.VIEW||editRecordBase.recordState===editRecordBase.recordStateEnum.ADD"
