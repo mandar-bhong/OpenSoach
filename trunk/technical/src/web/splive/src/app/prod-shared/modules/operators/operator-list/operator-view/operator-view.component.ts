@@ -18,11 +18,12 @@ import { ProdOperatorService } from '../../../../services/operator/prod-operator
   styleUrls: ['./operator-view.component.css']
 })
 export class OperatorViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['fopname', 'emailid', 'mobileno', 'fopcode', 'fopstate', 'foparea', 'action'];
+  displayedColumns = ['fopname', 'emailid', 'mobileno', 'fopcode', 'foparea', 'fopstate', 'action'];
   sortByColumns = [{ text: 'User Name', value: 'usrname' },
   { text: 'Operator Name', value: 'fopname' },
   { text: 'Email id', value: 'emailid' },
   { text: 'Mobile Number', value: 'mobileno' },
+  { text: 'Operator Code', value: 'fopcode' },
   { text: 'Status', value: 'fopstate' },
   { text: 'Area', value: 'foparea' }
   ];
