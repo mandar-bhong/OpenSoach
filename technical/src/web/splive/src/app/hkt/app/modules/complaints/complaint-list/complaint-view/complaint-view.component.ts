@@ -21,10 +21,12 @@ import { ProdComplaintService } from '../../../../services/complaint/prod-compla
   styleUrls: ['./complaint-view.component.css']
 })
 export class ComplaintViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['spname', 'complainttitle', 'description', 'complaintby', 'complaintstate', 'action'];
-  sortByColumns = [{ text: 'Service Point Name', value: 'spname' },
+  displayedColumns = ['spname', 'complainttitle', 'complaintby', 'severity', 'complaintstate', 'details'];
+  sortByColumns = [{ text: 'Service Point', value: 'spname' },
   { text: 'Compalint Title', value: 'complainttitle' },
-  { text: 'Complaint By', value: 'complaintby' }
+  { text: 'Complaint By', value: 'complaintby' },
+  { text: 'Severity', value: 'severity' },
+  { text: 'Status', value: 'complaintstate' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
