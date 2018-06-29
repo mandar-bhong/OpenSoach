@@ -34,21 +34,21 @@
           <ng-container matColumnDef="conftypecode">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Chart Type</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 45%;">
-              <span class="mat-row-mobile-label">Chart Type</span>
-              {{row.conftypecode}}
+              <span class="mat-cell-responsive-label">Chart Type</span>
+              <span class="ellipsis mat-cell-text"> {{row.conftypecode}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="servconfname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Chart Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 45%;">
-              <span class="mat-row-mobile-label">Chart Name</span>
-              {{row.servconfname}}
+              <span class="mat-cell-responsive-label">Chart Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.servconfname}} </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Action</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Action</span>
+              <span class="mat-cell-responsive-label">Action</span>
               <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>

@@ -19,7 +19,7 @@ import { ReportService } from './services/report.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
 
   imports: [

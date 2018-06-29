@@ -10,7 +10,7 @@
       </mat-card-header>
       <div class="" [dragula]='"first-bag"' class="dnd-container" [dragulaModel]='taskLibrary'>
         <div *ngFor="let item of taskLibrary">
-          <mat-card class="drag-item-mat-card">{{item.taskname}}</mat-card>
+          <mat-card class="drag-item-mat-card" id="task-ellipsis">{{item.taskname}}</mat-card>
         </div>
       </div>
     </mat-card>
@@ -26,14 +26,14 @@
       </mat-card-header>
       <div class="" [dragula]='"first-bag"' class="dnd-container" [dragulaModel]='chartTasks'>
         <div *ngFor="let item of chartTasks">
-          <mat-card class="drag-item-mat-card">{{item.taskname}}</mat-card>
+          <mat-card class="drag-item-mat-card" id="task-ellipsis">{{item.taskname}}</mat-card>
         </div>
       </div>
       <div [hidden]='!isTaskAdd'>
         <form [formGroup]="addTaskForm" (ngSubmit)="addTask()">
           <mat-card class="add-task-mat-card">
             <mat-form-field>
-              <input matInput placeholder="Task Name" formControlName="taskNameControl" required [(ngModel)]="addNewTaskName">
+              <input matInput placeholder="Task Name" formControlName="taskNameControl" required [(ngModel)]="addNewTaskName" maxlength="50">
               <button color="accent" type="submit" matSuffix mat-icon-button aria-label="Add">
                 <mat-icon aria-label="Save">check</mat-icon>
               </button>
