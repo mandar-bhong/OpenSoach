@@ -32,33 +32,33 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           <ng-container matColumnDef="spname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Service Point</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Service Point</span>
-              {{row.spname}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Service Point</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+              <span class="mat-cell-responsive-label">Service Point</span>
+              <span class="ellipsis mat-cell-text"> {{row.spname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="spcname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Category</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Category</span>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Category</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+              <span class="mat-cell-responsive-label">Category</span>
               <span *ngIf="row.spcid>0">
-                  {{row.spcname}}
-                </span>
-                <span *ngIf="row.spcid===0">
-                  <span>NOT SET</span>
-                  <button mat-icon-button color="accent" (click)="editServicePoint(row)">
-                    <i class="fa fa-pencil"></i>
-                  </button>
-                </span>
+                <span class="ellipsis mat-cell-text"> {{row.spcname}}</span>
+              </span>
+              <span *ngIf="row.spcid===0">
+                <span>NOT SET</span>
+                <button mat-icon-button color="accent" (click)="editServicePoint(row)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="devid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;text-align:center">Device</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 20%;text-align:center">
-              <span class="mat-row-mobile-label">Device</span>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;justify-content:center;">Device</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;justify-content:center;">
+              <span class="mat-cell-responsive-label">Device</span>
               <span *ngIf="row.devid">
-                {{row.devname}}
+                <span class="ellipsis mat-cell-text"> {{row.devname}}</span>
               </span>
               <span *ngIf="!(row.devid)">
                 <button mat-icon-button color="accent" (click)="openServicePointDeviceAssociation(row)">
@@ -67,38 +67,40 @@
               </span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="spstate">
+          <!-- <ng-container matColumnDef="spstate">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Status</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Status</span>
+              <span class="mat-cell-responsive-label">Status</span>
               {{prodServicepointService.getServicepointState(row.spstate) | translate}}
             </mat-cell>
-          </ng-container>
+          </ng-container> -->
           <ng-container matColumnDef="servconfid">
             <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Chart</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Chart</span>
+              <span class="mat-cell-responsive-label">Chart</span>
               <button mat-icon-button color="primary" *ngIf="row.servconfid" (click)="showChartData(row)">
-                  <mat-icon><i class="fa fa-table" aria-hidden="true"></i></mat-icon>
+                <mat-icon>
+                  <i class="fa fa-table" aria-hidden="true"></i>
+                </mat-icon>
               </button>
               <button mat-icon-button color="accent" *ngIf="!(row.servconfid)" (click)="configure(row)">
-                <span>Configure</span>
+                <span >Configure</span>
               </button>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">Action</span>
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Action</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+              <span class="mat-cell-responsive-label">Action</span>
               <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
-                    <button mat-menu-item (click)="editServicePoint(row)">
-                        <mat-icon color='primary'>edit</mat-icon>
-                        <span>Edit Service Point</span>
-                      </button>
+                  <button mat-menu-item (click)="editServicePoint(row)">
+                    <mat-icon color='primary'>edit</mat-icon>
+                    <span>Edit service point</span>
+                  </button>
                   <button mat-menu-item (click)="configure(row)">
                     <mat-icon color='primary'>settings</mat-icon>
                     <span *ngIf="!row.servconfid">Configure Chart</span>
