@@ -61,3 +61,31 @@ func TaskGetFieldOperatorDetailsByFopId(instDBConn string, fopID int64) (error, 
 
 	return dbErr, dbDeviceFieldOperatorDataModel
 }
+
+func TaskGetFieldOperatorByFopId(instDBConn string, fopID int64) (error, hktmodels.DBDevFieldOperatorDataModel) {
+
+	dbDevFieldOperatorDataModel := hktmodels.DBDevFieldOperatorDataModel{}
+	selectContext := dbmgr.SelectContext{}
+	selectContext.DBConnection = instDBConn
+	selectContext.Query = dbquery.QUERY_GET_FIELD_OPERATOR_BY_ID
+	selectContext.QueryType = dbmgr.Query
+	selectContext.Dest = &dbDevFieldOperatorDataModel
+
+	dbErr := selectContext.Get(fopID)
+
+	return dbErr, dbDevFieldOperatorDataModel
+}
+
+func TaskGetServicePointByDevId(instDBConn string, devID int64) (error, hktmodels.DBDeviceServicePointDataModel) {
+
+	dbDeviceServicePointDataModel := hktmodels.DBDeviceServicePointDataModel{}
+	selectContext := dbmgr.SelectContext{}
+	selectContext.DBConnection = instDBConn
+	selectContext.Query = dbquery.QUERY_GET_SERVICE_POINT_BY_DEV_ID
+	selectContext.QueryType = dbmgr.Query
+	selectContext.Dest = &dbDeviceServicePointDataModel
+
+	dbErr := selectContext.Get(devID)
+
+	return dbErr, dbDeviceServicePointDataModel
+}

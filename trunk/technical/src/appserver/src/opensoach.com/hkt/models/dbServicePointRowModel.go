@@ -55,3 +55,8 @@ type DBServicePointShortDataModel struct {
 	SpId   int64  `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
 	SpName string `db:"sp_name" json:"spname"`
 }
+
+type DBDeviceServicePointDataModel struct {
+	DevId int64 `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	SpId  int64 `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+}

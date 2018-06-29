@@ -75,3 +75,14 @@ func PreProcessExecutor(epModel *gmodels.PacketProcessingTaskModel) *gmodels.Pac
 
 	return packetProcessingResult
 }
+
+func GetTokens() []string {
+
+	tokenList := []string{}
+
+	for token := range tokenvsChnID {
+		tokenList = append(tokenList, token)
+	}
+
+	return tokenList
+}

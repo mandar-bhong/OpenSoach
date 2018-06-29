@@ -65,18 +65,10 @@ func createFieldOperatorPacket(spid int64, fopModels []hktmodels.DBDeviceFieldOp
 	fopinfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_SERVICE_POINTS_FIELD_OPERATOR
 	fopinfo.Header.SPID = spid
 
-	var fopList []hktmodels.DBEPSPFieldOperatorDataModel
+	fopList := []string{}
 
 	for _, fopModel := range fopModels {
-		dbEPSPFieldOperatorDataModel := hktmodels.DBEPSPFieldOperatorDataModel{}
-
-		dbEPSPFieldOperatorDataModel.FopId = fopModel.FopId
-		dbEPSPFieldOperatorDataModel.Fopcode = fopModel.Fopcode
-		dbEPSPFieldOperatorDataModel.FopName = fopModel.FopName
-		dbEPSPFieldOperatorDataModel.FopState = fopModel.FopState
-		dbEPSPFieldOperatorDataModel.FopArea = fopModel.FopArea
-
-		fopList = append(fopList, dbEPSPFieldOperatorDataModel)
+		fopList = append(fopList, fopModel.Fopcode)
 	}
 
 	fopinfo.Payload = fopList
