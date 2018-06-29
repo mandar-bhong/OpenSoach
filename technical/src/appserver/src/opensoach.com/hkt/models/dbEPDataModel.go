@@ -13,11 +13,3 @@ type DBEPSPServConfDataModel struct {
 	ServConfName string `db:"serv_conf_name" json:"servconfname"`
 	ServConf     string `db:"serv_conf" json:"servconf"`
 }
-
-type DBEPSPFieldOperatorDataModel struct {
-	FopId    int64   `db:"fop_id_fk" json:"fopid"`
-	Fopcode  string  `db:"fopcode" json:"fopcode"`
-	FopName  *string `db:"fop_name" json:"fopname"`
-	FopState int     `db:"fop_state" json:"fopstate"`
-	FopArea  int     `db:"fop_area" json:"foparea"`
-}

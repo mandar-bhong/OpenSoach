@@ -40,6 +40,18 @@ func (service FieldoperatorService) Add(req lmodels.APIFieldOperatorAddRequest) 
 	addResponse := gmodels.APIRecordAddResponse{}
 	addResponse.RecordID = insertedId
 
+	taskFieldOperatorAddedModel := &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}
+	taskFieldOperatorAddedModel.FopId = insertedId
+	taskFieldOperatorAddedModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	isSendSuccess := repo.Instance().
+		SendTaskToServer(hktconst.TASK_HKT_API_FIELD_OPERATOR_ADDED,
+			service.ExeCtx.SessionToken, taskFieldOperatorAddedModel)
+
+	if isSendSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
+	}
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "New Field Operator Added succesfully")
 
 	return true, addResponse
