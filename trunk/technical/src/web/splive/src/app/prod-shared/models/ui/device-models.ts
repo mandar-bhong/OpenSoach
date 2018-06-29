@@ -3,10 +3,12 @@ import { DeviceDetailsResponse, DeviceFilterRequest, DeviceDetailsUpdateRequest 
 export class DeviceFilterModel {
     serialno: string;
     devname: string;
+    connectionstate: string;
 
     copyTo(deviceFilterRequest: DeviceFilterRequest) {
         deviceFilterRequest.serialno = this.serialno;
         deviceFilterRequest.devname = this.devname;
+        deviceFilterRequest.connectionstate = this.connectionstate;
     }
 }
 

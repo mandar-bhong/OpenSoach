@@ -175,6 +175,18 @@ export const TRANSLATIONS: TranslationValue[] = [
 
   /* USER PRODUCT MAPPING STATES  END */
 
+  /* CONNECTION STATES  */
+
+  {
+    key: 'CONNECTION_STATE_0',
+    en: 'OFFLINE'
+  },
+  {
+    key: 'CONNECTION_STATE_1',
+    en: 'ONLINE'
+  },
+  /* CONNECTION STATES END */
+
   /* USER CATEGORYS BEGIN */
 
   {
