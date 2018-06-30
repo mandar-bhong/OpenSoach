@@ -6,8 +6,8 @@ import (
 	"github.com/jmoiron/sqlx"
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
-	"opensoach.com/splserver/constants"
-	lmodels "opensoach.com/splserver/models"
+	"opensoach.com/spl/server/constants"
+	lmodels "opensoach.com/spl/server/models"
 )
 
 func GetDBTransaction(dbconn string) (error, *sqlx.Tx) {

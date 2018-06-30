@@ -7,7 +7,7 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
-	"opensoach.com/splserver"
+	"opensoach.com/spl/server"
 )
 
 func main() {

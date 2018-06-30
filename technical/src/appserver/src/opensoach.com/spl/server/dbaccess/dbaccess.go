@@ -4,7 +4,7 @@ import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	hktmodels "opensoach.com/hkt/models"
-	"opensoach.com/splserver/constants/dbquery"
+	"opensoach.com/spl/server/constants/dbquery"
 )
 
 const SUB_MODULE_NAME = "SPL.Server.DB"

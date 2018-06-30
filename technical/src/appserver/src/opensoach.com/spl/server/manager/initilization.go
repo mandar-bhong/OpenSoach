@@ -12,7 +12,7 @@ import (
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
-	repo "opensoach.com/splserver/repository"
+	repo "opensoach.com/spl/server/repository"
 )
 
 func InitilizeModues(dbconfig *gmodels.ConfigDB) error {

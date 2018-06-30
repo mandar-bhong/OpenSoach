@@ -4,8 +4,8 @@ import (
 	dbmgr "opensoach.com/core/manager/db"
 
 	ghelper "opensoach.com/core/helper"
-	"opensoach.com/splserver/constants"
-	lmodels "opensoach.com/splserver/models"
+	"opensoach.com/spl/server/constants"
+	lmodels "opensoach.com/spl/server/models"
 )
 
 func UpdateEPConnectionState(dbconn string, deviceID int64, state int) error {

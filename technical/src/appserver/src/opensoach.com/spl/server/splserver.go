@@ -2,7 +2,7 @@ package splserver
 
 import (
 	gmodels "opensoach.com/models"
-	splmgr "opensoach.com/splserver/manager"
+	splmgr "opensoach.com/spl/server/manager"
 )
 
 func Init(dbconfig *gmodels.ConfigDB) bool {
