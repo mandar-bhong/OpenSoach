@@ -5,7 +5,7 @@ import (
 
 	ghelper "opensoach.com/core/helper"
 	gmodels "opensoach.com/models"
-	lmodels "opensoach.com/splserver/models"
+	lmodels "opensoach.com/spl/server/models"
 )
 
 var apiTaskHandler map[string]lmodels.APITaskHandlerModel

@@ -2,7 +2,7 @@ package manager
 
 import (
 	gmodels "opensoach.com/models"
-	"opensoach.com/splserver/processor"
+	"opensoach.com/spl/server/processor"
 )
 
 var SUB_MODULE_NAME = "SPL.Server.Manager"

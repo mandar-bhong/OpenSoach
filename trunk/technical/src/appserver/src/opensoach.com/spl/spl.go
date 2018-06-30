@@ -10,7 +10,7 @@ import (
 	gmodels "opensoach.com/models"
 
 	"opensoach.com/core/logger"
-	"opensoach.com/spl/manager"
+	"opensoach.com/spl/api/manager"
 )
 
 func main() {

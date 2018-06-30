@@ -6,10 +6,10 @@ import (
 	"opensoach.com/core/logger"
 	engnotemail "opensoach.com/engine/notification/email"
 	gnotmodels "opensoach.com/models/notification"
-	"opensoach.com/splserver/constants"
-	"opensoach.com/splserver/dbaccess"
-	lmodels "opensoach.com/splserver/models"
-	repo "opensoach.com/splserver/repository"
+	"opensoach.com/spl/server/constants"
+	"opensoach.com/spl/server/dbaccess"
+	lmodels "opensoach.com/spl/server/models"
+	repo "opensoach.com/spl/server/repository"
 )
 
 type UserEmailNotification struct {

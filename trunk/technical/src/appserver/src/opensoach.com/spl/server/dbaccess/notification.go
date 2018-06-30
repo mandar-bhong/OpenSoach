@@ -3,9 +3,9 @@ package dbaccess
 import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
-	"opensoach.com/splserver/constants"
-	dbquery "opensoach.com/splserver/constants/dbquery"
-	lmodels "opensoach.com/splserver/models"
+	"opensoach.com/spl/server/constants"
+	dbquery "opensoach.com/spl/server/constants/dbquery"
+	lmodels "opensoach.com/spl/server/models"
 )
 
 func GetEmailTemplate(dbConn string, code string) (error, *lmodels.DBEmailTemplateRowModel) {

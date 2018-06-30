@@ -7,10 +7,10 @@ import (
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
-	dbaccess "opensoach.com/splserver/dbaccess"
-	lmodels "opensoach.com/splserver/models"
-	engemail "opensoach.com/splserver/notification"
-	repo "opensoach.com/splserver/repository"
+	dbaccess "opensoach.com/spl/server/dbaccess"
+	lmodels "opensoach.com/spl/server/models"
+	engemail "opensoach.com/spl/server/notification"
+	repo "opensoach.com/spl/server/repository"
 )
 
 const SUB_MODULE_NAME = "Splserver.Processor"
