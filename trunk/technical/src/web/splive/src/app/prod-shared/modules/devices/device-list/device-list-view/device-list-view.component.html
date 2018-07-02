@@ -46,8 +46,8 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="connectionstate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;justify-content:center;">Connection</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;justify-content:center;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;justify-content:center;">Connection</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;justify-content:center;">
               <span class="mat-cell-responsive-label">Connection</span>
               <span [ngSwitch]="row.connectionstate">
                 <div class="statusBlock" *ngSwitchCase="0" style="background-color:#dc3545">Offline</div>
@@ -57,8 +57,8 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="batterylevel">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;">Battery Level</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 16%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Battery Level</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
               <span class="mat-cell-responsive-label">Battery Level</span>
               <div style="display:inline-block">
                 <div *ngIf="row.batterylevel" class="battery" style="display:inline-block">
@@ -75,7 +75,7 @@
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
               <span class="mat-cell-responsive-label">Edit</span>
               <button mat-icon-button (click)="viewDetails(row)">
-                <mat-icon color='primary'>edit</mat-icon>
+                <mat-icon color='primary' aria-hidden="true" matTooltip="Edit Details">edit</mat-icon>
               </button>
             </mat-cell>
           </ng-container>

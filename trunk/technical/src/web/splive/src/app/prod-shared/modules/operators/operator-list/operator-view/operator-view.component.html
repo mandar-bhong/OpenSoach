@@ -82,12 +82,12 @@
             <mat-cell *matCellDef="let row" style="flex:0 0 5%;">
               <span class="mat-cell-responsive-label">Action</span>
               <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+                <mat-icon  aria-hidden="true" matTooltip="Menu">more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
                   <button mat-menu-item (click)="viewDetails(row.fopid)">
-                    <mat-icon color='primary'>remove_red_eye</mat-icon>
+                    <mat-icon color='primary' >remove_red_eye</mat-icon>
                     <span>Details</span>
                   </button>
                   <button mat-menu-item [hidden]="row.foparea === operatorAreas.OPEN" (click)="viewAssocate(row)">
