@@ -5,13 +5,13 @@
         <div ng2-carouselamos class="slides-wrapper" [items]="this.dataModel.splist" [$prev]="prev" [$next]="next" [$item]="item">
         </div>
         <ng-template #prev>
-          <button type="button" color="primary" class="backButton" mat-icon-button matTooltip="Back">
-            <mat-icon aria-label="Back">chevron_left</mat-icon>
+          <button type="button" color="primary" class="backButton" mat-icon-button matTooltip="Previous">
+            <mat-icon aria-label="Previous">chevron_left</mat-icon>
           </button>
         </ng-template>
         <ng-template #next>
-          <button type="button" color="primary" class="backButton" mat-icon-button matTooltip="Back">
-            <mat-icon aria-label="Back">chevron_right</mat-icon>
+          <button type="button" color="primary" class="backButton" mat-icon-button matTooltip="Next">
+            <mat-icon aria-label="Next">chevron_right</mat-icon>
           </button>
         </ng-template>
         <ng-template #item let-item let-i="index">

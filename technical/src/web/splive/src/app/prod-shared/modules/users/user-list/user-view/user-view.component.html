@@ -84,7 +84,7 @@
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
               <span class="mat-cell-responsive-label">Details</span>
               <button mat-icon-button (click)="viewDetails(row.usrid)">
-                <mat-icon color='primary'>remove_red_eye</mat-icon>
+                <mat-icon color='primary'  aria-hidden="true" matTooltip="Edit Details">remove_red_eye</mat-icon>
               </button>
             </mat-cell>
           </ng-container>

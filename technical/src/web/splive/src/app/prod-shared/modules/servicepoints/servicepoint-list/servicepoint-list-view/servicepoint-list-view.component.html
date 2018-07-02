@@ -62,7 +62,7 @@
               </span>
               <span *ngIf="!(row.devid)">
                 <button mat-icon-button color="accent" (click)="openServicePointDeviceAssociation(row)">
-                  <i class="fa fa-link"></i>
+                  <i class="fa fa-link"  aria-hidden="true" matTooltip="Add Device"></i>
                 </button>
               </span>
             </mat-cell>
@@ -80,7 +80,7 @@
               <span class="mat-cell-responsive-label">Chart</span>
               <button mat-icon-button color="primary" *ngIf="row.servconfid" (click)="showChartData(row)">
                 <mat-icon>
-                  <i class="fa fa-table" aria-hidden="true"></i>
+                  <i class="fa fa-table" aria-hidden="true" matTooltip="View Chart"></i>
                 </mat-icon>
               </button>
               <button mat-icon-button color="accent" *ngIf="!(row.servconfid)" (click)="configure(row)">
@@ -93,7 +93,7 @@
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-cell-responsive-label">Action</span>
               <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+                <mat-icon aria-hidden="true" matTooltip="Menu">more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
