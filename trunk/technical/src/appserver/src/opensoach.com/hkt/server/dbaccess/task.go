@@ -89,3 +89,17 @@ func TaskGetServicePointByDevId(instDBConn string, devID int64) (error, hktmodel
 
 	return dbErr, dbDeviceServicePointDataModel
 }
+
+func TaskGetDeviceBySpID(instDBConn string, spId int64) (error, []hktmodels.DBDeviceServicePointDataModel) {
+
+	dbDeviceServicePointDataModel := []hktmodels.DBDeviceServicePointDataModel{}
+	selectContext := dbmgr.SelectContext{}
+	selectContext.DBConnection = instDBConn
+	selectContext.Query = dbquery.QUERY_GET_DEVICES_BY_SERVICE_POINT_ID
+	selectContext.QueryType = dbmgr.Query
+	selectContext.Dest = &dbDeviceServicePointDataModel
+
+	dbErr := selectContext.Select(spId)
+
+	return dbErr, dbDeviceServicePointDataModel
+}
