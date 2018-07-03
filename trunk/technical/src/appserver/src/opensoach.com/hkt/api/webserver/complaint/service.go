@@ -102,6 +102,7 @@ func (service ComplaintService) ComplaintList(listReqData gmodels.APIDataListReq
 	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*hktmodels.DBSearchComplaintRequestFilterDataModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
 	CurrentPage := listReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * listReqData.Limit)

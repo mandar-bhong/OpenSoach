@@ -16,7 +16,7 @@ import (
 
 var SUB_MODULE_NAME = "HKT.API.Device.DB"
 
-func GetDeviceShortDataList(dbConn string) (error, *[]hktmodels.DBDeviceShortDataModel) {
+func GetDeviceShortDataList(dbConn string, cpmId int64) (error, *[]hktmodels.DBDeviceShortDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceShortDataList")
 
@@ -26,7 +26,7 @@ func GetDeviceShortDataList(dbConn string) (error, *[]hktmodels.DBDeviceShortDat
 	selDBCtx.Query = dbquery.QUERY_SPL_NODE_DEVICE_TABLE_SELECT_SHORT_DATA_LIST
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select()
+	selErr := selDBCtx.Select(cpmId)
 	if selErr != nil {
 		return selErr, nil
 	}
@@ -90,7 +90,7 @@ func GetDeviceList(dbConn string, filterModel *hktmodels.DBSearchDeviceRequestFi
 	return nil, data
 }
 
-func GetDeviceWithNoSpAssociationShortDataList(dbConn string) (error, *[]hktmodels.DBDeviceShortDataModel) {
+func GetDeviceWithNoSpAssociationShortDataList(dbConn string, cpmid int64) (error, *[]hktmodels.DBDeviceShortDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceWithNoSpAssociationShortDataList")
 
@@ -100,7 +100,7 @@ func GetDeviceWithNoSpAssociationShortDataList(dbConn string) (error, *[]hktmode
 	selDBCtx.Query = dbquery.QUERY_SELECT_DEVICE_WITH_NO_SP_ASSOCIATION_SHORT_DATA_LIST
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select()
+	selErr := selDBCtx.Select(cpmid)
 	if selErr != nil {
 		return selErr, nil
 	}

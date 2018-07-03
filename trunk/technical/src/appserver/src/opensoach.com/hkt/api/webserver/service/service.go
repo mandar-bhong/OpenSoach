@@ -50,6 +50,7 @@ func (service ServiceConfigService) ServiceConfigList(listReqData gmodels.APIDat
 	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*hktmodels.DBSearchServiceConfRequestFilterModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
 	CurrentPage := listReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
@@ -153,6 +154,7 @@ func (service ServiceConfigService) ServiceinstanceList(listReqData gmodels.APID
 	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*hktmodels.DBSearchServiceInstanceRequestFilterModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
 	CurrentPage := listReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
@@ -196,7 +198,7 @@ func (service ServiceConfigService) GetServiceInstanceTxn(spid int, StartDate ti
 
 func (service ServiceConfigService) ServiceConfShortDataList() (bool, interface{}) {
 
-	dbErr, listData := dbaccess.GetServiceConfShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+	dbErr, listData := dbaccess.GetServiceConfShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 

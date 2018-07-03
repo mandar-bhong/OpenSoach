@@ -7,6 +7,7 @@ type DBSearchFieldOperatorRequestFilterDataModel struct {
 	FopName  *string `db:"fop_name" json:"fopname"`
 	MobileNo *string `db:"mobile_no" json:"mobileno"`
 	EmailId  *string `db:"email_id" json:"emailid"`
+	CpmId    int64   `db:"cpm_id_fk" json:"cpmid"`
 }
 
 type DBSearchFieldOperatorResponseFilterDataModel struct {
@@ -23,6 +24,7 @@ type DBSearchComplaintRequestFilterDataModel struct {
 	ComplaintTitle *string `db:"complaint_title" json:"complainttitle"`
 	ComplaintState *int    `db:"complaint_state" json:"complaintstate"`
 	SpId           *int64  `db:"sp.sp_id_fk" json:"spid"`
+	CpmId          int64   `db:"sp.cpm_id_fk" json:"cpmid"`
 }
 
 type DBSearchComplaintResponseFilterDataModel struct {
@@ -41,6 +43,7 @@ type DBSearchComplaintResponseFilterDataModel struct {
 type DBSearchServiceConfRequestFilterModel struct {
 	ConfTypeCode *string `db:"conf_type_code" json:"conftypecode"`
 	ServConfName *string `db:"serv_conf_name" json:"servconfname"`
+	CpmId        int64   `db:"cpm_id_fk" json:"cpmid"`
 }
 
 type DBSearchServiceConfResponseFilterModel struct {
@@ -56,6 +59,7 @@ type DBSearchServiceConfResponseFilterModel struct {
 
 type DBSearchServiceInstanceRequestFilterModel struct {
 	SpcName *string `db:"spc_name" json:"spcname"`
+	CpmId   int64   `db:"serv_conf_in.cpm_id_fk" json:"cpmid"`
 }
 
 type DBSearchServiceInstanceResponseFilterModel struct {
@@ -89,6 +93,7 @@ type DBSearchDeviceRequestFilterDataModel struct {
 	Serialno        *string `db:"serialno" json:"serialno"`
 	DevName         *string `db:"dev_name" json:"devname"`
 	ConnectionState *int    `db:"connection_state" json:"connectionstate"`
+	CpmId           int64   `db:"cpm_id_fk" json:"cpmid"`
 }
 
 type DBSearchDeviceResponseFilterDataModel struct {

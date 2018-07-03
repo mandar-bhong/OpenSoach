@@ -196,7 +196,7 @@ func GetServiceInstTxn(dbConn string, cpmid int64, spid int, startdate time.Time
 	return nil, data
 }
 
-func GetServiceConfShortDataList(dbConn string) (error, *[]hktmodels.DBServiceConfShortDataModel) {
+func GetServiceConfShortDataList(dbConn string, cpmid int64) (error, *[]hktmodels.DBServiceConfShortDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetServiceConfShortDataList")
 
@@ -206,7 +206,7 @@ func GetServiceConfShortDataList(dbConn string) (error, *[]hktmodels.DBServiceCo
 	selDBCtx.Query = dbquery.QUERY_GET_SERVICE_CONF_SHORT_LIST
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select()
+	selErr := selDBCtx.Select(cpmid)
 	if selErr != nil {
 		return selErr, nil
 	}

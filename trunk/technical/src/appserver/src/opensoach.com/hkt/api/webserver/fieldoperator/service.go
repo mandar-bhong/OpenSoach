@@ -85,7 +85,7 @@ func (service FieldoperatorService) GetFieldOperatorList(listReqData gmodels.API
 	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*hktmodels.DBSearchFieldOperatorRequestFilterDataModel)
-
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	CurrentPage := listReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
 
@@ -225,7 +225,7 @@ func (service FieldoperatorService) FopSpDelete(reqdata *lmodels.APIFopSpDeleteR
 
 func (service FieldoperatorService) GetFopSpAssociation(fopID int64) (bool, interface{}) {
 
-	dbErr, fopSpData := dbaccess.FopSpSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, fopID)
+	dbErr, fopSpData := dbaccess.FopSpSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, fopID, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 

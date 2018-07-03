@@ -203,7 +203,7 @@ func (service ServicePointService) GetSPList(listReqData gmodels.APIDataListRequ
 
 func (service ServicePointService) ServicePointShortDataList() (bool, interface{}) {
 
-	dbErr, listData := dbaccess.GetServicePointShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+	dbErr, listData := dbaccess.GetServicePointShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
