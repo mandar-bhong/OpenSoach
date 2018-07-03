@@ -139,7 +139,7 @@ type DBSplNodeSpTableRowModel struct {
 }
 
 type DBSplNodeFeedbackTableRowModel struct {
-	FeedbackId      int64     `db:"id" dbattr:"pri,auto"  json:"FeedbackId"`
+	FeedbackId      int64     `db:"id" dbattr:"pri,auto"  json:"feedbackid"`
 	CpmId           int64     `db:"cpm_id_fk" json:"cpmid"`
 	SpId            int64     `db:"sp_id_fk" json:"spid"`
 	Feedback        int       `db:"feedback" json:"feedback"`

@@ -85,3 +85,14 @@ type APITaskByMonthRequest struct {
 	StartDate *time.Time `json:"startdate"`
 	EndDate   *time.Time `json:"enddate"`
 }
+
+type APITopFeedbacksResponse struct {
+	FeedbackId      int64   `db:"id" dbattr:"pri,auto"  json:"feedbackid"`
+	Feedback        int     `db:"feedback" json:"feedback"`
+	FeedbackComment *string `db:"feedback_comment" json:"feedbackcomment"`
+}
+
+type APITopFeedbacksRequest struct {
+	SpID          *int64 `json:"spid"`
+	NoOfFeedbacks int    `json:"nooffeedbacks"`
+}

@@ -52,3 +52,6 @@ count(if(status=2,1,null)) as delay
 from spl_node_service_in_txn_tbl
 $WhereCondition$
 group by month,year`
+
+const QUERY_GET_TOP_FEEDBACKS = `select id,feedback,feedback_comment from spl_node_feedback_tbl $WhereCondition$
+order by feedback desc limit ?`

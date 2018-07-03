@@ -104,3 +104,15 @@ type DBSearchDeviceResponseFilterDataModel struct {
 	BatteryLevel         *int       `db:"battery_level" json:"batterylevel"`
 	BatteryLevelSince    *time.Time `db:"battery_level_since" json:"batterylevelsince"`
 }
+
+type DBSearchFeedbackRequestFilterDataModel struct {
+	SpId     *int64 `db:"sp_id_fk" json:"spid"`
+	Feedback *int   `db:"feedback" json:"feedback"`
+	CpmId    int64  `db:"cpm_id_fk" json:"cpmid"`
+}
+
+type DBSearchFeedbackResponseFilterDataModel struct {
+	FeedbackId      int64   `db:"id" dbattr:"pri,auto"  json:"feedbackid"`
+	Feedback        int     `db:"feedback" json:"feedback"`
+	FeedbackComment *string `db:"feedback_comment" json:"feedbackcomment"`
+}
