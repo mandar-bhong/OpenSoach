@@ -172,7 +172,7 @@ func FopSpDelete(dbConn string, deltStruct *lmodels.APIFopSpDeleteRequest) (erro
 	return nil, delDBCtx.AffectedRows
 }
 
-func FopSpSelectByID(dbConn string, fopId int64) (error, *[]hktmodels.DBFopSpAssociationDataModel) {
+func FopSpSelectByID(dbConn string, fopId int64, cpmid int64) (error, *[]hktmodels.DBFopSpAssociationDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing FopSpSelectByID")
 
@@ -182,7 +182,7 @@ func FopSpSelectByID(dbConn string, fopId int64) (error, *[]hktmodels.DBFopSpAss
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Query = dbquery.QUERY_GET_FOP_SP_ASSOCIATIONS
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(fopId)
+	selErr := selDBCtx.Select(fopId, cpmid)
 	if selErr != nil {
 		return selErr, nil
 	}

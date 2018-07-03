@@ -15,7 +15,7 @@ type DeviceService struct {
 
 func (service DeviceService) DeviceShortList() (bool, interface{}) {
 
-	dbErr, listData := dbaccess.GetDeviceShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+	dbErr, listData := dbaccess.GetDeviceShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 
@@ -35,6 +35,7 @@ func (service DeviceService) DeviceList(listReqData gmodels.APIDataListRequest) 
 	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*hktmodels.DBSearchDeviceRequestFilterDataModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
 	CurrentPage := listReqData.CurrentPage
 	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
@@ -61,7 +62,7 @@ func (service DeviceService) DeviceList(listReqData gmodels.APIDataListRequest) 
 
 func (service DeviceService) DeviceNoSpAssociationShortList() (bool, interface{}) {
 
-	dbErr, listData := dbaccess.GetDeviceWithNoSpAssociationShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+	dbErr, listData := dbaccess.GetDeviceWithNoSpAssociationShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 

@@ -12,4 +12,4 @@ const QUERY_DELETE_FOP_SP_TABLE_ROW = `Delete From spl_node_fop_sp_tbl Where fop
 
 const QUERY_GET_FOP_SP_ASSOCIATIONS = `select fop_id_fk,fopsp.sp_id_fk,sp_name from spl_node_fop_sp_tbl fopsp
 inner join spl_node_sp_tbl sp on sp.sp_id_fk = fopsp.sp_id_fk
-where fop_id_fk = ?`
+where fop_id_fk = ? and fopsp.cpm_id_fk = ?`

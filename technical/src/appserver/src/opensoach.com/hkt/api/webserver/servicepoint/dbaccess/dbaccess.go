@@ -171,7 +171,7 @@ func GetServicePointList(dbConn string, filterModel *hktmodels.DBSearchServicePo
 	return nil, data
 }
 
-func GetServicePointShortDataList(dbConn string) (error, *[]hktmodels.DBServicePointShortDataModel) {
+func GetServicePointShortDataList(dbConn string, cpmid int64) (error, *[]hktmodels.DBServicePointShortDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSpCategoryShortDataList")
 
@@ -181,7 +181,7 @@ func GetServicePointShortDataList(dbConn string) (error, *[]hktmodels.DBServiceP
 	selDBCtx.Query = dbquery.QUERY_GET_SERVICEPOINT_SHORT_LIST
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select()
+	selErr := selDBCtx.Select(cpmid)
 	if selErr != nil {
 		return selErr, nil
 	}
