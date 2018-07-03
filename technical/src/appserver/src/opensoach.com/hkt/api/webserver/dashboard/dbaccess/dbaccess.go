@@ -263,7 +263,7 @@ func GetNoOfComplaintsPerMonth(dbConn string, req lmodels.APIComplaintsByMonthRe
 
 func SelectTopComplaints(dbConn string, filtermodel hktmodels.DBTopComplaintsFilterDataModel, noofcomplaints int) (error, *[]lmodels.APITopActiveComplaintsResponse) {
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SelectTopFiveComplaints")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SelectTopComplaints")
 
 	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
 
@@ -322,5 +322,30 @@ func GetTaskSummaryPerMonth(dbConn string, req lmodels.APITaskByMonthRequest, fi
 		return selectCtxErr, nil
 	}
 
+	return nil, data
+}
+
+func SelectTopFeedbacks(dbConn string, filtermodel hktmodels.DBTopFeedbackFilterDataModel, nooffeedbacks int) (error, *[]lmodels.APITopFeedbacksResponse) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SelectTopFeedbacks")
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition + " and feedback_comment is not null"
+	}
+
+	Query := strings.Replace(dbquery.QUERY_GET_TOP_FEEDBACKS, "$WhereCondition$", whereCondition, 1)
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.APITopFeedbacksResponse{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selDBCtx.Query = Query
+	selErr := selDBCtx.Select(nooffeedbacks)
+	if selErr != nil {
+		return selErr, nil
+	}
 	return nil, data
 }

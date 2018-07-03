@@ -1,0 +1,6 @@
+Login CU:  {"username":"admin@customer1.com","password":"admin","prodcode":"SPL_HKT"}
+
+1.	method : GET	/api/v1/feedback/list
+
+	{"page":1,"limit":5,"orderby":"feedback","orderdirection":"desc"}
+	{"page":1,"limit":5,"orderby":"feedback","orderdirection":"desc","filter":{"feedback":2}}
