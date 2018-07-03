@@ -41,7 +41,7 @@ where sp.cpm_id_fk = $WhereCpmIdValue$ and sp.sp_id_fk = ? and txn_date between 
 	inner join spl_node_sp_tbl sp on serv_conf_in.sp_id_fk = sp.sp_id_fk
 		where serv_in_txn.cpm_id_fk = $WhereCpmIdValue$ and txn_date between ? and ?
 	) as tbl
-	group by taskname'),
+	group by taskname,locationname'),
 	(4, 'TASK_SUMMARY_ALL', 'This will produce task list', '{"en": ["Completed Tasks", "Delayed Tasks"]}', '1','select 
 count(serv_in_txn.`status`) as completed,
 count(case serv_in_txn.`status` 
