@@ -47,8 +47,6 @@ const API_SERVICE_POINT_DEVICE_ASSOCIATION_REMOVE = API_BASE_URL + "/v1/servicep
 const API_SERVICE_POINT_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/list/short"
 const API_SERVICE_POINT_INFO = API_BASE_URL + "/v1/servicepoint/info"
 
-// const API_SERVICE_POINT_CONFIG_LIST_SHORT = API_BASE_URL + "/v1/servicepoint/config/list/short"
-
 const API_DEVICE_LIST_SHORT = API_BASE_URL + "/v1/device/list/short"
 const API_DEVICE_LIST = API_BASE_URL + "/v1/device/list"
 const API_DEVICE_NO_SP_ASSOCIATION_LIST_SHORT = API_BASE_URL + "/v1/device/list/short/noassociation"
