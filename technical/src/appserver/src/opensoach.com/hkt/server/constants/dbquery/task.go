@@ -45,3 +45,5 @@ where fopsp.fop_id_fk = ?`
 const QUERY_GET_FIELD_OPERATOR_BY_ID = `select fopcode from spl_node_field_operator_tbl where id = ?`
 
 const QUERY_GET_SERVICE_POINT_BY_DEV_ID = `select dev_id_fk,sp_id_fk from spl_node_dev_sp_mapping where dev_id_fk = ?`
+
+const QUERY_GET_DEVICES_BY_SERVICE_POINT_ID = `select dev_id_fk,sp_id_fk from spl_node_dev_sp_mapping where sp_id_fk = ?`

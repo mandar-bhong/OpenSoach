@@ -208,6 +208,7 @@ func (service FieldoperatorService) FopSpDelete(reqdata *lmodels.APIFopSpDeleteR
 	taskFieldOperatorAddedRemovedOnSPModel := &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}
 	taskFieldOperatorAddedRemovedOnSPModel.FopId = reqdata.FopId
 	taskFieldOperatorAddedRemovedOnSPModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	taskFieldOperatorAddedRemovedOnSPModel.SpId = reqdata.SpId
 
 	isSendSuccess := repo.Instance().
 		SendTaskToServer(hktconst.TASK_HKT_API_FIELD_OPERATOR_REMOVED_ON_SP,

@@ -12,4 +12,6 @@ const TASK_HKT_API_FIELD_OPERATOR_REMOVED_ON_SP string = "HKT.API.Task.Device.Fi
 const TASK_HKT_API_FIELD_OPERATOR_ADDED string = "HKT.API.Task.Device.FieldOperator.Added"
 
 const TASK_TYPE_SERV_CONF string = "ServiceConfig"
-const TASK_TYPE_FIELD_OPERATOR string = "FieldOperator"
+const TASK_TYPE_FIELD_OPERATOR_ASSOCIATED string = "FieldOperator.Associated"
+const TASK_TYPE_FIELD_OPERATOR_DEASSOCIATED string = "FieldOperator.Deassociated"
+const TASK_TYPE_FIELD_OPERATOR_ADDED string = "FieldOperator.Added"

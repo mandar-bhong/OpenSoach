@@ -15,7 +15,7 @@ import (
 	pcmodels "opensoach.com/prodcore/models"
 )
 
-func ProcessFieldOperatorOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.APITaskProcessorResultModel) {
+func ProcessFieldOperatorAddedOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.APITaskProcessorResultModel) {
 
 	apiTaskProcessorResultModel := &pcmodels.APITaskProcessorResultModel{}
 
@@ -51,7 +51,72 @@ func ProcessFieldOperatorOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmode
 		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
 		epTaskSendPacketDataModel.Token = deviceToken
 		epTaskSendPacketDataModel.Data = deviceFieldOperatorData
-		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_FIELD_OPERATOR
+		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_FIELD_OPERATOR_ASSOCIATED
+
+		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
+	}
+
+	apiTaskProcessorResultModel.EPSyncData = epTaskSendPacketDataList
+	apiTaskProcessorResultModel.IsEPSync = true
+
+	return nil, apiTaskProcessorResultModel
+}
+
+func ProcessFieldOperatorRemovedOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.APITaskProcessorResultModel) {
+
+	apiTaskProcessorResultModel := &pcmodels.APITaskProcessorResultModel{}
+
+	taskFieldOperatorAddedRemovedOnSPModel := ctx.TaskData.(*hktmodels.TaskFieldOperatorAddedRemovedOnSPModel)
+
+	dbErr, instDBConn := dbaccess.GetInstanceDBConn(repo.Instance().Context.Master.DBConn, taskFieldOperatorAddedRemovedOnSPModel.CpmId)
+
+	if dbErr != nil {
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessFieldOperatorOnSP:Unable to get device token. Device is offline. Skipping creation of packet")
+		return dbErr, apiTaskProcessorResultModel
+	}
+
+	dbSerErr, deviceFieldOperatorData := dbaccess.TaskGetFieldOperatorByFopId(instDBConn, taskFieldOperatorAddedRemovedOnSPModel.FopId)
+
+	if dbSerErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching field operator by fopid.", dbSerErr)
+		return dbSerErr, apiTaskProcessorResultModel
+	}
+
+	//get devices by service points
+	dbErr, devspdata := dbaccess.TaskGetDeviceBySpID(instDBConn, taskFieldOperatorAddedRemovedOnSPModel.SpId)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching field operator by fopid.", dbErr)
+		return dbErr, apiTaskProcessorResultModel
+	}
+
+	dbDeviceFieldOperatorDataModelList := []hktmodels.DBDeviceFieldOperatorDataModel{}
+
+	for i := 0; i < len(devspdata); i++ {
+		dbDeviceFieldOperatorDataModel := hktmodels.DBDeviceFieldOperatorDataModel{}
+		dbDeviceFieldOperatorDataModel.Fopcode = deviceFieldOperatorData.Fopcode
+		dbDeviceFieldOperatorDataModel.SpId = devspdata[i].SpId
+		dbDeviceFieldOperatorDataModel.DeviceId = devspdata[i].DevId
+		dbDeviceFieldOperatorDataModelList = append(dbDeviceFieldOperatorDataModelList, dbDeviceFieldOperatorDataModel)
+	}
+
+	epTaskSendPacketDataList := []pcmodels.EPTaskSendPacketDataModel{}
+
+	for _, deviceFieldOperatorData := range dbDeviceFieldOperatorDataModelList {
+		deviceTokenKey := fmt.Sprintf("%s%d", pcconst.CACHE_DEVICE_TOKEN_MAPPING_KEY_PREFIX, deviceFieldOperatorData.DeviceId)
+		fmt.Println(deviceTokenKey)
+
+		isTokenGetSucc, deviceToken := repo.Instance().Context.Master.Cache.Get(deviceTokenKey)
+
+		if isTokenGetSucc == false {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+			continue
+		}
+
+		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
+		epTaskSendPacketDataModel.Token = deviceToken
+		epTaskSendPacketDataModel.Data = deviceFieldOperatorData
+		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_FIELD_OPERATOR_DEASSOCIATED
 
 		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
 	}
@@ -138,7 +203,7 @@ func ProcessFieldOperatorAdded(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmod
 		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
 		epTaskSendPacketDataModel.Token = deviceToken
 		epTaskSendPacketDataModel.Data = deviceFieldOperatorData
-		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_FIELD_OPERATOR
+		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_FIELD_OPERATOR_ADDED
 
 		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
 	}
