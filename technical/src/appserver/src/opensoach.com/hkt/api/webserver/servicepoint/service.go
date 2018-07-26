@@ -43,8 +43,23 @@ func (service ServicePointService) SpCategoryAdd(req lmodels.APISpCategoryAddReq
 
 func (service ServicePointService) SpUpdate(reqData *hktmodels.DBSpUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
+	dbErr, spdata := dbaccess.ServicePointSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData.SpId)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbrecord := *spdata
+	if reqData.SpState == dbrecord[0].SpState {
+		reqData.SpStateSince = dbrecord[0].SpStateSince
+	} else {
+		reqData.SpStateSince = ghelper.GetCurrentTime()
+	}
+
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
-	reqData.SpStateSince = ghelper.GetCurrentTime()
 
 	dbErr, affectedRow := dbaccess.SpUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
