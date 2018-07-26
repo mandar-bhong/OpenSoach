@@ -23,6 +23,7 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
   routeSubscription: Subscription;
   complStates: EnumDataSourceItem<number>[];
   seveStates: EnumDataSourceItem<number>[];
+  closedate = false;
   constructor(private prodComplaintService: ProdComplaintService,
     private route: ActivatedRoute,
     private appDataStoreService: AppDataStoreService,
@@ -67,6 +68,7 @@ export class ComplaintDetailsComponent extends EditRecordBase implements OnInit,
             this.complStates = this.complStates.filter(a => a.value !== COMPLAINT_STATE.OPEN);
           } else if (this.dataModel.complaintstate === COMPLAINT_STATE.CLOSE) {
             this.isEditable = false;
+            this.closedate = true;
           }
         } else {
           this.appNotificationService.info(this.translatePipe.transform('INFO_DETAILS_NOT_AVAILABLE'));
