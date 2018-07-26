@@ -29,6 +29,7 @@ export class ComplaintDetailsModel {
     remarks: string;
     closedon: Date;
     cpmid: number;
+    raisedon: Date;
     copyToUpdateRequest(complaintUpdateRequest: ComplaintUpdateRequest) {
         complaintUpdateRequest.complaintid = this.complaintid;
         complaintUpdateRequest.complaintstate = this.complaintstate;
@@ -46,5 +47,7 @@ export class ComplaintDetailsModel {
         this.complaintstate = complaintDetailsResponse.complaintstate;
         this.severity = complaintDetailsResponse.severity;
         this.remarks = complaintDetailsResponse.remarks;
+        this.closedon = complaintDetailsResponse.closedon;
+        this.raisedon = complaintDetailsResponse.raisedon;
     }
 }

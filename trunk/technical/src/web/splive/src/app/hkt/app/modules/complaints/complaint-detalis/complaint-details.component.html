@@ -13,6 +13,18 @@
             <label class="viewtext">{{ dataModel.complaintby }}</label>
           </div>
           <div class="form-group form-primary">
+            <span class="viewlabel"> Raised On </span>
+            <label class="viewtext">
+              {{ dataModel.raisedon | date : 'medium'}}
+            </label>
+          </div>
+          <div class="form-group form-primary" [hidden]="closedate===false">
+            <span class="viewlabel"> Close On </span>
+            <label class="viewtext">
+              {{ dataModel.closedon | date : 'medium'}}
+            </label>
+          </div>
+          <div class="form-group form-primary">
             <span class="viewlabel"> Description</span>
             <label class="viewtext">{{ dataModel.description }}</label>
           </div>
