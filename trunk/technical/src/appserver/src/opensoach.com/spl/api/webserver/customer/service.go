@@ -260,7 +260,21 @@ func (service CustomerService) UpdateCPMState(reqData *lmodels.DBCpmStateUpdateR
 
 func (service CustomerService) UpdateCust(reqData *lmodels.DBCustomerUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	reqData.CustStateSince = ghelper.GetCurrentTime()
+	dbErr, data := dbaccess.GetCustomerById(repo.Instance().Context.Master.DBConn, reqData.CustId)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbrecord := *data
+	if reqData.CustState == dbrecord[0].CustState {
+		reqData.CustStateSince = dbrecord[0].CustStateSince
+	} else {
+		reqData.CustStateSince = ghelper.GetCurrentTime()
+	}
 
 	dbErr, affectedRow := dbaccess.CustomerUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {

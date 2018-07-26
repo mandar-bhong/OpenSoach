@@ -499,7 +499,21 @@ func (service UserService) UpdateUcpmState(reqData *lmodels.DBUsrCpmStateUpdateR
 
 func (service UserService) UpdateUser(reqData *lmodels.DBUserUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	reqData.UsrStateSince = ghelper.GetCurrentTime()
+	dbErr, data := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, reqData.UserId)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbrecord := *data
+	if reqData.UsrState == dbrecord[0].UsrState {
+		reqData.UsrStateSince = dbrecord[0].UsrStateSince
+	} else {
+		reqData.UsrStateSince = ghelper.GetCurrentTime()
+	}
 
 	dbErr, affectedRow := dbaccess.UserUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
@@ -571,12 +585,25 @@ func (service UserService) GetCUUserInfo(userID int64) (bool, interface{}) {
 
 func (service UserService) UpdateCUUser(reqData *lmodels.APICUUserUpdateRequestModel) (isSuccess bool, successErrorData interface{}) {
 
+	dberror, data := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, reqData.UserId)
+	if dberror != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dberror)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
 	userupdatemodel := &lmodels.DBCUUserUpateRowModel{}
 	userupdatemodel.UserId = reqData.UserId
 	userupdatemodel.UsrState = reqData.UsrState
-	userupdatemodel.UsrStateSince = ghelper.GetCurrentTime()
 
-	reqData.UsrStateSince = ghelper.GetCurrentTime()
+	dbrecord := *data
+	if reqData.UsrState == dbrecord[0].UsrState {
+		userupdatemodel.UsrStateSince = dbrecord[0].UsrStateSince
+	} else {
+		userupdatemodel.UsrStateSince = ghelper.GetCurrentTime()
+	}
 
 	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
 
