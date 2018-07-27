@@ -64,3 +64,26 @@
       line-height: 36px;
       color:white;
   }
+  
+  
+.style1 form#style2 {
+    max-width: 100%;
+}
+.style1 form#style2 #resp-table {
+    display: block;
+    float: left;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.style1 form#style2 .row {
+    float: left;
+    margin-top: 12px;
+    width: 100%;
+}
+.style1 form#style2 #resp-table-caption {
+    float: left;
+    margin-bottom: 11px;
+    text-align: center;
+    width: 100%;
+}
