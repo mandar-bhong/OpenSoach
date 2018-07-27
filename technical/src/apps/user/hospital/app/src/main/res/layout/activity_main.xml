@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    tools:context="com.opensoach.hospital.Views.Activity.MainActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="mainViewModel"
+            type="com.opensoach.hospital.ViewModels.MainViewModel" />
+        <!--<variable name="jobBriefList" type="com.opensoach.sme.ViewModels.JobGridViewModel"/>-->
+        <!--<variable name="JobBriefList" type="com.opensoach.sme.Views.Fragment.JobBriefList"/>-->
+
+        <variable
+            name="clickHandler"
+            type="com.opensoach.hospital.Views.ClickHandler.TestButtonClickHander" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_main_bg"
+        android:padding="0dp">
+
+        <RelativeLayout
+            android:id="@+id/titleBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/color_titlebar_bg">
+
+            <!--<TextView-->
+                <!--android:id="@+id/textView1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_gravity="center_vertical|center_horizontal"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:padding="3dp"-->
+                <!--android:text="ServicePoint.live"-->
+                <!--android:textColor="@color/color_titlebar_head_text"-->
+                <!--android:textSize="25sp" />-->
+
+            <EditText
+                android:id="@+id/edtText1"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/searchBtn1"
+                android:backgroundTint="@color/color_edittext_hint"
+                android:hint="Search by job, part, customer"
+                android:textColor="@color/color_main_bg"
+                android:textColorHint="@color/color_edittext_hint"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/searchBtn1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@+id/txtLocationName"
+                android:background="@drawable/selector_button_search_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txtLocationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+
+                android:text="@{mainViewModel.headerViewModel.getLocationName}"
+                android:textColor="@color/color_main_bg"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <!--<Spinner-->
+                <!--android:id="@+id/locationSpinner"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_toLeftOf="@+id/edtText2"-->
+                <!--android:backgroundTint="@color/colorWhite"-->
+                <!--android:entries="@{mainViewModel.headerViewModel.getLocationList}"-->
+                <!--android:paddingLeft="15dp"-->
+                <!--android:paddingRight="15dp"-->
+                <!--android:popupBackground="@color/color_titlebar_bg"-->
+                <!--android:selectedItemPosition="@={mainViewModel.headerViewModel.position}"-->
+                <!--android:theme="@style/spinnerTheme"-->
+                <!--android:visibility="@{mainViewModel.headerViewModel.locationList.size() > 1 ? View.VISIBLE : View.GONE}"></Spinner>-->
+
+            <EditText
+                android:id="@+id/edtText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/searchBtn2"
+                android:backgroundTint="@color/color_edittext_hint"
+                android:hint="Machine XYZ"
+                android:textColor="@color/color_main_bg"
+                android:textColorHint="@color/color_edittext_hint"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
+            <ImageButton
+
+                android:id="@+id/searchBtn2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@+id/imgNWState"
+                android:background="@drawable/selector_button_search_icon"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/logo"/>
+
+            <ImageView
+                android:id="@+id/imgNWState"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@{mainViewModel.isServerConnected ? @drawable/server_ok : @drawable/server_error}" />
+
+
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/topMarinView"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/titleBarLayout"
+            android:background="@color/color_top_header_border">
+        </View>
+
+        <TextView
+            android:id="@+id/jobstatustext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topMarinView"
+            layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/button_text_size"
+            android:text="@{mainViewModel.jobStatusText}"/>
+
+        <RelativeLayout
+            android:id="@+id/filterButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/jobstatustext"
+            android:layout_marginTop="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginLeft="15dp"
+                android:text="Showing “all” jobs (100 entries)"
+                android:textColor="@color/color_text_color_black"
+                android:textSize="@dimen/main_screen_subtitle_text_size"/>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_radio_button_color"
+                    android:button="@null"
+                    android:paddingBottom="@dimen/radio_button_vertical_padding"
+                    android:paddingLeft="@dimen/radio_button_left_right_padding_25"
+                    android:paddingRight="@dimen/radio_button_left_right_padding_25"
+                    android:paddingTop="@dimen/radio_button_vertical_padding"
+                    android:text="Live"
+                    android:textColor="@drawable/selector_radio_button_text_color"
+                    android:textSize="@dimen/button_text_size" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_radio_button_color"
+                    android:button="@null"
+                    android:paddingBottom="@dimen/radio_button_vertical_padding"
+                    android:paddingLeft="@dimen/radio_button_left_right_padding_20"
+                    android:paddingRight="@dimen/radio_button_left_right_padding_20"
+                    android:paddingTop="@dimen/radio_button_vertical_padding"
+                    android:text="Delayed"
+                    android:textColor="@drawable/selector_radio_button_text_color"
+                    android:textSize="@dimen/button_text_size" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_radio_button_color"
+                    android:button="@null"
+                    android:paddingBottom="@dimen/radio_button_vertical_padding"
+                    android:paddingLeft="@dimen/radio_button_left_right_padding_20"
+                    android:paddingRight="@dimen/radio_button_left_right_padding_20"
+                    android:paddingTop="@dimen/radio_button_vertical_padding"
+                    android:text="Not Started"
+                    android:textColor="@drawable/selector_radio_button_text_color"
+                    android:textSize="@dimen/button_text_size" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_radio_button_color"
+                    android:button="@null"
+                    android:paddingBottom="@dimen/radio_button_vertical_padding"
+                    android:paddingLeft="@dimen/radio_button_left_right_padding_30"
+                    android:paddingRight="@dimen/radio_button_left_right_padding_30"
+                    android:paddingTop="@dimen/radio_button_vertical_padding"
+                    android:text="All"
+                    android:textColor="@drawable/selector_radio_button_text_color"
+                    android:textSize="@dimen/button_text_size" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <include
+            layout="@layout/fragment_job_brief_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/filterButtonLayout"
+            android:layout_alignBottom="@+id/bottomMarinView"
+            bind:DataContext="@{mainViewModel.GridViewModel}" />
+
+        <View
+            android:id="@+id/bottomMarinView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_divider_height"
+            android:layout_above="@+id/bottomBarLayout"
+            android:background="@color/color_top_header_border"></View>
+
+        <LinearLayout
+            android:id="@+id/bottomBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_titlebar_bg"
+            android:gravity="center_horizontal"
+            android:padding="0dp">
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="@color/text_color_button_enabled"
+                android:drawableTop="@drawable/dummy_home"
+                android:textSize="9dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="@color/text_color_button_enabled"
+                android:drawableTop="@drawable/dummy_contact_mail"
+                android:textSize="9dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Help"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="@color/text_color_button_enabled"
+                android:drawableTop="@drawable/dummy_help"
+                android:textSize="9dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chat"
+                android:backgroundTint="@android:color/transparent"
+                android:textColor="@color/text_color_button_enabled"
+                android:drawableTop="@drawable/dummy_message"
+                android:textSize="9dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:padding="10dp"
+         android:text="Demo Application" />
+
+     <ListView
+         android:id="@+id/myListView"
+         android:layout_width="match_parent"
+         android:layout_height="300dp"
+         android:padding="10dp"
+         android:stackFromBottom="true"
+         android:transcriptMode="alwaysScroll"></ListView>-->
+</layout>

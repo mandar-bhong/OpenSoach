@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SME</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="string_current_resolution">Values xlarge</string>
+
+</resources>
