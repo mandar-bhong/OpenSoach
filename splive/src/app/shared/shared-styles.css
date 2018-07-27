@@ -90,6 +90,7 @@ button:focus {
 .mat-card {
     border-radius: 2px;
     display: block;
+	 margin-bottom: 15px;
     float: left;
     padding: 24px;
     position: relative;
@@ -141,30 +142,6 @@ button:focus {
 .viewtext { 
   display: block; 
   color:black;
-  word-break: break-all;
-}
-
-.mat-card-subtitle
-{
-  word-break: break-all;
-}
-
-.view-form-backButton {
-  color: #37A5CD !important;
-}
-
-.statusBlock {
-  padding: .2em .6em .3em;
-  font-size: 75%;
-  font-weight: 500;
-  line-height: 1;
-  color: #fff;
-  white-space: nowrap;
-  vertical-align: baseline;
-  border-radius: .25em;
-  display: inline-block;
-  text-align: center;
-  width: 6em;
 }
 
 
@@ -172,18 +149,34 @@ button:focus {
 
 /* Top Menu start*/
 
-.navbar-brand li, .navbar-brand li .fa-bars {
-    margin-left: 1px !important;
+
+.navbar-brand ul li:nth-child(2) img {
+    margin-top: 3px !important;
 }
-.navbar-brand li .fa-bars {
-    margin-top: 0 !important;
-    padding-top: 0;
+.navbar-brand ul li:first-child i {
+    padding-top: 10px !important;
 }
 
 
 
 
 /*Menu start*/
+
+app-servicepoint-list-view {
+    max-height: 500px;
+    overflow: scroll;
+}
+#side .list-group-item {
+    text-align: left;
+}
+#side.toggle {
+    background-color: hsl(0, 0%, 100%);
+    min-height: 100vh;
+    
+}
+
+
+
 #side a.list-group-item:hover {
     color: hsl(0, 0%, 100%) !important;
 }
@@ -319,7 +312,7 @@ li{
 }
 .mat-button-toggle-group, .mat-button-toggle-standalone {
     margin-bottom: 17px;
-    margin-left: 17px;
+
 }
 .time-block{
     font-size: 13px;
@@ -352,11 +345,91 @@ li{
     font-size: 13px !important;
 }
 
+/* Chart start*/
+.carousel-card-subtitle {
+    color: hsl(0, 0%, 100%) !important;
+}
+.table-header-cell.table-body-cell-input.ng-star-inserted > div {
+    font-size: 13px;
+    min-width: 57px;
+    padding-bottom: 7px;
+}
+
+.ng2-carouselamos-container {
+    margin-bottom: 18px;
+}
+
+#resp-table {
+    display: block !important;
+    float: left !important;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+
+
+/* Chart Preview  start*/
+
+
+.style1 form#style2 {
+    max-width: 100%;
+}
+.style1 form#style2 #resp-table {
+    display: block;
+    float: left;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.style1 form#style2 .row {
+    float: left;
+    margin-top: 12px;
+    width: 100%;
+}
+.style1 form#style2 #resp-table-caption {
+    float: left;
+    margin-bottom: 11px;
+    text-align: center;
+    width: 100%;
+}
+
+.style1 form#style2 .table-header-cell.table-body-cell-input.ng-star-inserted > div {
+    min-width: 63px;
+}
+
+
 
 
 /*Configure Chart start*/
+
+.style1 {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.style1 form {
+    float: none;
+    margin: 0 auto;
+    max-width: 440px;
+}
+
+.style1 form .col-sm-6.col-md-4 {
+    width: 100% !important;
+    /* max-width: 100% !important; */
+    min-width: 440px;
+    float: left;
+}
+.mat-card-actions {
+    display: inline-block;
+    margin-top: 11px !important;
+}
 .ng-untouched .mat-raised-button.mat-primary {
     margin-left: 14px;
+}
+.mat-raised-button.mat-primary {
+    margin-right: 10px;
 }
 .ng-star-inserted .mat-card li {
     display: inline-block;
@@ -409,7 +482,10 @@ li{
 }
 
 /* Service Points start*/
-
+app-servicepoint-list-view {
+    FLOAT: LEFT;
+    width: 100%;
+}
 .ng-star-inserted app-servicepoint-search {
     float: left;
     margin-bottom: 23px !important;
@@ -447,3 +523,22 @@ form #form-id {
 .ng-untouched.ng-pristine.ng-invalid #form-id .mat-card {
     text-align: left !important;
 }
+
+
+
+
+
+
+@media only screen and (min-width: 320px) and (max-width: 640px) {
+.navbar-toggler .fa.fa-ellipsis-h.fa-2x {
+    font-size: 21px;
+}
+
+#side.toggle {
+    position: absolute;
+}
+.page-block {
+    padding-left: 13px;
+}
+}
+

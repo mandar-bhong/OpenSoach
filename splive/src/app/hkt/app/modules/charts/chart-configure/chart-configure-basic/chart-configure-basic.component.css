@@ -1,0 +1,12 @@
+.style1 form {
+    float: none;
+    margin: 0 auto;
+    max-width: 440px;
+}
+
+.style1 form .col-sm-6.col-md-4 {
+    width: 100% !important;
+    /* max-width: 100% !important; */
+    min-width: 440px;
+    float: left;
+}
