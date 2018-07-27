@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="max_length" type="integer">12</item>
-    <item name="JOB_ID_TEXT_MAX_LENGTH" type="integer">11</item>
-    <item name="JOB_CARD_TEXT_MAX_LENGTH" type="integer">20</item>
-    <item name="PART_TEXT_MAX_LENGTH" type="integer">20</item>
-    <item name="CUSTOMER_TEXT_MAX_LENGTH" type="integer">30</item>
-</resources>
