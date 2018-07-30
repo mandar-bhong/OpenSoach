@@ -1,4 +1,4 @@
-package com.opensoach.hpft.Views.Fragment;
+package com.opensoach.hpft.Views.Interfaces;
 
 import com.opensoach.hpft.Model.AppNotificationModelBase;
 
