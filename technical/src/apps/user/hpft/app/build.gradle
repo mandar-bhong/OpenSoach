@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-
+    dataBinding { enabled = true }
     flavorDimensions "default"
     compileSdkVersion 25
     buildToolsVersion '27.0.3'
@@ -21,37 +21,37 @@ android {
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-	
-	lintOptions {
+
+    lintOptions {
         abortOnError false
     }
 
     productFlavors {
         prod {
-            applicationId = "com.opensoach.com.hkt.prod"
+            applicationId = "com.opensoach.hpft.prod"
             versionName = "1.0"
             buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
         }
 
         dev {
-            applicationId = "com.opensoach.com.hkt.dev"
+            applicationId = "com.opensoach.hpft.dev"
             versionName = "1.0"
             buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
         }
 
         qa {
-            applicationId = "com.opensoach.com.hkt.qa"
+            applicationId = "com.opensoach.hpft.qa"
             versionName = "1.0"
             buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
         }
     }
 
 
-
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
