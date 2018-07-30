@@ -14,9 +14,9 @@ import com.opensoach.hpft.Model.AppNotificationModelBase;
 import com.opensoach.hpft.Model.View.ChartConfigModel;
 import com.opensoach.hpft.Model.View.DisplayChartDataModel;
 import com.opensoach.hpft.Scheduler.ScheduleManager;
-import com.opensoach.hpft.View.ChartActivity;
-import com.opensoach.hpft.View.TimeChangeListner;
-import com.opensoach.hpft.View.UpdateChartListner;
+import com.opensoach.hpft.Views.ChartActivity;
+import com.opensoach.hpft.Views.TimeChangeListner;
+import com.opensoach.hpft.Views.UpdateChartListner;
 
 /**
  * Created by Samir Bukkawar  on 15-Feb-17.

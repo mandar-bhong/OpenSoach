@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.Constants.Constants.ApplicationConstants;
-import com.opensoach.hpft.View.ICellClick;
+import com.opensoach.hpft.Views.ICellClick;
 
 /**
  * Created by samir.s.bukkawar on 3/6/2017.

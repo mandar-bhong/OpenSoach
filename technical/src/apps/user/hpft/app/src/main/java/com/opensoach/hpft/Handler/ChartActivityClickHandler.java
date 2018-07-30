@@ -16,7 +16,7 @@ import com.opensoach.hpft.Manager.SendPacketManager;
 import com.opensoach.hpft.Model.ChartDataModel;
 import com.opensoach.hpft.Model.Communication.DeviceChartDataModel;
 import com.opensoach.hpft.Model.Communication.PacketUserComplaintDataModel;
-import com.opensoach.hpft.View.DialogHelper;
+import com.opensoach.hpft.Views.DialogHelper;
 import com.opensoach.hpft.ViewModels.MainViewModel;
 
 import static com.opensoach.hpft.Constants.Constants.ApplicationConstants.PACKET_DATE_FORMAT;

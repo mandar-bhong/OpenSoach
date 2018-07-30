@@ -3,8 +3,8 @@ package com.opensoach.hpft.ViewModels;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.opensoach.hpft.View.IRowClick;
-import com.opensoach.hpft.View.ITableClick;
+import com.opensoach.hpft.Views.IRowClick;
+import com.opensoach.hpft.Views.ITableClick;
 
 /**
  * Created by samir.s.bukkawar on 3/6/2017.
