@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import com.opensoach.hpft.Constants.Constants;
+import com.opensoach.hpft.Constants.ApplicationConstants;
 import com.opensoach.hpft.Model.DB.DBChartDataTableRowModel;
 import com.opensoach.hpft.Model.View.DisplayChartItemDataModel;
 
@@ -24,11 +24,11 @@ public class DataConvertHelper {
         displayChartItemDataModel.setSlotId(dbModel.getSlotId());
 
         switch (dbModel.getCellState()) {
-            case Constants.ApplicationConstants.DB_CHART_STATE_ON_TIME:
-                displayChartItemDataModel.setState(Constants.ApplicationConstants.CHART_STATE_ON_TIME);
+            case ApplicationConstants.DB_CHART_STATE_ON_TIME:
+                displayChartItemDataModel.setState(ApplicationConstants.CHART_STATE_ON_TIME);
                 break;
-            case Constants.ApplicationConstants.DB_CHART_STATE_DELAYED:
-                displayChartItemDataModel.setState(Constants.ApplicationConstants.CHART_STATE_DELAYED);
+            case ApplicationConstants.DB_CHART_STATE_DELAYED:
+                displayChartItemDataModel.setState(ApplicationConstants.CHART_STATE_DELAYED);
                 break;
         }
 

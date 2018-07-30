@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import com.opensoach.hpft.DAL.DatabaseManager;
-import com.opensoach.hpft.Constants.Constants.CommandConstants;
+import com.opensoach.hpft.Constants.CommandConstants;
 import com.opensoach.hpft.Helper.PacketHelper;
 import com.opensoach.hpft.Manager.RequestManager;
 import com.opensoach.hpft.Model.Communication.CommandRequest;

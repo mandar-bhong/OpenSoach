@@ -12,7 +12,7 @@ import com.opensoach.hpft.Manager.SendPacketManager;
 import com.opensoach.hpft.Model.Communication.PacketFeedbackDataModel;
 import com.opensoach.hpft.Model.View.UserFeedbackModel;
 
-import static com.opensoach.hpft.Constants.Constants.ApplicationConstants.PACKET_DATE_FORMAT;
+import static com.opensoach.hpft.Constants.ApplicationConstants.PACKET_DATE_FORMAT;
 
 /**
  * Created by Mandar on 8/14/2017.

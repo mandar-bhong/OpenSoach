@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.opensoach.hpft.Constants.ApplicationConstants;
 import com.opensoach.hpft.Constants.Constants;
 import com.opensoach.hpft.SPLApplication;
 import com.opensoach.hpft.SharedPreference.SharedPreferencesHelper;
@@ -164,7 +165,7 @@ public class AppHelper {
             ChartConfigModel chartConfigModel = CommonHelper.CreateChartModel(chartModel);
 
             AppNotificationModelBase notificationModelBase = new AppNotificationModelBase();
-            notificationModelBase.DataProcessStatergyID = Constants.ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA;
+            notificationModelBase.DataProcessStatergyID = ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA;
             notificationModelBase.Data = chartConfigModel;
 
             SPLApplication.getInstance().OnUIUpdateEvent(notificationModelBase);
@@ -210,7 +211,7 @@ public class AppHelper {
         }
 
         AppNotificationModelBase notificationChartDataModelBase = new AppNotificationModelBase();
-        notificationChartDataModelBase.DataProcessStatergyID = Constants.ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA_START_UP_DISPLAY;
+        notificationChartDataModelBase.DataProcessStatergyID = ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA_START_UP_DISPLAY;
         notificationChartDataModelBase.Data = displayChartDataModel;
 
         SPLApplication.getInstance().OnUIUpdateEvent(notificationChartDataModelBase);
