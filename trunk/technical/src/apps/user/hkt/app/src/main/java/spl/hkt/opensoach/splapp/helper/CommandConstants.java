@@ -17,6 +17,9 @@ public class CommandConstants {
     public static final int CMD_CONFIG_CHART_CONFIG = 7;
     public static final int CMD_CONFIG_SERVER_SYNC_COMPLETED = 4;
     public static final int CMD_CONFIG_LOCATION_HCODE = 5;
+    public static final int CMD_CONFIG_LOCATION_AUTH_CODE_ADDED = 11;
+    public static final int CMD_CONFIG_LOCATION_AUTH_CODE_ASSOCIATED = 8;
+    public static final int CMD_CONFIG_LOCATION_AUTH_CODE_REMOVED = 9;
 
     public static final int CMD_CAT_DATA = 3;//Category
     public static final int CMD_DATA_CHART_DATA = 1;

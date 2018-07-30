@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     flavorDimensions "default"
     compileSdkVersion 25
     buildToolsVersion '27.0.3'
@@ -29,7 +30,7 @@ android {
         prod {
             applicationId = "com.opensoach.com.hkt.prod"
             versionName = "1.0"
-            buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
+            buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
         }
 
         dev {
