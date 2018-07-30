@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.Communication.WebSocketConnector;
 import com.opensoach.hpft.Helper.AppHelper;
-import com.opensoach.hpft.Constants.Constants.ApplicationConstants;
+import com.opensoach.hpft.Constants.ApplicationConstants;
 import com.opensoach.hpft.Model.AppNotificationModelBase;
 import com.opensoach.hpft.Model.View.ChartConfigModel;
 import com.opensoach.hpft.Model.View.DisplayChartDataModel;

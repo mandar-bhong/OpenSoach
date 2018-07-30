@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.opensoach.hpft.View.ChartActivity"
+            android:name="com.opensoach.hpft.Views.ChartActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.opensoach.hpft.View.DashboardActivity"
+            android:name="com.opensoach.hpft.Views.DashboardActivity"
             android:screenOrientation="landscape" />
         <!-- <activity
              android:name=".view.LoginActivity"
@@ -38,7 +38,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.opensoach.hpft.View.ScreenSaverActivity"
+            android:name="com.opensoach.hpft.Views.ScreenSaverActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"            ></activity>
     </application>

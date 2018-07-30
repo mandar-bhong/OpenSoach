@@ -1,6 +1,6 @@
 package com.opensoach.hpft.PacketGenerator;
 
-import com.opensoach.hpft.Constants.Constants.CommandConstants;
+import com.opensoach.hpft.Constants.CommandConstants;
 import com.opensoach.hpft.Helper.PacketHelper;
 import com.opensoach.hpft.Model.Communication.CommandRequest;
 import com.opensoach.hpft.Model.Communication.PacketBatteryLevelModel;

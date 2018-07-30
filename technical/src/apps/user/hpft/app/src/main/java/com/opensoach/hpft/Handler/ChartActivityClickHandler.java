@@ -19,7 +19,7 @@ import com.opensoach.hpft.Model.Communication.PacketUserComplaintDataModel;
 import com.opensoach.hpft.Views.DialogHelper;
 import com.opensoach.hpft.ViewModels.MainViewModel;
 
-import static com.opensoach.hpft.Constants.Constants.ApplicationConstants.PACKET_DATE_FORMAT;
+import static com.opensoach.hpft.Constants.ApplicationConstants.PACKET_DATE_FORMAT;
 
 /**
  * Created by Mandar on 4/1/2017.

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.opensoach.hpft.DAL.DatabaseManager;
-import com.opensoach.hpft.Constants.Constants.ApplicationConstants;
+import com.opensoach.hpft.Constants.ApplicationConstants;
 import com.opensoach.hpft.Helper.CommonHelper;
 import com.opensoach.hpft.Model.AppNotificationModelBase;
 import com.opensoach.hpft.Model.PacketDecodeResultModel;

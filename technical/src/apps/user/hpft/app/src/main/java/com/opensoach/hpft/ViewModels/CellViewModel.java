@@ -3,7 +3,7 @@ package com.opensoach.hpft.ViewModels;
 import android.view.View;
 
 import com.opensoach.hpft.R;
-import com.opensoach.hpft.Constants.Constants.ApplicationConstants;
+import com.opensoach.hpft.Constants.ApplicationConstants;
 import com.opensoach.hpft.Views.ICellClick;
 
 /**
