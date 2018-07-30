@@ -1,4 +1,4 @@
-package com.opensoach.hpft.View;
+package com.opensoach.hpft.Views;
 
 
 import com.opensoach.hpft.ViewModels.CellViewModel;

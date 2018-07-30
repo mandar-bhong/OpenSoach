@@ -1,4 +1,4 @@
-package com.opensoach.hpft.View;
+package com.opensoach.hpft.Views;
 
 /**
  * Created by samir.s.bukkawar on 3/12/2017.

@@ -2,8 +2,8 @@ package com.opensoach.hpft.ViewModels;
 
 import java.util.ArrayList;
 import java.util.Date;
-import com.opensoach.hpft.View.ICellClick;
-import com.opensoach.hpft.View.IRowClick;
+import com.opensoach.hpft.Views.ICellClick;
+import com.opensoach.hpft.Views.IRowClick;
 
 
 /**
