@@ -78,12 +78,35 @@ public class PayloadDecoder {
                             break;
                         }
 
+
                         case CommandConstants.CMD_CONFIG_LOCATION_HCODE: {
                             TypeToken<PacketModel<ArrayList<String>>> typeToken = new TypeToken<PacketModel<ArrayList<String>>> () {
                             };
                             packetType = typeToken.getType();
                             packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
                             packetDecodeResultModel.Processor = new AuthCodeDataProcessor();
+                            packetDecodeResultModel.IsSuccess = true;
+                            break;
+                        }
+
+                        case CommandConstants.CMD_CONFIG_LOCATION_AUTH_CODE_ASSOCIATED:
+                        case CommandConstants.CMD_CONFIG_LOCATION_AUTH_CODE_ADDED:{
+                            TypeToken<PacketModel<ArrayList<String>>> typeToken = new TypeToken<PacketModel<ArrayList<String>>> () {
+                            };
+                            packetType = typeToken.getType();
+                            packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
+                            packetDecodeResultModel.Processor = new AuthCodeAddedProcessor();
+                            packetDecodeResultModel.IsSuccess = true;
+
+                            break;
+                        }
+
+                        case CommandConstants.CMD_CONFIG_LOCATION_AUTH_CODE_REMOVED:{
+                            TypeToken<PacketModel<ArrayList<String>>> typeToken = new TypeToken<PacketModel<ArrayList<String>>> () {
+                            };
+                            packetType = typeToken.getType();
+                            packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
+                            packetDecodeResultModel.Processor = new AuthCodeRemovedProcessor();
                             packetDecodeResultModel.IsSuccess = true;
                             break;
                         }
