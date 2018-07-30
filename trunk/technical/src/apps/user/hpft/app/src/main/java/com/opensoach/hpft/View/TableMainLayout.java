@@ -24,7 +24,7 @@ import java.util.Map;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.SPLApplication;
 import com.opensoach.hpft.AppRepo.AppRepo;
-import com.Utility.AppLogger;
+import com.opensoach.hpft.Utility.AppLogger;
 import com.opensoach.hpft.Model.ChartDataModel;
 import com.opensoach.hpft.Model.View.ChartConfigModel;
 import com.opensoach.hpft.Model.View.ChartConfigSlotModel;

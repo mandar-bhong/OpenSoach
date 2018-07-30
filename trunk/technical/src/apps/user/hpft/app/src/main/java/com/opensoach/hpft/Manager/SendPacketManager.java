@@ -14,7 +14,7 @@ import com.opensoach.hpft.Communication.CommunicationManager;
 import com.opensoach.hpft.DAL.DatabaseManager;
 import com.opensoach.hpft.Helper.AppAction;
 import com.opensoach.hpft.Helper.AppHelper;
-import com.opensoach.hpft.Constants.ApplicationConstants;
+import com.opensoach.hpft.Constants.Constants.ApplicationConstants;
 import com.opensoach.hpft.Helper.CommonHelper;
 import com.opensoach.hpft.Helper.SyncState;
 import com.opensoach.hpft.Model.ChartDataModel;

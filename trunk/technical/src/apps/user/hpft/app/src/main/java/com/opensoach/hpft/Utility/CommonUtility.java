@@ -1,4 +1,4 @@
-package com.Utility;
+package com.opensoach.hpft.Utility;
 
 import java.text.DateFormat;
 import java.text.ParseException;

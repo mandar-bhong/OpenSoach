@@ -32,7 +32,7 @@ import com.opensoach.hpft.AppRepo.AppRepo;
 
 import com.opensoach.hpft.Handler.ChartActivityClickHandler;
 import com.opensoach.hpft.Helper.AppHelper;
-import com.Utility.AppLogger;
+import com.opensoach.hpft.Utility.AppLogger;
 import com.opensoach.hpft.Manager.BroadCastReceiverManager;
 import com.opensoach.hpft.Manager.LocationChartRunnable;
 import com.opensoach.hpft.Model.View.ChartConfigModel;

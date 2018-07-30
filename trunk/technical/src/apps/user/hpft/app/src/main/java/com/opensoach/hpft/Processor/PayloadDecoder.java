@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import com.opensoach.hpft.Constants.CommandConstants;
+import com.opensoach.hpft.Constants.Constants.CommandConstants;
 import com.opensoach.hpft.Manager.RequestManager;
 import com.opensoach.hpft.Model.PacketDecodeResultModel;
 import com.opensoach.hpft.Model.Communication.CommandRequest;

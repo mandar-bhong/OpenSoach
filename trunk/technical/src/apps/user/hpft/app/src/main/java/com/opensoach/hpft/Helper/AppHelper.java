@@ -9,12 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.opensoach.hpft.Constants.ApplicationConstants;
 import com.opensoach.hpft.Constants.Constants;
 import com.opensoach.hpft.SPLApplication;
 import com.opensoach.hpft.SharedPreference.SharedPreferencesHelper;
 import com.opensoach.hpft.AppRepo.AppRepo;
-import com.Utility.AppLogger;
+import com.opensoach.hpft.Utility.AppLogger;
 import com.opensoach.hpft.Communication.CommunicationManager;
 import com.opensoach.hpft.DAL.DatabaseManager;
 import com.opensoach.hpft.Manager.BroadCastReceiverManager;
@@ -165,7 +164,7 @@ public class AppHelper {
             ChartConfigModel chartConfigModel = CommonHelper.CreateChartModel(chartModel);
 
             AppNotificationModelBase notificationModelBase = new AppNotificationModelBase();
-            notificationModelBase.DataProcessStatergyID = ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA;
+            notificationModelBase.DataProcessStatergyID = Constants.ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA;
             notificationModelBase.Data = chartConfigModel;
 
             SPLApplication.getInstance().OnUIUpdateEvent(notificationModelBase);
@@ -211,7 +210,7 @@ public class AppHelper {
         }
 
         AppNotificationModelBase notificationChartDataModelBase = new AppNotificationModelBase();
-        notificationChartDataModelBase.DataProcessStatergyID = ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA_START_UP_DISPLAY;
+        notificationChartDataModelBase.DataProcessStatergyID = Constants.ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA_START_UP_DISPLAY;
         notificationChartDataModelBase.Data = displayChartDataModel;
 
         SPLApplication.getInstance().OnUIUpdateEvent(notificationChartDataModelBase);
