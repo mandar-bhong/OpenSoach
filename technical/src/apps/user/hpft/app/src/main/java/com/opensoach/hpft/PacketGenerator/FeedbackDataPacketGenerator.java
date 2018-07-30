@@ -2,7 +2,7 @@ package com.opensoach.hpft.PacketGenerator;
 
 import java.util.ArrayList;
 
-import com.opensoach.hpft.Constants.CommandConstants;
+import com.opensoach.hpft.Constants.Constants.CommandConstants;
 import com.opensoach.hpft.Helper.PacketHelper;
 import com.opensoach.hpft.Manager.RequestManager;
 import com.opensoach.hpft.Model.Communication.CommandRequest;

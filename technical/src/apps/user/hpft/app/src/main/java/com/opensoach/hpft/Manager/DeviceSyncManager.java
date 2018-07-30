@@ -5,7 +5,7 @@ import java.beans.PropertyChangeListener;
 
 import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.Helper.AppAction;
-import com.Utility.AppLogger;
+import com.opensoach.hpft.Utility.AppLogger;
 import com.opensoach.hpft.Model.Communication.PacketBatteryLevelModel;
 
 public class DeviceSyncManager implements PropertyChangeListener {

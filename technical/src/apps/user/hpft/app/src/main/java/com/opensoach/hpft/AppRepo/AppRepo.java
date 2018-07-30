@@ -1,5 +1,7 @@
 package com.opensoach.hpft.AppRepo;
 
+import android.os.Build;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -62,9 +64,7 @@ public final class AppRepo {
     }
 
     public String getDeviceSerial() {
-
-        return  "1234567890123456";
-        //return Build.SERIAL;
+        return Build.SERIAL;
     }
 
     public String getServerAPIURL() {
