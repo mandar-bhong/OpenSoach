@@ -1,12 +1,12 @@
 package manager
 
 import (
-	"opensoach.com/hkt/constants"
+	"opensoach.com/hpft/constants"
 
-	"opensoach.com/hkt/server/processor"
-	"opensoach.com/hkt/server/processor/endpoint"
+	"opensoach.com/hpft/server/processor"
+	"opensoach.com/hpft/server/processor/endpoint"
 
-	hktconst "opensoach.com/hkt/constants"
+	hktconst "opensoach.com/hpft/constants"
 	gmodels "opensoach.com/models"
 )
 
