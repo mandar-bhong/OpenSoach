@@ -15,11 +15,13 @@ import android.view.WindowManager;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
+import com.opensoach.hpft.Views.Fragment.TaskListFragment;
 import com.opensoach.hpft.Views.Miscellaneous.TabPagerAdapter;
 
 public class CardDetailsActivity extends AppCompatActivity
         implements PatientDetailsFragment.OnFragmentInteractionListener,
-        MedicalDetailsFragment.OnFragmentInteractionListener{
+        MedicalDetailsFragment.OnFragmentInteractionListener,
+        TaskListFragment.OnFragmentInteractionListener{
 
 
     @Override
@@ -30,8 +32,9 @@ public class CardDetailsActivity extends AppCompatActivity
 //        setSupportActionBar(toolbar);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Patient Details"));
+        tabLayout.addTab(tabLayout.newTab().setText("Medical Details"));
+        tabLayout.addTab(tabLayout.newTab().setText("Check List"));
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new TabPagerAdapter
