@@ -48,12 +48,18 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
 
   ngOnInit() {
     this.createControls();
+    this.cpmstates = this.customerSharedService.getCpmStates();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
-      this.dataModel.custid = Number(params['id']);
+      if (params['id']) {
+        this.dataModel.custid = Number(params['id']);
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        this.setFormMode(FORM_MODE.VIEW);
+      } else {
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.EDITABLE);
+      }
       this.callbackUrl = params['callbackurl'];
     });
-
-    this.cpmstates = this.customerSharedService.getCpmStates();
     this.productService.getDataList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.products = payloadResponse.data;
@@ -106,7 +112,7 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
 
   editRecord(cpm: CustomerAssociateProductListItemResponse) {
     this.currentRecord = cpm;
-    this.editableForm.reset();
+    // this.editableForm.reset();
     this.recordState = EDITABLE_RECORD_STATE.UPDATE;
     this.setFormMode(FORM_MODE.EDITABLE);
     this.editableForm.controls['productControl'].disable();
@@ -117,6 +123,7 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
 
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const request = new CustomerAssociateProductRequest();
       this.dataModel.copyToAddRequest(request);
@@ -127,6 +134,7 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
           this.closeForm();
         }
       });
+      this.inProgress = false;
     } else {
       const request = new CustomerAssociateProductUpdateRequest();
       this.dataModel.copyToUpdateRequest(request);
@@ -136,9 +144,24 @@ export class CustomerAssociateProductComponent extends EditRecordBase implements
           this.closeForm();
         }
       });
+      this.inProgress = false;
     }
   }
-
+  getproductcode(value: number) {
+    if (this.products && value) {
+      return this.products.find(a => a.prodid === value).prodcode;
+    }
+  }
+  getdbinstances(value: number) {
+    if (this.dbinstances && value) {
+      return this.dbinstances.find(a => a.dbiid === value).dbiname;
+    }
+  }
+  getcpmstates(value: number) {
+    if (this.cpmstates && value) {
+      return this.cpmstates.find(a => a.value === value).text;
+    }
+  }
   closeForms() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }

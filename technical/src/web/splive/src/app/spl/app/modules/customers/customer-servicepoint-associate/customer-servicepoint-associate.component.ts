@@ -39,9 +39,9 @@ export class CustomerServicepointAssociateComponent extends EditRecordBase imple
     this.createControls();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.custid = Number(params['id']);
+        this.getCustomerService();
       this.callbackUrl = params['callbackurl'];
     });
-    this.getCustomerService();
   }
   createControls(): void {
     this.editableForm = new FormGroup({
@@ -72,6 +72,8 @@ export class CustomerServicepointAssociateComponent extends EditRecordBase imple
   }
 
   save() {
+    if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const request = new CustomerServiceAssociateUpdateRequest();
     this.dataModel.copyToUpdateRequest(request);
     this.customerService.updateCustomerServicePointProduct(request).subscribe(payloadResponse => {
@@ -80,6 +82,7 @@ export class CustomerServicepointAssociateComponent extends EditRecordBase imple
         this.getCustomerService();
       }
     });
+    this.inProgress = false;
   }
   editRecord(cpm: CustomerServiceAssociateListResponse) {
     this.currentRecord = cpm;

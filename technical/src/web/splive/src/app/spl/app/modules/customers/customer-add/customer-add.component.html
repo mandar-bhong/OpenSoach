@@ -1,40 +1,56 @@
 <div class="row">
-  <mat-card>
-    <form [formGroup]="editableForm" class="md-float-material form-material" id="customer-add" (ngSubmit)="save()">
-        <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
-      <div class=" form-group form-primary">
-        <mat-form-field>
-          <input disabled matInput placeholder="Customer Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.custname">
-          <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required') ">
-            Customer is Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group form-primary">
-        <mat-form-field>
-          <mat-select placeholder="Corporate  Id" formControlName="corprateId" required [(ngModel)]="dataModel.corpid">
-            <mat-option *ngFor="let corp of corporates" [value]="corp.corpid">
-              {{corp.corpname}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="editableForm.controls['corprateId'].hasError('required')">
-            Corporate Selection is Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group form-primary">
-        <mat-form-field>
-          <mat-select placeholder="Customer State" formControlName="userState" required [(ngModel)]="dataModel.custstate">
-            <mat-option *ngFor="let custstate of customerStates" [value]="custstate.value">
-              {{custstate.text | translate}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="editableForm.controls['userState'].hasError('required') ">
-            User State Selection is Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
-    </form>
-  </mat-card>
+  <div class="col">
+    <mat-card style="max-width:500px">
+      <form [formGroup]="editableForm" (ngSubmit)="save()">
+        <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+        <mat-card-content>
+          <div class=" form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <input disabled matInput placeholder="Customer Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.custname" maxlength="50">
+              <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required') ">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Customer Name</span>
+            <label class="viewtext">{{ dataModel.custname }}</label>
+          </div>
+          <div class="form-group form-primary" *ngIf="recordState === 0">
+            <mat-form-field>
+              <mat-select placeholder="Corporate  Id" formControlName="corprateId" required [(ngModel)]="dataModel.corpid">
+                <mat-option *ngFor="let corp of corporates" [value]="corp.corpid">
+                  {{corp.corpname}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="editableForm.controls['corprateId'].hasError('required')">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="recordState === 1">
+            <span class="viewlabel">Corporate Id</span>
+            <label class="viewtext">{{ getcorporatelist(dataModel.corpid) }}</label>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <mat-select placeholder="State" formControlName="userState" required [(ngModel)]="dataModel.custstate">
+                <mat-option *ngFor="let custstate of customerStates" [value]="custstate.value">
+                  {{custstate.text | translate}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="editableForm.controls['userState'].hasError('required') ">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">State</span>
+            <label class="viewtext">{{ getcustomerstate(dataModel.custstate)| translate }} </label>
+          </div>
+          <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        </mat-card-content>
+      </form>
+    </mat-card>
+  </div>
 </div>
