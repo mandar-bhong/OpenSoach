@@ -2,13 +2,16 @@
 -- Dumping data for table `spl_master_product_tbl`
 --
 
-INSERT INTO `spl_master_product_tbl` (`id`,`prod_code`) VALUES (1,'SPL_HKT');
+INSERT INTO `spl_master_product_tbl` (`id`,`prod_code`) VALUES (1,'SPL_HKT'),
+(2,'SPL_HPFT');
 
 --
 -- Dumping data for table `spl_master_database_instance_tbl`
 --
 
-INSERT INTO `spl_master_database_instance_tbl` (`id`,`dbi_name`,`connection_string`,`prod_id_fk`) VALUES (1,'spl_hkt_node_0001','root:welcome@tcp(localhost:3306)/spl_hkt_node_0001?parseTime=true',1);
+INSERT INTO `spl_master_database_instance_tbl` (`id`,`dbi_name`,`connection_string`,`prod_id_fk`) VALUES (1,'spl_hkt_node_0001','root:welcome@tcp(localhost:3306)/spl_hkt_node_0001?parseTime=true',1),
+(2,'spl_hpft_node_0001','root:welcome@tcp(localhost:3306)/spl_hpft_node_0001?parseTime=true',2);
+
 
 --
 -- Dumping data for table `spl_master_total_count_tbl`
@@ -22,6 +25,7 @@ INSERT INTO `spl_master_total_count_tbl` (`id`,`cust_cnt`,`usr_cnt`,`dev_cnt`,`s
 
 INSERT INTO `spl_master_user_role_tbl` (`id`,`urole_code`,`urole_name`) VALUES (1,'ADMIN','Administrator');
 INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (2,1,'ADMIN','Administrator');
+INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (3,2,'ADMIN','Administrator');
 
 --
 -- Dumping data for table `spl_master_config`
@@ -53,6 +57,8 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('SMTP.From
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('SMTP.Password','opensoach.support@123');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('SMTP.Port','25');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('SMTP.UserName','support@opensoach.com');
+
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('HPFT.Master.DB.Connection','root:welcome@tcp(localhost:3306)/spl_hpft_master?parseTime=true');
 
 
 --
