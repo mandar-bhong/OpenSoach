@@ -28,11 +28,14 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
     private translatePipe: TranslatePipe
   ) {
     super();
+    this.iconCss = 'fa fa-user';
+    this.pageTitle = 'User Details';
   }
 
   ngOnInit() {
     this.userGenders = this.appUserService.getUsersGender();
     this.createControls();
+    this.subTitle = 'Add Details of User';
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.usrid = Number(params['id']);
       this.callbackUrl = params['callbackurl'];
@@ -41,15 +44,16 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
   }
   createControls(): void {
     this.editableForm = new FormGroup({
-      fnameControl: new FormControl('', [Validators.required]),
-      lnameControl: new FormControl('', [Validators.required]),
+      fnameControl: new FormControl(''),
+      lnameControl: new FormControl(''),
       mobilenoControl: new FormControl(''),
-      userGenderControl: new FormControl(''),
+      userGenderControl: new FormControl('', [Validators.required]),
       alternateContactControl: new FormControl('')
     });
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const userAddDetailsRequest = new UserAddDetailsRequest();
     this.dataModel.copyTo(userAddDetailsRequest);
     this.userService.updateUserDetails(userAddDetailsRequest).subscribe(payloadResponse => {
@@ -57,7 +61,9 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
         this.appNotificationService.success(this.translatePipe.transform('SUCCESS_USERS_DETAILS_SAVED'));
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
-      } else { }
+        this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
+      }
+      this.inProgress = false;
     });
   }
   getUserDetails() {
@@ -67,13 +73,19 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
           this.dataModel.copyFrom(payloadResponse.data);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
         } else {
           this.appNotificationService.info(this.translatePipe.transform('INFO_DETAILS_NOT_AVAILABLE'));
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.recordState = EDITABLE_RECORD_STATE.ADD;
           this.setFormMode(FORM_MODE.EDITABLE);
         }
       }
     });
+  }
+  getgender(value: number) {
+    if (this.userGenders && value) {
+      return this.userGenders.find(a => a.value === value).text;
+    }
   }
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });

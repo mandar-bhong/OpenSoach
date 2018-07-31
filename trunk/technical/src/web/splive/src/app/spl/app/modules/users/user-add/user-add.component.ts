@@ -38,6 +38,8 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
     super();
+    this.iconCss = 'fa fa-user';
+    this.pageTitle = 'User Details';
   }
   ngOnInit() {
     this.createControls();
@@ -49,8 +51,9 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
         this.getUserEdit();
-
+        this.removeControl();
       } else {
+        this.subTitle = 'Add Details of User';
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
@@ -61,19 +64,21 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
   createControls(): void {
     this.editableForm = new FormGroup({
       userCategory: new FormControl('', [Validators.required]),
-      usrpasswordCategory: new FormControl('', [Validators.required]),
       emailControl: new FormControl('', [Validators.required]),
       userroleControl: new FormControl(''),
       userStateControl: new FormControl('', [Validators.required])
     });
   }
-
   userCategoryChange() {
+
     if (this.dataModel.usrcategory === USER_CATEGORY.OSU) {
-      this.showCat = true;
+      // this.showCat = true;
+      this.showCat = false;
       this.getRoleList();
     } else {
-      this.showCat = false;
+      // this.showCat = false;
+      this.showCat = true;
+      this.removeControladd();
     }
   }
 
@@ -86,6 +91,8 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
   }
 
   save() {
+    if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const userAddRequest = new UserAddRequest();
       this.dataModel.copyTo(userAddRequest);
@@ -95,26 +102,32 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.usrname;
+          this.removeControl();
         }
       });
+      this.inProgress = false;
     } else {
-      const request = new UserMasterUpdateRequest();
-      this.dataModel.copyToUpdateRequest(request);
-      this.userService.updateUserEdit(request).subscribe(payloadResponse => {
+      const userMasterUpdateRequest = new UserMasterUpdateRequest();
+      this.dataModel.copyToUpdateRequest(userMasterUpdateRequest);
+      this.userService.updateUserMaster(userMasterUpdateRequest).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          this.appNotificationService.success(this.translatePipe.transform(''));
+          this.appNotificationService.success();
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.usrname;
         }
       });
+      this.inProgress = false;
     }
   }
+
   getUserEdit() {
     this.userService.getUserEdit({ recid: this.dataModel.userid }).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
           this.userCategoryChange();
-
+          this.subTitle = this.dataModel.usrname;
         }
       }
     });
@@ -129,10 +142,31 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
       this.routeSubscription.unsubscribe();
     }
   }
-
-  edit() {
-    this.editForm();
-    this.editableForm.controls['emailControl'].disable();
-    this.editableForm.controls['userCategory'].disable();
+  getroleidlist(value: number) {
+    if (this.uroleids && value) {
+      return this.uroleids.find(a => a.uroleid === value).urolename;
+    }
+  }
+  getuserCategorie(value: number) {
+    if (this.userCategories && value) {
+      return this.userCategories.find(a => a.value === value).text;
+    }
+  }
+  getuserStates(value: number) {
+    if (this.userStates && value) {
+      return this.userStates.find(a => a.value === value).text;
+    }
+  }
+  removeControl() {
+    if (this.dataModel.usrcategory === USER_CATEGORY.CU) {
+      this.editableForm.removeControl('userroleControl');
+    }
+    this.editableForm.removeControl('emailControl');
+    this.editableForm.removeControl('userCategory');
+  }
+  removeControladd() {
+    if (this.dataModel.usrcategory === USER_CATEGORY.CU) {
+      this.editableForm.removeControl('userroleControl');
+    }
   }
 }

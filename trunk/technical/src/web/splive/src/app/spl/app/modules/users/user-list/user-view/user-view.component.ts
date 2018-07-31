@@ -21,12 +21,14 @@ import { UserService } from '../../../../services/user.service';
   styleUrls: ['./user-view.component.css']
 })
 export class UserViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['usrname', 'usrcategory', 'urolename', 'usrstate', 'fname', 'lname', 'mobileno', 'action'];
+  displayedColumns = ['usrname', 'usrcategory', 'urolename', 'fname', 'lname', 'mobileno', 'usrstate', 'action'];
   sortByColumns = [{ text: 'User Name', value: 'usrname' },
-  { text: 'User Category', value: 'corpname' },
-  { text: 'User State', value: 'usrcategory' },
-  { text: 'User Role Name', value: 'urolename' },
-  { text: 'User State Since', value: 'usrstate' }
+  { text: 'Category', value: 'usrcategory' },
+  { text: 'Role Name', value: 'urolename' },
+  { text: 'First Name', value: 'fname' },
+  { text: 'Last Name', value: 'lname' },
+  { text: 'Mobile Number', value: 'mobileno' },
+  { text: 'Status', value: 'usrstate' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
