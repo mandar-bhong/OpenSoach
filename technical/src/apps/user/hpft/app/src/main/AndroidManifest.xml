@@ -44,7 +44,7 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Views.ChartActivity" />
-
+        <activity android:name=".Views.Activity.CardDetailsActivity"></activity>
     </application>
 
 </manifest>
