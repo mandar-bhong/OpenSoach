@@ -106,10 +106,10 @@ export class UserService extends ListingService<UserFilterRequest, UserDataListR
       request, implicitErrorHandling);
   }
 
-  updateUserEdit(corporateUpadteRequest: UserMasterUpdateRequest, implicitErrorHandling = true):
+  updateUserMaster(userMasterUpdateRequest: UserMasterUpdateRequest, implicitErrorHandling = true):
     Observable<PayloadResponse<null>> {
     return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/user/update',
-      corporateUpadteRequest, implicitErrorHandling);
+    userMasterUpdateRequest, implicitErrorHandling);
   }
 
 }
