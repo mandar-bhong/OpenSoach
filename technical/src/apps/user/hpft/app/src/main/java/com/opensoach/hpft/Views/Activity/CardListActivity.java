@@ -1,7 +1,11 @@
 package com.opensoach.hpft.Views.Activity;
 
 
+
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +17,7 @@ import com.opensoach.hpft.ViewModels.CardBriefViewModel;
 import com.opensoach.hpft.ViewModels.CardGridViewModel;
 import com.opensoach.hpft.ViewModels.CardListViewModel;
 import com.opensoach.hpft.ViewModels.MainViewModel;
+import com.opensoach.hpft.Views.Fragment.HeaderFragment;
 import com.opensoach.hpft.Views.Interfaces.IFragment;
 import com.opensoach.hpft.Views.Interfaces.IUIUpdateEvent;
 import com.opensoach.hpft.databinding.ActivityCardListBinding;
@@ -20,7 +25,8 @@ import com.opensoach.hpft.databinding.ActivityCardListBinding;
 import java.util.ArrayList;
 
 
-public class CardListActivity extends AppCompatActivity implements IFragment<CardListViewModel>,IUIUpdateEvent {
+public class CardListActivity extends AppCompatActivity
+        implements IFragment<CardListViewModel>,IUIUpdateEvent,HeaderFragment.OnFragmentInteractionListener  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,10 @@ public class CardListActivity extends AppCompatActivity implements IFragment<Car
         setContentView(R.layout.activity_card_list);
         setDataContext(MainViewModel.getInstance().getCardListViewModel());
 
+
+
         hideSoftKeyboard();
+
     }
 
     public void hideSoftKeyboard() {
@@ -66,6 +75,35 @@ public class CardListActivity extends AppCompatActivity implements IFragment<Car
         CardBriefViewModel cb = new CardBriefViewModel();
         cb.ContextActivity = this;
         list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
+        list.add(cb);
 
 
         cardGridViewModel.setItemsSource(list);
@@ -94,4 +132,11 @@ public class CardListActivity extends AppCompatActivity implements IFragment<Car
     }
 
 
+
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri){
+
+    }
 }
