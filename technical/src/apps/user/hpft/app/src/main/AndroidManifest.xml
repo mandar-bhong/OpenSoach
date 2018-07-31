@@ -9,14 +9,14 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.opensoach.hpft.SPLApplication"
+        android:name=".SPLApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.opensoach.hpft.Views.ChartActivity"
+            android:name=".Views.Activity.CardListActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,22 +25,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.opensoach.hpft.Views.DashboardActivity"
+            android:name=".Views.DashboardActivity"
             android:screenOrientation="landscape" />
-        <!-- <activity
+        <!--
+             <activity
              android:name=".view.LoginActivity"
              android:label="@string/title_activity_chart"
              android:screenOrientation="landscape"
-             android:theme="@style/AppTheme.NoActionBar" />-->
+             android:theme="@style/AppTheme.NoActionBar" />
+        -->
 
         <receiver
-            android:name="com.opensoach.hpft.Scheduler.AlarmReveiver"
+            android:name=".Scheduler.AlarmReveiver"
             android:exported="false" />
 
         <activity
-            android:name="com.opensoach.hpft.Views.ScreenSaverActivity"
+            android:name=".Views.ScreenSaverActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"            ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Views.ChartActivity" />
+
     </application>
 
 </manifest>

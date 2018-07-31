@@ -15,6 +15,7 @@ public class MainViewModel {
     private HeaderViewModel headerViewModel;
     private ChartViewModel chartViewModel;
     private FooterViewModel footerViewModel;
+    private CardListViewModel cardListViewModel;
     private HashMap<String, ChartDataModel> currenChartDataModelMap;
 
     /* A private Constructor prevents any other
@@ -65,5 +66,14 @@ public class MainViewModel {
 
     public void setCurrenChartDataModelMap(HashMap<String, ChartDataModel> currenChartDataModelMap) {
         this.currenChartDataModelMap = currenChartDataModelMap;
+    }
+
+
+    public CardListViewModel getCardListViewModel() {
+        return cardListViewModel;
+    }
+
+    public void setCardListViewModel(CardListViewModel cardListViewModel) {
+        this.cardListViewModel = cardListViewModel;
     }
 }
