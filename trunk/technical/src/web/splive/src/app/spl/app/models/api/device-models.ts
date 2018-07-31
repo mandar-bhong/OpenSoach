@@ -4,6 +4,16 @@ export class DeviceAddRequest {
     serialno: string;
     devstate: number;
 }
+export class DeviceMasterUpdateRequest {
+    devid: number;
+    devstate: number;
+}
+export class DeviceMasterUpdateResponse {
+    devid: number;
+    custid: number;
+    serialno: string;
+    devstate: number;
+}
 
 export class DeviceAddDetailsRequest {
     devid: number;

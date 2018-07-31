@@ -1,4 +1,0 @@
-#device-associate{width: 500px;}
-@media screen and (max-width:768px) {
-    #device-associate{width: auto;}
-   }
