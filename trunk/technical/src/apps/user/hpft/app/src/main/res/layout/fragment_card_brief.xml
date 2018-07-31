@@ -15,12 +15,111 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.opensoach.hpft.Views.Activity.Fragment.CardBriefFragment">
-        <TextView
-            android:layout_width="wrap_content"
+
+        <TableLayout
+            android:id="@+id/tbllayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Job ID "/>
+            android:layout_toRightOf="@+id/tempLayout"
+            android:layout_weight="95"
+            android:background="@color/colorWhite"
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp">
+
+            <TableRow>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:padding="1dp">
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Job : "-->
+                    <!--android:textColor="@color/color_grid_data_text_key"-->
+                    <!--android:textSize="@dimen/grid_data_text_size" />-->
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+                        <TableRow>
+                            <LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Name"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10sp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Patient 1"/>
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+
+                        <TableRow>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Name"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10sp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Patient 2"/>
+
+                            </LinearLayout>
+                        </TableRow>
+
+
+                        <TableRow>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:layout_width="270dp"
+                                    android:maxLines="1"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:text="test"/>
+
+
+
+                            </LinearLayout>
+                        </TableRow>
+
+                    </TableLayout>
+
+
+                </LinearLayout>
+
+            </TableRow>
+
+        </TableLayout>
+
     </LinearLayout>
 
 </layout>
