@@ -18,21 +18,21 @@ public class CardBriefViewAdaptor extends CustomBaseAdapter<CardGridViewModel,Ca
 
     @Override
     protected View getItemView(CardBriefViewModel dataModel, int position) {
-        return GetJobBrief(dataModel,position);
+        return GetCardBrief(dataModel,position);
     }
 
-    View GetJobBrief(CardBriefViewModel dataModel, int position){
+    View GetCardBrief(CardBriefViewModel dataModel, int position){
 
         LinearLayout ll = new LinearLayout(ContextActivity);
 
         FragmentCardBriefBinding fragmentCardBriefBinding = DataBindingUtil.inflate(dataModel.ContextActivity.getLayoutInflater(),
                 R.layout.fragment_card_brief,ll,true);
 
-        CardBriefFragment jb = new CardBriefFragment();
+        CardBriefFragment cardBriefFragment = new CardBriefFragment();
 
-
-        View v = jb.getView();
+        View v = cardBriefFragment.getView();
         fragmentCardBriefBinding.setData(dataModel);
+
         //fragmentCardBriefBinding.setClickHandler(new JobBriefClickHandler());
 
         ll.setId(position);
