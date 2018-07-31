@@ -25,6 +25,8 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
     super();
+    this.iconCss = 'fa fa-building-o';
+    this.pageTitle = 'Corporate Details';
   }
   ngOnInit() {
     this.createControls();
@@ -32,9 +34,9 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
   createControls(): void {
     this.editableForm = new FormGroup({
       corpnameControl: new FormControl('', [Validators.required]),
-      corpmobilenoControl: new FormControl('', [Validators.required]),
-      corpemailidControl: new FormControl('', [Validators.required]),
-      corplandlinenoControl: new FormControl('', [Validators.required])
+      corpmobilenoControl: new FormControl(''),
+      corpemailidControl: new FormControl(''),
+      corplandlinenoControl: new FormControl('')
     });
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['id']) {
@@ -43,6 +45,7 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
         this.setFormMode(FORM_MODE.VIEW);
         this.getCorporateDetails();
       } else {
+        this.subTitle = 'Add Details of Corporate';
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
@@ -51,6 +54,7 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const request = new CorporateAddRequest();
       this.dataModel.copyToAddRequest(request);
@@ -60,8 +64,10 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.corpname;
         }
       });
+      this.inProgress = false;
     } else {
       const request = new CorporateUpdateRequest();
       this.dataModel.copyToUpdateRequest(request);
@@ -69,8 +75,10 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
         if (payloadResponse && payloadResponse.issuccess) {
           this.appNotificationService.success();
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.corpname;
         }
       });
+      this.inProgress = false;
     }
   }
 
@@ -79,6 +87,7 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
+          this.subTitle = this.dataModel.corpname;
         }
       }
     });

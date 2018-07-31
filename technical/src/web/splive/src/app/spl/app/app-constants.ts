@@ -2,12 +2,12 @@ import { RoutingModel, SideMenuModel } from '../../shared/models/ui/routing-mode
 
 export const PROD_CODE = 'SPL';
 export const APP_ROUTES: RoutingModel[] = [
-    {
-        url: '/dashboard',
-        linktitle: 'Dashboard',
-        pagetitle: 'Dashboard',
-        linkiconcss: 'fa fa-dashboard'
-    },
+    // {
+    //     url: '/dashboard',
+    //     linktitle: 'Dashboard',
+    //     pagetitle: 'Dashboard',
+    //     linkiconcss: 'fa fa-dashboard'
+    // },
     {
         url: '/corporates',
         linktitle: 'Corporates',
@@ -116,10 +116,16 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Associated Products',
         linkiconcss: ''
     },
+    {
+        url: '/devices/masterupdate',
+        linktitle: 'Master Details',
+        pagetitle: 'Device Master Details',
+        linkiconcss: 'fa fa-users'
+    },
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
-    { url: '/dashboard', level: 0, routingModel: null },
+    // { url: '/dashboard', level: 0, routingModel: null },
     { url: '/corporates', level: 0, routingModel: null },
     { url: '/customers', level: 0, routingModel: null },
     { url: '/users', level: 0, routingModel: null },
