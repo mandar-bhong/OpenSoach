@@ -298,6 +298,155 @@
           }
         }
       }
+    },
+  "hpft": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/hpft",
+            "index": "src/app/hpft/index.html",
+            "main": "src/app/hpft/main.ts",
+            "tsConfig": "src/app/hpft/tsconfig.hpft.json",
+            "polyfills": "src/app/hpft/polyfills.ts",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/app/hpft/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src/app/hpft/hpft",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/shared/assets",
+                "output": "/shared/assets"
+              }
+            ],
+            "styles": [
+              "src/app/hpft/styles.css",
+              "src/app/shared/shared-styles.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/dragula/dist/dragula.min.css",
+              "src/app/shared/theme.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/app/hpft/environments/environment.ts",
+                  "with": "src/app/hpft/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "hpft:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "hpft:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "hpft:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/app/hpft/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/app/hpft/polyfills.ts",
+            "tsConfig": "src/app/hpft/tsconfig.spec.json",
+            "scripts": [],
+            "styles": [
+              "src/app/hpft/styles.css",
+              "src/app/shared/shared-styles.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/dragula/dist/dragula.min.css",
+              "src/app/shared/theme.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/app/hpft/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src/app/hpft/hpft",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/shared/assets",
+                "output": "/shared/assets"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "hpft-e2e": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "hpft:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "spl",
