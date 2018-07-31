@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.ViewModels.CardBriefViewModel;
 import com.opensoach.hpft.ViewModels.CardGridViewModel;
+import com.opensoach.hpft.Views.ClickHandler.CardItemClickHandler;
 import com.opensoach.hpft.Views.Fragment.CardBriefFragment;
 import com.opensoach.hpft.databinding.FragmentCardBriefBinding;
 
@@ -32,8 +33,7 @@ public class CardBriefViewAdaptor extends CustomBaseAdapter<CardGridViewModel,Ca
 
         View v = cardBriefFragment.getView();
         fragmentCardBriefBinding.setData(dataModel);
-
-        //fragmentCardBriefBinding.setClickHandler(new JobBriefClickHandler());
+        fragmentCardBriefBinding.setClickHandler(new CardItemClickHandler());
 
         ll.setId(position);
 

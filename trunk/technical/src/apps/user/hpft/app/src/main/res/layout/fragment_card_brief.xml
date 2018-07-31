@@ -6,15 +6,16 @@
         <variable
             name="Data"
             type="com.opensoach.hpft.ViewModels.CardBriefViewModel" />
-        <!--<variable-->
-            <!--name="clickHandler"-->
-            <!--type="com.opensoach.hpft.Views.ClickHandler.CardClickHandler" />-->
+        <variable
+            name="ClickHandler"
+            type="com.opensoach.hpft.Views.ClickHandler.CardItemClickHandler" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.opensoach.hpft.Views.Activity.Fragment.CardBriefFragment">
+        tools:context="com.opensoach.hpft.Views.Activity.Fragment.CardBriefFragment"
+        android:onClick="@{(view) -> ClickHandler.onClick(view,Data)}">
 
         <TableLayout
             android:id="@+id/tbllayout"
