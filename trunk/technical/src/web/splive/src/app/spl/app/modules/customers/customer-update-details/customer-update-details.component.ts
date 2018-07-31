@@ -25,14 +25,24 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
     super();
+    this.iconCss = 'fa fa-user';
+    this.pageTitle = 'Customer Details';
   }
 
   ngOnInit() {
     this.createControls();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
-      this.dataModel.custid = Number(params['id']);
+      if (params['id']) {
+        this.dataModel.custid = Number(params['id']);
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        this.setFormMode(FORM_MODE.VIEW);
+        this.getCustomerDetails();
+        this.subTitle = 'Add Details of Customer';
+      } else {
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.EDITABLE);
+      }
       this.callbackUrl = params['callbackurl'];
-      this.getCustomerDetails();
     });
   }
   createControls(): void {
@@ -58,9 +68,10 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
           this.dataModel.copyFrom(payloadResponse.data);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.poc1name;
         } else {
           this.appNotificationService.info(this.translatePipe.transform('INFO_DETAILS_NOT_AVAILABLE'));
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.recordState = EDITABLE_RECORD_STATE.ADD;
           this.setFormMode(FORM_MODE.EDITABLE);
         }
       }
@@ -69,6 +80,7 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
 
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const customerAddDetailsRequest = new CustomerAddDetailsRequest();
     this.dataModel.copyTo(customerAddDetailsRequest);
     this.customerService.updateCustomerDetails(customerAddDetailsRequest).subscribe(payloadResponse => {
@@ -76,8 +88,10 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
         this.appNotificationService.success();
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
+        this.subTitle = this.dataModel.poc1name;
       }
     });
+    this.inProgress = false;
   }
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });

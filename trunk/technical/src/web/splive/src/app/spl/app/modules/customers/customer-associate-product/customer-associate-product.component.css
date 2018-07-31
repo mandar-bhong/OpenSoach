@@ -1,5 +1,0 @@
-#customer-associate{width: 500px;}
-
-@media screen and (max-width:768px) {
-    #customer-associate{width: auto;}
-   }

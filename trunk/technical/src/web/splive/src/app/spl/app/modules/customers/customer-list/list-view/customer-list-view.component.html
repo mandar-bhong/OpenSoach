@@ -34,67 +34,79 @@
           <ng-container matColumnDef="custname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Customer Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Customer Name</span>
-              {{row.custname}}
+              <span class="mat-cell-responsive-label">Customer Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.custname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="corpname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Corporate Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Corporate Name</span>
-              {{row.corpname}}
+              <span class="mat-cell-responsive-label">Corporate Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.corpname}} </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="poc1name">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">POC Name</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">POC Name</span>
-              {{row.poc1name}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">POC Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
+              <span class="mat-cell-responsive-label">POC Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.poc1name}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="poc1emailid">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Email Id</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Email Id</span>
-              {{row.poc1emailid}}
+              <span class="mat-cell-responsive-label">Email Id</span>
+              <span class="ellipsis mat-cell-text"> {{row.poc1emailid}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="poc1mobileno">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Mobile No</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">Mobile No</span>
-              {{row.poc1mobileno}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Mobile Number</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
+              <span class="mat-cell-responsive-label">Mobile Number</span>
+              <span class="ellipsis mat-cell-text"> {{row.poc1mobileno}}</span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="custstate">
+          <!-- <ng-container matColumnDef="custstate">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Status</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">Status</span>
+              <span class="mat-cell-responsive-label">Status</span>
               {{customerService.getCustomerState(row.custstate) | translate}}
+            </mat-cell>
+          </ng-container> -->
+          <ng-container matColumnDef="custstate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;justify-content:center">Status</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;justify-content:center;">
+              <span class="mat-cell-responsive-label">Status</span>
+              <span [ngSwitch]="row.custstate">
+                <div class="statusBlock" *ngSwitchCase="0" style="background-color:#dc3545">Not Set</div>
+                <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Active</div>
+                <div class="statusBlock" *ngSwitchCase="2" style="background-color:#dc3545">Inactive</div>
+                <div class="statusBlock" *ngSwitchCase="3" style="background-color:#FFBF00">Suspended</div>
+              </span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">Action</span>
+              <span class="mat-cell-responsive-label">Action</span>
               <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+                <mat-icon aria-hidden="true" matTooltip="Menu">more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
-                  <button mat-menu-item (click)="editRow(row.custid)">
+                  <button mat-menu-item (click)="editRow(row.custid)" id="master">
                     <mat-icon color='primary'>remove_red_eye</mat-icon>
                     <span>Master</span>
                   </button>
-                  <button mat-menu-item (click)="editRecord(row.custid)">
+                  <button mat-menu-item (click)="editRecord(row.custid)" id="details">
                     <mat-icon color='primary'>remove_red_eye</mat-icon>
                     <span>Details</span>
                   </button>
-                  <button mat-menu-item (click)="associateProduct(row.custid)">
+                  <button mat-menu-item (click)="associateProduct(row.custid)" id="associated">
                     <mat-icon color='primary'>link</mat-icon>
                     <span>Associated Products</span>
                   </button>
-                  <button mat-menu-item (click)="serviceAssociate(row.custid)">
+                  <button mat-menu-item (click)="serviceAssociate(row.custid)" id="servicepoints">
                     <mat-icon color='primary'>location_on</mat-icon>
                     <span>Service Points</span>
                   </button>
