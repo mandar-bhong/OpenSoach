@@ -20,9 +20,9 @@ import { DeviceService } from '../../../../services/device.service';
 })
 
 export class DeviceListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['serialno', 'devstate', 'custname', 'action'];
-  sortByColumns = [{ text: 'Customer Name', value: 'custname' },
-  { text: 'Serial Number', value: 'serialno' },
+  displayedColumns = ['serialno', 'custname', 'devstate', 'action'];
+  sortByColumns = [{ text: 'Serial Number', value: 'serialno' },
+  { text: 'Customer Name', value: 'custname' },
   { text: 'State', value: 'devstate' }
   ];
   @ViewChild(MatPaginator)
@@ -111,6 +111,9 @@ export class DeviceListViewComponent implements OnInit, OnDestroy {
   associateProduct(id: number) {
     this.router.navigate(['devices', 'products'],
       { queryParams: { id: id, callbackurl: 'devices' }, skipLocationChange: true });
+  }
+  editRow(id: number) {
+    this.router.navigate(['devices', 'masterupdate'], { queryParams: { id: id, callbackurl: 'devices' }, skipLocationChange: true });
   }
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {

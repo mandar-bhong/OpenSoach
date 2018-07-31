@@ -108,6 +108,7 @@ export class DeviceAssociateProductComponent extends EditRecordBase implements O
   save() {
     if (this.editableForm.invalid) { return; }
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
+      this.inProgress = true;
       const request = new DeviceAssociateProductRequest();
       this.dataModel.copyToAddRequest(request);
       this.deviceService.associateDeviceToProduct(request).subscribe(payloadResponse => {
@@ -117,6 +118,7 @@ export class DeviceAssociateProductComponent extends EditRecordBase implements O
           this.closeForm();
         }
       });
+      this.inProgress = false;
     }
   }
 

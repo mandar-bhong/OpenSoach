@@ -1,33 +1,49 @@
 <div class="row">
-  <mat-card>
-    <h3 class="text-center"></h3>
-    <form class="md-float-material form-material" id="device-details" [formGroup]="editableForm" (ngSubmit)="save()">
-        <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
-      <div class="form-group form-primary">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Make" formControlName="makeControl" required [(ngModel)]="dataModel.make">
-          <mat-error *ngIf="editableForm.controls['makeControl'].hasError('required') ">
-            This field is required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group form-primary">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Technology" formControlName="technologyControl" required [(ngModel)]="dataModel.technology">
-          <mat-error *ngIf="editableForm.controls['technologyControl'].hasError('required') ">
-            This field is required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group form-primary">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Techversion" formControlName="techversionControl" required [(ngModel)]="dataModel.techversion">
-          <mat-error *ngIf="editableForm.controls['techversionControl'].hasError('required') ">
-            This field is required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
-    </form>
-  </mat-card>
+  <div class="col">
+    <mat-card style="max-width:500px">
+      <h3 class="text-center"></h3>
+      <form [formGroup]="editableForm" (ngSubmit)="save()">
+        <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+        <mat-card-content>
+          <div class="form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Make" formControlName="makeControl" [(ngModel)]="dataModel.make">
+              <!-- <mat-error *ngIf="editableForm.controls['makeControl'].hasError('required') ">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Make</span>
+            <label class="viewtext">{{ dataModel.make }}</label>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Technology" formControlName="technologyControl" [(ngModel)]="dataModel.technology">
+              <!-- <mat-error *ngIf="editableForm.controls['technologyControl'].hasError('required') ">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Technology</span>
+            <label class="viewtext">{{ dataModel.technology }}</label>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Techversion" formControlName="techversionControl" [(ngModel)]="dataModel.techversion">
+              <!-- <mat-error *ngIf="editableForm.controls['techversionControl'].hasError('required') ">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Techversion</span>
+            <label class="viewtext">{{ dataModel.techversion }}</label>
+          </div>
+          <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        </mat-card-content>
+      </form>
+    </mat-card>
+  </div>
 </div>
