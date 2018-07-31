@@ -16,18 +16,6 @@ create database spl_hpft_node_0001 DEFAULT CHARACTER SET utf8;
 use spl_hpft_node_0001;
 
 --
--- Table structure for table `spl_hpft_patient_master_tbl`
---
-
-CREATE TABLE `spl_hpft_patient_master_tbl` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`patient_details` JSON NOT NULL,
-	`medical_details` JSON NOT NULL,
-	`patient_file_template` JSON NOT NULL,
-	PRIMARY KEY (`id`)
-)   ENGINE=InnoDB COMMENT='Short Name for Table: patient';
-
---
 -- Table structure for table `spl_node_cpm_tbl`
 --
 
@@ -35,6 +23,21 @@ CREATE TABLE `spl_node_cpm_tbl` (
   `cpm_id_fk` int(10) unsigned NOT NULL,
   PRIMARY KEY (`cpm_id_fk`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cpm';
+
+--
+-- Table structure for table `spl_hpft_patient_master_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_master_tbl` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_details` JSON NOT NULL,
+	`medical_details` JSON NOT NULL,
+	`patient_file_template` JSON NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `fk_patient_cpm` (`cpm_id_fk`),
+	CONSTRAINT `fk_patient_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)   ENGINE=InnoDB COMMENT='Short Name for Table: patient';
 
 --
 -- Table structure for table `spl_node_sp_category_tbl`
@@ -209,6 +212,34 @@ CREATE TABLE `spl_node_fop_sp_tbl` (
   KEY `fk_fopsp_cpm_idx` (`cpm_id_fk`),
   CONSTRAINT `fk_fopsp_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: fopsp';
+
+--
+-- Table structure for table `spl_hpft_sp_complaint_tbl`
+--
+
+CREATE TABLE `spl_hpft_sp_complaint_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `sp_id_fk` int(10) unsigned NOT NULL,
+  `complaint_title` varchar(250) NOT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `complaint_by` varchar(50) NOT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
+  `email_id` varchar(254) DEFAULT NULL,
+  `employee_id` varchar(16) DEFAULT NULL,
+  `severity` TINYINT(4) UNSIGNED NULL DEFAULT NULL COMMENT '1: Low, 2: Medium, 3: High,4: Critical etc.',
+  `raised_on` datetime NOT NULL,
+  `complaint_state` tinyint(4) NOT NULL COMMENT '1: Open, 2: Closed, 3: Force Closed etc.',
+  `closed_on` datetime DEFAULT NULL,
+  `remarks` varchar(500) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_spcomplaint_sp_idx` (`sp_id_fk`),
+  CONSTRAINT `fk_spcomplaint_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_spcomplaint_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_spcomplaint_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: spcomplaint';
 
 --
 -- Table structure for table `spl_node_feedback_tbl`

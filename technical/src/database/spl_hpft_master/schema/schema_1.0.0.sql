@@ -16,6 +16,18 @@ create database spl_hpft_master DEFAULT CHARACTER SET utf8;
 use spl_hpft_master;
 
 --
+-- Table structure for table `spl_hkt_prod_config`
+--
+
+CREATE TABLE `spl_prod_master_config` (
+	`config_key` VARCHAR(50) NOT NULL,
+	`config_value` VARCHAR(500) NOT NULL DEFAULT '',
+	`created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`config_key`)
+) ENGINE=InnoDB COMMENT='Short Name for Table: config\r\nThis table will contain configuration for hkt product';
+
+--
 -- Table structure for table `spl_prod_sp_category_tbl`
 --
 
