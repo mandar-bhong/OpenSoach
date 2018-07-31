@@ -16,6 +16,7 @@ const MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND int = 5000 // Database record not f
 const CACHE_KEY_PREFIX_CPM_ID string = "MST_CPM_ID_"
 
 const PRODUCT_TYPE_HKT string = "HKT"
+const PRODUCT_TYPE_HPFT string = "HPFT"
 
 const DEVICE_PROCESSING_AUTH_TOKEN_NOT_FOUND = 3001
 
