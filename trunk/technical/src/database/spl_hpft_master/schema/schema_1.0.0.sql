@@ -41,6 +41,23 @@ CREATE TABLE `spl_prod_master_sp_category_tbl` (
   UNIQUE KEY `spc_name_UNIQUE` (`spc_name`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: spc';
 
+--
+-- Table structure for table `spl_hpft_master_task_lib_tbl`
+--
+
+CREATE TABLE `spl_hpft_master_task_lib_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `spc_id_fk` INT(10) UNSIGNED NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `task_name_UNIQUE` (`task_name`),
+  KEY `fk_mtask_spc` (`spc_id_fk`),
+  CONSTRAINT `fk_mtask_spc` FOREIGN KEY (`spc_id_fk`) REFERENCES `spl_prod_master_sp_category_tbl` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: mtask';
+
 
 --
 -- Table structure for table `spl_prod_master_serv_conf_type_tbl`

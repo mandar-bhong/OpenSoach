@@ -213,6 +213,27 @@ CREATE TABLE `spl_node_fop_sp_tbl` (
   CONSTRAINT `fk_fopsp_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT='Short Name for Table: fopsp';
 
+
+--
+-- Table structure for table `spl_hpft_task_lib_tbl`
+--
+
+CREATE TABLE `spl_hpft_task_lib_tbl` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cpm_id_fk` int(10) unsigned NOT NULL,
+  `spc_id_fk` int(10) unsigned NOT NULL,
+  `task_name` varchar(50) NOT NULL,
+  `short_desc` varchar(250) DEFAULT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_task_spc_idx` (`spc_id_fk`),
+  UNIQUE KEY `cpm_spc_task_name_UNIQUE` (`cpm_id_fk`,`spc_id_fk`,`task_name`),
+  CONSTRAINT `fk_task_spc` FOREIGN KEY (`spc_id_fk`) REFERENCES `spl_node_sp_category_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_task_cpm_idx` (`cpm_id_fk`),
+  CONSTRAINT `fk_task_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB COMMENT='Short Name for Table: task';
+
 --
 -- Table structure for table `spl_hpft_sp_complaint_tbl`
 --
