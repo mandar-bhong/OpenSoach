@@ -1,5 +1,7 @@
 package com.opensoach.hpft.ViewModels;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 
 import com.opensoach.hpft.Model.ChartDataModel;
@@ -8,7 +10,7 @@ import com.opensoach.hpft.Model.ChartDataModel;
  * Created by samir.s.bukkawar on 3/18/2017.
  */
 
-public class MainViewModel {
+public class MainViewModel extends BaseViewModel implements PropertyChangeListener {
 
     private static MainViewModel singleton;
 
@@ -24,6 +26,7 @@ public class MainViewModel {
     private MainViewModel() {
         currenChartDataModelMap = new HashMap<String, ChartDataModel>();
         headerViewModel = new HeaderViewModel();
+        cardListViewModel = new CardListViewModel();
     }
 
     public static MainViewModel getInstance() {
@@ -75,5 +78,10 @@ public class MainViewModel {
 
     public void setCardListViewModel(CardListViewModel cardListViewModel) {
         this.cardListViewModel = cardListViewModel;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+
     }
 }

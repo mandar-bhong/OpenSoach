@@ -1,12 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.opensoach.hpft.Views.Activity.CardListActivity">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="This is test"/>
-</android.support.constraint.ConstraintLayout>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="DataContext"
+            type="com.opensoach.hpft.ViewModels.CardGridViewModel" />
+
+        <!--<variable-->
+            <!--name="ControlContext"-->
+            <!--type="com.opensoach.hpft.Views.Fragment.CardBriefFragment" />-->
+
+    </data>
+
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_main_bg"
+            android:padding="0dp">
+
+
+            <com.opensoach.hpft.Views.Fragment.CardGridView
+            android:id="@+id/job_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/grid_padding"
+            android:background="@color/color_main_bg"
+            android:horizontalSpacing="@dimen/grid_horizontal_spacing"
+            android:numColumns="1"
+            android:padding="7dp"
+            android:verticalSpacing="@dimen/grid_vertical_spacing"
+                bind:DataContext="@{DataContext}"   ></com.opensoach.hpft.Views.Fragment.CardGridView>
+
+            <!--<com.opensoach.hpft.Views.Fragment.CardGridView-->
+                <!--android:id="@+id/job_grid_view"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_margin="@dimen/grid_padding"-->
+                <!--android:background="@color/color_main_bg"-->
+                <!--android:horizontalSpacing="@dimen/grid_horizontal_spacing"-->
+                <!--android:numColumns="1"-->
+                <!--android:padding="7dp"-->
+                <!--android:verticalSpacing="@dimen/grid_vertical_spacing"-->
+                <!--bind:DataContext="@{DataContext}"></com.opensoach.hpft.Views.Fragment.CardGridView>-->
+        </RelativeLayout>
+    </FrameLayout>
+
+</layout>

@@ -23,7 +23,6 @@ public abstract class CustomBaseAdapter<T, E> extends BaseAdapter implements ILi
 
     @Override
     public int getCount() {
-
         return ItemsSource.size();
     }
 
