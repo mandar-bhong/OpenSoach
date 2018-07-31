@@ -21,7 +21,7 @@ use spl_master;
 
 CREATE TABLE `spl_master_product_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `prod_code` varchar(7) NOT NULL COMMENT 'All product code starts with prefix "SPL" and 3 character individual product suffix separated by underscore',
+  `prod_code` varchar(8) NOT NULL COMMENT 'All product code starts with prefix "SPL" and 3 character individual product suffix separated by underscore',
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
