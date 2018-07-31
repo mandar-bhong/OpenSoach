@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
+import com.opensoach.hpft.Views.Fragment.TaskListFragment;
 
 /**
  * Created by Mandar on 31-07-2018.
@@ -31,9 +32,9 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 MedicalDetailsFragment tab2 = new MedicalDetailsFragment();
                 return tab2;
-//            case 2:
-//                TabFragment3 tab3 = new TabFragment3();
-//                return tab3;
+            case 2:
+                TaskListFragment tab3 = new TaskListFragment();
+                return tab3;
             default:
                 return null;
         }
