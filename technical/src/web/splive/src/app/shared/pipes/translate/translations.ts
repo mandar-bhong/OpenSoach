@@ -362,5 +362,10 @@ export const TRANSLATIONS: TranslationValue[] = [
     en: 'No Chart has been configured yet. Goto Service Points-> List -> Configure to configure a chart'
   },
 
+  {
+    key: 'OperatorListColumOperatorName',
+    en: 'Operator Name'
+  }
+
 ];
 
