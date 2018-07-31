@@ -1,6 +1,7 @@
 package com.opensoach.hpft.Views.Activity;
 
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,10 +9,15 @@ import android.view.WindowManager;
 
 import com.opensoach.hpft.Model.AppNotificationModelBase;
 import com.opensoach.hpft.R;
+import com.opensoach.hpft.ViewModels.CardBriefViewModel;
+import com.opensoach.hpft.ViewModels.CardGridViewModel;
 import com.opensoach.hpft.ViewModels.CardListViewModel;
 import com.opensoach.hpft.ViewModels.MainViewModel;
 import com.opensoach.hpft.Views.Interfaces.IFragment;
 import com.opensoach.hpft.Views.Interfaces.IUIUpdateEvent;
+import com.opensoach.hpft.databinding.ActivityCardListBinding;
+
+import java.util.ArrayList;
 
 
 public class CardListActivity extends AppCompatActivity implements IFragment<CardListViewModel>,IUIUpdateEvent {
@@ -47,8 +53,32 @@ public class CardListActivity extends AppCompatActivity implements IFragment<Car
     }
 
     @Override
-    public  void setDataContext(CardListViewModel vm){
+    public  void setDataContext(CardListViewModel viewModel){
+        ActivityCardListBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_card_list);
 
+        //viewModel.AppContext = this.getBaseContext();
+        viewModel.ContextActivity = this;
+
+        CardGridViewModel cardGridViewModel = new CardGridViewModel();
+        cardGridViewModel.ContextActivity = this;
+
+        ArrayList list = new ArrayList<CardBriefViewModel>();
+        CardBriefViewModel cb = new CardBriefViewModel();
+        cb.ContextActivity = this;
+        list.add(cb);
+
+
+        cardGridViewModel.setItemsSource(list);
+
+       // cardGridViewModel.getItemsSource().add(new CardBriefViewModel());
+
+        //jobGridViewModel.setItemsSource(GenerateData());
+
+//        viewModel.setGridViewModel(jobGridViewModel);
+//
+//        viewModel.setHeaderViewModel(new HeaderViewModel());
+
+        activityMainBinding.setDataContext(cardGridViewModel);
     }
 
     @Override
