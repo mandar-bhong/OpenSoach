@@ -2,7 +2,7 @@
 -- Dumping data for table `spl_prod_master_config`
 --
 
-INSERT INTO `spl_prod_master_config` (`config_key`,`config_value`) VALUES ('Product.Web.Service.Address',':90');
+INSERT INTO `spl_prod_master_config` (`config_key`,`config_value`) VALUES ('Product.Web.Service.Address',':91');
 
 INSERT INTO `spl_prod_master_config` (`config_key`,`config_value`) VALUES ('Product.Cache.Address.Host','localhost');
 INSERT INTO `spl_prod_master_config` (`config_key`,`config_value`) VALUES ('Product.Cache.Address.Port','6379');
