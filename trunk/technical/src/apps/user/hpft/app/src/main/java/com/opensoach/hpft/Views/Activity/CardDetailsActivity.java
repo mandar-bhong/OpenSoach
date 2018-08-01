@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
@@ -37,8 +38,10 @@ public class CardDetailsActivity extends AppCompatActivity
         tabLayout.addTab(tabLayout.newTab().setText("Check List"));
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new TabPagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapter adapter = new TabPagerAdapter (getSupportFragmentManager(),
+                tabLayout.getTabCount(),
+                AppRepo.getInstance().getActiveCard());
+
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

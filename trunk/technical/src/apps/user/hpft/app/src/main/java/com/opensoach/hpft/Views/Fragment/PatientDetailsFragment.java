@@ -1,14 +1,21 @@
 package com.opensoach.hpft.Views.Fragment;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.opensoach.hpft.R;
+import com.opensoach.hpft.ViewModels.BaseViewModel;
+import com.opensoach.hpft.ViewModels.CardBriefViewModel;
+import com.opensoach.hpft.ViewModels.PatientDetailsViewModel;
+import com.opensoach.hpft.databinding.FragmentPatientDetailsBinding;
 
 
 /**
@@ -24,6 +31,8 @@ public class PatientDetailsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+	public PatientDetailsViewModel DataContext;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +75,16 @@ public class PatientDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_patient_details, container, false);
+
+        LinearLayout ll = new LinearLayout(DataContext.ContextActivity);
+        FragmentPatientDetailsBinding patientViewBinding = DataBindingUtil.inflate(DataContext.ContextActivity.getLayoutInflater(),
+                R.layout.fragment_patient_details,ll,true);
+
+        patientViewBinding.setVM(DataContext);
+
+        View view = patientViewBinding.getRoot();
+        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

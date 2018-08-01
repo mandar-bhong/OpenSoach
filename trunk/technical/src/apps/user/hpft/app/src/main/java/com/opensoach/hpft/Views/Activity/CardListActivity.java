@@ -2,6 +2,7 @@ package com.opensoach.hpft.Views.Activity;
 
 
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
@@ -17,12 +18,16 @@ import com.opensoach.hpft.ViewModels.CardBriefViewModel;
 import com.opensoach.hpft.ViewModels.CardGridViewModel;
 import com.opensoach.hpft.ViewModels.CardListViewModel;
 import com.opensoach.hpft.ViewModels.MainViewModel;
+import com.opensoach.hpft.ViewModels.MedicalDetailsViewModel;
+import com.opensoach.hpft.ViewModels.PatientDetailsViewModel;
+import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
 import com.opensoach.hpft.Views.Fragment.HeaderFragment;
 import com.opensoach.hpft.Views.Interfaces.IFragment;
 import com.opensoach.hpft.Views.Interfaces.IUIUpdateEvent;
 import com.opensoach.hpft.databinding.ActivityCardListBinding;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class CardListActivity extends AppCompatActivity
@@ -72,38 +77,10 @@ public class CardListActivity extends AppCompatActivity
         cardGridViewModel.ContextActivity = this;
 
         ArrayList list = new ArrayList<CardBriefViewModel>();
-        CardBriefViewModel cb = new CardBriefViewModel();
-        cb.ContextActivity = this;
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
-        list.add(cb);
+
+        list.add(GenerateData(this,1));
+        list.add(GenerateData(this,2));
+        list.add(GenerateData(this,3));
 
 
         cardGridViewModel.setItemsSource(list);
@@ -138,5 +115,39 @@ public class CardListActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri){
 
+    }
+
+    private CardBriefViewModel GenerateData(AppCompatActivity ctx,int index){
+        CardBriefViewModel cardBriefViewModel = new CardBriefViewModel();
+        cardBriefViewModel.ContextActivity = ctx;
+
+        PatientDetailsViewModel patientDetailsViewModel = new PatientDetailsViewModel();
+        MedicalDetailsViewModel medicalDetailsViewModel = new MedicalDetailsViewModel();
+        TaskDetailsViewModel taskDetailsViewModel =new TaskDetailsViewModel();
+
+        patientDetailsViewModel.setAge(25+index);
+        patientDetailsViewModel.setName("Patient-"+index);
+        patientDetailsViewModel.setEmergencyContactNo("9898989-"+index);
+        patientDetailsViewModel.setRegNo("89898-"+index);
+        patientDetailsViewModel.setAdmissionDate(new Date(5000+index));
+
+
+        medicalDetailsViewModel.setAllergies("Allergies-"+index);
+        medicalDetailsViewModel.setHistory("Medical History-"+index);
+        medicalDetailsViewModel.setTreatment("Treatment-"+index);
+
+
+        ArrayList<String> tasks=new ArrayList<>();
+        tasks.add("Task1");
+        tasks.add("Task2");
+        tasks.add("Task3");
+        tasks.add("Task4");
+        taskDetailsViewModel.setTasks(tasks);
+        taskDetailsViewModel.ContextActivity = ctx;
+
+        cardBriefViewModel.setPatientDetails(patientDetailsViewModel);
+        cardBriefViewModel.setMedicalDetails(medicalDetailsViewModel);
+        cardBriefViewModel.setTaskDetails(taskDetailsViewModel);
+        return cardBriefViewModel;
     }
 }

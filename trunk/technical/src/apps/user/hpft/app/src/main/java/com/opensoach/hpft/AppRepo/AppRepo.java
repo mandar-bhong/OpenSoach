@@ -7,6 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import com.opensoach.hpft.BuildConfig;
+import com.opensoach.hpft.ViewModels.CardBriefViewModel;
 
 /**
  * Created by Mandar on 2/25/2017. This class will have all application level data
@@ -34,6 +35,7 @@ public final class AppRepo {
     private String AuthToken;
     private ArrayList<String> authCodeList;
     private boolean isDeviceSyncInProgress;
+    private CardBriefViewModel activeCard;
 
     public static final String IsServerConnectedPropName = "AppRepo.IsServerConnected";
     public static final String CurrentLocationIdPropName = "AppRepo.currentLocationId";
@@ -173,5 +175,14 @@ public final class AppRepo {
         boolean oldValue = isChartRendered;
         isChartRendered = chartRendered;
         this.propertyChangeSupport.firePropertyChange(IsChartRenderedPropName, oldValue, isChartRendered);
+    }
+
+
+    public CardBriefViewModel getActiveCard() {
+        return activeCard;
+    }
+
+    public void setActiveCard(CardBriefViewModel activeCard) {
+        this.activeCard = activeCard;
     }
 }

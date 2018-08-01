@@ -22,4 +22,6 @@ public class ApplicationConstants {
 
     public static final String PACKET_DATE_FORMAT =  "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
+    public static   final String UI_DATE_FORMAT ="MMM dd h:mm a";
+
 }
