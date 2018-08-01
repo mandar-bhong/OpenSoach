@@ -40,7 +40,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return err
 	}
 
-	errPrepareConfig, masterConfigSetting := pcmgr.PrepareMasterConfiguration(dbconfig, masterConfigData, gmodels.PRODUCT_TYPE_HKT)
+	errPrepareConfig, masterConfigSetting := pcmgr.PrepareMasterConfiguration(dbconfig, masterConfigData, gmodels.PRODUCT_TYPE_HPFT)
 
 	if errPrepareConfig != nil {
 		fmt.Println("Error occured while fetching configuration data: ", errPrepareConfig.Error())
@@ -78,7 +78,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 	}
 
 	pcmgr.SetLogger(masterConfigSetting)
-	logger.SetModule("HKT.Server")
+	logger.SetModule("HPFT.Server")
 
 	InitProcessor()
 
