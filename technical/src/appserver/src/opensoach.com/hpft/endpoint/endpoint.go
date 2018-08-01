@@ -3,13 +3,13 @@ package endpoint
 import (
 	"fmt"
 
-	"opensoach.com/hkt/endpoint/manager"
+	"opensoach.com/hpft/endpoint/manager"
 	gmodels "opensoach.com/models"
 )
 
 func Init(dbconfig *gmodels.ConfigDB) bool {
 
-	fmt.Println("Starting HKT EndPoint")
+	fmt.Println("Starting HPFT EndPoint")
 
 	initErr := manager.InitilizeModues(dbconfig)
 
