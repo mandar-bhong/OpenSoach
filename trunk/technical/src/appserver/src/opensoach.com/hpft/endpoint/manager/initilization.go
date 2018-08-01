@@ -117,7 +117,7 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 
 	initTaskQueHandler()
 
-	webServerStartErr := pcmgr.HandleEndPoint(8080, EPHandler{})
+	webServerStartErr := pcmgr.HandleEndPoint(8090, EPHandler{})
 
 	return webServerStartErr
 }
