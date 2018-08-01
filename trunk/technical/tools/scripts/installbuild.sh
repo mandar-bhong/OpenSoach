@@ -8,18 +8,19 @@ cd $builddir
 chmod  +777 $builddir/Build/spl 
 
 
-service spl stop
-service splserver stop
-service hkt stop
-
+#service spl stop
+#service splserver stop
+#service hkt stop
+systemctl stop splservice
+systemctl stop splserverservice
+systemctl stop hktservice 
 
 systemctl daemon-reload
 
-
 #this should be remove, currently service spl stop not working hence explicity kill
-killall -9 spl
-killall -9 splserver
-killall -9 hkt
+#killall -9 spl
+#killall -9 splserver
+#killall -9 hkt
 
 tar xvzf Build.tar.gz
 
@@ -54,8 +55,11 @@ fi
 
 
 sleep 5
-service spl start
-service splserver start
+#service spl start
+#service splserver start
+#service hkt start
 
-service hkt start
+systemctl start splservice
+systemctl start splserverservice
+systemctl start hktservice
 
