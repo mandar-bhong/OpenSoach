@@ -100,3 +100,8 @@ type DBTopFeedbackFilterDataModel struct {
 	SpId  *int64 `db:"sp_id_fk" json:"spid"`
 	CpmId int64  `db:"cpm_id_fk" json:"cpmid"`
 }
+
+type DBDashBoardPatientDataModel struct {
+	PatientStatus int `db:"status" json:"patientstatus"`
+	Count         int `db:"count" json:"count"`
+}

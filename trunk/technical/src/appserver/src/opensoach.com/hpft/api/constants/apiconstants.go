@@ -69,7 +69,11 @@ const API_DASHBOARD_COMPLAINTS_PER_MONTH = API_BASE_URL + "/v1/dashboard/complai
 const API_DASHBOARD_TOP_COMPLAINTS = API_BASE_URL + "/v1/dashboard/topcomplaints"
 const API_DASHBOARD_TASK_PER_MONTH = API_BASE_URL + "/v1/dashboard/task/permonth"
 const API_DASHBOARD_TOP_FEEDBACKS = API_BASE_URL + "/v1/dashboard/topfeedbacks"
+const API_DASHBOARD_PATIENT_SUMMARY = API_BASE_URL + "/v1/dashboard/patient/summary"
 
 const API_FEEDBACK_LIST = API_BASE_URL + "/v1/feedback/list"
 
 const API_PATIENT_ADD = API_BASE_URL + "/v1/patient/add"
+const API_PATIENT_LIST = API_BASE_URL + "/v1/patient/list"
+const API_PATIENT_UPDATE = API_BASE_URL + "/v1/patient/update"
+const API_PATIENT_UPDATE_STATUS = API_BASE_URL + "/v1/patient/update/status"
