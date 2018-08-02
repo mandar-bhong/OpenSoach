@@ -1,14 +1,20 @@
 package com.opensoach.hpft.Views.Fragment;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.opensoach.hpft.R;
+import com.opensoach.hpft.ViewModels.MedicalDetailsViewModel;
+import com.opensoach.hpft.ViewModels.PatientDetailsViewModel;
+import com.opensoach.hpft.databinding.FragmentMedicalDetailsBinding;
+import com.opensoach.hpft.databinding.FragmentPatientDetailsBinding;
 
 
 /**
@@ -28,6 +34,8 @@ public class MedicalDetailsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public MedicalDetailsViewModel DataContext;
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,7 +74,18 @@ public class MedicalDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_medical_details, container, false);
+
+        LinearLayout ll = new LinearLayout(DataContext.ContextActivity);
+        FragmentMedicalDetailsBinding medicalViewBinding = DataBindingUtil.inflate(DataContext.ContextActivity.getLayoutInflater(),
+                R.layout.fragment_medical_details,ll,true);
+
+        medicalViewBinding.setVM(DataContext);
+
+        View view = medicalViewBinding.getRoot();
+        return view;
+
+
+        //return inflater.inflate(R.layout.fragment_medical_details, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

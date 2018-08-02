@@ -1,14 +1,24 @@
 package com.opensoach.hpft.Views.Fragment;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.opensoach.hpft.R;
+import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
+import com.opensoach.hpft.ViewModels.TaskDataViewModel;
+import com.opensoach.hpft.databinding.FragmentTaskListBinding;
+
+import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
 
 /**
@@ -25,9 +35,15 @@ public class TaskListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private TaskDataViewModel dataViewModel;
+
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public TaskDetailsViewModel DataContext;
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,13 +76,21 @@ public class TaskListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task_list, container, false);
+
+        View view = bind(container);
+
+        initRecyclerView(view);
+
+        return view;
+
+        //return inflater.inflate(R.layout.fragment_task_list, container, false);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -85,6 +109,8 @@ public class TaskListFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+
     }
 
     @Override
@@ -106,5 +132,22 @@ public class TaskListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    private View bind(ViewGroup container) {
+
+        LinearLayout ll = new LinearLayout(DataContext.ContextActivity);
+        FragmentTaskListBinding binding = DataBindingUtil.inflate(DataContext.ContextActivity.getLayoutInflater(),
+                R.layout.fragment_task_list,ll,true);
+
+        binding.setViewModel(DataContext.getDataViewModel());
+        return binding.getRoot();
+    }
+
+    private void initRecyclerView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.data_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), VERTICAL));
     }
 }

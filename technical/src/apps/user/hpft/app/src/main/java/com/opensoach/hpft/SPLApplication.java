@@ -3,6 +3,7 @@ package com.opensoach.hpft;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ import com.opensoach.hpft.Scheduler.ScheduleManager;
 import com.opensoach.hpft.Views.ChartActivity;
 import com.opensoach.hpft.Views.TimeChangeListner;
 import com.opensoach.hpft.Views.UpdateChartListner;
+import com.opensoach.hpft.Views.DataBinding.AppDataBindingComponent;
 
 /**
  * Created by Samir Bukkawar  on 15-Feb-17.
@@ -44,6 +46,8 @@ public class SPLApplication extends Application {
         AppHelper.Init(mContext);
         AppHelper.ExecuteStartUpProcess();
         (new ScheduleManager()).startScheduler(this, 1, 30, 1);
+
+        DataBindingUtil.setDefaultComponent(new AppDataBindingComponent());
     }
 
     public void registerListner(UpdateChartListner listner, Activity activity) {

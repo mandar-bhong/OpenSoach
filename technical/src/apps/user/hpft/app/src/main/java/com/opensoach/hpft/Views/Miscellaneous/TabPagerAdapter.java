@@ -18,9 +18,13 @@ import com.opensoach.hpft.Views.Activity.CardListActivity;
 import com.opensoach.hpft.Views.ClickHandler.CardItemClickHandler;
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
+import com.opensoach.hpft.Views.Fragment.TaskDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.TaskListFragment;
 import com.opensoach.hpft.Views.Notifier.NotifyPropChangeOnUIThread;
 import com.opensoach.hpft.databinding.FragmentPatientDetailsBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mandar on 31-07-2018.
@@ -30,6 +34,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
     int mNumOfTabs;
     private CardBriefViewModel cardBrief;
+    private final List<Fragment> mFragmentList = new ArrayList<>();
 
 
     public TabPagerAdapter(FragmentManager fm, int NumOfTabs,
@@ -49,10 +54,17 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 return patientDetailsFragment;
             case 1:
                 MedicalDetailsFragment medicalDetailsFragment = new MedicalDetailsFragment();
+                medicalDetailsFragment.DataContext = cardBrief.getMedicalDetails();
                 return medicalDetailsFragment;
             case 2:
                 TaskListFragment taskListFragment = new TaskListFragment();
+                taskListFragment.DataContext = cardBrief.getTaskDetails();
                 return taskListFragment;
+//
+//                TaskDetailsFragment taskListFragment = new TaskDetailsFragment();
+//                taskListFragment.DataContext = cardBrief.getTaskDetails();
+//                return taskListFragment;
+
             default:
                 return null;
         }
@@ -63,4 +75,9 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         return mNumOfTabs;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        // refresh all fragments when data set changed
+        return TabPagerAdapter.POSITION_NONE;
+    }
 }

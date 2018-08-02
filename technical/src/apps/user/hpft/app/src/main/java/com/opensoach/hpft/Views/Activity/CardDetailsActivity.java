@@ -16,13 +16,15 @@ import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
+import com.opensoach.hpft.Views.Fragment.TaskDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.TaskListFragment;
 import com.opensoach.hpft.Views.Miscellaneous.TabPagerAdapter;
 
 public class CardDetailsActivity extends AppCompatActivity
         implements PatientDetailsFragment.OnFragmentInteractionListener,
         MedicalDetailsFragment.OnFragmentInteractionListener,
-        TaskListFragment.OnFragmentInteractionListener{
+        TaskListFragment.OnFragmentInteractionListener,
+        TaskDetailsFragment.OnFragmentInteractionListener{
 
 
     @Override
@@ -43,6 +45,7 @@ public class CardDetailsActivity extends AppCompatActivity
                 AppRepo.getInstance().getActiveCard());
 
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
