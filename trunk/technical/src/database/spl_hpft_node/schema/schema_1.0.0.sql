@@ -24,20 +24,6 @@ CREATE TABLE `spl_node_cpm_tbl` (
   PRIMARY KEY (`cpm_id_fk`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: cpm';
 
---
--- Table structure for table `spl_hpft_patient_master_tbl`
---
-
-CREATE TABLE `spl_hpft_patient_master_tbl` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
-	`patient_details` JSON NOT NULL,
-	`medical_details` JSON NOT NULL,
-	`patient_file_template` JSON NOT NULL,
-	PRIMARY KEY (`id`),
-	INDEX `fk_patient_cpm` (`cpm_id_fk`),
-	CONSTRAINT `fk_patient_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
-)   ENGINE=InnoDB COMMENT='Short Name for Table: patient';
 
 --
 -- Table structure for table `spl_node_sp_category_tbl`
@@ -312,3 +298,28 @@ CREATE TABLE `spl_node_dev_status_tbl` (
 	PRIMARY KEY (`dev_id_fk`),
 	CONSTRAINT `fk_devstate_dev` FOREIGN KEY (`dev_id_fk`) REFERENCES `spl_node_dev_tbl` (`dev_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='Short Name for Table: devstate';
+
+
+--
+-- Table structure for table `spl_hpft_patient_master_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_master_tbl` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_details` JSON NOT NULL,
+	`medical_details` JSON NOT NULL,
+	`patient_file_template` INT(11) UNSIGNED NOT NULL,
+	`sp_id_fk` INT(11) UNSIGNED NOT NULL,
+	`serv_in_id_fk` INT(11) UNSIGNED NOT NULL,
+	`status` TINYINT(3) UNSIGNED NOT NULL COMMENT '1: Admitted, 2: Discharged',
+	PRIMARY KEY (`id`),
+	INDEX `fk_patient_cpm` (`cpm_id_fk`),
+	INDEX `fk_patient_serf_conf` (`patient_file_template`),
+	INDEX `fk_patient_sp` (`sp_id_fk`),
+	INDEX `fk_patient_serv_in` (`serv_in_id_fk`),
+	CONSTRAINT `fk_patient_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_patient_serv_conf` FOREIGN KEY (`patient_file_template`) REFERENCES `spl_node_service_conf_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_patient_serv_in` FOREIGN KEY (`serv_in_id_fk`) REFERENCES `spl_node_service_instance_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_patient_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)   ENGINE=InnoDB COMMENT='Short Name for Table: patient';
