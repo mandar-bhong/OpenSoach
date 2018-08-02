@@ -14,12 +14,12 @@ var (
 )
 
 type repo struct {
-	Config  *gmodels.ConfigSettings
+	Config  *gmodels.SPLConfigSettings
 	Context *core.Context
 	TaskQue *taskqueue.TaskContext // Producer Task context
 }
 
-func Init(config *gmodels.ConfigSettings, ctx *core.Context) {
+func Init(config *gmodels.SPLConfigSettings, ctx *core.Context) {
 	once.Do(func() {
 		r = &repo{
 			Config:  config,

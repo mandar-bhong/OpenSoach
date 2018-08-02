@@ -13,6 +13,11 @@ type ConfigSettings struct {
 	EmailConfig     *ConfigEmail        `json:"emailconfig"`
 }
 
+type SPLConfigSettings struct {
+	ConfigSettings
+	SPLProdMstDBConfig map[string]*ConfigDB `json:"splproductmasterdbconfig"`
+}
+
 type ConfigDB struct {
 	ConnectionString string `json:"connectionstring"`
 	DBDriver         string `json:"driver"`

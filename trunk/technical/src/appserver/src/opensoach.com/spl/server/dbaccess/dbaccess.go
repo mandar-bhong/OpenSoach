@@ -93,3 +93,20 @@ func GetUserName(dbConn string, userid int64) (error, string) {
 	}
 	return nil, data
 }
+
+func GetProdCodeByProdID(dbConn string, prodID int64) (error, string) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetProdCodeByProdID")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := ""
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_PROD_CODE_BY_PROD_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = &data
+	selErr := selDBCtx.Get(prodID)
+	if selErr != nil {
+		return selErr, ""
+	}
+	return nil, data
+}
