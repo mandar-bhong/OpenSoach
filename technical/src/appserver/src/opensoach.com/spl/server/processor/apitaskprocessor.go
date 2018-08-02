@@ -21,48 +21,63 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 
 	result := lmodels.APITaskResultModel{}
 
-	dbErr, spcmasterdata := dbaccess.GetDBHktMasterSpCategory(repo.Instance().Context.ProdMst.DBConn)
-
-	if dbErr != nil {
-		logger.Context().WithField("Task Data", taskData).
-			WithField("TaskToken", tasktoken).
-			WithField("DBConn", repo.Instance().Context.ProdMst.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
-
-		errModel := lmodels.APITaskResultErrorDataModel{}
-		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
-
-		result.IsSuccess = false
-		result.ErrorData = errModel
-
-		return dbErr, result
-	}
-
-	dbErr, tasklibmasterdata := dbaccess.GetDBHktMasterTaskLib(repo.Instance().Context.ProdMst.DBConn)
-
-	if dbErr != nil {
-		logger.Context().WithField("Task Data", taskData).
-			WithField("TaskToken", tasktoken).
-			WithField("DBConn", repo.Instance().Context.ProdMst.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get task lib.", dbErr)
-
-		errModel := lmodels.APITaskResultErrorDataModel{}
-		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
-
-		result.IsSuccess = false
-		result.ErrorData = errModel
-
-		return dbErr, result
-	}
-
 	taskAPICustProdAssociatedModel := taskData.(*gmodels.TaskAPICustProdAssociatedModel)
 
-	err, dbConn := dbaccess.GetDBConnectionByID(repo.Instance().Context.Master.DBConn, taskAPICustProdAssociatedModel.DbiId)
+	err, prodCode := dbaccess.GetProdCodeByProdID(repo.Instance().Context.Master.DBConn, taskAPICustProdAssociatedModel.ProdId)
 
 	if err != nil {
 		//Error need to retry
 		logger.Context().WithField("Task Data", taskData).
 			WithField("TaskToken", tasktoken).
 			WithField("DBConn", repo.Instance().Context.Master.DBConn).
-			WithField("TaskExecData", taskAPICustProdAssociatedModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", err)
+			WithField("TaskExecData", taskAPICustProdAssociatedModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get prode code.", err)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+	}
+
+	prodMstDBConn, ok := repo.Instance().Config.SPLProdMstDBConfig[prodCode]
+	if ok == false {
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", repo.Instance().Context.Master.DBConn).
+			WithField("TaskExecData", taskAPICustProdAssociatedModel).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get prode code.", err)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return err, result
+	}
+
+	dbErr, spcmasterdata := dbaccess.GetDBHktMasterSpCategory(prodMstDBConn.ConnectionString)
+
+	if dbErr != nil {
+		logger.Context().WithField("Task Data", taskData).
+			WithField("TaskToken", tasktoken).
+			WithField("DBConn", prodMstDBConn.ConnectionString).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+
+		return dbErr, result
+
+	}
+
+	err, dbConn := dbaccess.GetDBConnectionByID(repo.Instance().Context.Master.DBConn, taskAPICustProdAssociatedModel.DbiId)
+
+	if err != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get prod mst connection string ", err)
 
 		errModel := lmodels.APITaskResultErrorDataModel{}
 		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
@@ -145,33 +160,53 @@ func APIHandlerCustProdAssociated(msg string, sessionkey string,
 		}
 	}
 
-	for _, tasklibmasteritem := range *tasklibmasterdata {
+	if prodCode == "SPL_HKT" {
 
-		dbInstanceTaskLibInsertModel := &lmodels.APITaskDBInstanceTaskLibInsertModel{}
-		dbInstanceTaskLibInsertModel.CpmId = taskAPICustProdAssociatedModel.CpmId
-		dbInstanceTaskLibInsertModel.SpcId = tasklibmasteritem.SpcId
-		dbInstanceTaskLibInsertModel.TaskName = tasklibmasteritem.TaskName
-		dbInstanceTaskLibInsertModel.ShortDesc = tasklibmasteritem.ShortDesc
-
-		dbErr, _ := dbaccess.UpdateTaskLibToInstanceDB(tx, dbInstanceTaskLibInsertModel)
+		dbErr, tasklibmasterdata := dbaccess.GetDBHktMasterTaskLib(prodMstDBConn.ConnectionString)
 
 		if dbErr != nil {
-
-			isDBOpSuccess = false
-
-			txErr := tx.Rollback()
-
-			if txErr != nil {
-				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
-			}
-
 			logger.Context().WithField("Task Data", taskData).
 				WithField("TaskToken", tasktoken).
-				WithField("DBConn", repo.Instance().Context.Master.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
-			isDBOpSuccess = false
+				WithField("DBConn", prodMstDBConn.ConnectionString).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get task lib.", dbErr)
 
-			break
+			errModel := lmodels.APITaskResultErrorDataModel{}
+			errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+			result.IsSuccess = false
+			result.ErrorData = errModel
+
+			return dbErr, result
 		}
+
+		for _, tasklibmasteritem := range *tasklibmasterdata {
+
+			dbInstanceTaskLibInsertModel := &lmodels.APITaskDBInstanceTaskLibInsertModel{}
+			dbInstanceTaskLibInsertModel.CpmId = taskAPICustProdAssociatedModel.CpmId
+			dbInstanceTaskLibInsertModel.SpcId = tasklibmasteritem.SpcId
+			dbInstanceTaskLibInsertModel.TaskName = tasklibmasteritem.TaskName
+			dbInstanceTaskLibInsertModel.ShortDesc = tasklibmasteritem.ShortDesc
+
+			dbErr, _ := dbaccess.UpdateTaskLibToInstanceDB(tx, dbInstanceTaskLibInsertModel)
+
+			if dbErr != nil {
+
+				isDBOpSuccess = false
+
+				txErr := tx.Rollback()
+
+				if txErr != nil {
+					logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+				}
+
+				logger.Context().WithField("Task Data", taskData).
+					WithField("TaskToken", tasktoken).
+					WithField("DBConn", repo.Instance().Context.Master.DBConn).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get instance dbconn.", dbErr)
+				isDBOpSuccess = false
+
+				break
+			}
+		}
+
 	}
 
 	if isDBOpSuccess {

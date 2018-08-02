@@ -10,6 +10,7 @@ import (
 	"opensoach.com/core/logger"
 	taskque "opensoach.com/core/manager/taskqueue"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmgr "opensoach.com/prodcore/manager"
 	repo "opensoach.com/spl/server/repository"
@@ -38,6 +39,9 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return err
 	}
 
+	splMasterConfigSetting := PrepareSPLProdMasterConfiguration(masterConfigData)
+	splMasterConfigSetting.ConfigSettings = *masterConfigSetting
+
 	verifyErr, moduleType := pcmgr.VerifyConnection(dbconfig, masterConfigSetting)
 
 	if verifyErr != nil {
@@ -52,7 +56,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		}
 	}
 
-	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)
+	setGlobalErr := SetGlobal(dbconfig, splMasterConfigSetting)
 
 	if setGlobalErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while setting global values.", setGlobalErr)
@@ -64,11 +68,11 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 	return nil
 }
 
-func SetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings) error {
+func SetGlobal(dbconfig *gmodels.ConfigDB, splconfigSetting *gmodels.SPLConfigSettings) error {
 
-	ghelper.BaseDir = configSetting.ServerConfig.BaseDir
+	ghelper.BaseDir = splconfigSetting.ConfigSettings.ServerConfig.BaseDir
 
-	isJsonConvMstCacheSuccess, jsonMstCacheRedisAddress := ghelper.ConvertToJSON(configSetting.MasterCache)
+	isJsonConvMstCacheSuccess, jsonMstCacheRedisAddress := ghelper.ConvertToJSON(splconfigSetting.ConfigSettings.MasterCache)
 
 	if isJsonConvMstCacheSuccess == false {
 		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while converting ConfigCacheAddress structure to JSON")
@@ -76,11 +80,11 @@ func SetGlobal(dbconfig *gmodels.ConfigDB, configSetting *gmodels.ConfigSettings
 	}
 
 	ctx := &core.Context{}
-	ctx.Master.DBConn = configSetting.DBConfig.ConnectionString
+	ctx.Master.DBConn = splconfigSetting.ConfigSettings.DBConfig.ConnectionString
 	ctx.Master.Cache.CacheAddress = jsonMstCacheRedisAddress
-	ctx.ProdMst.DBConn = configSetting.ProdMstDBConfig.ConnectionString
+	// ctx.ProdMst.DBConn = splconfigSetting.SPLProdMstDBConfig
 
-	repo.Init(configSetting, ctx)
+	repo.Init(splconfigSetting, ctx)
 
 	return nil
 }
@@ -116,4 +120,32 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	mstTaskCtx.StartWorker(gmodels.SPL_TASK_QUEUE)
 
 	return nil
+}
+
+func PrepareSPLProdMasterConfiguration(configData *[]gmodels.DBMasterConfigRowModel) *gmodels.SPLConfigSettings {
+
+	splglobalConfiguration := &gmodels.SPLConfigSettings{}
+	prodMstDBConfig := &gmodels.ConfigDB{}
+	splglobalConfiguration.SPLProdMstDBConfig = make(map[string]*gmodels.ConfigDB)
+
+	for _, dbRow := range *configData {
+
+		switch dbRow.ConfigKey {
+		case pcconst.DB_CONFIG_HKT_MASTER_DB_CONNECTION:
+			prodMstDBConfig.ConnectionString = dbRow.ConfigValue
+			prodMstDBConfig.DBDriver = "mysql"
+			splglobalConfiguration.SPLProdMstDBConfig["SPL_HKT"] = prodMstDBConfig
+			break
+
+		case pcconst.DB_CONFIG_HPFT_MASTER_DB_CONNECTION:
+			prodMstDBConfig.ConnectionString = dbRow.ConfigValue
+			prodMstDBConfig.DBDriver = "mysql"
+			splglobalConfiguration.SPLProdMstDBConfig["SPL_HPFT"] = prodMstDBConfig
+
+			break
+
+		}
+	}
+
+	return splglobalConfiguration
 }

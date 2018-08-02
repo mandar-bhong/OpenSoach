@@ -15,3 +15,5 @@ const QUERY_SELECT_EMAIL_TML_BY_CODE = `select id,code,subject,body,bcc,maxretry
 const QUERY_UPDATE_EMAIL_EMAIL_STATUS = `update spl_master_email_tbl set status = :status, comment=:comment where id = :id`
 
 const QUERY_GET_USER_USERNAME_BY_ID = `select usr_name from spl_master_user_tbl where id = ?`
+
+const QUERY_GET_PROD_CODE_BY_PROD_ID = "select prod_code from spl_master_product_tbl where id = ?"
