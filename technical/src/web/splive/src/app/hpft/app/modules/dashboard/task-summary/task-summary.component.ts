@@ -17,6 +17,7 @@ export class TaskSummaryComponent implements OnInit {
   constructor(private dashboardService: DashboardService) { }
   onTimeLabel = 'On Time';
   delayedLabel = 'Delayed';
+  missedLabel = 'Missed';
   customColors = [
     {
       name: this.onTimeLabel,
@@ -25,6 +26,10 @@ export class TaskSummaryComponent implements OnInit {
     {
       name: this.delayedLabel,
       value: '#ffc107'
+    },
+    {
+      name: this.missedLabel,
+      value: '#ff5252'
     }
   ];
 
@@ -43,24 +48,27 @@ export class TaskSummaryComponent implements OnInit {
   }
 
   getTaskSummaryTillDate() {
-    this.dashboardService.getTaskSummary().subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.tasksummary.copyFrom(payloadResponse.data);
+    // this.dashboardService.getTaskSummary().subscribe(payloadResponse => {
+    //   if (payloadResponse && payloadResponse.issuccess) {
+        this.tasksummary.copyFrom({ontime:100,delayed:11, missed:2});
         this.generateChartData();
-      }
-    });
+    //   }
+    // });
   }
 
   getTaskSummaryThisMonth() {
-    const dt = new Date();
-    const firstDayofMonth = new Date(dt.getFullYear(), dt.getMonth(), 1);
-    this.dashboardService.getTaskSummary(
-      { spid: undefined, startdate: firstDayofMonth, enddate: dt }).subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.tasksummary.copyFrom(payloadResponse.data);
-          this.generateChartData();
-        }
-      });
+    // const dt = new Date();
+    // const firstDayofMonth = new Date(dt.getFullYear(), dt.getMonth(), 1);
+    // this.dashboardService.getTaskSummary(
+    //   { spid: undefined, startdate: firstDayofMonth, enddate: dt }).subscribe(payloadResponse => {
+    //     if (payloadResponse && payloadResponse.issuccess) {
+    //       this.tasksummary.copyFrom(payloadResponse.data);
+    //       this.generateChartData();
+    //     }
+    //   });
+
+    this.tasksummary.copyFrom({ontime:12,delayed:2, missed:0});
+        this.generateChartData();
   }
 
   generateChartData() {
@@ -72,6 +80,10 @@ export class TaskSummaryComponent implements OnInit {
       {
         name: this.delayedLabel,
         value: this.tasksummary.delayed
+      },
+      {
+        name: this.missedLabel,
+        value: this.tasksummary.missed
       },
     ];
   }

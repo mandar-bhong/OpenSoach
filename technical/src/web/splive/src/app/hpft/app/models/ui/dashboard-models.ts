@@ -113,20 +113,25 @@ export class FeedbackSummaryModel {
 export class TaskSummaryModel {
     ontime: number;
     delayed: number;
+    missed: number;
     ontimepercentage: number;
     delayedpercentage: number;
+    missedpercentage: number;
     total: number;
 
     copyFrom(response: TaskSummaryResponse) {
         this.ontime = response.ontime;
         this.delayed = response.delayed;
+        this.missed = response.missed;
 
-        this.total = this.ontime + this.delayed;
+        this.total = this.ontime + this.delayed+this.missed;
         this.ontimepercentage = 0;
         this.delayedpercentage = 0;
+        this.missedpercentage = 0;
         if (this.total > 0) {
             this.ontimepercentage = (this.ontime / this.total) * 100;
             this.delayedpercentage = (this.delayed / this.total) * 100;
+            this.missedpercentage = (this.missed / this.total) * 100;
         }
     }
 }
