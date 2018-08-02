@@ -1,5 +1,7 @@
 package com.opensoach.hpft.ViewModels;
 
+import android.databinding.Bindable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,13 +10,26 @@ import java.util.List;
  */
 
 public class TaskDetailsViewModel extends BaseViewModel {
-    ArrayList<String> tasks;
 
-    public ArrayList<String> getTasks() {
-        return tasks;
+    private TaskDataViewModel dataViewModel;
+    private String title;
+
+
+@Bindable
+    public TaskDataViewModel getDataViewModel() {
+        return dataViewModel;
     }
 
-    public void setTasks(ArrayList<String> tasks) {
-        this.tasks = tasks;
+    @Bindable
+    public void setDataViewModel(TaskDataViewModel dataViewModel) {
+        this.dataViewModel = dataViewModel;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

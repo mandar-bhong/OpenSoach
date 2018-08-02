@@ -20,6 +20,7 @@ import com.opensoach.hpft.ViewModels.CardListViewModel;
 import com.opensoach.hpft.ViewModels.MainViewModel;
 import com.opensoach.hpft.ViewModels.MedicalDetailsViewModel;
 import com.opensoach.hpft.ViewModels.PatientDetailsViewModel;
+import com.opensoach.hpft.ViewModels.TaskDataViewModel;
 import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
 import com.opensoach.hpft.Views.Fragment.HeaderFragment;
 import com.opensoach.hpft.Views.Interfaces.IFragment;
@@ -137,12 +138,9 @@ public class CardListActivity extends AppCompatActivity
         medicalDetailsViewModel.setTreatment("Treatment-"+index);
 
 
-        ArrayList<String> tasks=new ArrayList<>();
-        tasks.add("Task1");
-        tasks.add("Task2");
-        tasks.add("Task3");
-        tasks.add("Task4");
-        taskDetailsViewModel.setTasks(tasks);
+        taskDetailsViewModel.setDataViewModel(new TaskDataViewModel());
+        taskDetailsViewModel.getDataViewModel().setUp();
+        taskDetailsViewModel.setTitle("This is test for databind ele");
         taskDetailsViewModel.ContextActivity = ctx;
 
         cardBriefViewModel.setPatientDetails(patientDetailsViewModel);

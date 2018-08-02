@@ -1,38 +1,29 @@
 package com.opensoach.hpft.Views.Fragment;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.opensoach.hpft.R;
-import com.opensoach.hpft.ViewModels.BaseViewModel;
-import com.opensoach.hpft.ViewModels.CardBriefViewModel;
-import com.opensoach.hpft.ViewModels.PatientDetailsViewModel;
-import com.opensoach.hpft.databinding.FragmentPatientDetailsBinding;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link PatientDetailsFragment.OnFragmentInteractionListener} interface
+ * {@link TaskItemFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link PatientDetailsFragment#newInstance} factory method to
+ * Use the {@link TaskItemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PatientDetailsFragment extends Fragment {
+public class TaskItemFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-	public PatientDetailsViewModel DataContext;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -40,7 +31,7 @@ public class PatientDetailsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public PatientDetailsFragment() {
+    public TaskItemFragment() {
         // Required empty public constructor
     }
 
@@ -50,11 +41,11 @@ public class PatientDetailsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PatientDetailsFragment.
+     * @return A new instance of fragment TaskItemFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PatientDetailsFragment newInstance(String param1, String param2) {
-        PatientDetailsFragment fragment = new PatientDetailsFragment();
+    public static TaskItemFragment newInstance(String param1, String param2) {
+        TaskItemFragment fragment = new TaskItemFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,17 +66,7 @@ public class PatientDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
-        LinearLayout ll = new LinearLayout(DataContext.ContextActivity);
-        FragmentPatientDetailsBinding patientViewBinding = DataBindingUtil.inflate(DataContext.ContextActivity.getLayoutInflater(),
-                R.layout.fragment_patient_details,ll,true);
-
-        patientViewBinding.setVM(DataContext);
-
-        View view = patientViewBinding.getRoot();
-        return view;
-
+        return inflater.inflate(R.layout.fragment_task_item, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
