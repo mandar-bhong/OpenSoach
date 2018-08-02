@@ -53,15 +53,15 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="fopcode">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Operator Code</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-cell-responsive-label">Operator Code</span>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">{{'OperatorListColumOperatorCode' | translate}}</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
+              <span class="mat-cell-responsive-label">{{'OperatorListColumOperatorCode' | translate}}</span>
               <span class="ellipsis mat-cell-text"> {{row.fopcode}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="foparea">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Area</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 10%;">Area</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
               <span class="mat-cell-responsive-label">Area</span>
               <span class="ellipsis mat-cell-text"> {{prodOperatorService.getOperatorArea(row.foparea) | translate}}</span>
             </mat-cell>

@@ -46,14 +46,19 @@ const routes: Routes = [
         loadChildren: './modules/operators/operators.module#OperatorsModule',
         data: { preload: false }
       },
-      {
-        path: 'complaints',
-        loadChildren: './modules/complaints/complaints.module#ComplaintsModule',
-        data: { preload: false }
-      },
+      // {
+      //   path: 'complaints',
+      //   loadChildren: './modules/complaints/complaints.module#ComplaintsModule',
+      //   data: { preload: false }
+      // },
       {
         path: 'reports',
         loadChildren: './modules/report/report.module#ReportModule',
+        data: { preload: false }
+      },
+      {
+        path: 'patients',
+        loadChildren: './modules/patients/patients.module#PatientsModule',
         data: { preload: false }
       }
     ]

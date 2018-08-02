@@ -365,7 +365,14 @@ export const TRANSLATIONS: TranslationValue[] = [
   {
     key: 'OperatorListColumOperatorName',
     en: 'Operator Name'
+  },
+  {
+    key: 'OperatorListColumOperatorCode',
+    en: 'Operator Code'
+  },
+  {
+    key: 'OperatorAssociateLableName',
+    en: 'Select a service point to associate'
   }
-
 ];
 
