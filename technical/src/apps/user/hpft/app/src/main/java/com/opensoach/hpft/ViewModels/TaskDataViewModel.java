@@ -66,7 +66,7 @@ public class TaskDataViewModel extends BaseObservable {
 
     private void populateData() {
         // populate the data from the source, such as the database.
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 15; i++) {
             TaskItemDataModel dataModel = new TaskItemDataModel();
             dataModel.setTitle(String.valueOf(i));
             data.add(dataModel);
