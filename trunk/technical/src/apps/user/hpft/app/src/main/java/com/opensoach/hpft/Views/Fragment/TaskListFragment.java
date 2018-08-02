@@ -141,7 +141,7 @@ public class TaskListFragment extends Fragment {
         FragmentTaskListBinding binding = DataBindingUtil.inflate(DataContext.ContextActivity.getLayoutInflater(),
                 R.layout.fragment_task_list,ll,true);
 
-        binding.setViewModel(DataContext.getDataViewModel());
+        binding.setVM(DataContext.getDataViewModel());
         return binding.getRoot();
     }
 
