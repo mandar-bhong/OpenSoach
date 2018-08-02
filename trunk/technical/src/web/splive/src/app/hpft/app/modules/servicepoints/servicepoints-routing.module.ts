@@ -7,16 +7,19 @@ import {
 import {
   ServicepointServiceAssociateComponent,
 } from '../../../../prod-shared/modules/servicepoints/servicepoint-service-associate/servicepoint-service-associate.component';
+// import { WordServiceAssociateComponent } from '../wards/word-service-associate/word-service-associate.component';
+import { WordListComponent } from '../wards/word-list/word-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ServicepointListComponent
-  },
-  {
-    path: 'service-associate',
-    component: ServicepointServiceAssociateComponent
-  },
+    component: WordListComponent
+  }
+  // ,
+  // {
+  //   path: 'service-associate',
+  //   component: WordServiceAssociateComponent
+  // },
 
 ];
 

@@ -16,8 +16,8 @@ export const APP_ROUTES: RoutingModel[] = [
     },
     {
         url: '/servicepoints',
-        linktitle: 'Service Points',
-        pagetitle: 'Service Points',
+        linktitle: 'Wards',
+        pagetitle: 'Wards',
         linkiconcss: 'fa fa-map-marker'
     },
     {
@@ -26,28 +26,28 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Configure Chart',
         linkiconcss: 'fa fa-users'
     },
-    {
-        url: '/charts',
-        linktitle: 'Charts',
-        pagetitle: 'Charts',
-        linkiconcss: 'fa fa-table'
-    },
-    {
-        url: '/charts/configure',
-        linktitle: 'Chart Configuration',
-        pagetitle: 'Configure Chart',
-        linkiconcss: 'fa fa-table'
-    },
-    {
-        url: 'charts/templatelist',
-        linktitle: 'Templates',
-        pagetitle: 'Chart Templates',
-        linkiconcss: 'fa fa-table'
-    },
+    // {
+    //     url: '/charts',
+    //     linktitle: 'Patients',
+    //     pagetitle: 'Patients',
+    //     linkiconcss: 'fa fa-table'
+    // },
+    // {
+    //     url: '/charts/configure',
+    //     linktitle: 'Chart Configuration',
+    //     pagetitle: 'Configure Chart',
+    //     linkiconcss: 'fa fa-table'
+    // },
+    // {
+    //     url: 'charts/templatelist',
+    //     linktitle: 'Templates',
+    //     pagetitle: 'Chart Templates',
+    //     linkiconcss: 'fa fa-table'
+    // },
     {
         url: '/foperators',
-        linktitle: 'Operators',
-        pagetitle: 'Operators',
+        linktitle: 'Medical Attendant',
+        pagetitle: 'Medical Attendant',
         linkiconcss: 'fa fa-meh-o'
     },
     {
@@ -68,18 +68,18 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Operator Associate',
         linkiconcss: 'fa fa-meh-o'
     },
-    {
-        url: '/complaints',
-        linktitle: 'Complaints',
-        pagetitle: 'Complaints',
-        linkiconcss: 'fa fa-flag'
-    },
-    {
-        url: '/complaints/detail',
-        linktitle: 'Details',
-        pagetitle: 'Complaint Details',
-        linkiconcss: 'fa fa-meh-o'
-    },
+    // {
+    //     url: '/complaints',
+    //     linktitle: 'Complaints',
+    //     pagetitle: 'Complaints',
+    //     linkiconcss: 'fa fa-flag'
+    // },
+    // {
+    //     url: '/complaints/detail',
+    //     linktitle: 'Details',
+    //     pagetitle: 'Complaint Details',
+    //     linkiconcss: 'fa fa-meh-o'
+    // },
     {
         url: '/reports',
         linktitle: 'Reports',
@@ -110,15 +110,22 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Change Password',
         linkiconcss: 'fa fa-users'
     },
+    {
+        url: '/patients',
+        linktitle: 'Patients',
+        pagetitle: 'Patients',
+        linkiconcss: 'fa fa-users'
+    },
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
     { url: '/dashboard', level: 0, routingModel: null },
     { url: '/devices', level: 0, routingModel: null },
     { url: '/servicepoints', level: 0, routingModel: null },
-    { url: '/charts', level: 0, routingModel: null },
+    // { url: '/charts', level: 0, routingModel: null },
+     { url: '/patients', level: 0, routingModel: null },
     { url: '/foperators', level: 0, routingModel: null },
-    { url: '/complaints', level: 0, routingModel: null },
+    // { url: '/complaints', level: 0, routingModel: null },
     { url: '/reports', level: 0, routingModel: null },
     { url: '/users', level: 0, routingModel: null }
 ];
@@ -142,5 +149,8 @@ export const APP_LOCAL_STORAGE_KEYS: string[] = [
 export enum SERVICE_CONF_TYPE {
     SERVICE_DAILY_CHART = 'SERVICE_DAILY_CHART'
 }
-
+export enum PATIENT_STATE {
+    ADMITTED = 1,
+    DISCHARGED = 2
+}
 
