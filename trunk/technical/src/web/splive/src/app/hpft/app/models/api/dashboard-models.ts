@@ -45,6 +45,7 @@ export class TaskSummaryRequest {
 export class TaskSummaryResponse {
     ontime: number;
     delayed: number;
+    missed: number;
 }
 
 export class FeedbackTrendRequest {

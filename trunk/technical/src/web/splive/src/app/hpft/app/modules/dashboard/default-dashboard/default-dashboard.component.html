@@ -37,7 +37,7 @@
   <div class="col-sm-6 col-md-3">
     <div class="card statustic-card">
       <div class="card-header borderless">
-        <h5>Service Points</h5>
+        <h5>Wards</h5>
       </div>
       <div class="card-block text-center">
         <span class="d-block text-c-blue f-36">{{spsummary.total}}</span>
@@ -54,16 +54,16 @@
   <div class="col-sm-6 col-md-3">
     <div class="card statustic-card">
       <div class="card-header borderless">
-        <h5>Complaints</h5>
+        <h5>Patients</h5>
       </div>
       <div class="card-block text-center">
         <span class="d-block text-c-blue f-36">{{complaintsummary.total}}</span>
         <p class="m-b-0">Total</p>
         <div class="progress">
-          <div class="progress-bar" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'" [ngStyle]="{'width.%': complaintsummary.activepercentage}"></div>
+          <div class="progress-bar bg-c-blue" [ngClass]="bg-c-blue" [ngStyle]="{'width.%': complaintsummary.activepercentage}"></div>
         </div>
       </div>
-      <div class="card-footer" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'">
+      <div class="card-footer bg-c-blue">
         <h6 class="text-white m-b-0">Active: {{complaintsummary.active}}</h6>
       </div>
     </div>
@@ -75,21 +75,5 @@
   </div>
   <div class="col-sm-12 col-md-6">
     <app-task-trend></app-task-trend>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-12 col-md-6">
-    <app-feedback-summary></app-feedback-summary>
-  </div>
-  <div class="col-sm-12 col-md-6">
-    <app-feedback-trend></app-feedback-trend>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-12 col-md-6">
-    <app-complaint-summary></app-complaint-summary>
-  </div>
-  <div class="col-sm-12 col-md-6">
-    <app-complaint-trend></app-complaint-trend>
   </div>
 </div>

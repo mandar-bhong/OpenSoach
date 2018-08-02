@@ -17,7 +17,9 @@ export class DefaultDashboardComponent implements OnInit {
   ngOnInit() {
     this.getDeviceSummary();
     this.getServicePointSummary();
-    this.getComplaintSummary();
+    this.complaintsummary.active=10;
+    this.complaintsummary.activepercentage=10;
+    this.complaintsummary.total=100;
   }
 
   getDeviceSummary() {
@@ -34,13 +36,5 @@ export class DefaultDashboardComponent implements OnInit {
         this.spsummary.copyFrom(payloadResponse.data);
       }
     });
-  }
-
-  getComplaintSummary() {
-    this.dashboardService.getComplaintSummary().subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.complaintsummary.copyFrom(payloadResponse.data);
-      }
-    });
-  }
+  } 
 }
