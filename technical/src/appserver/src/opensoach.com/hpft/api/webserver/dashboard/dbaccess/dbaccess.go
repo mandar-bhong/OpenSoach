@@ -349,3 +349,30 @@ func SelectTopFeedbacks(dbConn string, filtermodel hktmodels.DBTopFeedbackFilter
 	}
 	return nil, data
 }
+
+func GetPatientSummary(dbConn string, req lmodels.APIDashboardPatientFilterModel) (error, []hktmodels.DBDashBoardPatientDataModel) {
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientSummary")
+	data := []hktmodels.DBDashBoardPatientDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(req)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_SPL_NODE_DASHBOARD_PATIENT_SUMMARY, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().WithField("Query", query).LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution query")
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}

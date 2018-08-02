@@ -298,3 +298,36 @@ func (service DashboardService) TopFeedbacks(req lmodels.APITopFeedbacksRequest)
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched top feedbacks")
 	return true, dataList
 }
+
+func (service DashboardService) GetPatientSummary(req lmodels.APIDashboardPatientFilterModel) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution patient summary")
+
+	req.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, data := dbaccess.GetPatientSummary(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured getting patient summary.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	apiResponse := lmodels.APIDashboardPatientResponse{}
+
+	for _, dbSummaryDataModel := range data {
+
+		switch dbSummaryDataModel.PatientStatus {
+		case hktconst.DB_PATIENT_STATUS_ADMITTED:
+			apiResponse.Admitted = dbSummaryDataModel.Count
+		case hktconst.DB_PATIENT_STATUS_DISCHARGED:
+			apiResponse.Discharged = dbSummaryDataModel.Count
+		}
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient summary")
+	return true, apiResponse
+
+}

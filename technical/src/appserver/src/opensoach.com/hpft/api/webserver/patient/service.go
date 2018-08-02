@@ -16,16 +16,63 @@ type PatientService struct {
 
 func (service PatientService) Add(req lmodels.APIPatientAddRequest) (isSuccess bool, successErrorData interface{}) {
 
+	dbServiceInstanceInsertRowModel := &hktmodels.DBServiceInstanceInsertRowModel{}
+	dbServiceInstanceInsertRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbServiceInstanceInsertRowModel.ServConfId = req.PatientFileTemplateID
+	dbServiceInstanceInsertRowModel.SpId = req.SpId
+
+	dbTxErr, tx := dbaccess.GetDBTransaction(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, insertedServInId := dbaccess.ServiceInstanceInsert(tx, dbServiceInstanceInsertRowModel)
+	if dbErr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding service instance data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
 	dbRowModel := &hktmodels.DBPatientInsertRowModel{}
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	dbRowModel.MedicalDetails = req.MedicalDetails
 	dbRowModel.PatientDetails = req.PatientDetails
-	dbRowModel.PatientFileTemplate = req.PatientFileTemplate
+	dbRowModel.PatientFileTemplateID = req.PatientFileTemplateID
+	dbRowModel.SpId = req.SpId
+	dbRowModel.ServInId = insertedServInId
+	dbRowModel.Status = req.Status
 
-	dbErr, insertedId := dbaccess.Insert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
+	dbErr, insertedId := dbaccess.Insert(tx, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		txErr := tx.Rollback()
 
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding new patient.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
@@ -37,4 +84,75 @@ func (service PatientService) Add(req lmodels.APIPatientAddRequest) (isSuccess b
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "New patient added succesfully")
 
 	return true, addResponse
+}
+
+func (service PatientService) GetPatientList() (bool, interface{}) {
+
+	cpmID := service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, listData := dbaccess.GetPatientList(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient data list.")
+
+	return true, listData
+
+}
+
+func (service PatientService) Update(reqData *hktmodels.DBPatientUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient data updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) UpdateStatus(reqData *hktmodels.DBPatientUpdateStatusRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, affectedRow := dbaccess.UpdatePatientStatus(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "patient status updated successfully.")
+
+	return true, nil
 }

@@ -96,3 +96,13 @@ type APITopFeedbacksRequest struct {
 	SpID          *int64 `json:"spid"`
 	NoOfFeedbacks int    `json:"nooffeedbacks"`
 }
+
+type APIDashboardPatientFilterModel struct { //Parameter mapping is done from client side
+	CpmId int64 `db:"cpm_id_fk"`
+	SPId  *int  `db:"sp_id_fk"  json:"spid"`
+}
+
+type APIDashboardPatientResponse struct {
+	Admitted   int `json:"admitted"`
+	Discharged int `json:"discharged"`
+}

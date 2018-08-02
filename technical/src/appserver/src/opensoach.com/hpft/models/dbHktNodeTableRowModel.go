@@ -158,9 +158,12 @@ type DBSplNodeReportTemplateTableRowModel struct {
 }
 
 type DBSplHpftPatientMasterTableRowModel struct {
-	Id                  int64  `db:"id" dbattr:"pri,auto"  json:"id"`
-	CpmIdFk             int64  `db:"cpm_id_fk" json:"cpmidfk"`
-	PatientDetails      string `db:"patient_details" json:"patientdetails"`
-	MedicalDetails      string `db:"medical_details" json:"medicaldetails"`
-	PatientFileTemplate string `db:"patient_file_template" json:"patientfiletemplate"`
+	PatientId             int64  `db:"id" dbattr:"pri,auto"  json:"patientid"`
+	CpmIdFk               int64  `db:"cpm_id_fk" json:"cpmidfk"`
+	PatientDetails        string `db:"patient_details" json:"patientdetails"`
+	MedicalDetails        string `db:"medical_details" json:"medicaldetails"`
+	PatientFileTemplateID int64  `db:"patient_file_template" json:"patientfiletemplate"`
+	SpId                  int64  `db:"sp_id_fk" json:"spid"`
+	ServInId              int64  `db:"serv_in_id_fk" json:"servinid"`
+	Status                int    `db:"status" json:"status"`
 }
