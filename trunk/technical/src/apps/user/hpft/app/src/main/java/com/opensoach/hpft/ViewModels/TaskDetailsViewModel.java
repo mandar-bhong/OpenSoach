@@ -2,27 +2,25 @@ package com.opensoach.hpft.ViewModels;
 
 import android.databinding.Bindable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Mandar on 01-08-2018.
  */
 
 public class TaskDetailsViewModel extends BaseViewModel {
 
-    private TaskDataViewModel dataViewModel;
+    private TaskDataViewModel taskDataViewModel;
+    private TaskTimeDataViewModel taskTimeDataViewModel;
     private String title;
 
 
 @Bindable
-    public TaskDataViewModel getDataViewModel() {
-        return dataViewModel;
+    public TaskDataViewModel getTaskDataViewModel() {
+        return taskDataViewModel;
     }
 
     @Bindable
-    public void setDataViewModel(TaskDataViewModel dataViewModel) {
-        this.dataViewModel = dataViewModel;
+    public void setTaskDataViewModel(TaskDataViewModel taskDataViewModel) {
+        this.taskDataViewModel = taskDataViewModel;
     }
 
     public String getTitle() {
@@ -31,5 +29,13 @@ public class TaskDetailsViewModel extends BaseViewModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public TaskTimeDataViewModel getTaskTimeDataViewModel() {
+        return taskTimeDataViewModel;
+    }
+
+    public void setTaskTimeDataViewModel(TaskTimeDataViewModel taskTimeDataViewModel) {
+        this.taskTimeDataViewModel = taskTimeDataViewModel;
     }
 }

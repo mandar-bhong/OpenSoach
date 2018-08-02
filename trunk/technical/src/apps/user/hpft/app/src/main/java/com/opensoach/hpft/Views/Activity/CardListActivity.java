@@ -2,11 +2,8 @@ package com.opensoach.hpft.Views.Activity;
 
 
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +19,7 @@ import com.opensoach.hpft.ViewModels.MedicalDetailsViewModel;
 import com.opensoach.hpft.ViewModels.PatientDetailsViewModel;
 import com.opensoach.hpft.ViewModels.TaskDataViewModel;
 import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
+import com.opensoach.hpft.ViewModels.TaskTimeDataViewModel;
 import com.opensoach.hpft.Views.Fragment.HeaderFragment;
 import com.opensoach.hpft.Views.Interfaces.IFragment;
 import com.opensoach.hpft.Views.Interfaces.IUIUpdateEvent;
@@ -138,8 +136,10 @@ public class CardListActivity extends AppCompatActivity
         medicalDetailsViewModel.setTreatment("Treatment-"+index);
 
 
-        taskDetailsViewModel.setDataViewModel(new TaskDataViewModel());
-        taskDetailsViewModel.getDataViewModel().setUp();
+        taskDetailsViewModel.setTaskDataViewModel(new TaskDataViewModel());
+        taskDetailsViewModel.setTaskTimeDataViewModel(new TaskTimeDataViewModel());
+        taskDetailsViewModel.getTaskTimeDataViewModel().setUp();
+        taskDetailsViewModel.getTaskDataViewModel().setUp();
         taskDetailsViewModel.setTitle("This is test for databind ele");
         taskDetailsViewModel.ContextActivity = ctx;
 

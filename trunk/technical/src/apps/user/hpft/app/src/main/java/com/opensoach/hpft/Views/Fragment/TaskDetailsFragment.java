@@ -88,11 +88,11 @@ public class TaskDetailsFragment extends Fragment {
 //
 //
 //        bindingTaskList.setVM(DataContext);
-//        DataContext.setDataViewModel(new TaskDataViewModel());
+//        DataContext.setTaskDataViewModel(new TaskDataViewModel());
 
-//        bindingTaskList.setViewModel(DataContext.getDataViewModel());
-//        binding.fragTaskList.setViewModel(DataContext.getDataViewModel());
-//        DataContext.getDataViewModel().setUp();
+//        bindingTaskList.setViewModel(DataContext.getTaskDataViewModel());
+//        binding.fragTaskList.setViewModel(DataContext.getTaskDataViewModel());
+//        DataContext.getTaskDataViewModel().setUp();
         //View view =ll.getRootView();
         //View view =binding.getRoot();
         View view =binding.getRoot();

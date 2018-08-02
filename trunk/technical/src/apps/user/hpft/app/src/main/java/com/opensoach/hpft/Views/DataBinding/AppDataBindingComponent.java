@@ -29,4 +29,9 @@ public class AppDataBindingComponent implements android.databinding.DataBindingC
     public RecyclerViewDataBinding getRecyclerViewDataBinding() {
         return new RecyclerViewDataBinding();
     }
+
+    @Override
+    public TaskTimeRecycleViewDataBinding getTaskTimeRecycleViewDataBinding() {
+        return new TaskTimeRecycleViewDataBinding();
+    }
 }
