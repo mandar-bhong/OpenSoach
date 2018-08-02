@@ -11,16 +11,39 @@
     </data>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:padding="10dp">
-        <TextView
-            android:layout_width="70dp"
+        android:layout_width="180dp"
+        android:layout_height="55dp"
+        android:padding="5dp">
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="@android:color/holo_blue_dark"
-            android:layout_gravity="center"
-            android:text="@{VM.title}"/>
+            card_view:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/holo_blue_dark"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@{VM.title}"/>
+
+            <EditText
+                android:layout_toEndOf="@id/time"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="false"/>
+        </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+
 
 
 </layout>

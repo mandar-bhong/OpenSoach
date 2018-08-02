@@ -24,7 +24,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/time_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             app:adapter="@{VM.taskTimeDataViewModel.adapter}"
             app:data="@{VM.taskTimeDataViewModel.data}"
             android:background="@color/color_dialog_edit_border"

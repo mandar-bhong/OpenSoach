@@ -33,6 +33,7 @@ import android.widget.FrameLayout;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.ViewModels.TaskItemViewModel;
+import com.opensoach.hpft.Views.ClickHandler.TaskDetailsClickHandler;
 import com.opensoach.hpft.databinding.FragmentTaskItemBinding;
 
 import java.util.ArrayList;
@@ -115,6 +116,7 @@ public class TaskDataAdapter extends RecyclerView.Adapter<TaskDataAdapter.DataVi
         /* package */ void setViewModel(TaskItemViewModel viewModel) {
             if (binding != null) {
                 binding.setVM(viewModel);
+                binding.setClickHandler(new TaskDetailsClickHandler());
             }
         }
     }
