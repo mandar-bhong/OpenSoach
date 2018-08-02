@@ -67,4 +67,7 @@ dependencies {
     //testCompile 'junit:junit:4.12'
     implementation files('libs/android-logging-log4j-1.0.2.jar')
     implementation files('libs/log4j-1.2.16.jar')
+
+    implementation 'com.android.support:cardview-v7:26.1.0'
+
 }
