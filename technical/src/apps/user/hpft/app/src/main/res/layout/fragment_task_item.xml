@@ -4,31 +4,64 @@
     tools:context=".TaskItemFragment">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="VM"
             type="com.opensoach.hpft.ViewModels.TaskItemViewModel"/>
 
+        <variable
+            name="ClickHandler"
+            type="com.opensoach.hpft.Views.ClickHandler.TaskDetailsClickHandler"/>
     </data>
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:padding="10dp">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:text="@{VM.title}"
-            android:textColor="@android:color/holo_orange_dark"/>
+            android:layout_height="match_parent"
+            card_view:cardCornerRadius="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:text="@{VM.title}"
-            android:textColor="@android:color/holo_orange_dark"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
+                <CheckBox
+                    android:id="@+id/chk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:layout_marginRight="40dp"/>
 
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{VM.title}"
+                    android:layout_toEndOf="@id/chk"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/holo_orange_dark"/>
+
+                <LinearLayout
+                    android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_move_right"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+
+
 
 
 </layout>
