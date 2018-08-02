@@ -10,12 +10,8 @@
             <import type="java.lang.Integer" />
         </data>
         <variable
-            name="viewModel"
-            type="com.opensoach.hpft.ViewModels.TaskDataViewModel" />
-
-        <variable
             name="VM"
-            type="com.opensoach.hpft.ViewModels.TaskDetailsViewModel" />
+            type="com.opensoach.hpft.ViewModels.TaskDataViewModel" />
     </data>
 
     <LinearLayout
@@ -28,9 +24,9 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/data_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:adapter="@{viewModel.adapter}"
-            app:data="@{viewModel.data}"
+            android:layout_height="wrap_content"
+            app:adapter="@{VM.adapter}"
+            app:data="@{VM.data}"
             tools:context="com.opensoach.hpft.Fragment.TaskListFragment"/>
 
         <!--<TextView-->
