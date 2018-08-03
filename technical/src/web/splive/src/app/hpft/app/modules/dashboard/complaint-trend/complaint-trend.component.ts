@@ -80,7 +80,7 @@ export class ComplaintTrendComponent implements OnInit {
     this.timeline.forEach(item => {
       const xAxisDate = new Date(item.year, item.month).toUTCString();
       const trendModel = this.complainttrenddata.find(rating => rating.year === item.year
-        && rating.month === item.month - 1);
+        && rating.month-1 === item.month);
 
       if (trendModel) {
         openData.series.push({ name: xAxisDate, value: trendModel.open });

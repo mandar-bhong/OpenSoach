@@ -22,6 +22,7 @@ export class TaskTrendComponent implements OnInit {
   timeline: TrendChartPerMonthXaxis[] = [];
   ontimeLabel = 'On Time';
   delayedLabel = 'Delayed';
+  missedLabel = 'Missed';
   legendTitle = 'Task Status';
   customColors = [
     {
@@ -31,6 +32,10 @@ export class TaskTrendComponent implements OnInit {
     {
       name: this.delayedLabel,
       value: '#ffc107'
+    },
+    {
+      name: this.missedLabel,
+      value: '#ff5252'
     },
   ];
 
@@ -48,18 +53,21 @@ export class TaskTrendComponent implements OnInit {
     const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
     this.request.startdate = new Date(ticks);
 
-    this.dashboardService.getTaskTrend(this.request).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        payloadResponse.data.forEach(item => {
-          const trendModel = new TaskTrendModel();
-          trendModel.copyFrom(item);
-          this.tasktrenddata.push(trendModel);
-        });
+//     this.dashboardService.getTaskTrend(this.request).subscribe(payloadResponse => {
+//       if (payloadResponse && payloadResponse.issuccess) {
+//         payloadResponse.data.forEach(item => {
+//           const trendModel = new TaskTrendModel();
+//           trendModel.copyFrom(item);
+//           this.tasktrenddata.push(trendModel);
+//         });
+// console.log('data received');
+//         this.generateSeriesTimeline();
+//         this.generateRatingChartData();
+//       }
+//     });
 
-        this.generateSeriesTimeline();
+    this.generateSeriesTimeline();
         this.generateRatingChartData();
-      }
-    });
   }
 
 
@@ -69,19 +77,30 @@ export class TaskTrendComponent implements OnInit {
     this.tasktrendchartdata.push(ontimeData);
     const delayedData = { name: this.delayedLabel, series: [] };
     this.tasktrendchartdata.push(delayedData);
+    const missedData = { name: this.missedLabel, series: [] };
+    this.tasktrendchartdata.push(missedData);
 
+    let dummyOnTime =1000;
+    let dummyDelayed =205;
+    let dummyMissed =50;
     this.timeline.forEach(item => {
       const xAxisDate = new Date(item.year, item.month).toUTCString();
-      const trendModel = this.tasktrenddata.find(rating => rating.year === item.year
-        && rating.month === item.month - 1);
+      // const trendModel = this.tasktrenddata.find(rating => rating.year === item.year
+      //   && rating.month-1 === item.month);
 
-      if (trendModel) {
-        ontimeData.series.push({ name: xAxisDate, value: trendModel.ontime });
-        delayedData.series.push({ name: xAxisDate, value: trendModel.delayed });
-      } else {
-        ontimeData.series.push({ name: xAxisDate, value: 0 });
-        delayedData.series.push({ name: xAxisDate, value: 0 });
-      }
+      // if (trendModel) {
+      //   ontimeData.series.push({ name: xAxisDate, value: trendModel.ontime });
+      //   delayedData.series.push({ name: xAxisDate, value: trendModel.delayed });
+      //   missedData.series.push({ name: xAxisDate, value: trendModel.missed });
+      // } else {
+        ontimeData.series.push({ name: xAxisDate, value: dummyOnTime });
+        delayedData.series.push({ name: xAxisDate, value: dummyDelayed });
+        missedData.series.push({ name: xAxisDate, value: dummyMissed });
+
+        dummyOnTime=dummyOnTime+12;
+        dummyDelayed=dummyDelayed-13;
+        dummyMissed=dummyMissed-3;
+      //}
     });
   }
 

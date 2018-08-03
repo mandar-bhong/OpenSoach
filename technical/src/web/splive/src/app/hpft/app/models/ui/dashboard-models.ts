@@ -180,11 +180,12 @@ export class TaskTrendModel {
     year: number;
     ontime: number;
     delayed: number;
+    missed:number;
 
     copyFrom(response: TaskTrendResponse) {
         this.ontime = response.ontime;
         this.delayed = response.delayed;
-
+        this.missed=0;
         this.month = response.month;
         this.year = response.year;
     }
