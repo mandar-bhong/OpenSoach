@@ -80,6 +80,7 @@
 
 .d-block {
     display: block !important;
+    min-height: 54px;
 }
 
 .card .card-block p {
