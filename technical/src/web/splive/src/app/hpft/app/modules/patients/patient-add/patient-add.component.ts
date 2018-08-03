@@ -2,19 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { ServicepointConfigureListResponse } from '../../../../../prod-shared/models/api/service-configuration-models';
+import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EditRecordBase } from '../../../../../shared/views/edit-record-base';
-import {
-  MedicalDetailAddRequest,
-  PatientDataAddRequest,
-  PatientDetailAddRequest,
-} from '../../../models/api/patient-models';
+import { MedicalDetailAddRequest, PatientDataAddRequest, PatientDetailAddRequest } from '../../../models/api/patient-models';
 import { PatientDataModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
-import { ServicepointConfigureListResponse } from '../../../../../prod-shared/models/api/service-configuration-models';
 
 @Component({
   selector: 'app-patient-add',
@@ -43,7 +39,6 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
     this.patientStates = this.patientService.getPatientStates();
     this.dataModel.patientdetails = new PatientDetailAddRequest();
     this.dataModel.medicaldetails = new MedicalDetailAddRequest();
-    // this.dataModel.patientfiletemplate = new PatientFileAddRequest();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.dataModel.patientid = Number(params['id']);
@@ -78,12 +73,13 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
   }
   save() {
     const patientDataAddRequest = new PatientDataAddRequest();
+    this.dataModel.status = 1;
     this.dataModel.copyTo(patientDataAddRequest);
     this.patientService.addPatient(patientDataAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
-        // this.dataModel. = payloadResponse.data;
       }
+      this.closeForm();
     });
   }
   closeForm() {

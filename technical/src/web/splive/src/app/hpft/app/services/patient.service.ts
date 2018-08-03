@@ -8,7 +8,7 @@ import { SaveFileService } from '../../../shared/services/save-file.service';
 import { ReportRequestParams, ReportResponse } from '../models/api/report-models';
 import { ListingService } from '../../../shared/services/listing.service';
 import {
-    PatientDetaFilterRequest, PatientDataAddRequest, PatientDataListResponse,
+    PatientDetaFilterRequest, PatientDataAddRequest, PatientDataListResponse, StatusChangeRequest,
 } from '../models/api/patient-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
@@ -42,6 +42,11 @@ export class PatientService {
         Observable<PayloadResponse<RecordIDResponse>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/add',
             patientDataAddRequest, implicitErrorHandling);
+    }
+    updateStatus(statusChangeRequest: StatusChangeRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/update/status',
+        statusChangeRequest, implicitErrorHandling);
     }
     getPatientStates(): EnumDataSourceItem<number>[] {
         return EnumNumberDatasource.getDataSource('PATIENT_STATE_', PATIENT_STATE);

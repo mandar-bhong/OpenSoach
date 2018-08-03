@@ -7,11 +7,19 @@ export const APP_TRANSLATIONS: TranslationValue[] = [
     },
     {
         key: 'OperatorListColumOperatorCode',
-        en: 'Medical Attendant Code'
+        en: 'Attendant Code'
     },
     {
         key: 'OperatorAssociateLableName',
         en: 'Select a Ward to associate'
+    },
+    {
+        key: 'OperatorAddOperatorName',
+        en: 'Medical Attendant Name'
+    },
+    {
+        key: 'OperatorAddOperatorCode',
+        en: 'Attendant Code'
     },
     /* PATIENT STATES BEGIN */
     {

@@ -1,19 +1,13 @@
-import { Component, EventEmitter, OnDestroy, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable, merge, Subscription } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
-import {
- PatientDetaFilterRequest,
-  PatientDataListResponse, PatientDetailAddRequest
-} from '../../../../models/api/patient-models';
-import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
-import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
-import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
+import { Subscription } from 'rxjs';
+
 import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
-import { PatientService } from '../../../../services/patient.service';
-import { element } from 'protractor';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
+import { PatientDetaFilterRequest, StatusChangeRequest } from '../../../../models/api/patient-models';
 import { PatientDataModel } from '../../../../models/ui/patient-models';
+import { PatientService } from '../../../../services/patient.service';
 
 
 @Component({
@@ -22,7 +16,7 @@ import { PatientDataModel } from '../../../../models/ui/patient-models';
   styleUrls: ['./patient-view.component.css']
 })
 export class PatientViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['patientname', 'emergencycontactno', 'ward', 'bedno', 'statusid'];
+  displayedColumns = ['patientname', 'emergencycontactno', 'spid', 'bedno', 'status'];
   sortByColumns = [{ text: 'Patient Name', value: 'patientname' },
   { text: 'Emergency Contact Number', value: 'emergencycontactno' },
   { text: 'Ward', value: 'ward' },
@@ -35,7 +29,6 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   refreshTable: EventEmitter<null> = new EventEmitter();
   // dataSource = [];
   patients = new PatientDataModel();
-  // patients;
   patient = [];
   dataSource;
   stat;
@@ -44,6 +37,8 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   patientDetaFilterRequest: PatientDetaFilterRequest;
   dataListFilterChangedSubscription: Subscription;
   showEditForm = false;
+  selectedPatient: PatientDataModel;
+
   constructor(public patientService: PatientService,
     private router: Router,
     private appNotificationService: AppNotificationService,
@@ -52,54 +47,11 @@ export class PatientViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.paginator.pageSize = 10;
-    this.sort.active = 'patientname';
-    this.sort.direction = 'asc';
+    // this.sort.active = 'patientname';
+    // this.sort.direction = 'asc';
     this.getDataList();
-
     this.patients = new PatientDataModel();
-    // this.setDataListing();
-    // this.dataListFilterChangedSubscription = this.patientService.dataListSubject.subscribe(value => {
-    //   this.patientDetaFilterRequest = value;
-    //   this.refreshTable.emit();
-    // });
   }
-  // setDataListing(): void {
-  //   this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-  //   this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
-  //   merge(this.sort.sortChange, this.paginator.page, this.refreshTable)
-  //     .pipe(
-  //       startWith({}),
-  //       switchMap(() => {
-  //         this.isLoadingResults = true;
-  //         return this.getDataList();
-  //       }),
-  //       map(data => {
-  //         this.isLoadingResults = false;
-  //         return data;
-  //       }),
-  //   ).subscribe(
-  //     payloadResponse => {
-  //       if (payloadResponse && payloadResponse.issuccess) {
-  //         this.filteredrecords = payloadResponse.data.filteredrecords;
-  //         this.dataSource = payloadResponse.data.records;
-  //         if (this.filteredrecords === 0) {
-  //           this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
-  //         }
-  //       } else {
-  //         this.dataSource = [];
-  //       }
-  //     }
-  //   );
-  // }
-  // getDataList(): Observable<PayloadResponse<PatientDataListResponse>> {
-  //   const dataListRequest = new DataListRequest<PatientDetaFilterRequest>();
-  //   dataListRequest.filter = this.patientDetaFilterRequest;
-  //   dataListRequest.page = this.paginator.pageIndex + 1;
-  //   dataListRequest.limit = this.paginator.pageSize;
-  //   dataListRequest.orderby = this.sort.active;
-  //   dataListRequest.orderdirection = this.sort.direction;
-  //   return this.patientService.getDataList();
-  // }
   getDataList() {
     this.patientService.getDataList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
@@ -113,11 +65,31 @@ export class PatientViewComponent implements OnInit, OnDestroy {
           this.patient.push(a);
           console.log('this.dataSource', this.dataSource);
           this.dataSource = this.patient;
+
         });
+      } else {
+        this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
       }
     });
   }
 
+  setSelectedPatient(patient: PatientDataModel) {
+    this.selectedPatient = patient;
+  }
+
+  changestatus() {
+    const statusChangeRequest = new StatusChangeRequest();
+    statusChangeRequest.status = 2;
+    statusChangeRequest.patientid = this.selectedPatient.patientid;
+    this.patientService.updateStatus(statusChangeRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.appNotificationService.success();
+        console.log('payloadResponse.issuccess', payloadResponse.issuccess);
+        this.selectedPatient.status = 2;
+      }
+    });
+
+  }
   sortByChanged() {
     this.sort.sortChange.next(this.sort);
   }

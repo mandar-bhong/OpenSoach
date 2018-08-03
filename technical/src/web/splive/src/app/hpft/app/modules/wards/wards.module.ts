@@ -7,6 +7,7 @@ import { MaterialModules } from '../../../../shared/modules/material/material-mo
 import { WardListViewComponent } from './word-list/ward-list-view/ward-list-view.component';
 import { WardSearchComponent } from './word-list/ward-search/ward-search.component';
 import { WordListComponent } from './word-list/word-list.component';
+import { WardDeviceAssociateComponent } from './ward-device-associate/ward-device-associate.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,9 @@ import { WordListComponent } from './word-list/word-list.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  declarations: [WordListComponent, WardListViewComponent, WardSearchComponent]
+  declarations: [WordListComponent, WardListViewComponent, WardSearchComponent, WardDeviceAssociateComponent],
+  entryComponents: [
+    WardDeviceAssociateComponent
+  ]
 })
 export class WardsModule { }

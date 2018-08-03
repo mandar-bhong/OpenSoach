@@ -36,7 +36,12 @@
               <div class="row">
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
-                    <input matInput name="ward" placeholder="Ward" required [(ngModel)]="dataModel.patientdetails.ward">
+                    <mat-select placeholder="Wards" [(ngModel)]="dataModel.spid">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let cat of splist" [value]="cat.spid">
+                        {{cat.spname}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
                 <div class="col-md-1"></div>
@@ -68,7 +73,7 @@
               <!-- <div class="row">
                 <div class="col-md-5">
                   <mat-form-field>
-                    <mat-select placeholder="Status" required [(ngModel)]="dataModel.statusid">
+                    <mat-select placeholder="Status" required [(ngModel)]="dataModel.status">
                       <mat-option *ngFor="let patient of patientStates" [value]="patient.value">
                         {{patient.text | translate}}
                       </mat-option>
@@ -130,17 +135,6 @@
           <ng-template matTabContent>
             <div style="margin: 20px; padding: 10px;">
               <div class="row">
-                <div class="col-sm-5">
-                  <mat-form-field>
-                    <mat-select placeholder="Wards" [(ngModel)]="dataModel.spid">
-                      <mat-option>None</mat-option>
-                      <mat-option *ngFor="let cat of splist" [value]="cat.spid">
-                        {{cat.spname}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-1"></div>
                 <div class="col-md-5">
                   <mat-form-field>
                     <mat-select placeholder="Wards Existing List" [(ngModel)]="dataModel.patientfiletemplate">
@@ -150,6 +144,7 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
+                <div class="col-md-7"></div>
 
               </div>
             </div>

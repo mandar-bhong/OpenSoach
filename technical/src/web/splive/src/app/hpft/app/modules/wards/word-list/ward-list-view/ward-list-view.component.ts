@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatBottomSheet, MatPaginator, MatSort } from '@angular/material';
+import { MatBottomSheet, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import {
 import {
   ServicepointUpdateComponent
 } from '../../../../../../prod-shared/modules/servicepoints/servicepoint-update/servicepoint-update.component';
+import { WardDeviceAssociateComponent } from '../../ward-device-associate/ward-device-associate.component';
 
 @Component({
   selector: 'app-ward-list-view',
@@ -145,7 +146,7 @@ export class WardListViewComponent implements OnInit, OnDestroy {
     }
   }
   openServicePointDeviceAssociation(sp: ServicepointDataListResponse): void {
-    const bottomSheetRef = this.bottomSheet.open(ServicepointDeviceAssociateComponent, { data: sp.spid });
+    const bottomSheetRef = this.bottomSheet.open(WardDeviceAssociateComponent, { data: sp.spid });
     bottomSheetRef.afterDismissed().subscribe(result => {
       if (result) {
         console.log('after dismiss', result);
