@@ -35,8 +35,8 @@ public class CardDetailsActivity extends AppCompatActivity
 //        setSupportActionBar(toolbar);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Patient Details"));
-        tabLayout.addTab(tabLayout.newTab().setText("Medical Details"));
+        tabLayout.addTab(tabLayout.newTab().setText("Details"));
+        //tabLayout.addTab(tabLayout.newTab().setText("Medical Details"));
         tabLayout.addTab(tabLayout.newTab().setText("Check List"));
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
