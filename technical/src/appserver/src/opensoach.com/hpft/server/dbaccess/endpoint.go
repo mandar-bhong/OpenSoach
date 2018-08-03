@@ -131,3 +131,18 @@ func EPUpdateDeviceConnectionStatusData(dbConn string,
 
 	return updateErr
 }
+
+func EPGetSPPatientConf(dbConn string, cpmid int64, spid int64) (error, *[]hktmodels.DBEPSPPatientConfDataModel) {
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBEPSPPatientConfDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_SP_PATIENT_CONF
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(cpmid, spid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

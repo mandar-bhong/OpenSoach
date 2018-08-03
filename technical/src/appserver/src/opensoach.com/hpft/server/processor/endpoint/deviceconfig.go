@@ -71,6 +71,27 @@ func ProcessDeviceSyncCompleted(ctx *lmodels.PacketProccessExecution, packetProc
 
 	}
 
+	for _, spitem := range *splst {
+
+		dbErr, servconflist := dbaccess.EPGetSPPatientConf(ctx.InstanceDBConn, ctx.TokenInfo.CpmID, spitem.ID)
+
+		if dbErr != nil {
+			logger.Context().WithField("CPMID", ctx.TokenInfo.CpmID).WithField("SPID", spitem.ID).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get serv conf.", dberr)
+			continue
+		}
+
+		servconfinfo := &gmodels.DevicePacket{}
+		servconfinfo.Header = gmodels.DeviceHeaderData{}
+		servconfinfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
+		servconfinfo.Header.CommandID = lconst.DEVCIE_CMD_CONFIG_SERVICE_POINTS_PATIENT_CONF
+		servconfinfo.Header.SPID = spitem.ID
+
+		servconfinfo.Payload = servconflist
+
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, servconfinfo)
+
+	}
+
 	serverSyncCompleted := &gmodels.DevicePacket{}
 	serverSyncCompleted.Header = gmodels.DeviceHeaderData{}
 	serverSyncCompleted.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
