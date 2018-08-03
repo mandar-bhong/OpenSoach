@@ -95,7 +95,7 @@ export class FeedbackTrendComponent implements OnInit {
     this.timeline.forEach(item => {
       const xAxisDate = new Date(item.year, item.month).toUTCString();
       const trendModel = this.feedbacktrenddata.find(rating => rating.year === item.year
-        && rating.month === item.month - 1);
+        && rating.month-1 === item.month);
 
       if (trendModel) {
         rating5Data.series.push({ name: xAxisDate, value: trendModel.rating5 });
