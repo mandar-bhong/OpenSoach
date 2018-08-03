@@ -19,3 +19,9 @@ where fopsp.cpm_id_fk = ? and fopsp.sp_id_fk = ?`
 const QUERY_EP_PROC_GET_SP_SERV_CONF = `select serv_conf_in.id as id,serv_conf_in.serv_conf_id_fk as serv_conf_id_fk,serv_conf.conf_type_code as conf_type_code,serv_conf.serv_conf_name as serv_conf_name,serv_conf.serv_conf as serv_conf From spl_node_service_instance_tbl serv_conf_in
 inner join spl_node_service_conf_tbl serv_conf on serv_conf.id = serv_conf_in.serv_conf_id_fk
 where serv_conf_in.cpm_id_fk = ? and serv_conf_in.sp_id_fk = ?`
+
+const QUERY_EP_PROC_GET_SP_PATIENT_CONF = `select serv_conf_in.id as id,serv_conf_in.serv_conf_id_fk as serv_conf_id_fk,serv_conf.conf_type_code as conf_type_code,serv_conf.serv_conf_name as serv_conf_name,serv_conf.serv_conf as serv_conf,patient_details,medical_details
+From spl_node_service_instance_tbl serv_conf_in
+inner join spl_node_service_conf_tbl serv_conf on serv_conf.id = serv_conf_in.serv_conf_id_fk
+inner join spl_hpft_patient_master_tbl patient on patient.serv_in_id_fk = serv_conf_in.id
+where serv_conf_in.cpm_id_fk = ? and serv_conf_in.sp_id_fk = ? and patient.status = 1`
