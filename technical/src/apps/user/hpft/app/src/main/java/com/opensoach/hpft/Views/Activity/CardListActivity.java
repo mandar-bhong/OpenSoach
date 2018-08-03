@@ -2,6 +2,8 @@ package com.opensoach.hpft.Views.Activity;
 
 
 
+
+import android.app.FragmentManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -35,10 +37,15 @@ public class CardListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainViewModel.getInstance().ContextActivity = this;
+
         setContentView(R.layout.activity_card_list);
         setDataContext(MainViewModel.getInstance().getCardListViewModel());
 
 
+        //TODO: This step is importent for adding fragment into activity
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
 
         hideSoftKeyboard();
 
