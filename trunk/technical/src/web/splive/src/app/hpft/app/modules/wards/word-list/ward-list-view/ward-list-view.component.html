@@ -68,6 +68,13 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="servconfid">
+              <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Patients</mat-header-cell>
+              <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+                <span class="mat-cell-responsive-label">Patients</span>
+                <span class="ellipsis mat-cell-text"> {{row.spname}}</span>
+              </mat-cell>
+            </ng-container>
+          <!-- <ng-container matColumnDef="servconfid">
             <mat-header-cell *matHeaderCellDef style="flex:0 0 25%;">Patients</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
               <span class="mat-cell-responsive-label">Patients</span>
@@ -80,7 +87,7 @@
                 <span >Configure</span>
               </button>
             </mat-cell>
-          </ng-container>
+          </ng-container> -->
           <!-- <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Action</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">

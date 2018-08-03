@@ -4,14 +4,14 @@ export class PatientDataAddRequest {
     patientfiletemplate: number;
     patientid: number;
     spid: number;
-    statusid: number;
+    status: number;
 }
 export class PatientDetailAddRequest {
     patientname: string;
     age: number;
     emergencycontactno: string;
     patientregistrationno: string;
-    ward: string;
+    ward: number;
     bedno: number;
     admissiondate: Date;
     dischargedate: Date;
@@ -43,5 +43,9 @@ export class PatientDataListResponse {
     patientdetails: string;
     medicaldetails: string;
     patientfiletemplate: string;
+    patientid: number;
+}
+export class StatusChangeRequest {
+    status: number;
     patientid: number;
 }

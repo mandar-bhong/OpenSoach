@@ -373,6 +373,15 @@ export const TRANSLATIONS: TranslationValue[] = [
   {
     key: 'OperatorAssociateLableName',
     en: 'Select a service point to associate'
-  }
+  },
+  {
+    key: 'OperatorAddOperatorName',
+    en: 'Operator Name'
+  },
+  {
+    key: 'OperatorAddOperatorCode',
+    en: 'Operator Code'
+  },
+
 ];
 
