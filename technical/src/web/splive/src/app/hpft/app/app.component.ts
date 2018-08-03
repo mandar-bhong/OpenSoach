@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   populateAppSpecificDataProvider() {
     AppSpecificDataProvider.sideMenuRoutes = SIDE_MENU_LINKS;
     AppSpecificDataProvider.userCateory = USER_CATEGORY.CU;
+    AppSpecificDataProvider.logoprefix='patientcare';
     AppSpecificDataProvider.createRouteMap(APP_ROUTES);
   }
 
