@@ -39,6 +39,7 @@ import com.opensoach.hpft.Model.View.ChartConfigModel;
 import com.opensoach.hpft.Model.View.DisplayChartDataModel;
 import com.opensoach.hpft.Model.View.DisplayChartItemDataModel;
 import com.opensoach.hpft.Processor.PacketProcessor;
+import com.opensoach.hpft.ViewModels.MainViewModel;
 
 /**
  * Created by Mandar on 2/25/2017.
@@ -80,6 +81,7 @@ public class AppHelper {
         AppRepo.getInstance().addPropertyChangeListener(ConnectionRetryManager.Instance());
         AppRepo.getInstance().addPropertyChangeListener(LocationChangeManager.Instance());
         AppRepo.getInstance().addPropertyChangeListener(DeviceSyncManager.Instance());
+        AppRepo.getInstance().addPropertyChangeListener(MainViewModel.getInstance().getHeaderViewModel());
 
         BroadCastReceiverManager.Instance().RegisterBatteryLevelReceiver(mContext);
 
