@@ -159,7 +159,7 @@ button:focus {
 }
 
 .statusBlock {
-  padding: .2em .6em .3em;
+  padding: .3em .6em .4em;
   font-size: 75%;
   font-weight: 500;
   line-height: 1;
@@ -200,3 +200,31 @@ button:focus {
   {
      color: #339900
   }
+
+.material-icons {
+  font-size: 19px !important;
+}
+.mat-card mat-card-actions button {
+  background: hsl(180, 20%, 33%) none repeat scroll 0 0;
+  color: hsl(0, 0%, 100%) !important;
+  margin-left: 17px !important;
+}
+.mat-menu-item {
+  font-size: 13px !important;
+ height: 42px !important;
+}
+.mat-button-toggle-label {
+  margin-bottom: 0;
+}
+.mat-button-toggle-group, .mat-button-toggle-standalone {
+  margin-bottom: 17px;
+}
+.mat-button-toggle-label-content {
+  font-size: 14px !important;
+}
+.mat-sort-header-button {
+  font-size: 13px !important	;
+}
+.mat-cell, .mat-footer-cell {
+  font-size: 13px !important;
+}
