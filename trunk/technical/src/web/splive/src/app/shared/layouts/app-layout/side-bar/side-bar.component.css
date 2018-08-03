@@ -51,9 +51,51 @@
         #side.toggle {
             min-width: 200px;
             background-color: white;
-            min-height: 100vh;
         }
          
 }
 
+#side .list-group-item {
+    text-align: left;
+}
+#side.toggle {
+    background-color: hsl(0, 0%, 100%);    
+}
+
+
+
+#side a.list-group-item:hover {
+    color: hsl(0, 0%, 100%) !important;
+}
+#side.toggle a {
+    padding-left: 12px;
+}
+#side.toggle.list-group-item {
+    border-radius: 0 !important;
+    padding-left: 17px !important;
+}
+#side.toggle .list-group{
+    padding: 0px;
+}
+
+#side a.list-group-item:hover {
+    background: hsl(196, 60%, 51%) none repeat scroll 0 0 !important;
+    box-shadow: 0 0 50px hsla(0, 0%, 13%, 0.2);
+    color: #ffffff !important;
+}
+#side.list-group-item {
+    border-radius: 2px !important;
+}
+#side .list-group-item {
+    border-radius: 0 !important;
+    font-size: 14px;
+    padding-left: 16px !important;
+}
+.list-group {
+    /* padding-bottom: 0 !important;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 3px; */
+    padding: 0px;
+}
 
