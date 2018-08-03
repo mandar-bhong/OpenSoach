@@ -50,13 +50,13 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 PatientDetailsFragment patientDetailsFragment = new PatientDetailsFragment();
-                patientDetailsFragment.DataContext = cardBrief.getPatientDetails();
+                patientDetailsFragment.DataContext = cardBrief;
                 return patientDetailsFragment;
+//            case 1:
+//                MedicalDetailsFragment medicalDetailsFragment = new MedicalDetailsFragment();
+//                medicalDetailsFragment.DataContext = cardBrief.getMedicalDetails();
+//                return medicalDetailsFragment;
             case 1:
-                MedicalDetailsFragment medicalDetailsFragment = new MedicalDetailsFragment();
-                medicalDetailsFragment.DataContext = cardBrief.getMedicalDetails();
-                return medicalDetailsFragment;
-            case 2:
                 TaskListFragment taskListFragment = new TaskListFragment();
                 taskListFragment.DataContext = cardBrief.getTaskDetails();
                 return taskListFragment;
