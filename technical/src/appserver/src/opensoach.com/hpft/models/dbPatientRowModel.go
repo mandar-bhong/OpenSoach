@@ -19,6 +19,7 @@ type DBPatientListDataModel struct {
 	PatientDetails        string `db:"patient_details" json:"patientdetails"`
 	MedicalDetails        string `db:"medical_details" json:"medicaldetails"`
 	PatientFileTemplateID int64  `db:"patient_file_template" json:"patientfiletemplate"`
+	SpId                  int64  `db:"sp_id_fk" json:"spid"`
 	Status                int    `db:"status" json:"status"`
 }
 
