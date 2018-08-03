@@ -7,6 +7,7 @@ import {
     ServicePointSummaryResponse,
     TaskSummaryResponse,
     TaskTrendResponse,
+    PatientSummaryResponse,
 } from '../api/dashboard-models';
 
 export class DeviceSummaryModel {
@@ -203,5 +204,22 @@ export class ComplaintTrendModel {
 
         this.month = response.month;
         this.year = response.year;
+    }
+}
+
+export class PatientSummaryModel {
+    total: number;
+    admitted: number;
+    discharged: number;
+    admittedpercentage: number;
+
+    copyFrom(response: PatientSummaryResponse) {
+        this.admitted = response.admitted;
+        this.discharged = response.discharged;
+        this.total = this.admitted + this.discharged;
+        this.admittedpercentage = 0;
+        if (this.total > 0) {
+            this.admittedpercentage = (this.admitted / this.total) * 100;
+        }
     }
 }
