@@ -73,7 +73,7 @@ export class TaskTrendComponent implements OnInit {
     this.timeline.forEach(item => {
       const xAxisDate = new Date(item.year, item.month).toUTCString();
       const trendModel = this.tasktrenddata.find(rating => rating.year === item.year
-        && rating.month === item.month - 1);
+        && rating.month - 1 === item.month);
 
       if (trendModel) {
         ontimeData.series.push({ name: xAxisDate, value: trendModel.ontime });
