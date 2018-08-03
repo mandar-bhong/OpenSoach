@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ComplaintSummaryModel, DeviceSummaryModel, ServicePointSummaryModel } from '../../../models/ui/dashboard-models';
+import { ComplaintSummaryModel, DeviceSummaryModel, ServicePointSummaryModel, PatientSummaryModel } from '../../../models/ui/dashboard-models';
 import { DashboardService } from '../../../services/dashboard.service';
 
 @Component({
@@ -13,13 +13,11 @@ export class DefaultDashboardComponent implements OnInit {
   constructor(private dashboardService: DashboardService) { }
   devicesummary = new DeviceSummaryModel();
   spsummary = new ServicePointSummaryModel();
-  complaintsummary = new ComplaintSummaryModel();
+  patientsummary = new PatientSummaryModel();
   ngOnInit() {
     this.getDeviceSummary();
-    this.getServicePointSummary();
-    this.complaintsummary.active=10;
-    this.complaintsummary.activepercentage=10;
-    this.complaintsummary.total=100;
+    this.getServicePointSummary();    
+    this.getPatientSummary();
   }
 
   getDeviceSummary() {
@@ -37,4 +35,12 @@ export class DefaultDashboardComponent implements OnInit {
       }
     });
   } 
+
+  getPatientSummary() {
+    this.dashboardService.getPatientSummary().subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.patientsummary.copyFrom(payloadResponse.data);
+      }
+    });
+  }
 }

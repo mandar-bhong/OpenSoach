@@ -57,14 +57,14 @@
         <h5>Patients</h5>
       </div>
       <div class="card-block text-center">
-        <span class="d-block text-c-blue f-36">{{complaintsummary.total}}</span>
+        <span class="d-block text-c-blue f-36">{{patientsummary.total}}</span>
         <p class="m-b-0">Total</p>
         <div class="progress">
-          <div class="progress-bar bg-c-blue" [ngStyle]="{'width.%': complaintsummary.activepercentage}"></div>
+          <div class="progress-bar bg-c-blue" [ngStyle]="{'width.%': patientsummary.admittedpercentage}"></div>
         </div>
       </div>
       <div class="card-footer bg-c-blue">
-        <h6 class="text-white m-b-0">Active: {{complaintsummary.active}}</h6>
+        <h6 class="text-white m-b-0">Hospitalize: {{patientsummary.admitted}}</h6>
       </div>
     </div>
   </div>

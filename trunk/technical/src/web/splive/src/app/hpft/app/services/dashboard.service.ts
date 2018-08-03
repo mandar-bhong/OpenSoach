@@ -19,6 +19,8 @@ import {
     TaskTrendResponse,
     ComplaintTrendResponse,
     ComplaintTrendRequest,
+    PatientSummaryRequest,
+    PatientSummaryResponse,
 } from '../models/api/dashboard-models';
 
 @Injectable()
@@ -70,6 +72,12 @@ export class DashboardService {
     getComplaintTrend(request = new ComplaintTrendRequest(), implicitErrorHandling = true):
         Observable<PayloadResponse<ComplaintTrendResponse[]>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/complaint/permonth',
+            request, implicitErrorHandling);
+    }
+
+    getPatientSummary(request= new PatientSummaryRequest(), implicitErrorHandling = true):
+        Observable<PayloadResponse<PatientSummaryResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/patient/summary',
             request, implicitErrorHandling);
     }
 }

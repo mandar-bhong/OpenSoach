@@ -91,4 +91,15 @@ export class ComplaintTrendResponse {
     inprogress: number;
 }
 
+export class PatientSummaryRequest {
+    spid: number;
+    startdate: Date;
+    enddate: Date;
+}
+
+export class PatientSummaryResponse {
+    admitted: number;
+    discharged: number;
+}
+
 
