@@ -1,6 +1,7 @@
 package com.opensoach.hpft.Views.Fragment;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,15 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.opensoach.hpft.R;
+import com.opensoach.hpft.ViewModels.HeaderViewModel;
+import com.opensoach.hpft.ViewModels.MainViewModel;
+import com.opensoach.hpft.databinding.FragmentHeaderBinding;
+import com.opensoach.hpft.databinding.FragmentPatientDetailsBinding;
+
+import org.apache.log4j.chainsaw.Main;
 
 
 /**
@@ -67,7 +75,27 @@ public class HeaderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_header, container, false);
+
+        LinearLayout ll = new LinearLayout(MainViewModel.getInstance().ContextActivity);
+
+        FragmentHeaderBinding fragmentHeaderBinding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_header,ll,false);
+
+        fragmentHeaderBinding.setVM(MainViewModel.getInstance().getHeaderViewModel());
+
+        View view = fragmentHeaderBinding.getRoot();
+        return view;
+
+      // return inflater.inflate(R.layout.fragment_header, container, false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        HeaderFragment f = (HeaderFragment) getFragmentManager()
+                .findFragmentById(R.id.headerView);
+        if (f != null)
+            getFragmentManager().beginTransaction().remove(f).commit();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

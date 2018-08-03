@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     tools:context=".Views.Fragment.HeaderFragment"
-    android:background="@color/activity_default_bg_color">
+    android:background="@color/header_view_bg">
 
-    <!-- TODO: Update blank fragment layout -->
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="VM"
+            type="com.opensoach.hpft.ViewModels.HeaderViewModel" />
+    </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
-        <TextView
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_blank_fragment" />
-    </RelativeLayout>
+            android:layout_height="40dp">
 
 
-</FrameLayout>
+            <ImageView
+                android:id="@+id/imgNWState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@{VM.nwState}" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>
