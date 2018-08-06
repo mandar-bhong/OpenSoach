@@ -116,7 +116,7 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	prodTaskConfig := taskque.TaskConfig{}
 	prodTaskConfig.Broker = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
 	prodTaskConfig.ResultBackend = "redis://" + configSetting.ProductCache.Address + ":" + strconv.Itoa(configSetting.MasterQueCache.Port)
-	prodTaskConfig.DefaultQueue = gmodels.HKT_SERVER_DEFAULT_TASK_QUEUE
+	prodTaskConfig.DefaultQueue = gmodels.HPFT_SERVER_DEFAULT_TASK_QUEUE
 	prodTaskConfig.ResultsExpireIn = 1 // in min
 
 	prodTaskCtx := &taskque.TaskContext{}

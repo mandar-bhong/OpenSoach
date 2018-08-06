@@ -2,6 +2,7 @@ package models
 
 const SPL_SERVER_DEFAULT_TASK_QUEUE = "SPL.Task.Queue"
 const HKT_SERVER_DEFAULT_TASK_QUEUE = "HKT.Task.Queue"
+const HPFT_SERVER_DEFAULT_TASK_QUEUE = "HPFT.Task.Queue"
 
 const SPL_TASK_QUEUE string = "SPL.Queue"
 const TASK_HANDLER_API_SPL_CONTROLLER_KEY string = "SPL.API.Task.Controller"
