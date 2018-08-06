@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.Communication.WebSocketConnector;
 import com.opensoach.hpft.Helper.AppHelper;
 import com.opensoach.hpft.Constants.ApplicationConstants;
+import com.opensoach.hpft.Helper.CommonHelper;
 import com.opensoach.hpft.Model.AppNotificationModelBase;
+import com.opensoach.hpft.Model.Communication.PacketCardListConfigurationModel;
+import com.opensoach.hpft.Model.Communication.PacketChartConfigurationModel;
 import com.opensoach.hpft.Model.View.ChartConfigModel;
 import com.opensoach.hpft.Model.View.DisplayChartDataModel;
 import com.opensoach.hpft.Scheduler.ScheduleManager;
+import com.opensoach.hpft.ViewModels.CardBriefViewModel;
+import com.opensoach.hpft.ViewModels.MainViewModel;
 import com.opensoach.hpft.Views.ChartActivity;
 import com.opensoach.hpft.Views.TimeChangeListner;
 import com.opensoach.hpft.Views.UpdateChartListner;
@@ -87,6 +94,21 @@ public class SPLApplication extends Application {
 
     public void OnUIUpdateEvent(final AppNotificationModelBase model) {
         switch (model.DataProcessStatergyID) {
+
+            case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA: {
+
+                ArrayList<PacketCardListConfigurationModel> cardList = (ArrayList<PacketCardListConfigurationModel>) model.Data;
+                final List<CardBriefViewModel> dataModels = CommonHelper.CreateCardListViewModel(MainViewModel.getInstance().ContextActivity, cardList);
+
+                MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().setItemsSource(dataModels);
+                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().getDataAdaptor().notifyDataSetChanged();
+                    }
+                });
+            }
+            break;
             case ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA:
                 //TODO: convert model.Data to appropriate format
                 if (mChartActivity != null) {

@@ -15,6 +15,7 @@ public class CommandConstants {
     public static final int CMD_CONFIG_DEVICE_SYNC_COMPLETED = 1;
     public static final int CMD_CONFIG_LOCATION_SYNC = 2;
     public static final int CMD_CONFIG_CHART_CONFIG = 7;
+    public static final int CMD_CONFIG_CARD_LIST_CONFIG = 12;
     public static final int CMD_CONFIG_SERVER_SYNC_COMPLETED = 4;
     public static final int CMD_CONFIG_LOCATION_HCODE = 5;
     public static final int CMD_CONFIG_LOCATION_AUTH_CODE_ADDED = 11;

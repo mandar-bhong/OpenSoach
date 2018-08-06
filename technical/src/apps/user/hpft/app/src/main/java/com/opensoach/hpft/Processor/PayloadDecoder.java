@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import com.opensoach.hpft.Constants.CommandConstants;
 import com.opensoach.hpft.Manager.RequestManager;
+import com.opensoach.hpft.Model.Communication.PacketCardListConfigurationModel;
 import com.opensoach.hpft.Model.PacketDecodeResultModel;
 import com.opensoach.hpft.Model.Communication.CommandRequest;
 import com.opensoach.hpft.Model.Communication.PacketChartConfigurationModel;
@@ -61,13 +62,23 @@ public class PayloadDecoder {
                             break;
                         }
 
-                        case CommandConstants.CMD_CONFIG_CHART_CONFIG: {
+//                        case CommandConstants.CMD_CONFIG_CHART_CONFIG: {
+//
+//                            TypeToken<PacketModel<ArrayList<PacketChartConfigurationModel>>> typeToken = new TypeToken<PacketModel<ArrayList<PacketChartConfigurationModel>>>() {
+//                            };
+//                            packetType = typeToken.getType();
+//                            packetDecodeResultModel.Packet = new Gson().fromJson(packet, packetType);
+//                            packetDecodeResultModel.Processor = new ChartDataProcessor();
+//                            packetDecodeResultModel.IsSuccess = true;
+//                            break;
+//                        }
 
-                            TypeToken<PacketModel<ArrayList<PacketChartConfigurationModel>>> typeToken = new TypeToken<PacketModel<ArrayList<PacketChartConfigurationModel>>>() {
+                        case CommandConstants.CMD_CONFIG_CARD_LIST_CONFIG:{
+                            TypeToken<PacketModel<ArrayList<PacketCardListConfigurationModel>>> typeToken = new TypeToken<PacketModel<ArrayList<PacketCardListConfigurationModel>>>() {
                             };
                             packetType = typeToken.getType();
                             packetDecodeResultModel.Packet = new Gson().fromJson(packet, packetType);
-                            packetDecodeResultModel.Processor = new ChartDataProcessor();
+                            packetDecodeResultModel.Processor = new CardListProcessor();
                             packetDecodeResultModel.IsSuccess = true;
                             break;
                         }
