@@ -34,7 +34,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, resultData
 		}
 
-		isSuccess, resultData = EndpointService.DeviceAuth(EndpointService{}, devAuthReq.SerialNo)
+		isSuccess, resultData = EndpointService.DeviceAuth(EndpointService{}, devAuthReq)
 
 		break
 
