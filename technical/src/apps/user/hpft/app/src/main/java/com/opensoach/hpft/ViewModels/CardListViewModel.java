@@ -9,6 +9,20 @@ import java.beans.PropertyChangeListener;
 
 public class CardListViewModel extends BaseViewModel implements PropertyChangeListener {
 
+    private CardGridViewModel cardGridViewModel;
+
+
+    public CardListViewModel() {
+        this.cardGridViewModel = new CardGridViewModel();
+    }
+
+    public CardGridViewModel getCardGridViewModel() {
+        return cardGridViewModel;
+    }
+
+    public void setCardGridViewModel(CardGridViewModel cardGridViewModel) {
+        this.cardGridViewModel = cardGridViewModel;
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
