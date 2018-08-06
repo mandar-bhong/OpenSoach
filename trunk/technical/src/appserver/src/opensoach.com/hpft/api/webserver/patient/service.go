@@ -170,3 +170,26 @@ func (service PatientService) UpdateStatus(reqData *hktmodels.DBPatientUpdateSta
 
 	return true, nil
 }
+
+func (service PatientService) SelectById(patientID int64) (bool, interface{}) {
+
+	dbErr, fopData := dbaccess.GetPatientById(service.ExeCtx.SessionInfo.Product.NodeDbConn, patientID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *fopData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient info")
+	return true, dbRecord[0]
+}

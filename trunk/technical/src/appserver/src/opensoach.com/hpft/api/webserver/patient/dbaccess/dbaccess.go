@@ -96,3 +96,20 @@ func UpdatePatientStatus(dbConn string, updtStruct *hktmodels.DBPatientUpdateSta
 	}
 	return nil, updateCtx.AffectedRows
 }
+
+func GetPatientById(dbConn string, patientId int64) (error, *[]hktmodels.DBSplHpftPatientMasterTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHpftPatientMasterTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_PATIENT_MASTER_TABLE_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(patientId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
