@@ -33,10 +33,14 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
     private ArrayList<String> locationList;
     private Constants.NETWORK_STATE networkState;
     private boolean backButtonVisiable;
+    private boolean uploadEnabled;
+    private boolean uploadVisiable;
 
 
     public HeaderViewModel() {
         this.networkState = Constants.NETWORK_STATE.WEB_SOCKET_UNAUTHORIZED;
+        uploadEnabled= true;
+        uploadVisiable = false;
     }
 
     @BindingAdapter("android:background")
@@ -94,6 +98,37 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
         }
     }
 
+
+    public void setUploadEnabled(boolean isUploadEnabled){
+        uploadEnabled = isUploadEnabled;
+        notifyPropertyChanged(BR.uploadEnabled);
+        notifyPropertyChanged(BR.uploadAlpha);
+    }
+
+    @Bindable
+    public boolean getUploadEnabled(){
+        return  uploadEnabled;
+    }
+
+    @Bindable
+    public float getUploadAlpha(){
+        if (uploadEnabled == false){
+            return  0.2f;
+        }else{
+            return  1.0f;
+        }
+    }
+
+
+    @Bindable
+    public boolean getUploadVisiable() {
+        return uploadVisiable;
+    }
+
+    public void setUploadVisiable(boolean uploadVisiable) {
+        this.uploadVisiable = uploadVisiable;
+        notifyPropertyChanged(BR.uploadVisiable);
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
