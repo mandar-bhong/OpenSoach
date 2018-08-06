@@ -70,7 +70,7 @@ func ProcessSerConfigOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.A
 	dbErr, instDBConn := dbaccess.GetInstanceDBConn(repo.Instance().Context.Master.DBConn, taskSerConfigAddedOnSPModel.CpmId)
 
 	if dbErr != nil {
-		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessSerConfigOnSP:Unable to get device token. Device is offline. Skipping creation of packet")
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching instance db connection")
 		return dbErr, apiTaskProcessorResultModel
 	}
 
@@ -90,7 +90,7 @@ func ProcessSerConfigOnSP(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.A
 		isTokenGetSucc, deviceToken := repo.Instance().Context.Master.Cache.Get(deviceTokenKey)
 
 		if isTokenGetSucc == false {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+			logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessSerConfigOnSP:Unable to get device token. Device is offline. Skipping creation of packet")
 			continue
 		}
 
@@ -117,7 +117,7 @@ func ProcessSerConfigUpdated(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodel
 	dbErr, instDBConn := dbaccess.GetInstanceDBConn(repo.Instance().Context.Master.DBConn, taskServConfigUpdatedModel.CpmId)
 
 	if dbErr != nil {
-		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessSerConfigEditedOnSP:Unable to get device token. Device is offline. Skipping creation of packet")
+		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching instance db connection")
 		return dbErr, apiTaskProcessorResultModel
 	}
 
@@ -137,7 +137,7 @@ func ProcessSerConfigUpdated(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodel
 		isTokenGetSucc, deviceToken := repo.Instance().Context.Master.Cache.Get(deviceTokenKey)
 
 		if isTokenGetSucc == false {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+			logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "ProcessSerConfigUpdated:Unable to get device token. Device is offline. Skipping creation of packet")
 			continue
 		}
 

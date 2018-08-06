@@ -10,6 +10,7 @@ func ProcessEndPointTask(epmodelList []pcmodels.EPTaskSendPacketDataModel) {
 
 	serviceConfigTaskList := []pcmodels.EPTaskSendPacketDataModel{}
 	fieldOperatorTaskList := []pcmodels.EPTaskSendPacketDataModel{}
+	patientConfigTaskList := []pcmodels.EPTaskSendPacketDataModel{}
 
 	for _, epmodel := range epmodelList {
 		switch epmodel.TaskType {
@@ -21,6 +22,8 @@ func ProcessEndPointTask(epmodelList []pcmodels.EPTaskSendPacketDataModel) {
 			fieldOperatorTaskList = append(fieldOperatorTaskList, epmodel)
 		case constants.TASK_TYPE_FIELD_OPERATOR_ADDED:
 			fieldOperatorTaskList = append(fieldOperatorTaskList, epmodel)
+		case constants.TASK_TYPE_PATIENT_CONF:
+			patientConfigTaskList = append(patientConfigTaskList, epmodel)
 		}
 
 	}
@@ -31,6 +34,10 @@ func ProcessEndPointTask(epmodelList []pcmodels.EPTaskSendPacketDataModel) {
 
 	if len(fieldOperatorTaskList) > 0 {
 		endpoint.ProcessDeviceFieldOperator(fieldOperatorTaskList)
+	}
+
+	if len(patientConfigTaskList) > 0 {
+		endpoint.ProcessDevicePatientConfig(patientConfigTaskList)
 	}
 
 }
