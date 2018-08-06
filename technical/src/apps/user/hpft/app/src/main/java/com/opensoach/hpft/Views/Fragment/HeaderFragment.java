@@ -1,23 +1,21 @@
 package com.opensoach.hpft.Views.Fragment;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.opensoach.hpft.R;
-import com.opensoach.hpft.ViewModels.HeaderViewModel;
 import com.opensoach.hpft.ViewModels.MainViewModel;
 import com.opensoach.hpft.databinding.FragmentHeaderBinding;
-import com.opensoach.hpft.databinding.FragmentPatientDetailsBinding;
 
-import org.apache.log4j.chainsaw.Main;
+import static android.content.Context.ACTIVITY_SERVICE;
 
 
 /**
@@ -114,12 +112,27 @@ public class HeaderFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        ActivityManager mngr = (ActivityManager) context.getSystemService( ACTIVITY_SERVICE );
+
+
+        if(mngr.getAppTasks().get(0).getTaskInfo().numActivities == 1 ) {
+            MainViewModel.getInstance().getHeaderViewModel().setBackButtonVisiable(false);
+        }else{
+            MainViewModel.getInstance().getHeaderViewModel().setBackButtonVisiable(true);
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        ActivityManager mngr = (ActivityManager) this.getContext().getSystemService( ACTIVITY_SERVICE );
+
+        if(mngr.getAppTasks().get(0).getTaskInfo().numActivities == 1 ) {
+            MainViewModel.getInstance().getHeaderViewModel().setBackButtonVisiable(false);
+        }
     }
 
     /**
