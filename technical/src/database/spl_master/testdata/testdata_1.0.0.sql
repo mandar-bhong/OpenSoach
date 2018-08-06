@@ -53,6 +53,7 @@ INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`, `technology`, `te
 --
 
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (1,1);
+INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (3,1);
 
 --
 -- Dumping data for table `spl_master_servicepoint_tbl`
