@@ -1,6 +1,7 @@
 package com.opensoach.hpft.ViewModels;
 
 
+import android.app.Activity;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.beans.PropertyChangeEvent;
@@ -30,6 +32,7 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
 
     private ArrayList<String> locationList;
     private Constants.NETWORK_STATE networkState;
+    private boolean backButtonVisiable;
 
 
     public HeaderViewModel() {
@@ -52,6 +55,21 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
     public void setNetworkState(Constants.NETWORK_STATE networkState) {
         this.networkState = networkState;
         notifyPropertyChanged(BR.nwState);
+    }
+
+    @Bindable
+    public boolean isBackButtonVisiable() {
+        return backButtonVisiable;
+    }
+
+    public void setBackButtonVisiable(boolean backButtonVisiable) {
+        this.backButtonVisiable = backButtonVisiable;
+        notifyPropertyChanged(BR.backButtonVisiable);
+    }
+
+    public void onBackClick(View view) {
+        Activity currentActivity =(Activity) view.getContext();
+        currentActivity.finish();
     }
 
     @Bindable

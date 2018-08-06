@@ -13,12 +13,23 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_weight="1">
-        <include layout="@layout/fragment_header"
+
+        <RelativeLayout
             android:id="@+id/headerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:background="@android:drawable/screen_background_dark_transparent">
+
+            <!--Replacing this element with actual fragment from code behind-->
+            <FrameLayout
+                android:id="@+id/headerPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark">
+
+            </FrameLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/gridView"

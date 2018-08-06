@@ -62,9 +62,9 @@ public class CardListActivity extends AppCompatActivity
 
         //viewModel.AppContext = this.getBaseContext();
         viewModel.ContextActivity = this;
+        viewModel.getCardGridViewModel().ContextActivity = this;
 
-        CardGridViewModel cardGridViewModel = new CardGridViewModel();
-        cardGridViewModel.ContextActivity = this;
+        CardGridViewModel cardGridViewModel = viewModel.getCardGridViewModel();
 
         ArrayList list = new ArrayList<CardBriefViewModel>();
 

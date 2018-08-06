@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.R;
+import com.opensoach.hpft.Views.Fragment.HeaderFragment;
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.TaskDetailsFragment;
@@ -24,7 +25,8 @@ public class CardDetailsActivity extends AppCompatActivity
         implements PatientDetailsFragment.OnFragmentInteractionListener,
         MedicalDetailsFragment.OnFragmentInteractionListener,
         TaskListFragment.OnFragmentInteractionListener,
-        TaskDetailsFragment.OnFragmentInteractionListener{
+        TaskDetailsFragment.OnFragmentInteractionListener,
+        HeaderFragment.OnFragmentInteractionListener{
 
 
     @Override
@@ -63,6 +65,11 @@ public class CardDetailsActivity extends AppCompatActivity
 
             }
         });
+
+        //TODO: This step is importent for adding fragment into activity
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
+
     }
 
     @Override
