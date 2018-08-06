@@ -9,6 +9,10 @@
         <variable
             name="VM"
             type="com.opensoach.hpft.ViewModels.HeaderViewModel" />
+
+        <variable
+            name="uploadClickHandler"
+            type="com.opensoach.hpft.Views.ClickHandler.HeaderUploadClickHandler"/>
     </data>
 
     <LinearLayout
@@ -29,6 +33,22 @@
                 android:layout_marginRight="15dp"
                 android:onClick="@{(view) -> VM.onBackClick(view)}"
                 android:visibility="@{VM.backButtonVisiable == true ? View.VISIBLE : View.GONE}"/>
+
+            <ImageButton
+                android:id="@+id/uploadData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/imgNWState"
+                android:visibility="@{VM.uploadVisiable ? View.VISIBLE : View.GONE}"
+                android:alpha="@{VM.uploadAlpha}"
+                android:clickable="@{VM.uploadEnabled}"
+                android:saveEnabled="@{VM.uploadEnabled}"
+                android:background="@drawable/send"
+                android:duplicateParentState="true"
+                android:onClick="@{(view) -> uploadClickHandler.onClick(view,VM)}"/>
 
             <ImageView
                 android:id="@+id/imgNWState"
