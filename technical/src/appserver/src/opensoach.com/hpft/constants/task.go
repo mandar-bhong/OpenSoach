@@ -15,3 +15,6 @@ const TASK_TYPE_SERV_CONF string = "ServiceConfig"
 const TASK_TYPE_FIELD_OPERATOR_ASSOCIATED string = "FieldOperator.Associated"
 const TASK_TYPE_FIELD_OPERATOR_DEASSOCIATED string = "FieldOperator.Deassociated"
 const TASK_TYPE_FIELD_OPERATOR_ADDED string = "FieldOperator.Added"
+
+const TASK_TYPE_PATIENT_CONF string = "PatientConfig"
+const TASK_HKT_API_PATIENT_STATUS_UPDATED string = "HKT.API.Task.Device.Patient.Status.Updated"

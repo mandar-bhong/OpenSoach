@@ -103,3 +103,31 @@ func TaskGetDeviceBySpID(instDBConn string, spId int64) (error, []hktmodels.DBDe
 
 	return dbErr, dbDeviceServicePointDataModel
 }
+
+func TaskGetDeviceByPatientID(instDBConn string, spId int64) (error, []hktmodels.DBDeviceServicePointDataModel) {
+
+	dbDeviceServicePointDataModel := []hktmodels.DBDeviceServicePointDataModel{}
+	selectContext := dbmgr.SelectContext{}
+	selectContext.DBConnection = instDBConn
+	selectContext.Query = dbquery.QUERY_GET_DEVICES_BY_PATIENT_ID
+	selectContext.QueryType = dbmgr.Query
+	selectContext.Dest = &dbDeviceServicePointDataModel
+
+	dbErr := selectContext.Select(spId)
+
+	return dbErr, dbDeviceServicePointDataModel
+}
+
+func TaskGetPatientConfDetails(instDBConn string, patientId int64) (error, []hktmodels.DBDevicePatientConfigModel) {
+
+	dbDevicePatientConfigModel := []hktmodels.DBDevicePatientConfigModel{}
+	selectContext := dbmgr.SelectContext{}
+	selectContext.DBConnection = instDBConn
+	selectContext.Query = dbquery.QUERY_GET_PATIENT_CONFIG
+	selectContext.QueryType = dbmgr.Query
+	selectContext.Dest = &dbDevicePatientConfigModel
+
+	dbErr := selectContext.Select(patientId)
+
+	return dbErr, dbDevicePatientConfigModel
+}

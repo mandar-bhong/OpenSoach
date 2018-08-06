@@ -23,6 +23,7 @@ func init() {
 	apiTaskHandler[hktconst.TASK_HKT_API_FIELD_OPERATOR_ADDED_ON_SP] = pcmodels.APITaskProcessorHandlerModel{Handler: apitask.ProcessFieldOperatorAddedOnSP, PayloadType: &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}}
 	apiTaskHandler[hktconst.TASK_HKT_API_FIELD_OPERATOR_REMOVED_ON_SP] = pcmodels.APITaskProcessorHandlerModel{Handler: apitask.ProcessFieldOperatorRemovedOnSP, PayloadType: &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}}
 	apiTaskHandler[hktconst.TASK_HKT_API_FIELD_OPERATOR_ADDED] = pcmodels.APITaskProcessorHandlerModel{Handler: apitask.ProcessFieldOperatorAdded, PayloadType: &hktmodels.TaskFieldOperatorAddedRemovedOnSPModel{}}
+	apiTaskHandler[hktconst.TASK_HKT_API_PATIENT_STATUS_UPDATED] = pcmodels.APITaskProcessorHandlerModel{Handler: apitask.ProcessPatientStatusUpdated, PayloadType: &hktmodels.TaskPatientStatusUpdated{}}
 }
 
 func APITaskController(msg string) (string, error) {

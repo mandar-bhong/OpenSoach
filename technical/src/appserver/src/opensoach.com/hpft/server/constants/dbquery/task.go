@@ -47,3 +47,11 @@ const QUERY_GET_FIELD_OPERATOR_BY_ID = `select fopcode from spl_node_field_opera
 const QUERY_GET_SERVICE_POINT_BY_DEV_ID = `select dev_id_fk,sp_id_fk from spl_node_dev_sp_mapping where dev_id_fk = ?`
 
 const QUERY_GET_DEVICES_BY_SERVICE_POINT_ID = `select dev_id_fk,sp_id_fk from spl_node_dev_sp_mapping where sp_id_fk = ?`
+
+const QUERY_GET_PATIENT_CONFIG = `select serv_conf_in.id as serv_conf_in_id,serv_conf_in.serv_conf_id_fk as serv_conf_id_fk,serv_conf.conf_type_code as conf_type_code,serv_conf.serv_conf_name as serv_conf_name,serv_conf.serv_conf as serv_conf,patient_details,medical_details
+From spl_node_service_instance_tbl serv_conf_in
+inner join spl_node_service_conf_tbl serv_conf on serv_conf.id = serv_conf_in.serv_conf_id_fk
+inner join spl_hpft_patient_master_tbl patient on patient.serv_in_id_fk = serv_conf_in.id
+where serv_conf_in.sp_id_fk = (select sp_id_fk from spl_hpft_patient_master_tbl where id = ?) and patient.status = 1`
+
+const QUERY_GET_DEVICES_BY_PATIENT_ID = `select dev_id_fk,sp_id_fk from spl_node_dev_sp_mapping where sp_id_fk = (select sp_id_fk from spl_hpft_patient_master_tbl where id = ?)`

@@ -3,7 +3,9 @@ package patient
 import (
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hpft/api/models"
+	repo "opensoach.com/hpft/api/repository"
 	"opensoach.com/hpft/api/webserver/patient/dbaccess"
+	hktconst "opensoach.com/hpft/constants"
 	hktmodels "opensoach.com/hpft/models"
 	gmodels "opensoach.com/models"
 )
@@ -150,6 +152,18 @@ func (service PatientService) UpdateStatus(reqData *hktmodels.DBPatientUpdateSta
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
+	}
+
+	taskPatientStatusUpdated := &hktmodels.TaskPatientStatusUpdated{}
+	taskPatientStatusUpdated.PatientId = reqData.PatientId
+	taskPatientStatusUpdated.CpmId = reqData.CpmId
+
+	isSendSuccess := repo.Instance().
+		SendTaskToServer(hktconst.TASK_HKT_API_PATIENT_STATUS_UPDATED,
+			service.ExeCtx.SessionToken, taskPatientStatusUpdated)
+
+	if isSendSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "patient status updated successfully.")
