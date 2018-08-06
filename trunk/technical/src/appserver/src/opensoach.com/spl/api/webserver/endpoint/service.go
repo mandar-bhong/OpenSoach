@@ -17,12 +17,12 @@ type EndpointService struct {
 	ExeCtx *gmodels.ExecutionContext
 }
 
-func (EndpointService) DeviceAuth(serialno string) (bool, interface{}) {
+func (EndpointService) DeviceAuth(req lmodels.APIDeviceAuthRequest) (bool, interface{}) {
 
-	dbErr, dbData := dbaccess.ValidateDevice(repo.Instance().Context.Master.DBConn, serialno)
+	dbErr, dbData := dbaccess.ValidateDevice(repo.Instance().Context.Master.DBConn, req.SerialNo)
 
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating device.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -45,7 +45,7 @@ func (EndpointService) DeviceAuth(serialno string) (bool, interface{}) {
 		return false, errModel
 	}
 
-	dbErr, deviceAuthData := dbaccess.GetDeviceAuthInfo(repo.Instance().Context.Master.DBConn, deviceRecordItem.DevId)
+	dbErr, deviceAuthData := dbaccess.GetDeviceAuthInfo(repo.Instance().Context.Master.DBConn, deviceRecordItem.DevId, req.ProductCode)
 
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)

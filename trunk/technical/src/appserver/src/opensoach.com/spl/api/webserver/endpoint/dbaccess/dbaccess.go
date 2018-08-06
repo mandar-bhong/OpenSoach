@@ -31,7 +31,7 @@ func ValidateDevice(dbConn, serialno string) (error, *[]lmodels.DBSplMasterDevic
 	return nil, data
 }
 
-func GetDeviceAuthInfo(dbConn string, devid int64) (error, *[]lmodels.DBDeviceAuthInfoModel) {
+func GetDeviceAuthInfo(dbConn string, devid int64, prodcode string) (error, *[]lmodels.DBDeviceAuthInfoModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceAuthInfo")
 
@@ -42,7 +42,7 @@ func GetDeviceAuthInfo(dbConn string, devid int64) (error, *[]lmodels.DBDeviceAu
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 
-	selErr := selDBCtx.Select(devid)
+	selErr := selDBCtx.Select(devid, prodcode)
 	if selErr != nil {
 		return selErr, nil
 	}
