@@ -22,6 +22,29 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:visibility="@{VM.backButtonVisiable == true ? View.GONE : View.VISIBLE}">
+                <TextView
+                    android:id="@+id/servicePointTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1dp"
+                    android:text="@string/servicepoint_live"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/servicePointTextView"
+                    android:src="@drawable/logo" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/backButton"

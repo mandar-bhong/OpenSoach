@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hospital</string>
+    <string name="app_name">Patient Care</string>
     <string name="action_settings">Settings</string>
 
     <string name="btn_ok">Ok</string>
@@ -12,7 +12,7 @@
     <string name="txt_already_sync_msg">Data is already in sync</string>
     <string name="enter_auth_code">Please try again with entering Auth Code</string>
     <string name="footer_text">Powered by OpenSoach</string>
-    <string name="servicepoint_live">housekeeping.live</string>
+    <string name="servicepoint_live">PatientCare</string>
 
     <!-- Dialog box text -->
     <string name="dialog_enter_auth_code">Enter Authcode :</string>
