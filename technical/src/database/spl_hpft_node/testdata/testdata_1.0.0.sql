@@ -49,6 +49,26 @@ INSERT INTO `spl_node_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connectio
 INSERT INTO `spl_node_service_conf_tbl` (`cpm_id_fk`, `spc_id_fk`, `conf_type_code`, `serv_conf_name`, `serv_conf`) VALUES ('3', '3', 'SERVICE_DAILY_CHART', 'Patient File Template 1', '{"timeconf":{"starttime":480, "interval":30, "endtime": 1020}, "taskconf":{"tasks":[{"taskname": "Urinal"}, {"taskname": "Wash Basin"}, {"taskname": "Hand Wash"},{"taskname": "Tissue Roll"},{"taskname": "Sanitary Ware"},{"taskname": "Dustbins"},{"taskname": "Mopping"},{"taskname": "Air Freshner"},{"taskname": "Doors"}, {"taskname": "Wash Platform"}]}}');
 
 
+--
+-- Dumping data for table `spl_node_service_instance_tbl`
+--
+
+INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
+INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
+
+
+--
+-- Dumping data for table `spl_hpft_patient_master_tbl`
+--
+
+INSERT INTO `spl_hpft_patient_master_tbl` (`cpm_id_fk`, `patient_details`, `medical_details`, `patient_file_template`, `sp_id_fk`, `serv_in_id_fk`, `status`) VALUES 
+('3', '{"age": "67", "bedno": "12", "patientname": "Patient1", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "4532234346", "patientregistrationno": "233966567657"}', '{"allergies": "allergy1", "treatmentdone": "traetment1", "reasonadmission": "reason1", "patientmedicalhistory": "history1"}', '1', '3', '1', '1'),
+('3', '{"age": "76", "bedno": "13", "patientname": "Patient2", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9843242382", "patientregistrationno": "5423477234236"}', '{"allergies": "allergy2", "treatmentdone": "traetment2", "reasonadmission": "reason2", "patientmedicalhistory": "history2"}', '1', '3', '2', '1');
+
+
+
+
+
 
 
 
