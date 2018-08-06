@@ -42,7 +42,6 @@ public class CardListActivity extends AppCompatActivity
         setContentView(R.layout.activity_card_list);
         setDataContext(MainViewModel.getInstance().getCardListViewModel());
 
-
         //TODO: This step is importent for adding fragment into activity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
@@ -68,20 +67,7 @@ public class CardListActivity extends AppCompatActivity
 
         ArrayList list = new ArrayList<CardBriefViewModel>();
 
-        list.add(GenerateData(this,1));
-        list.add(GenerateData(this,2));
-        list.add(GenerateData(this,3));
-
-
         cardGridViewModel.setItemsSource(list);
-
-       // cardGridViewModel.getItemsSource().add(new CardBriefViewModel());
-
-        //jobGridViewModel.setItemsSource(GenerateData());
-
-//        viewModel.setGridViewModel(jobGridViewModel);
-//
-//        viewModel.setHeaderViewModel(new HeaderViewModel());
 
         activityMainBinding.setDataContext(cardGridViewModel);
     }
@@ -99,44 +85,9 @@ public class CardListActivity extends AppCompatActivity
     }
 
 
-
-
-
     @Override
     public void onFragmentInteraction(Uri uri){
 
     }
 
-    private CardBriefViewModel GenerateData(AppCompatActivity ctx,int index){
-        CardBriefViewModel cardBriefViewModel = new CardBriefViewModel();
-        cardBriefViewModel.ContextActivity = ctx;
-
-        PatientDetailsViewModel patientDetailsViewModel = new PatientDetailsViewModel();
-        MedicalDetailsViewModel medicalDetailsViewModel = new MedicalDetailsViewModel();
-        TaskDetailsViewModel taskDetailsViewModel =new TaskDetailsViewModel();
-
-        patientDetailsViewModel.setAge(25+index);
-        patientDetailsViewModel.setName("Patient-"+index);
-        patientDetailsViewModel.setEmergencyContactNo("9898989-"+index);
-        patientDetailsViewModel.setRegNo("89898-"+index);
-        patientDetailsViewModel.setAdmissionDate(new Date(5000+index));
-
-
-        medicalDetailsViewModel.setAllergies("Allergies-"+index);
-        medicalDetailsViewModel.setHistory("Medical History-"+index);
-        medicalDetailsViewModel.setTreatment("Treatment-"+index);
-
-
-        taskDetailsViewModel.setTaskDataViewModel(new TaskDataViewModel());
-        taskDetailsViewModel.setTaskTimeDataViewModel(new TaskTimeDataViewModel());
-        taskDetailsViewModel.getTaskTimeDataViewModel().setUp();
-        taskDetailsViewModel.getTaskDataViewModel().setUp();
-        taskDetailsViewModel.setTitle("This is test for databind ele");
-        taskDetailsViewModel.ContextActivity = ctx;
-
-        cardBriefViewModel.setPatientDetails(patientDetailsViewModel);
-        cardBriefViewModel.setMedicalDetails(medicalDetailsViewModel);
-        cardBriefViewModel.setTaskDetails(taskDetailsViewModel);
-        return cardBriefViewModel;
-    }
 }

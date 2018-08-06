@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import com.opensoach.hpft.BR;
 import com.opensoach.hpft.Constants.ApplicationConstants;
 import com.opensoach.hpft.Constants.Constants;
+import com.opensoach.hpft.Model.Communication.PacketPatientDetailsModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,67 +17,36 @@ import java.util.Date;
 
 public class PatientDetailsViewModel extends BaseViewModel {
 
-    private String name;
-    private Integer age;
-    private  String emergencyContactNo;
-    private String regNo;
-    private String roomNo;
-    private Date admissionDate;
+    private PacketPatientDetailsModel packetPatientDetailsModel;
 
+    public PatientDetailsViewModel(PacketPatientDetailsModel packetPatientDetailsModel) {
+        this.packetPatientDetailsModel = packetPatientDetailsModel;
+    }
 
     @Bindable
     public String getName() {
-        return name;
+        return packetPatientDetailsModel.Name;
     }
 
     @Bindable
-    public void setName(String name) {
-        this.name = name;
-        notifyPropertyChanged(BR.name);
-    }
-
-    @Bindable
-    public Integer getAge() {
-        return age;
-    }
-
-    @Bindable
-    public void setAge(Integer age) {
-        this.age = age;
-        notifyPropertyChanged(BR.age);
+    public String getAge() {
+        return packetPatientDetailsModel.Age;
     }
 
     @Bindable
     public String getEmergencyContactNo() {
-        return emergencyContactNo;
+        return packetPatientDetailsModel.EmergencyContactNo;
     }
 
-    @Bindable
-    public void setEmergencyContactNo(String emergencyContactNo) {
-        this.emergencyContactNo = emergencyContactNo;
-        notifyPropertyChanged(BR.emergencyContactNo);
-    }
 
     @Bindable
     public String getRegNo() {
-        return regNo;
-    }
-
-    @Bindable
-    public void setRegNo(String regNo) {
-        this.regNo = regNo;
-        notifyPropertyChanged(BR.regNo);
+        return packetPatientDetailsModel.RegistrationNo;
     }
 
     @Bindable
     public String getRoomNo() {
-        return roomNo;
-    }
-
-    @Bindable
-    public void setRoomNo(String roomNo) {
-        this.roomNo = roomNo;
-        notifyPropertyChanged(BR.roomNo);
+        return packetPatientDetailsModel.BedNo;
     }
 
     @Bindable
@@ -84,17 +54,11 @@ public class PatientDetailsViewModel extends BaseViewModel {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat(ApplicationConstants.UI_DATE_FORMAT);
 
-        if (admissionDate !=null) {
-            return dateFormatter.format(admissionDate);
+        if (packetPatientDetailsModel.AdmissionDate !=null) {
+            return dateFormatter.format(packetPatientDetailsModel.AdmissionDate);
         }else{
             return "NA";
         }
     }
-
-    public void setAdmissionDate(Date admissionDate) {
-        this.admissionDate = admissionDate;
-        notifyPropertyChanged(BR.admissionDateFormatted);
-    }
-
 
 }

@@ -66,7 +66,7 @@ public final class AppRepo {
     }
 
     public String getDeviceSerial() {
-        return  "12345678901234";
+        return  "1234567890123456";
         //return Build.SERIAL;
     }
 

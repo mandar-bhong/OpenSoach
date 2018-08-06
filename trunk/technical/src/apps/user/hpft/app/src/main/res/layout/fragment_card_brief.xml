@@ -71,7 +71,7 @@
                                     android:layout_marginLeft="10sp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="Patient 1"/>
+                                    android:text="@{Data.patientDetails.name}"/>
 
                             </LinearLayout>
 
@@ -88,7 +88,7 @@
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="Name"/>
+                                    android:text="Room No"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                                     android:layout_marginLeft="10sp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
-                                    android:text="Patient 2"/>
+                                    android:text="@{Data.patientDetails.roomNo}"/>
 
                             </LinearLayout>
                         </TableRow>
@@ -108,13 +108,18 @@
                                 android:layout_height="match_parent">
 
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="Contact Number"/>
+
+                                <TextView
                                     android:layout_width="270dp"
                                     android:maxLines="1"
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
-                                    android:text="test"/>
-
-
+                                    android:text="@{Data.patientDetails.emergencyContactNo}"/>
 
                             </LinearLayout>
                         </TableRow>

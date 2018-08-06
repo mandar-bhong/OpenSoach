@@ -2,11 +2,14 @@ package com.opensoach.hpft.Model.Communication;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Created by Mandar on 03-08-2018.
+ */
 
-public class PacketChartConfigurationModel {
+public class PacketCardListConfigurationModel {
 
     @SerializedName("servinid")
-    public int ChartID;
+    public int SerInID;
     @SerializedName("conftypecode")
     public String ConfTypeCode;
 
@@ -14,14 +17,21 @@ public class PacketChartConfigurationModel {
     public int ServConfID;
 
     @SerializedName("servconfname")
-    public String ChartName;
+    public String ConfigName;
 
     @SerializedName("servconf")
-    public String ServConf;
+    public String ServConfJSON;
 
     @SerializedName("medicaldetails")
-    public String MedicalDetails;
+    public String MedicalDetailsJSON;
 
     @SerializedName("patientdetails")
-    public String PatientDetails;
+    public String PatientDetailsJSON;
+
+    public  PacketPatientDetailsModel PatientDetails;
+    public  PacketMedicalDetailsModel MedicalDetails;
+    public  PacketServiceConfModel ServiceConf;
+
+
+
 }

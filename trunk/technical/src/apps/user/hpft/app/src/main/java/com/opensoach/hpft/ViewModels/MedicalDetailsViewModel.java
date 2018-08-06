@@ -2,45 +2,34 @@ package com.opensoach.hpft.ViewModels;
 
 import android.databinding.Bindable;
 
+import com.opensoach.hpft.Model.Communication.PacketMedicalDetailsModel;
+
 /**
  * Created by Mandar on 01-08-2018.
  */
 
 public class MedicalDetailsViewModel extends BaseViewModel {
 
-    private String treatment;
-    private String allergies;
-    private String history;
+    private PacketMedicalDetailsModel packetMedicalDetailsModel;
 
-
-    @Bindable
-    public String getTreatment() {
-        return treatment;
+    public MedicalDetailsViewModel(PacketMedicalDetailsModel packetMedicalDetailsModel) {
+        this.packetMedicalDetailsModel = packetMedicalDetailsModel;
     }
 
     @Bindable
-    public void setTreatment(String treatment) {
-        this.treatment = treatment;
-
+    public String getTreatment() {
+        return packetMedicalDetailsModel.Treatment;
     }
 
     @Bindable
     public String getAllergies() {
-        return allergies;
-    }
-
-    @Bindable
-    public void setAllergies(String allergies) {
-        this.allergies = allergies;
+        return packetMedicalDetailsModel.Allergies;
     }
 
     @Bindable
     public String getHistory() {
-        return history;
+        return packetMedicalDetailsModel.MedicalHistory;
     }
 
-    @Bindable
-    public void setHistory(String history) {
-        this.history = history;
-    }
+
 }

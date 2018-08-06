@@ -26,6 +26,8 @@ import android.databinding.Bindable;
 
 
 import com.opensoach.hpft.BR;
+import com.opensoach.hpft.Model.Communication.PacketTaskConfigModel;
+import com.opensoach.hpft.Model.Communication.PacketTaskModel;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.Views.Adapter.TaskDataAdapter;
 
@@ -45,9 +47,9 @@ public class TaskDataViewModel extends BaseObservable {
         adapter = new TaskDataAdapter();
     }
 
-    public void setUp() {
+    public void setUp(PacketTaskConfigModel packetTaskConfigModel) {
         // perform set up tasks, such as adding listeners, data population, etc.
-        populateData();
+        populateData(packetTaskConfigModel);
     }
 
     public void tearDown() {
@@ -64,11 +66,11 @@ public class TaskDataViewModel extends BaseObservable {
         return this.adapter;
     }
 
-    private void populateData() {
+    private void populateData(PacketTaskConfigModel packetTaskConfigModel) {
         // populate the data from the source, such as the database.
-        for (int i = 0; i < 15; i++) {
+        for (PacketTaskModel model : packetTaskConfigModel.Tasks) {
             TaskItemDataModel dataModel = new TaskItemDataModel();
-            dataModel.setTitle(String.valueOf(i));
+            dataModel.setTitle(model.TaskName);
             data.add(dataModel);
         }
         notifyPropertyChanged(BR.data);
