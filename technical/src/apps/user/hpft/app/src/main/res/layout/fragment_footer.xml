@@ -8,14 +8,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_weight="5"
+        android:background="@color/header_view_bg"
+        android:gravity="center_vertical|center_horizontal"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/footer_text"
             android:textColor="@color/footer_view_text_color"
-            android:textSize="@dimen/footer_title_text_size"/>
-
+            android:textSize="@dimen/footer_title_text_size"
+            android:gravity="center_vertical|center_horizontal"/>
     </LinearLayout>
 
 </FrameLayout>
