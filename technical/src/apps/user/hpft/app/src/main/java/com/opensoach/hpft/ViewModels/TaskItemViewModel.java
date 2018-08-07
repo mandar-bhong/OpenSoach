@@ -24,6 +24,8 @@ package com.opensoach.hpft.ViewModels;
 import android.databinding.Bindable;
 import android.text.TextUtils;
 
+import com.android.databinding.library.baseAdapters.BR;
+import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 
 /**
@@ -32,20 +34,39 @@ import com.opensoach.hpft.Model.View.TaskItemDataModel;
 public class TaskItemViewModel extends BaseViewModel {
     private TaskItemDataModel dataModel;
 
+
     public TaskItemViewModel(TaskItemDataModel dataModel) {
         this.dataModel = dataModel;
     }
 
-    public void setUp() {
-        // perform set up tasks, such as adding listeners
-    }
-
-    public void tearDown() {
-        // perform tear down tasks, such as removing listeners
-    }
 
     @Bindable
     public String getTitle() {
         return !TextUtils.isEmpty(dataModel.getTitle()) ? dataModel.getTitle() : "";
     }
+
+
+    @Bindable
+    public boolean getIsCompleted(){
+        return  dataModel.getIsCompleted();
+    }
+
+    @Bindable
+    public void setIsCompleted(boolean isCompleted){
+         dataModel.setIsCompleted(isCompleted);
+         notifyPropertyChanged(BR.isCompleted);
+
+         if (isCompleted == true) {
+             AppRepo.getInstance().getSelectedTaskDataViewModels().add(dataModel);
+         }else{
+             AppRepo.getInstance().getSelectedTaskDataViewModels().remove(dataModel);
+         }
+
+         if (AppRepo.getInstance().getSelectedTaskDataViewModels().size() > 0){
+             MainViewModel.getInstance().getHeaderViewModel().setUploadEnabled(true);
+         }else{
+             MainViewModel.getInstance().getHeaderViewModel().setUploadEnabled(false);
+         }
+    }
+
 }

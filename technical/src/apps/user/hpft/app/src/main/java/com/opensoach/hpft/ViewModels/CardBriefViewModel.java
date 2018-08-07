@@ -8,6 +8,9 @@ import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 
 public class CardBriefViewModel extends BaseViewModel {
 
+    public int SerInID;
+    public int ServConfID;
+
     private PatientDetailsViewModel patientDetails;
     private MedicalDetailsViewModel medicalDetails;
     private TaskDetailsViewModel taskDetails;
@@ -38,5 +41,21 @@ public class CardBriefViewModel extends BaseViewModel {
     public void setTaskDetails(TaskDetailsViewModel taskDetails) {
         this.taskDetails = taskDetails;
         this.taskDetails.ContextActivity = ContextActivity;
+    }
+
+    public int getSerInID() {
+        return SerInID;
+    }
+
+    public void setSerInID(int serInID) {
+        SerInID = serInID;
+    }
+
+    public int getServConfID() {
+        return ServConfID;
+    }
+
+    public void setServConfID(int servConfID) {
+        ServConfID = servConfID;
     }
 }

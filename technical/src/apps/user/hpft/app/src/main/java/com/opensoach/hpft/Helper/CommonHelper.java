@@ -110,6 +110,9 @@ public class CommonHelper {
             cardBriefViewModel = new CardBriefViewModel();
             cardBriefViewModel.ContextActivity = ctx;
 
+            cardBriefViewModel.setSerInID(model.SerInID);
+            cardBriefViewModel.setServConfID(model.ServConfID);
+
             PatientDetailsViewModel patientDetailsViewModel = new PatientDetailsViewModel(model.PatientDetails);
             MedicalDetailsViewModel medicalDetailsViewModel = new MedicalDetailsViewModel(model.MedicalDetails);
             TaskDetailsViewModel taskDetailsViewModel = new TaskDetailsViewModel(model.ServiceConf);

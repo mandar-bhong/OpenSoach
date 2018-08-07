@@ -28,6 +28,9 @@ import android.support.annotation.Nullable;
  */
 public class TaskItemDataModel {
     private String title;
+    private boolean isCompleted;
+    private String observationValue;
+    private String comment;
 
     public TaskItemDataModel() {
     }
@@ -39,5 +42,29 @@ public class TaskItemDataModel {
 
     public void setTitle(@Nullable String title) {
         this.title = title;
+    }
+
+    public boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public String getObservationValue() {
+        return observationValue;
+    }
+
+    public void setObservationValue(String observationValue) {
+        this.observationValue = observationValue;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

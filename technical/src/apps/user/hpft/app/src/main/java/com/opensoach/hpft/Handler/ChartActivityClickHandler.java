@@ -37,15 +37,17 @@ public class ChartActivityClickHandler implements View.OnClickListener {
                         new DialogHelper.DialogCallBack() {
 
                             @Override
-                            public void onSucess(String authText) {
+                            public boolean onSucess(String authText) {
 
                                 if (AppRepo.getInstance().getAuthCodeList().contains(authText)) {
                                     processChartData(authText);
+                                    return  true;
                                 } else {
                                     Toast.makeText(
                                             clickedView.getContext(),
                                             clickedView.getContext().getResources().getString(R.string.invalid_auth_code),
                                             Toast.LENGTH_LONG).show();
+                                    return  false;
                                 }
                             }
 
@@ -68,8 +70,8 @@ public class ChartActivityClickHandler implements View.OnClickListener {
                         new DialogHelper.DialogCallBack() {
 
                             @Override
-                            public void onSucess(String strData) {
-
+                            public boolean onSucess(String strData) {
+                                return  false;
                             }
 
                             @Override
