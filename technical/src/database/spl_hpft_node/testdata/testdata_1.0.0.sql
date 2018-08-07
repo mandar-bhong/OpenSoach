@@ -46,7 +46,7 @@ INSERT INTO `spl_node_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connectio
 -- Dumping data for table `spl_node_service_conf_tbl`
 --
 
-INSERT INTO `spl_node_service_conf_tbl` (`cpm_id_fk`, `spc_id_fk`, `conf_type_code`, `serv_conf_name`, `serv_conf`) VALUES ('3', '3', 'SERVICE_DAILY_CHART', 'Patient File Template 1', '{"timeconf":{"starttime":480, "interval":30, "endtime": 1020}, "taskconf":{"tasks":[{"taskname": "Urinal"}, {"taskname": "Wash Basin"}, {"taskname": "Hand Wash"},{"taskname": "Tissue Roll"},{"taskname": "Sanitary Ware"},{"taskname": "Dustbins"},{"taskname": "Mopping"},{"taskname": "Air Freshner"},{"taskname": "Doors"}, {"taskname": "Wash Platform"}]}}');
+INSERT INTO `spl_node_service_conf_tbl` (`cpm_id_fk`, `spc_id_fk`, `conf_type_code`, `serv_conf_name`, `serv_conf`) VALUES ('3', '3', 'SERVICE_DAILY_CHART', 'Patient File Template 1', '{"taskconf":{"tasks":[{"taskname":"Monitor Temperature","fields":["Value","Comments"]},{"taskname":"Monitor Pressure","fields":["Value","Comments"]},{"taskname":"Saline 250ML","fields":["Comments"]},{"taskname":"Monitor Heart Rate","fields":["Value","Comments"]},{"taskname":"Monitor Blood Pressure","fields":["Value","Comments"]},{"taskname":"Physiotherapy","fields":["Comments"]},{"taskname":"Dressing","fields":["Comments"]}]},"timeconf":{"endtime":1020,"interval":30,"starttime":480}}');
 
 
 --
@@ -81,8 +81,16 @@ INSERT INTO `spl_node_field_operator_tbl` (`fop_name`,`email_id`,`cpm_id_fk`, `f
 INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES ('2', '3', '3');
 
 
+--
+-- Dumping data for table `spl_node_service_in_txn_tbl`
+--
 
 
+INSERT INTO `spl_node_service_in_txn_tbl` (`cpm_id_fk`, `serv_in_id_fk`, `fopcode`, `status`, `txn_data`, `txn_date`, `created_on`, `updated_on`) VALUES
+	(3, 1, '11', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 630, "slotstarttime": 600}', '2018-08-05 19:13:19', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
+	(3, 1, '11', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 630, "slotstarttime": 600}', '2018-08-07 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
+	(3, 1, '11', 1, '{"comment": "Saline", "taskname": "Saline 250ML", "slotendtime": 630, "slotstarttime": 600}', '2018-08-07 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
+	(3, 1, '11', 1, '{"value": 150, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 730, "slotstarttime": 700}', '2018-08-07 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19');
 
 
 
