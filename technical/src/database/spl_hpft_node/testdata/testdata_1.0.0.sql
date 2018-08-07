@@ -66,6 +66,20 @@ INSERT INTO `spl_hpft_patient_master_tbl` (`cpm_id_fk`, `patient_details`, `medi
 ('3', '{"age": "76", "bedno": "13", "patientname": "Patient2", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9843242382", "patientregistrationno": "5423477234236"}', '{"allergies": "allergy2", "treatmentdone": "traetment2", "reasonadmission": "reason2", "patientmedicalhistory": "history2"}', '1', '3', '2', '1');
 
 
+--
+-- Dumping data for table `spl_node_field_operator_tbl`
+--
+
+INSERT INTO `spl_node_field_operator_tbl` (`fop_name`,`email_id`,`cpm_id_fk`, `fopcode`, `mobile_no`, `fop_state`, `fop_area`) VALUES ('Operator 1','operator1@cust1.com','3', '1234', '1222', '1', '1');
+INSERT INTO `spl_node_field_operator_tbl` (`fop_name`,`email_id`,`cpm_id_fk`, `fopcode`, `mobile_no`, `fop_state`, `fop_area`) VALUES ('Operator 2','operator2@cust1.com','3', '445', '222', '1', '2');
+
+
+--
+-- Dumping data for table `spl_node_fop_sp_tbl`
+--
+
+INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES ('2', '3', '3');
+
 
 
 
