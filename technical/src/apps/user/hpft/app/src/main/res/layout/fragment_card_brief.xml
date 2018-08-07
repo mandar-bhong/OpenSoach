@@ -31,8 +31,7 @@
             android:layout_toRightOf="@+id/tempLayout"
             android:layout_weight="95"
             android:background="@color/colorWhite"
-            android:paddingBottom="2dp"
-            android:paddingTop="5dp">
+            >
 
             <TableRow>
 
@@ -54,17 +53,21 @@
                         android:padding="10dp">
                         <TableRow>
                             <LinearLayout>
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:ellipsize="end"-->
+                                    <!--android:maxLines="1"-->
+                                    <!--android:text="Name"/>-->
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:background="@drawable/patient" />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:text="Name"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10sp"
+                                    android:layout_marginLeft="15sp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@{Data.patientDetails.name}"/>
@@ -79,17 +82,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent">
 
-                                <TextView
+                                <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:text="Room No"/>
+                                    android:layout_centerVertical="true"
+                                    android:background="@drawable/bed" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10sp"
+                                    android:layout_marginLeft="15sp"
                                     android:ellipsize="end"
                                     android:maxLines="1"
                                     android:text="@{Data.patientDetails.roomNo}"/>
@@ -103,18 +105,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
-                                <TextView
+                                <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxLines="1"
-                                    android:text="Contact Number"/>
+                                    android:layout_centerVertical="true"
+                                    android:background="@drawable/phone" />
 
                                 <TextView
-                                    android:layout_width="270dp"
+                                    android:layout_width="wrap_content"
                                     android:maxLines="1"
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
+                                    android:layout_marginLeft="15sp"
                                     android:text="@{Data.patientDetails.emergencyContactNo}"/>
 
                             </LinearLayout>
