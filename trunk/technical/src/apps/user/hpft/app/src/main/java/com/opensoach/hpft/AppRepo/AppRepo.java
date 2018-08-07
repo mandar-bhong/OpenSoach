@@ -5,9 +5,12 @@ import android.os.Build;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.opensoach.hpft.BuildConfig;
+import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.ViewModels.CardBriefViewModel;
+import com.opensoach.hpft.ViewModels.TaskDataViewModel;
 
 /**
  * Created by Mandar on 2/25/2017. This class will have all application level data
@@ -37,6 +40,8 @@ public final class AppRepo {
     private boolean isDeviceSyncInProgress;
     private CardBriefViewModel activeCard;
 
+    private List<TaskItemDataModel> selectedTaskDataViewModels;
+
     public static final String IsServerConnectedPropName = "AppRepo.IsServerConnected";
     public static final String CurrentLocationIdPropName = "AppRepo.currentLocationId";
     public static final String DeviceSyncCompletedPropName = "AppRepo.isDeviceSyncInProgress";
@@ -51,6 +56,8 @@ public final class AppRepo {
         currentLocationId = 0;
         currentChartId = 0;
         authCodeList = new ArrayList<>();
+
+        selectedTaskDataViewModels = new ArrayList<>();
 
         isDeviceAuthorized = true;
 
@@ -184,5 +191,10 @@ public final class AppRepo {
 
     public void setActiveCard(CardBriefViewModel activeCard) {
         this.activeCard = activeCard;
+    }
+
+
+    public List<TaskItemDataModel> getSelectedTaskDataViewModels() {
+        return selectedTaskDataViewModels;
     }
 }

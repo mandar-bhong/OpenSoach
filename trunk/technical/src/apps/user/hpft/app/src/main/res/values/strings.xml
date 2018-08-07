@@ -2,6 +2,9 @@
     <string name="app_name">Patient Care</string>
     <string name="action_settings">Settings</string>
 
+    <string name="task_pending">Pending</string>
+    <string name="task_completed">Completed</string>
+
     <string name="btn_ok">Ok</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_send">Send</string>
@@ -15,13 +18,13 @@
     <string name="servicepoint_live">PatientCare</string>
 
     <!-- Dialog box text -->
-    <string name="dialog_enter_auth_code">Enter Authcode :</string>
+    <string name="dialog_enter_auth_code">Enter Attendant Code</string>
     <string name="dialog_complaint_title">Raise a Complaint</string>
     <string name="dialog_complaint_field_by">Enter your Name</string>
     <string name="dialog_complaint_field_title">Complaint Title</string>
     <string name="dialog_complaint_field_description">Complaint Details</string>
 
-    <string name="invalid_auth_code">Entered auth code is invalid</string>
+    <string name="invalid_auth_code">Entered attendant code is invalid</string>
     <string name="enter_valid_authcode">Please enter a valid authcode</string>
 
     <string name="feed_back_success">Thank you for your feedback</string>

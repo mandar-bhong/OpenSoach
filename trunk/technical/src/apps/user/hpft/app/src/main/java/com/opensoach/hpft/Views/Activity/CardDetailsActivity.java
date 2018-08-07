@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.R;
+import com.opensoach.hpft.ViewModels.MainViewModel;
 import com.opensoach.hpft.Views.Fragment.HeaderFragment;
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
@@ -29,6 +30,8 @@ public class CardDetailsActivity extends AppCompatActivity
         HeaderFragment.OnFragmentInteractionListener{
 
 
+    final String CONST_TAB_CHECK_LIST = "Check List";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class CardDetailsActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Details"));
         //tabLayout.addTab(tabLayout.newTab().setText("Medical Details"));
-        tabLayout.addTab(tabLayout.newTab().setText("Check List"));
+        tabLayout.addTab(tabLayout.newTab().setText(CONST_TAB_CHECK_LIST));
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new TabPagerAdapter (getSupportFragmentManager(),
@@ -53,6 +56,18 @@ public class CardDetailsActivity extends AppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+
+                if (tab.getText() == CONST_TAB_CHECK_LIST){
+                    MainViewModel.getInstance().getHeaderViewModel().setUploadVisiable(true);
+                }else{
+                    MainViewModel.getInstance().getHeaderViewModel().setUploadVisiable(false);
+                }
+
+                if (AppRepo.getInstance().getSelectedTaskDataViewModels().size() > 0 ){
+                    MainViewModel.getInstance().getHeaderViewModel().setUploadEnabled(true);
+                }else{
+                    MainViewModel.getInstance().getHeaderViewModel().setUploadEnabled(false);
+                }
             }
 
             @Override
@@ -86,6 +101,12 @@ public class CardDetailsActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected  void onDestroy(){
+        super.onDestroy();
+        MainViewModel.getInstance().getHeaderViewModel().setUploadVisiable(false);
     }
 
 

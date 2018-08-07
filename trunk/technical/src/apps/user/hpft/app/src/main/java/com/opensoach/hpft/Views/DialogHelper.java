@@ -18,7 +18,7 @@ import com.opensoach.hpft.R;
 public class DialogHelper {
 
     public interface DialogCallBack {
-        public void onSucess(String strData);
+        public boolean onSucess(String strData);
 
         public void onSucess(String strData1, String strData2);
 
@@ -59,8 +59,11 @@ public class DialogHelper {
             @Override
             public void onClick(View v) {
                 if (userInput.getText() != null && userInput.getText().length() != 0) {
-                    callback.onSucess(userInput.getText().toString());
-                    alertDialog.dismiss();
+                  boolean isSuccess =  callback.onSucess(userInput.getText().toString());
+
+                  if(isSuccess) {
+                      alertDialog.dismiss();
+                  }
                 } else {
                     Toast.makeText(
                             lContext,
