@@ -1,8 +1,6 @@
 package service
 
 import (
-	"time"
-
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hpft/api/models"
 	repo "opensoach.com/hpft/api/repository"
@@ -179,11 +177,11 @@ func (service ServiceConfigService) ServiceinstanceList(listReqData gmodels.APID
 
 }
 
-func (service ServiceConfigService) GetServiceInstanceTxn(spid int, StartDate time.Time, EndDate time.Time) (bool, interface{}) {
+func (service ServiceConfigService) GetServiceInstanceTxn(reqData lmodels.APIServiceInstnaceTxnRequest) (bool, interface{}) {
 
 	cpmID := service.ExeCtx.SessionInfo.Product.CustProdID
 
-	dbErr, complaintList := dbaccess.GetServiceInstTxn(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID, spid, StartDate, EndDate)
+	dbErr, complaintList := dbaccess.GetServiceInstTxn(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID, reqData)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
 

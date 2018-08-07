@@ -4,11 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"time"
 
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	hkthelper "opensoach.com/hpft/api/helper"
+	lmodels "opensoach.com/hpft/api/models"
 	"opensoach.com/hpft/constants"
 	"opensoach.com/hpft/constants/dbquery"
 	hktmodels "opensoach.com/hpft/models"
@@ -179,7 +179,7 @@ func GetServiceInstanceList(dbConn string, filterModel *hktmodels.DBSearchServic
 	return nil, data
 }
 
-func GetServiceInstTxn(dbConn string, cpmid int64, spid int, startdate time.Time, enddate time.Time) (error, *[]hktmodels.DBServiceInstanceTxBriefDataModel) {
+func GetServiceInstTxn(dbConn string, cpmid int64, reqData lmodels.APIServiceInstnaceTxnRequest) (error, *[]hktmodels.DBServiceInstanceTxBriefDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetServiceInstTxn")
 
@@ -187,13 +187,23 @@ func GetServiceInstTxn(dbConn string, cpmid int64, spid int, startdate time.Time
 	data := &[]hktmodels.DBServiceInstanceTxBriefDataModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.Query
-	selDBCtx.Query = dbquery.QUERY_GET_SERVICE_INSTANCE_TXN
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(cpmid, spid, startdate, enddate)
-	if selErr != nil {
-		return selErr, nil
+	if reqData.StartDate != nil && reqData.EndDate != nil {
+		selDBCtx.Query = dbquery.QUERY_GET_SERVICE_INSTANCE_TXN
+		selErr := selDBCtx.Select(cpmid, reqData.SPID, reqData.ServiceInstanceID, reqData.StartDate, reqData.EndDate)
+		if selErr != nil {
+			return selErr, nil
+		}
+		return nil, data
+	} else {
+		selDBCtx.Query = dbquery.QUERY_GET_SERVICE_INSTANCE_TXN_ALL
+		selErr := selDBCtx.Select(cpmid, reqData.SPID, reqData.ServiceInstanceID)
+		if selErr != nil {
+			return selErr, nil
+		}
+		return nil, data
 	}
-	return nil, data
+
 }
 
 func GetServiceConfShortDataList(dbConn string, cpmid int64) (error, *[]hktmodels.DBServiceConfShortDataModel) {

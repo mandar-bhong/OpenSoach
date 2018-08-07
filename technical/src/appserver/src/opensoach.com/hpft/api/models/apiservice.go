@@ -15,7 +15,8 @@ type APIServiceInstanceAddRequest struct {
 }
 
 type APIServiceInstnaceTxnRequest struct {
-	SPID      int       `json:"spid"`
-	StartDate time.Time `json:"startdate"`
-	EndDate   time.Time `json:"enddate"`
+	SPID              int        `json:"spid"`
+	ServiceInstanceID int64      `json:"servinid"`
+	StartDate         *time.Time `json:"startdate"`
+	EndDate           *time.Time `json:"enddate"`
 }

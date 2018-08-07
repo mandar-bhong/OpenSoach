@@ -12,7 +12,11 @@ Inner Join spl_node_service_conf_tbl serv_conf on serv_conf.id = serv_conf_in.se
 
 const QUERY_GET_SERVICE_INSTANCE_TXN = `select serv_in_txn.id,serv_in_id_fk,fopcode,status,txn_data,txn_date
 from spl_node_service_in_txn_tbl  as serv_in_txn inner join spl_node_service_instance_tbl as serv_conf_in on serv_conf_in.id =  serv_in_txn.serv_in_id_fk
-where serv_in_txn.cpm_id_fk=? and serv_conf_in.sp_id_fk= ? and txn_date between ? and ?`
+where serv_in_txn.cpm_id_fk=? and serv_conf_in.sp_id_fk= ? and serv_conf_in.id= ? and txn_date between ? and ?`
+
+const QUERY_GET_SERVICE_INSTANCE_TXN_ALL = `select serv_in_txn.id,serv_in_id_fk,fopcode,status,txn_data,txn_date
+from spl_node_service_in_txn_tbl  as serv_in_txn inner join spl_node_service_instance_tbl as serv_conf_in on serv_conf_in.id =  serv_in_txn.serv_in_id_fk
+where serv_in_txn.cpm_id_fk=? and serv_conf_in.sp_id_fk= ? and serv_conf_in.id= ?`
 
 const QUERY_GET_SERVICE_CONF_SHORT_LIST = `select id,serv_conf_name from spl_node_service_conf_tbl where cpm_id_fk = ?`
 
