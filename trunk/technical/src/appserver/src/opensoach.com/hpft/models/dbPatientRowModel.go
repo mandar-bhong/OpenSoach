@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type DBPatientDataModel struct {
 	PatientDetails        string `db:"patient_details" json:"patientdetails"`
 	MedicalDetails        string `db:"medical_details" json:"medicaldetails"`
@@ -15,13 +17,14 @@ type DBPatientInsertRowModel struct {
 }
 
 type DBPatientListDataModel struct {
-	PatientId             int64  `db:"id" dbattr:"pri,auto"  json:"patientid"`
-	PatientDetails        string `db:"patient_details" json:"patientdetails"`
-	MedicalDetails        string `db:"medical_details" json:"medicaldetails"`
-	PatientFileTemplateID int64  `db:"patient_file_template" json:"patientfiletemplate"`
-	SpId                  int64  `db:"sp_id_fk" json:"spid"`
-	SpName                string `db:"sp_name" json:"spname"`
-	Status                int    `db:"status" json:"status"`
+	PatientId             int64     `db:"id" dbattr:"pri,auto"  json:"patientid"`
+	PatientDetails        string    `db:"patient_details" json:"patientdetails"`
+	MedicalDetails        string    `db:"medical_details" json:"medicaldetails"`
+	PatientFileTemplateID int64     `db:"patient_file_template" json:"patientfiletemplate"`
+	SpId                  int64     `db:"sp_id_fk" json:"spid"`
+	SpName                string    `db:"sp_name" json:"spname"`
+	Status                int       `db:"status" json:"status"`
+	DischargedOn          time.Time `db:"discharged_on" json:"closedon"`
 }
 
 type DBPatientUpdateRowModel struct {
@@ -33,7 +36,8 @@ type DBPatientUpdateRowModel struct {
 }
 
 type DBPatientUpdateStatusRowModel struct {
-	PatientId int64 `db:"id" dbattr:"pri,auto"  json:"patientid"`
-	CpmId     int64 `db:"cpm_id_fk" json:"cpmid"`
-	Status    int   `db:"status" json:"status"`
+	PatientId    int64     `db:"id" dbattr:"pri,auto"  json:"patientid"`
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	Status       int       `db:"status" json:"status"`
+	DischargedOn time.Time `db:"discharged_on" json:"closedon"`
 }

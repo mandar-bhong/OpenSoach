@@ -313,6 +313,7 @@ CREATE TABLE `spl_hpft_patient_master_tbl` (
 	`sp_id_fk` INT(11) UNSIGNED NOT NULL,
 	`serv_in_id_fk` INT(11) UNSIGNED NOT NULL,
 	`status` TINYINT(3) UNSIGNED NOT NULL COMMENT '1: Admitted, 2: Discharged',
+	`discharged_on` DATETIME NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_patient_cpm` (`cpm_id_fk`),
 	INDEX `fk_patient_serf_conf` (`patient_file_template`),
