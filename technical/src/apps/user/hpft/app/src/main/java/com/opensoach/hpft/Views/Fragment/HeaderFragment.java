@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.ViewModels.MainViewModel;
 import com.opensoach.hpft.Views.ClickHandler.HeaderUploadClickHandler;
@@ -82,6 +83,8 @@ public class HeaderFragment extends Fragment {
 
         fragmentHeaderBinding.setVM(MainViewModel.getInstance().getHeaderViewModel());
         fragmentHeaderBinding.setUploadClickHandler(new HeaderUploadClickHandler());
+
+        fragmentHeaderBinding.setData(AppRepo.getInstance().getActiveCard());
 
         View view = fragmentHeaderBinding.getRoot();
         return view;

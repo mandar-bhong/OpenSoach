@@ -30,4 +30,10 @@ public class PacketPatientDetailsModel {
 
     @SerializedName("patientregistrationno")
     public String RegistrationNo;
+
+    @SerializedName("weight")
+    public String Weight;
+
+    @SerializedName("bloodgroup")
+    public String BloodGroup;
 }
