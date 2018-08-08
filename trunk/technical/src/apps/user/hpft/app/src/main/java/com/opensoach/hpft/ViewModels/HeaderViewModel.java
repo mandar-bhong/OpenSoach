@@ -72,9 +72,8 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
     }
 
     public void onBackClick(View view) {
-//        Activity currentActivity =(Activity) view.getContext();
-//        currentActivity.finish();
-        setUploadEnabled(!uploadEnabled);
+        Activity currentActivity =(Activity) view.getContext();
+        currentActivity.finish();
     }
 
     @Bindable
