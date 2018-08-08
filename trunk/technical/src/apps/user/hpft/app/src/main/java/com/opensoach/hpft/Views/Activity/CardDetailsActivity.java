@@ -68,6 +68,9 @@ public class CardDetailsActivity extends AppCompatActivity
                 }else{
                     MainViewModel.getInstance().getHeaderViewModel().setUploadEnabled(false);
                 }
+
+                //TODO: Calculate time and select value
+                AppRepo.getInstance().getActiveCard().getTaskDetails().getTaskTimeDataViewModel().setSelectedTimeTaskItem();
             }
 
             @Override
@@ -84,6 +87,8 @@ public class CardDetailsActivity extends AppCompatActivity
         //TODO: This step is importent for adding fragment into activity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
+
+
 
     }
 

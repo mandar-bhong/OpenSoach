@@ -1,28 +1,36 @@
 package com.opensoach.hpft.ViewModels;
 
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.opensoach.hpft.BR;
-import com.opensoach.hpft.Model.View.TaskItemDataModel;
-import com.opensoach.hpft.Views.Adapter.TaskDataAdapter;
+import com.opensoach.hpft.Model.View.TaskTimeItemDataModel;
 import com.opensoach.hpft.Views.Adapter.TaskTimeDataAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Mandar on 02-08-2018.
  */
 
-public class TaskTimeDataViewModel extends BaseObservable {
+public class TaskTimeDataViewModel extends BaseViewModel {
     private static final String TAG = "DataViewModel";
-    private TaskTimeDataAdapter adapter;
-    private List<TaskItemDataModel> data;
 
-    public TaskTimeDataViewModel() {
+    private TaskDataViewModel taskDataViewModel;
+
+    private List<TaskTimeItemViewModel> data;
+
+    private TaskTimeItemViewModel selectedItem;
+
+    private List<TaskTimeItemDataModel> timeData;
+
+    public TaskTimeDataViewModel(TaskDataViewModel taskDataViewModel,List<TaskTimeItemDataModel> timeSeries ) {
         data = new ArrayList<>();
-        adapter = new TaskTimeDataAdapter();
+
+        this.taskDataViewModel = taskDataViewModel;
+        timeData = timeSeries;
     }
 
     public void setUp() {
@@ -35,22 +43,55 @@ public class TaskTimeDataViewModel extends BaseObservable {
     }
 
     @Bindable
-    public List<TaskItemDataModel> getData() {
+    public List<TaskTimeItemViewModel> getData() {
         return this.data;
-    }
-
-    @Bindable
-    public TaskTimeDataAdapter getAdapter() {
-        return this.adapter;
     }
 
     private void populateData() {
         // populate the data from the source, such as the database.
-        for (int i = 0; i < 5; i++) {
-            TaskItemDataModel dataModel = new TaskItemDataModel();
-            dataModel.setTitle(String.valueOf(i));
+
+        data.clear();
+
+        for (int i = 0; i < timeData.size(); i++) {
+            TaskTimeItemViewModel dataModel = new TaskTimeItemViewModel();
+            dataModel.setTaskTimeDataModel(timeData.get(i));
+            dataModel.Parent = this;
             data.add(dataModel);
         }
+
         notifyPropertyChanged(BR.data);
+    }
+
+    @Bindable
+    public TaskDataViewModel getTaskDataViewModel() {
+        return taskDataViewModel;
+    }
+
+    @Bindable
+    public void setTaskDataViewModel(TaskDataViewModel taskDataViewModel) {
+        this.taskDataViewModel = taskDataViewModel;
+    }
+
+    @Bindable
+    public List<TaskTimeItemViewModel> getTimeData() {
+        return data;
+    }
+
+    @Bindable
+    public void setTimeData(List<TaskTimeItemDataModel> data) {
+
+    }
+
+    public void setSelectedTimeTaskItem(){
+        ((TaskDetailsViewModel)this.Parent).getTaskDataAdapter().updateData(this.getTaskDataViewModel().getData());
+        selectedItem = data.get(0);
+    }
+
+    public TaskTimeItemViewModel getSelectedItem() {
+        return selectedItem;
+    }
+
+    public void setSelectedItem(TaskTimeItemViewModel selectItem) {
+        this.selectedItem = selectItem;
     }
 }

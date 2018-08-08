@@ -6,14 +6,19 @@
     <data>
         <variable
             name="VM"
-            type="com.opensoach.hpft.ViewModels.TaskItemViewModel"/>
+            type="com.opensoach.hpft.ViewModels.TaskTimeItemViewModel"/>
+
+        <variable
+            name="ClickHandler"
+            type="com.opensoach.hpft.Views.ClickHandler.TaskTimeClickHandler"/>
 
     </data>
 
     <LinearLayout
         android:layout_width="180dp"
         android:layout_height="55dp"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}">
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
@@ -32,7 +37,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="@{VM.title}"/>
+                android:text="@{VM.displayText}"/>
 
             <EditText
                 android:layout_toEndOf="@id/time"

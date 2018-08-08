@@ -39,12 +39,10 @@ import java.util.List;
  */
 public class TaskDataViewModel extends BaseObservable {
     private static final String TAG = "DataViewModel";
-    private TaskDataAdapter adapter;
     private List<TaskItemDataModel> data;
 
     public TaskDataViewModel() {
         data = new ArrayList<>();
-        adapter = new TaskDataAdapter();
     }
 
     public void setUp(PacketTaskConfigModel packetTaskConfigModel) {
@@ -61,10 +59,6 @@ public class TaskDataViewModel extends BaseObservable {
         return this.data;
     }
 
-    @Bindable
-    public TaskDataAdapter getAdapter() {
-        return this.adapter;
-    }
 
     private void populateData(PacketTaskConfigModel packetTaskConfigModel) {
         // populate the data from the source, such as the database.

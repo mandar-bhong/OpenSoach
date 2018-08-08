@@ -3,8 +3,7 @@ package com.opensoach.hpft.Views.DataBinding;
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 
-import com.opensoach.hpft.Model.View.TaskItemDataModel;
-import com.opensoach.hpft.Views.Adapter.TaskDataAdapter;
+import com.opensoach.hpft.ViewModels.TaskTimeItemViewModel;
 import com.opensoach.hpft.Views.Adapter.TaskTimeDataAdapter;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class TaskTimeRecycleViewDataBinding {
      * @param data         must be explicitly passed in
      */
     @BindingAdapter({"app:adapter", "app:data"})
-    public void bind(RecyclerView recyclerView, TaskTimeDataAdapter adapter, List<TaskItemDataModel> data) {
+    public void bind(RecyclerView recyclerView, TaskTimeDataAdapter adapter, List<TaskTimeItemViewModel> data) {
         recyclerView.setAdapter(adapter);
         adapter.updateData(data);
 
