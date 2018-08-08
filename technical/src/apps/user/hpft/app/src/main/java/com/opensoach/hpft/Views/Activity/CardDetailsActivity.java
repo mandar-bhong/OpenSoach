@@ -1,11 +1,13 @@
 package com.opensoach.hpft.Views.Activity;
 
 import android.net.Uri;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,12 +17,20 @@ import android.view.WindowManager;
 import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.ViewModels.MainViewModel;
+import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
+import com.opensoach.hpft.ViewModels.TaskTimeDataViewModel;
+import com.opensoach.hpft.ViewModels.TaskTimeItemViewModel;
+import com.opensoach.hpft.Views.ClickHandler.TaskTimeClickHandler;
 import com.opensoach.hpft.Views.Fragment.HeaderFragment;
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.PatientDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.TaskDetailsFragment;
 import com.opensoach.hpft.Views.Fragment.TaskListFragment;
 import com.opensoach.hpft.Views.Miscellaneous.TabPagerAdapter;
+
+import org.apache.log4j.chainsaw.Main;
+
+import java.util.Date;
 
 public class CardDetailsActivity extends AppCompatActivity
         implements PatientDetailsFragment.OnFragmentInteractionListener,
@@ -38,6 +48,8 @@ public class CardDetailsActivity extends AppCompatActivity
         setContentView(R.layout.activity_card_details);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Details"));
@@ -59,6 +71,26 @@ public class CardDetailsActivity extends AppCompatActivity
 
                 if (tab.getText() == CONST_TAB_CHECK_LIST){
                     MainViewModel.getInstance().getHeaderViewModel().setUploadVisiable(true);
+
+
+                    TaskDetailsViewModel taskDetailsViewModel =  AppRepo.getInstance().getActiveCard().getTaskDetails();
+                    TaskTimeItemViewModel taskTimeItemViewModel = taskDetailsViewModel.getSelectedItem();
+
+                    if (taskTimeItemViewModel != null){
+
+                        RecyclerView rvTime = (RecyclerView)findViewById(R.id.time_recycler_view);
+                        rvTime.getLayoutManager().scrollToPosition(
+                                taskTimeItemViewModel.getTaskTimeDataModel().getIndex()
+                        );
+
+                        new Handler(getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new TaskTimeClickHandler().onClick(null, AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem());
+                            }
+                        });
+                    }
+
                 }else{
                     MainViewModel.getInstance().getHeaderViewModel().setUploadVisiable(false);
                 }
@@ -68,9 +100,6 @@ public class CardDetailsActivity extends AppCompatActivity
                 }else{
                     MainViewModel.getInstance().getHeaderViewModel().setUploadEnabled(false);
                 }
-
-                //TODO: Calculate time and select value
-                AppRepo.getInstance().getActiveCard().getTaskDetails().getTaskTimeDataViewModel().setSelectedTimeTaskItem();
             }
 
             @Override
@@ -88,7 +117,19 @@ public class CardDetailsActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
 
+        //TODO: Calculate time and select value
+        //AppRepo.getInstance().getActiveCard().getTaskDetails().getTaskTimeDataViewModel().setSelectedTimeTaskItem();
 
+        Date d = new Date();
+
+        for (TaskTimeItemViewModel taskTimeDataModel : AppRepo.getInstance().getActiveCard().getTaskDetails().getTaskTimeDataViewModel().getData()){
+
+            if (taskTimeDataModel.getTaskTimeDataModel().getStartTime().getTime() < d.getTime() &&
+                    taskTimeDataModel.getTaskTimeDataModel().getEndTime().getTime() >    d.getTime() ){
+                AppRepo.getInstance().getActiveCard().getTaskDetails().setSelectedItem(taskTimeDataModel);
+                break;
+            }
+        }
 
     }
 

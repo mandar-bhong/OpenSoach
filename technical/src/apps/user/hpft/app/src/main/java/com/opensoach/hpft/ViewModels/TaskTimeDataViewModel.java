@@ -22,7 +22,6 @@ public class TaskTimeDataViewModel extends BaseViewModel {
 
     private List<TaskTimeItemViewModel> data;
 
-    private TaskTimeItemViewModel selectedItem;
 
     private List<TaskTimeItemDataModel> timeData;
 
@@ -82,16 +81,4 @@ public class TaskTimeDataViewModel extends BaseViewModel {
 
     }
 
-    public void setSelectedTimeTaskItem(){
-        ((TaskDetailsViewModel)this.Parent).getTaskDataAdapter().updateData(this.getTaskDataViewModel().getData());
-        selectedItem = data.get(0);
-    }
-
-    public TaskTimeItemViewModel getSelectedItem() {
-        return selectedItem;
-    }
-
-    public void setSelectedItem(TaskTimeItemViewModel selectItem) {
-        this.selectedItem = selectItem;
-    }
 }

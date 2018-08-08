@@ -1,6 +1,7 @@
 package com.opensoach.hpft.ViewModels;
 
 import android.databinding.Bindable;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.opensoach.hpft.Model.Communication.PacketServiceConfModel;
 import com.opensoach.hpft.Model.View.TaskTimeItemDataModel;
@@ -23,6 +24,8 @@ public class TaskDetailsViewModel extends BaseViewModel {
     private TaskDataAdapter taskDataAdapter;
 
     private PacketServiceConfModel packetServiceConf;
+
+    private TaskTimeItemViewModel selectedItem;
 
     public TaskDetailsViewModel() {
         taskTimeDataAdapter = new TaskTimeDataAdapter();
@@ -62,6 +65,14 @@ public class TaskDetailsViewModel extends BaseViewModel {
 
     public TaskTimeDataViewModel getTaskTimeDataViewModel() {
         return taskTimeDataViewModel;
+    }
+
+    public TaskTimeItemViewModel getSelectedItem() {
+        return selectedItem;
+    }
+
+    public void setSelectedItem(TaskTimeItemViewModel selectItem) {
+        this.selectedItem = selectItem;
     }
 
 }
