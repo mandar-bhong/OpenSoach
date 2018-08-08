@@ -18,6 +18,7 @@
         android:layout_width="180dp"
         android:layout_height="55dp"
         android:padding="5dp"
+        android:background="@{VM.isSelectedTime ? @android:color/holo_blue_dark : @android:color/transparent}"
         android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}">
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
