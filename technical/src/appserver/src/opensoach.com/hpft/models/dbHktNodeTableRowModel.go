@@ -166,5 +166,5 @@ type DBSplHpftPatientMasterTableRowModel struct {
 	SpId                  int64      `db:"sp_id_fk" json:"spid"`
 	ServInId              int64      `db:"serv_in_id_fk" json:"servinid"`
 	Status                int        `db:"status" json:"status"`
-	DischargedOn          *time.Time `db:"discharged_on" json:"closedon"`
+	DischargedOn          *time.Time `db:"discharged_on" json:"dischargedon"`
 }
