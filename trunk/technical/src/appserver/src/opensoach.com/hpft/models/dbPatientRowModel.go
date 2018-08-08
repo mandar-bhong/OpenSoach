@@ -24,7 +24,7 @@ type DBPatientListDataModel struct {
 	SpId                  int64      `db:"sp_id_fk" json:"spid"`
 	SpName                string     `db:"sp_name" json:"spname"`
 	Status                int        `db:"status" json:"status"`
-	DischargedOn          *time.Time `db:"discharged_on" json:"closedon"`
+	DischargedOn          *time.Time `db:"discharged_on" json:"dischargedon"`
 }
 
 type DBPatientUpdateRowModel struct {
@@ -39,5 +39,5 @@ type DBPatientUpdateStatusRowModel struct {
 	PatientId    int64     `db:"id" dbattr:"pri,auto"  json:"patientid"`
 	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
 	Status       int       `db:"status" json:"status"`
-	DischargedOn time.Time `db:"discharged_on" json:"closedon"`
+	DischargedOn time.Time `db:"discharged_on" json:"dischargedon"`
 }
