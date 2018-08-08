@@ -109,6 +109,8 @@ public class CommonHelper {
 
             cardBriefViewModel.setSerInID(model.SerInID);
             cardBriefViewModel.setServConfID(model.ServConfID);
+            cardBriefViewModel.setLocationID(model.LocationID);
+
 
             PatientDetailsViewModel patientDetailsViewModel = new PatientDetailsViewModel(model.PatientDetails);
             MedicalDetailsViewModel medicalDetailsViewModel = new MedicalDetailsViewModel(model.MedicalDetails);

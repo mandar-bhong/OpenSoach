@@ -51,12 +51,14 @@ public class TaskItemViewModel extends BaseViewModel {
         return  dataModel.getIsCompleted();
     }
 
+
     @Bindable
     public void setIsCompleted(boolean isCompleted){
          dataModel.setIsCompleted(isCompleted);
-         notifyPropertyChanged(BR.isCompleted);
 
-         if (isCompleted == true) {
+        notifyPropertyChanged(BR.isCompleted);
+
+        if (isCompleted == true) {
              AppRepo.getInstance().getSelectedTaskDataViewModels().add(dataModel);
          }else{
              AppRepo.getInstance().getSelectedTaskDataViewModels().remove(dataModel);

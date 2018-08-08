@@ -10,6 +10,7 @@ public class CardBriefViewModel extends BaseViewModel {
 
     public int SerInID;
     public int ServConfID;
+    public int locationID;
 
     private PatientDetailsViewModel patientDetails;
     private MedicalDetailsViewModel medicalDetails;
@@ -57,5 +58,13 @@ public class CardBriefViewModel extends BaseViewModel {
 
     public void setServConfID(int servConfID) {
         ServConfID = servConfID;
+    }
+
+    public int getLocationID() {
+        return locationID;
+    }
+
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
     }
 }

@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.opensoach.hpft.Constants.DBCreateTableConstants;
+
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -35,14 +37,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        Log.i("####", "create query : " + DBConstants.CREATE_TABLE_CHART);
-
+        //TODO: This tables need to remove
         db.execSQL(DBConstants.CREATE_TABLE_CHART);
         db.execSQL(DBConstants.CREATE_TABLE_TASK);
         db.execSQL(DBConstants.CREATE_TABLE_CHART_DATA);
-        db.execSQL(DBConstants.CREATE_TABLE_CONFIG);
-        db.execSQL(DBConstants.CREATE_TABLE_LOCATION);
-        db.execSQL(DBConstants.CREATE_TABLE_AUTH_LOCATION);
+
+        db.execSQL(DBCreateTableConstants.CREATE_TABLE_LOCATION);
+        db.execSQL(DBCreateTableConstants.CREATE_TABLE_AUTH_LOCATION);
+        db.execSQL(DBCreateTableConstants.CREATE_TABLE_SERVICE_CONFIG);
+        db.execSQL(DBCreateTableConstants.CREATE_TABLE_SERVICE_TASK_DATA);
     }
 
     // Upgrading database

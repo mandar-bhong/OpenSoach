@@ -58,6 +58,7 @@ public class CardListProcessor implements IProcessor {
                 TypeToken<PacketServiceConfModel> taskTypeToken = new TypeToken<PacketServiceConfModel>() {};
                 model.ServiceConf = gson.fromJson(model.ServConfJSON,taskTypeToken.getType());
 
+                model.LocationID = packetDecodeResultModel.Packet.Header.LocationID;
             }
 
             FillUpdateUIData(packetProcessResultModel, cardList);

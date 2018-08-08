@@ -29,7 +29,6 @@ public class TaskTimeItemViewModel extends  BaseViewModel {
     }
 
     public boolean getIsSelectedTime(){
-
         Date d = new Date();
         if (taskTimeDataModel.getStartTime().getTime() < d.getTime() &&
                 taskTimeDataModel.getEndTime().getTime() >    d.getTime() ){
@@ -40,6 +39,20 @@ public class TaskTimeItemViewModel extends  BaseViewModel {
         }else{
             return false;
         }
+    }
+
+    public boolean getIsDisabled(){
+
+        Date d = new Date();
+        if (taskTimeDataModel.getStartTime().getTime() < d.getTime() &&
+                taskTimeDataModel.getEndTime().getTime() >    d.getTime() ){
+            return  false;
+        }
+
+        if (taskTimeDataModel.getStartTime().getTime() < d.getTime() )
+            return  false;
+        else
+            return  true;
     }
 
 
