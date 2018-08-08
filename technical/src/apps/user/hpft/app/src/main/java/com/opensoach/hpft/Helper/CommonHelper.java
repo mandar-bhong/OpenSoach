@@ -9,26 +9,23 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.opensoach.hpft.Model.Communication.PacketCardListConfigurationModel;
-import com.opensoach.hpft.Model.Communication.PacketChartConfigurationModel;
 import com.opensoach.hpft.Model.Communication.PacketModel;
+import com.opensoach.hpft.Model.Communication.PacketTimeConfigModel;
 import com.opensoach.hpft.Model.DB.DBChartTableRowModel;
 import com.opensoach.hpft.Model.Server.DailyChartConfModel;
 import com.opensoach.hpft.Model.Server.DailyChartTaskModel;
 import com.opensoach.hpft.Model.View.ChartConfigModel;
 import com.opensoach.hpft.Model.View.ChartConfigSlotModel;
 import com.opensoach.hpft.Model.View.ChartConfigTaskModel;
+import com.opensoach.hpft.Model.View.TaskTimeItemDataModel;
 import com.opensoach.hpft.ViewModels.CardBriefViewModel;
-import com.opensoach.hpft.ViewModels.CardGridViewModel;
-import com.opensoach.hpft.ViewModels.CardListViewModel;
 import com.opensoach.hpft.ViewModels.MedicalDetailsViewModel;
 import com.opensoach.hpft.ViewModels.PatientDetailsViewModel;
-import com.opensoach.hpft.ViewModels.TaskDataViewModel;
 import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
-import com.opensoach.hpft.ViewModels.TaskTimeDataViewModel;
-import com.opensoach.hpft.Views.Fragment.CardGridView;
 
 /**
  * Created by Mandar on 2/25/2017.
@@ -115,12 +112,17 @@ public class CommonHelper {
 
             PatientDetailsViewModel patientDetailsViewModel = new PatientDetailsViewModel(model.PatientDetails);
             MedicalDetailsViewModel medicalDetailsViewModel = new MedicalDetailsViewModel(model.MedicalDetails);
-            TaskDetailsViewModel taskDetailsViewModel = new TaskDetailsViewModel(model.ServiceConf);
+
+
+            List<TaskTimeItemDataModel> timeSlots = GenerateTimeSeries(model.ServiceConf.TimeConfig);
+
+            TaskDetailsViewModel taskDetailsViewModel = new TaskDetailsViewModel(model.ServiceConf,timeSlots);
+
 
             patientDetailsViewModel.ContextActivity = ctx;
             medicalDetailsViewModel.ContextActivity = ctx;
 
-            taskDetailsViewModel.setTaskTimeDataViewModel(new TaskTimeDataViewModel());
+            //taskDetailsViewModel.setTaskTimeDataViewModel(new TaskTimeDataViewModel());
             taskDetailsViewModel.getTaskTimeDataViewModel().setUp();
             taskDetailsViewModel.setTitle("This is test for databind ele");
             taskDetailsViewModel.ContextActivity = ctx;
@@ -134,5 +136,53 @@ public class CommonHelper {
         }
 
         return cardBriefViewModels;
+    }
+
+    public  static List<TaskTimeItemDataModel> GenerateTimeSeries(PacketTimeConfigModel timeConfModel){
+
+        List<TaskTimeItemDataModel> slots = new ArrayList<>();
+
+        Calendar calChartStart = Calendar.getInstance();
+        calChartStart.set(Calendar.HOUR_OF_DAY, 0);
+        calChartStart.set(Calendar.MINUTE, timeConfModel.StartTime);
+        calChartStart.set(Calendar.SECOND, 0);
+        calChartStart.set(Calendar.MILLISECOND, 0);
+        Date chartStartTime = calChartStart.getTime();
+
+        int chartEndHour = 0;
+
+        Calendar calChartEnd = Calendar.getInstance();
+        calChartEnd.set(Calendar.HOUR_OF_DAY, chartEndHour);
+        calChartEnd.set(Calendar.MINUTE, timeConfModel.EndTime);
+        calChartEnd.set(Calendar.SECOND, 0);
+        calChartEnd.set(Calendar.MILLISECOND, 0);
+
+        if (timeConfModel.StartTime > timeConfModel.EndTime){
+            calChartEnd.add(Calendar.HOUR,24);
+        }
+
+        Date chartEndTime = calChartEnd.getTime();
+
+        int slotIndex = 0;
+
+        while (chartStartTime.getTime() < chartEndTime.getTime()) {
+            TaskTimeItemDataModel taskTimeItemDataModel = new TaskTimeItemDataModel();
+            taskTimeItemDataModel.setIndex(slotIndex);
+            taskTimeItemDataModel.setStartTime(new Date(chartStartTime.getTime()));
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(taskTimeItemDataModel.getStartTime());
+            cal.add(Calendar.MINUTE, timeConfModel.Interval);
+
+            taskTimeItemDataModel.setEndTime(cal.getTime());
+
+            slots.add(taskTimeItemDataModel);
+
+            calChartStart.add(Calendar.MINUTE, timeConfModel.Interval);
+            chartStartTime = calChartStart.getTime();
+            slotIndex++;
+        }
+
+        return  slots;
     }
 }

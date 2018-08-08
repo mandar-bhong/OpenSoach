@@ -65,7 +65,7 @@ public class TaskDataAdapter extends RecyclerView.Adapter<TaskDataAdapter.DataVi
 
     @Override
     public int getItemCount() {
-        return this.data.size();
+        return this.data == null ? 0 : this.data.size();
     }
 
     @Override

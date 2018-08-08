@@ -12,12 +12,17 @@
         <variable
             name="VM"
             type="com.opensoach.hpft.ViewModels.TaskDetailsViewModel" />
+
+        <variable
+            name="Data"
+            type="com.opensoach.hpft.ViewModels.TaskDataViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +30,7 @@
             android:id="@+id/time_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:adapter="@{VM.taskTimeDataViewModel.adapter}"
+            app:adapter="@{VM.taskTimeDataAdapter}"
             app:data="@{VM.taskTimeDataViewModel.data}"
             android:background="@color/color_dialog_edit_border"
             tools:context="com.opensoach.hpft.Fragment.TaskListFragment"/>
@@ -36,8 +41,8 @@
             android:id="@+id/data_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:adapter="@{VM.taskDataViewModel.adapter}"
-            app:data="@{VM.taskDataViewModel.data}"
+            app:adapter="@{VM.taskDataAdapter}"
+            app:data="@{Data.data}"
             android:background="@color/color_cell_available"
             tools:context="com.opensoach.hpft.Fragment.TaskListFragment"/>
 

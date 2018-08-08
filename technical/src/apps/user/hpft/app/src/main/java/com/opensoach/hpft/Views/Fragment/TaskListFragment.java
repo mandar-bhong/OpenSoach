@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
 import com.opensoach.hpft.ViewModels.TaskDataViewModel;
+import com.opensoach.hpft.ViewModels.TaskTimeDataViewModel;
 import com.opensoach.hpft.databinding.FragmentTaskListBinding;
 
 import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
@@ -143,6 +144,7 @@ public class TaskListFragment extends Fragment {
                 R.layout.fragment_task_list,ll,true);
 
         binding.setVM(DataContext);
+        binding.setData(new TaskDataViewModel());
         return binding.getRoot();
     }
 

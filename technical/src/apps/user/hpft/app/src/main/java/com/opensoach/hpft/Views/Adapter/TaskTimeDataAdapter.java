@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.R;
-import com.opensoach.hpft.ViewModels.TaskItemViewModel;
-import com.opensoach.hpft.databinding.FragmentTaskItemBinding;
+import com.opensoach.hpft.ViewModels.TaskTimeItemViewModel;
+import com.opensoach.hpft.Views.ClickHandler.TaskTimeClickHandler;
 import com.opensoach.hpft.databinding.FragmentTaskTimeItemBinding;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public class TaskTimeDataAdapter extends RecyclerView.Adapter<TaskTimeDataAdapter.DataViewHolder> {
     private static final String TAG = "TimeDataAdapter";
-    private List<TaskItemDataModel> data;
+    private List<TaskTimeItemViewModel> data;
 
     public TaskTimeDataAdapter() {
         this.data = new ArrayList<>();
@@ -38,8 +37,8 @@ public class TaskTimeDataAdapter extends RecyclerView.Adapter<TaskTimeDataAdapte
 
     @Override
     public void onBindViewHolder(DataViewHolder holder, int position) {
-        TaskItemDataModel dataModel = data.get(position);
-        holder.setViewModel(new TaskItemViewModel(dataModel));
+        TaskTimeItemViewModel dataModel = data.get(position);
+        holder.setViewModel(dataModel);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class TaskTimeDataAdapter extends RecyclerView.Adapter<TaskTimeDataAdapte
         holder.unbind();
     }
 
-    public void updateData(@Nullable List<TaskItemDataModel> data) {
+    public void updateData(@Nullable List<TaskTimeItemViewModel> data) {
 
 //        if (data == null || data.isEmpty()) {
 //            this.data.clear();
@@ -92,9 +91,10 @@ public class TaskTimeDataAdapter extends RecyclerView.Adapter<TaskTimeDataAdapte
             }
         }
 
-        /* package */ void setViewModel(TaskItemViewModel viewModel) {
+        /* package */ void setViewModel(TaskTimeItemViewModel viewModel) {
             if (binding != null) {
                 binding.setVM(viewModel);
+                binding.setClickHandler(new TaskTimeClickHandler());
             }
         }
     }
