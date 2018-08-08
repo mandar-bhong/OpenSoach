@@ -55,6 +55,11 @@ INSERT INTO `spl_node_service_conf_tbl` (`cpm_id_fk`, `spc_id_fk`, `conf_type_co
 
 INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
 INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
+INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
+INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
+INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
+INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
+INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
 
 
 --
@@ -62,8 +67,13 @@ INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp
 --
 
 INSERT INTO `spl_hpft_patient_master_tbl` (`cpm_id_fk`, `patient_details`, `medical_details`, `patient_file_template`, `sp_id_fk`, `serv_in_id_fk`, `status`) VALUES 
-('3', '{"age": "67", "bedno": "12", "patientname": "Patient1", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "4532234346", "patientregistrationno": "233966567657"}', '{"allergies": "allergy1", "treatmentdone": "traetment1", "reasonadmission": "reason1", "patientmedicalhistory": "history1"}', '1', '3', '1', '1'),
-('3', '{"age": "76", "bedno": "13", "patientname": "Patient2", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9843242382", "patientregistrationno": "5423477234236"}', '{"allergies": "allergy2", "treatmentdone": "traetment2", "reasonadmission": "reason2", "patientmedicalhistory": "history2"}', '1', '3', '2', '1');
+('3', '{"age": "67", "bedno": "12", "patientname": "Patient1", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "4532234346", "patientregistrationno": "233966567657","bloodgroup":"A+","weight":"64kg","drinst":"doctor instance1"}', '{"allergies": "allergy1", "treatmentdone": "traetment1", "reasonadmission": "reason1", "patientmedicalhistory": "history1"}', '1', '3', '1', '1'),
+('3', '{"age": "76", "bedno": "13", "patientname": "Patient2", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9843242382", "patientregistrationno": "5423477234236","bloodgroup":"A-","weight":"70kg","drinst":"doctor instance2"}', '{"allergies": "allergy2", "treatmentdone": "traetment2", "reasonadmission": "reason2", "patientmedicalhistory": "history2"}', '1', '3', '2', '1'),
+('3', '{"age": "19", "bedno": "14", "patientname": "Patient3", "admissiondate": "2018-08-06T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "34433242382", "patientregistrationno": "5255345234236","bloodgroup":"AB+","weight":"55kg","drinst":"doctor instance3"}', '{"allergies": "allergy3", "treatmentdone": "traetment3", "reasonadmission": "reason3", "patientmedicalhistory": "history2"}', '1', '3', '3', '1'),
+('3', '{"age": "42", "bedno": "15", "patientname": "Patient4", "admissiondate": "2018-08-07T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "8673242382", "patientregistrationno": "892234234236","bloodgroup":"O+","weight":"65kg","drinst":"doctor instance4"}', '{"allergies": "allergy4", "treatmentdone": "traetment4", "reasonadmission": "reason4", "patientmedicalhistory": "history2"}', '1', '3', '4', '1'),
+('3', '{"age": "55", "bedno": "17", "patientname": "Patient5", "admissiondate": "2018-08-08T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9563242432", "patientregistrationno": "13423477234236","bloodgroup":"0-","weight":"80kg","drinst":"doctor instance5"}', '{"allergies": "allergy5", "treatmentdone": "traetment5", "reasonadmission": "reason5", "patientmedicalhistory": "history2"}', '1', '3', '5', '1'),
+('3', '{"age": "15", "bedno": "18", "patientname": "Patient6", "admissiondate": "2018-08-08T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9123342432", "patientregistrationno": "12423477234236","bloodgroup":"B+","weight":"74kg","drinst":"doctor instance6"}', '{"allergies": "allergy6", "treatmentdone": "traetment6", "reasonadmission": "reason6", "patientmedicalhistory": "history2"}', '1', '3', '6', '1'),
+('3', '{"age": "25", "bedno": "19", "patientname": "Patient7", "admissiondate": "2018-08-08T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9063248932", "patientregistrationno": "14423477234236","bloodgroup":"AB-","weight":"93kg","drinst":"doctor instance7"}', '{"allergies": "allergy7", "treatmentdone": "traetment7", "reasonadmission": "reason7", "patientmedicalhistory": "history2"}', '1', '3', '7', '1');
 
 
 --
@@ -91,6 +101,5 @@ INSERT INTO `spl_node_service_in_txn_tbl` (`cpm_id_fk`, `serv_in_id_fk`, `fopcod
 	(3, 1, '11', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 630, "slotstarttime": 600}', '2018-08-07 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
 	(3, 1, '11', 1, '{"comment": "Saline", "taskname": "Saline 250ML", "slotendtime": 630, "slotstarttime": 600}', '2018-08-07 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
 	(3, 1, '11', 1, '{"value": 150, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 730, "slotstarttime": 700}', '2018-08-07 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19');
-
 
 
