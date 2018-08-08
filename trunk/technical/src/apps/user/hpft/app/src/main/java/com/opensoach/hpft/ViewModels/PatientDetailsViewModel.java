@@ -30,7 +30,7 @@ public class PatientDetailsViewModel extends BaseViewModel {
 
     @Bindable
     public String getAge() {
-        return packetPatientDetailsModel.Age;
+        return packetPatientDetailsModel.Age + " Years";
     }
 
     @Bindable
@@ -59,6 +59,16 @@ public class PatientDetailsViewModel extends BaseViewModel {
         }else{
             return "NA";
         }
+    }
+
+    @Bindable
+    public String getWeight() {
+        return packetPatientDetailsModel.Weight + " Kgs";
+    }
+
+    @Bindable
+    public String getBloodGroup() {
+        return packetPatientDetailsModel.BloodGroup;
     }
 
 }

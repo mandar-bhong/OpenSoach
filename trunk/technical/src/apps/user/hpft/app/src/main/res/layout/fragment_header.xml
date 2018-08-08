@@ -9,7 +9,9 @@
         <variable
             name="VM"
             type="com.opensoach.hpft.ViewModels.HeaderViewModel" />
-
+        <variable
+            name="Data"
+            type="com.opensoach.hpft.ViewModels.CardBriefViewModel" />
         <variable
             name="uploadClickHandler"
             type="com.opensoach.hpft.Views.ClickHandler.HeaderUploadClickHandler"/>
@@ -56,6 +58,32 @@
                 android:layout_marginRight="15dp"
                 android:onClick="@{(view) -> VM.onBackClick(view)}"
                 android:visibility="@{VM.backButtonVisiable == true ? View.VISIBLE : View.GONE}"/>
+            <LinearLayout
+                android:layout_toRightOf="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:visibility="@{VM.backButtonVisiable == true ? View.VISIBLE : View.GONE}">
+                <ImageView
+                    android:id="@+id/patientbed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/bed_topbar"/>
+                <TextView
+                    android:id="@+id/servicePointTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@{Data.patientDetails.roomNo}"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/patientbed"/>
+
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/uploadData"

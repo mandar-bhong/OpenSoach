@@ -22,6 +22,11 @@ public class MedicalDetailsViewModel extends BaseViewModel {
     }
 
     @Bindable
+    public String getReasonAdmission() {
+        return packetMedicalDetailsModel.ReasonAdmission;
+    }
+
+    @Bindable
     public String getAllergies() {
         return packetMedicalDetailsModel.Allergies;
     }
