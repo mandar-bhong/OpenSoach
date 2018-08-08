@@ -12,4 +12,7 @@ public class PacketServiceConfModel {
 
     @SerializedName("taskconf")
     public PacketTaskConfigModel TaskConfig;
+
+    @SerializedName("timeconf")
+    public PacketTimeConfigModel TimeConfig;
 }
