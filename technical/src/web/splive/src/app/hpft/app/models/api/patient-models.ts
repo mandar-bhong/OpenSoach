@@ -5,6 +5,8 @@ export class PatientDataAddRequest {
     patientid: number;
     spid: number;
     status: number;
+    spname: string;
+    dischargedon: Date;
 }
 export class PatientDetailAddRequest {
     patientname: string;
@@ -15,6 +17,9 @@ export class PatientDetailAddRequest {
     bedno: number;
     admissiondate: Date;
     dischargedate: Date;
+    bloodgroup: string;
+    weight: number;
+    drinst: string;
 }
 export class MedicalDetailAddRequest {
     reasonadmission: string;
@@ -48,4 +53,12 @@ export class PatientDataListResponse {
 export class StatusChangeRequest {
     status: number;
     patientid: number;
+    // discharge:  Date;
+}
+
+export class PatientTxnRequest {
+    spid: number;
+    // startdate: Date;
+    // enddate: Date;
+    servinid: number;
 }

@@ -32,15 +32,15 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           <ng-container matColumnDef="spname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Ward</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 34%;">Ward</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 34%;">
               <span class="mat-cell-responsive-label">Ward</span>
               <span class="ellipsis mat-cell-text"> {{row.spname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="spcname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Category</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 33%;">Category</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 33%;">
               <span class="mat-cell-responsive-label">Category</span>
               <span *ngIf="row.spcid>0">
                 <span class="ellipsis mat-cell-text"> {{row.spcname}}</span>
@@ -54,8 +54,8 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="devid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;justify-content:center;">Device</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 25%;justify-content:center;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 33%;justify-content:center;">Device</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 33%;justify-content:center;">
               <span class="mat-cell-responsive-label">Device</span>
               <span *ngIf="row.devid">
                 <span class="ellipsis mat-cell-text"> {{row.devname}}</span>
@@ -67,13 +67,15 @@
               </span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="servconfid">
+          <!-- <ng-container matColumnDef="servconfid">
               <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Patients</mat-header-cell>
               <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
                 <span class="mat-cell-responsive-label">Patients</span>
                 <span class="ellipsis mat-cell-text"> {{row.spname}}</span>
               </mat-cell>
-            </ng-container>
+            </ng-container> -->
+
+
           <!-- <ng-container matColumnDef="servconfid">
             <mat-header-cell *matHeaderCellDef style="flex:0 0 25%;">Patients</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 25%;">

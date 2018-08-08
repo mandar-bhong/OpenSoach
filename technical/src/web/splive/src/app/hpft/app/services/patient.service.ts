@@ -35,7 +35,7 @@ export class PatientService {
 
     getPatientDetails(request: RecordIDRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<PatientDataAddRequest>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/fieldoperator/info',
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info',
             request, implicitErrorHandling);
     }
     addPatient(patientDataAddRequest: PatientDataAddRequest, implicitErrorHandling = true):

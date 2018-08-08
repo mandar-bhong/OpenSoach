@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
-import { PatientDetaFilterRequest, StatusChangeRequest } from '../../../../models/api/patient-models';
+import { StatusChangeRequest } from '../../../../models/api/patient-models';
 import { PatientDataModel } from '../../../../models/ui/patient-models';
 import { PatientService } from '../../../../services/patient.service';
 
@@ -16,7 +16,7 @@ import { PatientService } from '../../../../services/patient.service';
   styleUrls: ['./patient-view.component.css']
 })
 export class PatientViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['patientname', 'emergencycontactno', 'spid', 'bedno', 'status'];
+  displayedColumns = ['patientname', 'emergencycontactno', 'spname', 'bedno', 'status', 'action'];
   sortByColumns = [{ text: 'Patient Name', value: 'patientname' },
   { text: 'Emergency Contact Number', value: 'emergencycontactno' },
   { text: 'Ward', value: 'ward' },
@@ -27,14 +27,12 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort)
   sort: MatSort;
   refreshTable: EventEmitter<null> = new EventEmitter();
-  // dataSource = [];
   patients = new PatientDataModel();
   patient = [];
   dataSource;
   stat;
   filteredrecords = 0;
   isLoadingResults = true;
-  patientDetaFilterRequest: PatientDetaFilterRequest;
   dataListFilterChangedSubscription: Subscription;
   showEditForm = false;
   selectedPatient: PatientDataModel;
@@ -46,26 +44,21 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     private ch: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.paginator.pageSize = 10;
-    // this.sort.active = 'patientname';
-    // this.sort.direction = 'asc';
+    this.paginator.pageSize = 5;
     this.getDataList();
     this.patients = new PatientDataModel();
   }
   getDataList() {
     this.patientService.getDataList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
-        // console.log('payloadResponse.data', payloadResponse.data);
-        // console.log(JSON.parse(payloadResponse.data[0].patientdetails));
-
         payloadResponse.data.forEach(value => {
-          // this.patient.push(JSON.parse(value.patientdetails));
           const a = new PatientDataModel();
           a.copyFrom(value);
           this.patient.push(a);
           console.log('this.dataSource', this.dataSource);
-          this.dataSource = this.patient;
-
+          this.dataSource = new MatTableDataSource<PatientDataModel>(this.patient);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
         });
       } else {
         this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
@@ -81,6 +74,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     const statusChangeRequest = new StatusChangeRequest();
     statusChangeRequest.status = 2;
     statusChangeRequest.patientid = this.selectedPatient.patientid;
+    // statusChangeRequest.discharge = new Date();
     this.patientService.updateStatus(statusChangeRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
@@ -89,6 +83,9 @@ export class PatientViewComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+  viewDetails(id: number) {
+    this.router.navigate(['patients', 'patient_chart'], { queryParams: { id: id, callbackurl: 'patients' }, skipLocationChange: true });
   }
   sortByChanged() {
     this.sort.sortChange.next(this.sort);

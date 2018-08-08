@@ -363,25 +363,40 @@ export const TRANSLATIONS: TranslationValue[] = [
   },
 
   {
-    key: 'OperatorListColumOperatorName',
+    key: 'OPERATOR_LIST_COLUM_OPERATOR_NAME',
     en: 'Operator Name'
   },
   {
-    key: 'OperatorListColumOperatorCode',
+    key: 'OPERATOR_LIST_COLUM_OPERATOR_CODE',
     en: 'Operator Code'
   },
   {
-    key: 'OperatorAssociateLableName',
+    key: 'OPERATOR_ASSOCIATE_LABLE_NAME',
     en: 'Select a service point to associate'
   },
   {
-    key: 'OperatorAddOperatorName',
+    key: 'OPERATOR_ADD_OPERATOR_NAME',
     en: 'Operator Name'
   },
   {
-    key: 'OperatorAddOperatorCode',
+    key: 'OPERATOR_ADD_OPERATOR_CODE',
     en: 'Operator Code'
   },
-
+  {
+    key: 'OPERATOR_ADD_TITLE',
+    en: ' Operator Details'
+  },
+  {
+    key: 'OPERATOR_ADD_MODE_TITLE',
+    en: 'Add Details of Operator'
+  },
+  {
+    key: 'OPERATOR_ADD_BUTTON',
+    en: 'Operator'
+  },
+  {
+    key: 'OPERATOR_ASSOCIATE',
+    en: 'Associate Operator'
+  },
 ];
 

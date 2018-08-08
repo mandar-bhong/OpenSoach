@@ -32,42 +32,41 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           <ng-container matColumnDef="patientname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 28%;">Patient Name</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 28%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Patient Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
               <span class="mat-cell-responsive-label">Patient Name</span>
               <span class="ellipsis mat-cell-text">{{row.patientdetails.patientname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="emergencycontactno">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 18%;">Emergency Contact Number</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 18%;">Emergency Contact</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 18%;">
-              <span class="mat-cell-responsive-label">Emergency Contact Number</span>
+              <span class="mat-cell-responsive-label">Emergency Contact</span>
               <span class="ellipsis mat-cell-text">{{row.patientdetails.emergencycontactno}}</span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="spid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 18%;">Ward</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 18%;">
+          <ng-container matColumnDef="spname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Ward</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
               <span class="mat-cell-responsive-label">Ward</span>
-              <span class="ellipsis mat-cell-text"> {{row.spid}}</span>
+              <span class="ellipsis mat-cell-text"> {{row.spname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="bedno">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 18%;">Bed/Room Number</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 18%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Bed/Room Number</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-cell-responsive-label">Bed/Room Number</span>
               <span class="ellipsis mat-cell-text"> {{row.patientdetails.bedno}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;justify-content:center;">Status</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;">Status</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 16%;">
               <span class="mat-cell-responsive-label">Status</span>
               <span [ngSwitch]="row.status" *ngIf="row.status === 1">
                 <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Hospitalize</div>
-                <button mat-icon-button color="accent" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" (click)="setSelectedPatient(row)">
-                  <!-- <mat-icon aria-hidden="true" matTooltip="Edit">edit</mat-icon> -->
-                  <i class="fa fa-toggle-on" aria-hidden="true"></i>
+                <button mat-icon-button color="accent" data-toggle="modal" data-target="#myModal" (click)="setSelectedPatient(row)">
+                  <i class="fa fa-toggle-on" aria-hidden="true" matTooltip="Change Statu"></i>
                 </button>
               </span>
               <span [ngSwitch]="row.status">
@@ -75,8 +74,19 @@
               </span>
             </mat-cell>
           </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 14%;">Patient File</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 14%;">
+              <span class="mat-cell-responsive-label">Patient File</span>
+              <button mat-icon-button color="primary" (click)="viewDetails(row.patientid)">
+                <mat-icon>
+                  <i class="fa fa-table" aria-hidden="true" matTooltip="View Task"></i>
+                </mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
         </mat-table>
-        <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
+        <mat-paginator  [pageSizeOptions]="[5, 10, 25, 100]">
         </mat-paginator>
       </div>
       <br>

@@ -31,11 +31,14 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
     private translatePipe: TranslatePipe,
   ) {
     super();
+    this.iconCss = 'fa fa-user';
+    this.pageTitle = 'Patient Details';
   }
 
   ngOnInit() {
     this.getServicepointList();
     this.getServicepointConfigureList();
+    this.isEditable = false;
     this.patientStates = this.patientService.getPatientStates();
     this.dataModel.patientdetails = new PatientDetailAddRequest();
     this.dataModel.medicaldetails = new MedicalDetailAddRequest();
@@ -44,6 +47,7 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
         this.dataModel.patientid = Number(params['id']);
         // this.getPatientDetails();
       }
+      this.subTitle = this.translatePipe.transform('OPERATOR_ADD_MODE_TITLE');
       this.callbackUrl = params['callbackurl'];
     });
   }
@@ -52,6 +56,7 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
+          this.subTitle = this.dataModel.patientdetails.patientname;
         }
       }
     });
@@ -74,6 +79,7 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
   save() {
     const patientDataAddRequest = new PatientDataAddRequest();
     this.dataModel.status = 1;
+    this.dataModel.patientdetails.admissiondate = new Date();
     this.dataModel.copyTo(patientDataAddRequest);
     this.patientService.addPatient(patientDataAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {

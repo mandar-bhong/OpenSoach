@@ -90,8 +90,8 @@ export class ChartDataViewModel {
     startdate: Date;
     enddate: Date;
     selecteddateoption = '0'; // 0: Today, 1: Yesterday, 2: Selected Date
-    splist:ServicePointWithConfigurationResponse[];
-    selectedsp:ServicePointWithConfigurationResponse;
+    splist: ServicePointWithConfigurationResponse[];
+    selectedsp: ServicePointWithConfigurationResponse;
     constructor() {
     }
 
@@ -128,7 +128,7 @@ export class ChartTransactionModel {
         this.servinid = response.servinid;
         this.fopcode = response.fopcode;
         this.status = response.status;
-        this.txndate = response.txndate;
+        this.txndate = new Date(response.txndate);
         this.txndata = new ChartTransactionDataModel();
         Object.assign(this.txndata, JSON.parse(response.txndata));
     }

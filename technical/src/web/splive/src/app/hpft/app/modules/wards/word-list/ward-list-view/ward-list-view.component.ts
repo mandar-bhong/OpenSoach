@@ -23,7 +23,7 @@ import { WardDeviceAssociateComponent } from '../../ward-device-associate/ward-d
   styleUrls: ['./ward-list-view.component.css']
 })
 export class WardListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['spname', 'spcname', 'devid', 'servconfid'];
+  displayedColumns = ['spname', 'spcname', 'devid'];
   sortByColumns = [{ text: 'Service Point', value: 'spname' },
   { text: 'Category', value: 'spcname' },
   { text: 'Device', value: 'devname' }

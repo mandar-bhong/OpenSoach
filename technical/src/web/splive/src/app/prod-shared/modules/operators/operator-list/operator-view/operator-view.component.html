@@ -32,9 +32,9 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           <ng-container matColumnDef="fopname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">{{'OperatorListColumOperatorName' | translate}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">{{'OPERATOR_LIST_COLUM_OPERATOR_NAME' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-cell-responsive-label">{{'OperatorListColumOperatorName' | translate}}</span>
+              <span class="mat-cell-responsive-label">{{'OPERATOR_LIST_COLUM_OPERATOR_NAME' | translate}}</span>
               <span class="ellipsis mat-cell-text">{{row.fopname}}</span>
             </mat-cell>
           </ng-container>
@@ -53,9 +53,9 @@
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="fopcode">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">{{'OperatorListColumOperatorCode' | translate}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">{{'OPERATOR_LIST_COLUM_OPERATOR_CODE' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
-              <span class="mat-cell-responsive-label">{{'OperatorListColumOperatorCode' | translate}}</span>
+              <span class="mat-cell-responsive-label">{{'OPERATOR_LIST_COLUM_OPERATOR_CODE' | translate}}</span>
               <span class="ellipsis mat-cell-text"> {{row.fopcode}}</span>
             </mat-cell>
           </ng-container>

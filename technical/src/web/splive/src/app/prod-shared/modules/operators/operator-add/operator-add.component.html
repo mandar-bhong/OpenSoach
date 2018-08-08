@@ -6,7 +6,7 @@
         <mat-card-content>
           <div class=" form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
-              <input matInput placeholder="{{'OperatorAddOperatorName' | translate}}" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname"
+              <input matInput placeholder="{{'OPERATOR_ADD_OPERATOR_NAME' | translate}}" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname"
                 maxlength="50">
               <mat-error *ngIf="editableForm.controls['fopnameControl'].hasError('required') ">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
@@ -14,12 +14,12 @@
             </mat-form-field>
           </div>
           <div *ngIf="formMode === 0">
-            <span class="viewlabel">{{'OperatorAddOperatorName' | translate}}</span>
+            <span class="viewlabel">{{'OPERATOR_ADD_OPERATOR_NAME' | translate}}</span>
             <label class="viewtext">{{ dataModel.fopname }}</label>
           </div>
           <div class=" form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
-              <input matInput placeholder="{{'OperatorAddOperatorCode' | translate}}" formControlName="fopcodeControl" required [(ngModel)]="dataModel.fopcode"
+              <input matInput placeholder="{{'OPERATOR_ADD_OPERATOR_CODE' | translate}}" formControlName="fopcodeControl" required [(ngModel)]="dataModel.fopcode"
                 maxlength="4">
               <mat-error *ngIf="editableForm.controls['fopcodeControl'].hasError('required') ">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
@@ -27,7 +27,7 @@
             </mat-form-field>
           </div>
           <div *ngIf="formMode === 0">
-            <span class="viewlabel">{{'OperatorAddOperatorCode' | translate}}</span>
+            <span class="viewlabel">{{'OPERATOR_ADD_OPERATOR_CODE' | translate}}</span>
             <label class="viewtext">{{ dataModel.fopcode }}</label>
           </div>
           <div class=" form-group form-primary" *ngIf="formMode === 1">

@@ -9,6 +9,8 @@ import { MaterialModules } from '../../../../shared/modules/material/material-mo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProdCommonModule } from '../../../../prod-shared/prod-common.module';
 import { AppCommonModule } from '../../../../shared/app-common.module';
+import { PatientChartComponent } from './patient-chart/patient-chart.component';
+import { PatientDayWiseComponent } from './patient-day-wise/patient-day-wise.component';
 
 @NgModule({
   imports: [
@@ -20,6 +22,6 @@ import { AppCommonModule } from '../../../../shared/app-common.module';
     ReactiveFormsModule,
     AppCommonModule
   ],
-  declarations: [PatientListComponent, PatientAddComponent, PatientViewComponent]
+  declarations: [PatientListComponent, PatientAddComponent, PatientViewComponent, PatientChartComponent, PatientDayWiseComponent]
 })
 export class PatientsModule { }
