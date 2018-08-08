@@ -1,7 +1,8 @@
 <div class="row">
   <div class="col">
     <mat-card>
-      <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+      <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+      <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4" style="margin: 15px; padding: 10px;">
         <mat-tab label="Patient Details">
           <ng-template matTabContent>
             <div style="margin: 20px; padding: 10px;">
@@ -14,7 +15,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
-                    <input matInput name="age" placeholder="Age" [(ngModel)]="dataModel.patientdetails.age" required>
+                    <input matInput name="age" placeholder="Age" [(ngModel)]="dataModel.patientdetails.age" required type="number" min="0">
                   </mat-form-field>
                 </div>
                 <div class="col-md-1"></div>
@@ -36,7 +37,31 @@
               <div class="row">
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
-                    <mat-select placeholder="Wards" [(ngModel)]="dataModel.spid">
+                    <!-- <input matInput name="blood" placeholder="Blood Group" required [(ngModel)]="dataModel.patientdetails.bloodgroup"> -->
+                    <mat-select placeholder="Blood Group" [(ngModel)]="dataModel.patientdetails.bloodgroup" name="blood" required>
+                      <mat-option value="AB+">AB+</mat-option>
+                      <mat-option value="AB-">AB-</mat-option>
+                      <mat-option value="A+">A+</mat-option>
+                      <mat-option value="AB+">A-</mat-option>
+                      <mat-option value="AB-">B+</mat-option>
+                      <mat-option value="A+">B-</mat-option>
+                      <mat-option value="AB-">O+</mat-option>
+                      <mat-option value="A+">O-</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput name="weight" placeholder="Weight in Kg" required type="number" [(ngModel)]="dataModel.patientdetails.weight" min="0">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-1"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Ward" [(ngModel)]="dataModel.spid" required>
                       <mat-option>None</mat-option>
                       <mat-option *ngFor="let cat of splist" [value]="cat.spid">
                         {{cat.spname}}
@@ -54,6 +79,14 @@
               </div>
               <div class="row">
                 <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput name="instant" placeholder="Doctor" required  [(ngModel)]="dataModel.patientdetails.drinst">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-7"></div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-5">
                   <mat-form-field>
                     <input matInput [matDatepicker]="startdatepicker" placeholder="Admission Date" [(ngModel)]="dataModel.patientdetails.admissiondate">
                     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
@@ -69,18 +102,6 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-1"></div>
-              </div>
-              <!-- <div class="row">
-                <div class="col-md-5">
-                  <mat-form-field>
-                    <mat-select placeholder="Status" required [(ngModel)]="dataModel.status">
-                      <mat-option *ngFor="let patient of patientStates" [value]="patient.value">
-                        {{patient.text | translate}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-7"></div>
               </div> -->
             </div>
 
@@ -137,7 +158,7 @@
               <div class="row">
                 <div class="col-md-5">
                   <mat-form-field>
-                    <mat-select placeholder="Wards Existing List" [(ngModel)]="dataModel.patientfiletemplate">
+                    <mat-select placeholder="Patient File Template" [(ngModel)]="dataModel.patientfiletemplate">
                       <mat-option *ngFor="let spconfigure of spconfigures" [value]="spconfigure.servconfid">
                         {{spconfigure.servconfname}}
                       </mat-option>

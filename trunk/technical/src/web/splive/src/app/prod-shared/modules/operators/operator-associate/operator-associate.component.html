@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-10">
             <mat-form-field>
-              <mat-select placeholder="{{'OperatorAssociateLableName' | translate}}" [(ngModel)]="selectedsp">
+              <mat-select placeholder="{{'OPERATOR_ASSOCIATE_LABLE_NAME' | translate}}" [(ngModel)]="selectedsp">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let sp of dataModel.availablesplist" [value]="sp">
                   {{sp.spname}}

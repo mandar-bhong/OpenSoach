@@ -1,0 +1,42 @@
+
+<div class="example-container mat-elevation-z8" style="margin-bottom: 10px">
+  <mat-table [dataSource]="dataSource">
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Time</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+        <span class="mat-cell-responsive-label">Time</span>
+        <span class="ellipsis mat-cell-text"> {{row.txndate | date:'shortTime'}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="taskname">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Task</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+        <span class="mat-cell-responsive-label">taskname</span>
+        <span class="ellipsis mat-cell-text"> {{row.txndata.taskname}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="fopname">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Performed by</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+        <span class="mat-cell-responsive-label">performedby</span>
+        <span class="ellipsis mat-cell-text"> {{row.fopname}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="value">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Value</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+        <span class="mat-cell-responsive-label">value</span>
+        <span class="ellipsis mat-cell-text"> {{row.txndata.value}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="comment">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Comment</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+        <span class="mat-cell-responsive-label">comment</span>
+        <span class="ellipsis mat-cell-text"> {{row.txndata.comment}}</span>
+      </mat-cell>
+    </ng-container>
+  </mat-table>
+</div>

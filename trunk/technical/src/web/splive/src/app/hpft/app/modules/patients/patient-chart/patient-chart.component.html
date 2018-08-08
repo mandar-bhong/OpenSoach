@@ -1,0 +1,157 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+      <div style="margin: 15px; padding: 10px;">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="viewlabel">Patient Name</span>
+            </div>
+            <div class="col-sm-4">
+              <label class="viewtext">{{ dataModel.patientdetails.patientname }}</label>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="viewlabel">Emergency Contact Number</span>
+            </div>
+            <div class="col-sm-4">
+              <label class="viewtext">{{ dataModel.patientdetails.emergencycontactno }}</label>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="viewlabel"> Ward </span>
+            </div>
+            <div class="col-sm-4">
+              <label class="viewtext"> {{ getwardname(dataModel.spid) }}</label>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="viewlabel"> Bed/Room Number </span>
+            </div>
+            <div class="col-sm-4">
+              <label class="viewtext">{{ dataModel.patientdetails.bedno }}</label>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="viewlabel"> Status</span>
+            </div>
+            <div class="col-sm-4">
+              <label class="viewtext">{{ getpatientstate(dataModel.status)| translate }}</label>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <span class="viewlabel">Admitted on</span>
+            </div>
+            <div class="col-sm-4">
+              <label class="viewtext">{{ dataModel.patientdetails.admissiondate | date: 'fullDate' }}</label>
+            </div>
+            <div class="col-sm-4"></div>
+          </div>
+          <div class="row" *ngIf="dataModel.dischargedon">
+              <div class="col-sm-4">
+                <span class="viewlabel">Discharged on</span>
+              </div>
+              <div class="col-sm-4">
+                <label class="viewtext">{{ dataModel.dischargedon | date: 'fullDate' }}</label>
+              </div>
+              <div class="col-sm-4"></div>
+            </div>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <div *ngFor="let day of patientDayWiseTransactions; let i = index">
+        <h5 class="text-center">
+          Day {{ i+1}} {{day.day| date:'fullDate'}}</h5>
+        <app-patient-day-wise [patientDayWiseTxn]="day.txn"></app-patient-day-wise>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- <div class="row">
+        <div class="table-responsive table-bordered movie-table">
+          <table class="table movie-table">
+            <thead>
+              <tr class="movie-table-head">
+                <th>Time</th>
+                <th>Task Name</th>
+                <th>Performed by </th>
+                <th>Value</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="light-row" *ngFor="let slot of datataskModel; let i = index;">
+                <td>{{slot.txndate| date:'shortTime'}}</td>
+                <td> {{slot.txndata}}</td>
+                <td> {{slot.fopcode}}</td>
+                <td>{{slot}}</td>
+                <td>{{slot.status}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> -->
+
+      <!-- </div>  -->
+
+
+      <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <ng-container matColumnDef="time">
+            <th mat-header-cell *matHeaderCellDef> Time </th>
+            <td mat-cell *matCellDef="let element" class="light-row"> {{selectedDate| date:'shortTime'}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="taskname">
+            <th mat-header-cell *matHeaderCellDef> Task Name </th>
+            <td mat-cell *matCellDef="let element"> Task Name </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="performedby">
+            <th mat-header-cell *matHeaderCellDef> Performed by </th>
+            <td mat-cell *matCellDef="let element"> Medical 1</td>
+          </ng-container>
+        
+
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef> Value </th>
+            <td mat-cell *matCellDef="let element"> Value </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="comment">
+              <th mat-header-cell *matHeaderCellDef> Comments </th>
+              <td mat-cell *matCellDef="let element"> Comments</td>
+          </ng-container>
+        </table> -->
+    </mat-card>
+  </div>
+</div>

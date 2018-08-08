@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DEFAULT_PAGE_MENU } from '../../../../shared/app-common-constants';
 import { FloatingMenu, FloatingMenuItem } from '../../../../shared/models/ui/floating-menu';
 import { FloatingButtonMenuService } from '../../../../shared/services/floating-button-menu.service';
+import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
 
 @Component({
   selector: 'app-operator-list',
@@ -11,7 +12,8 @@ import { FloatingButtonMenuService } from '../../../../shared/services/floating-
 })
 export class OperatorListComponent implements OnInit {
 
-  constructor(private floatingButtonMenuService: FloatingButtonMenuService) { }
+  constructor(private floatingButtonMenuService: FloatingButtonMenuService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.setFloatingMenu();
@@ -22,7 +24,7 @@ export class OperatorListComponent implements OnInit {
     floatingMenu.items = new Array<FloatingMenuItem>();
     const item = new FloatingMenuItem();
     item.icon = 'add_circle';
-    item.title = 'Operator';
+    item.title = this.translatePipe.transform('OPERATOR_ADD_BUTTON');
     item.navigate = true;
     item.url = '/foperators/add';
     item.data = { queryParams: { callbackurl: 'foperators' }, skipLocationChange: true };

@@ -116,6 +116,18 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Patients',
         linkiconcss: 'fa fa-users'
     },
+    {
+        url: '/patients/add',
+        linktitle: 'Add',
+        pagetitle: 'Add new Patient',
+        linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/patients/patient_chart',
+        linktitle: 'File',
+        pagetitle: 'Patient File',
+        linkiconcss: 'fa fa-users'
+    },
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
@@ -150,7 +162,7 @@ export enum SERVICE_CONF_TYPE {
     SERVICE_DAILY_CHART = 'SERVICE_DAILY_CHART'
 }
 export enum PATIENT_STATE {
-    ADMITTED = 1,
+    HOSPITALIZE = 1,
     DISCHARGED = 2
 }
 

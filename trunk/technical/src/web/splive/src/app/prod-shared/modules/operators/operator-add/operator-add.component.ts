@@ -30,7 +30,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   ) {
     super();
     this.iconCss = 'fa fa-meh-o';
-    this.pageTitle = 'Operator Details';
+    this.pageTitle = this.translatePipe.transform('OPERATOR_ADD_TITLE');
   }
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
         this.setFormMode(FORM_MODE.VIEW);
         this.getOperatorDetails();
       } else {
-        this.subTitle = 'Add Details of Operator';
+        this.subTitle = this.translatePipe.transform('OPERATOR_ADD_MODE_TITLE');
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
