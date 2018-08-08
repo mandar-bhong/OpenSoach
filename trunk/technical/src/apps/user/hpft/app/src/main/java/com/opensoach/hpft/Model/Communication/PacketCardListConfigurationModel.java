@@ -28,10 +28,8 @@ public class PacketCardListConfigurationModel {
     @SerializedName("patientdetails")
     public String PatientDetailsJSON;
 
+    public  int LocationID;
     public  PacketPatientDetailsModel PatientDetails;
     public  PacketMedicalDetailsModel MedicalDetails;
     public  PacketServiceConfModel ServiceConf;
-
-
-
 }

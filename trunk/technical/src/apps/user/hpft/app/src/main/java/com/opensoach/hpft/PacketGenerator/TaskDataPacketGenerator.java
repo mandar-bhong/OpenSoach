@@ -2,24 +2,18 @@ package com.opensoach.hpft.PacketGenerator;
 
 import com.google.gson.Gson;
 import com.opensoach.hpft.Constants.CommandConstants;
-import com.opensoach.hpft.DAL.DatabaseManager;
 import com.opensoach.hpft.Helper.PacketHelper;
 import com.opensoach.hpft.Manager.RequestManager;
 import com.opensoach.hpft.Model.Communication.CommandRequest;
-import com.opensoach.hpft.Model.Communication.PacketChartDataModel;
-import com.opensoach.hpft.Model.Communication.PacketFeedbackDataModel;
 import com.opensoach.hpft.Model.Communication.PacketModel;
 import com.opensoach.hpft.Model.Communication.PacketServiceInstanceTxnModel;
 import com.opensoach.hpft.Model.Communication.PacketTaskCompletedDataModel;
-import com.opensoach.hpft.Model.DB.DBChartDataTableQueryModel;
-import com.opensoach.hpft.Model.DB.DBChartDataTableRowModel;
-import com.opensoach.hpft.Model.DB.DBTaskDataTableRowModel;
+import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableRowModel;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.Processor.AckChartDataProcessor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -48,14 +42,14 @@ public class TaskDataPacketGenerator  implements IPacketGenerator<ArrayList<Task
         return null;
     }
 
-    public CommandRequest GetTaskDataPacket(int locationID, List<DBTaskDataTableRowModel> chartRecords) {
+    public CommandRequest GetTaskDataPacket(int locationID, List<DBServiceTaskDataTableRowModel> chartRecords) {
 
         SimpleDateFormat UTCEntryTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         UTCEntryTimeFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         ArrayList<PacketServiceInstanceTxnModel> txns = new ArrayList<>();
 
-        for (DBTaskDataTableRowModel model : chartRecords) {
+        for (DBServiceTaskDataTableRowModel model : chartRecords) {
             PacketServiceInstanceTxnModel txnModel = new PacketServiceInstanceTxnModel();
             PacketTaskCompletedDataModel packetTaskCompletedDataModel = new PacketTaskCompletedDataModel();
 //            txnModel.servinid = model.getChartId();
