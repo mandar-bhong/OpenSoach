@@ -1,5 +1,7 @@
 package com.opensoach.hpft.ViewModels;
 
+import android.databinding.Bindable;
+
 import com.opensoach.hpft.Views.Fragment.MedicalDetailsFragment;
 
 /**
@@ -10,6 +12,7 @@ public class CardBriefViewModel extends BaseViewModel {
 
     public int SerInID;
     public int ServConfID;
+    public boolean NeedsAttention;
     public int locationID;
 
     private PatientDetailsViewModel patientDetails;
@@ -58,6 +61,20 @@ public class CardBriefViewModel extends BaseViewModel {
 
     public void setServConfID(int servConfID) {
         ServConfID = servConfID;
+    }
+
+    @Bindable
+    public boolean getNeedsAttention() {
+        return NeedsAttention;
+    }
+
+    @Bindable
+    public String getNeedsAttentionText() {
+        return this.NeedsAttention?"Yes":"No";
+    }
+
+    public void setNeedsAttention(boolean needsAttention) {
+        NeedsAttention = needsAttention;
     }
 
     public int getLocationID() {
