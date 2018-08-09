@@ -37,6 +37,10 @@ export const APP_TRANSLATIONS: TranslationValue[] = [
         key: 'OPERATOR_ASSOCIATE',
         en: 'Medical Attendant Operator'
       },
+      {
+        key: 'OPERATOR_ASSOCIATE_LABLE',
+        en: 'Wards'
+      },
     /* PATIENT STATES BEGIN */
     {
         key: 'PATIENT_STATE_1',

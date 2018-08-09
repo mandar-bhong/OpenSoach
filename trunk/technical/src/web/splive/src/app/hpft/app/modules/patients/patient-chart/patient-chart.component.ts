@@ -42,7 +42,7 @@ export class PatientChartComponent extends EditRecordBase implements OnInit, OnD
     private spServiceTxnService: SpServiceTxnService) {
     super();
     this.iconCss = 'fa fa-user';
-    this.pageTitle = 'Patient Details';
+    this.pageTitle = 'Patient File';
   }
 
   ngOnInit() {

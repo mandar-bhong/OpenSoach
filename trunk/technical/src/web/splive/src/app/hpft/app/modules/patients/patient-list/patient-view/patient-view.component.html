@@ -66,7 +66,7 @@
               <span [ngSwitch]="row.status" *ngIf="row.status === 1">
                 <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Hospitalize</div>
                 <button mat-icon-button color="accent" data-toggle="modal" data-target="#myModal" (click)="setSelectedPatient(row)">
-                  <i class="fa fa-toggle-on" aria-hidden="true" matTooltip="Change Statu"></i>
+                  <i class="fa fa-toggle-on" aria-hidden="true" matTooltip="Change Status"></i>
                 </button>
               </span>
               <span [ngSwitch]="row.status">
