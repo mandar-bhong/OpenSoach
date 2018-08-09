@@ -134,7 +134,17 @@ public class CommonHelper {
             cardBriefViewModel.setMedicalDetails(medicalDetailsViewModel);
             cardBriefViewModel.setTaskDetails(taskDetailsViewModel);
 
+            // TODO: dummy code to simulate attention timer icon
+            if(cardBriefViewModels.size()<3)
+            {
+                cardBriefViewModel.setNeedsAttention(true);
+            }
+            else {
+                cardBriefViewModel.setNeedsAttention(false);
+            }
+
             cardBriefViewModels.add(cardBriefViewModel);
+
         }
 
         return cardBriefViewModels;

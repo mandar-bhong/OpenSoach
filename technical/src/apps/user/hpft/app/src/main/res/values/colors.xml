@@ -48,4 +48,7 @@
     <color name="colorCardFieldLabel">#A8A8A8</color>
     <color name="colorCardFieldValue">#446666</color>
 
+    <color name="color_attended_ontime">#339900</color>
+    <color name="color_needs_attention">#FF0000</color>
+
 </resources>
