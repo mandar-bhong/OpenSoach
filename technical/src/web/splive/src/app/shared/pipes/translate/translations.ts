@@ -398,5 +398,10 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'OPERATOR_ASSOCIATE',
     en: 'Associate Operator'
   },
+  {
+    key: 'OPERATOR_ASSOCIATE_LABLE',
+    en: 'Service points'
+  },
+
 ];
 
