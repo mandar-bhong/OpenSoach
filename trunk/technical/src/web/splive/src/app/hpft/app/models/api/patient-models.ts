@@ -20,6 +20,7 @@ export class PatientDetailAddRequest {
     bloodgroup: string;
     weight: number;
     drinst: string;
+    gender: string;
 }
 export class MedicalDetailAddRequest {
     reasonadmission: string;
