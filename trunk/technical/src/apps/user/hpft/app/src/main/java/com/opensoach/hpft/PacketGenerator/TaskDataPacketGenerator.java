@@ -76,8 +76,8 @@ public class TaskDataPacketGenerator  implements IPacketGenerator<ArrayList<DBSe
                 }
 
                 packetTaskCompletedDataModel.taskName = itemData.getTitle();
-                packetTaskCompletedDataModel.comment="This is test comment";
-                packetTaskCompletedDataModel.value = "10";
+                packetTaskCompletedDataModel.comment=itemData.getComment();
+                packetTaskCompletedDataModel.value = itemData.getObservationValue();
 
                 Calendar calChartStart = Calendar.getInstance();
                 calChartStart.setTime(model.getSlotStartTime());
