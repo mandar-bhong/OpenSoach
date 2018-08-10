@@ -12,7 +12,7 @@ public class AppLogger {
     private static AppLogger singleton;
 
     private LogLevel logLevel;
-    private String AppName = "HKTApplication";
+    private String AppName = "HPFTApplication";
 
     public enum LogLevel{
         Debug,

@@ -1,9 +1,5 @@
 package com.opensoach.hpft.DAL;
 
-/**
- * Created by samir.s.bukkawar on 2/26/2017.
- */
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

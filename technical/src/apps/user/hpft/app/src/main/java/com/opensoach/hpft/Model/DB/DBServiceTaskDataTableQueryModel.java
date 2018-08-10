@@ -20,6 +20,7 @@ public class DBServiceTaskDataTableQueryModel implements IDBRowMapper<DBServiceT
     public static final String SELECT_ID_FILTER = "SELECT_ID_FILTER";
     public static final String UPDATE_JSON_DATA = "UPDATE_JSON_DATA";
     public static final String SELECT_LOCATION_TIME_FILTER = "SELECT_LOCATION_TIME_FILTER";
+    public static final String FILTER_BY_UNSYNC_DATA ="FILTER_BY_UNSYNC_DATA";
 
     @Override
     public DBServiceTaskDataTableRowModel Clone() {
@@ -31,8 +32,12 @@ public class DBServiceTaskDataTableQueryModel implements IDBRowMapper<DBServiceT
         dataModel.setServConfID(cursor.getInt(0));
         dataModel.setSerInID(cursor.getInt(1));
         dataModel.setLocationId(cursor.getInt(2));
-        dataModel.setTime(new Date(cursor.getLong(3)));
-        dataModel.setData(cursor.getString(4));
+        dataModel.setEntryTime(new Date(cursor.getLong(3)));
+        dataModel.setSlotStartTime(new Date(cursor.getLong(4)));
+        dataModel.setSlotEndTime(new Date(cursor.getLong(5)));
+        dataModel.setData(cursor.getString(6));
+        dataModel.setSynced(cursor.getInt(7) == 1);
+        dataModel.setData(cursor.getString(8));
     }
 
     @Override
@@ -42,7 +47,11 @@ public class DBServiceTaskDataTableQueryModel implements IDBRowMapper<DBServiceT
                 DBTableConstants.TABLE_SERVICE_TASK_DATA_SerInID,
                 DBTableConstants.TABLE_SERVICE_TASK_DATA_LOCATION_ID,
                 DBTableConstants.TABLE_SERVICE_TASK_DATA_TIME,
-                DBTableConstants.TABLE_SERVICE_TASK_DATA_JSON};
+                DBTableConstants.TABLE_SERVICE_TASK_DATA_SLOT_START_TIME,
+                DBTableConstants.TABLE_SERVICE_TASK_DATA_SLOT_END_TIME,
+                DBTableConstants.TABLE_SERVICE_TASK_DATA_JSON,
+                DBTableConstants.TABLE_SERVICE_TASK_DATA_SERVER_SYNC,
+                DBTableConstants.TABLE_SERVICE_TASK_DATA_AUTH_CODE};
     }
 
     @Override
@@ -55,6 +64,8 @@ public class DBServiceTaskDataTableQueryModel implements IDBRowMapper<DBServiceT
                         DBTableConstants.TABLE_SERVICE_TASK_DATA_SerInID + "=? and " +
                         DBTableConstants.TABLE_SERVICE_TASK_DATA_LOCATION_ID + "=? and " +
                         DBTableConstants.TABLE_SERVICE_TASK_DATA_TIME+"=?";
+            case FILTER_BY_UNSYNC_DATA:
+                return DBConstants.TABLE_CHART_DATA_SERVER_SYNC + " = ?";
         }
         return "";
     }
@@ -68,7 +79,10 @@ public class DBServiceTaskDataTableQueryModel implements IDBRowMapper<DBServiceT
                 return new String[]{String.valueOf(dataModel.getServConfID()),
                         String.valueOf(dataModel.getSerInID()),
                         String.valueOf(dataModel.getLocationId()),
-                        String.valueOf(dataModel.getTime().getTime())};
+                        String.valueOf(dataModel.getEntryTime().getTime())};
+            case FILTER_BY_UNSYNC_DATA:
+                return new String[]{String.valueOf(dataModel.getLocationId()),
+                        String.valueOf(dataModel.isSynced())};
         }
 
         return new String[]{};
@@ -84,7 +98,11 @@ public class DBServiceTaskDataTableQueryModel implements IDBRowMapper<DBServiceT
                 return values;
             case SELECT_LOCATION_TIME_FILTER:
                 values.put(DBTableConstants.TABLE_SERVICE_TASK_DATA_JSON, dataModel.getData());
+                values.put(DBTableConstants.TABLE_SERVICE_TASK_DATA_SLOT_START_TIME,String.valueOf( dataModel.getSlotStartTime().getTime()));
+                values.put(DBTableConstants.TABLE_SERVICE_TASK_DATA_SLOT_END_TIME, String.valueOf(dataModel.getSlotEndTime().getTime()));
                 return values;
+            case FILTER_BY_UNSYNC_DATA:
+                values.put(DBTableConstants.TABLE_SERVICE_TASK_DATA_SERVER_SYNC,dataModel.isSynced());
         }
         return values;
     }

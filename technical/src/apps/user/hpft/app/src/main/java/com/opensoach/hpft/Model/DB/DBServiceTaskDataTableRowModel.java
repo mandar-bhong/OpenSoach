@@ -16,8 +16,12 @@ public class DBServiceTaskDataTableRowModel {
     private int  servConfID;
     private int  serInID;
     private int locationId;
-    private Date time;
+    private Date entryTime;
     private String data;
+    private boolean isSynced;
+    private String authCode;
+    private Date slotStartTime;
+    private Date slotEndTime;
 
     public DBServiceTaskDataTableRowModel(){
         data = "";
@@ -47,12 +51,12 @@ public class DBServiceTaskDataTableRowModel {
         this.locationId = locationId;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getEntryTime() {
+        return entryTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setEntryTime(Date entryTime) {
+        this.entryTime = entryTime;
     }
 
     public String getData() {
@@ -61,5 +65,37 @@ public class DBServiceTaskDataTableRowModel {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public boolean isSynced() {
+        return isSynced;
+    }
+
+    public void setSynced(boolean synced) {
+        isSynced = synced;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
+    }
+
+    public Date getSlotStartTime() {
+        return slotStartTime;
+    }
+
+    public void setSlotStartTime(Date slotStartTime) {
+        this.slotStartTime = slotStartTime;
+    }
+
+    public Date getSlotEndTime() {
+        return slotEndTime;
+    }
+
+    public void setSlotEndTime(Date slotEndTime) {
+        this.slotEndTime = slotEndTime;
     }
 }

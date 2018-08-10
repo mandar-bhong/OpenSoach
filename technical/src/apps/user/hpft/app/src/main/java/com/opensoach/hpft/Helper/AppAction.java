@@ -5,5 +5,6 @@ public enum AppAction {
     CHART_DATA,
     COMPLAINT_DATA,
     FEEDBACK_DATA,
-    BATTERY_LEVEL
+    BATTERY_LEVEL,
+    TASK_DATA
 }

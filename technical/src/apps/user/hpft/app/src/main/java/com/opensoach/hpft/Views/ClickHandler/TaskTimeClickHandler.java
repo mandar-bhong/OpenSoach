@@ -1,6 +1,5 @@
 package com.opensoach.hpft.Views.ClickHandler;
 
-import android.content.Intent;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -11,10 +10,8 @@ import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableQueryModel;
 import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableRowModel;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.ViewModels.TaskDetailsViewModel;
-import com.opensoach.hpft.ViewModels.TaskItemViewModel;
 import com.opensoach.hpft.ViewModels.TaskTimeDataViewModel;
 import com.opensoach.hpft.ViewModels.TaskTimeItemViewModel;
-import com.opensoach.hpft.Views.Activity.TaskDetailsActivity;
 
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class TaskTimeClickHandler {
         dbServiceTaskDataTableRowModel.setServConfID(AppRepo.getInstance().getActiveCard().getServConfID());
         dbServiceTaskDataTableRowModel.setSerInID(AppRepo.getInstance().getActiveCard().getSerInID());
         dbServiceTaskDataTableRowModel.setLocationId(AppRepo.getInstance().getActiveCard().getLocationID());
-        dbServiceTaskDataTableRowModel.setTime(AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem().getTaskTimeDataModel().getStartTime());
+        dbServiceTaskDataTableRowModel.setEntryTime(AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem().getTaskTimeDataModel().getStartTime());
 
         List<DBServiceTaskDataTableRowModel> dbRows = DatabaseManager.SelectByFilter(new DBServiceTaskDataTableQueryModel(), dbServiceTaskDataTableRowModel, DBServiceTaskDataTableQueryModel.SELECT_LOCATION_TIME_FILTER);
 
@@ -52,6 +49,7 @@ public class TaskTimeClickHandler {
                 for (TaskItemDataModel userModel : tasks) {
                     if (model.getTitle().equals( userModel.getTitle())) {
                         userModel.setIsCompleted(model.getIsCompleted());
+                        userModel.setServerSyncCompleted(dbRow.isSynced());
                     }
                 }
             }
