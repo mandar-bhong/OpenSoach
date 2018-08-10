@@ -23,6 +23,9 @@
     <string name="dialog_complaint_field_by">Enter your Name</string>
     <string name="dialog_complaint_field_title">Complaint Title</string>
     <string name="dialog_complaint_field_description">Complaint Details</string>
+    <string name="dialog_enter_observation_value">Enter Observation Value</string>
+    <string name="dialog_enter_comment">Enter Comment</string>
+
 
     <string name="invalid_auth_code">Entered attendant code is invalid</string>
     <string name="enter_valid_authcode">Please enter a valid authcode</string>

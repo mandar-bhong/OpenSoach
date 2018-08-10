@@ -11,6 +11,8 @@ import com.opensoach.hpft.BuildConfig;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.ViewModels.CardBriefViewModel;
 import com.opensoach.hpft.ViewModels.TaskDataViewModel;
+import com.opensoach.hpft.ViewModels.TaskItemViewModel;
+import com.opensoach.hpft.ViewModels.TaskTimeItemViewModel;
 
 /**
  * Created by Mandar on 2/25/2017. This class will have all application level data
@@ -39,6 +41,7 @@ public final class AppRepo {
     private ArrayList<String> authCodeList;
     private boolean isDeviceSyncInProgress;
     private CardBriefViewModel activeCard;
+    private TaskItemViewModel activeTaskItem;
 
     private List<TaskItemDataModel> selectedTaskDataViewModels;
 
@@ -193,6 +196,13 @@ public final class AppRepo {
         this.activeCard = activeCard;
     }
 
+    public TaskItemViewModel getActiveTaskItem() {
+        return activeTaskItem;
+    }
+
+    public void setActiveTaskItem(TaskItemViewModel activeTaskItem) {
+        this.activeTaskItem = activeTaskItem;
+    }
 
     public List<TaskItemDataModel> getSelectedTaskDataViewModels() {
         return selectedTaskDataViewModels;
