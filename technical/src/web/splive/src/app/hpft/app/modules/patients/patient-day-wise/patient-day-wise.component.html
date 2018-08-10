@@ -1,11 +1,10 @@
-
 <div class="example-container mat-elevation-z8" style="margin-bottom: 10px">
   <mat-table [dataSource]="dataSource">
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     <ng-container matColumnDef="time">
-      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Time</mat-header-cell>
-      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Time</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
         <span class="mat-cell-responsive-label">Time</span>
         <span class="ellipsis mat-cell-text"> {{row.txndate | date:'shortTime'}}</span>
       </mat-cell>
@@ -25,17 +24,27 @@
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="value">
-      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Value</mat-header-cell>
-      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Value</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
         <span class="mat-cell-responsive-label">value</span>
         <span class="ellipsis mat-cell-text"> {{row.txndata.value}}</span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="comment">
-      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Comment</mat-header-cell>
-      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Comment</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
         <span class="mat-cell-responsive-label">comment</span>
         <span class="ellipsis mat-cell-text"> {{row.txndata.comment}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;justify-content:center;">Status</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 15%;justify-content:center;">
+        <span class="mat-cell-responsive-label">Status</span>
+        <span [ngSwitch]="row.status">
+          <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">On Time</div>
+          <div class="statusBlock" *ngSwitchCase="2" style="background-color:#FFBE00">Delayed</div>
+        </span>
       </mat-cell>
     </ng-container>
   </mat-table>
