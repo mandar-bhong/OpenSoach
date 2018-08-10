@@ -69,7 +69,6 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
     });
   }
   getServicepointConfigureList() {
-    // get Existing servicepoint configure short list
     this.patientService.getServicepointConfigureList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.spconfigures = payloadResponse.data;

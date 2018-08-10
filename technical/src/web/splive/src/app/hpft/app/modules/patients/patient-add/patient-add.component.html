@@ -23,7 +23,8 @@
               <div class="row">
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
-                    <input matInput name="contact" placeholder="Emergency Contact Number" required [(ngModel)]="dataModel.patientdetails.emergencycontactno" maxlength="10">
+                    <input matInput name="contact" placeholder="Emergency Contact Number" required [(ngModel)]="dataModel.patientdetails.emergencycontactno"
+                      maxlength="10">
                   </mat-form-field>
                 </div>
                 <div class="col-md-1"></div>
@@ -62,6 +63,16 @@
               <div class="row">
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
+                    <mat-select placeholder="Gender" [(ngModel)]="dataModel.patientdetails.gender" name="blood" required>
+                      <mat-option value="Male">Male</mat-option>
+                      <mat-option value="Feamle">Female</mat-option>
+                      <mat-option value="Other">Other</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
                     <mat-select placeholder="Ward" [(ngModel)]="dataModel.spid" required>
                       <mat-option>None</mat-option>
                       <mat-option *ngFor="let cat of splist" [value]="cat.spid">
@@ -71,20 +82,20 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-1"></div>
+              </div>
+              <div class="row">
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
                     <input matInput name="bed" placeholder="Bed/Room Number" required [(ngModel)]="dataModel.patientdetails.bedno">
                   </mat-form-field>
                 </div>
                 <div class="col-md-1"></div>
-              </div>
-              <div class="row">
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
-                    <input matInput name="instant" placeholder="Doctor" required  [(ngModel)]="dataModel.patientdetails.drinst">
+                    <input matInput name="instant" placeholder="Doctor" required [(ngModel)]="dataModel.patientdetails.drinst">
                   </mat-form-field>
                 </div>
-                <div class="col-md-7"></div>
+                <div class="col-md-1"></div>
               </div>
               <!-- <div class="row">
                 <div class="col-md-5">
