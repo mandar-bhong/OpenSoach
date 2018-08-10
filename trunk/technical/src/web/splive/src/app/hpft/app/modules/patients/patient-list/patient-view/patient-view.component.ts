@@ -44,7 +44,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     private ch: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.paginator.pageSize = 5;
+    this.paginator.pageSize = 10;
     this.getDataList();
     this.patients = new PatientDataModel();
   }

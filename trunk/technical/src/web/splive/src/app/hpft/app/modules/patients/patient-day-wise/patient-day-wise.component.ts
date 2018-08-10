@@ -17,7 +17,7 @@ export class PatientDayWiseComponent implements OnInit {
   dataModel = new ChartDataViewModel();
   datachartModel = new PatientDataModel();
   txns: ChartTransactionModel[];
-  displayedColumns = ['time', 'taskname', 'fopname', 'value', 'comment'];
+  displayedColumns = ['time', 'taskname', 'fopname', 'value', 'comment', 'status'];
   dataSource = [];
   @Input()
   patientDayWiseTxn: ChartTransactionModel[] = [];
