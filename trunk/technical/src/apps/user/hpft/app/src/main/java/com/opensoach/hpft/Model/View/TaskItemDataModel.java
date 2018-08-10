@@ -29,6 +29,7 @@ import android.support.annotation.Nullable;
 public class TaskItemDataModel {
     private String title;
     private boolean isCompleted;
+    private boolean isServerSyncCompleted;
     private String observationValue;
     private String comment;
 
@@ -66,5 +67,13 @@ public class TaskItemDataModel {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean isServerSyncCompleted() {
+        return isServerSyncCompleted;
+    }
+
+    public void setServerSyncCompleted(boolean serverSyncCompleted) {
+        isServerSyncCompleted = serverSyncCompleted;
     }
 }

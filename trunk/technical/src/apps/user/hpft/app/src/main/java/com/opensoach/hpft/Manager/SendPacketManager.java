@@ -24,12 +24,15 @@ import com.opensoach.hpft.Model.Communication.PacketBatteryLevelModel;
 import com.opensoach.hpft.Model.Communication.PacketFeedbackDataModel;
 import com.opensoach.hpft.Model.Communication.PacketUserComplaintDataModel;
 import com.opensoach.hpft.Model.DB.DBChartDataTableRowModel;
+import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableRowModel;
 import com.opensoach.hpft.PacketGenerator.AuthDataPacketGenerator;
 import com.opensoach.hpft.PacketGenerator.BatteryLevelGenerator;
 import com.opensoach.hpft.PacketGenerator.ChartDataPacketGenerator;
 import com.opensoach.hpft.PacketGenerator.ComplaintDataPacketGenerator;
 import com.opensoach.hpft.PacketGenerator.DeviceSyncCompletedDataPacketGenerator;
 import com.opensoach.hpft.PacketGenerator.FeedbackDataPacketGenerator;
+import com.opensoach.hpft.PacketGenerator.TaskDataPacketGenerator;
+import com.opensoach.hpft.Utility.AppLogger;
 
 /**
  * Created by samir.s.bukkawar on 3/25/2017.
@@ -77,6 +80,11 @@ public class SendPacketManager {
                             ChartDataPacketGenerator chartDataPacketGenerator = new ChartDataPacketGenerator();
                             request = chartDataPacketGenerator.GenerateRequest(locationID, dbChartDataItems);
                             break;
+                        case TASK_DATA:
+                            ArrayList<DBServiceTaskDataTableRowModel> serviceDataItems = (ArrayList<DBServiceTaskDataTableRowModel>) data;
+                            TaskDataPacketGenerator taskDataPacketGenerator = new TaskDataPacketGenerator();
+                            request = taskDataPacketGenerator.GenerateRequest(locationID, serviceDataItems);
+                            break;
                         case COMPLAINT_DATA:
                             ComplaintDataPacketGenerator complaintDataPacketGenerator = new ComplaintDataPacketGenerator();
                             request = complaintDataPacketGenerator.GenerateRequest(locationID, (ArrayList<PacketUserComplaintDataModel>) data);
@@ -100,7 +108,7 @@ public class SendPacketManager {
                         CommunicationManager.getInstance().SendPacket(packet);
                     }
                 } catch (Exception ex) {
-                    Log.d("ParsingSendChartData", ex.getMessage());
+                    AppLogger.getInstance().Log(ex);
                 }
             }
         };

@@ -1,26 +1,20 @@
 package com.opensoach.hpft.Views.ClickHandler;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.DAL.DatabaseManager;
-import com.opensoach.hpft.Model.Communication.CommandRequest;
-import com.opensoach.hpft.Model.DB.DBAuthCodeTableQueryModel;
-import com.opensoach.hpft.Model.DB.DBAuthCodeTableRowModel;
+import com.opensoach.hpft.Helper.AppAction;
+import com.opensoach.hpft.Manager.SendPacketManager;
 import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableQueryModel;
 import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableRowModel;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
-import com.opensoach.hpft.PacketGenerator.TaskDataPacketGenerator;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.Utility.AppLogger;
-import com.opensoach.hpft.ViewModels.CardBriefViewModel;
 import com.opensoach.hpft.ViewModels.HeaderViewModel;
 import com.opensoach.hpft.ViewModels.MainViewModel;
-import com.opensoach.hpft.ViewModels.TaskItemViewModel;
-import com.opensoach.hpft.Views.Activity.CardDetailsActivity;
 import com.opensoach.hpft.Views.DialogHelper;
 
 import java.util.ArrayList;
@@ -71,38 +65,56 @@ public class HeaderUploadClickHandler {
 
     private void SendData(String authText) {
 
-        ArrayList<TaskItemDataModel> items = new ArrayList<>();
-        items.addAll(AppRepo.getInstance().getSelectedTaskDataViewModels());
+        try {
+            ArrayList<TaskItemDataModel> items = new ArrayList<>();
 
-        //CommandRequest req = new TaskDataPacketGenerator().GenerateRequest(1,items);
+            for(TaskItemDataModel model : AppRepo.getInstance().getSelectedTaskDataViewModels()){
+                if (model.getIsCompleted() == false){
+                    items.add(model);
+                }
+            }
 
-        Date startTime = AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem().getTaskTimeDataModel().getStartTime();
-        int locationID = AppRepo.getInstance().getActiveCard().getLocationID();
+            Date entryTime = new Date();
+            Date slotStartTime = AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem().getTaskTimeDataModel().getStartTime();
+            Date slotEndTime = AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem().getTaskTimeDataModel().getEndTime();
+            int locationID = AppRepo.getInstance().getActiveCard().getLocationID();
 
-        DBServiceTaskDataTableRowModel dbServiceTaskDataTableRowModel = new DBServiceTaskDataTableRowModel();
-        dbServiceTaskDataTableRowModel.setServConfID(AppRepo.getInstance().getActiveCard().ServConfID);
-        dbServiceTaskDataTableRowModel.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
-        dbServiceTaskDataTableRowModel.setLocationId(locationID);
-        dbServiceTaskDataTableRowModel.setTime(startTime);
+            DBServiceTaskDataTableRowModel dbServiceTaskDataTableRowModel = new DBServiceTaskDataTableRowModel();
+            dbServiceTaskDataTableRowModel.setServConfID(AppRepo.getInstance().getActiveCard().ServConfID);
+            dbServiceTaskDataTableRowModel.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
+            dbServiceTaskDataTableRowModel.setLocationId(locationID);
+            dbServiceTaskDataTableRowModel.setEntryTime(entryTime);
 
-        List<DBServiceTaskDataTableRowModel> dbRows = DatabaseManager.SelectByFilter(new DBServiceTaskDataTableQueryModel(), dbServiceTaskDataTableRowModel, DBServiceTaskDataTableQueryModel.SELECT_LOCATION_TIME_FILTER);
+            List<DBServiceTaskDataTableRowModel> dbRows = DatabaseManager.SelectByFilter(new DBServiceTaskDataTableQueryModel(), dbServiceTaskDataTableRowModel, DBServiceTaskDataTableQueryModel.SELECT_LOCATION_TIME_FILTER);
+            DBServiceTaskDataTableRowModel dbInsertRow = new DBServiceTaskDataTableRowModel();
 
-        if (dbRows.size() > 0) {
-            DBServiceTaskDataTableRowModel dbRow = dbRows.get(0);
-            dbRow.setData(new Gson().toJson(items));
+            if (dbRows.size() > 0) {
+                DBServiceTaskDataTableRowModel dbRow = dbRows.get(0);
+                dbRow.setData(new Gson().toJson(items));
 
-            DatabaseManager.UpdateRow(new DBServiceTaskDataTableQueryModel(), dbRow, DBServiceTaskDataTableQueryModel.SELECT_LOCATION_TIME_FILTER);
+                DatabaseManager.UpdateRow(new DBServiceTaskDataTableQueryModel(), dbRow, DBServiceTaskDataTableQueryModel.SELECT_LOCATION_TIME_FILTER);
 
-        } else {
-            DBServiceTaskDataTableRowModel row = new DBServiceTaskDataTableRowModel();
+            } else {
+                dbInsertRow.setServConfID(AppRepo.getInstance().getActiveCard().ServConfID);
+                dbInsertRow.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
+                dbInsertRow.setLocationId(locationID);
+                dbInsertRow.setEntryTime(entryTime);
+                dbInsertRow.setSlotStartTime(slotStartTime);
+                dbInsertRow.setSlotEndTime(slotEndTime);
+                dbInsertRow.setData(new Gson().toJson(items));
 
-            row.setServConfID(AppRepo.getInstance().getActiveCard().ServConfID);
-            row.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
-            row.setLocationId(locationID);
-            row.setTime(startTime);
-            row.setData(new Gson().toJson(items));
+                DatabaseManager.InsertRow(dbInsertRow);
+            }
 
-            DatabaseManager.InsertRow(row);
+            if (dbRows.size() == 0) {
+                dbRows.add(dbInsertRow);
+            }
+
+            //SendPacketManager.Instance().send(AppAction.TASK_DATA, dbRows);
+
+        }catch (Exception ex){
+            AppLogger.getInstance().Log(ex);
+            throw  ex;
         }
     }
 }

@@ -34,8 +34,12 @@ public class DBTableConstants {
     public static final String TABLE_SERVICE_TASK_DATA_SerInID= "serInID";
     public static final String TABLE_SERVICE_TASK_DATA_ServConfID= "servConfID";
     public static final String TABLE_SERVICE_TASK_DATA_LOCATION_ID = "locationId";
-    public static final String TABLE_SERVICE_TASK_DATA_TIME = "time";
+    public static final String TABLE_SERVICE_TASK_DATA_TIME = "entrytime";
+    public static final String TABLE_SERVICE_TASK_DATA_SLOT_START_TIME = "slotStartTime";
+    public static final String TABLE_SERVICE_TASK_DATA_SLOT_END_TIME = "slotEndTime";
     public static final String TABLE_SERVICE_TASK_DATA_JSON = "data";
+    public static final String TABLE_SERVICE_TASK_DATA_SERVER_SYNC = "isSynced";
+    public static final String TABLE_SERVICE_TASK_DATA_AUTH_CODE = "authCode";
 
 
 }

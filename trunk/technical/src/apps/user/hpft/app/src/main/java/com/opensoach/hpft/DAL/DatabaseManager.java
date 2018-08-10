@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.opensoach.hpft.Utility.AppLogger;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -151,24 +153,29 @@ public class DatabaseManager {
 
     public static <T extends IDBRowMapper, K extends Object> List<K> SelectByFilter(T queryModel, K dataModel, String filter) {
 
-        List selectList = new ArrayList<K>();
-        String tableName = DBTableName(queryModel);
-        SQLiteDatabase db = DatabaseManager.openDatabase();
+        try {
+            List selectList = new ArrayList<K>();
+            String tableName = DBTableName(queryModel);
+            SQLiteDatabase db = DatabaseManager.openDatabase();
 
-        Cursor cursor = db.query(tableName, queryModel.SelectColumn(), queryModel.WhereFilter(filter),
-                queryModel.FilterArgs(dataModel, filter), null, null, null, null);
+            Cursor cursor = db.query(tableName, queryModel.SelectColumn(), queryModel.WhereFilter(filter),
+                    queryModel.FilterArgs(dataModel, filter), null, null, null, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                K newDataModel = (K) queryModel.Clone();
-                queryModel.PrepareModel(cursor, newDataModel);
-                selectList.add(newDataModel);
-            } while (cursor.moveToNext());
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    K newDataModel = (K) queryModel.Clone();
+                    queryModel.PrepareModel(cursor, newDataModel);
+                    selectList.add(newDataModel);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            DatabaseManager.closeDatabase();
+
+            return selectList;
+        }catch (Exception ex){
+            AppLogger.getInstance().Log(ex);
+            throw  ex;
         }
-        cursor.close();
-        DatabaseManager.closeDatabase();
-
-        return selectList;
     }
 
     public static <T extends IDBRowMapper, T1 extends Object> int UpdateRow(T queryModel, T1 dataModel, String filter) {
