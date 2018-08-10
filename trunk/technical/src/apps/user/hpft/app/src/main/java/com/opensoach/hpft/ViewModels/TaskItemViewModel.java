@@ -52,6 +52,25 @@ public class TaskItemViewModel extends BaseViewModel {
     }
 
 
+    public String getObservationValue(){
+        return dataModel.getObservationValue();
+    }
+
+    public void setObservationValue(String  observationValue){
+        dataModel.setObservationValue(observationValue);
+
+    }
+
+    public String getComment(){
+        return dataModel.getComment();
+    }
+
+    public void setComment(String  comment){
+        dataModel.setComment(comment);
+
+    }
+
+
     @Bindable
     public void setIsCompleted(boolean isCompleted){
          dataModel.setIsCompleted(isCompleted);

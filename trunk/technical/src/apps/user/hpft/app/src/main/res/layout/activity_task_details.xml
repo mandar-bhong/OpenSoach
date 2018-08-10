@@ -1,33 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:background="@color/activity_default_bg_color"
     tools:context="com.opensoach.hpft.Views.Activity.TaskDetailsActivity">
 
+    <data>
+        <import type="android.view.View"/>
+        <data>
+            <import type="java.lang.Integer" />
+        </data>
+        <variable
+            name="VM"
+            type="com.opensoach.hpft.ViewModels.TaskItemViewModel" />
 
-    <RelativeLayout
-        android:id="@+id/headerView"
+        <variable
+            name="BriefView"
+            type="com.opensoach.hpft.ViewModels.CardBriefViewModel" />
+
+    </data>
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@android:drawable/screen_background_dark_transparent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <!--Replacing this element with actual fragment from code behind-->
-        <FrameLayout
-            android:id="@+id/headerPlace"
+        <RelativeLayout
+            android:id="@+id/headerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark">
+            android:layout_alignParentTop="true"
+            android:background="@color/header_view_bg">
 
-        </FrameLayout>
-    </RelativeLayout>
+            <!--Replacing this element with actual fragment from code behind-->
+            <FrameLayout
+                android:id="@+id/headerPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="This is task details"
-        android:textColor="@android:color/holo_orange_dark"/>
-</android.support.constraint.ConstraintLayout>
+            </FrameLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TASK DETAILS"
+                android:layout_marginBottom="10dp"
+                android:textColor="#CBCBCB"
+                />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#CBCBCB"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorCardFieldLabel"
+                    android:text="Patient Name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorCardFieldValue"
+                    android:layout_marginLeft="10dp"
+                    android:text="@{BriefView.patientDetails.name}" />
+            </LinearLayout>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorCardFieldLabel"
+                    android:text="Room/Bed Number" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/bed" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorCardFieldValue"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:text="@{BriefView.patientDetails.roomNo}" />
+                </LinearLayout>
+            </LinearLayout>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_enter_observation_value"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/etObservationValueText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                android:lines="1"
+                android:maxLines="1"
+                android:text="@={VM.observationValue}">
+
+                <requestFocus />
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_enter_comment"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/etCommentsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                android:lines="1"
+                android:maxLines="1"
+                android:text="@={VM.comment}">
+
+                <requestFocus />
+            </EditText>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:onClick="ok"
+            android:padding="5dp"
+            android:text="Ok" />
+
+    </LinearLayout>
+
+
+
+
+</layout>
+

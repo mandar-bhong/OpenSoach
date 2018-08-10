@@ -16,7 +16,7 @@ import com.opensoach.hpft.Views.Activity.TaskDetailsActivity;
 public class TaskDetailsClickHandler {
 
     public void onClick(View view, TaskItemViewModel vm) {
-        //AppRepo.getInstance().setActiveCard(vm);
+        AppRepo.getInstance().setActiveTaskItem(vm);
 
         Intent i = new Intent(view.getContext(), TaskDetailsActivity.class);
         view.getContext().startActivity(i);
