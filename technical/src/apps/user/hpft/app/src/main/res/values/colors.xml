@@ -51,4 +51,6 @@
     <color name="color_attended_ontime">#339900</color>
     <color name="color_needs_attention">#FF0000</color>
 
+    <color name="color_text_time_slot">#446666</color>
+
 </resources>

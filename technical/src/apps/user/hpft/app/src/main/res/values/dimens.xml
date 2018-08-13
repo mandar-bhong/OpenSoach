@@ -18,5 +18,7 @@
     <dimen name="grid_padding">3dp</dimen>
     <dimen name="grid_horizontal_spacing">1px</dimen>
     <dimen name="grid_vertical_spacing">0px</dimen>
+    <dimen name="chart_cellview_height">60dp</dimen>
+    <dimen name="chart_cellview_width">100dp</dimen>
 
 </resources>
