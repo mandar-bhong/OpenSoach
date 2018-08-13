@@ -25,6 +25,7 @@ import com.opensoach.hpft.Model.Communication.PacketFeedbackDataModel;
 import com.opensoach.hpft.Model.Communication.PacketUserComplaintDataModel;
 import com.opensoach.hpft.Model.DB.DBChartDataTableRowModel;
 import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableRowModel;
+import com.opensoach.hpft.Model.DB.DBTaskDataTableRowModel;
 import com.opensoach.hpft.PacketGenerator.AuthDataPacketGenerator;
 import com.opensoach.hpft.PacketGenerator.BatteryLevelGenerator;
 import com.opensoach.hpft.PacketGenerator.ChartDataPacketGenerator;
@@ -81,7 +82,7 @@ public class SendPacketManager {
                             request = chartDataPacketGenerator.GenerateRequest(locationID, dbChartDataItems);
                             break;
                         case TASK_DATA:
-                            ArrayList<DBServiceTaskDataTableRowModel> serviceDataItems = (ArrayList<DBServiceTaskDataTableRowModel>) data;
+                            ArrayList<DBTaskDataTableRowModel> serviceDataItems = (ArrayList<DBTaskDataTableRowModel>) data;
                             TaskDataPacketGenerator taskDataPacketGenerator = new TaskDataPacketGenerator();
                             request = taskDataPacketGenerator.GenerateRequest(locationID, serviceDataItems);
                             break;

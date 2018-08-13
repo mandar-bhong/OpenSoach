@@ -13,6 +13,8 @@ import com.opensoach.hpft.Model.Communication.PacketServiceInstanceTxnModel;
 import com.opensoach.hpft.Model.Communication.PacketTaskCompletedDataModel;
 import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableQueryModel;
 import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableRowModel;
+import com.opensoach.hpft.Model.DB.DBTaskDataTableQueryModel;
+import com.opensoach.hpft.Model.DB.DBTaskDataTableRowModel;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.Processor.AckChartDataProcessor;
 import com.opensoach.hpft.Processor.AckTaskDataProcessor;
@@ -27,10 +29,10 @@ import java.util.TimeZone;
  * Created by Mandar on 07-08-2018.
  */
 
-public class TaskDataPacketGenerator  implements IPacketGenerator<ArrayList<DBServiceTaskDataTableRowModel>>{
+public class TaskDataPacketGenerator  implements IPacketGenerator<ArrayList<DBTaskDataTableRowModel>>{
 
     @Override
-    public CommandRequest GenerateRequest(int locationID, ArrayList<DBServiceTaskDataTableRowModel> data) {
+    public CommandRequest GenerateRequest(int locationID, ArrayList<DBTaskDataTableRowModel> data) {
 
         return  GetTaskDataPacket(locationID,data);
     }
@@ -38,7 +40,7 @@ public class TaskDataPacketGenerator  implements IPacketGenerator<ArrayList<DBSe
     @Override
     public CommandRequest GenerateUnsyncRequest(int locationID) {
 
-        List<DBServiceTaskDataTableRowModel> unSyncChartData = DatabaseManager.SelectByFilter(new DBServiceTaskDataTableQueryModel(), new DBServiceTaskDataTableRowModel(), DBServiceTaskDataTableQueryModel.FILTER_BY_UNSYNC_DATA);
+        List<DBTaskDataTableRowModel> unSyncChartData = DatabaseManager.SelectByFilter(new DBTaskDataTableQueryModel(), new DBTaskDataTableRowModel(), DBTaskDataTableQueryModel.FILTER_BY_UNSYNC_DATA);
 
         if (unSyncChartData.size() == 0) {
             return null;
@@ -47,50 +49,42 @@ public class TaskDataPacketGenerator  implements IPacketGenerator<ArrayList<DBSe
         return GetTaskDataPacket(locationID, unSyncChartData);
     }
 
-    public CommandRequest GetTaskDataPacket(int locationID, List<DBServiceTaskDataTableRowModel> chartRecords) {
+    public CommandRequest GetTaskDataPacket(int locationID, List<DBTaskDataTableRowModel> chartRecords) {
 
         SimpleDateFormat UTCEntryTimeFormat = new SimpleDateFormat(ApplicationConstants.PACKET_DATE_FORMAT);
         UTCEntryTimeFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         ArrayList<PacketServiceInstanceTxnModel> txns = new ArrayList<>();
 
-        for (DBServiceTaskDataTableRowModel model : chartRecords) {
+        for (DBTaskDataTableRowModel model : chartRecords) {
 
-            TypeToken<List<TaskItemDataModel>> taskItemTypeToken = new TypeToken<List<TaskItemDataModel>>() {
-            };
+            PacketServiceInstanceTxnModel txnModel = new PacketServiceInstanceTxnModel();
+            PacketTaskCompletedDataModel packetTaskCompletedDataModel = new PacketTaskCompletedDataModel();
+            txnModel.servinid = model.getSerInID();
+            txnModel.txndate = UTCEntryTimeFormat.format(model.getTaskTime());
+            txnModel.fopcode = model.getAuthCode();
 
-            List<TaskItemDataModel> items = new Gson().fromJson(model.getData(), taskItemTypeToken.getType());
-
-
-            for (TaskItemDataModel itemData : items){
-                PacketServiceInstanceTxnModel txnModel = new PacketServiceInstanceTxnModel();
-                PacketTaskCompletedDataModel packetTaskCompletedDataModel = new PacketTaskCompletedDataModel();
-                txnModel.servinid = model.getSerInID();
-                txnModel.txndate = UTCEntryTimeFormat.format(model.getEntryTime());
-                txnModel.fopcode = model.getAuthCode();
-
-                if (model.getEntryTime().getTime() < model.getSlotEndTime().getTime()) {
-                    txnModel.status = 1;//On time
-                } else {
-                    txnModel.status = 2; // Delay
-                }
-
-                packetTaskCompletedDataModel.taskName = itemData.getTitle();
-                packetTaskCompletedDataModel.comment=itemData.getComment();
-                packetTaskCompletedDataModel.value = itemData.getObservationValue();
-
-                Calendar calChartStart = Calendar.getInstance();
-                calChartStart.setTime(model.getSlotStartTime());
-                packetTaskCompletedDataModel.slotStartTime = calChartStart.get(Calendar.HOUR_OF_DAY) * 60 + calChartStart.get(Calendar.MINUTE);
-
-                Calendar calChartEnd = Calendar.getInstance();
-                calChartEnd.setTime(model.getSlotEndTime());
-                packetTaskCompletedDataModel.slotEndTime = calChartEnd.get(Calendar.HOUR_OF_DAY) * 60 + calChartEnd.get(Calendar.MINUTE);
-
-                txnModel.txndata = new Gson().toJson(packetTaskCompletedDataModel);
-
-                txns.add(txnModel);
+            if (model.getTaskTime().getTime() < model.getTaskSlotEndTime().getTime()) {
+                txnModel.status = 1;//On time
+            } else {
+                txnModel.status = 2; // Delay
             }
+
+            packetTaskCompletedDataModel.taskName = model.getTitle();
+            packetTaskCompletedDataModel.comment = model.getComment();
+            packetTaskCompletedDataModel.value = model.getValue();
+
+            Calendar calChartStart = Calendar.getInstance();
+            calChartStart.setTime(model.getTaskSlotStartTime());
+            packetTaskCompletedDataModel.slotStartTime = calChartStart.get(Calendar.HOUR_OF_DAY) * 60 + calChartStart.get(Calendar.MINUTE);
+
+            Calendar calChartEnd = Calendar.getInstance();
+            calChartEnd.setTime(model.getTaskSlotEndTime());
+            packetTaskCompletedDataModel.slotEndTime = calChartEnd.get(Calendar.HOUR_OF_DAY) * 60 + calChartEnd.get(Calendar.MINUTE);
+
+            txnModel.txndata = new Gson().toJson(packetTaskCompletedDataModel);
+
+            txns.add(txnModel);
         }
 
         PacketModel<ArrayList<PacketServiceInstanceTxnModel>> packetModel = new PacketModel<>();

@@ -8,8 +8,8 @@ import com.opensoach.hpft.AppRepo.AppRepo;
 import com.opensoach.hpft.DAL.DatabaseManager;
 import com.opensoach.hpft.Helper.AppAction;
 import com.opensoach.hpft.Manager.SendPacketManager;
-import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableQueryModel;
-import com.opensoach.hpft.Model.DB.DBServiceTaskDataTableRowModel;
+import com.opensoach.hpft.Model.DB.DBTaskDataTableQueryModel;
+import com.opensoach.hpft.Model.DB.DBTaskDataTableRowModel;
 import com.opensoach.hpft.Model.View.TaskItemDataModel;
 import com.opensoach.hpft.R;
 import com.opensoach.hpft.Utility.AppLogger;
@@ -68,8 +68,8 @@ public class HeaderUploadClickHandler {
         try {
             ArrayList<TaskItemDataModel> items = new ArrayList<>();
 
-            for(TaskItemDataModel model : AppRepo.getInstance().getSelectedTaskDataViewModels()){
-                if (model.getIsCompleted() == false){
+            for (TaskItemDataModel model : AppRepo.getInstance().getSelectedTaskDataViewModels()) {
+                if (model.isServerSyncCompleted() == false) {
                     items.add(model);
                 }
             }
@@ -79,42 +79,38 @@ public class HeaderUploadClickHandler {
             Date slotEndTime = AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem().getTaskTimeDataModel().getEndTime();
             int locationID = AppRepo.getInstance().getActiveCard().getLocationID();
 
-            DBServiceTaskDataTableRowModel dbServiceTaskDataTableRowModel = new DBServiceTaskDataTableRowModel();
-            dbServiceTaskDataTableRowModel.setServConfID(AppRepo.getInstance().getActiveCard().ServConfID);
-            dbServiceTaskDataTableRowModel.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
-            dbServiceTaskDataTableRowModel.setLocationId(locationID);
-            dbServiceTaskDataTableRowModel.setEntryTime(entryTime);
+            DBTaskDataTableRowModel dbTaskDataTableRowModel = new DBTaskDataTableRowModel();
+            dbTaskDataTableRowModel.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
+            dbTaskDataTableRowModel.setLocationId(locationID);
+            dbTaskDataTableRowModel.setTaskSlotStartTime(slotStartTime);
 
-            List<DBServiceTaskDataTableRowModel> dbRows = DatabaseManager.SelectByFilter(new DBServiceTaskDataTableQueryModel(), dbServiceTaskDataTableRowModel, DBServiceTaskDataTableQueryModel.SELECT_LOCATION_TIME_FILTER);
-            DBServiceTaskDataTableRowModel dbInsertRow = new DBServiceTaskDataTableRowModel();
+            List<DBTaskDataTableRowModel> updatedRows = new ArrayList<>();
 
-            if (dbRows.size() > 0) {
-                DBServiceTaskDataTableRowModel dbRow = dbRows.get(0);
-                dbRow.setData(new Gson().toJson(items));
+            for (TaskItemDataModel model : items) {
 
-                DatabaseManager.UpdateRow(new DBServiceTaskDataTableQueryModel(), dbRow, DBServiceTaskDataTableQueryModel.SELECT_LOCATION_TIME_FILTER);
+                dbTaskDataTableRowModel.setTitle(model.getTitle());
 
-            } else {
-                dbInsertRow.setServConfID(AppRepo.getInstance().getActiveCard().ServConfID);
-                dbInsertRow.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
-                dbInsertRow.setLocationId(locationID);
-                dbInsertRow.setEntryTime(entryTime);
-                dbInsertRow.setSlotStartTime(slotStartTime);
-                dbInsertRow.setSlotEndTime(slotEndTime);
-                dbInsertRow.setData(new Gson().toJson(items));
+                List<DBTaskDataTableRowModel> dbRows = DatabaseManager.SelectByFilter(new DBTaskDataTableQueryModel(), dbTaskDataTableRowModel, DBTaskDataTableQueryModel.SELECT_TITLE_FILTER);
 
-                DatabaseManager.InsertRow(dbInsertRow);
+                if (dbRows.size() == 0) {
+                    DBTaskDataTableRowModel dbInsertRow = new DBTaskDataTableRowModel();
+                    dbInsertRow.setSerInID(AppRepo.getInstance().getActiveCard().SerInID);
+                    dbInsertRow.setLocationId(locationID);
+                    dbInsertRow.setTaskTime(entryTime);
+                    dbInsertRow.setTaskSlotStartTime(slotStartTime);
+                    dbInsertRow.setTaskSlotEndTime(slotEndTime);
+                    dbInsertRow.setTitle(model.getTitle());
+                    DatabaseManager.InsertRow(dbInsertRow);
+                    updatedRows.add(dbInsertRow);
+                }
             }
 
-            if (dbRows.size() == 0) {
-                dbRows.add(dbInsertRow);
-            }
 
-            //SendPacketManager.Instance().send(AppAction.TASK_DATA, dbRows);
+            SendPacketManager.Instance().send(AppAction.TASK_DATA, updatedRows);
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             AppLogger.getInstance().Log(ex);
-            throw  ex;
+            throw ex;
         }
     }
 }
