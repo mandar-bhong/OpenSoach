@@ -71,16 +71,15 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/colorPrimary"/>
                 <LinearLayout
-
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}">
                 <ImageView
-                    android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}"
                     android:layout_margin="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

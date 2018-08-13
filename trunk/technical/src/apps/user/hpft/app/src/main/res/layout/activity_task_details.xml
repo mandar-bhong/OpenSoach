@@ -12,11 +12,9 @@
         <variable
             name="VM"
             type="com.opensoach.hpft.ViewModels.TaskItemViewModel" />
-
         <variable
             name="BriefView"
             type="com.opensoach.hpft.ViewModels.CardBriefViewModel" />
-
     </data>
 
 
@@ -119,7 +117,21 @@
                         android:text="@{BriefView.patientDetails.roomNo}"/>
                 </LinearLayout>
 
-        <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{VM.title}"/>
+                </LinearLayout>
+
+                <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -165,8 +177,6 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:text="@={VM.comment}">
-
-                <requestFocus />
             </EditText>
 
         </LinearLayout>
