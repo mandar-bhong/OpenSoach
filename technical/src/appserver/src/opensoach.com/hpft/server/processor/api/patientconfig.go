@@ -35,17 +35,15 @@ func ProcessPatientStatusUpdated(ctx *pcmodels.APITaskExecutionCtx) (error, *pcm
 
 	dbSerErr, devicePatientConfigDataList := dbaccess.TaskGetPatientConfDetails(instDBConn, taskPatientStatusUpdated.PatientId)
 
-	fmt.Println(devicePatientConfigDataList)
-
 	if dbSerErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching service configuration by servinstconfigid.", dbSerErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching patient config details.", dbSerErr)
 		return dbSerErr, apiTaskProcessorResultModel
 	}
 
 	dbDevicePatientConfigModelList := []hktmodels.DBDevicePatientConfigModel{}
 
 	for i := 0; i < len(devspdata); i++ {
-		for j := 0; i < len(devicePatientConfigDataList); i++ {
+		for j := 0; j < len(devicePatientConfigDataList); j++ {
 			dbDevicePatientConfigModel := hktmodels.DBDevicePatientConfigModel{}
 			dbDevicePatientConfigModel.SpId = devspdata[i].SpId
 			dbDevicePatientConfigModel.DeviceId = devspdata[i].DevId

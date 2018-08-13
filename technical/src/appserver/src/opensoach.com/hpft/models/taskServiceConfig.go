@@ -18,5 +18,5 @@ type TaskServConfigUpdatedModel struct {
 
 type TaskPatientStatusUpdated struct {
 	CpmId     int64 `json:"cpmid"`
-	PatientId int64 `json:"spid"`
+	PatientId int64 `json:"patientid"`
 }
