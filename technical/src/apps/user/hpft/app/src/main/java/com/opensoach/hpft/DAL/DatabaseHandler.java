@@ -42,6 +42,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(DBCreateTableConstants.CREATE_TABLE_AUTH_LOCATION);
         db.execSQL(DBCreateTableConstants.CREATE_TABLE_SERVICE_CONFIG);
         db.execSQL(DBCreateTableConstants.CREATE_TABLE_SERVICE_TASK_DATA);
+        db.execSQL(DBCreateTableConstants.CREATE_TABLE_TASK_DATA);
     }
 
     // Upgrading database
