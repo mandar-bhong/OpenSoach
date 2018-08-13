@@ -100,6 +100,8 @@ public class HeaderUploadClickHandler {
                     dbInsertRow.setTaskSlotStartTime(slotStartTime);
                     dbInsertRow.setTaskSlotEndTime(slotEndTime);
                     dbInsertRow.setTitle(model.getTitle());
+                    dbInsertRow.setValue(model.getObservationValue());
+                    dbInsertRow.setComment(model.getComment());
                     DatabaseManager.InsertRow(dbInsertRow);
                     updatedRows.add(dbInsertRow);
                 }

@@ -38,9 +38,6 @@ public class TaskTimeClickHandler {
 
         List<DBTaskDataTableRowModel> dbRows = DatabaseManager.SelectByFilter(new DBTaskDataTableQueryModel(), dbServiceTaskDataTableRowModel, DBTaskDataTableQueryModel.SELECT_ID_FILTER);
 
-        List<DBTaskDataTableRowModel> dbRows1 = DatabaseManager.SelectAll(new DBTaskDataTableQueryModel(), dbServiceTaskDataTableRowModel);
-
-
         for (TaskItemDataModel userModel : tasks) {
             userModel.setIsCompleted(false);
         }
@@ -50,6 +47,8 @@ public class TaskTimeClickHandler {
                 if (model.getTitle().equals( userModel.getTitle())) {
                     userModel.setIsCompleted(true);
                     userModel.setServerSyncCompleted(model.isSynced());
+                    userModel.setComment(model.getComment());
+                    userModel.setObservationValue(model.getValue());
                 }
             }
         }

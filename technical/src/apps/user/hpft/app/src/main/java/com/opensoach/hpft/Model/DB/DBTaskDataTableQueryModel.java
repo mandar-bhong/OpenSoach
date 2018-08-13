@@ -33,6 +33,8 @@ public class DBTaskDataTableQueryModel implements IDBRowMapper<DBTaskDataTableRo
         dataModel.setTaskSlotEndTime(new Date(cursor.getLong(5)));
         dataModel.setSynced(cursor.getInt(6) == 1);
         dataModel.setAuthCode(cursor.getString(7));
+        dataModel.setValue(cursor.getString(8));
+        dataModel.setComment(cursor.getString(9));
     }
 
     @Override
@@ -45,7 +47,9 @@ public class DBTaskDataTableQueryModel implements IDBRowMapper<DBTaskDataTableRo
                 DBTableConstants.TABLE_TASK_DATA_SLOT_START_TIME,
                 DBTableConstants.TABLE_TASK_DATA_SLOT_END_TIME,
                 DBTableConstants.TABLE_TASK_DATA_SERVER_SYNC,
-                DBTableConstants.TABLE_TASK_DATA_AUTH_CODE};
+                DBTableConstants.TABLE_TASK_DATA_AUTH_CODE,
+                DBTableConstants.TABLE_TASK_DATA_VALUE,
+                DBTableConstants.TABLE_TASK_DATA_COMMENT};
     }
 
     @Override
