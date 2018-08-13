@@ -15,16 +15,16 @@
     </data>
 
     <LinearLayout
-        android:layout_width="180dp"
-        android:layout_height="55dp"
-        android:padding="5dp"
-        android:background="@{VM.isSelectedTime ? @android:color/holo_blue_dark : @android:color/transparent}"
+        android:layout_width="@dimen/chart_cellview_width"
+        android:layout_height="@dimen/chart_cellview_height"
+
         android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}">
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            card_view:cardCornerRadius="5dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardBackgroundColor="@{VM.isSelectedTime ? @color/color_chart_bg_for_border : @android:color/white}">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:id="@+id/entryTime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@color/color_text_time_slot"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
