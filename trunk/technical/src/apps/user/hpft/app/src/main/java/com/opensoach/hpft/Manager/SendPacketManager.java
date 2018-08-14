@@ -159,8 +159,12 @@ public class SendPacketManager {
         CommandRequest request = null;
         switch (state) {
             case DEVICE_REGISTRATION_COMPLETED:
-                ChartDataPacketGenerator chartDataPacketGenerator = new ChartDataPacketGenerator();
-                request = chartDataPacketGenerator.GenerateUnsyncRequest(AppRepo.getInstance().getCurrentLocationId());
+//                ChartDataPacketGenerator chartDataPacketGenerator = new ChartDataPacketGenerator();
+//                request = chartDataPacketGenerator.GenerateUnsyncRequest(AppRepo.getInstance().getCurrentLocationId());
+
+                TaskDataPacketGenerator taskDataPacketGenerator = new TaskDataPacketGenerator();
+                request = taskDataPacketGenerator.GenerateUnsyncRequest(AppRepo.getInstance().getCurrentLocationId());
+
                 if (request == null) {
                     // there is no unsync data, mark chart data sync completed.
                     this.sendOnStateChange(SyncState.CHART_DATA_SYNC_COMPLETED);

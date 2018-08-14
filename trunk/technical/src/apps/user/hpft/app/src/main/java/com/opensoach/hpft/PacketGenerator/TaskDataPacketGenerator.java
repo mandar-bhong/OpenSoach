@@ -39,8 +39,11 @@ public class TaskDataPacketGenerator  implements IPacketGenerator<ArrayList<DBTa
 
     @Override
     public CommandRequest GenerateUnsyncRequest(int locationID) {
+        DBTaskDataTableRowModel dbTaskDataTableRowModel = new DBTaskDataTableRowModel();
+        dbTaskDataTableRowModel.setLocationId(locationID);
+        dbTaskDataTableRowModel.setSynced(false);
 
-        List<DBTaskDataTableRowModel> unSyncChartData = DatabaseManager.SelectByFilter(new DBTaskDataTableQueryModel(), new DBTaskDataTableRowModel(), DBTaskDataTableQueryModel.FILTER_BY_UNSYNC_DATA);
+        List<DBTaskDataTableRowModel> unSyncChartData = DatabaseManager.SelectByFilter(new DBTaskDataTableQueryModel(), dbTaskDataTableRowModel, DBTaskDataTableQueryModel.FILTER_BY_UNSYNC_DATA);
 
         if (unSyncChartData.size() == 0) {
             return null;
