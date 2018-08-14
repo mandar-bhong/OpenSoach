@@ -35,6 +35,7 @@ public class TaskTimeClickHandler {
             previouslySelected.setActiveSelected();
         }
 
+        AppRepo.getInstance().getSelectedTaskDataViewModels().clear();
 
         List<TaskItemDataModel> tasks = ((TaskTimeDataViewModel) vm.Parent).getTaskDataViewModel().getData();
 
@@ -49,6 +50,7 @@ public class TaskTimeClickHandler {
 
         for (TaskItemDataModel userModel : tasks) {
             userModel.setIsCompleted(false);
+            userModel.setServerSyncCompleted(false);
         }
 
         for(DBTaskDataTableRowModel model : dbRows){
