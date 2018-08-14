@@ -1,5 +1,9 @@
 package com.opensoach.hpft.ViewModels;
 
+import android.databinding.Bindable;
+
+import com.opensoach.hpft.AppRepo.AppRepo;
+import com.opensoach.hpft.BR;
 import com.opensoach.hpft.Model.View.TaskTimeItemDataModel;
 
 import java.text.Format;
@@ -28,6 +32,7 @@ public class TaskTimeItemViewModel extends  BaseViewModel {
         return slotDisplayText;
     }
 
+
     public boolean getIsSelectedTime(){
         Date d = new Date();
         if (taskTimeDataModel.getStartTime().getTime() < d.getTime() &&
@@ -40,6 +45,21 @@ public class TaskTimeItemViewModel extends  BaseViewModel {
             return false;
         }
     }
+
+    @Bindable
+    public boolean isActiveSelected() {
+        if (AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem() == this ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    public void setActiveSelected() {
+        notifyPropertyChanged(BR.activeSelected);
+    }
+
 
     public boolean getIsDisabled(){
 
