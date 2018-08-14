@@ -25,7 +25,16 @@ public class TaskTimeClickHandler {
 
     public void onClick(View view, TaskTimeItemViewModel vm) {
 
+        TaskTimeItemViewModel previouslySelected = AppRepo.getInstance().getActiveCard().getTaskDetails().getSelectedItem();
+
         AppRepo.getInstance().getActiveCard().getTaskDetails().setSelectedItem(vm);
+
+        vm.setActiveSelected();
+
+        if (previouslySelected != null){
+            previouslySelected.setActiveSelected();
+        }
+
 
         List<TaskItemDataModel> tasks = ((TaskTimeDataViewModel) vm.Parent).getTaskDataViewModel().getData();
 
