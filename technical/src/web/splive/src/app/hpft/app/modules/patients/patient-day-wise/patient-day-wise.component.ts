@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ChartDataViewModel, ChartTransactionModel } from '../../../../../hkt/app/models/ui/chart-conf-models';
+// import { ChartDataViewModel, ChartTransactionModel } from '../../../../../hkt/app/models/ui/chart-conf-models';
 import { SpServiceTxnService } from '../../../../../prod-shared/services/spservice/sp-service-txn.service';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { PatientDataModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
+import { ChartDataViewModel, ChartTransactionModel } from '../../../models/ui/chart-conf-models';
 
 @Component({
   selector: 'app-patient-day-wise',
@@ -17,7 +18,7 @@ export class PatientDayWiseComponent implements OnInit {
   dataModel = new ChartDataViewModel();
   datachartModel = new PatientDataModel();
   txns: ChartTransactionModel[];
-  displayedColumns = ['time', 'taskname', 'fopname', 'value', 'comment', 'status'];
+  displayedColumns = ['time', 'taskname', 'slot', 'fopname', 'value', 'comment', 'status'];
   dataSource = [];
   @Input()
   patientDayWiseTxn: ChartTransactionModel[] = [];

@@ -86,8 +86,8 @@
     <mat-card>
       <div *ngFor="let day of patientDayWiseTransactions; let i = index">
         <h5 class="text-center">
-          Day {{ i+1}} {{day.day| date:'fullDate'}}</h5>
-        <app-patient-day-wise [patientDayWiseTxn]="day.txn"></app-patient-day-wise>
+          Day {{ patientDayWiseTransactions.length-i }} {{day.day| date:'fullDate'}}</h5>
+        <app-patient-day-wise [patientDayWiseTxn]="day.txn" ></app-patient-day-wise>
       </div>
 
 

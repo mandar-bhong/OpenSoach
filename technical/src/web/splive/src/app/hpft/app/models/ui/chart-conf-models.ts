@@ -121,6 +121,8 @@ export class ChartTransactionModel {
     fopname: string;
     status: number;
     txndate: Date;
+    starttime: Date;
+    endtime: Date;
     txndata: ChartTransactionDataModel;
 
     copyFrom(response: ServiceInstanceTransactionResponse) {
@@ -132,6 +134,9 @@ export class ChartTransactionModel {
         this.txndate = new Date(response.txndate);
         this.txndata = new ChartTransactionDataModel();
         Object.assign(this.txndata, JSON.parse(response.txndata));
+        this.starttime = new Date(new Date().setMinutes(this.txndata.slotstarttime));
+        this.endtime = new Date(new Date().setMinutes(this.txndata.slotendtime));
+        console.log('this.txndata', this.txndata);
     }
 }
 
@@ -141,6 +146,8 @@ export class ChartTransactionDataModel {
     slotendtime: number;
     value: number;
     comment: string;
+    starttime: Date;
+    endtime: Date;
 }
 
 export class ChartTimeSlot {
