@@ -68,7 +68,8 @@ public class DBTaskDataTableQueryModel implements IDBRowMapper<DBTaskDataTableRo
                         DBTableConstants.TABLE_TASK_DATA_TITLE +"=?";
 
             case FILTER_BY_UNSYNC_DATA:
-                return DBTableConstants.TABLE_TASK_DATA_SERVER_SYNC +"=?";
+                return DBTableConstants.TABLE_TASK_DATA_LOCATION_ID + "=? and "+
+                        DBTableConstants.TABLE_TASK_DATA_SERVER_SYNC +"=?";
         }
         return "";
     }
@@ -87,7 +88,8 @@ public class DBTaskDataTableQueryModel implements IDBRowMapper<DBTaskDataTableRo
                         String.valueOf(dataModel.getTaskSlotStartTime().getTime()),
                         String.valueOf(dataModel.getTitle())};
             case FILTER_BY_UNSYNC_DATA:
-                return new String[]{String.valueOf(dataModel.isSynced())};
+                return new String[]{String.valueOf(dataModel.getLocationId()),
+                        String.valueOf(dataModel.isSynced() ? 1 : 0)};
         }
 
         return new String[]{};

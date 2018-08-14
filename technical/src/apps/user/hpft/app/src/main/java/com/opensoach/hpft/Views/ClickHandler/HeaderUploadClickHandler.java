@@ -107,6 +107,7 @@ public class HeaderUploadClickHandler {
                 }
             }
 
+            MainViewModel.getInstance().getHeaderViewModel().setUploadEnabled(false);
 
             SendPacketManager.Instance().send(AppAction.TASK_DATA, updatedRows);
 
