@@ -114,6 +114,6 @@ INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_emai
 -- Dumping data for table `spl_master_usr_details_tbl`
 --
 
-INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (1, 'fname1', 'lname1', '9813123121', '9713131334');
-INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (2, 'fname2', 'lname2', '9672123121', '9123131334');
+INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (1, 'Rohit', 'Sharma', '9813123121', '9713131334');
+INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (2, 'Om', 'Kumar', '9672123121', '9123131334');
 
