@@ -98,9 +98,9 @@ INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES 
 
 
 INSERT INTO `spl_node_service_in_txn_tbl` (`cpm_id_fk`, `serv_in_id_fk`, `fopcode`, `status`, `txn_data`, `txn_date`, `created_on`, `updated_on`) VALUES
-	(3, 1, '1111', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 630, "slotstarttime": 600}', '2018-08-13 19:13:19', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
-	(3, 1, '2222', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 630, "slotstarttime": 600}', '2018-08-14 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
-	(3, 1, '1111', 1, '{"comment": "Saline", "taskname": "Saline 250ML", "slotendtime": 630, "slotstarttime": 600}', '2018-08-14 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
-	(3, 1, '1111', 1, '{"value": 104, "comment": "High fever, 1 Crocin tablet provided", "taskname": "Monitor Temperature", "slotendtime": 730, "slotstarttime": 700}', '2018-08-14 16:13:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19');
+	(3, 1, '1111', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 240, "slotstarttime": 0}', '2018-08-14 20:30:19', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
+	(3, 1, '2222', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 480, "slotstarttime": 240}', '2018-08-15 00:30:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
+	(3, 1, '1111', 2, '{"comment": "Saline", "taskname": "Saline 250ML", "slotendtime": 480, "slotstarttime": 240}', '2018-08-15 05:25:39', '2018-08-07 01:13:19', '2018-08-07 16:13:19'),
+	(3, 1, '1111', 1, '{"value": 104, "comment": "High fever, 1 Crocin tablet provided", "taskname": "Monitor Temperature", "slotendtime": 720, "slotstarttime": 480}', '2018-08-15 05:15:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19');
 
 
