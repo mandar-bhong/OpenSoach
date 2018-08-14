@@ -3,8 +3,8 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     <ng-container matColumnDef="time">
-      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Time</mat-header-cell>
-      <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Time</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
         <span class="mat-cell-responsive-label">Time</span>
         <span class="ellipsis mat-cell-text"> {{row.txndate | date:'shortTime'}}</span>
       </mat-cell>
@@ -16,16 +16,24 @@
         <span class="ellipsis mat-cell-text"> {{row.txndata.taskname}}</span>
       </mat-cell>
     </ng-container>
+    <ng-container matColumnDef="slot">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Slot </mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+        <span class="mat-cell-responsive-label">Slot</span>
+        <span class="ellipsis mat-cell-text"> {{row.starttime | date:'shortTime'}} to {{row.endtime | date:'shortTime'}}</span>
+        <!-- <span class="ellipsis mat-cell-text"> {{row.txndata.slotstarttime | date:'shortTime'}} to {{row.txndata.slotendtime | date:'shortTime'}}</span> -->
+      </mat-cell>
+    </ng-container>
     <ng-container matColumnDef="fopname">
-      <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Performed by</mat-header-cell>
-      <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-        <span class="mat-cell-responsive-label">performedby</span>
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Attended by</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+        <span class="mat-cell-responsive-label">Attended by</span>
         <span class="ellipsis mat-cell-text"> {{row.fopname}}</span>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="value">
-      <mat-header-cell *matHeaderCellDef style="flex:0 0 15%;">Value</mat-header-cell>
-      <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Value</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
         <span class="mat-cell-responsive-label">value</span>
         <span class="ellipsis mat-cell-text"> {{row.txndata.value}}</span>
       </mat-cell>
