@@ -134,8 +134,8 @@ export class ChartTransactionModel {
         this.txndate = new Date(response.txndate);
         this.txndata = new ChartTransactionDataModel();
         Object.assign(this.txndata, JSON.parse(response.txndata));
-        this.starttime = new Date(new Date().setMinutes(this.txndata.slotstarttime));
-        this.endtime = new Date(new Date().setMinutes(this.txndata.slotendtime));
+        this.starttime = new Date(new Date().setHours(0, this.txndata.slotstarttime));
+        this.endtime = new Date(new Date().setHours(0, this.txndata.slotendtime));
         console.log('this.txndata', this.txndata);
     }
 }
