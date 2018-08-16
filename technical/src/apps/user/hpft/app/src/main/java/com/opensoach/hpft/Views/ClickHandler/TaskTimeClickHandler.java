@@ -51,6 +51,8 @@ public class TaskTimeClickHandler {
         for (TaskItemDataModel userModel : tasks) {
             userModel.setIsCompleted(false);
             userModel.setServerSyncCompleted(false);
+            userModel.setComment(null);
+            userModel.setObservationValue(null);
         }
 
         for(DBTaskDataTableRowModel model : dbRows){
@@ -61,12 +63,6 @@ public class TaskTimeClickHandler {
                     userModel.setComment(model.getComment());
                     userModel.setObservationValue(model.getValue());
                 }
-            }
-        }
-
-        if (dbRows.size() == 0) {
-            for (TaskItemDataModel userModel : tasks) {
-                userModel.setIsCompleted(false);
             }
         }
 
