@@ -23,6 +23,7 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
   patientStates: EnumDataSourceItem<number>[];
   splist: ServicepointListResponse[] = [];
   spconfigures: ServicepointConfigureListResponse[] = [];
+  savebutton = false;
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -83,10 +84,18 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
     this.patientService.addPatient(patientDataAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
+        this.closeForm();
       }
-      this.closeForm();
     });
   }
+  // selectedTabChange(value: any) {
+  //   console.log('selected mat tab', value);
+  //   if (value && value.index === 2) {
+  //     this.savebutton = true;
+  //   } else {
+  //     this.savebutton = false;
+  //   }
+  // }
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
