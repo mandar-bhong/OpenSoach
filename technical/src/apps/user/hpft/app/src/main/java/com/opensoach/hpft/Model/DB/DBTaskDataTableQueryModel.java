@@ -101,7 +101,7 @@ public class DBTaskDataTableQueryModel implements IDBRowMapper<DBTaskDataTableRo
 
         switch (filterName) {
             case UPDATE_SYNC_BY_ID_FILTER:
-                values.put(DBTableConstants.TABLE_TASK_DATA_SERVER_SYNC, dataModel.isSynced());
+                values.put(DBTableConstants.TABLE_TASK_DATA_SERVER_SYNC, dataModel.isSynced() ? 1 : 0);
                 return values;
 
         }
