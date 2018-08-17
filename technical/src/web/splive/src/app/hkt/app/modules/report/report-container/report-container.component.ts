@@ -97,10 +97,10 @@ export class ReportContainerComponent implements OnInit {
 
     switch (this.dataModel.selecteddateoption) {
       case '0':
-        requestSummary.queryparams.push(new Date());
         requestSummary.queryparams.push(new Date(this.dataModel.enddate.getFullYear(), this.dataModel.enddate.getMonth(), 1));
-        requestList.queryparams.push(new Date());
+        requestSummary.queryparams.push(new Date());
         requestList.queryparams.push(new Date(this.dataModel.enddate.getFullYear(), this.dataModel.enddate.getMonth(), 1));
+        requestList.queryparams.push(new Date());
         break;
       case '1':
         requestSummary.queryparams.push(this.dataModel.startdate);
