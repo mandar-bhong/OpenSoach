@@ -102,6 +102,23 @@ func (service DeviceService) SelectById(devID int64) (bool, interface{}) {
 
 func (service DeviceService) Update(reqData *hktmodels.DBDeviceUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
+	dbErr, devData := dbaccess.GetDeviceByDeviceName(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData.DevName)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *devData
+
+	if len(dbRecord) > 0 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_DUPLICATE_ENTRY
+		return false, errModel
+	}
+
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
 	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
