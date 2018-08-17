@@ -23,7 +23,7 @@ export class ComplaintTrendComponent implements OnInit {
   openLabel = 'Open';
   inprogressLabel = 'In Progress';
   closedLabel = 'Closed';
-  legendTitle = 'Complaint Status';
+  legendTitle = 'Status';
   customColors = [
     {
       name: this.openLabel,
