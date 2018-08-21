@@ -30,7 +30,7 @@ func (service ServiceConfigService) ServiceConfigAdd(req lmodels.APIServiceConfA
 
 	dbErr, insertedId := dbaccess.ServiceConfigInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding new service config.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -57,7 +57,7 @@ func (service ServiceConfigService) ServiceConfigList(listReqData gmodels.APIDat
 
 	dbErr, listData := dbaccess.GetServiceConfigList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting serv config data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -81,7 +81,7 @@ func (service ServiceConfigService) ServiceConnfigUpdate(reqData *hktmodels.DBSe
 
 	dbErr, affectedRow := dbaccess.ServiceConfigUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating serv config.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -89,7 +89,7 @@ func (service ServiceConfigService) ServiceConnfigUpdate(reqData *hktmodels.DBSe
 	}
 
 	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
@@ -161,7 +161,7 @@ func (service ServiceConfigService) ServiceinstanceList(listReqData gmodels.APID
 
 	dbErr, listData := dbaccess.GetServiceInstanceList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured gettinf serv instance data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -185,14 +185,14 @@ func (service ServiceConfigService) GetServiceInstanceTxn(spid int, StartDate ti
 
 	dbErr, complaintList := dbaccess.GetServiceInstTxn(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID, spid, StartDate, EndDate)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting serv instance txn data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched service instance  transaction data")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched service instance transaction data")
 	return true, complaintList
 }
 
@@ -200,7 +200,7 @@ func (service ServiceConfigService) ServiceConfShortDataList() (bool, interface{
 
 	dbErr, listData := dbaccess.GetServiceConfShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting serv conf short data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -217,7 +217,7 @@ func (service ServiceConfigService) ServiceConfigCopyTemplate(req hktmodels.DBSe
 
 	dbErr, insertedId := dbaccess.ServiceConfigInsertCopy(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding serv config template copy.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -236,7 +236,7 @@ func (service ServiceConfigService) ServiceConfInfo(servconfID int64) (bool, int
 
 	dbErr, servConfData := dbaccess.ServiceConfSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, servconfID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting serv conf info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -261,7 +261,7 @@ func (service ServiceConfigService) ServicePointConfigShortDataList() (bool, int
 
 	dbErr, listData := dbaccess.GetServicePointConfigList(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting sp config short data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE

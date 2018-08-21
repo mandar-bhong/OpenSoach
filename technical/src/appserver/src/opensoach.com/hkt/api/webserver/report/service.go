@@ -75,7 +75,7 @@ func (service ReportService) ViewReport(reqList lmodels.APIViewReportRequestMode
 		dbErr, reportData := dbaccess.GetReportInfoByCode(service.ExeCtx.SessionInfo.Product.NodeDbConn, req.ReportCode)
 
 		if dbErr != nil {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting report info by report code.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -94,7 +94,7 @@ func (service ReportService) ViewReport(reqList lmodels.APIViewReportRequestMode
 
 		dberr, _, resultRows := dbaccess.GetReportQueryData(service.ExeCtx.SessionInfo.Product.NodeDbConn, Query, req.QueryParams...)
 		if dberr != nil {
-			logger.Context().WithField("DBErr", dberr.Error()).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().WithField("DBErr", dberr.Error()).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting report query data.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -139,7 +139,7 @@ func (service ReportService) ReportShortList() (bool, interface{}) {
 
 	dbErr, listData := dbaccess.GetReportShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting report short data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
