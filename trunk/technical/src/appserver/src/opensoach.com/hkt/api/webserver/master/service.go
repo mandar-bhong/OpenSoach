@@ -17,7 +17,7 @@ func (service MasterService) GetSpcTaskLib(id int64) (bool, interface{}) {
 
 	dbErr, dbData := dbaccess.GetHktMasterSpcTaskLibTableById(repo.Instance().Context.ProdMst.DBConn, id)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting spc task lib info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -40,7 +40,7 @@ func (service MasterService) GetTaskLib(id int64) (bool, interface{}) {
 
 	dbErr, dbData := dbaccess.GetHktMasterTaskLibTableById(repo.Instance().Context.ProdMst.DBConn, id)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting task lib info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -63,7 +63,7 @@ func (service MasterService) GetServConfType(id int64) (bool, interface{}) {
 
 	dbErr, dbData := dbaccess.GetSplProdMasterServConfTypeTableById(repo.Instance().Context.ProdMst.DBConn, id)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting serv conf type info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -86,7 +86,7 @@ func (service MasterService) GetSpCategory(id int64) (bool, interface{}) {
 
 	dbErr, dbData := dbaccess.GetSplProdMasterSpCategoryTableById(repo.Instance().Context.ProdMst.DBConn, id)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting sp cateqory info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE

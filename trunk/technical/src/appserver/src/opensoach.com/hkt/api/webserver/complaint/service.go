@@ -33,7 +33,7 @@ func (service ComplaintService) Add(req lmodels.APIComplaintAddRequest) (isSucce
 
 	dbErr, insertedId := dbaccess.Insert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding new complaint..", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -54,7 +54,7 @@ func (service ComplaintService) Update(reqData *hktmodels.DBComplaintUpdateRowMo
 
 	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating complaint", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -62,7 +62,7 @@ func (service ComplaintService) Update(reqData *hktmodels.DBComplaintUpdateRowMo
 	}
 
 	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
@@ -78,7 +78,7 @@ func (service ComplaintService) SelectById(complaintID int64) (bool, interface{}
 
 	dbErr, complaintData := dbaccess.ComplaintTableSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, complaintID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while fetching complaint info by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -109,7 +109,7 @@ func (service ComplaintService) ComplaintList(listReqData gmodels.APIDataListReq
 
 	dbErr, listData := dbaccess.GetComplaintList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while fetching complaint list data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
