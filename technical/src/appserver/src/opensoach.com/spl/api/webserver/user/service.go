@@ -38,7 +38,7 @@ func (service UserService) AddUser(userData lmodels.DBSplMasterUserRowModel) (is
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
 		}
 
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding new user.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -92,7 +92,7 @@ func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (
 		errModel := gmodels.APIResponseError{}
 		errHandledIsSuccess, errorCode := ghelper.GetApplicationErrorCodeFromDBError(dbErr)
 
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding user.", dbErr)
 
 		if errHandledIsSuccess == true {
 			errModel.Code = errorCode
@@ -119,7 +119,7 @@ func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
 		}
 
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while associating cpm with user.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -146,7 +146,7 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 
 	dbErr, userDetailsData := dbaccess.GetSplMasterUserDetailsTableById(repo.Instance().Context.Master.DBConn, userData.UsrId)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while getting user details by id.", dbErr)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
@@ -157,7 +157,7 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 	if len(dbUserDetailsRecord) < 1 {
 		dbErr, userInsertedId := dbaccess.SplMasterUserDetailsTableInsert(repo.Instance().Context.Master.DBConn, userData)
 		if dbErr != nil {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding user details info.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -174,7 +174,7 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 	} else {
 		dbErr, userAffectedRow := dbaccess.SplMasterUserDetailsTableUpdate(repo.Instance().Context.Master.DBConn, userData)
 		if dbErr != nil {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user details info.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -182,7 +182,7 @@ func (service UserService) UpdateUserDetails(userData lmodels.DBSplMasterUsrDeta
 		}
 
 		if userAffectedRow == 0 {
-			logger.Context().WithField("InputRequest", userData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().WithField("InputRequest", userData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
@@ -202,7 +202,7 @@ func (service UserService) UpdateUserState(userData lmodels.DBSplMasterUserRowMo
 
 	dbErr, _ := dbaccess.UpdateUsrState(repo.Instance().Context.Master.DBConn, userData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", userData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", userData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user state.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -218,7 +218,7 @@ func (service UserService) ChangeUserPassword(passData lmodels.APIUpdatePassword
 
 	dbErr, userData := dbaccess.CheckOldPasswordExists(repo.Instance().Context.Master.DBConn, userid, passData.OldPassword)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while validating user password.", dbErr)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
@@ -238,7 +238,7 @@ func (service UserService) ChangeUserPassword(passData lmodels.APIUpdatePassword
 
 		dbErr, _ := dbaccess.UpdateUsrPassword(repo.Instance().Context.Master.DBConn, updateUserData)
 		if dbErr != nil {
-			logger.Context().WithField("InputRequest", passData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().WithField("InputRequest", passData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user password.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -262,7 +262,7 @@ func (UserService) GetCUDataList(usrListReqData gmodels.APIDataListRequest) (boo
 
 	dbErr, listData := dbaccess.GetCustUsrFilterList(repo.Instance().Context.Master.DBConn, filterModel, usrListReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -284,7 +284,7 @@ func (service UserService) GetUserDetailsInfo(userID int64) (bool, interface{}) 
 
 	dbErr, userData := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, userID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -301,7 +301,7 @@ func (service UserService) GetUserDetailsInfo(userID int64) (bool, interface{}) 
 
 	dbErr, userDetails := dbaccess.GetUserDetailsById(repo.Instance().Context.Master.DBConn, userID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user details by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -329,7 +329,7 @@ func (UserService) GetOSUDataList(usrListReqData gmodels.APIDataListRequest) (bo
 
 	dbErr, listData := dbaccess.GetOSUsrFilterList(repo.Instance().Context.Master.DBConn, filterModel, usrListReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -353,7 +353,7 @@ func (service UserService) AssociateUserWithCust(reqData *lmodels.APICustomerAss
 
 		dbErr, rsltData := dbaccess.GetUserIdByUserName(repo.Instance().Context.Master.DBConn, reqData.UserName)
 		if dbErr != nil {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting usrid by user name.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -396,7 +396,7 @@ func (service UserService) AssociateUserWithCust(reqData *lmodels.APICustomerAss
 		if txErr != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
 		}
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while associating user with cpm.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -432,7 +432,7 @@ func (UserService) GetUserRoleListOSU() (bool, interface{}) {
 
 	dbErr, listData := dbaccess.GetUroleListOSU(repo.Instance().Context.Master.DBConn)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user role data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -449,7 +449,7 @@ func (UserService) GetUserRoleList(prodCode string) (bool, interface{}) {
 
 	dbErr, listData := dbaccess.GetUroleList(repo.Instance().Context.Master.DBConn, prodCode)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user role data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -466,7 +466,7 @@ func (service UserService) GetUserProdAssociation(userID int64) (bool, interface
 
 	dbErr, data := dbaccess.GetProdAssociationByUsrId(repo.Instance().Context.Master.DBConn, userID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user product association.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -485,7 +485,7 @@ func (service UserService) UpdateUcpmState(reqData *lmodels.DBUsrCpmStateUpdateR
 
 	dbErr, _ := dbaccess.UcpmStateUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updatin ucpm state.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -501,7 +501,7 @@ func (service UserService) UpdateUser(reqData *lmodels.DBUserUpdateRowModel) (is
 
 	dbErr, data := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, reqData.UserId)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -517,7 +517,7 @@ func (service UserService) UpdateUser(reqData *lmodels.DBUserUpdateRowModel) (is
 
 	dbErr, affectedRow := dbaccess.UserUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -525,7 +525,7 @@ func (service UserService) UpdateUser(reqData *lmodels.DBUserUpdateRowModel) (is
 	}
 
 	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
@@ -541,7 +541,7 @@ func (service UserService) GetUserInfo(userID int64) (bool, interface{}) {
 
 	dbErr, userData := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, userID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -564,7 +564,7 @@ func (service UserService) GetCUUserInfo(userID int64) (bool, interface{}) {
 
 	dbErr, userData := dbaccess.GetCUUserById(repo.Instance().Context.Master.DBConn, userID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -587,7 +587,7 @@ func (service UserService) UpdateCUUser(reqData *lmodels.APICUUserUpdateRequestM
 
 	dberror, data := dbaccess.GetUserById(repo.Instance().Context.Master.DBConn, reqData.UserId)
 	if dberror != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dberror)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user by id.", dberror)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -625,7 +625,7 @@ func (service UserService) UpdateCUUser(reqData *lmodels.APICUUserUpdateRequestM
 		errModel := gmodels.APIResponseError{}
 		errHandledIsSuccess, errorCode := ghelper.GetApplicationErrorCodeFromDBError(dbErr)
 
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user info.", dbErr)
 
 		if errHandledIsSuccess == true {
 			errModel.Code = errorCode
@@ -652,7 +652,7 @@ func (service UserService) UpdateCUUser(reqData *lmodels.APICUUserUpdateRequestM
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
 		}
 
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updatin ucpm info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -677,7 +677,7 @@ func (service UserService) UserActivation(req lmodels.APIUserActivateRequestMode
 
 	dbErr, userData := dbaccess.ValidateUsrActivation(repo.Instance().Context.Master.DBConn, req.Code)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user activation.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -714,7 +714,7 @@ func (service UserService) UserActivation(req lmodels.APIUserActivateRequestMode
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
 		}
 
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dberr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user activation info.", dberr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -733,7 +733,7 @@ func (service UserService) UserActivation(req lmodels.APIUserActivateRequestMode
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
 		}
 
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", err)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while deleting user activation info.", err)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE

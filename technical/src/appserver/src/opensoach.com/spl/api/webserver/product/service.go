@@ -17,7 +17,7 @@ func (ProductService) GetProductList() (bool, interface{}) {
 
 	dbErr, listData := dbaccess.DBSplMasterProductTableRowModelSelectAll(repo.Instance().Context.Master.DBConn)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting product data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -34,7 +34,7 @@ func (ProductService) GetDbInstanceList() (bool, interface{}) {
 
 	dbErr, listData := dbaccess.GetDbinstanceList(repo.Instance().Context.Master.DBConn)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting DBInstance data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE

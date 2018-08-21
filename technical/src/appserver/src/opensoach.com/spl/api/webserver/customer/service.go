@@ -71,7 +71,7 @@ func (service CustomerService) UpdateCustomerDetails(customerData lmodels.DBSplM
 	} else {
 		dbErr, customerAffectedRow := dbaccess.CustomerDetailsTableUpdate(repo.Instance().Context.Master.DBConn, customerData)
 		if dbErr != nil {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating customer.", dbErr)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating customer details info.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -92,7 +92,7 @@ func (service CustomerService) GetCustomerInfo(customerID int64) (bool, interfac
 
 	dbErr, customerDetails := dbaccess.GetCustomerById(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer info by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -115,7 +115,7 @@ func (service CustomerService) GetCustomerDetailsInfo(customerID int64) (bool, i
 
 	dbErr, custData := dbaccess.GetCustomerById(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer info by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -132,7 +132,7 @@ func (service CustomerService) GetCustomerDetailsInfo(customerID int64) (bool, i
 
 	dbErr, customerDetails := dbaccess.GetCustomerDetailsById(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer details info y id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -153,7 +153,7 @@ func (service CustomerService) GetCorpInfo(customerID int64) (bool, interface{})
 
 	dbErr, customerDetails := dbaccess.GetCorpDetailsById(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting corporate info by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -174,7 +174,7 @@ func (CustomerService) GetCustomerDataList(custListReqData gmodels.APIDataListRe
 
 	dbErr, listData := dbaccess.GetCustList(repo.Instance().Context.Master.DBConn, filterModel, custListReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -198,7 +198,7 @@ func (service CustomerService) AssociateCustWithProduct(reqData *lmodels.DBCustP
 
 	dbErr, insertedId := dbaccess.CpmTableInsert(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while associating customer with product.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -227,7 +227,7 @@ func (service CustomerService) GetCustProdAssociation(customerID int64) (bool, i
 
 	dbErr, data := dbaccess.GetProdAssociationByCustId(repo.Instance().Context.Master.DBConn, customerID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer product association list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -246,7 +246,7 @@ func (service CustomerService) UpdateCPMState(reqData *lmodels.DBCpmStateUpdateR
 
 	dbErr, _ := dbaccess.CpmStateUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating CPM state.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -262,7 +262,7 @@ func (service CustomerService) UpdateCust(reqData *lmodels.DBCustomerUpdateRowMo
 
 	dbErr, data := dbaccess.GetCustomerById(repo.Instance().Context.Master.DBConn, reqData.CustId)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -278,7 +278,7 @@ func (service CustomerService) UpdateCust(reqData *lmodels.DBCustomerUpdateRowMo
 
 	dbErr, affectedRow := dbaccess.CustomerUpdate(repo.Instance().Context.Master.DBConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating customer info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -286,7 +286,7 @@ func (service CustomerService) UpdateCust(reqData *lmodels.DBCustomerUpdateRowMo
 	}
 
 	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
@@ -302,7 +302,7 @@ func (CustomerService) CustShortDataList() (bool, interface{}) {
 
 	dbErr, listData := dbaccess.GetCustShortDataList(repo.Instance().Context.Master.DBConn)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer short data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -320,12 +320,14 @@ func (CustomerService) GetCustServicePoint(customerId int64) (bool, interface{})
 	dbErr, customerSpModels := dbaccess.GetCustServicePoints(repo.Instance().Context.Master.DBConn, customerId)
 
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer service points.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer service points.")
 
 	return true, customerSpModels
 
@@ -343,7 +345,7 @@ func (service CustomerService) CustServicePointAssociationCountUpdate(reqData lm
 	for i := 0; i < reqData.UpdateCount; i++ {
 		dbErr, insertedId := dbaccess.SpInsert(repo.Instance().Context.Master.DBConn, servicepointrowmodel)
 		if dbErr != nil {
-			logger.Context().WithField("InputRequest", servicepointrowmodel).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+			logger.Context().WithField("InputRequest", servicepointrowmodel).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding service points.", dbErr)
 
 			errModel := gmodels.APIResponseError{}
 			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
