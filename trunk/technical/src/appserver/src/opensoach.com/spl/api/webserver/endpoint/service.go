@@ -48,7 +48,7 @@ func (EndpointService) DeviceAuth(req lmodels.APIDeviceAuthRequest) (bool, inter
 	dbErr, deviceAuthData := dbaccess.GetDeviceAuthInfo(repo.Instance().Context.Master.DBConn, deviceRecordItem.DevId, req.ProductCode)
 
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while login.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "DB Error occured while getting device auth info.", dbErr)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel

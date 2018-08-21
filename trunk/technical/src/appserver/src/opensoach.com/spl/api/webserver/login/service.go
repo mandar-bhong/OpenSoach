@@ -145,7 +145,7 @@ func (service AuthService) GetUserLoginDetails() (bool, interface{}) {
 
 	dbErr, userLoginInfo := dbaccess.GetUserLoginInfo(repo.Instance().Context.Master.DBConn, userId)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user login details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -167,7 +167,7 @@ func (service AuthService) GetCustomerLoginDetails() (bool, interface{}) {
 	custId := service.ExeCtx.SessionInfo.CustomerID
 	dbErr, customerLoginInfo := dbaccess.GetCustomerLoginInfo(repo.Instance().Context.Master.DBConn, custId)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer login details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
