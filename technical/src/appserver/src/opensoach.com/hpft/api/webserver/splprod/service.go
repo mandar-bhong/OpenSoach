@@ -17,7 +17,7 @@ func (service SplprodService) GetBaseUrl() (bool, interface{}) {
 
 	dbErr, baseUrl := dbaccess.GetSplBaseUrl(repo.Instance().Context.ProdMst.DBConn)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting base url.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -33,6 +33,6 @@ func (service SplprodService) GetBaseUrl() (bool, interface{}) {
 		return false, errModel
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched hkt base url")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched base url")
 	return true, dbRecord[0]
 }

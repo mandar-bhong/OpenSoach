@@ -30,7 +30,7 @@ func (service FieldoperatorService) Add(req lmodels.APIFieldOperatorAddRequest) 
 
 	dbErr, insertedId := dbaccess.Insert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbFieldOperatorRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding new field operator.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -61,7 +61,7 @@ func (service FieldoperatorService) SelectById(fopID int64) (bool, interface{}) 
 
 	dbErr, fopData := dbaccess.GetFieldOperatorById(service.ExeCtx.SessionInfo.Product.NodeDbConn, fopID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting field operator by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -91,7 +91,7 @@ func (service FieldoperatorService) GetFieldOperatorList(listReqData gmodels.API
 
 	dbErr, listData := dbaccess.GetFieldOperatorList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting field operator data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -115,7 +115,7 @@ func (service FieldoperatorService) Update(reqData *hktmodels.DBFieldOperatorUpd
 
 	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating field operator info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -123,7 +123,7 @@ func (service FieldoperatorService) Update(reqData *hktmodels.DBFieldOperatorUpd
 	}
 
 	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
@@ -141,7 +141,7 @@ func (service FieldoperatorService) FieldOperatorShortDataList() (bool, interfac
 
 	dbErr, listData := dbaccess.GetFieldOperatorShortList(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting fop short data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -163,7 +163,7 @@ func (service FieldoperatorService) FopSpAdd(req lmodels.APIFopSpAddRequest) (is
 
 	dbErr, insertedId := dbaccess.FopSpInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while associating field operator with service point.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -194,6 +194,8 @@ func (service FieldoperatorService) FopSpDelete(reqdata *lmodels.APIFopSpDeleteR
 
 	dbErr, affectedRow := dbaccess.FopSpDelete(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqdata)
 	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while deassociating field operator with service point.", dbErr)
+
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
@@ -227,7 +229,7 @@ func (service FieldoperatorService) GetFopSpAssociation(fopID int64) (bool, inte
 
 	dbErr, fopSpData := dbaccess.FopSpSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, fopID, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting fop-sp association.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
