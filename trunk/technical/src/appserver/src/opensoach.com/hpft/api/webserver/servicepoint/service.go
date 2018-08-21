@@ -26,7 +26,7 @@ func (service ServicePointService) SpCategoryAdd(req lmodels.APISpCategoryAddReq
 
 	dbErr, insertedId := dbaccess.SpCategoryInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding new sp category.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -45,7 +45,7 @@ func (service ServicePointService) SpUpdate(reqData *hktmodels.DBSpUpdateRowMode
 
 	dbErr, spdata := dbaccess.ServicePointSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData.SpId)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting sp category by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -63,7 +63,7 @@ func (service ServicePointService) SpUpdate(reqData *hktmodels.DBSpUpdateRowMode
 
 	dbErr, affectedRow := dbaccess.SpUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating sp category info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -71,7 +71,7 @@ func (service ServicePointService) SpUpdate(reqData *hktmodels.DBSpUpdateRowMode
 	}
 
 	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
@@ -96,7 +96,7 @@ func (service ServicePointService) ServicePointAdd(req lmodels.APISpAddRequest) 
 
 	dbErr, insertedId := dbaccess.SpInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding new service point.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -117,7 +117,7 @@ func (service ServicePointService) SpCategoryShortDataList() (bool, interface{})
 
 	dbErr, listData := dbaccess.GetSpCategoryShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting sp category short data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -139,7 +139,7 @@ func (service ServicePointService) DevSpAssociation(req lmodels.APIDevSpAsscocia
 
 	dbErr, insertedId := dbaccess.DevSpMappingTableInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while associating device with service point.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -171,6 +171,8 @@ func (service ServicePointService) DevSpAsscociationRemove(reqdata *lmodels.APID
 
 	dbErr, affectedRow := dbaccess.DevSpMappingTableDelete(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqdata)
 	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while deassociating device with service point.", dbErr)
+
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
@@ -198,7 +200,7 @@ func (service ServicePointService) GetSPList(listReqData gmodels.APIDataListRequ
 
 	dbErr, listData := dbaccess.GetServicePointList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting service point data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -220,7 +222,7 @@ func (service ServicePointService) ServicePointShortDataList() (bool, interface{
 
 	dbErr, listData := dbaccess.GetServicePointShortDataList(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting service point short data list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -237,7 +239,7 @@ func (service ServicePointService) GetServicePointInfo(spID int64) (bool, interf
 
 	dbErr, spData := dbaccess.ServicePointSelectByID(service.ExeCtx.SessionInfo.Product.NodeDbConn, spID)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting service point by id.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
