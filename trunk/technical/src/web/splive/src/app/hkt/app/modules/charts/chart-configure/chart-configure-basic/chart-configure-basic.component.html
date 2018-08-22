@@ -1,19 +1,23 @@
 <form [formGroup]="editableForm" (ngSubmit)="nextClick()">
   <div class="row">
+    <div class="col-sm-3 col-md-4"></div>
     <div class="col-sm-6 col-md-4">
-      <div class="form-group form-primary">
+      <div class="form-group form-primary text-center">
         <mat-form-field>
-          <input matInput placeholder="Chart Name" formControlName="configNameControl" required [(ngModel)]="dataModel.servconfname" maxlength="50">
+          <input matInput placeholder="Chart Name" formControlName="configNameControl" required [(ngModel)]="dataModel.servconfname"
+            maxlength="50">
           <mat-error *ngIf="editableForm.controls['configNameControl'].hasError('required')">
             {{'VALIDATION_REQUIRED_FIELD'|translate}}
           </mat-error>
         </mat-form-field>
       </div>
     </div>
+    <div class="col-sm-3 col-md-4"></div>
   </div>
   <div class="row">
+    <div class="col-sm-3 col-md-4"></div>
     <div class="col-sm-6 col-md-4">
-      <div class="form-group form-primary">
+      <div class="form-group form-primary text-center">
         <mat-form-field>
           <mat-select placeholder="Chart Category" formControlName="categoryControl" required [(ngModel)]="dataModel.spcid">
             <mat-option *ngFor="let cat of categories" [value]="cat.spcid">
@@ -26,8 +30,13 @@
         </mat-form-field>
       </div>
     </div>
+    <div class="col-sm-3 col-md-4"></div>
   </div>
   <div class="row">
-    <button mat-raised-button type="submit" color="primary">Next</button>
+    <div class="col-sm-3 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      <button mat-raised-button type="submit" color="primary"  aria-hidden="true" matTooltip="Next">Next</button>
+    </div>
+    <div class="col-sm-3 col-md-4"></div>
   </div>
 </form>

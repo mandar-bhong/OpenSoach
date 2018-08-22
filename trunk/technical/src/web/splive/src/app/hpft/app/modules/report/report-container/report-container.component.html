@@ -14,53 +14,117 @@
           <mat-divider [inset]="true"></mat-divider>
         </div>
       </div>
-      <mat-card-content>
-        <div class="row">
-          <div class="col">
-            <mat-button-toggle-group [(ngModel)]="dataModel.selecteddateoption" (ngModelChange)="optionChange()">
-              <mat-button-toggle value="0">This Month</mat-button-toggle>
-              <mat-button-toggle value="1">Select Duration</mat-button-toggle>
-            </mat-button-toggle-group>
+      <mat-card-content style="padding-top: 10px; margin: 10px;">
+        <mat-card style="  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+          <!-- <div class="row">
+            <div class="col">
+              <mat-button-toggle-group [(ngModel)]="dataModel.selecteddateoption" (ngModelChange)="optionChange()">
+                <mat-button-toggle value="0">This Month</mat-button-toggle>
+                <mat-button-toggle value="1">Select Duration</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-md-6" style="max-width:250px;">
-            <mat-form-field>
-              <input matInput [matDatepicker]="startdatepicker" placeholder="Choose a start date" [(ngModel)]="dataModel.startdate" [disabled]="dataModel.selecteddateoption==='0'">
-              <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
-              <mat-datepicker #startdatepicker></mat-datepicker>
-            </mat-form-field>
+          <div class="row">
+            <div class="col-sm-6 col-md-6" style="max-width:250px;">
+              <mat-form-field>
+                <input matInput [matDatepicker]="startdatepicker" placeholder="Choose a start date" [(ngModel)]="dataModel.startdate" [disabled]="dataModel.selecteddateoption==='0'">
+                <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #startdatepicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-6 col-md-6" style="max-width:250px;">
+              <mat-form-field>
+                <input matInput [matDatepicker]="enddatepicker" placeholder="Choose a end date" [(ngModel)]="dataModel.enddate" [disabled]="dataModel.selecteddateoption==='0'">
+                <mat-datepicker-toggle matSuffix [for]="enddatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #enddatepicker></mat-datepicker>
+              </mat-form-field>
+            </div>
           </div>
-          <div class="col-sm-6 col-md-6" style="max-width:250px;">
-            <mat-form-field>
-              <input matInput [matDatepicker]="enddatepicker" placeholder="Choose a end date" [(ngModel)]="dataModel.enddate" [disabled]="dataModel.selecteddateoption==='0'">
-              <mat-datepicker-toggle matSuffix [for]="enddatepicker"></mat-datepicker-toggle>
-              <mat-datepicker #enddatepicker></mat-datepicker>
-            </mat-form-field>
+          <div class="row">
+            <div class="col-12" style="max-width:500px;">
+              <mat-form-field>
+                <mat-select placeholder="Select a service point" [(ngModel)]="dataModel.selectedsp">
+                  <mat-option>ALL</mat-option>
+                  <mat-option *ngFor="let sp of dataModel.splist" [value]="sp">
+                    {{sp.spname}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-12" style="max-width:500px;">
-            <mat-form-field>
-              <mat-select placeholder="Select a service point" [(ngModel)]="dataModel.selectedsp">
-                <mat-option>ALL</mat-option>
-                <mat-option *ngFor="let sp of dataModel.splist" [value]="sp">
-                  {{sp.spname}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+          <div class="row">
+            <div class="col text-right" style="max-width:500px;">
+              <button matSuffix type="button" color="primary" mat-raised-button style="margin-right:10px" (click)="view()" matTooltip="View">View</button>
+              <button matSuffix type="button" color="primary" mat-raised-button (click)="download()" matTooltip="Download">Download</button>
+            </div>
+          </div> -->
+          <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-sm-6 text-center">
+                    <h6>Choose Duration Slot</h6>
+                  </div>
+                  <div class="col-sm-6">
+                    <mat-button-toggle-group [(ngModel)]="dataModel.selecteddateoption" (ngModelChange)="optionChange()">
+                      <mat-button-toggle value="0">This Month</mat-button-toggle>
+                      <mat-button-toggle value="1">Select Duration</mat-button-toggle>
+                    </mat-button-toggle-group>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-md-6">
+                    <mat-form-field>
+                      <input matInput [matDatepicker]="startdatepicker" placeholder="Choose a start date" [(ngModel)]="dataModel.startdate" [disabled]="dataModel.selecteddateoption==='0'">
+                      <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+                      <mat-datepicker #startdatepicker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-6 col-md-6">
+                    <mat-form-field>
+                      <input matInput [matDatepicker]="enddatepicker" placeholder="Choose a end date" [(ngModel)]="dataModel.enddate" [disabled]="dataModel.selecteddateoption==='0'">
+                      <mat-datepicker-toggle matSuffix [for]="enddatepicker"></mat-datepicker-toggle>
+                      <mat-datepicker #enddatepicker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6 col-md-6">
+                    <mat-form-field>
+                      <mat-select placeholder="Select a service point" [(ngModel)]="dataModel.selectedsp">
+                        <mat-option>ALL</mat-option>
+                        <mat-option *ngFor="let sp of dataModel.splist" [value]="sp">
+                          {{sp.spname}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-6 col-md-6">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col text-right">
+                    <button matSuffix type="button" color="primary" mat-raised-button style="margin-right:10px" (click)="view()" matTooltip="View">
+                      <mat-icon color='accete'>search</mat-icon>
+                      <span style="margin-left:7px;">View</span>
+                    </button>
+                    <button matSuffix type="button" color="primary" mat-raised-button (click)="download()" matTooltip="Download">
+                      <mat-icon color='accete'>file_download</mat-icon>
+                      <span style="margin-left:7px;">Download</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+            </div>
+        </mat-card>
+        <div class="row" style="padding-top:10px 0px;">
+            <div class="col text-center">
+              <span>
+                <h5 style="color: #396766;font-weight: bold;">Summary</h5>
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col text-right" style="max-width:500px;">
-            <button matSuffix type="button" color="primary" mat-raised-button style="margin-right:10px" (click)="view()" matTooltip="View">View</button>
-            <button matSuffix type="button" color="primary" mat-raised-button (click)="download()" matTooltip="Download">Download</button>
-          </div>
-        </div>
-
-        <div class="row">
-          <span>Summary</span>
-        </div>
         <div class="row" *ngFor="let summaryitem of summarydata;let i=index">
           <div class="col-sm-12 col-md-6">
             <mat-card>
@@ -87,6 +151,7 @@
             </mat-paginator>
           </div>
         </div>
+
       </mat-card-content>
     </mat-card>
   </div>

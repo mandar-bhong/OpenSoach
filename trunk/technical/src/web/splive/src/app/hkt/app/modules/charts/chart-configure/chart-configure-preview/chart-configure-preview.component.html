@@ -1,8 +1,9 @@
+<div class="text-center">
+  <h3>Chart Preview</h3>
+</div>
 <form [formGroup]="editableForm" (ngSubmit)="save()">
-    <div id="resp-table">
-    <div id="resp-table-caption">
-      Chart Preview
-    </div>
+  <div id="resp-table">
+
     <div id="resp-table-header">
       <div class="table-header-cell table-body-cell-time">
         Task/Time
@@ -25,8 +26,8 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <button mat-raised-button type="button" color="primary" (click)="previousClick()">Previous</button>
-    <button mat-raised-button type="submit" color="primary">Save</button>
+  <div class="row" style="margin-top:10px;">
+    <button mat-raised-button type="button" color="primary" (click)="previousClick()"  style="margin-right:15px;"  aria-hidden="true" matTooltip="Previous">Previous</button>
+    <button mat-raised-button type="submit" color="primary"  aria-hidden="true" matTooltip="Save">Save</button>
   </div>
 </form>
