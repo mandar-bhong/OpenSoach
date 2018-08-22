@@ -4,6 +4,8 @@ import { ProdServicepointService } from '../../../../../prod-shared/services/ser
 import { ReportService } from '../../../services/report.service';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { ReportRequest, ReportRequestParams } from '../../../models/api/report-models';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 
 @Component({
   selector: 'app-report-container',
@@ -22,7 +24,9 @@ export class ReportContainerComponent implements OnInit {
   @ViewChild(MatSort)
   sort: MatSort;
   constructor(private prodServicepointService: ProdServicepointService,
-    private reportService: ReportService) {
+    private reportService: ReportService,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) {
     this.dataModel.selecteddateoption = '0';
     this.optionChange();
   }
@@ -51,17 +55,22 @@ export class ReportContainerComponent implements OnInit {
   }
 
   view() {
-    this.reportService.getReportData(this.createReportRequest()).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.summaryheader = payloadResponse.data[0].reportheader;
-        this.summarydata = payloadResponse.data[0].reportdata;
-        this.listheader = payloadResponse.data[1].reportheader;
-        this.dataSource = new MatTableDataSource<any>(payloadResponse.data[1].reportdata);
-        console.log('datasource', this.dataSource);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
-    });
+    if (this.dataModel.enddate >= this.dataModel.startdate) {
+      this.reportService.getReportData(this.createReportRequest()).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.summaryheader = payloadResponse.data[0].reportheader;
+          this.summarydata = payloadResponse.data[0].reportdata;
+          this.listheader = payloadResponse.data[1].reportheader;
+          this.dataSource = new MatTableDataSource<any>(payloadResponse.data[1].reportdata);
+          console.log('datasource', this.dataSource);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+      });
+    } else {
+      this.appNotificationService.info(this.translatePipe.transform('START_DATE_MUST_BE_BEFORE_END_DATE'));
+    }
+
   }
 
   download() {
