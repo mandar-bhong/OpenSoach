@@ -36,6 +36,6 @@
   <app-dynamic-content [type]="step?step.componentselector:null"></app-dynamic-content> -->
   <app-stepper-list [stepperList]="steps"></app-stepper-list>
   <div class="style1">
-  <app-dynamic-content [type]="step.componentselector"></app-dynamic-content>
+  <app-dynamic-content [type]="step?step.componentselector:null"></app-dynamic-content>
   </div>
 </mat-card>
