@@ -402,6 +402,9 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'OPERATOR_ASSOCIATE_LABLE',
     en: 'Service points'
   },
-
+  {
+    key: 'START_DATE_MUST_BE_BEFORE_END_DATE',
+    en: 'Start date must be before end date.'
+  },
 ];
 
