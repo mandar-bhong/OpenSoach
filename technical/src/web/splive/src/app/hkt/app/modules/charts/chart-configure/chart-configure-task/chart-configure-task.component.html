@@ -1,4 +1,6 @@
 <div class="row">
+  <div class="col-1 col-sm-1 col-md-2">
+  </div>
   <div class="col-6 col-sm-6 col-md-4">
     <mat-card>
       <mat-card-header>
@@ -9,7 +11,7 @@
         <mat-card-subtitle>To add a task to chart: drag the task from library and drop in chart tasks</mat-card-subtitle>
       </mat-card-header>
       <div class="" [dragula]='"first-bag"' class="dnd-container" [dragulaModel]='taskLibrary'>
-        <div *ngFor="let item of taskLibrary">
+        <div *ngFor="let item of taskLibrary" class="text-center task_list">
           <mat-card class="drag-item-mat-card" id="task-ellipsis">{{item.taskname}}</mat-card>
         </div>
       </div>
@@ -25,7 +27,7 @@
         <mat-card-subtitle>Drag and drop tasks from library or you can add task.</mat-card-subtitle>
       </mat-card-header>
       <div class="" [dragula]='"first-bag"' class="dnd-container" [dragulaModel]='chartTasks'>
-        <div *ngFor="let item of chartTasks">
+        <div *ngFor="let item of chartTasks" class="text-center task_list">
           <mat-card class="drag-item-mat-card" id="task-ellipsis">{{item.taskname}}</mat-card>
         </div>
       </div>
@@ -47,13 +49,21 @@
           </mat-card>
         </form>
       </div>
-      <mat-card-actions>
-        <button type="button" mat-button (click)="showAddTask()">ADD</button>
+      <mat-card-actions class="text-right">
+        <button type="button" mat-button (click)="showAddTask()" aria-hidden="true" matTooltip="Add">ADD</button>
+        <!-- <mat-icon class="mat-icon mat-primary material-icons" color="primary" aria-hidden="true" matTooltip="Add" (click)="showAddTask()">add_circle</mat-icon> -->
+        <!-- <button mat-icon-button (click)="showAddTask()" >
+          <mat-icon color='accete' aria-hidden="true" matTooltip="Add">add_circle</mat-icon>
+        </button> -->
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
 <div class="row">
-  <button mat-raised-button type="button" color="primary" (click)="previousClick()">Previous</button>
-  <button mat-raised-button type="button" color="primary" (click)="nextClick()">Next</button>
+  <div class="col-sm-2 col-md-2"></div>
+  <div class="col-sm-8 col-md-8">
+    <button mat-raised-button type="button" color="primary" (click)="previousClick()" style="margin-right:15px;" aria-hidden="true" matTooltip="Previous">Previous</button>
+    <button mat-raised-button type="button" color="primary" (click)="nextClick()" aria-hidden="true" matTooltip="Next">Next</button>
+  </div>
+  <div class="col-sm-2 col-md-2"></div>
 </div>

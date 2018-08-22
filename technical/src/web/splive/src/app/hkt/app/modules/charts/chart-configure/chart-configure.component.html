@@ -32,6 +32,10 @@
       </div>
     </div>
   </div> -->
+  <!-- <app-stepper-list [stepperList]="steps"></app-stepper-list>
+  <app-dynamic-content [type]="step?step.componentselector:null"></app-dynamic-content> -->
   <app-stepper-list [stepperList]="steps"></app-stepper-list>
-  <app-dynamic-content [type]="step?step.componentselector:null"></app-dynamic-content>
+  <div class="style1">
+  <app-dynamic-content [type]="step.componentselector"></app-dynamic-content>
+  </div>
 </mat-card>

@@ -49,7 +49,7 @@ export class ChartDataComponent implements OnInit, OnDestroy {
         this.spidparam = Number(params['spid']);
       }
     });
-
+    // this.dataModel.splist = ServicePointWithConfigurationResponse[];
     this.getServicepointList();
     this.setFloatingMenu();
   }
