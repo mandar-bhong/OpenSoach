@@ -5,7 +5,7 @@
     max-width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
-    border: 1px solid #989A7C;
+    /* border: 1px solid #989A7C; */
   }
 
   #resp-table-caption {
@@ -78,7 +78,9 @@
       overflow: hidden;
       text-overflow:ellipsis;
   }
-
+ .resp-table-row .input-block:last-child {
+    border-right: 1px solid #989A7C !important;
+ }
   /* changes css  */
 /* .style1 form#style2 {
   max-width: 100%;

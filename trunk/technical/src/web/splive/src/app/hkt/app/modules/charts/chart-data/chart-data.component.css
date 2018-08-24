@@ -108,7 +108,9 @@ transform: rotate(45deg) !important;
   overflow: hidden;
   text-overflow:ellipsis;
 }
-
+.resp-table-row .input-block:last-child {
+  border-right: 1px solid #37A5CD !important;
+}
 /* .time-block:hover{
   white-space: normal;
   word-break: break-all ;
@@ -176,7 +178,7 @@ background-color: #28a745 !important;
 
 .delayed_box{
   border-style: solid;
-  border-width: 0 20px 20px 0;
+  border-width: 0 22px 22px 0;
   height: 0px;
   width: 0px; 
   color: #ffc107;
@@ -187,7 +189,7 @@ background-color: #28a745 !important;
 }
 .ontime_box{
   border-style: solid;
-  border-width: 0 20px 20px 0;
+  border-width: 0 22px 22px 0;
   height: 0px;
   width: 0px; 
   color: #28a745;
@@ -196,12 +198,5 @@ background-color: #28a745 !important;
   vertical-align: middle;
 }
 
-/* .abcd{
-    float: left;
-  width: 20px;
-  height: 20px;
-  margin: 5px;
-  border: 1px solid rgba(0, 0, 0, .2);
-} */
 
 
