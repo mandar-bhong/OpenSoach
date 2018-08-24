@@ -25,6 +25,9 @@
                   <mat-error *ngIf="editableForm.controls['poc1emailidControl'].hasError('required')">
                     {{'VALIDATION_REQUIRED_FIELD'|translate}}
                   </mat-error>
+                  <mat-error *ngIf="editableForm.controls['poc1emailidControl'].hasError('email') ">
+                    {{ 'ErrorEmailPattern' | translate}}
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -39,6 +42,9 @@
                   <input type="tel" matInput placeholder="Mobile Number" formControlName="poc1mobilenoControl" required [(ngModel)]="dataModel.poc1mobileno" maxlength="10">
                   <mat-error *ngIf="editableForm.controls['poc1mobilenoControl'].hasError('required') ">
                     {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                  </mat-error>
+                  <mat-error *ngIf="editableForm.controls['poc1mobilenoControl'].hasError('pattern') ">
+                    {{ 'ErrorNumberPattern' | translate}}
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -63,6 +69,9 @@
               <div class="form-group form-primary" *ngIf="formMode === 1">
                 <mat-form-field>
                   <input matInput placeholder="Email" type="email" formControlName="poc2emailidControl" [(ngModel)]="dataModel.poc2emailid" maxlength="254">
+                  <mat-error *ngIf="editableForm.controls['poc2emailidControl'].hasError('email') ">
+                    {{ 'ErrorEmailPattern' | translate}}
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -75,6 +84,9 @@
                 <mat-form-field>
                   <span matPrefix>+91 &nbsp;</span>
                   <input type="tel" matInput placeholder="Mobile Number" formControlName="poc2mobilenoControl" [(ngModel)]="dataModel.poc2mobileno" maxlength="10">
+                  <mat-error *ngIf="editableForm.controls['poc2mobilenoControl'].hasError('pattern') ">
+                    {{ 'ErrorNumberPattern' | translate}}
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -132,6 +144,9 @@
                   <input matInput placeholder="PIN Code" formControlName="addresspincodeControl" required [(ngModel)]="dataModel.addresspincode" maxlength="6">
                   <mat-error *ngIf="editableForm.controls['addresspincodeControl'].hasError('required') ">
                     {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                  </mat-error>
+                  <mat-error *ngIf="editableForm.controls['addresspincodeControl'].hasError('pattern') ">
+                    {{ 'ErrorNumberPattern' | translate}}
                   </mat-error>
                 </mat-form-field>
               </div>

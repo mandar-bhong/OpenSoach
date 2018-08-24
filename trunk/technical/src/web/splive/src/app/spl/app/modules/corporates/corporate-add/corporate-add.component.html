@@ -2,11 +2,12 @@
   <div class="col">
     <mat-card style="max-width:500px">
       <form [formGroup]="editableForm" (ngSubmit)="save()">
-          <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
-          <mat-card-content>
+        <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+        <mat-card-content>
           <div class=" form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
-              <input disabled matInput placeholder="Corporate Name" formControlName="corpnameControl" required [(ngModel)]="dataModel.corpname" maxlength="50">
+              <input disabled matInput placeholder="Corporate Name" formControlName="corpnameControl" required [(ngModel)]="dataModel.corpname"
+                maxlength="50">
               <mat-error *ngIf="editableForm.controls['corpnameControl'].hasError('required') ">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
               </mat-error>
@@ -18,7 +19,11 @@
           </div>
           <div class=" form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
-              <input matInput placeholder="Email Id" type="email" formControlName="corpemailidControl" [(ngModel)]="dataModel.corpemailid" maxlength="254">
+              <input matInput placeholder="Email Id" type="email" formControlName="corpemailidControl" [(ngModel)]="dataModel.corpemailid"
+                maxlength="254">
+              <mat-error *ngIf="editableForm.controls['corpemailidControl'].hasError('email') ">
+                {{ 'ErrorEmailPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -29,6 +34,9 @@
             <mat-form-field>
               <span matPrefix>+91 &nbsp;</span>
               <input matInput placeholder="Mobile Number" formControlName="corpmobilenoControl" [(ngModel)]="dataModel.corpmobileno" maxlength="10">
+              <mat-error *ngIf="editableForm.controls['corpmobilenoControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -37,7 +45,11 @@
           </div>
           <div class=" form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
-              <input matInput placeholder="Landline Number" formControlName="corplandlinenoControl" [(ngModel)]="dataModel.corplandlineno" maxlength="10">
+              <input matInput placeholder="Landline Number" formControlName="corplandlinenoControl" [(ngModel)]="dataModel.corplandlineno"
+                maxlength="10">
+              <mat-error *ngIf="editableForm.controls['corplandlinenoControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-group form-primary" *ngIf="formMode === 0">

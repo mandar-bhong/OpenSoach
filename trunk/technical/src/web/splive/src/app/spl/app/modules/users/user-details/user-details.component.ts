@@ -46,9 +46,9 @@ export class UserDetailsComponent extends EditRecordBase implements OnInit, OnDe
     this.editableForm = new FormGroup({
       fnameControl: new FormControl(''),
       lnameControl: new FormControl(''),
-      mobilenoControl: new FormControl(''),
+      mobilenoControl: new FormControl('', [Validators.pattern(/^\d+$/)]),
       userGenderControl: new FormControl('', [Validators.required]),
-      alternateContactControl: new FormControl('')
+      alternateContactControl: new FormControl('', [Validators.pattern(/^\d+$/)])
     });
   }
   save() {

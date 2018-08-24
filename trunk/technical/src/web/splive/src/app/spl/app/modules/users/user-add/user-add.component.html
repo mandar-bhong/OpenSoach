@@ -11,6 +11,9 @@
               <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
               </mat-error>
+              <mat-error *ngIf="editableForm.controls['emailControl'].hasError('email') ">
+                {{ 'ErrorEmailPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-group form-primary" *ngIf="recordState === 1">

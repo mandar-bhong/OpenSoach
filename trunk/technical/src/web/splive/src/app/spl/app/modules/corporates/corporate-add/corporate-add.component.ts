@@ -34,9 +34,9 @@ export class CorporateAddComponent extends EditRecordBase implements OnInit, OnD
   createControls(): void {
     this.editableForm = new FormGroup({
       corpnameControl: new FormControl('', [Validators.required]),
-      corpmobilenoControl: new FormControl(''),
-      corpemailidControl: new FormControl(''),
-      corplandlinenoControl: new FormControl('')
+      corpmobilenoControl: new FormControl('', [Validators.pattern(/^\d+$/)]),
+      corpemailidControl: new FormControl('', [Validators.email]),
+      corplandlinenoControl: new FormControl('', [Validators.pattern(/^\d+$/)])
     });
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['id']) {
