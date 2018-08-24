@@ -58,7 +58,7 @@ export class UserAddComponent extends EditRecordBase implements OnInit, OnDestro
 
   createControls(): void {
     this.editableForm = new FormGroup({
-      emailControl: new FormControl('', [Validators.required]),
+      emailControl: new FormControl('', [Validators.required, Validators.email]),
       userroleControl: new FormControl('', [Validators.required]),
     });
   }

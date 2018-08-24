@@ -10,6 +10,9 @@
               <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
               </mat-error>
+              <mat-error *ngIf="editableForm.controls['emailControl'].hasError('email') ">
+                {{ 'ErrorEmailPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div *ngIf="formMode === 0">

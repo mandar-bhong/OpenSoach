@@ -28,6 +28,7 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'AppNotificationWarning',
     en: 'Warning'
   },
+  // Server Error Codes
   {
     key: 'SERVER_SYSTEM_ERROR',
     en: 'A System error has occurred: Error code'
@@ -43,6 +44,14 @@ export const TRANSLATIONS: TranslationValue[] = [
   {
     key: 'SERVER_ERROR_10001',
     en: 'SERVER_ERROR_10001'
+  },
+  {
+    key: 'SERVER_ERROR_1002',
+    en: 'Device name already exists'
+  },
+  {
+    key: 'SERVER_ERROR_5000',
+    en: 'Data already exists'
   },
   {
     key: 'INFO_DETAILS_NOT_AVAILABLE',
@@ -406,5 +415,20 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'START_DATE_MUST_BE_BEFORE_END_DATE',
     en: 'Start date must be before end date.'
   },
+  // validation errer start
+  {
+    key: 'ErrorEmailPattern',
+    en: 'Enter Valid Email !!'
+  },
+  {
+    key: 'ErrorNumberPattern',
+    en: 'You must be enter only number !'
+  },
+  // {
+  //   key: 'Device_Name_Already_Exists',
+  //   en: 'Device name already exists'
+  // },
+
+  // validation errer end
 ];
 

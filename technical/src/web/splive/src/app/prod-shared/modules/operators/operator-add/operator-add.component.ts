@@ -26,7 +26,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
     private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe,
+    private translatePipe: TranslatePipe
   ) {
     super();
     this.iconCss = 'fa fa-meh-o';
@@ -54,9 +54,9 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   createControls(): void {
     this.editableForm = new FormGroup({
       fopnameControl: new FormControl('', [Validators.required]),
-      emailidControl: new FormControl(''),
-      mobilenoControl: new FormControl('', [Validators.required]),
-      fopcodeControl: new FormControl('', [Validators.required]),
+      emailidControl: new FormControl('', [Validators.email]),
+      mobilenoControl: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
+      fopcodeControl: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
       shortdescControl: new FormControl(''),
       fopstateControl: new FormControl('', [Validators.required]),
       fopareaControl: new FormControl('', [Validators.required]),
