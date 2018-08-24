@@ -27,7 +27,11 @@
           <div class="form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
               <span matPrefix>+91 &nbsp;</span>
-              <input type="tel" matInput placeholder="Mobile Number" formControlName="mobilenoControl" [(ngModel)]="dataModel.mobileno" maxlength="10">
+              <input type="tel" matInput placeholder="Mobile Number" formControlName="mobilenoControl" [(ngModel)]="dataModel.mobileno"
+                maxlength="10">
+              <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -38,8 +42,11 @@
           <div class="form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
               <span matPrefix>+91 &nbsp;</span>
-              <input type="tel" matInput placeholder="Alternate Contact" [(ngModel)]="dataModel.alternatecontactno" formControlName="mobilenoControl"
+              <input type="tel" matInput placeholder="Alternate Contact" [(ngModel)]="dataModel.alternatecontactno" formControlName="alternateContactControl"
                 maxlength="10">
+              <mat-error *ngIf="editableForm.controls['alternateContactControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-group form-primary" *ngIf="formMode === 0">

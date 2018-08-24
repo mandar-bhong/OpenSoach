@@ -48,15 +48,15 @@ export class CustomerUpdateDetailsComponent extends EditRecordBase implements On
   createControls(): void {
     this.editableForm = new FormGroup({
       poc1nameControl: new FormControl('', [Validators.required]),
-      poc1emailidControl: new FormControl('', [Validators.required]),
-      poc1mobilenoControl: new FormControl('', [Validators.required]),
+      poc1emailidControl: new FormControl('', [Validators.required, Validators.email]),
+      poc1mobilenoControl: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
       poc2nameControl: new FormControl(''),
-      poc2emailidControl: new FormControl(''),
-      poc2mobilenoControl: new FormControl(''),
+      poc2emailidControl: new FormControl('', Validators.email),
+      poc2mobilenoControl: new FormControl('', [Validators.pattern(/^\d+$/)]),
       addressControl: new FormControl('', [Validators.required]),
       addressstateControl: new FormControl('', [Validators.required]),
       addresscityControl: new FormControl('', [Validators.required]),
-      addresspincodeControl: new FormControl('', [Validators.required])
+      addresspincodeControl: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)])
     });
 
   }
