@@ -25,6 +25,7 @@ public class PacketHelper {
     public static String GetAPIAuthRequestJson(String serialnumber) {
         APIAuthRequesetModel apiAuthRequesetModel = new APIAuthRequesetModel();
         apiAuthRequesetModel.SerialNumber = serialnumber;
+        apiAuthRequesetModel.ProdCode = "SPL_HKT";
         return new Gson().toJson(apiAuthRequesetModel);
     }
 }
