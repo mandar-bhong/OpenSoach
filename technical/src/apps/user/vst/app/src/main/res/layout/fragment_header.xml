@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Views.Fragment.HeaderFragment"
+    android:background="@color/header_view_bg">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="VM"
+            type="com.opensoach.vst.ViewModels.HeaderViewModel" />
+        <variable
+            name="Data"
+            type="com.opensoach.vst.ViewModels.CardBriefViewModel" />
+        <variable
+            name="uploadClickHandler"
+            type="com.opensoach.vst.Views.ClickHandler.HeaderUploadClickHandler"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:visibility="@{VM.backButtonVisiable == true ? View.GONE : View.VISIBLE}">
+                <TextView
+                    android:id="@+id/servicePointTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1dp"
+                    android:text="@string/servicepoint_live"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/servicePointTextView"
+                    android:src="@drawable/logo" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_move_left"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:onClick="@{(view) -> VM.onBackClick(view)}"
+                android:visibility="@{VM.backButtonVisiable == true ? View.VISIBLE : View.GONE}"/>
+            <LinearLayout
+                android:layout_toRightOf="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:visibility="@{VM.backButtonVisiable == true ? View.VISIBLE : View.GONE}">
+                <ImageView
+                    android:id="@+id/patientbed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/bed_topbar"/>
+                <TextView
+                    android:id="@+id/servicePointTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@{Data.patientDetails.roomNo}"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/patientbed"/>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/uploadData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/imgNWState"
+                android:visibility="@{VM.uploadVisiable ? View.VISIBLE : View.GONE}"
+                android:alpha="@{VM.uploadAlpha}"
+                android:clickable="@{VM.uploadEnabled}"
+                android:saveEnabled="@{VM.uploadEnabled}"
+                android:background="@drawable/send"
+                android:duplicateParentState="true"
+                android:onClick="@{(view) -> uploadClickHandler.onClick(view,VM)}"/>
+
+            <ImageView
+                android:id="@+id/imgNWState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@{VM.nwState}" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>
