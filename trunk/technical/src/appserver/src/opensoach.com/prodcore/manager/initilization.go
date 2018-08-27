@@ -135,6 +135,15 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 			}
 			break
 
+		case pcconst.DB_CONFIG_VST_MASTER_DB_CONNECTION: //Addition product connection will be listed here
+			switch productType {
+			case gmodels.PRODUCT_TYPE_VST:
+				prodMstDBConfig.ConnectionString = dbRow.ConfigValue
+				prodMstDBConfig.DBDriver = "mysql"
+				break
+			}
+			break
+
 		case pcconst.DB_CONFIG_SMTP_FROM:
 			emailConfig.From = dbRow.ConfigValue
 		case pcconst.DB_CONFIG_SMTP_ADDRESS:

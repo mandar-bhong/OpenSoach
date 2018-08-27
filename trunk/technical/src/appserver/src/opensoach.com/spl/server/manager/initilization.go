@@ -145,6 +145,14 @@ func PrepareSPLProdMasterConfiguration(configData *[]gmodels.DBMasterConfigRowMo
 
 			break
 
+		case pcconst.DB_CONFIG_VST_MASTER_DB_CONNECTION:
+			prodMstDBConfig := &gmodels.ConfigDB{}
+			prodMstDBConfig.ConnectionString = dbRow.ConfigValue
+			prodMstDBConfig.DBDriver = "mysql"
+			splglobalConfiguration.SPLProdMstDBConfig["SPL_VST"] = prodMstDBConfig
+
+			break
+
 		}
 
 	}

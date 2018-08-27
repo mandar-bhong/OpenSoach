@@ -17,6 +17,7 @@ const CACHE_KEY_PREFIX_CPM_ID string = "MST_CPM_ID_"
 
 const PRODUCT_TYPE_HKT string = "HKT"
 const PRODUCT_TYPE_HPFT string = "HPFT"
+const PRODUCT_TYPE_VST string = "VST"
 
 const DEVICE_PROCESSING_AUTH_TOKEN_NOT_FOUND = 3001
 

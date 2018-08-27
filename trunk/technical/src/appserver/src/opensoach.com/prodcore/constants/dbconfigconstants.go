@@ -2,6 +2,7 @@ package constants
 
 const DB_CONFIG_HKT_MASTER_DB_CONNECTION = "HKT.Master.DB.Connection"
 const DB_CONFIG_HPFT_MASTER_DB_CONNECTION = "HPFT.Master.DB.Connection"
+const DB_CONFIG_VST_MASTER_DB_CONNECTION = "VST.Master.DB.Connection"
 
 const DB_CONFIG_LOGGER_LOG_LEVEL string = "Logger.Log.Level"
 const DB_CONFIG_LOGGER_LOGGING_TYPE string = "Logger.LogType"
