@@ -15,7 +15,7 @@ Left Join spl_master_customer_tbl  cust on cust.id = dev.cust_id_fk
 Left Join spl_master_dev_details_tbl devd on devd.dev_id_fk = dev.id
 Left Join spl_master_cpm_dev_mapping_tbl cpmd on cpmd.dev_id_fk = dev.id
 Left Join spl_master_cust_prod_mapping_tbl cpm on cpm.id = cpmd.cpm_id_fk
-$WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
+$WhereCondition$ group by dev.id ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_GET_DEV_ID_BY_CPM_ID = `Select dev_id_fk From spl_master_cpm_dev_mapping_tbl where cpm_id_fk = ? and dev_id_fk = ?`
 
