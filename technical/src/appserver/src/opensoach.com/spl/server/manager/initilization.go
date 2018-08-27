@@ -125,26 +125,36 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 func PrepareSPLProdMasterConfiguration(configData *[]gmodels.DBMasterConfigRowModel) *gmodels.SPLConfigSettings {
 
 	splglobalConfiguration := &gmodels.SPLConfigSettings{}
-	prodMstDBConfig := &gmodels.ConfigDB{}
 	splglobalConfiguration.SPLProdMstDBConfig = make(map[string]*gmodels.ConfigDB)
 
 	for _, dbRow := range *configData {
 
 		switch dbRow.ConfigKey {
 		case pcconst.DB_CONFIG_HKT_MASTER_DB_CONNECTION:
+			prodMstDBConfig := &gmodels.ConfigDB{}
 			prodMstDBConfig.ConnectionString = dbRow.ConfigValue
 			prodMstDBConfig.DBDriver = "mysql"
 			splglobalConfiguration.SPLProdMstDBConfig["SPL_HKT"] = prodMstDBConfig
 			break
 
 		case pcconst.DB_CONFIG_HPFT_MASTER_DB_CONNECTION:
+			prodMstDBConfig := &gmodels.ConfigDB{}
 			prodMstDBConfig.ConnectionString = dbRow.ConfigValue
 			prodMstDBConfig.DBDriver = "mysql"
 			splglobalConfiguration.SPLProdMstDBConfig["SPL_HPFT"] = prodMstDBConfig
 
 			break
 
+		case pcconst.DB_CONFIG_VST_MASTER_DB_CONNECTION:
+			prodMstDBConfig := &gmodels.ConfigDB{}
+			prodMstDBConfig.ConnectionString = dbRow.ConfigValue
+			prodMstDBConfig.DBDriver = "mysql"
+			splglobalConfiguration.SPLProdMstDBConfig["SPL_VST"] = prodMstDBConfig
+
+			break
+
 		}
+
 	}
 
 	return splglobalConfiguration
