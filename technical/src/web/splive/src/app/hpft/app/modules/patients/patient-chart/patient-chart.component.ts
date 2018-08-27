@@ -91,9 +91,23 @@ export class PatientChartComponent extends EditRecordBase implements OnInit, OnD
             this.patientDayWiseTransactions.push(newDayWiseRecord);
           }
         });
+
+        console.log('sorting');
+        this.patientDayWiseTransactions.sort(this.sortTxnDatesDesc);
       }
     });
   }
+
+  private sortTxnDatesDesc(a:PatientDayWiseTxn, b:PatientDayWiseTxn) {
+    if (a.day < b.day) {
+     return 1;
+    }
+    if (a.day > b.day) {
+     return -1;
+    }
+    return 0;
+   }
+
   getServicepointList() {
     this.patientService.getServicepointList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
