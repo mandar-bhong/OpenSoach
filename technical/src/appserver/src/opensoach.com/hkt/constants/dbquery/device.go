@@ -15,4 +15,4 @@ where dev_id_fk NOT IN (select dev_id_fk from  spl_node_dev_sp_mapping) and cpm_
 
 const QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_ID = `select * from spl_node_dev_tbl where dev_id_fk = ?`
 
-const QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_DEV_NAME = `select * from spl_node_dev_tbl where dev_name = ?`
+const QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_DEV_NAME = `select * from spl_node_dev_tbl where dev_name = ? and  dev_id_fk != ?`

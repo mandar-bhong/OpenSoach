@@ -140,7 +140,7 @@ func UpdateByFilter(dbConn string, updtStruct *hktmodels.DBDeviceUpdateRowModel)
 	return nil, updateCtx.AffectedRows
 }
 
-func GetDeviceByDeviceName(dbConn string, devname string) (error, *[]hktmodels.DBSplNodeDevTableRowModel) {
+func GetDeviceByDeviceName(dbConn string, devname string, devid int64) (error, *[]hktmodels.DBSplNodeDevTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceByDeviceName")
 
@@ -150,7 +150,7 @@ func GetDeviceByDeviceName(dbConn string, devname string) (error, *[]hktmodels.D
 	selDBCtx.Query = dbquery.QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_DEV_NAME
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(devname)
+	selErr := selDBCtx.Select(devname, devid)
 	if selErr != nil {
 		return selErr, nil
 	}

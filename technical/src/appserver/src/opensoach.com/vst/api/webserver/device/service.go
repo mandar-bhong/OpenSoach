@@ -102,7 +102,7 @@ func (service DeviceService) SelectById(devID int64) (bool, interface{}) {
 
 func (service DeviceService) Update(reqData *hktmodels.DBDeviceUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
-	dbErr, devData := dbaccess.GetDeviceByDeviceName(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData.DevName)
+	dbErr, devData := dbaccess.GetDeviceByDeviceName(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData.DevName, reqData.DevId)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting device info.", dbErr)
 
