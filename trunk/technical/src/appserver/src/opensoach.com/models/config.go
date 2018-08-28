@@ -43,7 +43,7 @@ type ConfigLogger struct {
 	LogLevel            string `json:"loglevel"`
 	LoggingType         string `json:"logtype"`
 	LoggingFluentHost   string `json:"fluenthost"`
-	LoggingInfluxDBHost string `json:"fluenthost"`
+	LoggingInfluxDBHost string `json:"influxhost"`
 }
 
 type ConfigEmail struct {
