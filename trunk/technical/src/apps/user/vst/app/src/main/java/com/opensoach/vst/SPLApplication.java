@@ -95,16 +95,16 @@ public class SPLApplication extends Application {
 
             case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA: {
 
-                ArrayList<PacketCardListConfigurationModel> cardList = (ArrayList<PacketCardListConfigurationModel>) model.Data;
-                final List<CardBriefViewModel> dataModels = CommonHelper.CreateCardListViewModel(MainViewModel.getInstance().ContextActivity, cardList);
-
-                MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().setItemsSource(dataModels);
-                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().getDataAdaptor().notifyDataSetChanged();
-                    }
-                });
+//                ArrayList<PacketCardListConfigurationModel> cardList = (ArrayList<PacketCardListConfigurationModel>) model.Data;
+//                final List<CardBriefViewModel> dataModels = CommonHelper.CreateCardListViewModel(MainViewModel.getInstance().ContextActivity, cardList);
+//
+//                MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().setItemsSource(dataModels);
+////                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().getDataAdaptor().notifyDataSetChanged();
+//                    }
+//                });
             }
             break;
             case ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA:

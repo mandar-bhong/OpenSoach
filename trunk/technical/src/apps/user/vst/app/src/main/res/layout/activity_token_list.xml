@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.opensoach.vst.Views.Activity.TokenListActivity">
+
+    <data>
+        <import type="android.view.View"/>
+        <data>
+            <import type="java.lang.Integer" />
+        </data>
+        <variable
+            name="VM"
+            type="com.opensoach.vst.ViewModels.TokenListViewModel" />
+
+    </data>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/header_view_bg">
+
+        <!--Replacing this element with actual fragment from code behind-->
+        <FrameLayout
+            android:id="@+id/headerPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark">
+
+        </FrameLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/create_token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerView">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Create New Token"
+                android:textSize="20dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_token">
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adapter="@{VM.tokensDataAdapter}"
+            app:data="@{VM.data}"
+            android:background="#ffffff"
+            tools:context="com.opensoach.vst.Views.Activity.TokenListActivity"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
+
+</layout>

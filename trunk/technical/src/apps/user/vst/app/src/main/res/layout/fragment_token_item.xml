@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.opensoach.vst.Views.Fragment.TokenItemFragment">
+
+    <data>
+        <variable
+            name="VM"
+            type="com.opensoach.vst.ViewModels.TokenItemViewModel"/>
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/hello_blank_fragment" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/hello_blank_fragment" />
+    </RelativeLayout>
+    <!-- TODO: Update blank fragment layout -->
+
+
+</layout>
