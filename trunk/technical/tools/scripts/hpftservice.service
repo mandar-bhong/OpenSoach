@@ -1,0 +1,22 @@
+[Unit]
+Description=hpft application service
+ConditionPathExists=/opt/build/spl/Build/hpft/hpft
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+LimitNOFILE=1024
+
+Restart=on-failure
+RestartSec=10
+startLimitIntervalSec=60
+
+WorkingDirectory=/opt/build/spl/Build/hpft
+ExecStart=/opt/build/spl/Build/hpft/hpft
+
+[Install]
+WantedBy=multi-user.target
+
+
