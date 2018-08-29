@@ -64,4 +64,15 @@ public class DBCreateTableConstants {
             TABLE_TASK_DATA_AUTH_CODE + DB_FIELD_VARCHAR +
             ")";
 
+
+    public static final String CREATE_TABLE_TOKEN_DATA = "CREATE TABLE " +
+            TABLE_TOKEN_DATA + "("+
+            TABLE_TOKEN_ID + DB_FIELD_INTEGER_AND +
+            TABLE_TOKEN_NO + DB_FIELD_INTEGER_AND +
+            TABLE_TOKEN_VEHICLE_NO + DB_FIELD_VARCHAR_AND +
+            TABLE_TOKEN_MAPPING_DETAILS + DB_FIELD_VARCHAR_AND +
+            TABLE_TOKEN_STATE +DB_FIELD_TINY_INTEGER_AND +
+            TABLE_TOKEN_GENERATED_ON + DB_FIELD_INTEGER +
+            ")";
+
 }
