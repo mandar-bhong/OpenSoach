@@ -15,12 +15,14 @@ import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.ViewModels.TokenListViewModel;
+import com.opensoach.vst.Views.ClickHandler.GenerateTokenClickHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
 import com.opensoach.vst.databinding.ActivityTaskDetailsBinding;
 import com.opensoach.vst.databinding.ActivityTokenListBinding;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
@@ -48,6 +50,7 @@ public class TokenListActivity extends AppCompatActivity
     void setBinding(){
         ActivityTokenListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_token_list);
         binding.setVM(GenerateData());
+        binding.setClickHandler(new GenerateTokenClickHandler());
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
@@ -68,6 +71,8 @@ public class TokenListActivity extends AppCompatActivity
 
         DBTokenTableRowModel dbTokenTableRowModel = new DBTokenTableRowModel();
         dbTokenTableRowModel.setTokenno(5);
+        dbTokenTableRowModel.setGeneratedon(new Date());
+        dbTokenTableRowModel.setVehicleno("MH 12 DC3422");
 
         TokenItemViewModel tokenItemViewModel = new TokenItemViewModel(dbTokenTableRowModel);
         tokenItemViewModel.ContextActivity = this;
