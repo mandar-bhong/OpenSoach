@@ -1,0 +1,22 @@
+[Unit]
+Description=vst application service
+ConditionPathExists=/opt/build/spl/Build/vst/vst
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+LimitNOFILE=1024
+
+Restart=on-failure
+RestartSec=10
+startLimitIntervalSec=60
+
+WorkingDirectory=/opt/build/spl/Build/vst
+ExecStart=/opt/build/spl/Build/vst/vst
+
+[Install]
+WantedBy=multi-user.target
+
+
