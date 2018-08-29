@@ -3,9 +3,18 @@ package com.opensoach.vst.Model.DB;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.Date;
+
+import com.opensoach.vst.Constants.DBTableConstants;
+import com.opensoach.vst.DAL.DBConstants;
+import com.opensoach.vst.DAL.DBTableSchema;
 import com.opensoach.vst.DAL.IDBRowMapper;
 
+@DBTableSchema(TableName = DBTableConstants.TABLE_TOKEN_DATA)
 public class DBTokenTableQueryModel implements IDBRowMapper<DBTokenTableRowModel> {
+
+    public static final String SELECT_ID_FILTER = "SELECT_ID_FILTER";
+
     @Override
     public DBTokenTableRowModel Clone() {
         return new DBTokenTableRowModel();
@@ -13,26 +22,56 @@ public class DBTokenTableQueryModel implements IDBRowMapper<DBTokenTableRowModel
 
     @Override
     public void PrepareModel(Cursor cursor, DBTokenTableRowModel dataModel) {
-       
+        dataModel.setId(cursor.getInt(0));
+        dataModel.setTokenno(cursor.getInt(1));
+        dataModel.setVehicleno(cursor.getString(2));
+        dataModel.setMapping(cursor.getString(3));
+        dataModel.setState(cursor.getInt(4));
+        dataModel.setGeneratedon(new Date(cursor.getLong(5)));
     }
 
     @Override
     public String[] SelectColumn() {
-        return new String[0];
+
+        return new String[]{DBTableConstants.TABLE_TOKEN_ID,
+                DBTableConstants.TABLE_TOKEN_NO,
+                DBTableConstants.TABLE_TOKEN_VEHICLE_NO,
+                DBTableConstants.TABLE_TOKEN_MAPPING_DETAILS,
+                DBTableConstants.TABLE_TOKEN_STATE,
+                DBTableConstants.TABLE_TOKEN_GENERATED_ON
+        };
+
     }
 
     @Override
     public String WhereFilter(String filterName) {
-        return null;
+        switch (filterName) {
+            case SELECT_ID_FILTER:
+                return DBTableConstants.TABLE_TOKEN_ID + "=?";
+        }
+        return "";
     }
 
     @Override
     public String[] FilterArgs(DBTokenTableRowModel dataModel, String filterName) {
-        return new String[0];
+        switch (filterName) {
+            case SELECT_ID_FILTER:
+                return new String[]{String.valueOf(dataModel.getId())};
+        }
+
+        return new String[]{};
     }
 
     @Override
     public ContentValues UpdateFieldSet(DBTokenTableRowModel dataModel, String filterName) {
-        return null;
+        ContentValues values = new ContentValues ();
+
+        switch (filterName) {
+            case SELECT_ID_FILTER:
+                values.put(DBTableConstants.TABLE_TOKEN_ID, dataModel.getId());
+                return values;
+        }
+
+        return values;
     }
 }
