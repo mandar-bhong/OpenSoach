@@ -48,7 +48,8 @@
             android:name=".Views.Activity.CardDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Views.Activity.TaskDetailsActivity" />
-        <activity android:name=".Views.Activity.CardListActivity"></activity>
+        <activity android:name=".Views.Activity.CardListActivity" />
+        <activity android:name=".Views.Activity.CreateTokenActivity"></activity>
     </application>
 
 </manifest>
