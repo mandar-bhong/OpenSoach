@@ -267,3 +267,32 @@ func EPGetTokenList(dbConn string) (error, *[]hktmodels.DBEPSPVhlTokenDataModel)
 	}
 	return nil, data
 }
+
+func EPUpdateTokenStateData(dbConn string, updtStruct hktmodels.DBTokenStateUpdateModel) (error, int64) {
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_VST_TOKEN_TBL
+	updateErr := updateCtx.UpdateByFilter("TokenId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func EPGetTokenDataById(dbConn string, tokenID int64) (error, *[]hktmodels.DBEPSPVhlTokenDataModel) {
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBEPSPVhlTokenDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_VHL_TOKEN_BY_TOKEN_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(tokenID)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
