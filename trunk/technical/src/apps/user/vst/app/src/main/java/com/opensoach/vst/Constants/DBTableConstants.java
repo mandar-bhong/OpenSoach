@@ -53,4 +53,13 @@ public class DBTableConstants {
     public static final String TABLE_TASK_DATA_SLOT_END_TIME = "slotEndTime";
     public static final String TABLE_TASK_DATA_SERVER_SYNC = "isSynced";
     public static final String TABLE_TASK_DATA_AUTH_CODE = "authCode";
+
+
+    public static final String TABLE_TOKEN_DATA = "TABLE_TOKEN_DATA";
+    public static final String TABLE_TOKEN_ID = "id";
+    public static final String TABLE_TOKEN_NO = "tokenno";
+    public static final String TABLE_TOKEN_VEHICLE_NO = "vehicleno";
+    public static final String TABLE_TOKEN_MAPPING_DETAILS = "mapping";
+    public static final String TABLE_TOKEN_STATE = "state";
+    public static final String TABLE_TOKEN_GENERATED_ON = "generatedon";
 }
