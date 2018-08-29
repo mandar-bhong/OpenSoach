@@ -257,9 +257,9 @@ func ProcessVehicleDetailsData(ctx *lmodels.PacketProccessExecution, packetProce
 	packetProcessingResult.IsSuccess = true
 }
 
-func ProcessTaskConfigData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+func ProcessTokenGenerationData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
-	ProcessJobData(ctx, packetProcessingResult, constants.PROCESS_TYPE_TASK_CONFIG)
+	ProcessJobData(ctx, packetProcessingResult, constants.PROCESS_TYPE_TOKEN_GENERATION)
 
 }
 
@@ -272,6 +272,18 @@ func ProcessJobCreationData(ctx *lmodels.PacketProccessExecution, packetProcessi
 func ProcessJobExeData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	ProcessJobData(ctx, packetProcessingResult, constants.PROCESS_TYPE_JOB_EXE)
+
+}
+
+func ProcessGenerateTokenClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+
+	ProcessJobClaimData(ctx, packetProcessingResult, constants.PROCESS_TYPE_TOKEN_GENERATION_CLAIM)
+
+}
+
+func ProcessJobExeClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+
+	ProcessJobClaimData(ctx, packetProcessingResult, constants.PROCESS_TYPE_JOB_EXE_CLAIM)
 
 }
 
@@ -340,15 +352,15 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 	dbTokenMappingDetailsUpdateModel.TokenId = packetVhlTokenTxnData.TokenId
 
 	switch processType {
-	case 1: // generate token
+	case constants.PROCESS_TYPE_TOKEN_GENERATION: // generate token
 		tokenMappingDetailsModel.TokenConfigId = insertedId
-		dbTokenMappingDetailsUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_IN_PROGRESS
-	case 2: // job create
+		dbTokenMappingDetailsUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_GENERATE_TOKEN
+	case constants.PROCESS_TYPE_JOB_CREATION: // job create
 		tokenMappingDetailsModel.JobCreationId = insertedId
-		dbTokenMappingDetailsUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_CREATED
-	case 3: // job execution
+		dbTokenMappingDetailsUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_JOB_CREATION
+	case constants.PROCESS_TYPE_JOB_EXE: // job execution
 		tokenMappingDetailsModel.JobExeId = insertedId
-		dbTokenMappingDetailsUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_EXECUTED
+		dbTokenMappingDetailsUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_JOB_EXE
 	}
 
 	isSuccess, tokenMappingDetailsString := ghelper.ConvertToJSON(tokenMappingDetailsModel)
@@ -369,7 +381,7 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 		}
 
 		logger.Context().WithField("Token", ctx.Token).
-			WithField("InstanceData", dbServiceInstanceDataRowModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving service instance txn data.", dbErr)
+			WithField("Update token mapping details", dbTokenMappingDetailsUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating token mapping details.", dbErr)
 	}
 
 	txErr := tx.Commit()
@@ -385,6 +397,127 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 
 	packetProcessingResult.IsSuccess = true
+
+}
+
+func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult, processType int) {
+
+	devicePacket := &gmodels.DevicePacket{}
+	devicePacket.Payload = &lmodels.PacketVhlTokenClaimData{}
+
+	convErr := ghelper.ConvertFromJSONBytes(ctx.DevicePacket, devicePacket)
+
+	if convErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while converting from json data.", convErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
+
+	packetVhlTokenClaimData := *devicePacket.Payload.(*lmodels.PacketVhlTokenClaimData)
+
+	dbTokenStateUpdateModel := hktmodels.DBTokenStateUpdateModel{}
+	dbTokenStateUpdateModel.TokenId = packetVhlTokenClaimData.TokenId
+
+	switch processType {
+	case constants.PROCESS_TYPE_TOKEN_GENERATION_CLAIM: // generate token claim
+		dbTokenStateUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_GENERATE_TOKEN_CLAIM
+	case constants.PROCESS_TYPE_JOB_EXE_CLAIM: // job exec claim
+		dbTokenStateUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_JOB_EXE_CLAIM
+	}
+
+	dbErr, _ := dbaccess.EPUpdateTokenStateData(ctx.InstanceDBConn, dbTokenStateUpdateModel)
+
+	if dbErr != nil {
+
+		logger.Context().WithField("Token", ctx.Token).
+			WithField("InstanceData", dbTokenStateUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating vhl token status.", dbErr)
+	}
+
+	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		true, 0, nil)
+
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
+
+	packetProcessingResult.IsSuccess = true
+
+	dbErr, tokenData := dbaccess.EPGetTokenDataById(ctx.InstanceDBConn, packetVhlTokenClaimData.TokenId)
+
+	if dbErr != nil {
+		logger.Context().WithField("Token", ctx.Token).
+			WithField("Token Id.", packetVhlTokenClaimData.TokenId).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting vhl token data.", dbErr)
+		return
+	}
+
+	tokendata := *tokenData
+
+	//send notification to all devices
+	//get online devices
+	getErr, tokenlistjsonstring := repo.Instance().ProdTaskContext.ProcessTask(pcconst.TASK_GET_ONLINE_DEVICES, "")
+	if getErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while submitting task.", getErr)
+		return
+	}
+
+	issuccess, deviceDataList := pcmgr.GetOnlineDevices(repo.Instance().Context.Master.Cache, tokenlistjsonstring, ctx.TokenInfo.CpmID)
+	if issuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while submitting task.", nil)
+		return
+	}
+
+	//get device service points
+	dbDeviceServicePointDataModelList := []hktmodels.DBDeviceServicePointDataModel{}
+
+	for _, deviceData := range deviceDataList {
+
+		dbErr, devspdata := dbaccess.TaskGetServicePointByDevId(ctx.InstanceDBConn, deviceData.DevID)
+
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching field operator by fopid.", dbErr)
+			return
+		}
+
+		dbDeviceServicePointDataModelList = append(dbDeviceServicePointDataModelList, devspdata)
+
+	}
+
+	DBDeviceVhlTokenModelList := []hktmodels.DBDeviceVhlTokenModel{}
+
+	for i := 0; i < len(dbDeviceServicePointDataModelList); i++ {
+		dbDeviceVhlTokenModel := hktmodels.DBDeviceVhlTokenModel{}
+		dbDeviceVhlTokenModel.SpId = dbDeviceServicePointDataModelList[i].SpId
+		dbDeviceVhlTokenModel.DeviceId = dbDeviceServicePointDataModelList[i].DevId
+		dbDeviceVhlTokenModel.TokenId = tokendata[0].TokenId
+		dbDeviceVhlTokenModel.Token = tokendata[0].Token
+		dbDeviceVhlTokenModel.VhlId = tokendata[0].VhlId
+		dbDeviceVhlTokenModel.VehicleNo = tokendata[0].VehicleNo
+		dbDeviceVhlTokenModel.State = tokendata[0].State
+		dbDeviceVhlTokenModel.GeneratedOn = tokendata[0].GeneratedOn
+		DBDeviceVhlTokenModelList = append(DBDeviceVhlTokenModelList, dbDeviceVhlTokenModel)
+	}
+
+	epTaskSendPacketDataList := []pcmodels.EPTaskSendPacketDataModel{}
+
+	for _, dbDeviceVhlTokenData := range DBDeviceVhlTokenModelList {
+		deviceTokenKey := fmt.Sprintf("%s%d", pcconst.CACHE_DEVICE_TOKEN_MAPPING_KEY_PREFIX, dbDeviceVhlTokenData.DeviceId)
+		fmt.Println(deviceTokenKey)
+
+		isTokenGetSucc, deviceToken := repo.Instance().Context.Master.Cache.Get(deviceTokenKey)
+
+		if isTokenGetSucc == false {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+			continue
+		}
+
+		epTaskSendPacketDataModel := pcmodels.EPTaskSendPacketDataModel{}
+		epTaskSendPacketDataModel.Token = deviceToken
+		epTaskSendPacketDataModel.Data = dbDeviceVhlTokenData
+		epTaskSendPacketDataModel.TaskType = constants.TASK_TYPE_VHL_TOKEN_ADDED
+
+		epTaskSendPacketDataList = append(epTaskSendPacketDataList, epTaskSendPacketDataModel)
+	}
+
+	ProcessDeviceVhlToken(epTaskSendPacketDataList)
 
 }
 
@@ -418,7 +551,6 @@ func ProcessDeviceTokenList(ctx *lmodels.PacketProccessExecution, packetProcessi
 }
 
 //process device vhltoken packet
-
 func ProcessDeviceVhlToken(epTaskSendPacketDataModelList []pcmodels.EPTaskSendPacketDataModel) {
 
 	var tokenSPServices map[string]map[int64][]hktmodels.DBDeviceVhlTokenModel
@@ -472,7 +604,7 @@ func createVhlTokenPacket(spid int64, vhlTokenModels []hktmodels.DBDeviceVhlToke
 	vhltokeninfo := &gmodels.DevicePacket{}
 	vhltokeninfo.Header = gmodels.DeviceHeaderData{}
 	vhltokeninfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
-	vhltokeninfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_SERVICE_POINTS_TOKEN_ADDED
+	vhltokeninfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_SERVICE_POINTS_TOKEN
 	vhltokeninfo.Header.SPID = spid
 
 	var vhlTokenList []hktmodels.DBEPSPVhlTokenDataModel

@@ -36,3 +36,8 @@ type DBDeviceVhlTokenModel struct {
 	State       int64     `db:"state" json:"state"`
 	GeneratedOn time.Time `db:"generated_on" json:"generatedon"`
 }
+
+type DBTokenStateUpdateModel struct {
+	TokenId int64 `db:"id" dbattr:"pri,auto"  json:"tokenid"`
+	State   int64 `db:"state" json:"state"`
+}

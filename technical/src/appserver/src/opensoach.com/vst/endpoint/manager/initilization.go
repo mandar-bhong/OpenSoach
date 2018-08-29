@@ -119,6 +119,10 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 
 	webServerStartErr := pcmgr.HandleEndPoint(8091, EPHandler{})
 
+	if webServerStartErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Server, "Error occured while initializing web socket", webServerStartErr)
+	}
+
 	return webServerStartErr
 }
 

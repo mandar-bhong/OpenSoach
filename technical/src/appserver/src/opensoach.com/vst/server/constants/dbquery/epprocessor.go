@@ -26,3 +26,6 @@ const QUERY_EP_PROC_GET_TOKEN_MAPPING_DETAILS_BY_ID = `select mapping_details fr
 
 const QUERY_EP_PROC_GET_VHL_TOKEN_LIST = `select token.id,token,vhl_id_fk,vehicle_no,state,generated_on from spl_vst_token token
 inner join spl_vst_vehicle_master_tbl vehicle on token.vhl_id_fk = vehicle.id`
+
+const QUERY_EP_PROC_GET_VHL_TOKEN_BY_TOKEN_ID = `select token.id,token,vhl_id_fk,vehicle_no,state,generated_on from spl_vst_token token
+inner join spl_vst_vehicle_master_tbl vehicle on token.vhl_id_fk = vehicle.id where token.id = ?`

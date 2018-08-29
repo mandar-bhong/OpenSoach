@@ -58,3 +58,8 @@ type PacketVhlTokenTxnData struct {
 	TxnData           string    `json:"txndata"`
 	TxnDate           time.Time `json:"txndate"`
 }
+
+type PacketVhlTokenClaimData struct {
+	TokenId int64  `json:tokenid`
+	FOPCode string `json:"fopcode"`
+}

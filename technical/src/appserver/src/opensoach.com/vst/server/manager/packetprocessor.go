@@ -57,14 +57,20 @@ func InitProcessor() {
 	CAT_DATA_DEVICE_VEHICLE_DETAILS_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_VEHICLE_DETAILS_DATA)
 
-	CAT_DATA_DEVICE_TASK_CONFIG_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
-		serconst.DEVICE_CMD_TASK_CONFIG_DATA)
+	CAT_DATA_DEVICE_TOKEN_GENERATION_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+		serconst.DEVICE_CMD_TOKEN_GENERATION_DATA)
 
 	CAT_DATA_DEVICE_JOB_CREATION_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_JOB_CREATION_DATA)
 
 	CAT_DATA_DEVICE_JOB_EXE_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_JOB_EXEC_DATA)
+
+	CAT_DATA_DEVICE_TOKEN_GENERATION_CLAIM_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+		serconst.DEVICE_CMD_TOKEN_GENERATION_CLAIM_DATA)
+
+	CAT_DATA_DEVICE_JOB_EXE_CLAIM_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+		serconst.DEVICE_CMD_JOB_EXEC_CLAIM_DATA)
 
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 
@@ -81,9 +87,11 @@ func InitProcessor() {
 
 	PacketProcessExecutor[CAT_DATA_DEVICE_VEHICLE_TOKEN_DATA] = endpoint.ProcessVehicleTokenData
 	PacketProcessExecutor[CAT_DATA_DEVICE_VEHICLE_DETAILS_DATA] = endpoint.ProcessVehicleDetailsData
-	PacketProcessExecutor[CAT_DATA_DEVICE_TASK_CONFIG_DATA] = endpoint.ProcessTaskConfigData
+	PacketProcessExecutor[CAT_DATA_DEVICE_TOKEN_GENERATION_DATA] = endpoint.ProcessTokenGenerationData
 	PacketProcessExecutor[CAT_DATA_DEVICE_JOB_CREATION_DATA] = endpoint.ProcessJobCreationData
 	PacketProcessExecutor[CAT_DATA_DEVICE_JOB_EXE_DATA] = endpoint.ProcessJobExeData
+	PacketProcessExecutor[CAT_DATA_DEVICE_TOKEN_GENERATION_CLAIM_DATA] = endpoint.ProcessGenerateTokenClaimData
+	PacketProcessExecutor[CAT_DATA_DEVICE_JOB_EXE_CLAIM_DATA] = endpoint.ProcessJobExeClaimData
 
 }
 
