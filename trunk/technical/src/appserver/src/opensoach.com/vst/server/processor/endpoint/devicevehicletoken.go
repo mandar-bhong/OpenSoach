@@ -169,7 +169,7 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 
 	issuccess, deviceDataList := pcmgr.GetOnlineDevices(repo.Instance().Context.Master.Cache, tokenlistjsonstring, ctx.TokenInfo.CpmID)
 	if issuccess == false {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while submitting task.", nil)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting online devices.", nil)
 		return
 	}
 
@@ -181,7 +181,7 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 		dbErr, devspdata := dbaccess.TaskGetServicePointByDevId(ctx.InstanceDBConn, deviceData.DevID)
 
 		if dbErr != nil {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while fetching field operator by fopid.", dbErr)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting device service points.", dbErr)
 			return
 		}
 
@@ -215,7 +215,7 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 		isTokenGetSucc, deviceToken := repo.Instance().Context.Master.Cache.Get(deviceTokenKey)
 
 		if isTokenGetSucc == false {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "failed to get device tokens", nil)
 			continue
 		}
 
@@ -278,6 +278,8 @@ func ProcessVehicleDetailsData(ctx *lmodels.PacketProccessExecution, packetProce
 	if dbErr != nil {
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("VehicleDetailsData", dbVehicleDetailsUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating vehicle details data.", dbErr)
+		packetProcessingResult.IsSuccess = false
+		return
 	}
 
 	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
@@ -336,6 +338,7 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 
 	if dbTxErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Transaction Error.", convErr)
+		packetProcessingResult.IsSuccess = false
 		return
 	}
 
@@ -346,6 +349,7 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 	if dbErr != nil {
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("Token Id.", packetVhlTokenTxnData.TokenId).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting vhl token data.", dbErr)
+		packetProcessingResult.IsSuccess = false
 		return
 	}
 
@@ -368,6 +372,8 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("InstanceData", dbServiceInstanceDataRowModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving service instance txn data.", dbErr)
+		packetProcessingResult.IsSuccess = false
+		return
 	}
 
 	tokenDataItem := *TokenData
@@ -377,6 +383,7 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 	isSuccess := ghelper.ConvertFromJSONString(tokenDataItem[0].MappingDetails, &tokenMappingDetailsModel)
 	if isSuccess == false {
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Failed to convert json")
+		packetProcessingResult.IsSuccess = false
 		return
 	}
 
@@ -398,6 +405,7 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 	isSuccess, tokenMappingDetailsString := ghelper.ConvertToJSON(tokenMappingDetailsModel)
 	if isSuccess == false {
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Failed to convert to json")
+		packetProcessingResult.IsSuccess = false
 		return
 	}
 
@@ -414,12 +422,17 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("Update token mapping details", dbTokenMappingDetailsUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating token mapping details.", dbErr)
+
+		packetProcessingResult.IsSuccess = false
+		return
 	}
 
 	txErr := tx.Commit()
 
 	if txErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		packetProcessingResult.IsSuccess = false
+		return
 	}
 
 	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
@@ -468,7 +481,7 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("InstanceData", dbTokenStateUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating vhl token status.", dbErr)
 		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
-		packetProcessingResult.IsSuccess = true
+		packetProcessingResult.IsSuccess = false
 		return
 	}
 
@@ -478,7 +491,7 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("Token Id.", packetVhlTokenClaimData.TokenId).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting vhl token data.", dbErr)
 		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
-		packetProcessingResult.IsSuccess = true
+		packetProcessingResult.IsSuccess = false
 		return
 	}
 
@@ -556,7 +569,7 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		isTokenGetSucc, deviceToken := repo.Instance().Context.Master.Cache.Get(deviceTokenKey)
 
 		if isTokenGetSucc == false {
-			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "", nil)
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get device tokens", nil)
 			continue
 		}
 
