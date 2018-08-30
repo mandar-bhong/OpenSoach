@@ -31,6 +31,10 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 		return
 	}
 
+	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		false, 0, nil)
+
 	packetVehicleTokenInsertData := *devicePacket.Payload.(*lmodels.PacketVehicleTokenData)
 
 	var vehicleID int64
@@ -38,6 +42,8 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 	err, vehicleToken := generateVehicleToken(ctx.InstanceDBConn)
 	if err != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while generating vehicle token.", convErr)
+		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		return
 	}
 
@@ -46,6 +52,8 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 	if dbErr != nil {
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("Vehicle No.", packetVehicleTokenInsertData.VehicleNo).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting vehicle id.", dbErr)
+		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		return
 	}
 
@@ -53,6 +61,8 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 
 	if dbTxErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Transaction Error.", convErr)
+		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		return
 	}
 
@@ -76,6 +86,10 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 
 			logger.Context().WithField("Token", ctx.Token).
 				WithField("VehicleData", dbVehicleInsertRowModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving vehicle data.", dbErr)
+
+			packetProcessingResult.IsSuccess = false
+			packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
+			return
 		}
 
 		vehicleID = insertedID
@@ -92,6 +106,8 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 	isSucess, mappingDetailsJsonString := ghelper.ConvertToJSON(tokenMappingDetailsModel)
 	if isSucess == false {
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Failed to covert to json")
+		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		return
 	}
 
@@ -114,17 +130,31 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("VehicleTokenData", dbTokenInsertRowModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving vehicle data.", dbErr)
+		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
+		return
 	}
 
 	txErr := tx.Commit()
 
 	if txErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
+		return
 	}
 
-	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+	dbEPSPVhlTokenDataModel := hktmodels.DBEPSPVhlTokenDataModel{}
+	dbEPSPVhlTokenDataModel.TokenId = tokenInsertedId
+	dbEPSPVhlTokenDataModel.Token = dbTokenInsertRowModel.Token
+	dbEPSPVhlTokenDataModel.VhlId = dbTokenInsertRowModel.VhlId
+	dbEPSPVhlTokenDataModel.VehicleNo = packetVehicleTokenInsertData.VehicleNo
+	dbEPSPVhlTokenDataModel.State = dbTokenInsertRowModel.State
+	dbEPSPVhlTokenDataModel.GeneratedOn = dbTokenInsertRowModel.GeneratedOn
+
+	commandAck = lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
 		devicePacket.Header.SeqID,
-		true, 0, nil)
+		true, 0, dbEPSPVhlTokenDataModel)
 
 	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 
@@ -171,7 +201,9 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 		dbDeviceVhlTokenModel.VehicleNo = packetVehicleTokenInsertData.VehicleNo
 		dbDeviceVhlTokenModel.State = dbTokenInsertRowModel.State
 		dbDeviceVhlTokenModel.GeneratedOn = dbTokenInsertRowModel.GeneratedOn
-		DBDeviceVhlTokenModelList = append(DBDeviceVhlTokenModelList, dbDeviceVhlTokenModel)
+		if ctx.TokenInfo.DevID != dbDeviceVhlTokenModel.DeviceId {
+			DBDeviceVhlTokenModelList = append(DBDeviceVhlTokenModelList, dbDeviceVhlTokenModel)
+		}
 	}
 
 	epTaskSendPacketDataList := []pcmodels.EPTaskSendPacketDataModel{}
