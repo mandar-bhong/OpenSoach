@@ -2,7 +2,6 @@
   <div class="col">
     <mat-card>
       <div class="mobile-sort">
-        <h4>Sort</h4>
         <table class="example-full-width" cellspacing="0">
           <tr id="layout-set">
             <td>
@@ -15,14 +14,14 @@
               </mat-form-field>
             </td>
             <td>
-              <div (click)="sortDirectionAsc()"> Ascending
-                <i class="fa fa-long-arrow-up"></i>
-              </div>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionAsc()">
+                <mat-icon aria-hidden="true" matTooltip="Ascending">arrow_upward</mat-icon>
+              </button>
             </td>
             <td>
-              <div (click)="sortDirectionDesc()"> Descending
-                <i class="fa fa-long-arrow-down"></i>
-              </div>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionDesc()">
+                <mat-icon aria-hidden="true" matTooltip="Descending">arrow_downward</mat-icon>
+              </button>
             </td>
           </tr>
         </table>
@@ -62,7 +61,7 @@
               </span>
               <span *ngIf="!(row.devid)">
                 <button mat-icon-button color="accent" (click)="openServicePointDeviceAssociation(row)">
-                  <i class="fa fa-link"  aria-hidden="true" matTooltip="Add Device"></i>
+                  <i class="fa fa-link" aria-hidden="true" matTooltip="Add Device"></i>
                 </button>
               </span>
             </mat-cell>
@@ -84,7 +83,7 @@
                 </mat-icon>
               </button>
               <button mat-icon-button color="accent" *ngIf="!(row.servconfid)" (click)="configure(row)">
-                <span >Configure</span>
+                <span>Configure</span>
               </button>
             </mat-cell>
           </ng-container>
