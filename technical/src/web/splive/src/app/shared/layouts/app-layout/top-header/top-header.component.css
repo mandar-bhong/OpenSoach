@@ -91,7 +91,7 @@ color:#ffffff !important;
 }
 .dropdown-menu {
   box-shadow: 0 0 20px 0 hsla(0, 0%, 0%, 0.3);
-  left: 10% !important;
+  /* left: 10% !important; */
   right: 0 !important;
 }
 .nav-link.dropdown-toggle {
