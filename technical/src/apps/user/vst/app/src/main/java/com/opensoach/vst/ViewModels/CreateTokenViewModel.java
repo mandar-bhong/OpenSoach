@@ -5,6 +5,9 @@ import android.databinding.Bindable;
 import com.opensoach.vst.BR;
 import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+
 public class CreateTokenViewModel extends BaseViewModel  {
 
 
@@ -29,6 +32,7 @@ public class CreateTokenViewModel extends BaseViewModel  {
         this.dbTokenTableRowModel = dbTokenTableRowModel;
         notifyPropertyChanged(BR.generatedOn);
         notifyPropertyChanged(BR.generatedToken);
+        notifyPropertyChanged(BR.newVehicleNumber);
     }
 
     public String getVehicleNumber() {
@@ -89,6 +93,20 @@ public class CreateTokenViewModel extends BaseViewModel  {
         if (dbTokenTableRowModel == null){
             return "";
         }
-        return dbTokenTableRowModel.getGeneratedon().toString();
+
+        Format formatter = new SimpleDateFormat("hh:mm a");
+        String time = formatter.format(dbTokenTableRowModel.getGeneratedon());
+        return time;
+
     }
+
+    @Bindable
+    public String getNewVehicleNumber(){
+        if (dbTokenTableRowModel == null){
+            return "";
+        }
+
+        return dbTokenTableRowModel.getVehicleno();
+    }
+
 }
