@@ -18,9 +18,7 @@
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="1dp"
-            card_view:cardCornerRadius="2dp"
+            card_view:cardCornerRadius="3dp"
             card_view:contentPadding="10dp">
 
         <LinearLayout
@@ -40,19 +38,17 @@
                     android:layout_alignParentStart="true">
 
                     <ImageView
-                    android:id="@+id/imgNWState"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:background="@drawable/ic_cards"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/ic_car_estate"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:text="@{VM.vehicleNo}"
                         android:textColor="#000"
-                        android:text="@{VM.getTokenNo()}"/>
+                        android:gravity="center"/>
 
                 </LinearLayout>
 
@@ -61,23 +57,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:gravity="center_horizontal"
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true">
 
                         <ImageView
+                            android:id="@+id/imgNWState"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginRight="0dp"
-                            android:background="@drawable/ic_car_estate"/>
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/ic_cards"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="@{VM.vehicleNo}"
-                            android:layout_marginLeft="10dp"
                             android:textColor="#000"
-                            android:gravity="center"/>
+                            android:text="@{VM.getTokenNo()}"/>
 
                     </LinearLayout>
 
@@ -92,15 +88,14 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
                         android:background="@drawable/ic_clock"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@{VM.time}"
-                        android:layout_marginLeft="10dp"
                         android:textColor="#000"
                         android:gravity="right"/>
 
