@@ -27,6 +27,7 @@ public class CommandConstants {
     public static final int CMD_DATA_BATTERY_LEVEL_DATA = 2;
     public static final int CMD_DATA_COMPLAINT_DATA = 256;
     public static final int CMD_DATA_FEEDBACK_DATA = 257;
+    public static final int CMD_DATA_GENERATE_TOKEN = 300;
 
 
     //Category

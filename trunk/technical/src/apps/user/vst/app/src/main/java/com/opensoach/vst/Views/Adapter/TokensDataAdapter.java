@@ -57,6 +57,14 @@ public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.Da
         holder.unbind();
     }
 
+
+    public void addItem(@Nullable TokenItemViewModel item) {
+        if (this.data != null){
+            this.data.add(item);
+            notifyDataSetChanged();
+        }
+    }
+
     public void updateData(@Nullable List<TokenItemViewModel> data) {
 
 //        if (data == null || data.isEmpty()) {

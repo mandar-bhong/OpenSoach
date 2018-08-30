@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.CreateTokenViewModel;
+import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.Views.ClickHandler.CreateTokenClickHandler;
 import com.opensoach.vst.Views.ClickHandler.GenerateTokenClickHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
@@ -38,9 +39,18 @@ public class CreateTokenActivity extends AppCompatActivity
     void setBinding(){
         ActivityCreateTokenBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_token);
         binding.setClickHandler(new CreateTokenClickHandler());
-        binding.setVM(new CreateTokenViewModel());
+
+        CreateTokenViewModel createTokenViewModel = new CreateTokenViewModel();
+        binding.setVM(createTokenViewModel);
+        MainViewModel.getInstance().setCreateTokenViewModel(createTokenViewModel);
     }
 
+
+        @Override
+        protected  void onDestroy() {
+            super.onDestroy();
+            MainViewModel.getInstance().setCreateTokenViewModel(null);
+        }
 
 
     @Override

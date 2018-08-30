@@ -32,5 +32,4 @@ public class TokenItemViewModel extends  BaseViewModel {
     }
 
 
-
 }

@@ -64,7 +64,7 @@ public class TokenListActivity extends AppCompatActivity
     }
 
     TokenListViewModel GenerateData() {
-        TokenListViewModel tokenListViewModel = new TokenListViewModel();
+        TokenListViewModel tokenListViewModel = MainViewModel.getInstance().getTokenListViewModel();
         tokenListViewModel.ContextActivity = this;
 
         ArrayList<TokenItemViewModel> list = new ArrayList<>();

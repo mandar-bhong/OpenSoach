@@ -6,5 +6,6 @@ public enum AppAction {
     COMPLAINT_DATA,
     FEEDBACK_DATA,
     BATTERY_LEVEL,
-    TASK_DATA
+    TASK_DATA,
+    CREATE_TOKEN
 }

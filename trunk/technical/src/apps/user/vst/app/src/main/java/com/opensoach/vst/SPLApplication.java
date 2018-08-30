@@ -15,11 +15,13 @@ import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Helper.CommonHelper;
 import com.opensoach.vst.Model.AppNotificationModelBase;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
+import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.Model.View.ChartConfigModel;
 import com.opensoach.vst.Model.View.DisplayChartDataModel;
 import com.opensoach.vst.Scheduler.ScheduleManager;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
+import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.ChartActivity;
 import com.opensoach.vst.Views.TimeChangeListner;
 import com.opensoach.vst.Views.UpdateChartListner;
@@ -93,18 +95,22 @@ public class SPLApplication extends Application {
     public void OnUIUpdateEvent(final AppNotificationModelBase model) {
         switch (model.DataProcessStatergyID) {
 
-            case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA: {
+            case ApplicationConstants.UI_PROCESSING_STATERGY_TOKEN_CREATED: {
 
-//                ArrayList<PacketCardListConfigurationModel> cardList = (ArrayList<PacketCardListConfigurationModel>) model.Data;
-//                final List<CardBriefViewModel> dataModels = CommonHelper.CreateCardListViewModel(MainViewModel.getInstance().ContextActivity, cardList);
-//
-//                MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().setItemsSource(dataModels);
-////                        MainViewModel.getInstance().getCardListViewModel().getCardGridViewModel().getDataAdaptor().notifyDataSetChanged();
-//                    }
-//                });
+                final DBTokenTableRowModel tokenItem = (DBTokenTableRowModel) model.Data;
+                final TokenItemViewModel viewModel = new TokenItemViewModel(tokenItem);
+
+                MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        MainViewModel.getInstance().getTokenListViewModel().getTokensDataAdapter().addItem(viewModel);
+
+                        if (MainViewModel.getInstance().getCreateTokenViewModel() != null){
+                            MainViewModel.getInstance().getCreateTokenViewModel().setDbTokenTableRowModel(tokenItem);
+                        }
+                    }
+                });
             }
             break;
             case ApplicationConstants.UI_PROCESSING_STATERGY_CHART_DATA:
