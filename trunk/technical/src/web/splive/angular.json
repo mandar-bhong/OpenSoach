@@ -14,7 +14,7 @@
             "outputPath": "dist/spl",
             "index": "src/app/spl/index.html",
             "main": "src/app/spl/main.ts",
-            "tsConfig": "src/app/spl/tsconfig.spl.json",
+            "tsConfig": "src/app/spl/tsconfig.json",
             "polyfills": "src/app/spl/polyfills.ts",
             "assets": [
               {
@@ -161,7 +161,7 @@
             "outputPath": "dist/hkt",
             "index": "src/app/hkt/index.html",
             "main": "src/app/hkt/main.ts",
-            "tsConfig": "src/app/hkt/tsconfig.hkt.json",
+            "tsConfig": "src/app/hkt/tsconfig.json",
             "polyfills": "src/app/hkt/polyfills.ts",
             "assets": [
               {
@@ -310,7 +310,7 @@
             "outputPath": "dist/hpft",
             "index": "src/app/hpft/index.html",
             "main": "src/app/hpft/main.ts",
-            "tsConfig": "src/app/hpft/tsconfig.hpft.json",
+            "tsConfig": "src/app/hpft/tsconfig.json",
             "polyfills": "src/app/hpft/polyfills.ts",
             "assets": [
               {
