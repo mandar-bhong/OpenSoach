@@ -3,6 +3,9 @@ package com.opensoach.vst.ViewModels;
 import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.Model.View.TaskTimeItemDataModel;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+
 public class TokenItemViewModel extends  BaseViewModel {
     private DBTokenTableRowModel dbTokenTableRowModel;
 
@@ -21,7 +24,11 @@ public class TokenItemViewModel extends  BaseViewModel {
     }
 
     public String getTime(){
-        return dbTokenTableRowModel.getGeneratedon().toString();
+
+        Format formatter = new SimpleDateFormat("hh:mm a");
+        String time = formatter.format(dbTokenTableRowModel.getGeneratedon());
+        return time;
+
     }
 
 
