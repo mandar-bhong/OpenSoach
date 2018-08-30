@@ -1,0 +1,13 @@
+
+1)create folder with the new app name e.g abc
+2)svn export folder hkt, do nor check any option while export into new folder 'abc'
+
+3)Open =>angular.json
+4)copy section hkt and hkt-e2e and paste 
+5)rename the word 'hkt', with the new app name 'abc'
+
+6) Open =>package.json
+7) add "start:abc", "build:abc", "dev:abc", "buildlocal:abc". change port number and text hkt
+
+8) Open environment files
+9) change prodcode and appbaseurl(not for prod)
