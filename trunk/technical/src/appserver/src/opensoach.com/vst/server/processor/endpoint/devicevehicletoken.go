@@ -445,6 +445,10 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		return
 	}
 
+	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		false, 0, nil)
+
 	packetVhlTokenClaimData := *devicePacket.Payload.(*lmodels.PacketVhlTokenClaimData)
 
 	dbTokenStateUpdateModel := hktmodels.DBTokenStateUpdateModel{}
@@ -463,25 +467,38 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("InstanceData", dbTokenStateUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating vhl token status.", dbErr)
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
+		packetProcessingResult.IsSuccess = true
+		return
 	}
-
-	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
-		devicePacket.Header.SeqID,
-		true, 0, nil)
-
-	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
-
-	packetProcessingResult.IsSuccess = true
 
 	dbErr, tokenData := dbaccess.EPGetTokenDataById(ctx.InstanceDBConn, packetVhlTokenClaimData.TokenId)
 
 	if dbErr != nil {
 		logger.Context().WithField("Token", ctx.Token).
 			WithField("Token Id.", packetVhlTokenClaimData.TokenId).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting vhl token data.", dbErr)
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
+		packetProcessingResult.IsSuccess = true
 		return
 	}
 
 	tokendata := *tokenData
+
+	dbEPSPVhlTokenDataModel := hktmodels.DBEPSPVhlTokenDataModel{}
+	dbEPSPVhlTokenDataModel.TokenId = tokendata[0].TokenId
+	dbEPSPVhlTokenDataModel.Token = tokendata[0].Token
+	dbEPSPVhlTokenDataModel.VhlId = tokendata[0].VhlId
+	dbEPSPVhlTokenDataModel.VehicleNo = tokendata[0].VehicleNo
+	dbEPSPVhlTokenDataModel.State = tokendata[0].State
+	dbEPSPVhlTokenDataModel.GeneratedOn = tokendata[0].GeneratedOn
+
+	commandAck = lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		true, 0, dbEPSPVhlTokenDataModel)
+
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
+
+	packetProcessingResult.IsSuccess = true
 
 	//send notification to all devices
 	//get online devices
@@ -525,7 +542,9 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		dbDeviceVhlTokenModel.VehicleNo = tokendata[0].VehicleNo
 		dbDeviceVhlTokenModel.State = tokendata[0].State
 		dbDeviceVhlTokenModel.GeneratedOn = tokendata[0].GeneratedOn
-		DBDeviceVhlTokenModelList = append(DBDeviceVhlTokenModelList, dbDeviceVhlTokenModel)
+		if ctx.TokenInfo.DevID != dbDeviceVhlTokenModel.DeviceId {
+			DBDeviceVhlTokenModelList = append(DBDeviceVhlTokenModelList, dbDeviceVhlTokenModel)
+		}
 	}
 
 	epTaskSendPacketDataList := []pcmodels.EPTaskSendPacketDataModel{}
