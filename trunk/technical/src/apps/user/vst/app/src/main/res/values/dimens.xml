@@ -21,4 +21,6 @@
     <dimen name="chart_cellview_height">60dp</dimen>
     <dimen name="chart_cellview_width">100dp</dimen>
 
+    <dimen name="card_header_font_size">17sp</dimen>
+
 </resources>
