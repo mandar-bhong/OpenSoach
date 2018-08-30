@@ -2,7 +2,6 @@
   <div class="col">
     <mat-card>
       <div class="mobile-sort">
-        <h4>Sort</h4>
         <table class="example-full-width" cellspacing="0">
           <tr id="layout-set">
             <td>
@@ -15,14 +14,14 @@
               </mat-form-field>
             </td>
             <td>
-              <div (click)="sortDirectionAsc()"> Ascending
-                <i class="fa fa-long-arrow-up"></i>
-              </div>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionAsc()">
+                <mat-icon aria-hidden="true" matTooltip="Ascending">arrow_upward</mat-icon>
+              </button>
             </td>
             <td>
-              <div (click)="sortDirectionDesc()"> Descending
-                <i class="fa fa-long-arrow-down"></i>
-              </div>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionDesc()">
+                <mat-icon aria-hidden="true" matTooltip="Descending">arrow_downward</mat-icon>
+              </button>
             </td>
           </tr>
         </table>
@@ -84,7 +83,7 @@
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
               <span class="mat-cell-responsive-label">Details</span>
               <button mat-icon-button (click)="viewDetails(row.usrid)">
-                <mat-icon color='primary'  aria-hidden="true" matTooltip="Edit Details">remove_red_eye</mat-icon>
+                <mat-icon color='primary' aria-hidden="true" matTooltip="Edit Details">remove_red_eye</mat-icon>
               </button>
             </mat-cell>
           </ng-container>
