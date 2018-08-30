@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <RelativeLayout
+        <RelativeLayout
         android:id="@+id/headerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,58 +44,167 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_below="@id/headerView">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
-                <TextView
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Vehicle Number"/>
+                    card_view:cardUseCompatPadding="true"
+                    card_view:cardElevation="1dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:contentPadding="10dp"
+                    android:visibility="@{VM.isGenerateTokenVisible == true ? View.VISIBLE : View.GONE}">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:hint="MH"
-                        android:text="@={VM.vehicleNo1}"/>
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="-"/>
+                        android:orientation="vertical">
 
-                    <EditText
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:hint="12"
-                        android:text="@={VM.vehicleNo2}" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Vehicle Number"/>
 
-                    <TextView
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:hint="MH"
+                                android:text="@={VM.vehicleNo1}"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="-"/>
+
+                            <EditText
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:hint="12"
+                                android:text="@={VM.vehicleNo2}" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="-"/>
+                            <EditText
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:hint="1111"
+                                android:text="@={VM.vehicleNo3}"/>
+
+                        </LinearLayout>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Generate"
+                            android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardUseCompatPadding="true"
+                    card_view:cardElevation="1dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:contentPadding="10dp"
+                    android:visibility="@{VM.isGenerateTokenVisible == false ? View.VISIBLE : View.GONE}">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="-"/>
-                    <EditText
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:hint="1111"
-                        android:text="@={VM.vehicleNo3}"/>
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Vehicle Number"/>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Generate"
-                    android:onClick="@{(view) -> ClickHandler.onClick(view)}"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Vehicle No"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{VM.vehicleNumber}"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Token"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{VM.getGeneratedToken}"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Time"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{VM.getGeneratedOn}"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{(view)-> ClickHandler.onTokenCreateCompleted(view,VM)}"
+                                android:text="Done"/>
+
+                            <!--<Button-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:onClick="@{(view)-> ClickHandler.onShowCreateToken(view,VM)}"-->
+                                <!--android:text="Create New"/>-->
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
+
+
+
+
+
 
         </RelativeLayout>
 

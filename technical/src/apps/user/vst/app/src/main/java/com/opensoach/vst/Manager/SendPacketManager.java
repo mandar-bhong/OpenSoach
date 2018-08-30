@@ -31,7 +31,9 @@ import com.opensoach.vst.PacketGenerator.ComplaintDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.DeviceSyncCompletedDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.FeedbackDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TaskDataPacketGenerator;
+import com.opensoach.vst.PacketGenerator.TokenGenerateDataPacketGenerator;
 import com.opensoach.vst.Utility.AppLogger;
+import com.opensoach.vst.ViewModels.CreateTokenViewModel;
 
 /**
  * Created by samir.s.bukkawar on 3/25/2017.
@@ -99,6 +101,10 @@ public class SendPacketManager {
                         case BATTERY_LEVEL:
                             BatteryLevelGenerator batteryLevelGenerator = new BatteryLevelGenerator();
                             request = batteryLevelGenerator.GenerateRequest(0, (PacketBatteryLevelModel) data);
+                            break;
+                        case CREATE_TOKEN:
+                            TokenGenerateDataPacketGenerator tokenGenerator =new TokenGenerateDataPacketGenerator();
+                            request =  tokenGenerator.GenerateRequest(0, (CreateTokenViewModel) data);
                             break;
                     }
 

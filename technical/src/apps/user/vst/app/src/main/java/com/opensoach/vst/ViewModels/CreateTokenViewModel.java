@@ -2,16 +2,38 @@ package com.opensoach.vst.ViewModels;
 
 import android.databinding.Bindable;
 
+import com.opensoach.vst.BR;
+import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
+
 public class CreateTokenViewModel extends BaseViewModel  {
 
-    public String vehicleNuber;
+
     public String vehicleNo1;
     public String vehicleNo2;
     public String vehicleNo3;
+    public boolean generateTokenVisible;
+
+    public DBTokenTableRowModel dbTokenTableRowModel;
 
 
-    public String getVehicleNuber() {
-        return vehicleNuber;
+    public CreateTokenViewModel(){
+        generateTokenVisible = true;
+    }
+
+
+    public DBTokenTableRowModel getDbTokenTableRowModel() {
+        return dbTokenTableRowModel;
+    }
+
+    public void setDbTokenTableRowModel(DBTokenTableRowModel dbTokenTableRowModel) {
+        this.dbTokenTableRowModel = dbTokenTableRowModel;
+        notifyPropertyChanged(BR.generatedOn);
+        notifyPropertyChanged(BR.generatedToken);
+    }
+
+    public String getVehicleNumber() {
+
+        return  vehicleNo1 +"-"+ vehicleNo2+"-"+ vehicleNo3;
     }
 
     public String getVehicleNo1() {
@@ -38,5 +60,35 @@ public class CreateTokenViewModel extends BaseViewModel  {
 
     public void setVehicleNo3(String vehicleNo3) {
         this.vehicleNo3 = vehicleNo3;
+    }
+
+
+    @Bindable
+    public boolean isGenerateTokenVisible() {
+        return generateTokenVisible;
+    }
+
+    @Bindable
+    public void setGenerateTokenVisible(boolean generateTokenVisibility) {
+        this.generateTokenVisible = generateTokenVisibility;
+        notifyPropertyChanged(BR.generateTokenVisible);
+    }
+
+    @Bindable
+    public String getGeneratedToken(){
+
+        if (dbTokenTableRowModel == null){
+            return "";
+        }
+        return Integer.toString( dbTokenTableRowModel.getTokenno());
+    }
+
+    @Bindable
+    public String getGeneratedOn(){
+
+        if (dbTokenTableRowModel == null){
+            return "";
+        }
+        return dbTokenTableRowModel.getGeneratedon().toString();
     }
 }
