@@ -14,6 +14,7 @@ import com.opensoach.vst.DAL.IDBRowMapper;
 public class DBTokenTableQueryModel implements IDBRowMapper<DBTokenTableRowModel> {
 
     public static final String SELECT_ID_FILTER = "SELECT_ID_FILTER";
+    public static final String SELECT_TOKEN_NO_FILTER = "SELECT_TOKEN_NO_FILTER";
 
     @Override
     public DBTokenTableRowModel Clone() {
@@ -48,6 +49,8 @@ public class DBTokenTableQueryModel implements IDBRowMapper<DBTokenTableRowModel
         switch (filterName) {
             case SELECT_ID_FILTER:
                 return DBTableConstants.TABLE_TOKEN_ID + "=?";
+            case SELECT_TOKEN_NO_FILTER:
+                return DBTableConstants.TABLE_TOKEN_NO+ "=?";
         }
         return "";
     }
@@ -57,6 +60,8 @@ public class DBTokenTableQueryModel implements IDBRowMapper<DBTokenTableRowModel
         switch (filterName) {
             case SELECT_ID_FILTER:
                 return new String[]{String.valueOf(dataModel.getId())};
+            case SELECT_TOKEN_NO_FILTER:
+                return new String[]{String.valueOf(dataModel.getTokenno())};
         }
 
         return new String[]{};
@@ -69,6 +74,9 @@ public class DBTokenTableQueryModel implements IDBRowMapper<DBTokenTableRowModel
         switch (filterName) {
             case SELECT_ID_FILTER:
                 values.put(DBTableConstants.TABLE_TOKEN_ID, dataModel.getId());
+                return values;
+            case SELECT_TOKEN_NO_FILTER:
+                values.put(DBTableConstants.TABLE_TOKEN_NO, dataModel.getTokenno());
                 return values;
         }
 
