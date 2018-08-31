@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ComplaintSummaryModel, DeviceSummaryModel, ServicePointSummaryModel } from '../../../models/ui/dashboard-models';
+import { ComplaintSummaryModel, DeviceSummaryModel, ServicePointSummaryModel, SnapshotModel } from '../../../models/ui/dashboard-models';
 import { DashboardService } from '../../../services/dashboard.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class DefaultDashboardComponent implements OnInit {
   devicesummary = new DeviceSummaryModel();
   spsummary = new ServicePointSummaryModel();
   complaintsummary = new ComplaintSummaryModel();
+  snapshot = new SnapshotModel();
   ngOnInit() {
     this.getDeviceSummary();
     this.getServicePointSummary();

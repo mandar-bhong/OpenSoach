@@ -208,3 +208,135 @@ h6 {
   {
       height: 273px;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* .card1 {
+    border-radius: 0.25rem;
+    -webkit-box-shadow: 0 2px 10px -1px rgba(69,90,100,0.3);
+    box-shadow: 0 2px 10px -1px rgba(69,90,100,0.3);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+} */
+.card1 .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,0.125) !important;
+    padding: 20px;
+    position: relative;
+}
+.card-header:first-child {
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0 !important;
+}
+
+
+.card1 .card-block {
+    padding: 1.25rem;
+}	
+.latest-update-card .card-block .latest-update-box {
+    position: relative;
+}
+.p-b-30 {
+    padding-bottom: 30px;
+}
+.p-t-20 {
+    padding-top: 20px;
+}
+.latest-update-card .card-block .latest-update-box .update-meta {
+    z-index: 2;
+    min-width: 160px;
+}
+.card1 .card-block p {
+    /* line-height: 1.4; */
+    margin-bottom: 10px;
+}
+
+
+
+.latest-update-card .card-block .latest-update-box .update-meta .update-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 10px 3px;
+    font-size: 16px;
+    color: #fff;
+    margin-left: 10px;
+}	
+.bg-c-yellow {
+    background: #FFBE00;
+}
+
+.latest-update-card .card-block .latest-update-box:after {
+    content: "";
+    position: absolute;
+    background: #d6d6d6;
+    height: 100%;
+    width: 1px;
+    top: 0;
+    left: 110px;
+    z-index: 1;
+}
+.latest-update-card .card-block {
+    padding-top: 0;
+}
+.snaptext{margin-top: 10px;}
+.snaptime{margin-bottom: 15px;}
+
+
+
+
+
+
+
+
+/* right side box css */
+
+.widget-visitor-card {
+    overflow: hidden;
+    padding: 10px 0;
+}
+.text-white {
+    color: #fff!important;
+}
+.card .card-block-small {
+    padding: 0.9375rem;
+}
+.widget-visitor-card i{
+    color: #fff;
+    font-size: 80px;
+    /* width: 40px;
+    height: 40px; */
+    position: absolute;
+    bottom: -14px;
+    opacity: 0.4;
+    left: -10px;
+    -webkit-transform: rotate(15deg);
+    transform: rotate(15deg);
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.card .card-block-small {
+    padding: 0.9375rem;
+}
+.widget-visitor-card:hover i{
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
