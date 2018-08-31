@@ -1,0 +1,14 @@
+<div class="card app-design chart-card">
+  <div class="card-block">
+    <div class="row">
+      <div class="col-10">
+        <h6 class="f-w-400 text-muted">Vehicle service trend (12 months)</h6>
+      </div>
+    </div>
+    <div class="row" *ngIf="data.length>0">
+      <ngx-charts-bar-vertical style="height:200px;" class="chart-container" [xAxis]=true [yAxis]=true [xAxisLabel]="xAxisLabel"
+        [showXAxisLabel]=true [showYAxisLabel]=true [results]="data" [xAxisTickFormatting]="formatXAxis" [showGridLines]=false>
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+</div>
