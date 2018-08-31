@@ -1,6 +1,7 @@
 package com.opensoach.vst.Views.Adapter;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,16 +13,21 @@ import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.TaskTimeItemViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.ClickHandler.TaskTimeClickHandler;
+import com.opensoach.vst.Views.ClickHandler.TokenItemClickHandler;
 import com.opensoach.vst.databinding.FragmentTaskTimeItemBinding;
 import com.opensoach.vst.databinding.FragmentTokenItemBinding;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.DataViewHolder>  {
 
     private static final String TAG = "DataAdapter";
     private List<TokenItemViewModel> data;
+    static int selectedPosition=-1;
+
 
     public TokensDataAdapter() {
         this.data = new ArrayList<>();
@@ -38,7 +44,21 @@ public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.Da
     public void onBindViewHolder(TokensDataAdapter.DataViewHolder holder, int position) {
         TokenItemViewModel dataModel = data.get(position);
         holder.setViewModel(dataModel);
+
+        dataModel.setPosition(position);
+
+        if (selectedPosition == position){
+            dataModel.setItemSelected(true);
+        }else{
+            dataModel.setItemSelected(false);
+        }
     }
+
+    public void SelectedIndexChange(int position){
+        selectedPosition = position;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {
@@ -60,7 +80,16 @@ public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.Da
 
     public void addItem(@Nullable TokenItemViewModel item) {
         if (this.data != null){
+
             this.data.add(item);
+
+            Collections.sort(this.data, new Comparator<TokenItemViewModel>() {
+                public int compare(TokenItemViewModel o1, TokenItemViewModel o2) {
+                    return o2.getDbTokenTableRowModel().getGeneratedon().compareTo(o1.getDbTokenTableRowModel().getGeneratedon());
+                }
+            });
+
+
             notifyDataSetChanged();
         }
     }
@@ -75,6 +104,12 @@ public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.Da
 
         this.data = data;
 
+        Collections.sort(this.data, new Comparator<TokenItemViewModel>() {
+            public int compare(TokenItemViewModel o1, TokenItemViewModel o2) {
+                return o2.getDbTokenTableRowModel().getGeneratedon().compareTo(o1.getDbTokenTableRowModel().getGeneratedon());
+            }
+        });
+
         notifyDataSetChanged();
     }
 
@@ -85,6 +120,8 @@ public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.Da
             super(itemView);
             bind();
         }
+
+
 
         /* package */ void bind() {
             if (binding == null) {
@@ -101,8 +138,10 @@ public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.Da
         /* package */ void setViewModel(TokenItemViewModel viewModel) {
             if (binding != null) {
                 binding.setVM(viewModel);
-                //binding.setClickHandler(new TaskTimeClickHandler());
+                binding.setClickHandler(new TokenItemClickHandler());
             }
         }
+
+
     }
 }

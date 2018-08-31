@@ -7,6 +7,11 @@
         <variable
             name="VM"
             type="com.opensoach.vst.ViewModels.TokenItemViewModel"/>
+
+        <variable
+            name="ClickHandler"
+            type="com.opensoach.vst.Views.ClickHandler.TokenItemClickHandler" />
+
     </data>
 
 
@@ -19,7 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="3dp"
-            card_view:contentPadding="10dp">
+            card_view:contentPadding="10dp"
+            android:background="@{VM.isItemSelected ? @color/colorAccent : @color/colorWhite}"
+            android:onClick="@{(view)->ClickHandler.onClick(view,VM)}">
 
         <LinearLayout
             android:layout_width="match_parent"
