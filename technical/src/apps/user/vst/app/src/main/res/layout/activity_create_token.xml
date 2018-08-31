@@ -99,40 +99,56 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Vehicle Number"/>
+
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="Vehicle Number "/>
 
                             <EditText
-                                android:layout_width="40dp"
+                                android:id="@+id/vehicalNo1"
+                                android:layout_width="50dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="80dp"
                                 android:hint="MH"
+                                android:textAlignment="center"
+                                android:maxLength="2"
                                 android:text="@={VM.vehicleNo1}"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
                                 android:text="-"/>
 
                             <EditText
-                                android:layout_width="40dp"
+                                android:id="@+id/vehicleNo2"
+                                android:layout_width="50dp"
+                                android:layout_marginLeft="5dp"
                                 android:layout_height="wrap_content"
                                 android:hint="12"
+                                android:textAlignment="center"
+                                android:maxLength="2"
                                 android:text="@={VM.vehicleNo2}" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
                                 android:text="-"/>
                             <EditText
-                                android:layout_width="80dp"
+                                android:id="@+id/vehicalNo3"
+                                android:layout_width="85dp"
+                                android:layout_marginLeft="5dp"
                                 android:layout_height="wrap_content"
-                                android:hint="1111"
+                                android:hint="AB1111"
+                                android:textAlignment="center"
+                                android:maxLength="6"
                                 android:text="@={VM.vehicleNo3}"/>
 
                         </LinearLayout>
