@@ -13,6 +13,8 @@ import { FeedbackTrendComponent } from './feedback-trend/feedback-trend.componen
 import { TaskSummaryComponent } from './task-summary/task-summary.component';
 import { TaskTrendComponent } from './task-trend/task-trend.component';
 import { ComplaintSummaryComponent } from './complaint-summary/complaint-summary.component';
+import { VehicleWeeklyTrendComponent } from './vehicle-weekly-trend/vehicle-weekly-trend.component';
+import { VehicleMonthlyTrendComponent } from './vehicle-monthly-trend/vehicle-monthly-trend.component';
 
 @NgModule({
   imports: [
@@ -30,7 +32,9 @@ import { ComplaintSummaryComponent } from './complaint-summary/complaint-summary
     TaskTrendComponent,
     FeedbackTrendComponent,
     ComplaintTrendComponent,
-    ComplaintSummaryComponent
+    ComplaintSummaryComponent,
+    VehicleWeeklyTrendComponent,
+    VehicleMonthlyTrendComponent
   ]
 })
 export class DashboardModule { }
