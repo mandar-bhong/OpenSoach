@@ -200,3 +200,16 @@ export class ComplaintTrendModel {
         this.year = response.year;
     }
 }
+
+export class SnapshotModel {
+    tokantime = 4;
+    tokancount = 3;
+    createdtime = 1;
+    createdcount = 4;
+    inprogtime = 2;
+    inprogconut = 5;
+    compltime = 7;
+    complcount = 8;
+    vehicletime = 4;
+    vehiclecount = 6;
+}
