@@ -277,6 +277,7 @@ h6 {
     font-size: 16px;
     color: #fff;
     margin-left: 10px;
+    transition: 0.3s ease;
 }	
 .bg-c-yellow {
     background: #FFBE00;
@@ -298,7 +299,10 @@ h6 {
 .snaptext{margin-top: 10px;}
 .snaptime{margin-bottom: 15px;}
 
-
+.update-icon:hover {
+    transform: scale(1.2, 1.2); /** default is 1, scale it to 1.5 */
+    /* opacity: 1; */
+}
 
 
 
