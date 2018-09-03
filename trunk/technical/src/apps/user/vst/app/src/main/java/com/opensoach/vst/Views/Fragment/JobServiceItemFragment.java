@@ -1,14 +1,20 @@
 package com.opensoach.vst.Views.Fragment;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.opensoach.vst.R;
+import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
+import com.opensoach.vst.ViewModels.MedicalDetailsViewModel;
+import com.opensoach.vst.databinding.FragmentJobServiceItemBinding;
+import com.opensoach.vst.databinding.FragmentMedicalDetailsBinding;
 
 
 /**
@@ -30,6 +36,7 @@ public class JobServiceItemFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    public JobServiceItemViewModel DataContext;
 
     public JobServiceItemFragment() {
         // Required empty public constructor
@@ -66,7 +73,16 @@ public class JobServiceItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_job_service_item, container, false);
+
+        LinearLayout ll = new LinearLayout(DataContext.ContextActivity);
+        FragmentJobServiceItemBinding jobServiceItemBinding = DataBindingUtil.inflate(DataContext.ContextActivity.getLayoutInflater(),
+                R.layout.fragment_job_service_item,ll,true);
+
+        jobServiceItemBinding.setVM(DataContext);
+
+        View view = jobServiceItemBinding.getRoot();
+        return view;
+//        return inflater.inflate(R.layout.fragment_job_service_item, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
