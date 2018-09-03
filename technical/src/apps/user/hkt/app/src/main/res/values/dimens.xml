@@ -15,4 +15,9 @@
 
     <dimen name="chart_cell_font_size">12sp</dimen>
 
+    <dimen name="chart_cell_checked_hz_margin">30dp</dimen>
+    <dimen name="chart_cell_checked_vr_margin">6dp</dimen>
+    <dimen name="chart_cell_task_height">48dp</dimen>
+    <dimen name="chart_cell_task_width">120dp</dimen>
+
 </resources>
