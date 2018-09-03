@@ -47,7 +47,7 @@ public class JobServiceListActivity extends AppCompatActivity
     void setBinding(){
         ActivityJobServiceListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_list);
         binding.setVM(GenerateData());
-        //binding.setClickHandler(new GenerateTokenClickHandler());
+        binding.setClickHandler(new GenerateTokenClickHandler());
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
