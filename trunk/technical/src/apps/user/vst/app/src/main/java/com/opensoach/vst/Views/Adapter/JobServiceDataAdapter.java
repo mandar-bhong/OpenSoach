@@ -93,7 +93,7 @@ public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAd
 
         /* package */ void setViewModel(JobServiceItemViewModel viewModel) {
             if (binding != null) {
-//                binding.setVM(viewModel);
+                binding.setVM(viewModel);
 //                binding.setClickHandler(new TokenItemClickHandler());
             }
         }
