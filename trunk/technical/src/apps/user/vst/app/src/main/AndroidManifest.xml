@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Views.Activity.TokenListActivity"
+            android:name=".Views.Activity.JobServiceCreationActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,7 +50,10 @@
         <activity android:name=".Views.Activity.TaskDetailsActivity" />
         <activity android:name=".Views.Activity.CardListActivity" />
         <activity android:name=".Views.Activity.CreateTokenActivity" />
-        <activity android:name=".Views.Activity.TokenSelectionActivity"></activity>
+        <activity android:name=".Views.Activity.TokenListActivity" />
+        <activity android:name=".Views.Activity.TokenSelectionActivity" />
+        <activity android:name=".Views.Activity.JobCreationActivity" />
+        <activity android:name=".Views.Activity.LandingPageActivity" />
     </application>
 
 </manifest>

@@ -12,9 +12,18 @@
             <import type="java.lang.Integer" />
         </data>
 
+        <!--<variable-->
+            <!--name="VM"-->
+            <!--type="com.opensoach.vst.ViewModels.TokenListViewModel" />-->
+
+
         <variable
             name="VM"
-            type="com.opensoach.vst.ViewModels.TokenListViewModel" />
+            type="com.opensoach.vst.ViewModels.TokenSelectionViewModel" />
+
+        <variable
+            name="ClickHandler"
+            type="com.opensoach.vst.Views.ClickHandler.CreateJobCardClickHandler" />
 
     </data>
 
@@ -77,7 +86,8 @@
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:background="@{VM.tokenSelected ? @color/colorAccent : @android:color/darker_gray}">
+                    android:background="@{VM.tokenListViewModel.tokenSelected ? @color/colorAccent : @android:color/darker_gray}"
+                    android:onClick="@{(view)-> ClickHandler.onClick(view,VM)}">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -122,8 +132,8 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:adapter="@{VM.tokensDataAdapter}"
-                app:data="@{VM.data}"
+                app:adapter="@{VM.tokenListViewModel.tokensDataAdapter}"
+                app:data="@{VM.tokenListViewModel.data}"
                 android:background="@color/colorPrimary"
                 android:padding="10sp"
                 tools:context="com.opensoach.vst.Views.Activity.TokenListActivity"/>
