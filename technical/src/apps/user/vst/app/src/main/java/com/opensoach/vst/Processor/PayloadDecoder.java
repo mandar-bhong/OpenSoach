@@ -61,6 +61,7 @@ public class PayloadDecoder {
                             break;
                         }
 
+
 //                        case CommandConstants.CMD_CONFIG_CHART_CONFIG: {
 //
 //                            TypeToken<PacketModel<ArrayList<PacketChartConfigurationModel>>> typeToken = new TypeToken<PacketModel<ArrayList<PacketChartConfigurationModel>>>() {

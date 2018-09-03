@@ -39,4 +39,9 @@ public class AppDataBindingComponent implements android.databinding.DataBindingC
     public TokensRecycleViewDataBinding getTokensRecycleViewDataBinding() {
         return new TokensRecycleViewDataBinding();
     }
+
+    @Override
+    public JobServiceRecycleViewDataBinding getJobServiceRecycleViewDataBinding() {
+        return new JobServiceRecycleViewDataBinding();
+    }
 }

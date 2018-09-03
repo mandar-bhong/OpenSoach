@@ -13,6 +13,8 @@ import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.ViewModels.TokenListViewModel;
+import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
+import com.opensoach.vst.Views.ClickHandler.CreateJobCardClickHandler;
 import com.opensoach.vst.Views.ClickHandler.GenerateTokenClickHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
@@ -46,6 +48,7 @@ public class TokenSelectionActivity extends AppCompatActivity
     void setBinding(){
         ActivityTokenSelectionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_token_selection);
         binding.setVM(GenerateData());
+        binding.setClickHandler(new CreateJobCardClickHandler());
 
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -60,7 +63,8 @@ public class TokenSelectionActivity extends AppCompatActivity
     }
 
 
-    TokenListViewModel GenerateData() {
+    TokenSelectionViewModel GenerateData() {
+        TokenSelectionViewModel tokenSelectionViewModel = new TokenSelectionViewModel();
         TokenListViewModel tokenListViewModel = MainViewModel.getInstance().getTokenListViewModel();
         tokenListViewModel.ContextActivity = this;
 
@@ -100,8 +104,9 @@ public class TokenSelectionActivity extends AppCompatActivity
 
 
         tokenListViewModel.setData(list);
+        tokenSelectionViewModel.setTokenListViewModel(tokenListViewModel);
 
-        return tokenListViewModel;
+        return tokenSelectionViewModel;
 
     }
 }

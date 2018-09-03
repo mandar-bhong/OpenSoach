@@ -3,6 +3,7 @@ package com.opensoach.vst;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ import com.opensoach.vst.Scheduler.ScheduleManager;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
+import com.opensoach.vst.Views.Activity.TaskDetailsActivity;
+import com.opensoach.vst.Views.Activity.TokenListActivity;
+import com.opensoach.vst.Views.Activity.TokenSelectionActivity;
 import com.opensoach.vst.Views.ChartActivity;
 import com.opensoach.vst.Views.TimeChangeListner;
 import com.opensoach.vst.Views.UpdateChartListner;
@@ -51,6 +55,7 @@ public class SPLApplication extends Application {
         // initWSConnection();
 
         AppHelper.Init(mContext);
+
         AppHelper.ExecuteStartUpProcess();
         (new ScheduleManager()).startScheduler(this, 1, 30, 1);
 
@@ -144,6 +149,28 @@ public class SPLApplication extends Application {
                 }else{
                     AppRepo.getInstance().setAuthCodeList(packetAuthCodeDataModel);
                 }
+            }
+
+            case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA:{
+
+                String configType = "CreateJob";
+                Intent i = null;
+
+                switch (configType){
+                    case "CreateToken":
+                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenListActivity.class);
+                        break;
+                    case "CreateJob":
+                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
+                        break;
+                    case "ServiceJob":
+                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
+                        break;
+                }
+
+                MainViewModel.getInstance().ContextActivity.finish();
+                MainViewModel.getInstance().ContextActivity.startActivity(i);
+
             }
             break;
         }
