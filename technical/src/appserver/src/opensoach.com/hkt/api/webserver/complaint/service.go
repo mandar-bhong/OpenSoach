@@ -3,9 +3,11 @@ package complaint
 import (
 	"time"
 
+	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hkt/api/models"
 	"opensoach.com/hkt/api/webserver/complaint/dbaccess"
+	"opensoach.com/hkt/constants"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
 )
@@ -49,6 +51,11 @@ func (service ComplaintService) Add(req lmodels.APIComplaintAddRequest) (isSucce
 }
 
 func (service ComplaintService) Update(reqData *hktmodels.DBComplaintUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	if reqData.ComplaintState == constants.COMPLAINT_STATE_CLOSED {
+		currentTime := ghelper.GetCurrentTime()
+		reqData.ClosedOn = &currentTime
+	}
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
