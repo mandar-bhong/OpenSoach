@@ -8,7 +8,7 @@
     <div class="row" *ngIf="data.length>0">
       <ngx-charts-bar-horizontal style="height:200px;" class="chart-container" [xAxis]=true 
         [yAxis]=true [xAxisLabel]="xAxisLabel"[showXAxisLabel]=true [showYAxisLabel]=true [results]="data"
-        [xAxisTickFormatting]="formatXAxis" [showGridLines]=false>
+        [xAxisTickFormatting]="formatXAxis" [showGridLines]=false [customColors]="customColors">
       </ngx-charts-bar-horizontal>
     </div>
   </div>

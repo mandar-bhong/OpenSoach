@@ -26,17 +26,53 @@ export class VehicleMonthlyTrendComponent implements OnInit {
   // legendTitle = 'Task Status';
   customColors = [
     {
-      name: this.ontimeLabel,
+      name: 'Jan',
+      value: '#245AAE'
+    },
+    {
+      name: 'Feb',
+      value: '#E466C9'
+    },
+    {
+      name: 'Mar',
+      value: '#956EE8'
+    },
+    {
+      name: 'Apr',
+      value: '#00B1EA'
+    },
+    {
+      name: 'May',
+      value: '#00DDC6'
+    },
+    {
+      name: 'Jun',
+      value: '#FFB467'
+    },
+    {
+      name: 'Jul',
+      value: '#FF6859'
+    },
+    {
+      name: 'Aug',
+      value: '#94E5F7'
+    },
+    {
+      name: 'Sep',
+      value: '#ffc107'
+    },
+    {
+      name: 'Oct',
       value: '#28a745'
     },
-    // {
-    //   name: this.delayedLabel,
-    //   value: '#ffc107'
-    // },
-    // {
-    //   name: this.missedLabel,
-    //   value: '#ff5252'
-    // },
+    {
+      name: 'Nov',
+      value: '#ffc107'
+    },
+    {
+      name: 'Dec',
+      value: '#ffc107'
+    },
   ];
   data = [];
   constructor(private dashboardService: DashboardService) { }
