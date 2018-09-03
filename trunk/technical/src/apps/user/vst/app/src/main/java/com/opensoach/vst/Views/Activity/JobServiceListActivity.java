@@ -69,21 +69,17 @@ public class JobServiceListActivity extends AppCompatActivity
         DBTokenTableRowModel dbTokenTableRowModel = new DBTokenTableRowModel();
 
 
+        for (int i = 0; i<20;i++) {
+            JobServiceItemViewModel jobServiceItemViewModel = new JobServiceItemViewModel();
+            jobServiceItemViewModel.ContextActivity = this;
+            jobServiceItemViewModel.Parent = jobServiceListViewModel;
+            jobServiceItemViewModel.setFname("This is test");
 
-        JobServiceItemViewModel jobServiceItemViewModel = new JobServiceItemViewModel();
-        jobServiceItemViewModel.ContextActivity = this;
-        jobServiceItemViewModel.Parent = jobServiceListViewModel;
+
+            list.add(jobServiceItemViewModel);
 
 
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
-        list.add(jobServiceItemViewModel);
+        }
 
         jobServiceListViewModel.setData(list);
 
