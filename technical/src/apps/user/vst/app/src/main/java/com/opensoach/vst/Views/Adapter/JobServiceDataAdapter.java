@@ -12,6 +12,7 @@ import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.ClickHandler.TokenItemClickHandler;
+import com.opensoach.vst.databinding.FragmentJobServiceItemBinding;
 import com.opensoach.vst.databinding.FragmentTokenItemBinding;
 
 import java.util.ArrayList;
@@ -60,13 +61,8 @@ public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAd
 
     public void updateData(@Nullable List<JobServiceItemViewModel> data) {
 
-//        this.data = data;
-//
-//        Collections.sort(this.data, new Comparator<TokenItemViewModel>() {
-//            public int compare(TokenItemViewModel o1, TokenItemViewModel o2) {
-//                return o2.getDbTokenTableRowModel().getGeneratedon().compareTo(o1.getDbTokenTableRowModel().getGeneratedon());
-//            }
-//        });
+        this.data = data;
+
 
         notifyDataSetChanged();
     }
@@ -74,7 +70,7 @@ public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAd
 
 
     static class DataViewHolder extends RecyclerView.ViewHolder {
-        /* package */ FragmentTokenItemBinding binding;
+        /* package */ FragmentJobServiceItemBinding binding;
 
         /* package */ DataViewHolder(View itemView) {
             super(itemView);
