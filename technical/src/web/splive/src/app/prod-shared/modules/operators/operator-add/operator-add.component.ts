@@ -56,7 +56,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
       fopnameControl: new FormControl('', [Validators.required]),
       emailidControl: new FormControl('', [Validators.email]),
       mobilenoControl: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
-      fopcodeControl: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
+      fopcodeControl: new FormControl('', [ Validators.pattern(/^\d+$/)]),
       shortdescControl: new FormControl(''),
       fopstateControl: new FormControl('', [Validators.required]),
       fopareaControl: new FormControl('', [Validators.required]),
