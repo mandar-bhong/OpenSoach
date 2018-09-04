@@ -257,4 +257,5 @@ h4 {
 .b-block {
     display: block !important;
     min-height: 28px;
+    color: #448aff;
 }
