@@ -16,6 +16,7 @@ import com.opensoach.vst.ViewModels.TokenListViewModel;
 import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
 import com.opensoach.vst.Views.ClickHandler.CreateJobCardClickHandler;
 import com.opensoach.vst.Views.ClickHandler.GenerateTokenClickHandler;
+import com.opensoach.vst.Views.ClickHandler.TokenSelectionHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
 import com.opensoach.vst.databinding.ActivityTokenListBinding;
@@ -48,7 +49,7 @@ public class TokenSelectionActivity extends AppCompatActivity
     void setBinding(){
         ActivityTokenSelectionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_token_selection);
         binding.setVM(GenerateData());
-        binding.setClickHandler(new CreateJobCardClickHandler());
+        binding.setClickHandler(new TokenSelectionHandler());
 
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);

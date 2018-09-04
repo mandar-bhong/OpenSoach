@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
@@ -42,7 +43,7 @@ public class JobServiceListActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityJobServiceListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_list);
-        binding.setVM(GenerateData());
+        binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel());
         binding.setClickHandler(new JobServiceTaskListCreateHandler());
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);

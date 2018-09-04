@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context="com.opensoach.vst.Views.Activity.JobServiceCreationActivity">
+
+    <data>
+        <variable
+            name="VM"
+            type="com.opensoach.vst.ViewModels.JobServiceItemViewModel"/>
+
+        <variable
+            name="ClickHandler"
+            type="com.opensoach.vst.Views.ClickHandler.TaskCreateCompleteClickHandler" />
+    </data>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -100,4 +109,4 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+</layout>
