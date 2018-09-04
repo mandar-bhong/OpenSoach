@@ -7,11 +7,11 @@
     <data>
         <variable
            name="VM"
-           type="com.opensoach.vst.ViewModels.JobServiceCreationViewModel"/>
+           type="com.opensoach.vst.ViewModels.JobDetailsViewModel"/>
 
         <variable
             name="ClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.JobCreationClickHandler" />
+            type="com.opensoach.vst.Views.ClickHandler.JobDetailsCompleteClickHandler" />
     </data>
 
     <RelativeLayout

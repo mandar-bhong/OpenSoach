@@ -153,23 +153,23 @@ public class SPLApplication extends Application {
 
             case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA:{
 
-                String configType = "CreateJob";
-                Intent i = null;
-
-                switch (configType){
-                    case "CreateToken":
-                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenListActivity.class);
-                        break;
-                    case "CreateJob":
-                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
-                        break;
-                    case "ServiceJob":
-                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
-                        break;
-                }
-
-                MainViewModel.getInstance().ContextActivity.finish();
-                MainViewModel.getInstance().ContextActivity.startActivity(i);
+//                String configType = "CreateJob";
+//                Intent i = null;
+//
+//                switch (configType){
+//                    case "CreateToken":
+//                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenListActivity.class);
+//                        break;
+//                    case "CreateJob":
+//                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
+//                        break;
+//                    case "ServiceJob":
+//                        i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
+//                        break;
+//                }
+//
+//                MainViewModel.getInstance().ContextActivity.finish();
+//                MainViewModel.getInstance().ContextActivity.startActivity(i);
 
             }
             break;

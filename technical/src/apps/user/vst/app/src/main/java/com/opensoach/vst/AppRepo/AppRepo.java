@@ -8,7 +8,9 @@ import java.util.List;
 import com.opensoach.vst.BuildConfig;
 import com.opensoach.vst.Model.View.TaskItemDataModel;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
+import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.TaskItemViewModel;
+import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
 
 /**
  * Created by Mandar on 2/25/2017. This class will have all application level data
@@ -38,6 +40,8 @@ public final class AppRepo {
     private boolean isDeviceSyncInProgress;
     private CardBriefViewModel activeCard;
     private TaskItemViewModel activeTaskItem;
+    private TokenSelectionViewModel selectedToken;
+    private JobServiceViewModel jobServiceViewModel;
 
     private List<TaskItemDataModel> selectedTaskDataViewModels;
 
@@ -202,5 +206,23 @@ public final class AppRepo {
 
     public List<TaskItemDataModel> getSelectedTaskDataViewModels() {
         return selectedTaskDataViewModels;
+    }
+
+
+    public TokenSelectionViewModel getSelectedToken() {
+        return selectedToken;
+    }
+
+    public void setSelectedToken(TokenSelectionViewModel selectedToken) {
+        this.selectedToken = selectedToken;
+    }
+
+
+    public JobServiceViewModel getJobServiceViewModel() {
+        return jobServiceViewModel;
+    }
+
+    public void setJobServiceViewModel(JobServiceViewModel jobServiceViewModel) {
+        this.jobServiceViewModel = jobServiceViewModel;
     }
 }

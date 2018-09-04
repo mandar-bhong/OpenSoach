@@ -12,10 +12,6 @@
             <import type="java.lang.Integer" />
         </data>
 
-        <!--<variable-->
-            <!--name="VM"-->
-            <!--type="com.opensoach.vst.ViewModels.TokenListViewModel" />-->
-
 
         <variable
             name="VM"
@@ -23,7 +19,7 @@
 
         <variable
             name="ClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.CreateJobCardClickHandler" />
+            type="com.opensoach.vst.Views.ClickHandler.TokenSelectionHandler" />
 
     </data>
 
