@@ -13,7 +13,7 @@
 
         <variable
             name="ClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.CreateJobTaskClickHandler" />
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler" />
 
     </data>
 
