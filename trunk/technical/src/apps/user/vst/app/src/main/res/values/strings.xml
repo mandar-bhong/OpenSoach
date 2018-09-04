@@ -25,6 +25,7 @@
     <string name="dialog_complaint_field_description">Complaint Details</string>
     <string name="dialog_enter_observation_value">Observation</string>
     <string name="dialog_enter_comment">Comments</string>
+    <string name="dailog_task_name">Task Name</string>
 
 
     <string name="invalid_auth_code">Entered attendant code is invalid</string>
