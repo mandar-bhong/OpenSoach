@@ -13,16 +13,12 @@ import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
-import com.opensoach.vst.ViewModels.TokenItemViewModel;
-import com.opensoach.vst.ViewModels.TokenListViewModel;
-import com.opensoach.vst.Views.ClickHandler.GenerateTokenClickHandler;
+import com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
 import com.opensoach.vst.databinding.ActivityJobServiceListBinding;
-import com.opensoach.vst.databinding.ActivityTokenListBinding;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
@@ -47,7 +43,7 @@ public class JobServiceListActivity extends AppCompatActivity
     void setBinding(){
         ActivityJobServiceListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_list);
         binding.setVM(GenerateData());
-        binding.setClickHandler(new GenerateTokenClickHandler());
+        binding.setClickHandler(new JobServiceTaskListCreateHandler());
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
@@ -70,6 +66,7 @@ public class JobServiceListActivity extends AppCompatActivity
 
 
         for (int i = 0; i<20;i++) {
+
             JobServiceItemViewModel jobServiceItemViewModel = new JobServiceItemViewModel();
             jobServiceItemViewModel.ContextActivity = this;
             jobServiceItemViewModel.Parent = jobServiceListViewModel;
