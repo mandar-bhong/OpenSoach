@@ -5,6 +5,7 @@ import { CustomerInfo } from '../../../models/ui/customer-models';
 import { UserInfo } from '../../../models/ui/user-models';
 import { LoginHandlerService } from '../../../services/login-handler.service';
 import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
+import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 
 @Component({
   selector: 'app-top-header',
@@ -15,9 +16,11 @@ export class TopHeaderComponent implements OnInit {
   menuFull = true;
   username = 'User';
   customername: string;
+  logoprefix: string;
   constructor(private loginHandlerService: LoginHandlerService,
     private router: Router,
     private sidebarToggleService: SidebarToggleService) {
+      this.logoprefix = AppSpecificDataProvider.logoprefix;
     this.loginHandlerService.userInfoSubject.subscribe(userInfo => {
       this.setUserName(userInfo);
     });
