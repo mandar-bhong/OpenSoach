@@ -8,6 +8,7 @@ import com.opensoach.vst.Helper.AppAction;
 import com.opensoach.vst.Manager.SendPacketManager;
 import com.opensoach.vst.ViewModels.CreateTokenViewModel;
 import com.opensoach.vst.ViewModels.JobServiceListViewModel;
+import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.Views.Activity.JobCreationActivity;
 import com.opensoach.vst.Views.Activity.JobServiceCreationActivity;
@@ -18,12 +19,8 @@ public class JobServiceTaskListCreateHandler {
 
     public void onClick(View view, JobServiceListViewModel vm) {
 
-//        AppRepo.getInstance().setActiveCard(vm);
-
-        Intent i = new Intent(vm.ContextActivity.getBaseContext(), JobServiceCreationActivity.class);
-        vm.ContextActivity.startActivity(i);
-//
-
+        Intent i = new Intent(view.getContext(), JobServiceCreationActivity.class);
+        view.getContext().startActivity(i);
     }
 
 
