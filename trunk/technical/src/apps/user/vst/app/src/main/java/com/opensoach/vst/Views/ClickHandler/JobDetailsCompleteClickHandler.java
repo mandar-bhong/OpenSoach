@@ -17,13 +17,6 @@ public class JobDetailsCompleteClickHandler {
 
     public void onClick(View view, JobDetailsViewModel vm) {
 
-        AppRepo.getInstance().getJobServiceViewModel().setJobDetailsViewModel(vm);
-        AppRepo.getInstance().getJobServiceViewModel().setJobServiceListViewModel(new JobServiceListViewModel());
-        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().ContextActivity = vm.ContextActivity;
-        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().Parent = vm;
-        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().setData( new ArrayList<JobServiceItemViewModel>());
-
-
         Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceListActivity.class);
         MainViewModel.getInstance().ContextActivity.startActivity(i);
     }
