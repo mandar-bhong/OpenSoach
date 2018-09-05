@@ -9,7 +9,7 @@
             type="com.opensoach.vst.ViewModels.JobServiceItemViewModel" />
         <variable
             name="ClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.CreateJobTaskClickHandler"/>
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler"/>
     </data>
 
 
@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:text="@{VM.fname}"
+                    android:text="@{VM.taskName}"
                     android:layout_toEndOf="@id/chklayout"
                     android:layout_centerVertical="true"
                     android:layout_centerInParent="true"
