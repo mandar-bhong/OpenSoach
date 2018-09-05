@@ -7,7 +7,7 @@
     text-align: center;
     padding: 10px;}
 #box{
- margin-left: 950px;
+ /* margin-left: 950px; */
 }
 .navbar-brand ul li{display:inline; }
 .fa-bars{
@@ -79,7 +79,6 @@ color:#ffffff !important;
   font-size: 13px !important;
   font-style: normal !important;
  line-height: 26px;
-
 }
 .dropdown-menu i:hover {
   background: hsl(196, 60%, 51%) none repeat scroll 0 0;
@@ -93,6 +92,7 @@ color:#ffffff !important;
   box-shadow: 0 0 20px 0 hsla(0, 0%, 0%, 0.3);
   /* left: 10% !important; */
   right: 0 !important;
+  left: auto;
 }
 .nav-link.dropdown-toggle {
   font-size: 13px;

@@ -24,6 +24,7 @@ export class VehicleWeeklyTrendComponent implements OnInit {
   // delayedLabel = 'Delayed';
   // missedLabel = 'Missed';
   // legendTitle = 'Task Status';
+  formatXAxis;
   customColors = [
     {
       name: 'SUN',
@@ -64,32 +65,32 @@ export class VehicleWeeklyTrendComponent implements OnInit {
   ngOnInit() {
     this.data = [
       {
-        "name": "MON",
-        "value": 82
+        'name': 'MON',
+        'value': 82
       },
       {
-        "name": "TUE",
-        "value": 85
+        'name': 'TUE',
+        'value': 85
       },
       {
-        "name": "WED",
-        "value": 60
+        'name': 'WED',
+        'value': 60
       },
       {
-        "name": "THU",
-        "value": 70
+        'name': 'THU',
+        'value': 70
       },
       {
-        "name": "FRI",
-        "value": 80
+        'name': 'FRI',
+        'value': 80
       },
       {
-        "name": "SAT",
-        "value": 112
+        'name': 'SAT',
+        'value': 11
       },
       {
-        "name": "SUN",
-        "value": 100
+        'name': 'SUN',
+        'value': 100
       }
     ];
     // this.getTaskTrend();
