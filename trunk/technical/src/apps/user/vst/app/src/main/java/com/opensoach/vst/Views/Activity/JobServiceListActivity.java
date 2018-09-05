@@ -71,7 +71,7 @@ public class JobServiceListActivity extends AppCompatActivity
             JobServiceItemViewModel jobServiceItemViewModel = new JobServiceItemViewModel();
             jobServiceItemViewModel.ContextActivity = this;
             jobServiceItemViewModel.Parent = jobServiceListViewModel;
-            jobServiceItemViewModel.setFname("This is test");
+            jobServiceItemViewModel.setTaskName("This is test");
 
 
             list.add(jobServiceItemViewModel);
