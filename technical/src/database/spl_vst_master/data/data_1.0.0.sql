@@ -2,8 +2,9 @@
 -- Dumping data for table `spl_prod_master_sp_category_tbl`
 --
 
-INSERT INTO `spl_prod_master_sp_category_tbl` (`id`,`spc_name`) VALUES (1,'Washroom - Mens');
-INSERT INTO `spl_prod_master_sp_category_tbl` (`id`,`spc_name`) VALUES (2,'Washroom - Womens');
+INSERT INTO `spl_prod_master_sp_category_tbl` (`id`,`spc_name`) VALUES (1,'Token Generation');
+INSERT INTO `spl_prod_master_sp_category_tbl` (`id`,`spc_name`) VALUES (2,'Job Creation');
+INSERT INTO `spl_prod_master_sp_category_tbl` (`id`,`spc_name`) VALUES (3,'Job Execution');
 
 --
 -- Dumping data for table `spl_prod_master_config`
