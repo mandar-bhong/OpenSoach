@@ -34,8 +34,8 @@ INSERT INTO `spl_master_cust_prod_mapping_tbl` (`id`,`cust_id_fk`,`prod_id_fk`,`
 --
 
 INSERT INTO `spl_master_device_tbl` (`id`,`cust_id_fk`,`serialno`,`dev_state`,`dev_state_since`) VALUES (1,1,'1234567890123456',1,UTC_TIMESTAMP);
-INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (2,'1345494544733456',1,UTC_TIMESTAMP);
-INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (3,'1155623421323222',1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`cust_id_fk`,`serialno`,`dev_state`,`dev_state_since`) VALUES (2,1,'1345494544733456',1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_device_tbl` (`id`,`cust_id_fk`,`serialno`,`dev_state`,`dev_state_since`) VALUES (3,1,'1155623421323222',1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (4,'1235234322122343',2,UTC_TIMESTAMP);
 INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (5,'1819243234324322',1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_device_tbl` (`id`,`serialno`,`dev_state`,`dev_state_since`) VALUES (6,'1234523445223332',2,UTC_TIMESTAMP);
@@ -56,6 +56,8 @@ INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`, `technology`, `te
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (1,1);
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (3,1);
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (4,1);
+INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (4,2);
+INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (4,3);
 
 --
 -- Dumping data for table `spl_master_servicepoint_tbl`
@@ -65,6 +67,8 @@ INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_stat
 INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (2,1,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (3,3,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (4,4,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (5,4,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (6,4,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_cpm_sp_mapping_tbl`
