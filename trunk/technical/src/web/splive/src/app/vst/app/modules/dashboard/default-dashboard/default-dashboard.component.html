@@ -9,7 +9,7 @@
           <div class="row p-t-20 p-b-30">
             <div class="col-auto text-right update-meta">
               <p class="text-muted d-inline">{{snapshot.tokantime}} hrs ago</p>
-              <mat-icon class="feather icon-check f-w-600 bg-c-red update-icon">business_center</mat-icon>
+              <mat-icon class="feather icon-check f-w-600 bg-c-red update-icon">local_offer</mat-icon>
             </div>
             <div class="col">
               <h6 class="snaptext">{{snapshot.tokancount}} Token Generated</h6>
@@ -65,9 +65,9 @@
   <div class="col-sm-12 col-md-6">
     <div class="card latest-update-card card1">
       <div class="card-header">
-        <h5>Timings</h5>
+        <h5>Timings Average</h5>
       </div>
-      <div class="row" style="padding: 10px; margin-top:25px;">
+      <div class="row" style="padding: 10px; margin-top:20px;">
         <div class="col-sm-12 col-md-6">
           <div class="card bg-c-blue text-white widget-visitor-card">
             <div class="card-block-small text-center">
@@ -78,7 +78,7 @@
           </div>
         </div>
         <div class="col-sm-12 col-md-6">
-          <div class="card bg-c-red text-white widget-visitor-card">
+          <div class="card bg-c-light-blue text-white widget-visitor-card">
             <div class="card-block-small text-center">
               <h2>5 min</h2>
               <h5>Job Creation time</h5>
@@ -87,26 +87,117 @@
           </div>
         </div>
       </div>
-      <div class="row" style="padding: 10px; margin-top:22px;">
-          <div class="col-sm-12 col-md-6">
-            <div class="card bg-c-yellow text-white widget-visitor-card">
-              <div class="card-block-small text-center">
-                <h2>7 hrs</h2>
-                <h5>Job Excution </h5>
-                <i class="fa fa-cogs feather"></i>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-12 col-md-6">
-            <div class="card bg-c-green text-white widget-visitor-card">
-              <div class="card-block-small text-center">
-                <h2>5 min</h2>
-                <h5>Delivery time</h5>
-                <i class="fa fa-car feather"></i>
-              </div>
+      <div class="row" style="padding: 0px 10px;">
+        <div class="col-sm-12 col-md-6">
+          <div class="card bg-c-yellow text-white widget-visitor-card">
+            <div class="card-block-small text-center">
+              <h2>7 hrs</h2>
+              <h5>Job Execution </h5>
+              <i class="fa fa-cogs feather"></i>
             </div>
           </div>
         </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="card bg-c-green text-white widget-visitor-card">
+            <div class="card-block-small text-center">
+              <h2>5 min</h2>
+              <h5>Delivery time</h5>
+              <i class="fa fa-car feather"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- deivce box start -->
+<div class="row">
+  <div class="col-lg-3 col-md-3">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-green" class="b-block">{{devicesummary.total}}</h4>
+            <h6 class="text-muted m-b-0"> Devices Total</h6>
+          </div>
+          <div class="col-4 text-right text-c-green">
+            <mat-icon class="f-28">tablet</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-green">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Online: {{devicesummary.online}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-red" class="b-block">{{devicesummary.total}}</h4>
+            <h6 class="text-muted m-b-0"> Devices Total</h6>
+          </div>
+          <div class="col-4 text-right text-c-red" [ngClass]="{'text-c-red': devicesummary.offline>0, 'text-c-blue': devicesummary.offline===0}">
+            <mat-icon class="f-28">tablet</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-red" [ngClass]="{'bg-c-red': devicesummary.offline>0, 'bg-c-blue': devicesummary.offline===0}">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Offline: {{devicesummary.offline}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-blue" class="b-block">{{spsummary.total}}</h4>
+            <h6 class="text-muted m-b-0">Service Points Total</h6>
+          </div>
+          <div class="col-4 text-right icon_zoom" [ngClass]="spsummary.total===spsummary.inuse?'text-c-blue':'text-c-red'">
+            <mat-icon class="f-28">place</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="spsummary.total===spsummary.inuse?'bg-c-blue':'bg-c-red'">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Used: {{spsummary.inuse}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-lightred" class="b-block">{{complaintsummary.total}}</h4>
+            <h6 class="text-muted m-b-0">Complaints Total</h6>
+          </div>
+          <div class="col-4 text-right icon_zoom" [ngClass]="complaintsummary.active===0?'text-c-blue':'text-c-red'">
+            <mat-icon class="f-28">assistant_photo</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Active: {{complaintsummary.active}}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -114,10 +205,9 @@
 
 
 
+<!-- deivce box end -->
 
-
-
-<div class="row" style="margin-top:10px;">
+<!-- <div class="row" style="margin-top:10px;">
   <div class="col-sm-6 col-md-3">
     <div class="card statustic-card">
       <div class="card-header borderless">
@@ -170,6 +260,7 @@
       </div>
     </div>
   </div>
+
   <div class="col-sm-6 col-md-3">
     <div class="card statustic-card">
       <div class="card-header borderless">
@@ -186,6 +277,14 @@
         <h6 class="text-white m-b-0">Active: {{complaintsummary.active}}</h6>
       </div>
     </div>
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <app-service-time-weekly></app-service-time-weekly>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <app-service-time-monthly></app-service-time-monthly>
   </div>
 </div>
 <div class="row">
