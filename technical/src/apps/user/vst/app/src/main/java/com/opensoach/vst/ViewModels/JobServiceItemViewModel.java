@@ -4,15 +4,16 @@ import android.databinding.Bindable;
 
 public class JobServiceItemViewModel extends BaseViewModel {
 
-    private String fname;
+    private String taskName;
 
 
-    public String getFname() {
-        return fname;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    @Bindable
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+//        notifyPropertyChanged(BR.task);
     }
-
 }
