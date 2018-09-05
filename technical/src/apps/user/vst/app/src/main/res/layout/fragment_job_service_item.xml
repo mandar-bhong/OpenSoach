@@ -10,6 +10,11 @@
         <variable
             name="ClickHandler"
             type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler"/>
+
+        <variable
+            name="RemoveItemHandler"
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskItemRemoveHandler"/>
+
     </data>
 
 
@@ -73,12 +78,13 @@
                     android:layout_centerVertical="true"
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:onClick="@{(view)->RemoveItemHandler.onClick(view,VM)}">
                     <ImageView
                         android:layout_margin="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_move_right"
+                        android:background="@drawable/ic_delete_forever"
                         android:gravity="center_vertical"
                         android:layout_centerVertical="true"
                         android:layout_centerInParent="true"/>
