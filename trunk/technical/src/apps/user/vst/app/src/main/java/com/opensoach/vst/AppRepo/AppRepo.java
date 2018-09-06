@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.opensoach.vst.BuildConfig;
+import com.opensoach.vst.Constants.ApplicationConstants;
+import com.opensoach.vst.Constants.Constants;
 import com.opensoach.vst.Model.View.TaskItemDataModel;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
+import com.opensoach.vst.ViewModels.JobSummaryViewModel;
 import com.opensoach.vst.ViewModels.TaskItemViewModel;
 import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
 
@@ -34,6 +37,7 @@ public final class AppRepo {
 
     private  int BatteryLevel;
     private  boolean isChartRendered;
+    private ApplicationConstants.AppRunningMode currentRunningMode;
 
     private String AuthToken;
     private ArrayList<String> authCodeList;
@@ -42,6 +46,7 @@ public final class AppRepo {
     private TaskItemViewModel activeTaskItem;
     private TokenSelectionViewModel selectedToken;
     private JobServiceViewModel jobServiceViewModel;
+    private JobSummaryViewModel jobSummaryViewModel;
 
     private List<TaskItemDataModel> selectedTaskDataViewModels;
 
@@ -224,5 +229,22 @@ public final class AppRepo {
 
     public void setJobServiceViewModel(JobServiceViewModel jobServiceViewModel) {
         this.jobServiceViewModel = jobServiceViewModel;
+    }
+
+    public JobSummaryViewModel getJobSummaryViewModel() {
+        return jobSummaryViewModel;
+    }
+
+    public void setJobSummaryViewModel(JobSummaryViewModel jobSummaryViewModel) {
+        this.jobSummaryViewModel = jobSummaryViewModel;
+    }
+
+
+    public ApplicationConstants.AppRunningMode getCurrentRunningMode() {
+        return currentRunningMode;
+    }
+
+    public void setCurrentRunningMode(ApplicationConstants.AppRunningMode currentRunningMode) {
+        this.currentRunningMode = currentRunningMode;
     }
 }
