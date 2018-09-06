@@ -14,6 +14,7 @@ const (
 )
 
 var influxDBHost string
+var influxDBPoint string
 
 type InfluxDBLoggingService struct {
 }
@@ -44,7 +45,7 @@ func (InfluxDBLoggingService) influxDBprepareLogMessage(l *loggerContext) *clien
 	fields["Error"] = lmsg.Err
 	fields["Fields"] = lmsg.Fields
 
-	pt, err := client.NewPoint("spl.spl", tags, fields, time.Now())
+	pt, err := client.NewPoint(dbPoint, tags, fields, time.Now())
 	if err != nil {
 		log.Fatal(err)
 	}

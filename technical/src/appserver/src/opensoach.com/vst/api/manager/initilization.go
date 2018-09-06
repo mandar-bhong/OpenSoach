@@ -86,7 +86,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		}
 	}
 
-	pcmgr.SetLogger(masterConfigSetting)
+	pcmgr.SetLogger(masterConfigSetting, gmodels.PRODUCT_TYPE_VST)
 	logger.SetModule("VST.API")
 
 	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)
