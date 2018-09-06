@@ -34,7 +34,7 @@ public class TokenSelectionHandler {
         jobServiceViewModel.ContextActivity = vm.ContextActivity;
         jobServiceViewModel.setJobDetailsViewModel(jobDetailsViewModel);
         jobServiceViewModel.setJobServiceListViewModel(jobServiceListViewModel);
-        jobServiceViewModel.setTokenSelectionViewModel(vm);
+        jobServiceViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
 
 
         AppRepo.getInstance().setJobServiceViewModel(jobServiceViewModel);
