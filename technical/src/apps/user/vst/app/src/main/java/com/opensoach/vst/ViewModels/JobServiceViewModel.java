@@ -2,10 +2,13 @@ package com.opensoach.vst.ViewModels;
 
 public class JobServiceViewModel extends BaseViewModel {
 
+    private TokenItemViewModel tokenItemViewModel;
     private TokenSelectionViewModel tokenSelectionViewModel;
     //private JobServiceCreationViewModel jobServiceCreationViewModel;
-    private JobDetailsViewModel jobDetailsViewModel;
     private JobServiceListViewModel jobServiceListViewModel;
+    private JobServiceDetailsViewModel jobServiceDetailsViewModel;
+
+
 
 
     public TokenSelectionViewModel getTokenSelectionViewModel() {
@@ -26,14 +29,13 @@ public class JobServiceViewModel extends BaseViewModel {
 //    }
 
 
-    public JobDetailsViewModel getJobDetailsViewModel() {
-        return jobDetailsViewModel;
+    public JobServiceDetailsViewModel getJobServiceDetailsViewModel() {
+        return jobServiceDetailsViewModel;
     }
 
-    public void setJobDetailsViewModel(JobDetailsViewModel jobDetailsViewModel) {
-        this.jobDetailsViewModel = jobDetailsViewModel;
+    public void setJobServiceDetailsViewModel(JobServiceDetailsViewModel jobServiceDetailsViewModel) {
+        this.jobServiceDetailsViewModel = jobServiceDetailsViewModel;
     }
-
 
     public JobServiceListViewModel getJobServiceListViewModel() {
         return jobServiceListViewModel;
@@ -42,4 +44,15 @@ public class JobServiceViewModel extends BaseViewModel {
     public void setJobServiceListViewModel(JobServiceListViewModel jobServiceListViewModel) {
         this.jobServiceListViewModel = jobServiceListViewModel;
     }
+
+
+    public TokenItemViewModel getTokenItemViewModel() {
+        return tokenItemViewModel;
+    }
+
+    public void setTokenItemViewModel(TokenItemViewModel tokenItemViewModel) {
+        this.tokenItemViewModel = tokenItemViewModel;
+    }
+
+
 }

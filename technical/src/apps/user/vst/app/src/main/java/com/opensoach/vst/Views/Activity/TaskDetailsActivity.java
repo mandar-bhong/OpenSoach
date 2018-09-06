@@ -9,16 +9,21 @@ import android.view.View;
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.R;
 import com.opensoach.vst.Utility.AppLogger;
+import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
+import com.opensoach.vst.Views.Fragment.TokenItemFragment;
 import com.opensoach.vst.databinding.ActivityTaskDetailsBinding;
 
-public class TaskDetailsActivity extends AppCompatActivity implements HeaderFragment.OnFragmentInteractionListener {
+public class TaskDetailsActivity extends AppCompatActivity implements TokenItemFragment.OnFragmentInteractionListener,
+        HeaderFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_task_details);
+
+            MainViewModel.getInstance().ContextActivity = this;
 
             //TODO: This step is importent for adding fragment into activity
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();

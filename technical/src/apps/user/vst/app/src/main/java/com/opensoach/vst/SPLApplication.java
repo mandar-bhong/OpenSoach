@@ -5,12 +5,15 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Communication.WebSocketConnector;
+import com.opensoach.vst.DAL.DatabaseManager;
 import com.opensoach.vst.Helper.AppHelper;
 import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Helper.CommonHelper;
@@ -20,6 +23,7 @@ import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.Model.View.ChartConfigModel;
 import com.opensoach.vst.Model.View.DisplayChartDataModel;
 import com.opensoach.vst.Scheduler.ScheduleManager;
+import com.opensoach.vst.Utility.AppLogger;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
@@ -152,6 +156,8 @@ public class SPLApplication extends Application {
             }
 
             case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA:{
+
+                AppRepo.getInstance().setCurrentRunningMode(ApplicationConstants.AppRunningMode.JobExecution);
 
 //                String configType = "CreateJob";
 //                Intent i = null;

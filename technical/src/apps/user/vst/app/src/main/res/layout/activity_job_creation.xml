@@ -47,6 +47,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:text="@{VM.tokenSelectionViewModel.tokenListViewModel.selectedToken.tokenNo}"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="80dp"
+                        android:text="@{VM.tokenSelectionViewModel.tokenListViewModel.selectedToken.vehicleNo}"/>
+
+
+                </LinearLayout>
+
                 <android.support.v7.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
@@ -92,6 +113,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="First Name"
+                                    android:layout_marginLeft="10dp"
                                     android:textColor="@color/colorCardFieldLabel" />
 
                                 <EditText
@@ -99,7 +121,9 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="textCapSentences|textFilter|textNoSuggestions"
                                     android:lines="1"
-                                    android:maxLines="1">
+                                    android:maxLines="1"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="@={VM.firstName}">
 
                                     <requestFocus />
                                 </EditText>
@@ -116,6 +140,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Last Name"
+                                    android:layout_marginLeft="10dp"
                                     android:textColor="@color/colorCardFieldLabel" />
 
                                 <EditText
@@ -123,7 +148,9 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="textCapSentences|textFilter|textNoSuggestions"
                                     android:lines="1"
-                                    android:maxLines="1">
+                                    android:maxLines="1"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="@={VM.lastName}">
 
                                     <requestFocus />
                                 </EditText>
@@ -140,6 +167,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Mobile Number"
+                                    android:layout_marginLeft="10dp"
                                     android:textColor="@color/colorCardFieldLabel" />
 
                                 <EditText
@@ -147,7 +175,9 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="textCapSentences|textFilter|textNoSuggestions"
                                     android:lines="1"
-                                    android:maxLines="1">
+                                    android:maxLines="1"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="@={VM.mobileNo}">
 
                                     <requestFocus />
                                 </EditText>
@@ -195,24 +225,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginLeft="10dp"/>
-
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginLeft="80dp"/>
-
-
-                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -224,6 +237,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Km Runs"
+                                    android:layout_marginLeft="10dp"
                                     android:textColor="@color/colorCardFieldLabel" />
 
                                 <EditText
@@ -231,7 +245,9 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="textCapSentences|textFilter|textNoSuggestions"
                                     android:lines="1"
-                                    android:maxLines="1">
+                                    android:maxLines="1"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="@={VM.kmRuns}">
 
                                     <requestFocus />
                                 </EditText>
@@ -248,6 +264,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Petrol Level"
+                                    android:layout_marginLeft="10dp"
                                     android:textColor="@color/colorCardFieldLabel" />
 
                                 <EditText
@@ -255,7 +272,9 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="textCapSentences|textFilter|textNoSuggestions"
                                     android:lines="1"
-                                    android:maxLines="1">
+                                    android:maxLines="1"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="@={VM.petrolLevel}">
 
                                     <requestFocus />
                                 </EditText>

@@ -63,15 +63,18 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="37sp"
+                    android:background="@color/colorAccent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:textAlignment="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TASK DETAILS"
-                        android:layout_marginBottom="10dp"
-                        android:textColor="#CBCBCB"
-                        />
+                        android:textSize="@dimen/card_header_font_size"
+                        android:textStyle="bold"/>
                 </LinearLayout>
                 <View
                     android:layout_width="fill_parent"
@@ -177,6 +180,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:text="@={VM.comment}">
+
             </EditText>
 
         </LinearLayout>
