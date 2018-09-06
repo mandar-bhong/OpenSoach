@@ -85,7 +85,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return initErr
 	}
 
-	pcmgr.SetLogger(masterConfigSetting)
+	pcmgr.SetLogger(masterConfigSetting, gmodels.PRODUCT_TYPE_VST)
 	logger.SetModule("VST.Endpoint")
 
 	initModErr := initModules(masterConfigSetting)

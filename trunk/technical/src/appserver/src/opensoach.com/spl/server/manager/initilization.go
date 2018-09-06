@@ -32,7 +32,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return err
 	}
 
-	errPrepareConfig, masterConfigSetting := pcmgr.PrepareMasterConfiguration(dbconfig, masterConfigData, gmodels.PRODUCT_TYPE_HKT)
+	errPrepareConfig, masterConfigSetting := pcmgr.PrepareMasterConfiguration(dbconfig, masterConfigData, "")
 
 	if errPrepareConfig != nil {
 		fmt.Println("Error occured while fetching configuration data: ", err.Error())

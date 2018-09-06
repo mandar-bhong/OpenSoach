@@ -77,7 +77,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return initErr
 	}
 
-	pcmgr.SetLogger(masterConfigSetting)
+	pcmgr.SetLogger(masterConfigSetting, gmodels.PRODUCT_TYPE_HPFT)
 	logger.SetModule("HPFT.Server")
 
 	InitProcessor()

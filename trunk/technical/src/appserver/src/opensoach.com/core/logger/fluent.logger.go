@@ -10,6 +10,7 @@ import (
 )
 
 var fluentHost string
+var fluentDBPoint string
 
 type FluentLoggingService struct {
 }
@@ -53,7 +54,7 @@ func convertToJSON(dataStruct interface{}) (bool, []byte) {
 
 func postMessage(host string, jsonData []byte) {
 
-	resp, err := http.Post(host+"/spl.spl", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post(host+"/"+dbPoint, "application/json", bytes.NewBuffer(jsonData))
 
 	if err != nil {
 		fmt.Printf("Post Error: %#v, Response: %#v \n", err.Error(), resp)

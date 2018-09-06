@@ -85,7 +85,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return initErr
 	}
 
-	pcmgr.SetLogger(masterConfigSetting)
+	pcmgr.SetLogger(masterConfigSetting, gmodels.PRODUCT_TYPE_HKT)
 	logger.SetModule("HKT.Endpoint")
 
 	initModErr := initModules(masterConfigSetting)

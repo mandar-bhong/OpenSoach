@@ -46,7 +46,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return err
 	}
 
-	errPrepareConfigErr, masterConfigSetting := pcmgr.PrepareMasterConfiguration(dbconfig, masterConfigData, gmodels.PRODUCT_TYPE_HKT)
+	errPrepareConfigErr, masterConfigSetting := pcmgr.PrepareMasterConfiguration(dbconfig, masterConfigData, "")
 
 	if errPrepareConfigErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while preparing master configuration data.", errPrepareConfigErr)
@@ -68,7 +68,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		}
 	}
 
-	pcmgr.SetLogger(masterConfigSetting)
+	pcmgr.SetLogger(masterConfigSetting, "spl")
 
 	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)
 

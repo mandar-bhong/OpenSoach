@@ -22,26 +22,72 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 	globalConfiguration := &gmodels.ConfigSettings{}
 	globalConfiguration.DBConfig = dbconfig
 
+	err := SetConfiguration(globalConfiguration, configData, productType)
+	if err != nil {
+		return err, nil
+	}
+
+	globalConfiguration.ProductCache = nil
+	globalConfiguration.ProductQueCache = nil
+
+	return nil, globalConfiguration
+}
+
+func UpdateProductConfiguration(globalConfiguration *gmodels.ConfigSettings, configData *[]gmodels.DBMasterConfigRowModel) error {
+
+	err := SetConfiguration(globalConfiguration, configData, "")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func SetConfiguration(globalConfiguration *gmodels.ConfigSettings, configData *[]gmodels.DBMasterConfigRowModel, productType string) error {
+
 	webConfig := &gmodels.ConfigWebSettings{}
+	mstCacheConfig := &gmodels.ConfigCacheAddress{}
+	mstQueCacheConfig := &gmodels.ConfigCacheAddress{}
+	serverConfig := &gmodels.ConfigServer{}
+	loggerConfig := &gmodels.ConfigLogger{}
+	emailConfig := &gmodels.ConfigEmail{}
+	prodMstDBConfig := &gmodels.ConfigDB{}
+	productCache := &gmodels.ConfigCacheAddress{}
+	productQueCache := &gmodels.ConfigCacheAddress{}
+
 	globalConfiguration.WebConfig = webConfig
 
-	mstCacheConfig := &gmodels.ConfigCacheAddress{}
-	globalConfiguration.MasterCache = mstCacheConfig
+	if globalConfiguration.MasterCache == nil {
+		globalConfiguration.MasterCache = mstCacheConfig
+	}
 
-	mstQueCacheConfig := &gmodels.ConfigCacheAddress{}
-	globalConfiguration.MasterQueCache = mstQueCacheConfig
+	if globalConfiguration.MasterQueCache == nil {
+		globalConfiguration.MasterQueCache = mstQueCacheConfig
+	}
 
-	serverConfig := &gmodels.ConfigServer{}
-	globalConfiguration.ServerConfig = serverConfig
+	if globalConfiguration.ServerConfig == nil {
+		globalConfiguration.ServerConfig = serverConfig
+	}
 
-	prodMstDBConfig := &gmodels.ConfigDB{}
-	globalConfiguration.ProdMstDBConfig = prodMstDBConfig
+	if globalConfiguration.ProdMstDBConfig == nil {
+		globalConfiguration.ProdMstDBConfig = prodMstDBConfig
+	}
 
-	loggerConfig := &gmodels.ConfigLogger{}
-	globalConfiguration.LoggerConfig = loggerConfig
+	if globalConfiguration.LoggerConfig == nil {
+		globalConfiguration.LoggerConfig = loggerConfig
+	}
 
-	emailConfig := &gmodels.ConfigEmail{}
-	globalConfiguration.EmailConfig = emailConfig
+	if globalConfiguration.EmailConfig == nil {
+		globalConfiguration.EmailConfig = emailConfig
+	}
+
+	if globalConfiguration.ProductCache == nil {
+		globalConfiguration.ProductCache = productCache
+	}
+
+	if globalConfiguration.ProductQueCache == nil {
+		globalConfiguration.ProductQueCache = productQueCache
+	}
 
 	for _, dbRow := range *configData {
 
@@ -67,7 +113,7 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 		case pcconst.DB_CONFIG_CACHE_ADDRESS_PORT:
 			mstAddPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
-				return errors.New(fmt.Sprintf("Unable to convert Master Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+				return errors.New(fmt.Sprintf("Unable to convert Master Cache Port value to interger. Received Value : %s", dbRow.ConfigValue))
 			}
 			mstCacheConfig.Port = mstAddPort
 			break
@@ -77,7 +123,7 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 		case pcconst.DB_CONFIG_CACHE_ADDRESS_DB:
 			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
-				return errors.New(fmt.Sprintf("Unable to convert Master Cache DB value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+				return errors.New(fmt.Sprintf("Unable to convert Master Cache DB value to interger. Received Value : %s", dbRow.ConfigValue))
 			}
 			mstCacheConfig.DB = mstDBPort
 			break
@@ -88,7 +134,7 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 		case pcconst.DB_CONFIG_QUE_ADDRESS_PORT:
 			mstQueAddPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
-				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache Port value to interger. Received Value : %s", dbRow.ConfigValue))
 			}
 			mstQueCacheConfig.Port = mstQueAddPort
 
@@ -100,7 +146,7 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 		case pcconst.DB_CONFIG_QUE_ADDRESS_DB:
 			mstDBPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
-				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache DB value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+				return errors.New(fmt.Sprintf("Unable to convert Master Que Cache DB value to interger. Received Value : %s", dbRow.ConfigValue))
 			}
 			mstQueCacheConfig.DB = mstDBPort
 			break
@@ -155,33 +201,14 @@ func PrepareMasterConfiguration(dbconfig *gmodels.ConfigDB, configData *[]gmodel
 		case pcconst.DB_CONFIG_SMTP_PORT:
 			mstSMTPPort, err := strconv.Atoi(dbRow.ConfigValue)
 			if err != nil {
-				return errors.New(fmt.Sprintf("Unable to convert Master Cache Port value to interger. Received Value : %s", dbRow.ConfigValue)), nil
+				return errors.New(fmt.Sprintf("Unable to convert Master Cache Port value to interger. Received Value : %s", dbRow.ConfigValue))
 			}
 
 			emailConfig.SMTPPort = mstSMTPPort
-
-		}
-	}
-
-	return nil, globalConfiguration
-}
-
-func UpdateProductConfiguration(globalConfiguration *gmodels.ConfigSettings, configData *[]gmodels.DBMasterConfigRowModel) error {
-
-	productCache := &gmodels.ConfigCacheAddress{}
-	globalConfiguration.ProductCache = productCache
-
-	productQueCache := &gmodels.ConfigCacheAddress{}
-	globalConfiguration.ProductQueCache = productQueCache
-
-	webconfig := &gmodels.ConfigWebSettings{}
-	globalConfiguration.WebConfig = webconfig
-
-	for _, dbRow := range *configData {
-		switch dbRow.ConfigKey {
+			break
 
 		case pcconst.DB_CONFIG_PRODUCT_WEB_SERVICE_ADDRESS:
-			webconfig.ServiceAddress = dbRow.ConfigValue
+			webConfig.ServiceAddress = dbRow.ConfigValue
 			break
 		case pcconst.DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST:
 			productCache.Address = dbRow.ConfigValue
@@ -319,8 +346,9 @@ func HandleEndPoint(wsport int, handler pcepmgr.EPHandler) error {
 	return pcepmgr.Init(wsport, handler)
 }
 
-func SetLogger(configSetting *gmodels.ConfigSettings) {
+func SetLogger(configSetting *gmodels.ConfigSettings, prodtype string) {
 	logger.Init()
+	logger.SetDBPoint(prodtype)
 
 	if configSetting.LoggerConfig == nil {
 		logger.Context().LogError("Prod.Core", logger.Server, "Logger configuration is nil", nil)

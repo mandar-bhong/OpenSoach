@@ -86,7 +86,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		}
 	}
 
-	pcmgr.SetLogger(masterConfigSetting)
+	pcmgr.SetLogger(masterConfigSetting, gmodels.PRODUCT_TYPE_HKT)
 	logger.SetModule("HKT.API")
 
 	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)

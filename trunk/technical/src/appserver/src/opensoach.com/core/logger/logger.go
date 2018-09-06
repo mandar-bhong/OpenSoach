@@ -1,6 +1,8 @@
 package logger
 
 import (
+	"fmt"
+	"strings"
 	"time"
 )
 
@@ -47,6 +49,7 @@ const (
 var logLevel severity = Error
 var appComponent string
 var loggingServiceType serviceType
+var dbPoint string
 
 func init() {
 	loggingServiceType = LoggingServiceFmt
@@ -75,6 +78,10 @@ func SetLoggingService(serType serviceType) {
 
 func GetLogLevel() severity {
 	return logLevel
+}
+
+func SetDBPoint(prodType string) {
+	dbPoint = fmt.Sprintf("spl.%s", strings.ToLower(prodType))
 }
 
 func (ctx *loggerContext) Log(subcomp string, logtype logmsgType, logginglevel severity, message string) {

@@ -86,7 +86,7 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		}
 	}
 
-	pcmgr.SetLogger(masterConfigSetting)
+	pcmgr.SetLogger(masterConfigSetting, gmodels.PRODUCT_TYPE_HPFT)
 	logger.SetModule("HPFT.API")
 
 	setGlobalErr := SetGlobal(dbconfig, masterConfigSetting)
