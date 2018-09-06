@@ -26,4 +26,13 @@ public class ApplicationConstants {
 
     public static   final String UI_DATE_FORMAT ="MMM dd h:mm a";
 
+    public static int DISPLAY_MODE_JOB_CREATION_EDIT = 0;
+    public static int DISPLAY_MODE_JOB_CREATION_SUMMARY = 1;
+    public static int DISPLAY_MODE_JOB_EXECUTION = 2;
+
+    public enum AppRunningMode {
+        Token,
+        JobCreation,
+        JobExecution
+    }
 }
