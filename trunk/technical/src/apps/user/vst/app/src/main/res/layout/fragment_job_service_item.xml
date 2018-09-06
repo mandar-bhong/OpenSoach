@@ -4,6 +4,7 @@
     tools:context=".Views.Fragment.JobServiceItemFragment">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="VM"
             type="com.opensoach.vst.ViewModels.JobServiceItemViewModel" />
@@ -40,7 +41,8 @@
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:gravity="center_vertical"
-                    android:id="@+id/chklayout">
+                    android:id="@+id/chklayout"
+                    android:visibility="@{VM.showcheckbox == true ? View.VISIBLE : View.GONE }">
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -79,6 +81,7 @@
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
+                    android:visibility="@{VM.showDelete == true ? View.VISIBLE : View.GONE }"
                     android:onClick="@{(view)->RemoveItemHandler.onClick(view,VM)}">
                     <ImageView
                         android:layout_margin="10dp"

@@ -55,6 +55,7 @@
         <activity android:name=".Views.Activity.JobCreationActivity" />
         <activity android:name=".Views.Activity.LandingPageActivity" />
         <activity android:name=".Views.Activity.JobServiceCreationActivity" />
+        <activity android:name=".Views.Activity.JobServiceSummaryActivity"></activity>
     </application>
 
 </manifest>

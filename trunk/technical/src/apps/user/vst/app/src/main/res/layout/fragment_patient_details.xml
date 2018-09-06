@@ -71,14 +71,18 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="37sp"
+                            android:background="@color/colorAccent"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:textAlignment="center">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="PATIENT DETAILS"
-                                android:layout_marginBottom="10dp"
-                                android:textColor="#CBCBCB"
+                                android:textSize="@dimen/card_header_font_size"
+                                android:textStyle="bold"
                                 />
 
 
@@ -101,12 +105,23 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorCardFieldLabel"
                                     android:text="Name" />
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/colorCardFieldValue"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="@{VM.patientDetails.name}" />
+                                    android:orientation="horizontal">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:background="@drawable/patient" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/colorCardFieldValue"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="@{VM.patientDetails.name}" />
+
+                                </LinearLayout>
                             </LinearLayout>
                             <Space
                                 android:layout_width="0dp"
@@ -120,6 +135,7 @@
                                 android:textColor="@color/colorCardFieldValue"
                                 android:layout_alignParentRight="true"/>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -134,12 +150,22 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorCardFieldLabel"
                                     android:text="Registration Number" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:background="@drawable/registration_no" />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/colorCardFieldValue"
                                     android:layout_marginLeft="10dp"
                                     android:text="@{VM.patientDetails.regNo}" />
+                                </LinearLayout>
                             </LinearLayout>
                             <Space
                                 android:layout_width="0dp"
@@ -153,6 +179,7 @@
                                 android:textColor="@color/colorAccent"
                                 android:layout_alignParentRight="true"/>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -254,14 +281,18 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="37sp"
+                            android:background="@color/colorAccent"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:textAlignment="center">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="MEDICAL DETAILS"
-                                android:layout_marginBottom="10dp"
-                                android:textColor="#CBCBCB"
+                                android:textSize="@dimen/card_header_font_size"
+                                android:textStyle="bold"
                                 />
 
                         </LinearLayout>
@@ -370,3 +401,6 @@
 
 
 </layout>
+
+
+

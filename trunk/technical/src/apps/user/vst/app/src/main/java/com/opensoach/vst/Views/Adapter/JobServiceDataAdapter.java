@@ -10,15 +10,13 @@ import android.widget.FrameLayout;
 
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
-import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.ClickHandler.JobServiceTaskItemRemoveHandler;
+import com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler;
+import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.ClickHandler.TokenItemClickHandler;
 import com.opensoach.vst.databinding.FragmentJobServiceItemBinding;
-import com.opensoach.vst.databinding.FragmentTokenItemBinding;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAdapter.DataViewHolder> {
@@ -111,7 +109,8 @@ public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAd
         /* package */ void setViewModel(JobServiceItemViewModel viewModel) {
             if (binding != null) {
                 binding.setVM(viewModel);
-                binding.setRemoveItemHandler(new JobServiceTaskItemRemoveHandler());
+				binding.setRemoveItemHandler(new JobServiceTaskItemRemoveHandler());
+//				binding.setClickHandler(new JobServiceTaskListCreateHandler());
 //                binding.setClickHandler(new TokenItemClickHandler());
             }
         }
