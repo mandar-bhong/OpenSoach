@@ -35,6 +35,8 @@
             </FrameLayout>
         </RelativeLayout>
 
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,14 +58,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
-                        android:text="@{VM.tokenSelectionViewModel.tokenListViewModel.selectedToken.tokenNo}"/>
+                        android:text="@{VM.tokenItemViewModel.tokenNo}"/>
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="80dp"
-                        android:text="@{VM.tokenSelectionViewModel.tokenListViewModel.selectedToken.vehicleNo}"/>
+                        android:text="@{VM.tokenItemViewModel.vehicleNo}"/>
 
 
                 </LinearLayout>
@@ -123,7 +125,7 @@
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"
-                                    android:text="@={VM.firstName}">
+                                    android:text="">
 
                                     <requestFocus />
                                 </EditText>
@@ -150,7 +152,7 @@
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"
-                                    android:text="@={VM.lastName}">
+                                    android:text="">
 
                                     <requestFocus />
                                 </EditText>
@@ -177,7 +179,7 @@
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"
-                                    android:text="@={VM.mobileNo}">
+                                    android:text="">
 
                                     <requestFocus />
                                 </EditText>
@@ -247,7 +249,7 @@
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"
-                                    android:text="@={VM.kmRuns}">
+                                    android:text="">
 
                                     <requestFocus />
                                 </EditText>
@@ -274,7 +276,7 @@
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"
-                                    android:text="@={VM.petrolLevel}">
+                                    android:text="">
 
                                     <requestFocus />
                                 </EditText>
