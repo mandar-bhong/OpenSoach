@@ -10,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.R;
+import com.opensoach.vst.ViewModels.CreateTokenViewModel;
 import com.opensoach.vst.ViewModels.JobDetailsViewModel;
 
 import com.opensoach.vst.ViewModels.MainViewModel;
+import com.opensoach.vst.Views.ClickHandler.CreateTokenClickHandler;
 import com.opensoach.vst.Views.ClickHandler.GenerateTokenClickHandler;
 import com.opensoach.vst.Views.ClickHandler.JobDetailsCompleteClickHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
@@ -47,10 +49,11 @@ public class JobCreationActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityJobCreationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_creation);
-        binding.setVM(new JobDetailsViewModel());
+        binding.setVM(AppRepo.getInstance().getJobDetailsViewModel());
         binding.setClickHandler(new JobDetailsCompleteClickHandler());
 
-//        binding.setVM(AppRepo.getInstance().getJobServiceViewModel());
+
+//
     }
 
     @Override
