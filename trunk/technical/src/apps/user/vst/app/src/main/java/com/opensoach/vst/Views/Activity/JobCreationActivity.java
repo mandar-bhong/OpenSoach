@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.CreateTokenViewModel;
-import com.opensoach.vst.ViewModels.JobDetailsViewModel;
 
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.Views.ClickHandler.CreateTokenClickHandler;
@@ -21,6 +20,8 @@ import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
 import com.opensoach.vst.databinding.ActivityJobCreationBinding;
 import com.opensoach.vst.databinding.ActivityTokenListBinding;
+
+import java.util.ArrayList;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
@@ -49,15 +50,20 @@ public class JobCreationActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityJobCreationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_creation);
-        binding.setVM(AppRepo.getInstance().getJobDetailsViewModel());
-        binding.setClickHandler(new JobDetailsCompleteClickHandler());
-
 
 //
+//        JobDetailsViewModel jobDetailsViewModel = new JobDetailsViewModel();
+//        jobDetailsViewModel.Parent = AppRepo.getInstance().getJobDetailsViewModel().getJobCustomerDetailsViewModel();
+//        jobDetailsViewModel.ContextActivity = AppRepo.getInstance().getJobDetailsViewModel().ContextActivity;
+
+        binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceDetailsViewModel());
+        binding.setClickHandler(new JobDetailsCompleteClickHandler());
+
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 }

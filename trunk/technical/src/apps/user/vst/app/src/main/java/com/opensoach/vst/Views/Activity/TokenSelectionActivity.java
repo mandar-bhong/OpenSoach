@@ -96,14 +96,6 @@ public class TokenSelectionActivity extends AppCompatActivity
             list.add(tokenItemViewModel1);
         }
 
-
-
-
-
-
-
-
-
         tokenListViewModel.setData(list);
         tokenSelectionViewModel.setTokenListViewModel(tokenListViewModel);
 

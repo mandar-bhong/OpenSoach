@@ -16,7 +16,7 @@ import com.opensoach.vst.Views.Activity.JobServiceListActivity;
 public class TaskCreateCompleteClickHandler {
 
     public void onClick(View view, JobServiceItemViewModel vm) {
-        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().addItem(vm);
+      AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().addItem(vm);
 
        ((Activity) view.getContext()).finish();
 

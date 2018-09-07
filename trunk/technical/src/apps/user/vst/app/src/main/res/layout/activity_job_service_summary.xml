@@ -151,7 +151,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorCardFieldValue"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginLeft="15dp"
                             android:layout_marginBottom="10dp"
                             android:text="@{VM.tokenItemViewModel.vehicleNo}" />
 
@@ -208,40 +208,34 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="First Name"
+                                android:text=" Name"
                                 android:textColor="@color/colorCardFieldLabel"
                                 android:layout_marginLeft="10dp"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorCardFieldValue"
-                                android:layout_marginLeft="37dp"
-                                android:text="" />
+                                android:layout_marginLeft="15dp"
+                                android:text="@{VM.jobServiceDetailsViewModel.firstName}" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorCardFieldValue"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="@{VM.jobServiceDetailsViewModel.lastName}" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Last Name"
-                                android:textColor="@color/colorCardFieldLabel"
-                                android:layout_marginLeft="10dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/colorCardFieldValue"
-                                android:layout_marginLeft="37dp"
-                                android:text="" />
-
-                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -260,8 +254,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorCardFieldValue"
-                                android:layout_marginLeft="10dp"
-                                android:text="" />
+                                android:layout_marginLeft="15dp"
+                                android:text="@{VM.jobServiceDetailsViewModel.mobileNo}" />
 
                         </LinearLayout>
 
@@ -282,8 +276,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorCardFieldValue"
-                                android:layout_marginLeft="50dp"
-                                android:text="" />
+                                android:layout_marginLeft="15dp"
+                                android:text="@{VM.jobServiceDetailsViewModel.kmRuns}" />
 
                         </LinearLayout>
 
@@ -304,9 +298,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorCardFieldValue"
-                                android:layout_marginLeft="32dp"
+                                android:layout_marginLeft="15dp"
                                 android:layout_marginBottom="10dp"
-                                android:text="" />
+                                android:text="@{VM.jobServiceDetailsViewModel.petrolLevel}" />
 
                         </LinearLayout>
 
