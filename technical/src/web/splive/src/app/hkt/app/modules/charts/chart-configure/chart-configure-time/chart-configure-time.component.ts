@@ -5,6 +5,8 @@ import { AmazingTimePickerService } from 'amazing-time-picker';
 import { DynamicContextService } from '../../../../../../shared/modules/dynamic-component-loader/dynamic-context.service';
 import { ChartConfigurationModel } from '../../../../models/ui/chart-conf-models';
 import { ChartConfigureService } from '../../../../services/chart-configure.service';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
 
 @Component({
   selector: 'app-chart-configure-time',
@@ -20,7 +22,9 @@ export class ChartConfigureTimeComponent implements OnInit {
   selectedEndTime: string;
   constructor(private dynamicContextService: DynamicContextService,
     private chartConfigureService: ChartConfigureService,
-    private amazingtimepicker: AmazingTimePickerService) { }
+    private amazingtimepicker: AmazingTimePickerService,
+    private appNotificationService: AppNotificationService,
+    private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.createControls();
@@ -42,13 +46,17 @@ export class ChartConfigureTimeComponent implements OnInit {
   nextClick() {
     // TODO: uncomment
     if (this.editableForm.invalid) { return; }
-    console.log('this.selectedStartTime', this.selectedStartTime);
-    console.log('this.selectedEndTime', this.selectedEndTime);
-    this.dataModel.variableconf.timeconf.starttime = this.timeStringToMinutes(this.selectedStartTime);
-    this.dataModel.variableconf.timeconf.endtime = this.timeStringToMinutes(this.selectedEndTime);
+    if (this.selectedStartTime <= this.selectedEndTime && this.selectedStartTime !== this.selectedEndTime) {
+      console.log('this.selectedStartTime', this.selectedStartTime);
+      console.log('this.selectedEndTime', this.selectedEndTime);
+      this.dataModel.variableconf.timeconf.starttime = this.timeStringToMinutes(this.selectedStartTime);
+      this.dataModel.variableconf.timeconf.endtime = this.timeStringToMinutes(this.selectedEndTime);
 
-    this.chartConfigureService.setDataModel(this.dataModel);
-    this.dynamicContextService.onAction(true);
+      this.chartConfigureService.setDataModel(this.dataModel);
+      this.dynamicContextService.onAction(true);
+    } else {
+      this.appNotificationService.info(this.translatePipe.transform('START_TIME_MUST_BE_BEFORE_END_TIME'));
+    }
   }
 
   previousClick() {
