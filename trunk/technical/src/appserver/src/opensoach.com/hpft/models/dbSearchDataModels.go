@@ -8,7 +8,7 @@ type DBSearchFieldOperatorRequestFilterDataModel struct {
 	MobileNo *string `db:"mobile_no" json:"mobileno"`
 	EmailId  *string `db:"email_id" json:"emailid"`
 	CpmId    int64   `db:"cpm_id_fk" json:"cpmid"`
-	FopState int     `db:"fop_state" json:"fopstate"`
+	FopState *int     `db:"fop_state" json:"fopstate"`
 }
 
 type DBSearchFieldOperatorResponseFilterDataModel struct {
