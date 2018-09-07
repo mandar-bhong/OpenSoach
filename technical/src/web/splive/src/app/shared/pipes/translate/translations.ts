@@ -46,7 +46,7 @@ export const TRANSLATIONS: TranslationValue[] = [
     en: 'SERVER_ERROR_10001'
   },
   {
-    key: 'SERVER_ERROR_1002',
+    key: 'SERVER_SYSTEM_ERROR_5000',
     en: 'Device name already exists'
   },
   {
@@ -415,6 +415,19 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'START_DATE_MUST_BE_BEFORE_END_DATE',
     en: 'Start date must be before end date.'
   },
+  {
+    key: 'START_TIME_MUST_BE_BEFORE_END_TIME',
+    en: 'Start time must be before end time.'
+  },
+  {
+    key: 'TASK_NAME_ALL_READY_EXISTS',
+    en: 'Task name already exists in chart tasks list'
+  },
+  {
+    key: 'TASK_NAME_ALL_READY_EXISTS_TASk_LIB',
+    en: 'Task name already exists in task library list please move to chart tasks'
+  },
+
   // validation errer start
   {
     key: 'ErrorEmailPattern',
