@@ -11,6 +11,7 @@ import com.opensoach.vst.Constants.Constants;
 import com.opensoach.vst.Model.View.TaskItemDataModel;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
 import com.opensoach.vst.ViewModels.JobDetailsViewModel;
+import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.JobSummaryViewModel;
 import com.opensoach.vst.ViewModels.TaskItemViewModel;
@@ -48,7 +49,7 @@ public final class AppRepo {
     private TokenSelectionViewModel selectedToken;
     private JobServiceViewModel jobServiceViewModel;
     private JobSummaryViewModel jobSummaryViewModel;
-    private JobDetailsViewModel jobDetailsViewModel;
+    private JobServiceDetailsViewModel jobServiceDetailsViewModel;
 
     private List<TaskItemDataModel> selectedTaskDataViewModels;
 
@@ -250,11 +251,13 @@ public final class AppRepo {
         this.currentRunningMode = currentRunningMode;
     }
 
-    public JobDetailsViewModel getJobDetailsViewModel() {
-        return jobDetailsViewModel;
+
+
+    public JobServiceDetailsViewModel getJobServiceDetailsViewModel() {
+        return jobServiceDetailsViewModel;
     }
 
-    public void setJobDetailsViewModel(JobDetailsViewModel jobDetailsViewModel) {
-        this.jobDetailsViewModel = jobDetailsViewModel;
+    public void setJobServiceDetailsViewModel(JobServiceDetailsViewModel jobServiceDetailsViewModel) {
+        this.jobServiceDetailsViewModel = jobServiceDetailsViewModel;
     }
 }
