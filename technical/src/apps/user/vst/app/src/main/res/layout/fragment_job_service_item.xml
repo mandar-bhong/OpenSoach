@@ -92,6 +92,24 @@
                         android:layout_centerVertical="true"
                         android:layout_centerInParent="true"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="@{VM.showMoveRightIcon == true ? View.VISIBLE : View.GONE }">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_move_right"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_centerInParent="true"/>
+                </LinearLayout>
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>

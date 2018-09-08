@@ -29,6 +29,19 @@ public class JobServiceItemViewModel extends BaseViewModel {
         }
     }
 
+
+
+    @Bindable
+    public boolean getShowMoveRightIcon(){
+
+        if ( ((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_EXECUTION){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
     @Bindable
     public boolean getShowDelete(){
 
@@ -39,4 +52,6 @@ public class JobServiceItemViewModel extends BaseViewModel {
         }
 
     }
+
+
 }

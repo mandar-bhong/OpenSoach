@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Views.Activity.TokenSelectionActivity"
+            android:name=".Views.Activity.LandingPageActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +53,7 @@
         <activity android:name=".Views.Activity.TokenListActivity" />
         <activity android:name=".Views.Activity.JobServiceListActivity" />
         <activity android:name=".Views.Activity.JobCreationActivity" />
-        <activity android:name=".Views.Activity.LandingPageActivity" />
+        <activity android:name=".Views.Activity.TokenSelectionActivity" />
         <activity android:name=".Views.Activity.JobServiceCreationActivity" />
         <activity android:name=".Views.Activity.JobServiceSummaryActivity"></activity>
     </application>

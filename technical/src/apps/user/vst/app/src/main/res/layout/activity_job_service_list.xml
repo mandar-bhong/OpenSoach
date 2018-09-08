@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="VM"
             type="com.opensoach.vst.ViewModels.JobServiceListViewModel" />
@@ -121,7 +121,8 @@
                     card_view:cardUseCompatPadding="true"
                     card_view:cardElevation="4dp"
                     card_view:cardCornerRadius="3dp"
-                    android:onClick="@{(view) -> SummaryClickHandler.onClick(view)}">
+                    android:onClick="@{(view) -> SummaryClickHandler.onClick(view)}"
+                    android:visibility="@{VM.showSummaryButton == true ? View.VISIBLE : View.GONE }">
 
                     <LinearLayout
                         android:layout_width="match_parent"
