@@ -20,7 +20,6 @@ public class JobServiceSummaryClickHandler {
 //        jobServiceItemViewModel.Parent = vm;
 
 
-        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().setDisplayMode(ApplicationConstants.DISPLAY_MODE_JOB_CREATION_SUMMARY);
 
         Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceSummaryActivity.class);
         MainViewModel.getInstance().ContextActivity.startActivity(i);

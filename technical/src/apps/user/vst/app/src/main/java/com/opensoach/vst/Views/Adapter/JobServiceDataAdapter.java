@@ -58,6 +58,10 @@ public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAd
         holder.unbind();
     }
 
+    public  void NotifyDataSetChanged(){
+        notifyDataSetChanged();
+    }
+
     public void updateData(@Nullable List<JobServiceItemViewModel> data) {
         this.data = data;
         notifyDataSetChanged();

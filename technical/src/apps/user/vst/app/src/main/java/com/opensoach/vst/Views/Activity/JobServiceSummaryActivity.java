@@ -47,10 +47,9 @@ public class JobServiceSummaryActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
 
+        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().setDisplayMode(ApplicationConstants.DISPLAY_MODE_JOB_CREATION_SUMMARY);
+
         setBinding();
-
-
-
     }
 
 
@@ -71,10 +70,13 @@ public class JobServiceSummaryActivity extends AppCompatActivity
 
     }
 
+
+
     @Override
     protected  void onDestroy(){
         super.onDestroy();
         AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().setDisplayMode(ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT);
+        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().NotifyDataSetChanged();
     }
 
 
