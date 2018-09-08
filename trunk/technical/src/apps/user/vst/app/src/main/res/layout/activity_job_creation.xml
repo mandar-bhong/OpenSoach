@@ -241,7 +241,7 @@
                                 <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                                    android:inputType="phone"
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"
@@ -313,7 +313,7 @@
                                 <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                                    android:inputType="numberDecimal"
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"
@@ -340,7 +340,7 @@
                                 <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                                    android:inputType="numberDecimal"
                                     android:lines="1"
                                     android:maxLines="1"
                                     android:layout_marginLeft="10dp"

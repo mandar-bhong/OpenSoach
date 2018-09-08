@@ -61,23 +61,76 @@
                         android:layout_marginTop="10dp"
                         android:orientation="vertical">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dailog_task_name"
                             android:textColor="@color/colorCardFieldLabel" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:text="*"
+                                android:textColor="@color/color_needs_attention" />
+
+                        </LinearLayout>
+
                         <EditText
+                            android:id="@+id/etTaskName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences|textFilter|textNoSuggestions"
                             android:lines="1"
-                            android:text="@={VM.taskName}"
-                            android:maxLines="1">
+                            android:maxLines="1"
+                            android:text="@={VM.taskName}">
 
                             <requestFocus />
                         </EditText>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dailog_task_comment"
+                            android:textColor="@color/colorCardFieldLabel"
+                            android:layout_marginTop="10dp"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:inputType="text|textMultiLine"
+                            android:gravity="top"
+                            android:maxLines="3"
+                            android:text="">
+
+                         <requestFocus />
+                        </EditText>
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dailog_task_name_cost"
+                            android:textColor="@color/colorCardFieldLabel"
+                            android:layout_marginTop="10dp"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:lines="1"
+                            android:text=""
+                            android:maxLines="1">
+
+                            <requestFocus />
+                        </EditText>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
