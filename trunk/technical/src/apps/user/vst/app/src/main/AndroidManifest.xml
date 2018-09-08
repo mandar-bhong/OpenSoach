@@ -55,7 +55,8 @@
         <activity android:name=".Views.Activity.JobCreationActivity" />
         <activity android:name=".Views.Activity.TokenSelectionActivity" />
         <activity android:name=".Views.Activity.JobServiceCreationActivity" />
-        <activity android:name=".Views.Activity.JobServiceSummaryActivity"></activity>
+        <activity android:name=".Views.Activity.JobServiceSummaryActivity" />
+        <activity android:name=".Views.Activity.JobExeDetailsActivity"></activity>
     </application>
 
 </manifest>

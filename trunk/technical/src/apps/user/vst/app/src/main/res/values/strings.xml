@@ -30,7 +30,6 @@
     <string name="dailog_task_name_cost">Task Cost</string>
 
 
-
     <string name="invalid_auth_code">Entered attendant code is invalid</string>
     <string name="enter_valid_authcode">Please enter a valid authcode</string>
 
@@ -54,5 +53,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_job_service_list">JobServiceListActivity</string>
+    <string name="title_activity_job_exe_details">JobExeDetailsActivity</string>
 
 </resources>
