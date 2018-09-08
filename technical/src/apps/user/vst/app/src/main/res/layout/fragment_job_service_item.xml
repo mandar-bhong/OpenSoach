@@ -16,6 +16,8 @@
             name="RemoveItemHandler"
             type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskItemRemoveHandler"/>
 
+
+
     </data>
 
 
