@@ -19,6 +19,7 @@ public class TaskCreateCompleteClickHandler {
       AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().addItem(vm);
 
        ((Activity) view.getContext()).finish();
+       
 
     }
 }

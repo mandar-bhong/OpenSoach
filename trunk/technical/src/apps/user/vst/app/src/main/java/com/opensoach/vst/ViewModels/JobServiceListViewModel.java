@@ -16,7 +16,7 @@ public class JobServiceListViewModel extends BaseViewModel{
 
     public JobServiceListViewModel() {
         this.jobServiceDataAdapter = new JobServiceDataAdapter();
-        displayMode = ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT;
+        displayMode = ApplicationConstants.DISPLAY_MODE_JOB_EXECUTION;
     }
 
     public JobServiceDataAdapter getJobServiceDataAdapter() {
@@ -38,5 +38,17 @@ public class JobServiceListViewModel extends BaseViewModel{
     public void setDisplayMode(int displayMode) {
         this.displayMode = displayMode;
     }
+
+    @Bindable
+    public boolean getShowSummaryButton(){
+
+        if ( getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
 
 }

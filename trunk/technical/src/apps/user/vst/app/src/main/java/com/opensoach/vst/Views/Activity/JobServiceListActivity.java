@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
@@ -44,7 +45,8 @@ public class JobServiceListActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityJobServiceListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_list);
-        binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel());
+//        binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel());
+        binding.setVM(GenerateData());
         binding.setClickHandler(new JobServiceTaskListCreateHandler());
         binding.setSummaryClickHandler(new JobServiceSummaryClickHandler());
 
@@ -58,6 +60,8 @@ public class JobServiceListActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 
     JobServiceListViewModel GenerateData() {
         JobServiceListViewModel jobServiceListViewModel = new JobServiceListViewModel();

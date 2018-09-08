@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
 
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.R;
@@ -25,6 +27,8 @@ public class JobServiceCreationActivity extends AppCompatActivity
         implements TokenItemFragment.OnFragmentInteractionListener,
         HeaderFragment.OnFragmentInteractionListener{
 
+     private EditText etTaskname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,7 @@ public class JobServiceCreationActivity extends AppCompatActivity
 
         setBinding();
     }
+
 
 
     void setBinding(){
@@ -55,4 +60,5 @@ public class JobServiceCreationActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 }
