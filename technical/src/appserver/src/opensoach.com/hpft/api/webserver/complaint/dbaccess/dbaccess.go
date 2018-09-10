@@ -48,12 +48,12 @@ func UpdateByFilter(dbConn string, updtStruct *hktmodels.DBComplaintUpdateRowMod
 	return nil, updateCtx.AffectedRows
 }
 
-func ComplaintTableSelectByID(dbConn string, complaintid int64) (error, *[]hktmodels.DBSplHktSpComplaintTableRowModel) {
+func ComplaintTableSelectByID(dbConn string, complaintid int64) (error, *[]hktmodels.DBSplNodeSpComplaintTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ComplaintTableSelectByID")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplHktSpComplaintTableRowModel{}
+	data := &[]hktmodels.DBSplNodeSpComplaintTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.AutoQuery
 	selDBCtx.TableName = constants.DB_TABLE_SPL_HKT_SP_COMPLAINT_TBL
@@ -65,12 +65,12 @@ func ComplaintTableSelectByID(dbConn string, complaintid int64) (error, *[]hktmo
 	return nil, data
 }
 
-func ComplaintTableSelectAll(dbConn string) (error, *[]hktmodels.DBSplHktSpComplaintTableRowModel) {
+func ComplaintTableSelectAll(dbConn string) (error, *[]hktmodels.DBSplNodeSpComplaintTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ComplaintTableSelectAll")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplHktSpComplaintTableRowModel{}
+	data := &[]hktmodels.DBSplNodeSpComplaintTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.AutoQuery
 	selDBCtx.TableName = constants.DB_TABLE_SPL_HKT_SP_COMPLAINT_TBL

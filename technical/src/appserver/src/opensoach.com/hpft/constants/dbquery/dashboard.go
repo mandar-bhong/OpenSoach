@@ -14,7 +14,7 @@ const QUERY_SPL_NODE_DASHBOARD_TASK = `select status,count(status) as count from
 inner join spl_node_service_instance_tbl serv_conf_in on serv_in_txn.serv_in_id_fk = serv_conf_in.id
 $WhereCondition$ group by status`
 
-const QUERY_SPL_NODE_DASHBOARD_COMPLAINT_SUMMARY = `select  complaint_state,count(*) as count from spl_hkt_sp_complaint_tbl $WhereCondition$ group by complaint_state`
+const QUERY_SPL_NODE_DASHBOARD_COMPLAINT_SUMMARY = `select  complaint_state,count(*) as count from spl_node_sp_complaint_tbl $WhereCondition$ group by complaint_state`
 
 const QUERY_SPL_NODE_DASHBOARD_IN_USE_LOCATION_COUNT = `select count( distinct sp.sp_id_fk) as count  from spl_node_sp_tbl sp
 inner join spl_node_dev_sp_mapping devsp on devsp.sp_id_fk = sp.sp_id_fk 
@@ -37,11 +37,11 @@ month(raised_on) as month,
 count(if(complaint_state=1,1,null)) as open,
 count(if(complaint_state=2,1,null)) as closed,
 count(if(complaint_state=3,1,null)) as inprogress
-from spl_hkt_sp_complaint_tbl
+from spl_node_sp_complaint_tbl
 $WhereCondition$
 group by month,year`
 
-const QUERY_GET_TOP_COMPLAINTS = `select id,complaint_title,raised_on,complaint_state,severity from spl_hkt_sp_complaint_tbl $WhereCondition$
+const QUERY_GET_TOP_COMPLAINTS = `select id,complaint_title,raised_on,complaint_state,severity from spl_node_sp_complaint_tbl $WhereCondition$
 order by severity desc ,raised_on desc
 limit ?`
 

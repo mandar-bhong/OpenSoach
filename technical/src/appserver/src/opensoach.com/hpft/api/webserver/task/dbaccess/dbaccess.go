@@ -42,12 +42,12 @@ func UpdateByFilter(dbConn string, updtStruct *hktmodels.DBTaskLibUpdateRowModel
 	return nil, updateCtx.AffectedRows
 }
 
-func TaskSelectByID(dbConn string, taskId int64) (error, *[]hktmodels.DBSplHktTaskLibTableRowModel) {
+func TaskSelectByID(dbConn string, taskId int64) (error, *[]hktmodels.DBSplNodeTaskLibTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing TaskSelectByID")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplHktTaskLibTableRowModel{}
+	data := &[]hktmodels.DBSplNodeTaskLibTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.AutoQuery
 	selDBCtx.TableName = constants.DB_TABLE_HKT_TASK_LIB
@@ -59,12 +59,12 @@ func TaskSelectByID(dbConn string, taskId int64) (error, *[]hktmodels.DBSplHktTa
 	return nil, data
 }
 
-func TaskSelectAll(dbConn string) (error, *[]hktmodels.DBSplHktTaskLibTableRowModel) {
+func TaskSelectAll(dbConn string) (error, *[]hktmodels.DBSplNodeTaskLibTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing TaskSelectAll")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplHktTaskLibTableRowModel{}
+	data := &[]hktmodels.DBSplNodeTaskLibTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.AutoQuery
 	selDBCtx.TableName = constants.DB_TABLE_HKT_TASK_LIB
@@ -77,12 +77,12 @@ func TaskSelectAll(dbConn string) (error, *[]hktmodels.DBSplHktTaskLibTableRowMo
 
 }
 
-func TaskSelectBySPCID(dbConn string, spcid int64) (error, *[]hktmodels.DBSplHktTaskLibTableRowModel) {
+func TaskSelectBySPCID(dbConn string, spcid int64) (error, *[]hktmodels.DBSplNodeTaskLibTableRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing TaskSelectByID")
 
 	selDBCtx := dbmgr.SelectContext{}
-	data := &[]hktmodels.DBSplHktTaskLibTableRowModel{}
+	data := &[]hktmodels.DBSplNodeTaskLibTableRowModel{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Query = dbquery.QUERY_GET_HKT_TASK_LIB_TBL_BY_SCP_ID
