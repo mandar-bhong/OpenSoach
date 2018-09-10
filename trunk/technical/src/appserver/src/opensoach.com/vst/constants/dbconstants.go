@@ -1,8 +1,8 @@
 package constants
 
-const DB_TABLE_HKT_TASK_LIB string = "spl_hkt_task_lib_tbl"
+const DB_TABLE_HKT_TASK_LIB string = "spl_node_task_lib_tbl"
 const DB_TABLE_FIELD_OPERATOR string = "spl_node_field_operator_tbl"
-const DB_TABLE_SPL_HKT_SP_COMPLAINT_TBL string = "spl_hkt_sp_complaint_tbl"
+const DB_TABLE_SPL_HKT_SP_COMPLAINT_TBL string = "spl_node_sp_complaint_tbl"
 const DB_TABLE_CHART_TBL string = "spl_hkt_chart_tbl"
 const DB_TABLE_SERVICE_CONF string = "spl_node_service_conf_tbl"
 const DB_TABLE_SERVICE_INSTANCE string = "spl_node_service_instance_tbl"

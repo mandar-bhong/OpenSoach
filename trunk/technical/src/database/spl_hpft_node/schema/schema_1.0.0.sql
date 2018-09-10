@@ -201,10 +201,10 @@ CREATE TABLE `spl_node_fop_sp_tbl` (
 
 
 --
--- Table structure for table `spl_hpft_task_lib_tbl`
+-- Table structure for table `spl_node_task_lib_tbl`
 --
 
-CREATE TABLE `spl_hpft_task_lib_tbl` (
+CREATE TABLE `spl_node_task_lib_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `spc_id_fk` int(10) unsigned NOT NULL,
@@ -221,10 +221,10 @@ CREATE TABLE `spl_hpft_task_lib_tbl` (
 ) ENGINE=InnoDB COMMENT='Short Name for Table: task';
 
 --
--- Table structure for table `spl_hpft_sp_complaint_tbl`
+-- Table structure for table `spl_node_sp_complaint_tbl`
 --
 
-CREATE TABLE `spl_hpft_sp_complaint_tbl` (
+CREATE TABLE `spl_node_sp_complaint_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `sp_id_fk` int(10) unsigned NOT NULL,
