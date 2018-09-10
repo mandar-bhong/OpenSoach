@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type DBSplHktSpComplaintTableRowModel struct {
+type DBSplNodeSpComplaintTableRowModel struct {
 	ComplaintId    int64      `db:"id" dbattr:"pri,auto"  json:"complaintid"`
 	CpmId          int64      `db:"cpm_id_fk" json:"cpmid"`
 	SpId           int64      `db:"sp_id_fk" json:"spid"`
@@ -21,7 +21,7 @@ type DBSplHktSpComplaintTableRowModel struct {
 	UpdatedOn      time.Time  `db:"updated_on" json:"updatedon"`
 }
 
-type DBSplHktTaskLibTableRowModel struct {
+type DBSplNodeTaskLibTableRowModel struct {
 	TaskId    int64     `db:"id" dbattr:"pri,auto"  json:"taskid"`
 	CpmId     int64     `db:"cpm_id_fk" json:"cpmid"`
 	SpcId     int64     `db:"spc_id_fk" json:"spcid"`
