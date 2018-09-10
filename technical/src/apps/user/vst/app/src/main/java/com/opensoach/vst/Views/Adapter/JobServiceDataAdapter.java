@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
+import com.opensoach.vst.Views.ClickHandler.JobExeDetailsClickHandler;
 import com.opensoach.vst.Views.ClickHandler.JobServiceTaskItemRemoveHandler;
 import com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
@@ -114,6 +115,7 @@ public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAd
             if (binding != null) {
                 binding.setVM(viewModel);
 				binding.setRemoveItemHandler(new JobServiceTaskItemRemoveHandler());
+				binding.setMoveRightHandler(new JobExeDetailsClickHandler());
 //				binding.setClickHandler(new JobServiceTaskListCreateHandler());
 //                binding.setClickHandler(new TokenItemClickHandler());
             }

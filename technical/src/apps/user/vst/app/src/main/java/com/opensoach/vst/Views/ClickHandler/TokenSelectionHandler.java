@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Constants.ApplicationConstants;
+import com.opensoach.vst.ViewModels.JobExeDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceListViewModel;
@@ -52,6 +53,13 @@ public class TokenSelectionHandler {
             jobServiceViewModel.setJobServiceListViewModel(jobServiceListViewModel);
             jobServiceViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
             AppRepo.getInstance().setJobServiceViewModel(jobServiceViewModel);
+
+            JobExeDetailsViewModel jobExeDetailsViewModel =new JobExeDetailsViewModel();
+            jobExeDetailsViewModel.Parent = vm;
+            jobExeDetailsViewModel.ContextActivity =vm.ContextActivity;
+
+            jobExeDetailsViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
+            AppRepo.getInstance().setJobExeDetailsViewModel(jobExeDetailsViewModel);
 
             Intent i = new Intent(view.getContext(), JobServiceListActivity.class);
             view.getContext().startActivity(i);

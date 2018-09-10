@@ -17,6 +17,9 @@
             type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskItemRemoveHandler"/>
 
 
+        <variable
+            name="MoveRightHandler"
+            type="com.opensoach.vst.Views.ClickHandler.JobExeDetailsClickHandler"/>
 
     </data>
 
@@ -102,7 +105,8 @@
                     android:layout_centerInParent="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:visibility="@{VM.showMoveRightIcon == true ? View.VISIBLE : View.GONE }">
+                    android:visibility="@{VM.showMoveRightIcon == true ? View.VISIBLE : View.GONE }"
+                    android:onClick="@{(view)->MoveRightHandler.onClick(view,VM)}">
                     <ImageView
                         android:layout_margin="10dp"
                         android:layout_width="wrap_content"

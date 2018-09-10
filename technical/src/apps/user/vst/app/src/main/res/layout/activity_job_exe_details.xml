@@ -9,9 +9,6 @@
         <variable
             name="VM"
             type="com.opensoach.vst.ViewModels.JobExeDetailsViewModel"/>
-
-
-
     </data>
 
     <RelativeLayout
@@ -102,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorCardFieldValue"
                             android:layout_marginLeft="15dp"
-                            android:text="" />
+                            android:text="@{VM.tokenItemViewModel.tokenNo}" />
 
 
                     </LinearLayout>
@@ -125,7 +122,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorCardFieldValue"
                             android:layout_marginLeft="15dp"
-                            android:text="" />
+                            android:text="@{VM.tokenItemViewModel.vehicleNo}" />
 
 
                     </LinearLayout>
