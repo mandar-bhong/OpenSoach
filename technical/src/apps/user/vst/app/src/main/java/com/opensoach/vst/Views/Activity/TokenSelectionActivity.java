@@ -43,6 +43,8 @@ public class TokenSelectionActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
 
+        MainViewModel.getInstance().getHeaderViewModel().setBackButtonVisiable(false);
+
         setBinding();
     }
 
