@@ -41,9 +41,9 @@ INSERT INTO `spl_node_dev_sp_mapping` (`dev_id_fk`, `sp_id_fk`, `cpm_id_fk`) VAL
 --
 
 INSERT INTO `spl_node_service_conf_tbl` (`cpm_id_fk`, `spc_id_fk`, `conf_type_code`, `serv_conf_name`, `serv_conf`) VALUES 
-('4', '1', 'Conf_Type_1', 'Chart 1', '{}'),
-('4', '2', 'Conf_Type_2', 'Chart 2', '{}'),
-('4', '3', 'Conf_Type_3', 'Chart 3', '{}');
+('4', '1', 'TOKEN_GENERATION', 'Chart 1', '{}'),
+('4', '2', 'JOB_CREATION', 'Chart 2', '{}'),
+('4', '3', 'JOB_EXECUTION', 'Chart 3', '{}');
 
 --
 -- Dumping data for table `spl_node_field_operator_tbl`
