@@ -1,62 +1,74 @@
 <div class="row">
-  <mat-card>
-    <div class="form-group form-primary text-right">
-      <button type="button" color="accent" mat-icon-button (click)="add()" matTooltip="Add" [hidden]="addVisiblity===false">
-        <mat-icon aria-label="Add">add</mat-icon>
-      </button>
-      <button mat-icon-button color="accent" (click)="closeWindow()" style="right:10px">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <div class="example-container mat-elevation-z8" id="device-associate">
-      <mat-table [dataSource]="dataSource">
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        <ng-container matColumnDef="prodcode">
-          <mat-header-cell *matHeaderCellDef style="flex:0 0 50%;">Product Code</mat-header-cell>
-          <mat-cell *matCellDef="let row" style="flex:0 0 50%;">
-            <span class="mat-row-mobile-label">Product Code</span>
-            {{row.prodcode}}
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="custname">
-          <mat-header-cell *matHeaderCellDef style="flex:0 0 50%;">Customer Name</mat-header-cell>
-          <mat-cell *matCellDef="let row" style="flex:0 0 50%;">
-            <span class="mat-row-mobile-label">Customer Name</span>
-            {{row.custname}}
-          </mat-cell>
-        </ng-container>
-      </mat-table>
-    </div>
-    <div [hidden]="showForm===false">
-      <form class="md-float-material form-material" [formGroup]="editableForm" (ngSubmit)="save()">
-          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
-        <div class="form-group form-primary">
-          <mat-form-field class="full-width" id="point-selection">
-            <mat-select placeholder="Customer Name" [(ngModel)]="dataModel.custid" formControlName="custnameControl" required (ngModelChange)="getCustomerData()">
-              <mat-option *ngFor="let cutomer of cutomers" [value]="cutomer.custid"> 
-                {{cutomer.custname}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="editableForm.controls['custnameControl'].hasError('required')">
-             is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-group form-primary">
-          <mat-form-field class="full-width" id="point-selection">
-            <mat-select placeholder="Product" [(ngModel)]="dataModel.cpm" formControlName="productControl" required>
-              <mat-option *ngFor="let product of cpmlist" [value]="product">
-                {{product.prodcode}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="editableForm.controls['productControl'].hasError('required')">
-              Product code is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
-      </form>
-    </div>
-  </mat-card>
+  <div class="col">
+    <mat-card style="max-width:500px">
+      <div class="form-group form-primary text-right">
+        <button type="button" color="accent" mat-icon-button (click)="add()" matTooltip="Add" [hidden]="addVisiblity===false">
+          <mat-icon aria-label="Add">add</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="closeWindow()" style="right:10px">
+          <mat-icon aria-hidden="true" class="backButton" matTooltip="Back">arrow_back</mat-icon>
+        </button>
+      </div>
+      <div class="example-container mat-elevation-z8" id="device-associate">
+        <mat-table [dataSource]="dataSource">
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <ng-container matColumnDef="prodcode">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 50%;">Product Code</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 50%;">
+              <span class="mat-cell-responsive-label">Product Code</span>
+              <span class="ellipsis mat-cell-text"> {{row.prodcode}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="custname">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 50%;">Customer Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 50%;">
+              <span class="mat-cell-responsive-label">Customer Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.custname}}</span>
+            </mat-cell>
+          </ng-container>
+        </mat-table>
+      </div>
+      <div [hidden]="showForm===false">
+        <form class="md-float-material form-material" [formGroup]="editableForm" (ngSubmit)="save()">
+          <mat-card-content>
+            <div class=" form-group form-primary text-right">
+              <button mat-icon-button type="submit" style="right:10px" aria-hidden="true" matTooltip="Save">
+                <mat-icon class="saveButton">check</mat-icon>
+              </button>
+              <button mat-icon-button (click)="closeForm()" color="accent" style="right:10px">
+                <mat-icon aria-hidden="true" matTooltip="Close"> close</mat-icon>
+              </button>
+            </div>
+            <!-- <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header> -->
+            <div class="form-group form-primary">
+              <mat-form-field class="full-width" id="point-selection">
+                <mat-select placeholder="Customer Name" [(ngModel)]="dataModel.custid" formControlName="custnameControl" required (ngModelChange)="getCustomerData()">
+                  <mat-option *ngFor="let cutomer of cutomers" [value]="cutomer.custid">
+                    {{cutomer.custname}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editableForm.controls['custnameControl'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group form-primary">
+              <mat-form-field class="full-width" id="point-selection">
+                <mat-select placeholder="Product" [(ngModel)]="dataModel.cpm" formControlName="productControl" required>
+                  <mat-option *ngFor="let product of cpmlist" [value]="product">
+                    {{product.prodcode}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editableForm.controls['productControl'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar> -->
+          </mat-card-content>
+        </form>
+      </div>
+    </mat-card>
+  </div>
 </div>

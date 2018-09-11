@@ -1,0 +1,30 @@
+<div class="card app-design chart-card">
+  <div class="card-block">
+    <div class="row">
+      <div class="col-7">
+        <h6 class="f-w-400 text-muted">Service Average Time (12 months)</h6>
+      </div>
+      <!-- <div class="col-5">
+        <button mat-icon-button >
+          <i class="fa fa-hourglass-half feather" color='primary' active aria-hidden="true" matTooltip="Wait time"></i>
+        </button>
+        <button mat-icon-button>
+          <i class="fa fa-handshake-o feather" color='primary' aria-hidden="true" matTooltip="Job Creation"></i>
+        </button>
+        <button mat-icon-button>
+          <i class="fa fa-cogs feather" color='primary' aria-hidden="true" matTooltip="Job Execution"></i>
+        </button>
+        <button mat-icon-button>
+          <i class="fa fa-car feather" color='primary' aria-hidden="true" matTooltip="Delivery Time"></i>
+        </button>
+      </div> -->
+
+    </div>
+    <div class="row" *ngIf="data.length>0">
+      <ngx-charts-line-chart style="height:200px;" class="chart-container" [legend]=true [legendTitle]="legendTitle" [xAxis]=true
+        [yAxis]=true [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [showXAxisLabel]=true [showYAxisLabel]=true [results]="feedbacktrendchartdata"
+        [curve]="curve" [xAxisTickFormatting]="formatXAxis" [customColors]="customColors">
+      </ngx-charts-line-chart>
+    </div>
+  </div>
+</div>

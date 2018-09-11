@@ -44,6 +44,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     AppSpecificDataProvider.sideMenuRoutes = SIDE_MENU_LINKS;
     AppSpecificDataProvider.userCateory = USER_CATEGORY.CU;
     AppSpecificDataProvider.createRouteMap(APP_ROUTES);
+    AppSpecificDataProvider.logoprefix='housekeeping';
   }
 
   initAppDataStoreService() {

@@ -32,4 +32,12 @@ export class TranslateService {
   selectLanguage(language) {
     this.currentLanguage = language;
   }
+
+  addAppSpecificTranslations(appTranslations: TranslationValue[]) {
+    console.log('in transaltions');
+    appTranslations.forEach(element => {
+
+      this.translateMap.set(element.key, element);
+    });
+  }
 }

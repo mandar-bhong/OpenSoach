@@ -22,11 +22,11 @@ import { ServicepointUpdateComponent } from '../../servicepoint-update/servicepo
   styleUrls: ['./servicepoint-list-view.component.css']
 })
 export class ServicepointListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['spname', 'spcname', 'devid', 'spstate', 'servconfid', 'action'];
+  displayedColumns = ['spname', 'spcname', 'devid', 'servconfid', 'action'];
   sortByColumns = [{ text: 'Service Point', value: 'spname' },
   { text: 'Category', value: 'spcname' },
-  { text: 'Device', value: 'devname' },
-  { text: 'Status', value: 'spstate' }
+  { text: 'Device', value: 'devname' }
+    // { text: 'Status', value: 'spstate' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;

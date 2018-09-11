@@ -1,8 +1,7 @@
- <div class="row">
+<div class="row">
   <div class="col">
     <mat-card>
       <div class="mobile-sort">
-        <h4>Sort</h4>
         <table class="example-full-width" cellspacing="0">
           <tr id="layout-set">
             <td>
@@ -15,15 +14,15 @@
               </mat-form-field>
             </td>
             <td>
-              <div (click)="sortDirectionAsc()"> Ascending
-                <i class="fa fa-long-arrow-up"></i>
-              </div>
-            </td>
-            <td>
-              <div (click)="sortDirectionDesc()"> Descending
-                <i class="fa fa-long-arrow-down"></i>
-              </div>
-            </td>
+                <button mat-icon-button class="view-form-backButton" (click)="sortDirectionAsc()">
+                  <mat-icon aria-hidden="true" matTooltip="Ascending">arrow_upward</mat-icon>
+                </button>
+              </td>
+              <td>
+                <button mat-icon-button class="view-form-backButton" (click)="sortDirectionDesc()">
+                  <mat-icon aria-hidden="true" matTooltip="Descending">arrow_downward</mat-icon>
+                </button>
+              </td>
           </tr>
         </table>
       </div>
@@ -34,53 +33,50 @@
           <ng-container matColumnDef="spname">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Service Point</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
-              <span class="mat-row-mobile-label">Service Point</span>
-              {{row.spname}}
+              <span class="mat-cell-responsive-label">Service Point</span>
+              <span class="ellipsis mat-cell-text"> {{row.spname}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="complainttitle">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Complaint Title</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
-              <span class="mat-row-mobile-label">Complaint Title</span>
-              {{row.complainttitle}}
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="description">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Description</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Description</span>
-              {{row.description}}
+              <span class="mat-cell-responsive-label">Complaint Title</span>
+              <span class="ellipsis mat-cell-text"> {{row.complainttitle}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="complaintby">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Complaint By</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Complaint By</span>
-              {{row.complaintby}}
+              <span class="mat-cell-responsive-label">Complaint By</span>
+              <span class="ellipsis mat-cell-text"> {{row.complaintby}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="severity">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Severity</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+              <span class="mat-cell-responsive-label">Severity</span>
+              <span class="ellipsis mat-cell-text"> {{prodComplaintService.getSeveritiesState(row.severity)  | translate}}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="complaintstate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Status</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-              <span class="mat-row-mobile-label">Status</span>
-              {{prodComplaintService.getComplaintState(row.complaintstate) | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;justify-content:center;">Status</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;justify-content:center;">
+              <span class="mat-cell-responsive-label">Status</span>
+              <span [ngSwitch]="row.complaintstate">
+                <div class="statusBlock" *ngSwitchCase="1" style="background-color:#dc3545">Open</div>
+                <div class="statusBlock" *ngSwitchCase="2" style="background-color:#28a745">Closed</div>
+                <div class="statusBlock" *ngSwitchCase="3" style="background-color:#15A5CA">In progress</div>
+                <!-- <div class="statusBlock" *ngSwitchDefault style="background-color:#dc3545">Close</div> -->
+              </span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
+          <ng-container matColumnDef="details">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Details</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
-              <span class="mat-row-mobile-label">Action</span>
-              <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+              <span class="mat-cell-responsive-label">Details</span>
+              <button mat-icon-button (click)="viewDetails(row.complaintid)">
+                <mat-icon color='primary'  aria-hidden="true" matTooltip="Edit Details">remove_red_eye</mat-icon>
               </button>
-              <mat-menu #menu="matMenu">
-                <ng-template matMenuContent>
-                  <button mat-menu-item (click)="viewDetails(row.complaintid)">
-                    <mat-icon color='primary'>remove_red_eye</mat-icon>
-                    <span>Details</span>
-                  </button>
-                </ng-template>
-              </mat-menu>
             </mat-cell>
           </ng-container>
         </mat-table>
@@ -90,5 +86,4 @@
       <br>
     </mat-card>
   </div>
-</div> 
-
+</div>

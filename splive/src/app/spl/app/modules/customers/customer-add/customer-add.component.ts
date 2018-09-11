@@ -32,6 +32,8 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
     super();
+    this.iconCss = 'fa fa-user';
+    this.pageTitle = 'Customer Details';
   }
 
   ngOnInit() {
@@ -43,7 +45,9 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
         this.getCustomerEdit();
+        this.removeControl();
       } else {
+        this.subTitle = 'Add Details of Customer';
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
@@ -59,7 +63,6 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
       corprateId: new FormControl('', [Validators.required])
     });
   }
-
   getCorporateList() {
     this.corporateService.getCorporateShortDataList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
@@ -69,6 +72,7 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const customerAddRequest = new CustomerAddRequest();
       this.dataModel.copyTo(customerAddRequest);
@@ -78,8 +82,11 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.custname;
+          this.removeControl();
         }
       });
+      this.inProgress = false;
     } else {
       const request = new CustomerMasterUpdateRequest();
       this.dataModel.copyToUpdateRequest(request);
@@ -87,8 +94,10 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
         if (payloadResponse && payloadResponse.issuccess) {
           this.appNotificationService.success();
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.custname;
         }
       });
+      this.inProgress = false;
     }
   }
 
@@ -97,11 +106,16 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFrom(payloadResponse.data);
+          this.subTitle = this.dataModel.custname;
         }
       }
     });
   }
-
+  getcustomerstate(value: number) {
+    if (this.customerStates && value) {
+      return this.customerStates.find(a => a.value === value).text;
+    }
+  }
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
@@ -111,9 +125,12 @@ export class CustomerAddComponent extends EditRecordBase implements OnInit, OnDe
       this.routeSubscription.unsubscribe();
     }
   }
-
-  edit() {
-    this.editForm();
-    this.editableForm.controls['corprateId'].disable();
+  getcorporatelist(value: number) {
+    if (this.corporates && value) {
+      return this.corporates.find(a => a.corpid === value).corpname;
+    }
+  }
+  removeControl() {
+    this.editableForm.removeControl('corprateId');
   }
 }

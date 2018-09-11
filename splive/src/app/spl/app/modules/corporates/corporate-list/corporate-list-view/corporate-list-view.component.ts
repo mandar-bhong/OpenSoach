@@ -17,11 +17,11 @@ import { CorporateService } from '../../../../services/corporate.service';
   styleUrls: ['./corporate-list-view.component.css']
 })
 export class CorporateListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['corpname', 'corpmobileno', 'corpemailid', 'corplandlineno', 'action'];
+  displayedColumns = ['corpname', 'corpmobileno', 'corpemailid', 'corplandlineno', 'details'];
   sortByColumns = [{ text: 'Corporate Name', value: 'corpname' },
-  { text: 'Mobile No.', value: 'corpmobileno' },
-  { text: 'Email', value: 'corpemailid' },
-  { text: 'Landline No.', value: 'corplandlineno' }
+  { text: 'Mobile Number', value: 'corpmobileno' },
+  { text: 'Email Id', value: 'corpemailid' },
+  { text: 'Landline Number', value: 'corplandlineno' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;

@@ -58,9 +58,9 @@ export class UserInfoComponent extends EditRecordBase implements OnInit, OnDestr
     this.editableForm = new FormGroup({
       fnameControl: new FormControl(''),
       lnameControl: new FormControl(''),
-      mobilenoControl: new FormControl(''),
+      mobilenoControl: new FormControl('', Validators.pattern(/^\d+$/)),
       userGenderControl: new FormControl('', [Validators.required]),
-      alternateContactControl: new FormControl('')
+      alternateContactControl: new FormControl('', Validators.pattern(/^\d+$/))
     });
   }
   getUserDetails() {
@@ -119,6 +119,7 @@ export class UserInfoComponent extends EditRecordBase implements OnInit, OnDestr
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const userAddDetailsRequest = new UserAddDetailsRequest();
     this.dataModel.copyTo(userAddDetailsRequest);
     this.prodUserService.updateUserDetails(userAddDetailsRequest).subscribe(payloadResponse => {
@@ -128,6 +129,7 @@ export class UserInfoComponent extends EditRecordBase implements OnInit, OnDestr
         this.setFormMode(FORM_MODE.VIEW);
         this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
       }
+      this.inProgress = false;
     });
   }
   getgender(value: number) {

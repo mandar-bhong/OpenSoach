@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable ,  merge ,  Subscription } from 'rxjs';
-import { map ,  startWith ,  switchMap } from 'rxjs/operators';
+import { merge, Observable, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
@@ -18,9 +18,12 @@ import { ProdUserService } from '../../../../services/user/prod-user.service';
   styleUrls: ['./user-view.component.css']
 })
 export class UserViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['usrname', 'urolename', 'usrstate', 'fname', 'lname', 'mobileno', 'action'];
+  displayedColumns = ['usrname', 'urolename', 'fname', 'lname', 'mobileno', 'usrstate', 'details'];
   sortByColumns = [{ text: 'User Name', value: 'usrname' },
   { text: 'Role Name', value: 'urolename' },
+  { text: 'First Name', value: 'fname' },
+  { text: 'Last Name', value: 'lname' },
+  { text: 'Mobile Number', value: 'mobileno' },
   { text: 'Status', value: 'usrstate' }
   ];
   @ViewChild(MatPaginator)

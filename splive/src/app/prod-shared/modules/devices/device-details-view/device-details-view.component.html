@@ -4,14 +4,14 @@
       <i class="fa fa-tablet"></i>
     </div>
     <mat-card-title>
-      <source media="(min-width: )" srcset="">Device</mat-card-title>
+      <source media="(min-width: )" srcset="">Edit device name</mat-card-title>
   </mat-card-header>
   <form [formGroup]="editableForm" (ngSubmit)="save()">
     <div class="form-group form-primary ">
       <mat-form-field class="full-width">
-        <input matInput placeholder="Device" formControlName="devnameControl" [(ngModel)]="dataModel.devname">
+        <input matInput placeholder="Device Name" formControlName="devnameControl" [(ngModel)]="dataModel.devname" maxlength="30">
         <mat-error *ngIf="editableForm.controls['devnameControl'].hasError('required') ">
-          This field is required
+          {{'VALIDATION_REQUIRED_FIELD'|translate}}
         </mat-error>
       </mat-form-field>
     </div>

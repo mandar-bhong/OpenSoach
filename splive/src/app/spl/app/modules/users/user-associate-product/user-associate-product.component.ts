@@ -60,6 +60,7 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
 
   ngOnInit() {
     this.createControls();
+    this.showBackButton = false;
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.usrid = Number(params['id']);
       this.callbackUrl = params['callbackurl'];
@@ -121,13 +122,15 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
       });
   }
   getCustRoleList() {
-    if (this.dataModel.cpm.prodcode && this.dataModel.cpm.prodcode !== null) {
-    this.customerService.getCustRoleDataList({ prodcode: this.dataModel.cpm.prodcode })
-      .subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.uroleids = payloadResponse.data;
-        }
-      });
+    if (this.dataModel.cpm && this.dataModel.cpm !== null) {
+      if (this.dataModel.cpm.prodcode && this.dataModel.cpm.prodcode !== null) {
+        this.customerService.getCustRoleDataList({ prodcode: this.dataModel.cpm.prodcode })
+          .subscribe(payloadResponse => {
+            if (payloadResponse && payloadResponse.issuccess) {
+              this.uroleids = payloadResponse.data;
+            }
+          });
+      }
     }
   }
 
@@ -139,9 +142,9 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
   }
 
   closeForm() {
-    this.editableForm.reset();
     this.showForm = false;
-    this.currentRecord = null;
+    this.editableForm.reset();
+    // this.currentRecord = null;
   }
 
   editRecord(ucpm: UserAssociateProductListItemResponse) {
@@ -158,6 +161,7 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
 
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const request = new UserAssociateProductRequest();
       this.dataModel.copyToAddRequest(request);
@@ -168,6 +172,7 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
           this.closeForm();
         }
       });
+      this.inProgress = false;
     } else {
       const request = new UserAssociateProductUpdateRequest();
       this.dataModel.copyToUpdateRequest(request);
@@ -177,11 +182,17 @@ export class UserAssociateProductComponent extends EditRecordBase implements OnI
           this.closeForm();
         }
       });
+      this.inProgress = false;
     }
   }
 
-  closeWindow() {
+  closeForms() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
+  }
+  getuserrole(value: number) {
+    if (this.uroleids && value) {
+      return this.uroleids.find(a => a.uroleid === value).urolename;
+    }
   }
 
   ngOnDestroy() {

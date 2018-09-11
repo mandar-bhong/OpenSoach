@@ -24,6 +24,10 @@ export enum SERVICEPOINT_STATE {
     INACTIVE = 2,
     SUSPENDED = 3
 }
+export enum CONNECTION_STATE {
+    OFFLINE = 0,
+    ONLINE = 1
+}
 export enum USER_GENDER {
     NOT_SELECTED = 0,
     MALE = 1,

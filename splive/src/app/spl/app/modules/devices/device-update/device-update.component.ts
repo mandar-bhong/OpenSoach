@@ -24,10 +24,13 @@ export class DeviceUpdateComponent extends EditRecordBase implements OnInit, OnD
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
     super();
+    this.iconCss = 'fa fa-tablet';
+    this.pageTitle = 'Device Details';
   }
 
   ngOnInit() {
     this.createControls();
+    this.subTitle = 'Add Details of Device';
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.dataModel.devid = Number(params['id']);
       this.callbackUrl = params['callbackurl'];
@@ -36,9 +39,9 @@ export class DeviceUpdateComponent extends EditRecordBase implements OnInit, OnD
   }
   createControls(): void {
     this.editableForm = new FormGroup({
-      makeControl: new FormControl('', [Validators.required]),
-      technologyControl: new FormControl('', [Validators.required]),
-      techversionControl: new FormControl('', [Validators.required])
+      makeControl: new FormControl(''),
+      technologyControl: new FormControl(''),
+      techversionControl: new FormControl('')
     });
   }
   getDeviceDetails() {
@@ -48,6 +51,7 @@ export class DeviceUpdateComponent extends EditRecordBase implements OnInit, OnD
           this.dataModel.copyFrom(payloadResponse.data);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+          this.subTitle = this.dataModel.make;
         } else {
           this.appNotificationService.info(this.translatePipe.transform('INFO_DETAILS_NOT_AVAILABLE'));
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
@@ -65,7 +69,8 @@ export class DeviceUpdateComponent extends EditRecordBase implements OnInit, OnD
         this.appNotificationService.success(this.translatePipe.transform('SUCCESS_DEVICE_DETAILS_SAVED'));
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
-      } else {}
+        this.subTitle = this.dataModel.make;
+      }
     });
   }
   closeForm() {

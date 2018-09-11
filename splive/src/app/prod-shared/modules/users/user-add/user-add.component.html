@@ -6,9 +6,12 @@
         <mat-card-content>
           <div class="form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
-              <input matInput placeholder="User Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.usrname">
+              <input matInput placeholder="User Name" type="email" formControlName="emailControl" required [(ngModel)]="dataModel.usrname" maxlength="50">
               <mat-error *ngIf="editableForm.controls['emailControl'].hasError('required')">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+              <mat-error *ngIf="editableForm.controls['emailControl'].hasError('email') ">
+                {{ 'ErrorEmailPattern' | translate}}
               </mat-error>
             </mat-form-field>
           </div>

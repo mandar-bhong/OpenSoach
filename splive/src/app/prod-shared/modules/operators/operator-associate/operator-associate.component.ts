@@ -34,7 +34,7 @@ export class OperatorAssociateComponent extends EditRecordBase implements OnInit
     this.dataModel.availablesplist = [];
     this.iconCss = 'material-icons';
     this.iconName = 'link';
-    this.pageTitle = 'Associate Operator';
+    this.pageTitle = this.translatePipe.transform('OPERATOR_ASSOCIATE');
   }
 
   ngOnInit() {

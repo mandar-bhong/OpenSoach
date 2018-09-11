@@ -21,9 +21,9 @@ export class CustomerListViewComponent implements OnInit, OnDestroy {
   displayedColumns = ['custname', 'corpname', 'poc1name', 'poc1emailid', 'poc1mobileno', 'custstate', 'action'];
   sortByColumns = [{ text: 'Customer Name', value: 'custname' },
   { text: 'Corporate Name', value: 'corpname' },
-  { text: 'Point of Contact', value: 'poc1name' },
-  { text: 'Email Addres', value: 'poc1emailid' },
-  { text: 'Mobile no', value: 'poc1mobileno' },
+  { text: 'POC Name', value: 'poc1name' },
+  { text: 'Email Id', value: 'poc1emailid' },
+  { text: 'Mobile Number', value: 'poc1mobileno' },
   { text: 'Status', value: 'custstate' }
   ];
   @ViewChild(MatPaginator)

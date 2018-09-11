@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-10">
             <mat-form-field>
-              <mat-select placeholder="Select a service point to associate" [(ngModel)]="selectedsp">
+              <mat-select placeholder="{{'OPERATOR_ASSOCIATE_LABLE_NAME' | translate}}" [(ngModel)]="selectedsp">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let sp of dataModel.availablesplist" [value]="sp">
                   {{sp.spname}}
@@ -22,7 +22,7 @@
         </div>
         <div class="row" style="padding-top: 10px;">
           <div class="col">
-            <span class="text-muted">List of service points associated with
+            <span class="text-muted">List of {{'OPERATOR_ASSOCIATE_LABLE' | translate}} associated with
               <b> {{dataModel.fopname}}</b>
             </span>
           </div>

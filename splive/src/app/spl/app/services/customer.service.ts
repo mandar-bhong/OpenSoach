@@ -108,12 +108,11 @@ export class CustomerService extends ListingService<CustomerFilterRequest, Custo
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/osu/v1/customer/info/master',
             request, implicitErrorHandling);
     }
-    updateCustomerMaster(corporateUpadteRequest: CustomerMasterUpdateRequest, implicitErrorHandling = true):
+    updateCustomerMaster(customerMasterUpdateRequest: CustomerMasterUpdateRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<null>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/osu/v1/customer/update',
-            corporateUpadteRequest, implicitErrorHandling);
+        customerMasterUpdateRequest, implicitErrorHandling);
     }
-
     getCustomerServiceProductAssociation(request: RecordIDRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<CustomerServiceAssociateListResponse[]>> {
         return this.serverApiInterfaceService.getWithQueryParams(

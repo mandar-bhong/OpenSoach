@@ -6,6 +6,7 @@ export class AppSpecificDataProvider {
     static topMenuRoutes: RoutingModel[];
     static appRoutes: Map<string, RoutingModel>;
     static userCateory: USER_CATEGORY;
+    static logoprefix:string;
 
     static createRouteMap(routes: RoutingModel[]) {
         AppSpecificDataProvider.appRoutes = new Map(routes.map(r => [r.url, r] as [string, RoutingModel]));

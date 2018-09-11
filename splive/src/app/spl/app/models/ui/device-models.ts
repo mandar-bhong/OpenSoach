@@ -1,6 +1,6 @@
 import {
     DeviceFilterRequest, DeviceAddRequest, DeviceAddDetailsRequest, DeviceDetailsResponse,
-    DeviceAssociateProductRequest, DeviceAssociateProductListItemResponse
+    DeviceAssociateProductRequest, DeviceAssociateProductListItemResponse, DeviceMasterUpdateRequest, DeviceMasterUpdateResponse
 } from '../api/device-models';
 import { DEVICE_STATE } from '../../../../shared/app-common-constants';
 import { CustomerAssociateProductListItemResponse } from '../../../../spl/app/models/api/customer-models';
@@ -27,6 +27,16 @@ export class DeviceAddModel {
         deviceAddRequest.custid = this.custid;
         deviceAddRequest.serialno = this.serialno;
         deviceAddRequest.devstate = this.devstate;
+    }
+    copyToUpdateRequest(deviceMasterUpdateRequest: DeviceMasterUpdateRequest) {
+        deviceMasterUpdateRequest.devid = this.devid;
+        deviceMasterUpdateRequest.devstate = this.devstate;
+    }
+    copyFrom(customerMasterResponse: DeviceMasterUpdateResponse) {
+        this.custid = customerMasterResponse.custid;
+        this.devid = customerMasterResponse.devid;
+        this.serialno = customerMasterResponse.serialno;
+        this.devstate = customerMasterResponse.devstate;
     }
 }
 
