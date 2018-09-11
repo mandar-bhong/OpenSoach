@@ -8,7 +8,8 @@
     <data>
         <variable
             name="VM"
-            type="com.opensoach.vst.ViewModels.JobExeDetailsViewModel"/>
+            type="com.opensoach.vst.ViewModels.JobServiceViewModel"/>
+
     </data>
 
     <RelativeLayout
@@ -145,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorCardFieldValue"
                             android:layout_marginLeft="15dp"
-                            android:text="" />
+                            android:text="@{VM.jobServiceItemViewModel.taskName}" />
 
 
                     </LinearLayout>
