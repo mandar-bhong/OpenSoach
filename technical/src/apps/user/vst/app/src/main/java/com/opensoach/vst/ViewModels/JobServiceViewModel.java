@@ -4,10 +4,10 @@ public class JobServiceViewModel extends BaseViewModel {
 
     private TokenItemViewModel tokenItemViewModel;
     private TokenSelectionViewModel tokenSelectionViewModel;
-    //private JobServiceCreationViewModel jobServiceCreationViewModel;
+//    private JobServiceCreationViewModel jobServiceCreationViewModel;
     private JobServiceListViewModel jobServiceListViewModel;
     private JobServiceDetailsViewModel jobServiceDetailsViewModel;
-
+    private JobServiceItemViewModel jobServiceItemViewModel;
 
 
 
@@ -55,5 +55,11 @@ public class JobServiceViewModel extends BaseViewModel {
         this.tokenItemViewModel = tokenItemViewModel;
     }
 
+    public JobServiceItemViewModel getJobServiceItemViewModel() {
+        return jobServiceItemViewModel;
+    }
 
+    public void setJobServiceItemViewModel(JobServiceItemViewModel jobServiceItemViewModel) {
+        this.jobServiceItemViewModel = jobServiceItemViewModel;
+    }
 }
