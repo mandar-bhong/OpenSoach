@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
         <RelativeLayout
             android:id="@+id/headerView"
             android:layout_width="match_parent"
@@ -37,348 +39,352 @@
 
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_below="@+id/headerView">
 
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_below="@+id/headerView"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
-
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    card_view:cardUseCompatPadding="true"
-                    card_view:cardElevation="1dp"
-                    card_view:cardCornerRadius="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="37sp"
-                            android:background="@color/colorAccent"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:textAlignment="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Vehicle Details"
-                                android:textSize="@dimen/card_header_font_size"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Token Number"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="@color/colorCardFieldLabel" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:textColor="@color/colorCardFieldValue"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="@{VM.tokenItemViewModel.tokenNo}"/>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Vehical Number"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="@color/colorCardFieldLabel" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:textColor="@color/colorCardFieldValue"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_marginBottom="5dp"
-                                    android:text="@{VM.tokenItemViewModel.vehicleNo}"/>
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    card_view:cardUseCompatPadding="true"
-                    card_view:cardElevation="1dp"
-                    card_view:cardCornerRadius="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="37sp"
-                            android:background="@color/colorAccent"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:textAlignment="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Customer Details"
-                                android:textSize="@dimen/card_header_font_size"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="First Name"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="@color/colorCardFieldLabel" />
-
-                                <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="textCapSentences|textFilter|textNoSuggestions"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="@={VM.firstName}">
-
-                                    <requestFocus />
-                                </EditText>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Last Name"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="@color/colorCardFieldLabel" />
-
-                                <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="textCapSentences|textFilter|textNoSuggestions"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="@={VM.lastName}">
-
-                                    <requestFocus />
-                                </EditText>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Mobile Number"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="@color/colorCardFieldLabel" />
-
-                                <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="phone"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="@={VM.mobileNo}">
-
-                                    <requestFocus />
-                                </EditText>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    card_view:cardUseCompatPadding="true"
-                    card_view:cardElevation="1dp"
-                    card_view:cardCornerRadius="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="37sp"
-                            android:background="@color/colorAccent"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:textAlignment="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Vehicle Details"
-                                android:textSize="@dimen/card_header_font_size"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Km Runs"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="@color/colorCardFieldLabel" />
-
-                                <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="@={VM.kmRuns}">
-
-                                    <requestFocus />
-                                </EditText>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Petrol Level"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="@color/colorCardFieldLabel" />
-
-                                <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="@={VM.petrolLevel}">
-
-                                    <requestFocus />
-                                </EditText>
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-
+                    android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
-                    <Space
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Next"
-                        android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}"/>
-                </LinearLayout>
-            </LinearLayout>
+                    android:orientation="vertical">
 
-        </RelativeLayout>
+
+                    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="2dp"
+                        card_view:cardElevation="1dp"
+                        card_view:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="37sp"
+                                android:background="@color/colorAccent"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Vehicle Details"
+                                    android:textSize="@dimen/card_header_font_size"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="Token Number"
+                                        android:textColor="@color/colorCardFieldLabel" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="@{VM.tokenItemViewModel.tokenNo}"
+                                        android:textColor="@color/colorCardFieldValue" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="Vehical Number"
+                                        android:textColor="@color/colorCardFieldLabel" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:text="@{VM.tokenItemViewModel.vehicleNo}"
+                                        android:textColor="@color/colorCardFieldValue" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="2dp"
+                        card_view:cardElevation="1dp"
+                        card_view:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="37sp"
+                                android:background="@color/colorAccent"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Customer Details"
+                                    android:textSize="@dimen/card_header_font_size"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="First Name"
+                                        android:textColor="@color/colorCardFieldLabel" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                                        android:lines="1"
+                                        android:maxLines="1"
+                                        android:text="@={VM.firstName}">
+
+                                        <requestFocus />
+                                    </EditText>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="Last Name"
+                                        android:textColor="@color/colorCardFieldLabel" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                                        android:lines="1"
+                                        android:maxLines="1"
+                                        android:text="@={VM.lastName}">
+
+                                        <requestFocus />
+                                    </EditText>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="Mobile Number"
+                                        android:textColor="@color/colorCardFieldLabel" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:inputType="phone"
+                                        android:lines="1"
+                                        android:maxLines="1"
+                                        android:text="@={VM.mobileNo}">
+
+                                        <requestFocus />
+                                    </EditText>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="2dp"
+                        card_view:cardElevation="1dp"
+                        card_view:cardUseCompatPadding="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="37sp"
+                                android:background="@color/colorAccent"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:textAlignment="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Vehicle Details"
+                                    android:textSize="@dimen/card_header_font_size"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="Km Runs"
+                                        android:textColor="@color/colorCardFieldLabel" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:inputType="numberDecimal"
+                                        android:lines="1"
+                                        android:maxLines="1"
+                                        android:text="@={VM.kmRuns}">
+
+                                        <requestFocus />
+                                    </EditText>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:text="Petrol Level"
+                                        android:textColor="@color/colorCardFieldLabel" />
+
+                                    <EditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:inputType="numberDecimal"
+                                        android:lines="1"
+                                        android:maxLines="1"
+                                        android:text="@={VM.petrolLevel}">
+
+                                        <requestFocus />
+                                    </EditText>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </android.support.v7.widget.CardView>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}"
+                            android:padding="5dp"
+                            android:text="Next" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                </ScrollView>
+
+            </RelativeLayout>
+
 
     </RelativeLayout>
 
