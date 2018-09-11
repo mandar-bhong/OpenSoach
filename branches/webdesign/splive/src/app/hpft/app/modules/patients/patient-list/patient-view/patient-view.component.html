@@ -1,0 +1,122 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <div class="mobile-sort">
+        <h4>Sort</h4>
+        <table class="example-full-width" cellspacing="0">
+          <tr id="layout-set">
+            <td>
+              <mat-form-field>
+                <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby" (selectionChange)="sortByChanged()">
+                  <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                    {{col.text}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <div (click)="sortDirectionAsc()"> Ascending
+                <i class="fa fa-long-arrow-up"></i>
+              </div>
+            </td>
+            <td>
+              <div (click)="sortDirectionDesc()"> Descending
+                <i class="fa fa-long-arrow-down"></i>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="example-container mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <ng-container matColumnDef="patientname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Patient Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+              <span class="mat-cell-responsive-label">Patient Name</span>
+              <span class="ellipsis mat-cell-text">{{row.patientdetails.patientname}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="emergencycontactno">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 18%;">Emergency Contact</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 18%;">
+              <span class="mat-cell-responsive-label">Emergency Contact</span>
+              <span class="ellipsis mat-cell-text">{{row.patientdetails.emergencycontactno}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="spname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 12%;">Ward</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 12%;">
+              <span class="mat-cell-responsive-label">Ward</span>
+              <span class="ellipsis mat-cell-text"> {{row.spname}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="bedno">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Bed/Room Number</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+              <span class="mat-cell-responsive-label">Bed/Room Number</span>
+              <span class="ellipsis mat-cell-text"> {{row.patientdetails.bedno}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;">Status</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 16%;">
+              <span class="mat-cell-responsive-label">Status</span>
+              <span [ngSwitch]="row.status" *ngIf="row.status === 1">
+                <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Hospitalize</div>
+                <button mat-icon-button color="accent" data-toggle="modal" data-target="#myModal" (click)="setSelectedPatient(row)">
+                  <i class="fa fa-toggle-on" aria-hidden="true" matTooltip="Change Status"></i>
+                </button>
+              </span>
+              <span [ngSwitch]="row.status">
+                <div class="statusBlock" *ngSwitchCase="2" style="background-color:#15A5CA">Discharged</div>
+              </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 14%;">Patient File</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 14%;">
+              <span class="mat-cell-responsive-label">Patient File</span>
+              <button mat-icon-button color="primary" (click)="viewDetails(row.patientid)">
+                <mat-icon>
+                  <i class="fa fa-table" aria-hidden="true" matTooltip="View Task"></i>
+                </mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+        </mat-table>
+        <mat-paginator  [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+      </div>
+      <br>
+    </mat-card>
+
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Status</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            Do you wish to change the status to Discharged ?
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col text-right" style="margin-top: 15px;">
+                <button matSuffix type="button" color="primary" mat-raised-button style="margin-right:10px" data-dismiss="modal">No</button>
+                <button matSuffix type="button" color="primary" mat-raised-button (click)="changestatus()" data-dismiss="modal">Yes</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

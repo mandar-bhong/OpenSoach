@@ -23,6 +23,7 @@ export abstract class EditRecordBase {
     subTitle = '';
     iconCss: string;
     iconName: string;
+    inProgress = false;
 
     editForm() {
         this.setFormMode(FORM_MODE.EDITABLE);

@@ -1,3 +1,4 @@
+import { log } from 'util';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DragulaService } from 'ng2-dragula/components/dragula.provider';
@@ -22,6 +23,8 @@ export class ChartConfigureTaskComponent implements OnInit {
   dataModel: ChartConfigurationModel;
   isTaskAdd = false;
   addNewTaskName: string;
+  addtask: Map<string, string>;
+  libtasklist: Map<string, string>;
   constructor(private dynamicContextService: DynamicContextService,
     private chartConfigureService: ChartConfigureService,
     private dragulaService: DragulaService,
@@ -34,7 +37,11 @@ export class ChartConfigureTaskComponent implements OnInit {
     this.dataModel.variableconf.taskconf.tasks.forEach(item => {
       this.chartTasks.push(item);
     });
-
+    console.log(' this.dataModel.variableconf.taskconf.tasks');
+    console.log(this.dataModel.variableconf.taskconf.tasks);
+    this.addtask = new Map(this.dataModel.variableconf.taskconf.tasks.map(x => [x.taskname, x.taskname] as [string, string]));
+    console.log('map');
+    console.log(this.addtask);
     this.getTaskLibrary();
   }
 
@@ -56,6 +63,11 @@ export class ChartConfigureTaskComponent implements OnInit {
             this.taskLibrary.push(chartTaskConfModel);
           }
         });
+        console.log(' this.chartTaskss');
+        console.log(this.taskLibrary);
+        this.libtasklist = new Map(this.taskLibrary.map(x => [x.taskname, x.taskname] as [string, string]));
+        console.log('map2');
+        console.log(this.libtasklist);
       }
     });
   }
@@ -75,24 +87,36 @@ export class ChartConfigureTaskComponent implements OnInit {
 
   previousClick() {
     this.dynamicContextService.onAction(false);
-
   }
 
   addTask() {
     if (this.addTaskForm.invalid) { return; }
-    const task = new ChartTaskModel();
-    task.taskname = this.addNewTaskName;
-    this.chartTasks.push(task);
-    const taskTemplateRequest = new TaskTemplateRequest();
-    taskTemplateRequest.taskname = this.addNewTaskName;
-    taskTemplateRequest.spcid = this.dataModel.spcid;
-    taskTemplateRequest.shortdesc = this.dataModel.shortdesc;
-    this.chartConfigureService.addTask(taskTemplateRequest).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
+    const addtaskobj = this.addtask.get(this.addNewTaskName);
+    console.log('testobj', addtaskobj);
+    const listtaskobj = this.libtasklist.get(this.addNewTaskName);
+    console.log('listtaskobj', listtaskobj);
+    console.log('this.addNewTaskName', this.addNewTaskName);
+    if (listtaskobj) {
+      this.appNotificationService.info(this.translatePipe.transform('TASK_NAME_ALL_READY_EXISTS_TASk_LIB'));
+    } else {
+      if (addtaskobj) {
+        this.appNotificationService.info(this.translatePipe.transform('TASK_NAME_ALL_READY_EXISTS'));
+      } else {
+        const task = new ChartTaskModel();
+        task.taskname = this.addNewTaskName;
+        this.chartTasks.push(task);
+        const taskTemplateRequest = new TaskTemplateRequest();
+        taskTemplateRequest.taskname = this.addNewTaskName;
+        taskTemplateRequest.spcid = this.dataModel.spcid;
+        taskTemplateRequest.shortdesc = this.dataModel.shortdesc;
+        this.chartConfigureService.addTask(taskTemplateRequest).subscribe(payloadResponse => {
+          if (payloadResponse && payloadResponse.issuccess) {
+          }
+        });
+        this.addNewTaskName = null;
+        this.isTaskAdd = false;
       }
-    });
-    this.addNewTaskName = null;
-    this.isTaskAdd = false;
+    }
   }
 
   showAddTask() {

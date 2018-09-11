@@ -1,42 +1,64 @@
 <div class="row">
-  <mat-card>
-    <div class="col-sm col-md m-b-30 col">
-      <form [formGroup]="editableForm" class="md-float-material form-material" id="corporate-add" (ngSubmit)="save()">
-          <app-editable-form-header [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-header>
-        <div class=" form-group form-primary">
-          <mat-form-field>
-            <input disabled matInput placeholder="Corporate Name" formControlName="corpnameControl" required [(ngModel)]="dataModel.corpname">
-            <mat-error *ngIf="editableForm.controls['corpnameControl'].hasError('required') ">
-              Name is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class=" form-group form-primary">
-          <mat-form-field>
-            <input matInput placeholder="Email Id" type="email" formControlName="corpmobilenoControl" required [(ngModel)]="dataModel.corpemailid">
-            <mat-error *ngIf="editableForm.controls['corpmobilenoControl'].hasError('required') ">
-              Email Id is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class=" form-group form-primary">
-          <mat-form-field>
-            <input matInput placeholder="Mobile Number" formControlName="corpemailidControl" required [(ngModel)]="dataModel.corpmobileno">
-            <mat-error *ngIf="editableForm.controls['corpemailidControl'].hasError('required') ">
-              Mobile Number is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class=" form-group form-primary">
-          <mat-form-field>
-            <input matInput placeholder="Landline Number" formControlName="corplandlinenoControl" required [(ngModel)]="dataModel.corplandlineno">
-            <mat-error *ngIf="editableForm.controls['corplandlinenoControl'].hasError('required') ">
-              Landline Number is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <app-editable-form-footer-toolbar [editRecordBase] ="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+  <div class="col">
+    <mat-card style="max-width:500px">
+      <form [formGroup]="editableForm" (ngSubmit)="save()">
+        <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+        <mat-card-content>
+          <div class=" form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <input disabled matInput placeholder="Corporate Name" formControlName="corpnameControl" required [(ngModel)]="dataModel.corpname"
+                maxlength="50">
+              <mat-error *ngIf="editableForm.controls['corpnameControl'].hasError('required') ">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Corporate Name</span>
+            <label class="viewtext">{{ dataModel.corpname }}</label>
+          </div>
+          <div class=" form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <input matInput placeholder="Email Id" type="email" formControlName="corpemailidControl" [(ngModel)]="dataModel.corpemailid"
+                maxlength="254">
+              <mat-error *ngIf="editableForm.controls['corpemailidControl'].hasError('email') ">
+                {{ 'ErrorEmailPattern' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Email Id</span>
+            <label class="viewtext">{{ dataModel.corpemailid }}</label>
+          </div>
+          <div class=" form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <span matPrefix>+91 &nbsp;</span>
+              <input matInput placeholder="Mobile Number" formControlName="corpmobilenoControl" [(ngModel)]="dataModel.corpmobileno" maxlength="10">
+              <mat-error *ngIf="editableForm.controls['corpmobilenoControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Mobile Number</span>
+            <label class="viewtext">{{ dataModel.corpmobileno }}</label>
+          </div>
+          <div class=" form-group form-primary" *ngIf="formMode === 1">
+            <mat-form-field>
+              <input matInput placeholder="Landline Number" formControlName="corplandlinenoControl" [(ngModel)]="dataModel.corplandlineno"
+                maxlength="10">
+              <mat-error *ngIf="editableForm.controls['corplandlinenoControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group form-primary" *ngIf="formMode === 0">
+            <span class="viewlabel">Landline Number</span>
+            <label class="viewtext">{{ dataModel.corplandlineno }}</label>
+          </div>
+          <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+        </mat-card-content>
       </form>
-    </div>
-  </mat-card>
+    </mat-card>
+  </div>
 </div>

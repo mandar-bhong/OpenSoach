@@ -57,6 +57,7 @@ export class DeviceDetailsViewComponent extends EditRecordBase implements OnInit
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const deviceDetailsUpdateRequest = new DeviceDetailsUpdateRequest();
     this.dataModel.copyTo(deviceDetailsUpdateRequest);
     this.prodDeviceService.updateDeviceDetails(deviceDetailsUpdateRequest).subscribe(payloadResponse => {
@@ -66,6 +67,7 @@ export class DeviceDetailsViewComponent extends EditRecordBase implements OnInit
           devid: this.dataModel.devid, devname: this.dataModel.devname,
         });
       }
+      this.inProgress = false;
     });
   }
   closeForm() {

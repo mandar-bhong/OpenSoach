@@ -1,0 +1,9 @@
+.delayedTaskProgress
+{
+    background-color: #ffc107 !important;
+}
+
+.onTimeTaskProgress
+{
+    background-color: #28a745 !important;
+}

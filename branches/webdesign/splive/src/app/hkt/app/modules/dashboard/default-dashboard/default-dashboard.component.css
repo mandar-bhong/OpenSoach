@@ -80,6 +80,7 @@
 
 .d-block {
     display: block !important;
+    min-height: 54px;
 }
 
 .card .card-block p {
@@ -207,3 +208,54 @@ h6 {
   {
       height: 273px;
   }
+
+/* new card css */
+  .card .card-block-tab {
+    padding: 1.25rem;
+}
+h4 {
+    font-size: 1.5rem;
+}
+.text-c-yellow {
+    color: #ffba57;
+}
+.f-28 {
+    font-size: 30px !important;
+    transition: 0.3s ease;
+}
+.card .card-footer {
+    border-top: 1px solid rgba(0,0,0,0.125);
+    padding: 15px 20px;
+    border-radius: 0 0 5px 5px;
+}
+.bg-c-yellow {
+    background: #ffba57;
+}
+.text-c-green {
+    color: #28a745;
+}
+.bg-c-green {
+    background: #28a745;
+}
+.text-c-red {
+    color: #ff5252;
+}
+.text-c-blue {
+    color: #448aff;
+}
+.text-c-lightred {
+    color: #FF4C89;
+}
+.bg-c-lightred {
+    background: #FF4C89;
+}
+
+.card:hover .f-28 {
+    transform: scale(1.5, 1.5); /** default is 1, scale it to 1.5 */
+}
+
+.b-block {
+    display: block !important;
+    min-height: 28px;
+    color: #448aff;
+}

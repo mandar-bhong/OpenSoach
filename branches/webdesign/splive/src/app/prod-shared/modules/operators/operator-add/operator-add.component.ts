@@ -21,14 +21,16 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   routeSubscription: Subscription;
   operatorStates: EnumDataSourceItem<number>[];
   operatorAreas: EnumDataSourceItem<number>[];
+
   constructor(private prodOperatorService: ProdOperatorService,
     private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe) {
+    private translatePipe: TranslatePipe
+  ) {
     super();
     this.iconCss = 'fa fa-meh-o';
-    this.pageTitle = 'Operator Details';
+    this.pageTitle = this.translatePipe.transform('OPERATOR_ADD_TITLE');
   }
 
   ngOnInit() {
@@ -42,7 +44,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
         this.setFormMode(FORM_MODE.VIEW);
         this.getOperatorDetails();
       } else {
-        this.subTitle = 'Add Details of Operator';
+        this.subTitle = this.translatePipe.transform('OPERATOR_ADD_MODE_TITLE');
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
@@ -52,9 +54,9 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   createControls(): void {
     this.editableForm = new FormGroup({
       fopnameControl: new FormControl('', [Validators.required]),
-      emailidControl: new FormControl(''),
-      mobilenoControl: new FormControl('', [Validators.required]),
-      fopcodeControl: new FormControl('', [Validators.required]),
+      emailidControl: new FormControl('', [Validators.email]),
+      mobilenoControl: new FormControl('', [Validators.required, Validators.pattern(/^\d+$/)]),
+      fopcodeControl: new FormControl('', [ Validators.pattern(/^\d+$/)]),
       shortdescControl: new FormControl(''),
       fopstateControl: new FormControl('', [Validators.required]),
       fopareaControl: new FormControl('', [Validators.required]),
@@ -62,6 +64,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
   }
   save() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       const operatorAddRequest = new OperatorAddRequest();
       this.dataModel.copyTo(operatorAddRequest);
@@ -73,6 +76,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
           this.setFormMode(FORM_MODE.VIEW);
           this.subTitle = this.dataModel.fopname;
         }
+        this.inProgress = false;
       });
     } else {
       const operatorUpdateRequest = new OperatorUpdateRequest();
@@ -83,6 +87,7 @@ export class OperatorAddComponent extends EditRecordBase implements OnInit, OnDe
           this.setFormMode(FORM_MODE.VIEW);
           this.subTitle = this.dataModel.fopname;
         }
+        this.inProgress = false;
       });
     }
   }

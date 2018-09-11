@@ -1,0 +1,111 @@
+#resp-table {
+  /* width: 100%; */
+  display: table;
+  width: 100%;
+}
+
+#resp-table-caption {
+  display: table-caption;
+  text-align: center;
+  font-size: 30px;  
+}
+
+#resp-table-header {
+  display: table-header-group;
+  background-color: #446666;  
+  font-size: 15px;
+  color: #cccccc;
+}
+
+.table-header-cell {
+  display: table-cell;
+  padding: 10px;
+  text-align: justify;
+  text-align: center;
+}
+
+#resp-table-body {
+  display: table-row-group;
+}
+
+.resp-table-row {
+  display: table-row;
+}
+
+.table-body-cell {
+  display: table-cell;
+  text-align: center;
+}
+
+.table-body-cell-input {
+  width: 50px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+}
+
+.table-body-cell-time {
+  width: 80px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+}
+
+.input-block {
+  background: white;
+  line-height: 36px;
+  border: 1px solid #989A7C;
+}
+
+.time-block {
+  background: #446666;
+  line-height: 36px;
+  color: #cccccc;
+}
+
+.delayedTask {
+  background-color: #ffc107;
+}
+
+.onTimeTask {
+  background-color: #28a745;
+}
+
+#container {
+  width: 100%;
+  padding: 0;
+  background: #fff;
+}
+
+.items {
+  min-width: 300px;
+  min-height: 150px;
+  /* background:#ECECEC; */
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#left,
+#right {
+  margin: 30px;
+}
+
+.carousel-card {
+  background: #446666 !important;
+  color: white;
+}
+
+.selected-carousel-card
+{
+  background: #37A5CD !important;
+}
+
+.carousel-card-title {
+  color: #cccccc;
+}
+
+.carousel-card-subtitle{
+  color:#999999;
+}
+
+.carousel-card-icon{
+  color:#cccccc;
+}

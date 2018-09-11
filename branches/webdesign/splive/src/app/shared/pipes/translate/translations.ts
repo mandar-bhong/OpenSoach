@@ -28,6 +28,7 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'AppNotificationWarning',
     en: 'Warning'
   },
+  // Server Error Codes
   {
     key: 'SERVER_SYSTEM_ERROR',
     en: 'A System error has occurred: Error code'
@@ -43,6 +44,14 @@ export const TRANSLATIONS: TranslationValue[] = [
   {
     key: 'SERVER_ERROR_10001',
     en: 'SERVER_ERROR_10001'
+  },
+  {
+    key: 'SERVER_SYSTEM_ERROR_5000',
+    en: 'Device name already exists'
+  },
+  {
+    key: 'SERVER_ERROR_5000',
+    en: 'Data already exists'
   },
   {
     key: 'INFO_DETAILS_NOT_AVAILABLE',
@@ -174,6 +183,18 @@ export const TRANSLATIONS: TranslationValue[] = [
   },
 
   /* USER PRODUCT MAPPING STATES  END */
+
+  /* CONNECTION STATES  */
+
+  {
+    key: 'CONNECTION_STATE_0',
+    en: 'OFFLINE'
+  },
+  {
+    key: 'CONNECTION_STATE_1',
+    en: 'ONLINE'
+  },
+  /* CONNECTION STATES END */
 
   /* USER CATEGORYS BEGIN */
 
@@ -350,5 +371,77 @@ export const TRANSLATIONS: TranslationValue[] = [
     en: 'No Chart has been configured yet. Goto Service Points-> List -> Configure to configure a chart'
   },
 
+  {
+    key: 'OPERATOR_LIST_COLUM_OPERATOR_NAME',
+    en: 'Operator Name'
+  },
+  {
+    key: 'OPERATOR_LIST_COLUM_OPERATOR_CODE',
+    en: 'Operator Code'
+  },
+  {
+    key: 'OPERATOR_ASSOCIATE_LABLE_NAME',
+    en: 'Select a service point to associate'
+  },
+  {
+    key: 'OPERATOR_ADD_OPERATOR_NAME',
+    en: 'Operator Name'
+  },
+  {
+    key: 'OPERATOR_ADD_OPERATOR_CODE',
+    en: 'Operator Code'
+  },
+  {
+    key: 'OPERATOR_ADD_TITLE',
+    en: ' Operator Details'
+  },
+  {
+    key: 'OPERATOR_ADD_MODE_TITLE',
+    en: 'Add Details of Operator'
+  },
+  {
+    key: 'OPERATOR_ADD_BUTTON',
+    en: 'Operator'
+  },
+  {
+    key: 'OPERATOR_ASSOCIATE',
+    en: 'Associate Operator'
+  },
+  {
+    key: 'OPERATOR_ASSOCIATE_LABLE',
+    en: 'Service points'
+  },
+  {
+    key: 'START_DATE_MUST_BE_BEFORE_END_DATE',
+    en: 'Start date must be before end date.'
+  },
+  {
+    key: 'START_TIME_MUST_BE_BEFORE_END_TIME',
+    en: 'Start time must be before end time.'
+  },
+  {
+    key: 'TASK_NAME_ALL_READY_EXISTS',
+    en: 'Task name already exists in chart tasks list'
+  },
+  {
+    key: 'TASK_NAME_ALL_READY_EXISTS_TASk_LIB',
+    en: 'Task name already exists in task library list please move to chart tasks'
+  },
+
+  // validation errer start
+  {
+    key: 'ErrorEmailPattern',
+    en: 'Enter Valid Email !!'
+  },
+  {
+    key: 'ErrorNumberPattern',
+    en: 'You must be enter only number !'
+  },
+  // {
+  //   key: 'Device_Name_Already_Exists',
+  //   en: 'Device name already exists'
+  // },
+
+  // validation errer end
 ];
 

@@ -16,6 +16,10 @@ const routes: Routes = [
     component: DeviceAddComponent
   },
   {
+    path: 'masterupdate',
+    component: DeviceAddComponent
+  },
+  {
     path: 'update',
     component: DeviceUpdateComponent
   },

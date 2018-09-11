@@ -1,6 +1,7 @@
 export class DeviceFilterRequest {
     serialno: string;
     devname: string;
+    connectionstate: string;
 }
 
 export class DeviceDataListResponse {

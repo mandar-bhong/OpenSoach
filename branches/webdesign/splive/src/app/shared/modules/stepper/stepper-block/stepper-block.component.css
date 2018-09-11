@@ -1,5 +1,5 @@
 .display {
-  display: inline-block
+  display: inline-block;
 }
 
 
@@ -120,4 +120,11 @@
 }
 .bg-white {
   background: #ffffff !important;
+}
+
+
+
+/* changes by amol */
+.step-line .mt-step-desc > div {
+  max-width: none !important;
 }

@@ -6,26 +6,29 @@
         <mat-card-content>
           <div class=" form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
-              <input matInput placeholder="Operator Name" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname" maxlength="50">
+              <input matInput placeholder="{{'OPERATOR_ADD_OPERATOR_NAME' | translate}}" formControlName="fopnameControl" required [(ngModel)]="dataModel.fopname" maxlength="50">
               <mat-error *ngIf="editableForm.controls['fopnameControl'].hasError('required') ">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
               </mat-error>
             </mat-form-field>
           </div>
           <div *ngIf="formMode === 0">
-            <span class="viewlabel">Operator Name</span>
+            <span class="viewlabel">{{'OPERATOR_ADD_OPERATOR_NAME' | translate}}</span>
             <label class="viewtext">{{ dataModel.fopname }}</label>
           </div>
-          <div class=" form-group form-primary" *ngIf="formMode === 1">
+          <div class=" form-group form-primary" *ngIf="recordState === 0">
             <mat-form-field>
-              <input matInput placeholder="Operator Code" formControlName="fopcodeControl" required [(ngModel)]="dataModel.fopcode" maxlength="4">
+              <input matInput placeholder="{{'OPERATOR_ADD_OPERATOR_CODE' | translate}}" formControlName="fopcodeControl" required [(ngModel)]="dataModel.fopcode" maxlength="4">
               <mat-error *ngIf="editableForm.controls['fopcodeControl'].hasError('required') ">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
               </mat-error>
+              <mat-error *ngIf="editableForm.controls['fopcodeControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
-          <div *ngIf="formMode === 0">
-            <span class="viewlabel">Operator Code</span>
+          <div *ngIf="recordState === 1">
+            <span class="viewlabel">{{'OPERATOR_ADD_OPERATOR_CODE' | translate}}</span>
             <label class="viewtext">{{ dataModel.fopcode }}</label>
           </div>
           <div class=" form-group form-primary" *ngIf="formMode === 1">
@@ -34,6 +37,9 @@
               <input matInput placeholder="Mobile Number" formControlName="mobilenoControl" required [(ngModel)]="dataModel.mobileno" maxlength="10">
               <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('required') ">
                 {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+              <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('pattern') ">
+                {{ 'ErrorNumberPattern' | translate}}
               </mat-error>
             </mat-form-field>
           </div>
@@ -44,6 +50,9 @@
           <div class=" form-group form-primary" *ngIf="formMode === 1">
             <mat-form-field>
               <input matInput placeholder="Email Id" type="email" formControlName="emailidControl" [(ngModel)]="dataModel.emailid" maxlength="254">
+              <mat-error *ngIf="editableForm.controls['emailidControl'].hasError('email') ">
+                {{ 'ErrorEmailPattern' | translate}}
+              </mat-error>
             </mat-form-field>
           </div>
           <div *ngIf="formMode === 0">

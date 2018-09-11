@@ -124,6 +124,7 @@ export class UserMasterDetailsComponent extends EditRecordBase implements OnInit
   }
   savemaster() {
     if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const request = new UserMasterUpdateRequest();
     this.dataModel.copyToUpdateRequest(request);
     this.prodUserService.updateUserEdit(request).subscribe(payloadResponse => {
@@ -133,6 +134,7 @@ export class UserMasterDetailsComponent extends EditRecordBase implements OnInit
         this.setFormMode(FORM_MODE.VIEW);
         this.subTitle = this.dataModel.usrname;
       }
+      this.inProgress = false;
     });
   }
   getuserrole(value: number) {
