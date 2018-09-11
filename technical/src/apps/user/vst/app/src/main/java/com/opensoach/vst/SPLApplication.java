@@ -19,6 +19,7 @@ import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Helper.CommonHelper;
 import com.opensoach.vst.Model.AppNotificationModelBase;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
+import com.opensoach.vst.Model.DB.DBLocationTableRowModel;
 import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.Model.View.ChartConfigModel;
 import com.opensoach.vst.Model.View.DisplayChartDataModel;
@@ -157,20 +158,23 @@ public class SPLApplication extends Application {
 
             case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA:{
 
-                AppRepo.getInstance().setCurrentRunningMode(ApplicationConstants.AppRunningMode.JobExecution);
+                PacketCardListConfigurationModel packetCardListConfigurationModel  = (PacketCardListConfigurationModel)model.Data;
 
-                String configType = "ServiceJob";
+                String configType = packetCardListConfigurationModel.ConfTypeCode;
                 Intent i = null;
 
                 switch (configType){
-                    case "CreateToken":
+                    case "TOKEN_GENERATION":
                         i = new Intent(MainViewModel.getInstance().ContextActivity, TokenListActivity.class);
+                        AppRepo.getInstance().setCurrentRunningMode(ApplicationConstants.AppRunningMode.Token);
                         break;
-                    case "CreateJob":
+                    case "JOB_CREATION":
                         i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
+                        AppRepo.getInstance().setCurrentRunningMode(ApplicationConstants.AppRunningMode.JobCreation);
                         break;
-                    case "ServiceJob":
+                    case "JOB_EXECUTION":
                         i = new Intent(MainViewModel.getInstance().ContextActivity, TokenSelectionActivity.class);
+                        AppRepo.getInstance().setCurrentRunningMode(ApplicationConstants.AppRunningMode.JobExecution);
                         break;
                 }
 
