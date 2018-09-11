@@ -268,10 +268,10 @@ func EPGetTokenList(dbConn string) (error, *[]hktmodels.DBEPSPVhlTokenDataModel)
 	return nil, data
 }
 
-func EPUpdateTokenStateData(dbConn string, updtStruct hktmodels.DBTokenStateUpdateModel) (error, int64) {
+func EPUpdateTokenStateData(tx *sqlx.Tx, updtStruct hktmodels.DBTokenStateUpdateModel) (error, int64) {
 
-	updateCtx := dbmgr.UpdateDeleteContext{}
-	updateCtx.DBConnection = dbConn
+	updateCtx := dbmgr.UpdateDeleteTxContext{}
+	updateCtx.Tx = tx
 	updateCtx.Args = updtStruct
 	updateCtx.QueryType = dbmgr.AutoQuery
 	updateCtx.TableName = constants.DB_SPL_VST_TOKEN_TBL
