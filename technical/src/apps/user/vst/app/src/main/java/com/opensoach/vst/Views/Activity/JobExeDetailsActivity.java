@@ -33,7 +33,7 @@ public class JobExeDetailsActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityJobExeDetailsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_exe_details);
-        binding.setVM(AppRepo.getInstance().getJobExeDetailsViewModel());
+        binding.setVM(AppRepo.getInstance().getJobServiceViewModel());
 
     }
 
