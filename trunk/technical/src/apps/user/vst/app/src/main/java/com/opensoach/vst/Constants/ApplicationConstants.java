@@ -11,6 +11,7 @@ public class ApplicationConstants {
     public static   final int UI_PROCESSING_STATERGY_AUTH_CODE_UPDATE = 3 ;
     public static   final int UI_PROCESSING_STATERGY_CARD_LIST_DATA =4;
     public static   final int UI_PROCESSING_STATERGY_TOKEN_CREATED =5;
+    public static   final int UI_PROCESSING_STATERGY_LOCATION_CATEGORY =6;
 
 
     public static final  int CHART_STATE_ENABLED = 1;

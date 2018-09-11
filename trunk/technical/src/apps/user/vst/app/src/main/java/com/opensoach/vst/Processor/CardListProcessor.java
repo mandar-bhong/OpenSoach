@@ -57,7 +57,12 @@ public class CardListProcessor implements IProcessor {
                 model.LocationID = packetDecodeResultModel.Packet.Header.LocationID;
             }
 
-            FillUpdateUIData(packetProcessResultModel, cardList);
+            if ( cardList.size() > 0){
+                FillUpdateUIData(packetProcessResultModel, cardList.get(0));
+            }else{
+                AppLogger.getInstance().Log(AppLogger.LogLevel.Debug, "No card data found");
+            }
+
             packetProcessResultModel.IsSuccess = true;
             return packetProcessResultModel;
 
@@ -68,7 +73,7 @@ public class CardListProcessor implements IProcessor {
         return packetProcessResultModel;
     }
 
-    void FillUpdateUIData(PacketProcessResultModel packetProcessResultModel, ArrayList<PacketCardListConfigurationModel> data) {
+    void FillUpdateUIData(PacketProcessResultModel packetProcessResultModel, PacketCardListConfigurationModel data) {
         packetProcessResultModel.CanUpdateUI = true;
         packetProcessResultModel.UINotifierModel = new AppNotificationModelBase();
         packetProcessResultModel.UINotifierModel.Data = data;
