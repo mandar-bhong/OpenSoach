@@ -321,6 +321,12 @@ func ProcessJobExeClaimData(ctx *lmodels.PacketProccessExecution, packetProcessi
 
 }
 
+func ProcessJobDeliveredData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+
+	ProcessJobClaimData(ctx, packetProcessingResult, constants.PROCESS_TYPE_JOB_DELIVERED)
+
+}
+
 func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult, processType int) {
 
 	devicePacket := &gmodels.DevicePacket{}
@@ -448,7 +454,7 @@ func ProcessJobData(ctx *lmodels.PacketProccessExecution, packetProcessingResult
 func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult, processType int) {
 
 	devicePacket := &gmodels.DevicePacket{}
-	devicePacket.Payload = &lmodels.PacketVhlTokenClaimData{}
+	devicePacket.Payload = &lmodels.PacketVhlTokenTxnData{}
 
 	convErr := ghelper.ConvertFromJSONBytes(ctx.DevicePacket, devicePacket)
 
@@ -462,34 +468,81 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		devicePacket.Header.SeqID,
 		false, 0, nil)
 
-	packetVhlTokenClaimData := *devicePacket.Payload.(*lmodels.PacketVhlTokenClaimData)
+	dbTxErr, tx := dbaccess.GetDBTransaction(ctx.InstanceDBConn)
+
+	if dbTxErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Transaction Error.", convErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
+
+	packetVhlTokenTxnData := *devicePacket.Payload.(*lmodels.PacketVhlTokenTxnData)
+
+	dbServiceInstanceDataRowModel := hktmodels.DBServiceInstanceTxDataRowModel{}
+	dbServiceInstanceDataRowModel.CpmId = ctx.TokenInfo.CpmID
+	dbServiceInstanceDataRowModel.ServiceInstanceID = packetVhlTokenTxnData.ServiceInstanceID
+	dbServiceInstanceDataRowModel.TransactionData = packetVhlTokenTxnData.TxnData
+	dbServiceInstanceDataRowModel.TransactionDate = packetVhlTokenTxnData.TxnDate
+	dbServiceInstanceDataRowModel.FOPCode = packetVhlTokenTxnData.FOPCode
+	dbServiceInstanceDataRowModel.Status = packetVhlTokenTxnData.Status
+
+	dbErr, _ := dbaccess.EPInsertServiceInstanceTxnData(tx, dbServiceInstanceDataRowModel)
+
+	if dbErr != nil {
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().WithField("Token", ctx.Token).
+			WithField("InstanceData", dbServiceInstanceDataRowModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving service instance txn data.", dbErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
 
 	dbTokenStateUpdateModel := hktmodels.DBTokenStateUpdateModel{}
-	dbTokenStateUpdateModel.TokenId = packetVhlTokenClaimData.TokenId
+	dbTokenStateUpdateModel.TokenId = packetVhlTokenTxnData.TokenId
 
 	switch processType {
 	case constants.PROCESS_TYPE_TOKEN_GENERATION_CLAIM: // generate token claim
 		dbTokenStateUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_GENERATE_TOKEN_CLAIM
 	case constants.PROCESS_TYPE_JOB_EXE_CLAIM: // job exec claim
 		dbTokenStateUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_JOB_EXE_CLAIM
+	case constants.PROCESS_TYPE_JOB_DELIVERED: //vehicle delivered
+		dbTokenStateUpdateModel.State = constants.DB_VEHICLE_TOKEN_STATE_JOB_DELIVERED
 	}
 
-	dbErr, _ := dbaccess.EPUpdateTokenStateData(ctx.InstanceDBConn, dbTokenStateUpdateModel)
+	dberr, _ := dbaccess.EPUpdateTokenStateData(tx, dbTokenStateUpdateModel)
 
-	if dbErr != nil {
+	if dberr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
 
 		logger.Context().WithField("Token", ctx.Token).
-			WithField("InstanceData", dbTokenStateUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating vhl token status.", dbErr)
+			WithField("InstanceData", dbTokenStateUpdateModel).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while updating vhl token status.", dberr)
 		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		packetProcessingResult.IsSuccess = false
 		return
 	}
 
-	dbErr, tokenData := dbaccess.EPGetTokenDataById(ctx.InstanceDBConn, packetVhlTokenClaimData.TokenId)
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
+
+	dbErr, tokenData := dbaccess.EPGetTokenDataById(ctx.InstanceDBConn, packetVhlTokenTxnData.TokenId)
 
 	if dbErr != nil {
 		logger.Context().WithField("Token", ctx.Token).
-			WithField("Token Id.", packetVhlTokenClaimData.TokenId).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting vhl token data.", dbErr)
+			WithField("Token Id.", packetVhlTokenTxnData.TokenId).LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting vhl token data.", dbErr)
 		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		packetProcessingResult.IsSuccess = false
 		return
@@ -604,13 +657,6 @@ func ProcessDeviceTokenList(ctx *lmodels.PacketProccessExecution, packetProcessi
 	vhltokeninfo.Payload = vhlTokenDataList
 
 	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, vhltokeninfo)
-
-	serverSyncCompleted := &gmodels.DevicePacket{}
-	serverSyncCompleted.Header = gmodels.DeviceHeaderData{}
-	serverSyncCompleted.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
-	serverSyncCompleted.Header.CommandID = lconst.DEVCIE_CMD_CONFIG_SERVER_SYNC_COMPLETED
-
-	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, serverSyncCompleted)
 
 }
 
