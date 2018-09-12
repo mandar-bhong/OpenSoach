@@ -29,7 +29,7 @@ public class HttpManager {
 
 class HttpHandler extends AsyncTask {
 
-    int retryWaitTime = 60 * 1000;
+    int retryWaitTime = 10 * 1000;
     OkHttpClient client = new OkHttpClient();
 
     @Override

@@ -50,10 +50,10 @@
         <activity android:name=".Views.Activity.TaskDetailsActivity" />
         <activity android:name=".Views.Activity.CardListActivity" />
         <activity android:name=".Views.Activity.CreateTokenActivity" />
-        <activity android:name=".Views.Activity.TokenListActivity" />
+        <activity android:name=".Views.Activity.TokenSelectionActivity" />
         <activity android:name=".Views.Activity.JobServiceListActivity" />
         <activity android:name=".Views.Activity.JobCreationActivity" />
-        <activity android:name=".Views.Activity.TokenSelectionActivity" />
+        <activity android:name=".Views.Activity.TokenListActivity" />
         <activity android:name=".Views.Activity.JobServiceCreationActivity" />
         <activity android:name=".Views.Activity.JobServiceSummaryActivity" />
         <activity android:name=".Views.Activity.JobExeDetailsActivity"></activity>

@@ -50,9 +50,17 @@ public class TokenSelectionActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityTokenSelectionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_token_selection);
-        binding.setVM(GenerateData());
+
         binding.setClickHandler(new TokenSelectionHandler());
 
+
+        TokenSelectionViewModel tokenSelectionViewModel = new TokenSelectionViewModel();
+        TokenListViewModel tokenListViewModel = MainViewModel.getInstance().getTokenListViewModel();
+        tokenListViewModel.ContextActivity = this;
+        ArrayList<TokenItemViewModel> list = new ArrayList<>();
+        tokenSelectionViewModel.setTokenListViewModel(tokenListViewModel);
+
+        binding.setVM(tokenSelectionViewModel);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
@@ -65,43 +73,4 @@ public class TokenSelectionActivity extends AppCompatActivity
 
     }
 
-
-    TokenSelectionViewModel GenerateData() {
-        TokenSelectionViewModel tokenSelectionViewModel = new TokenSelectionViewModel();
-        TokenListViewModel tokenListViewModel = MainViewModel.getInstance().getTokenListViewModel();
-        tokenListViewModel.ContextActivity = this;
-
-        ArrayList<TokenItemViewModel> list = new ArrayList<>();
-
-//        DBTokenTableRowModel dbTokenTableRowModel = new DBTokenTableRowModel();
-//        dbTokenTableRowModel.setTokenno(5);
-//        dbTokenTableRowModel.setGeneratedon(new Date());
-//        dbTokenTableRowModel.setVehicleno("MH 12 DC3422");
-//
-//        TokenItemViewModel tokenItemViewModel = new TokenItemViewModel(dbTokenTableRowModel);
-//        tokenItemViewModel.ContextActivity = this;
-//        tokenItemViewModel.Parent = tokenListViewModel;
-
- //       list.add(tokenItemViewModel);
-
-
-        for (int i = 0; i<20;i++){
-
-            DBTokenTableRowModel dbTokenTableRowModel1 = new DBTokenTableRowModel();
-            dbTokenTableRowModel1.setTokenno(i);
-            dbTokenTableRowModel1.setGeneratedon(new Date());
-            dbTokenTableRowModel1.setVehicleno("MH 12 DC442"+Integer.toString(i));
-
-            TokenItemViewModel tokenItemViewModel1 = new TokenItemViewModel(dbTokenTableRowModel1);
-            tokenItemViewModel1.ContextActivity = this;
-            tokenItemViewModel1.Parent = tokenListViewModel;
-            list.add(tokenItemViewModel1);
-        }
-
-        tokenListViewModel.setData(list);
-        tokenSelectionViewModel.setTokenListViewModel(tokenListViewModel);
-
-        return tokenSelectionViewModel;
-
-    }
 }

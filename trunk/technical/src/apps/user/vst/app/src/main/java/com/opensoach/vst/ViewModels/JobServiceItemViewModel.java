@@ -16,7 +16,6 @@ public class JobServiceItemViewModel extends BaseViewModel {
     @Bindable
     public void setTaskName(String taskName) {
         this.taskName = taskName;
-//        notifyPropertyChanged(BR.task);
     }
 
     @Bindable

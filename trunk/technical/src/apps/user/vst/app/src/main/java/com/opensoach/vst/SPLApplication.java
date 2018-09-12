@@ -26,6 +26,8 @@ import com.opensoach.vst.Model.View.DisplayChartDataModel;
 import com.opensoach.vst.Scheduler.ScheduleManager;
 import com.opensoach.vst.Utility.AppLogger;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
+import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
+import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.Activity.TaskDetailsActivity;
@@ -35,6 +37,8 @@ import com.opensoach.vst.Views.ChartActivity;
 import com.opensoach.vst.Views.TimeChangeListner;
 import com.opensoach.vst.Views.UpdateChartListner;
 import com.opensoach.vst.Views.DataBinding.AppDataBindingComponent;
+
+import org.apache.log4j.chainsaw.Main;
 
 /**
  * Created by Samir Bukkawar  on 15-Feb-17.
@@ -180,6 +184,33 @@ public class SPLApplication extends Application {
 
                 MainViewModel.getInstance().ContextActivity.finish();
                 MainViewModel.getInstance().ContextActivity.startActivity(i);
+
+            }
+            break;
+
+
+            case ApplicationConstants.UI_PROCESSING_STATERGY_TOKEN_LIST:{
+              final  ArrayList<DBTokenTableRowModel> tokenList  = (ArrayList<DBTokenTableRowModel>)model.Data;
+
+
+                MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        MainViewModel.getInstance().getTokenListViewModel().getData().clear();
+
+                        for(DBTokenTableRowModel tokenModel : tokenList ){
+
+                            TokenItemViewModel tokenItemViewModel = new TokenItemViewModel(tokenModel);
+
+                            tokenItemViewModel.ContextActivity = MainViewModel.getInstance().ContextActivity;
+                            tokenItemViewModel.Parent = MainViewModel.getInstance().getTokenListViewModel();
+
+                            MainViewModel.getInstance().getTokenListViewModel().getData().add(tokenItemViewModel);
+                        }
+                    }
+                });
 
             }
             break;
