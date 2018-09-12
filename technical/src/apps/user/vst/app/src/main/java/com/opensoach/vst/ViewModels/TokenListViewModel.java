@@ -6,6 +6,7 @@ import com.opensoach.vst.BR;
 import com.opensoach.vst.Views.Adapter.TaskTimeDataAdapter;
 import com.opensoach.vst.Views.Adapter.TokensDataAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TokenListViewModel extends  BaseViewModel {
@@ -17,6 +18,7 @@ public class TokenListViewModel extends  BaseViewModel {
 
     public  TokenListViewModel(){
         tokensDataAdapter = new TokensDataAdapter();
+        data = new ArrayList<>() ;
     }
 
     public TokenItemViewModel getSelectedToken() {

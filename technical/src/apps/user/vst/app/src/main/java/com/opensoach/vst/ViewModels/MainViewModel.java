@@ -21,6 +21,7 @@ public class MainViewModel extends BaseViewModel implements PropertyChangeListen
     private HashMap<String, ChartDataModel> currenChartDataModelMap;
     private CreateTokenViewModel createTokenViewModel;
     private TokenListViewModel tokenListViewModel;
+    private JobServiceItemViewModel jobServiceItemViewModel;
 
     /* A private Constructor prevents any other
  * class from instantiating.
@@ -31,6 +32,7 @@ public class MainViewModel extends BaseViewModel implements PropertyChangeListen
         cardListViewModel = new CardListViewModel();
         createTokenViewModel = new CreateTokenViewModel();
         tokenListViewModel = new TokenListViewModel();
+        jobServiceItemViewModel = new JobServiceItemViewModel();
     }
 
     public static MainViewModel getInstance() {
@@ -104,5 +106,13 @@ public class MainViewModel extends BaseViewModel implements PropertyChangeListen
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 
+    }
+
+    public JobServiceItemViewModel getJobServiceItemViewModel() {
+        return jobServiceItemViewModel;
+    }
+
+    public void setJobServiceItemViewModel(JobServiceItemViewModel jobServiceItemViewModel) {
+        this.jobServiceItemViewModel = jobServiceItemViewModel;
     }
 }

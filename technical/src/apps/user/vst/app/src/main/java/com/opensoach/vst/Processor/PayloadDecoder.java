@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.opensoach.vst.Constants.CommandConstants;
 import com.opensoach.vst.Manager.RequestManager;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
+import com.opensoach.vst.Model.Communication.PacketTokenListDataModel;
 import com.opensoach.vst.Model.PacketDecodeResultModel;
 import com.opensoach.vst.Model.Communication.CommandRequest;
 import com.opensoach.vst.Model.Communication.PacketLocationDataModel;
@@ -84,7 +85,13 @@ public class PayloadDecoder {
                         }
 
                         case CommandConstants.CMD_CONFIG_SERVER_SYNC_COMPLETED: {
-                            //TODO
+                            TypeToken<PacketModel<String>> typeToken = new TypeToken<PacketModel<String>>() {
+                            };
+                            packetType = typeToken.getType();
+                            packetDecodeResultModel.Packet = new Gson().fromJson(packet, packetType);
+                            packetDecodeResultModel.Processor = new AckServerSyncCompletedProcessor();
+                            packetDecodeResultModel.IsSuccess = true;
+
                             break;
                         }
 
@@ -120,6 +127,18 @@ public class PayloadDecoder {
                             packetDecodeResultModel.IsSuccess = true;
                             break;
                         }
+
+                        case CommandConstants.CMD_CONFIG_GET_TOKEN_LIST:{
+                            TypeToken<PacketModel<ArrayList<PacketTokenListDataModel>>> typeToken = new TypeToken<PacketModel<ArrayList<PacketTokenListDataModel>>> () {
+                            };
+                            packetType = typeToken.getType();
+                            packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
+                            packetDecodeResultModel.Processor = new TokenListProcessor();
+                            packetDecodeResultModel.IsSuccess = true;
+                            break;
+                        }
+
+
                     }
                     break;
                 }

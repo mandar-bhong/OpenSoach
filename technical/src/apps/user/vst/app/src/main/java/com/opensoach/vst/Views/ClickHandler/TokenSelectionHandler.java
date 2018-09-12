@@ -52,6 +52,8 @@ public class TokenSelectionHandler {
             jobServiceViewModel.setJobServiceDetailsViewModel(jobDetailsViewModel);
             jobServiceViewModel.setJobServiceListViewModel(jobServiceListViewModel);
             jobServiceViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
+
+
             AppRepo.getInstance().setJobServiceViewModel(jobServiceViewModel);
 
             JobExeDetailsViewModel jobExeDetailsViewModel =new JobExeDetailsViewModel();
@@ -60,6 +62,8 @@ public class TokenSelectionHandler {
 
             jobExeDetailsViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
             AppRepo.getInstance().setJobExeDetailsViewModel(jobExeDetailsViewModel);
+
+
 
             Intent i = new Intent(view.getContext(), JobServiceListActivity.class);
             view.getContext().startActivity(i);

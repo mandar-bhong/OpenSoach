@@ -96,12 +96,6 @@ public class TokensDataAdapter extends RecyclerView.Adapter<TokensDataAdapter.Da
 
     public void updateData(@Nullable List<TokenItemViewModel> data) {
 
-//        if (data == null || data.isEmpty()) {
-//            this.data.clear();
-//        } else {
-//            this.data.addAll(data);
-//        }
-
         this.data = data;
 
         Collections.sort(this.data, new Comparator<TokenItemViewModel>() {

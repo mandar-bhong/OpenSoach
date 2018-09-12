@@ -45,10 +45,10 @@ public class JobServiceListActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityJobServiceListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_list);
-//        binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel());
         binding.setVM(GenerateData());
         binding.setClickHandler(new JobServiceTaskListCreateHandler());
         binding.setSummaryClickHandler(new JobServiceSummaryClickHandler());
+
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
