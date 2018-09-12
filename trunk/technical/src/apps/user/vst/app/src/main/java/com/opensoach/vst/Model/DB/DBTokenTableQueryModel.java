@@ -15,6 +15,7 @@ public class DBTokenTableQueryModel implements IDBRowMapper<DBTokenTableRowModel
 
     public static final String SELECT_ID_FILTER = "SELECT_ID_FILTER";
     public static final String SELECT_TOKEN_NO_FILTER = "SELECT_TOKEN_NO_FILTER";
+    public static final String SELECT_ALL = "SELECT_ALL";
 
     @Override
     public DBTokenTableRowModel Clone() {
