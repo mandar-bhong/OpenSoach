@@ -16,7 +16,7 @@ public class JobServiceListViewModel extends BaseViewModel{
 
     public JobServiceListViewModel() {
         this.jobServiceDataAdapter = new JobServiceDataAdapter();
-        displayMode = ApplicationConstants.DISPLAY_MODE_JOB_EXECUTION;
+        displayMode = ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT;
     }
 
     public JobServiceDataAdapter getJobServiceDataAdapter() {
