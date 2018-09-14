@@ -15,6 +15,8 @@ public class AppLogger {
     private String AppName = "HPFTApplication";
 
     public enum LogLevel{
+        Verbose,
+        Warning,
         Debug,
         Error
     }
@@ -52,7 +54,21 @@ public class AppLogger {
     //region Public Methods
 
     public void Log(LogLevel logLevel, String message){
-        Log.i(AppName, "LogLevel: "+logLevel+", "+message);
+        switch (logLevel){
+            case Verbose:
+                Log.e(AppName, "LogLevel: "+logLevel+", "+message);
+                break;
+            case Debug:
+                Log.e(AppName, "LogLevel: "+logLevel+", "+message);
+                break;
+            case Warning:
+                Log.e(AppName, "LogLevel: "+logLevel+", "+message);
+                break;
+            case Error:
+                Log.e(AppName, "LogLevel: "+logLevel+", "+message);
+                break;
+
+        }
     }
 
     public void Log(Exception ex) {
@@ -60,15 +76,15 @@ public class AppLogger {
     }
 
     public void Log(LogLevel logLevel,Exception ex){
-        Log.i(AppName, "LogLevel: "+logLevel+", "+ex.getMessage());
+        Log.e(AppName, "LogLevel: "+logLevel+", "+ex.getMessage());
     }
 
     public void Log(LogLevel logLevel,Exception ex, String moreInfo ){
-        Log.i(AppName, "LogLevel: "+logLevel+", "+"MoreInfo: "+ moreInfo +", Exception: " + ex.getMessage());
+        Log.e(AppName, "LogLevel: "+logLevel+", "+"MoreInfo: "+ moreInfo +", Exception: " + ex.getMessage());
     }
 
     public void Log(Exception ex, String moreInfo ){
-        Log.i(AppName, "LogLevel: "+logLevel+", "+"MoreInfo: "+ moreInfo +", Exception: " + ex.getMessage());
+        Log.e(AppName, "LogLevel: "+logLevel+", "+"MoreInfo: "+ moreInfo +", Exception: " + ex.getMessage());
     }
 
     //endregion Public Methods
