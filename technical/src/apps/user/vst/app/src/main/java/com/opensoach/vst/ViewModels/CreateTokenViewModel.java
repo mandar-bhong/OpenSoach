@@ -12,8 +12,6 @@ public class CreateTokenViewModel extends BaseViewModel  {
 
 
     public String vehicleNo1;
-    public String vehicleNo2;
-    public String vehicleNo3;
     public boolean generateTokenVisible;
 
     public DBTokenTableRowModel dbTokenTableRowModel;
@@ -36,8 +34,7 @@ public class CreateTokenViewModel extends BaseViewModel  {
     }
 
     public String getVehicleNumber() {
-
-        return  vehicleNo1 +"-"+ vehicleNo2+"-"+ vehicleNo3;
+        return  vehicleNo1 ;
     }
 
     public String getVehicleNo1() {
@@ -50,21 +47,7 @@ public class CreateTokenViewModel extends BaseViewModel  {
     }
 
 
-    public String getVehicleNo2() {
-        return vehicleNo2;
-    }
 
-    public void setVehicleNo2(String vehicleNo2) {
-        this.vehicleNo2 = vehicleNo2;
-    }
-
-    public String getVehicleNo3() {
-        return vehicleNo3;
-    }
-
-    public void setVehicleNo3(String vehicleNo3) {
-        this.vehicleNo3 = vehicleNo3;
-    }
 
 
     @Bindable
