@@ -6,12 +6,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.opensoach.vst.Constants.ApplicationConstants;
+import com.opensoach.vst.Constants.CommandConstants;
 import com.opensoach.vst.DAL.DatabaseManager;
+import com.opensoach.vst.Helper.CommonHelper;
+import com.opensoach.vst.Helper.PacketHelper;
 import com.opensoach.vst.Helper.SyncState;
 import com.opensoach.vst.Manager.RequestManager;
 import com.opensoach.vst.Manager.SendPacketManager;
 import com.opensoach.vst.Model.AppNotificationModelBase;
 import com.opensoach.vst.Model.Communication.CommandRequest;
+import com.opensoach.vst.Model.Communication.PacketHeaderModel;
 import com.opensoach.vst.Model.Communication.PacketModel;
 import com.opensoach.vst.Model.Communication.PacketServiceInstanceTxnModel;
 import com.opensoach.vst.Model.Communication.PacketSimpleAckModel;
@@ -71,6 +75,17 @@ public class AckTokenGeneratedProcessor implements IProcessor {
             DatabaseManager.InsertRow(dbTokenTableRowModel);
 
             FillUpdateUIData(packetProcessResultModel,dbTokenTableRowModel);
+
+
+            PacketHeaderModel headerModel =  PacketHelper.CreatePacketHeader(CommandConstants.CMD_CAT_DATA, CommandConstants.CMD_DATA_POST_GENERATE_TOKEN,0,request.Packet.Header.LocationID);
+
+            PacketModel<PacketTokenCreateDataModel> packetModel = new PacketModel<>();
+            packetModel.Header = headerModel;
+            packetModel.Payload=request.Packet.Payload;
+
+            packetProcessResultModel.CanSendServerCommand = true;
+            packetProcessResultModel.ServerCommandPacket = CommonHelper.GetPacketJSON(packetModel);
+
 
             packetProcessResultModel.IsSuccess = true;
 
