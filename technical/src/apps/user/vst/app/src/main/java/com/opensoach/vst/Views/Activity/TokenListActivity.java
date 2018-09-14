@@ -49,7 +49,7 @@ public class TokenListActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityTokenListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_token_list);
-        binding.setVM(GenerateData());
+        binding.setVM(MainViewModel.getInstance().getTokenListViewModel());
         binding.setClickHandler(new GenerateTokenClickHandler());
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -63,29 +63,4 @@ public class TokenListActivity extends AppCompatActivity
 
     }
 
-    TokenListViewModel GenerateData() {
-        TokenListViewModel tokenListViewModel = MainViewModel.getInstance().getTokenListViewModel();
-        tokenListViewModel.ContextActivity = this;
-
-        ArrayList<TokenItemViewModel> list = new ArrayList<>();
-
-        DBTokenTableRowModel dbTokenTableRowModel = new DBTokenTableRowModel();
-        dbTokenTableRowModel.setTokenno(5);
-        dbTokenTableRowModel.setGeneratedon(new Date());
-        dbTokenTableRowModel.setVehicleno("MH 12 DC3422");
-
-        TokenItemViewModel tokenItemViewModel = new TokenItemViewModel(dbTokenTableRowModel);
-        tokenItemViewModel.ContextActivity = this;
-        tokenItemViewModel.Parent = tokenListViewModel;
-
-
-        list.add(tokenItemViewModel);
-        list.add(tokenItemViewModel);
-        list.add(tokenItemViewModel);
-
-        tokenListViewModel.setData(list);
-
-        return tokenListViewModel;
-
-    }
 }
