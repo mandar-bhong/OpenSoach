@@ -31,8 +31,9 @@ public class MainViewModel extends BaseViewModel implements PropertyChangeListen
         headerViewModel = new HeaderViewModel();
         cardListViewModel = new CardListViewModel();
         createTokenViewModel = new CreateTokenViewModel();
-        tokenListViewModel = new TokenListViewModel();
         jobServiceItemViewModel = new JobServiceItemViewModel();
+        tokenListViewModel = new TokenListViewModel();
+        tokenListViewModel.ContextActivity = ContextActivity;
     }
 
     public static MainViewModel getInstance() {
