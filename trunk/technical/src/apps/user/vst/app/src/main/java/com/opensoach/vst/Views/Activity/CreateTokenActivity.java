@@ -27,10 +27,11 @@ public class CreateTokenActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_token);
 
+        MainViewModel.getInstance().ContextActivity = this;
+
         //TODO: This step is importent for adding fragment into activity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.headerPlace, HeaderFragment.newInstance("","")).commit();
-
 
         setBinding();
     }
