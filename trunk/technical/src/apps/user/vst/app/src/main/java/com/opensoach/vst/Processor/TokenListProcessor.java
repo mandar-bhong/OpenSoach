@@ -31,6 +31,17 @@ public class TokenListProcessor implements IProcessor {
             PacketModel<ArrayList<PacketTokenListDataModel>> pcketTokenListDataModel = (PacketModel<ArrayList<PacketTokenListDataModel>>) resultModel.Packet.Payload;
 
             DBTokenTableRowModel dbRowModel = new DBTokenTableRowModel();
+
+            switch (AppRepo.getInstance().getCurrentRunningMode()){
+                case Token:
+                case JobCreation:
+                    break;
+                case JobExecution:
+                    dbRowModel.setState(2);
+                    break;
+            }
+
+
             DatabaseManager.DeleteByFilter(new DBTokenTableQueryModel(), dbRowModel, DBTokenTableQueryModel.SELECT_ALL);
 
 
@@ -43,6 +54,7 @@ public class TokenListProcessor implements IProcessor {
                 dbTokenTableRowModel.setState(token.State);
                 dbTokenTableRowModel.setTokenno(token.TokenID);
                 dbTokenTableRowModel.setGeneratedon(token.GeneratedOn);
+                dbTokenTableRowModel.setId(token.TokenID);
 
                 DatabaseManager.InsertRow(dbTokenTableRowModel);
 

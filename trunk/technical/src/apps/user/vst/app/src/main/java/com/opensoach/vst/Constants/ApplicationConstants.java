@@ -37,4 +37,12 @@ public class ApplicationConstants {
         JobCreation,
         JobExecution
     }
+
+
+    public static int TOKEN_CREATED = 0;
+    public static int TOKEN_CLAIMED = 1;
+    public static int TOKEN_JOB_CREATED = 2;
+    public static int TOKEN_JOB_EXECUTION_INPROGRESS = 3;
+    public static int TOKEN_JOB_EXECUTED = 4;
+    public static int TOKEN_JOB_DELIVERED = 5;
 }
