@@ -192,7 +192,6 @@ public class SPLApplication extends Application {
             case ApplicationConstants.UI_PROCESSING_STATERGY_TOKEN_LIST:{
               final  ArrayList<DBTokenTableRowModel> tokenList  = (ArrayList<DBTokenTableRowModel>)model.Data;
 
-
                 MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
 
                     @Override
@@ -209,6 +208,8 @@ public class SPLApplication extends Application {
 
                             MainViewModel.getInstance().getTokenListViewModel().getData().add(tokenItemViewModel);
                         }
+
+                        MainViewModel.getInstance().getTokenListViewModel().getTokensDataAdapter().notifyDataSetChanged();
                     }
                 });
 
