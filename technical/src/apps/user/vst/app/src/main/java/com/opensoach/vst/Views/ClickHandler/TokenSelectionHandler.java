@@ -5,7 +5,11 @@ import android.content.pm.ApplicationInfo;
 import android.view.View;
 
 import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Communication.CommunicationManager;
 import com.opensoach.vst.Constants.ApplicationConstants;
+import com.opensoach.vst.Helper.AppAction;
+import com.opensoach.vst.Manager.PacketManager;
+import com.opensoach.vst.Manager.SendPacketManager;
 import com.opensoach.vst.ViewModels.JobExeDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
@@ -55,7 +59,7 @@ public class TokenSelectionHandler {
                 Intent i = new Intent(view.getContext(), JobCreationActivity.class);
                 view.getContext().startActivity(i);
 
-
+                SendPacketManager.Instance().send(AppAction.CLAIM_TOKEN,vm.getTokenListViewModel().getSelectedToken() );
 
             }
             break;

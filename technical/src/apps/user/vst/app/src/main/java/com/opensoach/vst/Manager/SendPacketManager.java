@@ -31,9 +31,11 @@ import com.opensoach.vst.PacketGenerator.ComplaintDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.DeviceSyncCompletedDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.FeedbackDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TaskDataPacketGenerator;
+import com.opensoach.vst.PacketGenerator.TokenClaimPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TokenGenerateDataPacketGenerator;
 import com.opensoach.vst.Utility.AppLogger;
 import com.opensoach.vst.ViewModels.CreateTokenViewModel;
+import com.opensoach.vst.ViewModels.TokenItemViewModel;
 
 /**
  * Created by samir.s.bukkawar on 3/25/2017.
@@ -104,7 +106,11 @@ public class SendPacketManager {
                             break;
                         case CREATE_TOKEN:
                             TokenGenerateDataPacketGenerator tokenGenerator =new TokenGenerateDataPacketGenerator();
-                            request =  tokenGenerator.GenerateRequest(0, (CreateTokenViewModel) data);
+                            request =  tokenGenerator.GenerateRequest(locationID, (CreateTokenViewModel) data);
+                            break;
+                        case CLAIM_TOKEN:
+                            TokenClaimPacketGenerator tokenClaimPacketGenerator = new TokenClaimPacketGenerator();
+                            request = tokenClaimPacketGenerator.GenerateRequest(locationID, (TokenItemViewModel) data);
                             break;
                     }
 
