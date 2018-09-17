@@ -11,6 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.GsonBuilder;
+import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
 import com.opensoach.vst.Model.Communication.PacketModel;
 import com.opensoach.vst.Model.Communication.PacketTimeConfigModel;
@@ -34,7 +36,8 @@ public class CommonHelper {
 
 
     public static String GetPacketJSON(PacketModel model) {
-        return new Gson().toJson(model);
+        Gson gson = new GsonBuilder().setDateFormat(ApplicationConstants.PACKET_DATE_FORMAT).create();
+        return gson.toJson(model);
     }
 
     public static ChartConfigModel CreateChartModel(DBChartTableRowModel dbChartTableRowModel) {

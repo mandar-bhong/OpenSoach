@@ -36,7 +36,7 @@ public class JobServiceSummaryClickHandler {
     public void onSummaryConfirmClick(View view) {
         JobServiceViewModel jobServiceViewModel  = AppRepo.getInstance().getJobServiceViewModel();
 
-        TokenItemViewModel tokenItemViewModel = jobServiceViewModel.getTokenSelectionViewModel().getTokenListViewModel().getSelectedToken();
+        TokenItemViewModel tokenItemViewModel = jobServiceViewModel.getTokenItemViewModel();
         JobServiceDetailsViewModel jobServiceDetailsViewModel =  jobServiceViewModel.getJobServiceDetailsViewModel();
         JobServiceListViewModel jobServiceListViewModel  = jobServiceViewModel.getJobServiceListViewModel();
 

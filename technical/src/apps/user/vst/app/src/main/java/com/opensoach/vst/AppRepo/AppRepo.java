@@ -3,6 +3,7 @@ package com.opensoach.vst.AppRepo;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.opensoach.vst.BuildConfig;
@@ -55,6 +56,9 @@ public final class AppRepo {
 
     private List<TaskItemDataModel> selectedTaskDataViewModels;
 
+
+    private HashMap<String,Object> store;
+
     public static final String IsServerConnectedPropName = "AppRepo.IsServerConnected";
     public static final String CurrentLocationIdPropName = "AppRepo.currentLocationId";
     public static final String DeviceSyncCompletedPropName = "AppRepo.isDeviceSyncInProgress";
@@ -69,6 +73,8 @@ public final class AppRepo {
         currentLocationId = 0;
         currentChartId = 0;
         authCodeList = new ArrayList<>();
+        store = new HashMap<>();
+
 
         selectedTaskDataViewModels = new ArrayList<>();
 
@@ -272,5 +278,10 @@ public final class AppRepo {
 
     public void setJobExeDetailsViewModel(JobExeDetailsViewModel jobExeDetailsViewModel) {
         this.jobExeDetailsViewModel = jobExeDetailsViewModel;
+    }
+
+
+    public HashMap<String, Object> getStore() {
+        return store;
     }
 }
