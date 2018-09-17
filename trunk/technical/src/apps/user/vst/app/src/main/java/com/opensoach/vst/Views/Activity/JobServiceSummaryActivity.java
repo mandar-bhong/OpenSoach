@@ -57,6 +57,7 @@ public class JobServiceSummaryActivity extends AppCompatActivity
 
         ActivityJobServiceSummaryBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_summary);
         binding.setVM(AppRepo.getInstance().getJobServiceViewModel());
+        binding.setClickHandler(new JobServiceSummaryClickHandler());
 
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);

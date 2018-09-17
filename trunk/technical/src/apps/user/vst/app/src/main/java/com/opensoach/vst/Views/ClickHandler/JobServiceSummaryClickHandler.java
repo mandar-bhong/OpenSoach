@@ -6,9 +6,15 @@ import android.view.View;
 
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Constants.ApplicationConstants;
+import com.opensoach.vst.Helper.AppAction;
+import com.opensoach.vst.Manager.SendPacketManager;
+import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
+import com.opensoach.vst.ViewModels.JobServiceListViewModel;
+import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.JobSummaryViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
+import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.Activity.JobServiceSummaryActivity;
 
 public class JobServiceSummaryClickHandler {
@@ -23,6 +29,19 @@ public class JobServiceSummaryClickHandler {
 
         Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceSummaryActivity.class);
         MainViewModel.getInstance().ContextActivity.startActivity(i);
+
+    }
+
+
+    public void onSummaryConfirmClick(View view) {
+        JobServiceViewModel jobServiceViewModel  = AppRepo.getInstance().getJobServiceViewModel();
+
+        TokenItemViewModel tokenItemViewModel = jobServiceViewModel.getTokenSelectionViewModel().getTokenListViewModel().getSelectedToken();
+        JobServiceDetailsViewModel jobServiceDetailsViewModel =  jobServiceViewModel.getJobServiceDetailsViewModel();
+        JobServiceListViewModel jobServiceListViewModel  = jobServiceViewModel.getJobServiceListViewModel();
+
+
+        SendPacketManager.Instance().send(AppAction.CREATE_JOB_COMFIRM,jobServiceViewModel);
 
     }
 }

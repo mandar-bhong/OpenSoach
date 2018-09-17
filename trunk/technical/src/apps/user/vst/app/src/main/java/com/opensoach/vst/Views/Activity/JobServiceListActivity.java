@@ -45,7 +45,7 @@ public class JobServiceListActivity extends AppCompatActivity
 
     void setBinding(){
         ActivityJobServiceListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_list);
-        binding.setVM(GenerateData());
+        binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel());
         binding.setClickHandler(new JobServiceTaskListCreateHandler());
         binding.setSummaryClickHandler(new JobServiceSummaryClickHandler());
 
@@ -61,33 +61,13 @@ public class JobServiceListActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
 
-
-    JobServiceListViewModel GenerateData() {
-        JobServiceListViewModel jobServiceListViewModel = new JobServiceListViewModel();
-        jobServiceListViewModel.ContextActivity = this;
-
-        ArrayList<JobServiceItemViewModel> list = new ArrayList<>();
-
-        DBTokenTableRowModel dbTokenTableRowModel = new DBTokenTableRowModel();
-
-
-        for (int i = 0; i<20;i++) {
-
-            JobServiceItemViewModel jobServiceItemViewModel = new JobServiceItemViewModel();
-            jobServiceItemViewModel.ContextActivity = this;
-            jobServiceItemViewModel.Parent = jobServiceListViewModel;
-            jobServiceItemViewModel.setTaskName("This is test");
-
-
-            list.add(jobServiceItemViewModel);
-
-
-        }
-
-        jobServiceListViewModel.setData(list);
-
-        return jobServiceListViewModel;
+        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().setDisplayMode(ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT);
 
     }
+
+
 }
