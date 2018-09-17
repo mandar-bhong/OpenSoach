@@ -31,6 +31,7 @@ public class CommandConstants {
     public static final int CMD_DATA_FEEDBACK_DATA = 257;
     public static final int CMD_DATA_GENERATE_TOKEN = 300;
     public static final int CMD_DATA_POST_GENERATE_TOKEN = 302;
+    public static final int CMD_DATA_CREATE_JOB = 303;
     public static final int CMD_DATA_CLAIM_TOKEN = 306;
 
 

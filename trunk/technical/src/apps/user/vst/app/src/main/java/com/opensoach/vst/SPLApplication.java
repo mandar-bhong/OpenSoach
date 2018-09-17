@@ -167,6 +167,10 @@ public class SPLApplication extends Application {
                 String configType = packetCardListConfigurationModel.ConfTypeCode;
                 Intent i = null;
 
+                AppRepo.getInstance().getStore().put(ApplicationConstants.APP_STORE_SERVICE_INST_ID, packetCardListConfigurationModel.SerInID);
+                AppRepo.getInstance().getStore().put(ApplicationConstants.APP_STORE_SERVICE_CONFIG_ID, packetCardListConfigurationModel.ServConfID);
+
+
                 switch (configType){
                     case "TOKEN_GENERATION":
                         i = new Intent(MainViewModel.getInstance().ContextActivity, TokenListActivity.class);

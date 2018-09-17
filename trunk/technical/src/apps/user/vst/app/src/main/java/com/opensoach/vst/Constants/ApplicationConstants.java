@@ -45,4 +45,9 @@ public class ApplicationConstants {
     public static int TOKEN_JOB_EXECUTION_INPROGRESS = 3;
     public static int TOKEN_JOB_EXECUTED = 4;
     public static int TOKEN_JOB_DELIVERED = 5;
+
+
+
+    public static final String APP_STORE_SERVICE_INST_ID = "ServiceInstId";
+    public static final String APP_STORE_SERVICE_CONFIG_ID = "ServiceConfigId";
 }

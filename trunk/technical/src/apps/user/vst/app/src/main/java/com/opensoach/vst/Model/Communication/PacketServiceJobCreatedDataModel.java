@@ -3,6 +3,7 @@ package com.opensoach.vst.Model.Communication;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PacketServiceJobCreatedDataModel {
 
@@ -12,15 +13,19 @@ public class PacketServiceJobCreatedDataModel {
     @SerializedName("tokenno")
     public Integer TokenNo;
 
+    @SerializedName("servinid")
+    public Integer ServInId;
 
-    @SerializedName("customerdetails")
-    public PacketServiceCustomerDetailsDataModel CustomerDetails;
+    @SerializedName("status")
+    public Integer Status;
 
-    @SerializedName("vehicledetails")
-    public PacketServiceVehicleDetailsDataModel VehicleDetails;
+    @SerializedName("txndata")
+    public String TxnData;
 
-    @SerializedName("tasks")
-    public ArrayList<PacketServiceTaskItemDataModel> Tasks;
+
+    @SerializedName("txndate")
+    public Date TxnDate;
+
 
 }
 

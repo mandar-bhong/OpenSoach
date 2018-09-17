@@ -1,5 +1,11 @@
 package com.opensoach.vst.PacketGenerator;
 
+import android.telephony.gsm.GsmCellLocation;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Constants.CommandConstants;
 import com.opensoach.vst.Helper.PacketHelper;
 import com.opensoach.vst.Manager.RequestManager;
@@ -10,12 +16,15 @@ import com.opensoach.vst.Model.Communication.PacketServiceJobCreatedDataModel;
 import com.opensoach.vst.Model.Communication.PacketServiceTaskItemDataModel;
 import com.opensoach.vst.Model.Communication.PacketServiceVehicleDetailsDataModel;
 import com.opensoach.vst.Model.Communication.PacketTokenClaimDataModel;
+import com.opensoach.vst.Model.Communication.PacketVehicleDetailsModel;
 import com.opensoach.vst.Model.DB.DBTaskDataTableRowModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServiceViewModel> {
 
@@ -31,24 +40,32 @@ public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServic
         request.Packet = new PacketModel<>();
         request.Packet.Payload = packetServiceJobCreatedDataModel;
         request.Packet.Header = PacketHelper.CreatePacketHeader(CommandConstants.CMD_CAT_DATA,
-                CommandConstants.CMD_DATA_CHART_DATA, requestID, locationID);
+                CommandConstants.CMD_DATA_CREATE_JOB, requestID, locationID);
 
+        packetServiceJobCreatedDataModel.ServInId = (Integer) AppRepo.getInstance().getStore().get(ApplicationConstants.APP_STORE_SERVICE_INST_ID);
+        packetServiceJobCreatedDataModel.Status = ApplicationConstants.TOKEN_JOB_CREATED;
 
-        packetServiceJobCreatedDataModel.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
-        packetServiceJobCreatedDataModel.VehicleDetails = new PacketServiceVehicleDetailsDataModel();
 
         packetServiceJobCreatedDataModel.TokenId = data.getTokenItemViewModel().getDbTokenTableRowModel().getId();
         packetServiceJobCreatedDataModel.TokenNo = data.getTokenItemViewModel().getDbTokenTableRowModel().getTokenno();
 
+        Calendar txtDate = Calendar.getInstance();
+        packetServiceJobCreatedDataModel.TxnDate = txtDate.getTime();
 
-        packetServiceJobCreatedDataModel.CustomerDetails.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
-        packetServiceJobCreatedDataModel.CustomerDetails.LastName = data.getJobServiceDetailsViewModel().getLastName();
-        packetServiceJobCreatedDataModel.CustomerDetails.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
 
-        packetServiceJobCreatedDataModel.VehicleDetails.KM = data.getJobServiceDetailsViewModel().getKmRuns();
-        packetServiceJobCreatedDataModel.VehicleDetails.Petrol = data.getJobServiceDetailsViewModel().getPetrolLevel();
+        PacketVehicleDetailsModel packetVehicleDetailsModel = new PacketVehicleDetailsModel();
 
-        packetServiceJobCreatedDataModel.Tasks = new ArrayList<>();
+        packetVehicleDetailsModel.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
+        packetVehicleDetailsModel.VehicleDetails = new PacketServiceVehicleDetailsDataModel();
+
+        packetVehicleDetailsModel.CustomerDetails.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
+        packetVehicleDetailsModel.CustomerDetails.LastName = data.getJobServiceDetailsViewModel().getLastName();
+        packetVehicleDetailsModel.CustomerDetails.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
+
+        packetVehicleDetailsModel.VehicleDetails.KM = data.getJobServiceDetailsViewModel().getKmRuns();
+        packetVehicleDetailsModel.VehicleDetails.Petrol = data.getJobServiceDetailsViewModel().getPetrolLevel();
+
+        packetVehicleDetailsModel.Tasks = new ArrayList<>();
 
 
         for(JobServiceItemViewModel model : data.getJobServiceListViewModel().getData()){
@@ -58,10 +75,11 @@ public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServic
             item.Comment = model.getComment();
             item.Cost = model.getCost();
 
-            packetServiceJobCreatedDataModel.Tasks.add(item);
+            packetVehicleDetailsModel.Tasks.add(item);
         }
 
-
+        Gson gson = new GsonBuilder().setDateFormat(ApplicationConstants.PACKET_DATE_FORMAT).create();
+        packetServiceJobCreatedDataModel.TxnData =  gson.toJson(packetVehicleDetailsModel);
 
         return  request;
     }

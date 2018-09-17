@@ -71,7 +71,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Confirm"
-                    android:onClick="@{(view) -> ClickHandler.onSummaryConfirmClick(view)"/>
+                    android:onClick="@{(view) -> ClickHandler.onSummaryConfirmClick(view)}"/>
             </LinearLayout>
 
             <!--<ScrollView-->
