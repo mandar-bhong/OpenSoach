@@ -7,10 +7,29 @@ import com.opensoach.vst.Constants.ApplicationConstants;
 public class JobServiceItemViewModel extends BaseViewModel {
 
     private String taskName;
+    private String comment;
+    private String cost;
 
 
     public String getTaskName() {
         return taskName;
+    }
+
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
     }
 
     @Bindable
@@ -51,6 +70,5 @@ public class JobServiceItemViewModel extends BaseViewModel {
         }
 
     }
-
 
 }

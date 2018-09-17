@@ -8,5 +8,6 @@ public enum AppAction {
     BATTERY_LEVEL,
     TASK_DATA,
     CREATE_TOKEN,
-    CLAIM_TOKEN
+    CLAIM_TOKEN,
+    CREATE_JOB_COMFIRM
 }

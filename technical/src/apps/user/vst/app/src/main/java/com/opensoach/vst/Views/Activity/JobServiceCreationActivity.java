@@ -61,4 +61,11 @@ public class JobServiceCreationActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().notifyDataSetChanged();
+    }
+
 }
