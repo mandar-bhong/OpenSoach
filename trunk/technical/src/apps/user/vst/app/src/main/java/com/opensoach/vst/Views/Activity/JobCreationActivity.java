@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.WindowManager;
 
 import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.CreateTokenViewModel;
 
@@ -45,6 +47,7 @@ public class JobCreationActivity extends AppCompatActivity
 
         setBinding();
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
 
@@ -64,6 +67,16 @@ public class JobCreationActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if ((boolean)AppRepo.getInstance().getStore().get(ApplicationConstants.APP_STORE_JOB_SUBMITTED)){
+            AppRepo.getInstance().getStore().put(ApplicationConstants.APP_STORE_JOB_SUBMITTED,false);
+            this.finish();
+        }
     }
 
 }

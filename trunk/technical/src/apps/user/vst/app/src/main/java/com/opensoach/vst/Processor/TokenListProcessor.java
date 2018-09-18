@@ -49,6 +49,18 @@ public class TokenListProcessor implements IProcessor {
 
             for (PacketTokenListDataModel token : pcketTokenListDataModel.Payload) {
 
+                switch (AppRepo.getInstance().getCurrentRunningMode()){
+                    case Token:
+                    case JobCreation:
+                        break;
+                    case JobExecution:
+                        if (!(token.State == ApplicationConstants.TOKEN_JOB_CREATED ||
+                        token.State == ApplicationConstants.TOKEN_JOB_EXECUTION_INPROGRESS)){
+                            continue;
+                        }
+                        break;
+                }
+
                 DBTokenTableRowModel dbTokenTableRowModel = new DBTokenTableRowModel();
                 dbTokenTableRowModel.setVehicleno(token.VehicleNo);
                 dbTokenTableRowModel.setState(token.State);

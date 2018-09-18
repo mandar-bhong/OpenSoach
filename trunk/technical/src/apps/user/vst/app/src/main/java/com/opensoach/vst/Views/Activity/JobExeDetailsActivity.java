@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
@@ -40,5 +41,15 @@ public class JobExeDetailsActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if ( (boolean)AppRepo.getInstance().getStore().get(ApplicationConstants.APP_STORE_JOB_SUBMITTED)) {
+            AppRepo.getInstance().getStore().put(ApplicationConstants.APP_STORE_JOB_SUBMITTED, false);
+            this.finish();
+        }
     }
 }

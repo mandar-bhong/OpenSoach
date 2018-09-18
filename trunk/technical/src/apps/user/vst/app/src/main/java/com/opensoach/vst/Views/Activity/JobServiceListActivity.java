@@ -65,6 +65,10 @@ public class JobServiceListActivity extends AppCompatActivity
     public void onResume(){
         super.onResume();
 
+        if ((boolean)AppRepo.getInstance().getStore().get(ApplicationConstants.APP_STORE_JOB_SUBMITTED)){
+            this.finish();
+        }
+
         AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().setDisplayMode(ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT);
 
     }
