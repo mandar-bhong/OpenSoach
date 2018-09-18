@@ -34,32 +34,49 @@ public class TokenSelectionHandler {
             }
             break;
             case JobCreation: {
-                JobServiceDetailsViewModel jobDetailsViewModel = new JobServiceDetailsViewModel();
-                jobDetailsViewModel.Parent = vm;
-                jobDetailsViewModel.ContextActivity = vm.ContextActivity;
 
-                jobDetailsViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
-                AppRepo.getInstance().setJobServiceDetailsViewModel(jobDetailsViewModel);
+                if (AppRepo.getInstance().getStore().containsKey(
+                        vm.getTokenListViewModel().
+                                getSelectedToken().
+                                getDbTokenTableRowModel().
+                                getVehicleno())) {
 
-                JobServiceListViewModel jobServiceListViewModel = new JobServiceListViewModel();
-                jobServiceListViewModel.Parent = jobDetailsViewModel;
-                jobServiceListViewModel.ContextActivity = vm.ContextActivity;
-                jobServiceListViewModel.setData(new ArrayList<JobServiceItemViewModel>());
+                } else {
 
-                JobServiceViewModel jobServiceViewModel = new JobServiceViewModel();
-                jobServiceViewModel.Parent = vm;
-                jobServiceViewModel.ContextActivity = vm.ContextActivity;
+                    JobServiceDetailsViewModel jobDetailsViewModel = new JobServiceDetailsViewModel();
+                    jobDetailsViewModel.Parent = vm;
+                    jobDetailsViewModel.ContextActivity = vm.ContextActivity;
 
-                jobServiceViewModel.setJobServiceDetailsViewModel(jobDetailsViewModel);
-                jobServiceViewModel.setJobServiceListViewModel(jobServiceListViewModel);
-                jobServiceViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
-                AppRepo.getInstance().setJobServiceViewModel(jobServiceViewModel);
+                    jobDetailsViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
+                    AppRepo.getInstance().setJobServiceDetailsViewModel(jobDetailsViewModel);
 
+                    JobServiceListViewModel jobServiceListViewModel = new JobServiceListViewModel();
+                    jobServiceListViewModel.Parent = jobDetailsViewModel;
+                    jobServiceListViewModel.ContextActivity = vm.ContextActivity;
+                    jobServiceListViewModel.setData(new ArrayList<JobServiceItemViewModel>());
+
+                    JobServiceViewModel jobServiceViewModel = new JobServiceViewModel();
+                    jobServiceViewModel.Parent = vm;
+                    jobServiceViewModel.ContextActivity = vm.ContextActivity;
+
+                    jobServiceViewModel.setJobServiceDetailsViewModel(jobDetailsViewModel);
+                    jobServiceViewModel.setJobServiceListViewModel(jobServiceListViewModel);
+                    jobServiceViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
+                    AppRepo.getInstance().setJobServiceViewModel(jobServiceViewModel);
+
+                    AppRepo.getInstance().getStore().put(
+                            vm.getTokenListViewModel().
+                                    getSelectedToken().
+                                    getDbTokenTableRowModel().
+                                    getVehicleno(),jobDetailsViewModel);
+
+
+                }
 
                 Intent i = new Intent(view.getContext(), JobCreationActivity.class);
                 view.getContext().startActivity(i);
 
-                SendPacketManager.Instance().send(AppAction.CLAIM_TOKEN,vm.getTokenListViewModel().getSelectedToken() );
+                SendPacketManager.Instance().send(AppAction.CLAIM_TOKEN, vm.getTokenListViewModel().getSelectedToken());
 
             }
             break;
