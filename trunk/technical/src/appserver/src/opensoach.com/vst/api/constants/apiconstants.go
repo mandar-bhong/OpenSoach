@@ -69,6 +69,8 @@ const API_DASHBOARD_COMPLAINTS_PER_MONTH = API_BASE_URL + "/v1/dashboard/complai
 const API_DASHBOARD_TOP_COMPLAINTS = API_BASE_URL + "/v1/dashboard/topcomplaints"
 const API_DASHBOARD_TASK_PER_MONTH = API_BASE_URL + "/v1/dashboard/task/permonth"
 const API_DASHBOARD_TOP_FEEDBACKS = API_BASE_URL + "/v1/dashboard/topfeedbacks"
+const API_DASHBOARD_SNAPSHOT = API_BASE_URL + "/v1/dashboard/vehicle/snapshot"
+const API_DASHBOARD_AVERAGE_TIME = API_BASE_URL + "/v1/dashboard/vehicle/averagetime"
 
 const API_FEEDBACK_LIST = API_BASE_URL + "/v1/feedback/list"
 

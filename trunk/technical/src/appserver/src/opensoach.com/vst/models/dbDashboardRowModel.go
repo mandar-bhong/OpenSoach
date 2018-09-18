@@ -100,3 +100,16 @@ type DBTopFeedbackFilterDataModel struct {
 	SpId  *int64 `db:"sp_id_fk" json:"spid"`
 	CpmId int64  `db:"cpm_id_fk" json:"cpmid"`
 }
+
+type DBSnapshotDataModel struct {
+	TxnDate time.Time `db:"txn_date" json:"lastactiontime"`
+	Status  int       `db:"status" json:"status"`
+	Count   int       `db:"count" json:"count"`
+}
+
+type DBAverageTimeDataModel struct {
+	WaitTime        *float64 `db:"waittime" json:"waittime"`
+	JobCreationTime *float64 `db:"jobcreationtime" json:"jobcreationtime"`
+	JobExeTime      *float64 `db:"jobexetime" json:"jobexetime"`
+	DeliveryTime    *float64 `db:"deliverytime" json:"deliverytime"`
+}
