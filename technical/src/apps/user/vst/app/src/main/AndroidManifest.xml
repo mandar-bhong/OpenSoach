@@ -51,7 +51,7 @@
         <activity android:name=".Views.Activity.CardListActivity" />
         <activity android:name=".Views.Activity.CreateTokenActivity" />
         <activity android:name=".Views.Activity.TokenSelectionActivity" />
-        <activity android:name=".Views.Activity.JobServiceListActivity" />
+        <activity android:name=".Views.Activity.JobServiceTaskListActivity" />
         <activity android:name=".Views.Activity.JobServiceDetailsActivity" />
         <activity android:name=".Views.Activity.TokenListActivity" />
         <activity android:name=".Views.Activity.JobServiceTaskCreationActivity" />
