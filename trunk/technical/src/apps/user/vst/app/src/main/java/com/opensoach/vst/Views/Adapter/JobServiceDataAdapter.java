@@ -12,9 +12,6 @@ import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.Views.ClickHandler.JobExeDetailsClickHandler;
 import com.opensoach.vst.Views.ClickHandler.JobServiceTaskItemRemoveHandler;
-import com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler;
-import com.opensoach.vst.ViewModels.TokenItemViewModel;
-import com.opensoach.vst.Views.ClickHandler.TokenItemClickHandler;
 import com.opensoach.vst.databinding.FragmentJobServiceItemBinding;
 
 import java.util.ArrayList;

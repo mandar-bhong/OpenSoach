@@ -8,9 +8,7 @@
         <variable
             name="VM"
             type="com.opensoach.vst.ViewModels.JobServiceItemViewModel" />
-        <variable
-            name="ClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler"/>
+
 
         <variable
             name="RemoveItemHandler"

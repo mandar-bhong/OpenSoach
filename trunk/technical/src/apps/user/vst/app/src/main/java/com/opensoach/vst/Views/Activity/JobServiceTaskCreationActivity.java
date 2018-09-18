@@ -11,10 +11,9 @@ import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
-import com.opensoach.vst.Views.ClickHandler.TaskCreateCompleteClickHandler;
+import com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
-import com.opensoach.vst.databinding.ActivityJobServiceTaskCreationBinding;
 import com.opensoach.vst.databinding.ActivityJobServiceTaskCreationBinding;
 
 public class JobServiceTaskCreationActivity extends AppCompatActivity
@@ -47,7 +46,7 @@ public class JobServiceTaskCreationActivity extends AppCompatActivity
         jobServiceItemViewModel.ContextActivity = AppRepo.getInstance().getJobServiceViewModel().ContextActivity;
 
         binding.setVM(jobServiceItemViewModel);
-        binding.setClickHandler(new TaskCreateCompleteClickHandler());
+        binding.setClickHandler(new JobServiceCreationHandler());
     }
 
     @Override
