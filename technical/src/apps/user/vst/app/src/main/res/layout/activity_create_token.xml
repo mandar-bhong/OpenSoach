@@ -14,7 +14,7 @@
             name="VM"
             type="com.opensoach.vst.ViewModels.CreateTokenViewModel" />
 
-        
+
         <variable
             name="ClickHandler"
             type="com.opensoach.vst.Views.ClickHandler.JobServiceTokenCreationHandler" />

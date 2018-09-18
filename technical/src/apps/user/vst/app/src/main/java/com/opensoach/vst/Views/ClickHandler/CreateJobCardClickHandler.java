@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
-import com.opensoach.vst.Views.Activity.JobServiceCreationActivity;
+import com.opensoach.vst.Views.Activity.JobServiceDetailsActivity;
 
 public class CreateJobCardClickHandler {
 
@@ -14,7 +14,7 @@ public class CreateJobCardClickHandler {
         if (vm.getTokenListViewModel().getSelectedToken() == null)
             return;
 
-        Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceCreationActivity.class);
+        Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceDetailsActivity.class);
         MainViewModel.getInstance().ContextActivity.startActivity(i);
 
     }

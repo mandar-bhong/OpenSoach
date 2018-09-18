@@ -14,16 +14,16 @@ import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.Views.ClickHandler.JobDetailsCompleteClickHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
-import com.opensoach.vst.databinding.ActivityJobServiceCreationBinding;
+import com.opensoach.vst.databinding.ActivityJobServiceDetailsBinding;
 
-public class JobServiceCreationActivity extends AppCompatActivity
+public class JobServiceDetailsActivity extends AppCompatActivity
         implements TokenItemFragment.OnFragmentInteractionListener,
         HeaderFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_service_creation);
+        setContentView(R.layout.activity_job_service_details);
 
 
         MainViewModel.getInstance().ContextActivity = this;
@@ -41,16 +41,10 @@ public class JobServiceCreationActivity extends AppCompatActivity
 
 
     void setBinding(){
-        ActivityJobServiceCreationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_creation);
-
-//
-//        JobDetailsViewModel jobDetailsViewModel = new JobDetailsViewModel();
-//        jobDetailsViewModel.Parent = AppRepo.getInstance().getJobDetailsViewModel().getJobCustomerDetailsViewModel();
-//        jobDetailsViewModel.ContextActivity = AppRepo.getInstance().getJobDetailsViewModel().ContextActivity;
+        ActivityJobServiceDetailsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_details);
 
         binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceDetailsViewModel());
         binding.setClickHandler(new JobDetailsCompleteClickHandler());
-
     }
 
     @Override
