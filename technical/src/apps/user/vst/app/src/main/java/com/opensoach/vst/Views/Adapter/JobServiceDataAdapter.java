@@ -113,8 +113,6 @@ public class JobServiceDataAdapter extends RecyclerView.Adapter<JobServiceDataAd
                 binding.setVM(viewModel);
 				binding.setRemoveItemHandler(new JobServiceTaskItemRemoveHandler());
 				binding.setMoveRightHandler(new JobExeDetailsClickHandler());
-//				binding.setClickHandler(new JobServiceTaskListCreateHandler());
-//                binding.setClickHandler(new TokenItemClickHandler());
             }
         }
 
