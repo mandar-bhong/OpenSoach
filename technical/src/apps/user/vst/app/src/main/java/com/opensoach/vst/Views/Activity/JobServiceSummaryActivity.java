@@ -17,16 +17,10 @@ import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.JobSummaryViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
-import com.opensoach.vst.Views.ClickHandler.CreateTokenClickHandler;
 import com.opensoach.vst.Views.ClickHandler.JobServiceSummaryClickHandler;
-import com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler;
-import com.opensoach.vst.Views.ClickHandler.TokenSelectionHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
-import com.opensoach.vst.databinding.ActivityCreateTokenBinding;
-import com.opensoach.vst.databinding.ActivityJobServiceListBinding;
 import com.opensoach.vst.databinding.ActivityJobServiceSummaryBinding;
-import com.opensoach.vst.databinding.ActivityTokenSelectionBinding;
 
 import java.util.ArrayList;
 
