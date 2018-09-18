@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
@@ -66,6 +67,10 @@ public class JobServiceCreationActivity extends AppCompatActivity
         super.onResume();
 
         AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().notifyDataSetChanged();
+
+        if ((boolean)AppRepo.getInstance().getStore().get(ApplicationConstants.APP_STORE_JOB_SUBMITTED)){
+            this.finish();
+        }
     }
 
 }

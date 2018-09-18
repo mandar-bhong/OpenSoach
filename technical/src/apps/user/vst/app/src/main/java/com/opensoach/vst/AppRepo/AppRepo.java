@@ -83,6 +83,8 @@ public final class AppRepo {
         ServerAPIHOST = BuildConfig.ServiceAPIHost;
         ServerAPIURL = "http://" + ServerAPIHOST + "/api/v1/endpoint/deviceauthorization";
 
+        store.put(ApplicationConstants.APP_STORE_JOB_SUBMITTED,false);
+
     }
 
     public static AppRepo getInstance() {

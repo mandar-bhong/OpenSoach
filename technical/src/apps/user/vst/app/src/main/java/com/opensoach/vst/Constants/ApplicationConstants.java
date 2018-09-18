@@ -50,4 +50,5 @@ public class ApplicationConstants {
 
     public static final String APP_STORE_SERVICE_INST_ID = "ServiceInstId";
     public static final String APP_STORE_SERVICE_CONFIG_ID = "ServiceConfigId";
+    public static final String APP_STORE_JOB_SUBMITTED = "JobSubmitted";
 }

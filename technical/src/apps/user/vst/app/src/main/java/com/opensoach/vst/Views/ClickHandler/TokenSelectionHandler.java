@@ -82,6 +82,13 @@ public class TokenSelectionHandler {
             break;
             case JobExecution: {
 
+                if (AppRepo.getInstance().getStore().containsKey(
+                        vm.getTokenListViewModel().
+                                getSelectedToken().
+                                getDbTokenTableRowModel().
+                                getVehicleno())) {
+
+                } else {
                 JobServiceDetailsViewModel jobDetailsViewModel = new JobServiceDetailsViewModel();
                 jobDetailsViewModel.Parent = vm;
                 jobDetailsViewModel.ContextActivity = vm.ContextActivity;
@@ -112,6 +119,13 @@ public class TokenSelectionHandler {
                 jobExeDetailsViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
                 AppRepo.getInstance().setJobExeDetailsViewModel(jobExeDetailsViewModel);
 
+                    AppRepo.getInstance().getStore().put(
+                            vm.getTokenListViewModel().
+                                    getSelectedToken().
+                                    getDbTokenTableRowModel().
+                                    getVehicleno(),jobDetailsViewModel);
+
+                }
 
                 Intent i = new Intent(view.getContext(), JobServiceListActivity.class);
                 view.getContext().startActivity(i);
