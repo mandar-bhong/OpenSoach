@@ -10,7 +10,6 @@ import android.widget.FrameLayout;
 
 import com.opensoach.vst.R;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
-import com.opensoach.vst.Views.ClickHandler.JobExeDetailsClickHandler;
 import com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler;
 import com.opensoach.vst.Views.ClickHandler.JobServiceExeHandler;
 import com.opensoach.vst.databinding.FragmentJobServiceItemBinding;
