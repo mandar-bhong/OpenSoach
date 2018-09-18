@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.opensoach.vst.Views.Activity.JobServiceListActivity"
+    tools:context="com.opensoach.vst.Views.Activity.JobServiceTaskListActivity"
     android:background="@color/colorPrimary">
 
     <data>
@@ -188,7 +188,7 @@
             app:data="@{VM.data}"
             android:background="@color/colorPrimary"
             android:padding="10sp"
-            tools:context="com.opensoach.vst.Views.Activity.JobServiceListActivity"/>
+            tools:context="com.opensoach.vst.Views.Activity.JobServiceTaskListActivity"/>
 
     </RelativeLayout>
 

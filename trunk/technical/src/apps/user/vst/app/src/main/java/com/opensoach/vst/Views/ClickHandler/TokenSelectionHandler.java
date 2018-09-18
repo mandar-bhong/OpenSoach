@@ -13,7 +13,7 @@ import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
 import com.opensoach.vst.Views.Activity.JobServiceDetailsActivity;
-import com.opensoach.vst.Views.Activity.JobServiceListActivity;
+import com.opensoach.vst.Views.Activity.JobServiceTaskListActivity;
 
 import java.util.ArrayList;
 
@@ -120,7 +120,7 @@ public class TokenSelectionHandler {
 
                 }
 
-                Intent i = new Intent(view.getContext(), JobServiceListActivity.class);
+                Intent i = new Intent(view.getContext(), JobServiceTaskListActivity.class);
                 view.getContext().startActivity(i);
                 break;
             }
