@@ -55,3 +55,32 @@ group by month,year`
 
 const QUERY_GET_TOP_FEEDBACKS = `select id,feedback,feedback_comment from spl_node_feedback_tbl $WhereCondition$
 order by feedback desc limit ?`
+
+const QUERY_GET_SNAPSHOT_DATA = `select max(txn_date) as txn_date,count(status) as count,status 
+from spl_node_service_in_txn_tbl 
+where status <> 2 and 
+cpm_id_fk = ? and 
+txn_date between ? and ? 
+group by status`
+
+const QUERY_GET_AVERAGE_TIME = `select(
+	select avg(time_to_sec(timediff(b.txn_date,a.txn_date))) as waittime from spl_node_service_in_txn_tbl as a
+	inner join spl_node_service_in_txn_tbl  as b
+	on a.txn_data->'$.tokenid' = b.txn_data->'$.tokenid'  and a.status= 1 and b.status= 2 
+	where a.txn_date $BetweenCondition$) as waittime,
+	
+	(select avg(time_to_sec(timediff(d.txn_date,c.txn_date))) as jobcreationtime from spl_node_service_in_txn_tbl as c
+	inner join spl_node_service_in_txn_tbl  as d
+	on c.txn_data->'$.tokenid' = d.txn_data->'$.tokenid'  and c.status = 2 and d.status= 3 
+	where c.txn_date $BetweenCondition$) as jobcreationtime,
+	
+	(select avg(time_to_sec(timediff(f.txn_date,e.txn_date))) as jobexetime from spl_node_service_in_txn_tbl as e
+	inner join spl_node_service_in_txn_tbl  as f
+	on e.txn_data->'$.tokenid' = f.txn_data->'$.tokenid'  and e.status= 2 and f.status= 4 
+	where e.txn_date $BetweenCondition$) as jobexetime,
+	
+	(select avg(time_to_sec(timediff(h.txn_date,g.txn_date))) as deliverytime from spl_node_service_in_txn_tbl as g
+	inner join spl_node_service_in_txn_tbl  as h
+	on g.txn_data->'$.tokenid' = h.txn_data->'$.tokenid'  and g.status= 5 and h.status= 6
+	where g.txn_date $BetweenCondition$) as deliverytime
+	`

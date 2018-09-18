@@ -349,3 +349,51 @@ func SelectTopFeedbacks(dbConn string, filtermodel hktmodels.DBTopFeedbackFilter
 	}
 	return nil, data
 }
+
+func GetSnapshotData(dbConn string, req lmodels.APIDashboardVehicleRequest, cpmID int64) (error, []hktmodels.DBSnapshotDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetSnapshotData")
+
+	data := []hktmodels.DBSnapshotDataModel{}
+
+	dbStartTime := req.StartTime.Format(pcconst.DB_TIME_FORMAT)
+	dbEndTime := req.EndTime.Format(pcconst.DB_TIME_FORMAT)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = dbquery.QUERY_GET_SNAPSHOT_DATA
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select(cpmID, dbStartTime, dbEndTime)
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetVhlAverageTime(dbConn string, req lmodels.APIDashboardVehicleRequest) (error, []hktmodels.DBAverageTimeDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetVhlAverageTime")
+
+	data := []hktmodels.DBAverageTimeDataModel{}
+
+	dbStartTime := req.StartTime.Format(pcconst.DB_TIME_FORMAT)
+	dbEndTime := req.EndTime.Format(pcconst.DB_TIME_FORMAT)
+
+	betweenDateData := " between '" + dbStartTime + "' and '" + dbEndTime + "'"
+
+	query := strings.Replace(dbquery.QUERY_GET_AVERAGE_TIME, "$BetweenCondition$", betweenDateData, -1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}

@@ -96,3 +96,8 @@ type APITopFeedbacksRequest struct {
 	SpID          *int64 `json:"spid"`
 	NoOfFeedbacks int    `json:"nooffeedbacks"`
 }
+
+type APIDashboardVehicleRequest struct {
+	StartTime time.Time `db:"raised_on"  json:"startdate"`
+	EndTime   time.Time `db:"raised_on"  json:"enddate"`
+}

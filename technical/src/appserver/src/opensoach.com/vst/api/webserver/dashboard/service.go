@@ -316,3 +316,39 @@ func (service DashboardService) TopFeedbacks(req lmodels.APITopFeedbacksRequest)
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched top feedbacks")
 	return true, dataList
 }
+
+func (service DashboardService) SnapshotData(req lmodels.APIDashboardVehicleRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution snapshot data.")
+
+	cpmId := service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, dataList := dbaccess.GetSnapshotData(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, cpmId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting snapshot data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched snapshot data")
+	return true, dataList
+}
+
+func (service DashboardService) AverageTime(req lmodels.APIDashboardVehicleRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution snapshot data.")
+
+	dbErr, dataList := dbaccess.GetVhlAverageTime(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting average time data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched snapshot data")
+	return true, dataList[0]
+}
