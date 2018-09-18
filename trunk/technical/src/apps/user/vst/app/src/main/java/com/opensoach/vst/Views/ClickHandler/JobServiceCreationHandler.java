@@ -1,6 +1,8 @@
 package com.opensoach.vst.Views.ClickHandler;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 
@@ -16,8 +18,15 @@ import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.Views.Activity.JobServiceSummaryActivity;
 import com.opensoach.vst.Views.Activity.JobServiceTaskCreationActivity;
+import com.opensoach.vst.Views.Activity.JobServiceTaskListActivity;
 
 public class JobServiceCreationHandler {
+
+    public void onShowJobTaskList(View view, JobServiceDetailsViewModel vm) {
+
+        Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceTaskListActivity.class);
+        MainViewModel.getInstance().ContextActivity.startActivity(i);
+    }
 
     public void onCreateTask(View view, JobServiceListViewModel vm) {
 
@@ -37,7 +46,6 @@ public class JobServiceCreationHandler {
         MainViewModel.getInstance().ContextActivity.startActivity(i);
     }
 
-
     public void onSummaryConfirmClick(View view) {
         JobServiceViewModel jobServiceViewModel  = AppRepo.getInstance().getJobServiceViewModel();
 
@@ -50,6 +58,41 @@ public class JobServiceCreationHandler {
 
         AppRepo.getInstance().getStore().put(ApplicationConstants.APP_STORE_JOB_SUBMITTED,true);
         ((Activity)view.getContext()).finish();
+
+    }
+
+    public void onServiceTaskRemove(View view, JobServiceItemViewModel vm) {
+
+        final JobServiceItemViewModel jobServiceItemViewModel = vm;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure to delete?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                AppRepo.getInstance().getJobServiceViewModel().
+                        getJobServiceListViewModel().
+                        getJobServiceDataAdapter().
+                        removeItem(jobServiceItemViewModel);
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
 
     }
 }

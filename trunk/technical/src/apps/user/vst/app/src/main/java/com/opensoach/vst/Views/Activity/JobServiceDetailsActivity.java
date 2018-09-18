@@ -11,7 +11,7 @@ import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.R;
 
 import com.opensoach.vst.ViewModels.MainViewModel;
-import com.opensoach.vst.Views.ClickHandler.JobDetailsCompleteClickHandler;
+import com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
 import com.opensoach.vst.databinding.ActivityJobServiceDetailsBinding;
@@ -44,7 +44,7 @@ public class JobServiceDetailsActivity extends AppCompatActivity
         ActivityJobServiceDetailsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_details);
 
         binding.setVM(AppRepo.getInstance().getJobServiceViewModel().getJobServiceDetailsViewModel());
-        binding.setClickHandler(new JobDetailsCompleteClickHandler());
+        binding.setClickHandler(new JobServiceCreationHandler());
     }
 
     @Override
