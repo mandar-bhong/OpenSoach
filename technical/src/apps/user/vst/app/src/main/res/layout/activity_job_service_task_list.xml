@@ -13,11 +13,7 @@
 
         <variable
             name="ClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskListCreateHandler" />
-
-        <variable
-            name="SummaryClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.JobServiceSummaryClickHandler" />
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler" />
 
     </data>
 
@@ -75,7 +71,7 @@
                     card_view:cardUseCompatPadding="true"
                     card_view:cardElevation="4dp"
                     card_view:cardCornerRadius="3dp"
-                    android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}">
+                    android:onClick="@{(view) -> ClickHandler.onCreateTask(view,VM)}">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -121,7 +117,7 @@
                     card_view:cardUseCompatPadding="true"
                     card_view:cardElevation="4dp"
                     card_view:cardCornerRadius="3dp"
-                    android:onClick="@{(view) -> SummaryClickHandler.onClick(view)}"
+                    android:onClick="@{(view) -> ClickHandler.onShowSummary(view)}"
                     android:visibility="@{VM.showSummaryButton == true ? View.VISIBLE : View.GONE }">
 
                     <LinearLayout

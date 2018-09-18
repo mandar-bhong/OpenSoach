@@ -17,6 +17,7 @@ import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.JobSummaryViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
+import com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler;
 import com.opensoach.vst.Views.ClickHandler.JobServiceSummaryClickHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
@@ -51,7 +52,7 @@ public class JobServiceSummaryActivity extends AppCompatActivity
 
         ActivityJobServiceSummaryBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_summary);
         binding.setVM(AppRepo.getInstance().getJobServiceViewModel());
-        binding.setClickHandler(new JobServiceSummaryClickHandler());
+        binding.setClickHandler(new JobServiceCreationHandler());
 
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
