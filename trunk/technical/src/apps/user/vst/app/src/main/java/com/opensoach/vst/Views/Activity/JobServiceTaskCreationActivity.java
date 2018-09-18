@@ -14,7 +14,8 @@ import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.Views.ClickHandler.TaskCreateCompleteClickHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
-import com.opensoach.vst.databinding.ActivityJobServiceCreationBinding;
+import com.opensoach.vst.databinding.ActivityJobServiceTaskCreationBinding;
+import com.opensoach.vst.databinding.ActivityJobServiceTaskCreationBinding;
 
 public class JobServiceTaskCreationActivity extends AppCompatActivity
         implements TokenItemFragment.OnFragmentInteractionListener,
@@ -39,7 +40,7 @@ public class JobServiceTaskCreationActivity extends AppCompatActivity
 
 
     void setBinding(){
-        ActivityJobServiceCreationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_task_creation);
+        ActivityJobServiceTaskCreationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_task_creation);
 
         JobServiceItemViewModel jobServiceItemViewModel = new JobServiceItemViewModel();
         jobServiceItemViewModel.Parent = AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel();
