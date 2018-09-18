@@ -94,7 +94,7 @@ public final class AppRepo {
     }
 
     public String getDeviceSerial() {
-        return  "1345494544733456";
+        return  "1234567890123456";
         //devid- 1 , S.no - 1234567890123456
         //devid- 2 , S.no - 1345494544733456
         //devid- 3 , S.no - 1155623421323222

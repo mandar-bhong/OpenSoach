@@ -14,16 +14,12 @@ import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 import com.opensoach.vst.ViewModels.TokenListViewModel;
 import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
-import com.opensoach.vst.Views.ClickHandler.CreateJobCardClickHandler;
-import com.opensoach.vst.Views.ClickHandler.GenerateTokenClickHandler;
 import com.opensoach.vst.Views.ClickHandler.TokenSelectionHandler;
 import com.opensoach.vst.Views.Fragment.HeaderFragment;
 import com.opensoach.vst.Views.Fragment.TokenItemFragment;
-import com.opensoach.vst.databinding.ActivityTokenListBinding;
 import com.opensoach.vst.databinding.ActivityTokenSelectionBinding;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
