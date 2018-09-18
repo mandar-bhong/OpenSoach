@@ -142,7 +142,7 @@
                                     android:gravity="top"
                                     android:layout_marginLeft="10dp"
                                     android:maxLines="3"
-                                    android:text="">
+                                    android:text="@={VM.comment}">
 
                                  <requestFocus />
                                 </EditText>
@@ -169,7 +169,7 @@
                                     android:inputType="number"
                                     android:lines="1"
                                     android:layout_marginLeft="10dp"
-                                    android:text=""
+                                    android:text="@={VM.cost}"
                                     android:maxLines="1">
 
                                     <requestFocus />
