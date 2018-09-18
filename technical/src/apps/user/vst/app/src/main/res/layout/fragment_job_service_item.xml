@@ -11,13 +11,13 @@
 
 
         <variable
-            name="RemoveItemHandler"
-            type="com.opensoach.vst.Views.ClickHandler.JobServiceTaskItemRemoveHandler"/>
+            name="ClickHandler"
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler"/>
 
 
         <variable
-            name="MoveRightHandler"
-            type="com.opensoach.vst.Views.ClickHandler.JobExeDetailsClickHandler"/>
+            name="ExeHandler"
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceExeHandler"/>
 
     </data>
 
@@ -85,7 +85,7 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:visibility="@{VM.showDelete == true ? View.VISIBLE : View.GONE }"
-                    android:onClick="@{(view)->RemoveItemHandler.onClick(view,VM)}">
+                    android:onClick="@{(view)->ClickHandler.onServiceTaskRemove(view,VM)}">
                     <ImageView
                         android:layout_margin="10dp"
                         android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:visibility="@{VM.showMoveRightIcon == true ? View.VISIBLE : View.GONE }"
-                    android:onClick="@{(view)->MoveRightHandler.onClick(view,VM)}">
+                    android:onClick="@{(view)->ExeHandler.onShowJobDetails(view,VM)}">
                     <ImageView
                         android:layout_margin="10dp"
                         android:layout_width="wrap_content"

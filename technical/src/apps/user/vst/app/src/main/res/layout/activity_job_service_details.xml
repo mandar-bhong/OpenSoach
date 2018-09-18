@@ -11,7 +11,7 @@
 
         <variable
             name="ClickHandler"
-            type="com.opensoach.vst.Views.ClickHandler.JobDetailsCompleteClickHandler" />
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler" />
     </data>
 
     <RelativeLayout
@@ -376,7 +376,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:gravity="center"
-                            android:onClick="@{(view) -> ClickHandler.onClick(view,VM)}"
+                            android:onClick="@{(view) -> ClickHandler.onShowJobTaskList(view,VM)}"
                             android:padding="5dp"
                             android:text="Next" />
                     </LinearLayout>

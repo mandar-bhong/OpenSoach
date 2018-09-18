@@ -23,7 +23,6 @@ public class JobServiceTokenCreationHandler {
         viewModel.setGenerateTokenVisible(false);
 
         SendPacketManager.Instance().send(AppAction.CREATE_TOKEN, viewModel);
-
     }
 
     public void onShowCreateToken(View view, CreateTokenViewModel viewModel) {
