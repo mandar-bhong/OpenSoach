@@ -29,8 +29,6 @@ public class JobServiceCreationHandler {
         AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().addItem(vm);
 
         ((Activity) view.getContext()).finish();
-
-
     }
 
     public void onShowSummary(View view) {
