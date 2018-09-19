@@ -660,6 +660,85 @@ func ProcessDeviceTokenList(ctx *lmodels.PacketProccessExecution, packetProcessi
 
 }
 
+func ProcessDeviceJobExeConfigList(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+
+	devicePacket := &gmodels.DevicePacket{}
+	devicePacket.Payload = &lmodels.PacketTokenData{}
+
+	convErr := ghelper.ConvertFromJSONBytes(ctx.DevicePacket, devicePacket)
+
+	if convErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while converting from json data.", convErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
+
+	packetTokenData := *devicePacket.Payload.(*lmodels.PacketTokenData)
+
+	tokensConfigList := [][]hktmodels.DBServiceInstanceTxBriefDataModel{}
+
+	for i := 0; i < len(packetTokenData.TokenId); i++ {
+
+		dbErr, tokenConfigList := dbaccess.EPGetConfigListByTokenId(ctx.InstanceDBConn, packetTokenData.TokenId[i])
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get vhl token config list", dbErr)
+			packetProcessingResult.IsSuccess = false
+			return
+		}
+
+		tokenConfigListData := *tokenConfigList
+
+		tokensConfigList = append(tokensConfigList, tokenConfigListData)
+	}
+
+	packetProcessingResult.IsSuccess = true
+
+	vhltokenconfiginfo := &gmodels.DevicePacket{}
+	vhltokenconfiginfo.Header = gmodels.DeviceHeaderData{}
+	vhltokenconfiginfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
+	vhltokenconfiginfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_TOKEN_CONFIG_LIST
+
+	vhltokenconfiginfo.Payload = tokensConfigList
+
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, vhltokenconfiginfo)
+
+}
+
+func ProcessDeviceVehicleDetails(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+
+	devicePacket := &gmodels.DevicePacket{}
+	devicePacket.Payload = &lmodels.PacketVehicleTokenData{}
+
+	convErr := ghelper.ConvertFromJSONBytes(ctx.DevicePacket, devicePacket)
+
+	if convErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while converting from json data.", convErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
+
+	packetVehicleTokenData := *devicePacket.Payload.(*lmodels.PacketVehicleTokenData)
+
+	dbErr, vhlDetailsData := dbaccess.EPGetVehicleDetailsDataByVhlNo(ctx.InstanceDBConn, packetVehicleTokenData.VehicleNo)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get vhl details data ", dbErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
+
+	packetProcessingResult.IsSuccess = true
+
+	vhldetailsinfo := &gmodels.DevicePacket{}
+	vhldetailsinfo.Header = gmodels.DeviceHeaderData{}
+	vhldetailsinfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
+	vhldetailsinfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_VHL_DETAILS
+
+	vhldetailsinfo.Payload = vhlDetailsData
+
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, vhldetailsinfo)
+
+}
+
 //process device vhltoken packet
 func ProcessDeviceVhlToken(epTaskSendPacketDataModelList []pcmodels.EPTaskSendPacketDataModel) {
 
