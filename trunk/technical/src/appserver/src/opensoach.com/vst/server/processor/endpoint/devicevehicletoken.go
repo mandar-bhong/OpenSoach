@@ -675,9 +675,12 @@ func ProcessDeviceJobExeConfigList(ctx *lmodels.PacketProccessExecution, packetP
 
 	packetTokenData := *devicePacket.Payload.(*lmodels.PacketTokenData)
 
-	tokensConfigList := [][]hktmodels.DBServiceInstanceTxBriefDataModel{}
+	tokensConfigList := []hktmodels.DBTokenConfigModel{}
 
 	for i := 0; i < len(packetTokenData.TokenId); i++ {
+
+		dbTokenConfigModel := hktmodels.DBTokenConfigModel{}
+		dbTokenConfigModel.TokenId = packetTokenData.TokenId[i]
 
 		dbErr, tokenConfigList := dbaccess.EPGetConfigListByTokenId(ctx.InstanceDBConn, packetTokenData.TokenId[i])
 		if dbErr != nil {
@@ -686,9 +689,9 @@ func ProcessDeviceJobExeConfigList(ctx *lmodels.PacketProccessExecution, packetP
 			return
 		}
 
-		tokenConfigListData := *tokenConfigList
+		dbTokenConfigModel.TokenConfig = tokenConfigList
 
-		tokensConfigList = append(tokensConfigList, tokenConfigListData)
+		tokensConfigList = append(tokensConfigList, dbTokenConfigModel)
 	}
 
 	packetProcessingResult.IsSuccess = true
