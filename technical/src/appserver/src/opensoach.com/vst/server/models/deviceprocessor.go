@@ -63,3 +63,7 @@ type PacketVhlTokenClaimData struct {
 	TokenId int64  `json:tokenid`
 	FOPCode string `json:"fopcode"`
 }
+
+type PacketTokenData struct {
+	TokenId []int64 `db:"id" json:"tokenid"`
+}

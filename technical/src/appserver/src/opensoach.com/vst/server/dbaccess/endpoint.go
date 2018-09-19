@@ -6,6 +6,7 @@ import (
 	hktmodels "opensoach.com/vst/models"
 	"opensoach.com/vst/server/constants"
 	"opensoach.com/vst/server/constants/dbquery"
+	lmodels "opensoach.com/vst/server/models"
 )
 
 func GetDBTransaction(dbconn string) (error, *sqlx.Tx) {
@@ -138,15 +139,15 @@ func EPUpdateDeviceConnectionStatusData(dbConn string,
 	return updateErr
 }
 
-func EPGetVehicleId(dbConn string, vehicleName string) (error, *[]hktmodels.DBSplVstVehicleMasterTableRowModel) {
+func EPGetVehicleId(dbConn string, vehicleNo string) (error, *[]hktmodels.DBSplVstVehicleMasterTableRowModel) {
 
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]hktmodels.DBSplVstVehicleMasterTableRowModel{}
 	selDBCtx.DBConnection = dbConn
-	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_VEHICLE_ID_BY_NAME
+	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_VEHICLE_ID_BY_VHL_NO
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(vehicleName)
+	selErr := selDBCtx.Select(vehicleNo)
 	if selErr != nil {
 		return selErr, nil
 	}
@@ -291,6 +292,36 @@ func EPGetTokenDataById(dbConn string, tokenID int64) (error, *[]hktmodels.DBEPS
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 	selErr := selDBCtx.Select(tokenID)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func EPGetConfigListByTokenId(dbConn string, tokenid int64) (error, *[]hktmodels.DBServiceInstanceTxBriefDataModel) {
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBServiceInstanceTxBriefDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_CONFIG_LIST_BY_TOKEN_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(tokenid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func EPGetVehicleDetailsDataByVhlNo(dbConn string, vehicleNo string) (error, *[]lmodels.PacketVehicleDetailsData) {
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.PacketVehicleDetailsData{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_VEHICLE_DETAILS_BY_VHL_NO
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(vehicleNo)
 	if selErr != nil {
 		return selErr, nil
 	}

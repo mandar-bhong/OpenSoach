@@ -75,6 +75,12 @@ func InitProcessor() {
 	CAT_DATA_DEVICE_JOB_DELIVERED_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_JOB_DELIVERED_DATA)
 
+	CAT_CONFIG_DEV_TOKEN_CONFIG_LIST := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_CONFIG,
+		serconst.DEVICE_CMD_CONFIG_DEVICE_TOKEN_CONFIG_LIST)
+
+	CAT_CONFIG_DEV_TOKEN_VHL_DETAILS := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_CONFIG,
+		serconst.DEVICE_CMD_CONFIG_DEVICE_VHL_DETAILS)
+
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 
 	PacketProcessExecutor[CAT_CONFIG_DEV_SYNC_COMP] = epproc.ProcessDeviceSyncCompleted
@@ -96,6 +102,9 @@ func InitProcessor() {
 	PacketProcessExecutor[CAT_DATA_DEVICE_TOKEN_GENERATION_CLAIM_DATA] = endpoint.ProcessGenerateTokenClaimData
 	PacketProcessExecutor[CAT_DATA_DEVICE_JOB_EXE_CLAIM_DATA] = endpoint.ProcessJobExeClaimData
 	PacketProcessExecutor[CAT_DATA_DEVICE_JOB_DELIVERED_DATA] = endpoint.ProcessJobDeliveredData
+
+	PacketProcessExecutor[CAT_CONFIG_DEV_TOKEN_CONFIG_LIST] = epproc.ProcessDeviceJobExeConfigList
+	PacketProcessExecutor[CAT_CONFIG_DEV_TOKEN_VHL_DETAILS] = epproc.ProcessDeviceVehicleDetails
 
 }
 
