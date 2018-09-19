@@ -41,3 +41,16 @@ type DBTokenStateUpdateModel struct {
 	TokenId int64 `db:"id" dbattr:"pri,auto"  json:"tokenid"`
 	State   int64 `db:"state" json:"state"`
 }
+
+type DBTokenConfigModel struct {
+	TokenId     int64
+	TokenConfig *[]DBTokenConfigBriefDataModel
+}
+
+type DBTokenConfigBriefDataModel struct {
+	ServiceInstanceTxnID int64     `db:"id" json:"servintxnid"`
+	ServiceInstanceID    int64     `db:"serv_in_id_fk" json:"servinid"`
+	Status               int       `db:"status" json:"status"`
+	TransactionData      string    `db:"txn_data" json:"txndata"`
+	TransactionDate      time.Time `db:"txn_date" json:"txndate"`
+}
