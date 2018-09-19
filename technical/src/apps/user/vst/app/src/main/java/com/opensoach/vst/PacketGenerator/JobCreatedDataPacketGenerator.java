@@ -55,6 +55,8 @@ public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServic
 
         PacketVehicleDetailsModel packetVehicleDetailsModel = new PacketVehicleDetailsModel();
 
+        packetVehicleDetailsModel.TokenID = data.getTokenItemViewModel().getDbTokenTableRowModel().getId();
+
         packetVehicleDetailsModel.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
         packetVehicleDetailsModel.VehicleDetails = new PacketServiceVehicleDetailsDataModel();
 
