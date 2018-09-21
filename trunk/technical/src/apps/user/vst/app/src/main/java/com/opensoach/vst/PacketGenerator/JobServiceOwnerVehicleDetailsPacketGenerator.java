@@ -1,6 +1,8 @@
 package com.opensoach.vst.PacketGenerator;
 
+import com.google.gson.Gson;
 import com.opensoach.vst.Constants.CommandConstants;
+import com.opensoach.vst.Helper.CommonHelper;
 import com.opensoach.vst.Helper.PacketHelper;
 import com.opensoach.vst.Manager.RequestManager;
 import com.opensoach.vst.Model.Communication.CommandRequest;
@@ -22,11 +24,15 @@ public class JobServiceOwnerVehicleDetailsPacketGenerator  implements IPacketGen
 
 
         PacketServiceOwnerVehicleDetailsDataModel custVechDetails = new PacketServiceOwnerVehicleDetailsDataModel();
-        custVechDetails.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
-        custVechDetails.CustomerDetails.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
-        custVechDetails.CustomerDetails.LastName = data.getJobServiceDetailsViewModel().getLastName();
-        custVechDetails.CustomerDetails.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
 
+        PacketServiceCustomerDetailsDataModel cutdetalis = new PacketServiceCustomerDetailsDataModel();
+        //cutdetalis.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
+        cutdetalis.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
+        cutdetalis.LastName = data.getJobServiceDetailsViewModel().getLastName();
+        cutdetalis.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
+
+
+        custVechDetails.CustomerDetails = new Gson().toJson(cutdetalis);
 
         custVechDetails.VehicleNo = data.getTokenItemViewModel().getVehicleNo();
 

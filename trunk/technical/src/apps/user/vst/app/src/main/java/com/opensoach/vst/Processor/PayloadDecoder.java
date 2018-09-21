@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import com.opensoach.vst.Constants.CommandConstants;
 import com.opensoach.vst.Manager.RequestManager;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
+import com.opensoach.vst.Model.Communication.PacketServiceOwnerVehicleDetailsDataModel;
 import com.opensoach.vst.Model.Communication.PacketTokenListDataModel;
 import com.opensoach.vst.Model.PacketDecodeResultModel;
 import com.opensoach.vst.Model.Communication.CommandRequest;
 import com.opensoach.vst.Model.Communication.PacketLocationDataModel;
 import com.opensoach.vst.Model.Communication.PacketModel;
 import com.opensoach.vst.Model.Communication.PacketSimpleAckModel;
+import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 
 /**
  * Created by Mandar on 2/25/2017.
@@ -138,6 +140,16 @@ public class PayloadDecoder {
                             break;
                         }
 
+                        case CommandConstants.CMD_CONFIG_GET_VEHICLE_DETAILS:{
+                            TypeToken<PacketModel<ArrayList<PacketServiceOwnerVehicleDetailsDataModel>>> typeToken = new TypeToken<PacketModel<ArrayList<PacketServiceOwnerVehicleDetailsDataModel>>> () {
+                            };
+                            packetType = typeToken.getType();
+                            packetDecodeResultModel.Packet.Payload = new Gson().fromJson(packet, packetType);
+                            packetDecodeResultModel.Processor = new AckVehicleDetailsProcessor();
+                            packetDecodeResultModel.IsSuccess = true;
+                            break;
+                        }
+
 
                     }
                     break;
@@ -178,6 +190,7 @@ public class PayloadDecoder {
                     }
                     break;
                 }
+
             }
 
 

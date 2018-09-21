@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class PacketServiceOwnerVehicleDetailsDataModel {
 
     @SerializedName("details")
-    public PacketServiceCustomerDetailsDataModel CustomerDetails;
+    public String CustomerDetails;
 
     @SerializedName("vehicleno")
     public String VehicleNo;
