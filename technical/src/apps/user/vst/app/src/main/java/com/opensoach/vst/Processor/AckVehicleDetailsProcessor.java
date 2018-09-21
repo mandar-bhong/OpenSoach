@@ -14,6 +14,7 @@ public class AckVehicleDetailsProcessor implements IProcessor {
         CommandRequest<PacketVehicleDetailsRequestDataModel> request = (CommandRequest) RequestManager.Instance().GetRequest(packetDecodeResultModel.Packet.Header.SeqID);
 
 
+        //TODO: Correct the data structure
 
         return null;
     }
