@@ -12,10 +12,11 @@ public class AckVehicleDetailsProcessor implements IProcessor {
     public PacketProcessResultModel Process(PacketDecodeResultModel packetDecodeResultModel) {
 
         CommandRequest<PacketVehicleDetailsRequestDataModel> request = (CommandRequest) RequestManager.Instance().GetRequest(packetDecodeResultModel.Packet.Header.SeqID);
-
+        PacketProcessResultModel packetProcessResultModel = new PacketProcessResultModel();
 
         //TODO: Correct the data structure
 
-        return null;
+
+        return packetProcessResultModel;
     }
 }
