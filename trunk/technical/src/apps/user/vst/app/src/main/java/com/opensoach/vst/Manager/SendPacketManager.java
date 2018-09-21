@@ -31,9 +31,11 @@ import com.opensoach.vst.PacketGenerator.ComplaintDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.DeviceSyncCompletedDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.FeedbackDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.JobCreatedDataPacketGenerator;
+import com.opensoach.vst.PacketGenerator.JobServiceOwnerVehicleDetailsPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TaskDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TokenClaimPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TokenGenerateDataPacketGenerator;
+import com.opensoach.vst.PacketGenerator.VehicleDetailsPacketGenerator;
 import com.opensoach.vst.Utility.AppLogger;
 import com.opensoach.vst.ViewModels.CreateTokenViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
@@ -107,8 +109,8 @@ public class SendPacketManager {
                             request = batteryLevelGenerator.GenerateRequest(0, (PacketBatteryLevelModel) data);
                             break;
                         case CREATE_TOKEN:
-                            TokenGenerateDataPacketGenerator tokenGenerator =new TokenGenerateDataPacketGenerator();
-                            request =  tokenGenerator.GenerateRequest(locationID, (CreateTokenViewModel) data);
+                            TokenGenerateDataPacketGenerator tokenGenerator = new TokenGenerateDataPacketGenerator();
+                            request = tokenGenerator.GenerateRequest(locationID, (CreateTokenViewModel) data);
                             break;
                         case CLAIM_TOKEN:
                             TokenClaimPacketGenerator tokenClaimPacketGenerator = new TokenClaimPacketGenerator();
@@ -118,6 +120,18 @@ public class SendPacketManager {
                             JobCreatedDataPacketGenerator jobCreatedDataPacketGenerator = new JobCreatedDataPacketGenerator();
                             request = jobCreatedDataPacketGenerator.GenerateRequest(locationID, (JobServiceViewModel) data);
                             break;
+
+                        case GET_VEHICLE_DETAILS:
+                            VehicleDetailsPacketGenerator vehicleDetailsPacketGenerator = new VehicleDetailsPacketGenerator();
+                            request = vehicleDetailsPacketGenerator.GenerateRequest(locationID, (String) data);
+                            break;
+
+                        case UPADATE_VEHICLE_OWNER_DETAILS: {
+                            JobServiceOwnerVehicleDetailsPacketGenerator jsvowd = new JobServiceOwnerVehicleDetailsPacketGenerator();
+                            request = jsvowd.GenerateRequest(locationID, (JobServiceViewModel) data);
+                            break;
+                        }
+
                     }
 
                     if (request != null) {
@@ -132,6 +146,9 @@ public class SendPacketManager {
 
         AsyncTask.execute(sendTask);
     }
+
+
+
 
     private List<DBChartDataTableRowModel> updateTableChartData(DeviceChartDataModel devideChartDataModel) throws ParseException {
 

@@ -4,8 +4,13 @@ import android.content.Intent;
 import android.view.View;
 
 import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Constants.ApplicationConstants;
+import com.opensoach.vst.Constants.CommandConstants;
+import com.opensoach.vst.Constants.Constants;
 import com.opensoach.vst.Helper.AppAction;
+import com.opensoach.vst.Helper.PacketHelper;
 import com.opensoach.vst.Manager.SendPacketManager;
+import com.opensoach.vst.Model.Communication.PacketHeaderModel;
 import com.opensoach.vst.ViewModels.JobExeDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
@@ -70,6 +75,7 @@ public class TokenSelectionHandler {
                 view.getContext().startActivity(i);
 
                 SendPacketManager.Instance().send(AppAction.CLAIM_TOKEN, vm.getTokenListViewModel().getSelectedToken());
+                SendPacketManager.Instance().send(AppAction.GET_VEHICLE_DETAILS, vm.getTokenListViewModel().getSelectedToken().getVehicleNo());
 
             }
             break;

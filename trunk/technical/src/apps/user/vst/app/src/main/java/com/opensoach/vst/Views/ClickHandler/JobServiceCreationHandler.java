@@ -54,6 +54,8 @@ public class JobServiceCreationHandler {
         JobServiceListViewModel jobServiceListViewModel  = jobServiceViewModel.getJobServiceListViewModel();
 
 
+        //SendPacketManager.Instance().send(AppAction.UPADATE_VEHICLE_OWNER_DETAILS,jobServiceViewModel);
+
         SendPacketManager.Instance().send(AppAction.CREATE_JOB_COMFIRM,jobServiceViewModel);
 
         AppRepo.getInstance().getStore().put(ApplicationConstants.APP_STORE_JOB_SUBMITTED,true);
