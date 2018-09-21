@@ -57,12 +57,12 @@ public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServic
 
         packetVehicleDetailsModel.TokenID = data.getTokenItemViewModel().getDbTokenTableRowModel().getId();
 
-        packetVehicleDetailsModel.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
+      //  packetVehicleDetailsModel.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
         packetVehicleDetailsModel.VehicleDetails = new PacketServiceVehicleDetailsDataModel();
 
-        packetVehicleDetailsModel.CustomerDetails.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
-        packetVehicleDetailsModel.CustomerDetails.LastName = data.getJobServiceDetailsViewModel().getLastName();
-        packetVehicleDetailsModel.CustomerDetails.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
+//        packetVehicleDetailsModel.CustomerDetails.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
+//        packetVehicleDetailsModel.CustomerDetails.LastName = data.getJobServiceDetailsViewModel().getLastName();
+//        packetVehicleDetailsModel.CustomerDetails.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
 
         packetVehicleDetailsModel.VehicleDetails.KM = data.getJobServiceDetailsViewModel().getKmRuns();
         packetVehicleDetailsModel.VehicleDetails.Petrol = data.getJobServiceDetailsViewModel().getPetrolLevel();

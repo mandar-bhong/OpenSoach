@@ -9,9 +9,6 @@ public class PacketVehicleDetailsModel {
     @SerializedName("tokenid")
     public Integer TokenID;
 
-    @SerializedName("customerdetails")
-    public PacketServiceCustomerDetailsDataModel CustomerDetails;
-
     @SerializedName("vehicledetails")
     public PacketServiceVehicleDetailsDataModel VehicleDetails;
 
