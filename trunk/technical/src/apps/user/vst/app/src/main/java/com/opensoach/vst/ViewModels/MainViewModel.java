@@ -4,6 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 
+import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Model.ChartDataModel;
 
 /**
@@ -34,7 +35,9 @@ public class MainViewModel extends BaseViewModel implements PropertyChangeListen
         jobServiceItemViewModel = new JobServiceItemViewModel();
         tokenListViewModel = new TokenListViewModel();
         tokenListViewModel.ContextActivity = ContextActivity;
+
     }
+
 
     public static MainViewModel getInstance() {
         if (singleton == null)
