@@ -11,20 +11,27 @@ import com.opensoach.vst.Helper.AppAction;
 import com.opensoach.vst.Helper.PacketHelper;
 import com.opensoach.vst.Manager.SendPacketManager;
 import com.opensoach.vst.Model.Communication.PacketHeaderModel;
+import com.opensoach.vst.ViewModels.HeaderViewModel;
+import com.opensoach.vst.ViewModels.JobExeDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobExeDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
+import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenSelectionViewModel;
 import com.opensoach.vst.Views.Activity.JobServiceDetailsActivity;
 import com.opensoach.vst.Views.Activity.JobServiceTaskListActivity;
+
+import org.apache.log4j.chainsaw.Main;
 
 import java.util.ArrayList;
 
 public class TokenSelectionHandler {
 
     public void onClick(View view, TokenSelectionViewModel vm) {
+
+
 
         switch (AppRepo.getInstance().getCurrentRunningMode()) {
             case Token: {
@@ -33,6 +40,8 @@ public class TokenSelectionHandler {
             break;
             case JobCreation: {
 
+                if (vm.getTokenListViewModel().getSelectedToken() == null)return;
+
                 if (AppRepo.getInstance().getStore().containsKey(
                         vm.getTokenListViewModel().
                                 getSelectedToken().
@@ -40,6 +49,10 @@ public class TokenSelectionHandler {
                                 getVehicleno())) {
 
                 } else {
+
+
+                    MainViewModel.getInstance().getHeaderViewModel().setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
+
 
                     JobServiceDetailsViewModel jobDetailsViewModel = new JobServiceDetailsViewModel();
                     jobDetailsViewModel.Parent = vm;
@@ -62,6 +75,8 @@ public class TokenSelectionHandler {
                     jobServiceViewModel.setTokenItemViewModel(vm.getTokenListViewModel().getSelectedToken());
                     AppRepo.getInstance().setJobServiceViewModel(jobServiceViewModel);
 
+
+
                     AppRepo.getInstance().getStore().put(
                             vm.getTokenListViewModel().
                                     getSelectedToken().
@@ -81,6 +96,8 @@ public class TokenSelectionHandler {
             break;
             case JobExecution: {
 
+                if (vm.getTokenListViewModel().getSelectedToken() == null)return;
+
                 if (AppRepo.getInstance().getStore().containsKey(
                         vm.getTokenListViewModel().
                                 getSelectedToken().
@@ -88,6 +105,8 @@ public class TokenSelectionHandler {
                                 getVehicleno())) {
 
                 } else {
+
+
                 JobServiceDetailsViewModel jobDetailsViewModel = new JobServiceDetailsViewModel();
                 jobDetailsViewModel.Parent = vm;
                 jobDetailsViewModel.ContextActivity = vm.ContextActivity;

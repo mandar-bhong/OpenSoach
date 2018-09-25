@@ -32,13 +32,15 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
     private boolean backButtonVisiable;
     private boolean uploadEnabled;
     private boolean uploadVisiable;
-
+    private TokenItemViewModel tokenItemViewModel;
 
     public HeaderViewModel() {
         this.networkState = Constants.NETWORK_STATE.WEB_SOCKET_UNAUTHORIZED;
         uploadEnabled= true;
         uploadVisiable = false;
     }
+
+
 
     @BindingAdapter("android:background")
     public static void setImageDrawable(ImageView view, Drawable drawable) {
@@ -71,6 +73,14 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
     public void onBackClick(View view) {
         Activity currentActivity =(Activity) view.getContext();
         currentActivity.finish();
+    }
+
+    public TokenItemViewModel getTokenItemViewModel() {
+        return tokenItemViewModel;
+    }
+
+    public void setTokenItemViewModel(TokenItemViewModel tokenItemViewModel) {
+        this.tokenItemViewModel = tokenItemViewModel;
     }
 
     @Bindable

@@ -9,6 +9,7 @@
         <variable
             name="VM"
             type="com.opensoach.vst.ViewModels.HeaderViewModel" />
+
         <variable
             name="Data"
             type="com.opensoach.vst.ViewModels.CardBriefViewModel" />
@@ -64,12 +65,40 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:visibility="@{VM.backButtonVisiable == true ? View.VISIBLE : View.GONE}">
+
                 <ImageView
                     android:id="@+id/patientbed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:background="@drawable/motobike" />
+
+
+                <TextView
+                    android:id="@+id/vehicleNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="@{VM.tokenItemViewModel.vehicleNo}"
+                    android:textColor="#FFFFFF"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/token"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="#FFFFFF"
+                    android:text="@{VM.tokenItemViewModel.tokenNo}"/>
+
+
+
                 <TextView
                     android:id="@+id/servicePointTextView1"
                     android:layout_width="wrap_content"
@@ -82,6 +111,8 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:layout_toRightOf="@+id/patientbed"/>
+
+
 
             </LinearLayout>
 
