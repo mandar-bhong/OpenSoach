@@ -729,6 +729,8 @@ func ProcessDeviceVehicleDetails(ctx *lmodels.PacketProccessExecution, packetPro
 		return
 	}
 
+	vhlDetails := *vhlDetailsData
+
 	packetProcessingResult.IsSuccess = true
 
 	vhldetailsinfo := &gmodels.DevicePacket{}
@@ -736,7 +738,7 @@ func ProcessDeviceVehicleDetails(ctx *lmodels.PacketProccessExecution, packetPro
 	vhldetailsinfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
 	vhldetailsinfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_VHL_DETAILS
 
-	vhldetailsinfo.Payload = vhlDetailsData
+	vhldetailsinfo.Payload = vhlDetails[0]
 
 	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, vhldetailsinfo)
 
