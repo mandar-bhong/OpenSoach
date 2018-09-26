@@ -112,6 +112,7 @@ public class AppHelper {
         ConnectionRetryManager.Instance().DeInit();
 
 
+        if (mContext == null)return;
         BroadCastReceiverManager.Instance().DeregisterBatteryLevelReceiver(mContext);
     }
 

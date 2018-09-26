@@ -63,9 +63,6 @@ public class SPLApplication extends Application {
         //Initialise WebSocket Connection
         // initWSConnection();
 
-        AppHelper.Init(mContext);
-
-        AppHelper.ExecuteStartUpProcess();
         (new ScheduleManager()).startScheduler(this, 1, 30, 1);
 
         DataBindingUtil.setDefaultComponent(new AppDataBindingComponent());
@@ -186,7 +183,7 @@ public class SPLApplication extends Application {
                         break;
                 }
 
-                MainViewModel.getInstance().ContextActivity.finish();
+                //MainViewModel.getInstance().ContextActivity.finish();
                 MainViewModel.getInstance().ContextActivity.startActivity(i);
 
             }
