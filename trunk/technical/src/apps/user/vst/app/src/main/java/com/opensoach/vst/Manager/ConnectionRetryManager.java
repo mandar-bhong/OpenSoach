@@ -67,6 +67,8 @@ public class ConnectionRetryManager implements PropertyChangeListener {
 
     public void StopRetryConnection() {
 
+        if (_retryTimer == null) return;
+
         _retryTimer.cancel();
     }
 

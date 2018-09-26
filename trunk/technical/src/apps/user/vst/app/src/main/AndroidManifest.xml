@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Views.Activity.LandingPageActivity"
+            android:name=".Views.Activity.JobServiceModeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,7 +56,8 @@
         <activity android:name=".Views.Activity.TokenListActivity" />
         <activity android:name=".Views.Activity.JobServiceTaskCreationActivity" />
         <activity android:name=".Views.Activity.JobServiceSummaryActivity" />
-        <activity android:name=".Views.Activity.JobExeDetailsActivity"></activity>
+        <activity android:name=".Views.Activity.JobExeDetailsActivity" />
+        <activity android:name=".Views.Activity.LandingPageActivity" />
     </application>
 
 </manifest>

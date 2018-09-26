@@ -16,6 +16,7 @@ public class PacketManager extends Thread {
     private static PacketManager singleton ;
 
     private Handler packetHandler;
+    private boolean isInitilized;
 
 
     /* A private Constructor prevents any other
@@ -26,6 +27,11 @@ public class PacketManager extends Thread {
     }
 
     public boolean Init(){
+
+        if (isInitilized)return true;
+
+        isInitilized = true;
+
         start();//TODO: Handle error
         return  true;
     }

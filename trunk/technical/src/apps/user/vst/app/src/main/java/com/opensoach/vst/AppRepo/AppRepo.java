@@ -53,6 +53,7 @@ public final class AppRepo {
     private JobSummaryViewModel jobSummaryViewModel;
     private JobServiceDetailsViewModel jobServiceDetailsViewModel;
     private JobExeDetailsViewModel jobExeDetailsViewModel;
+    private String deviceSerialNo;
 
     private List<TaskItemDataModel> selectedTaskDataViewModels;
 
@@ -94,11 +95,19 @@ public final class AppRepo {
     }
 
     public String getDeviceSerial() {
-        return  "1234567890123456";
+
+        if (deviceSerialNo != null)
+            return deviceSerialNo;
+        else
+            return "1234567890123456";
         //devid- 1 , S.no - 1234567890123456
         //devid- 2 , S.no - 1345494544733456
         //devid- 3 , S.no - 1155623421323222
         //return Build.SERIAL;
+    }
+
+    public void setDeviceSerialNo(String serialNo){
+        deviceSerialNo = serialNo;
     }
 
     public String getServerAPIURL() {

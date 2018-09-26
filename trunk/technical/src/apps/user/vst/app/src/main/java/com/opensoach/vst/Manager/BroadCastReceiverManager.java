@@ -27,6 +27,9 @@ public class BroadCastReceiverManager {
     }
 
     public void DeregisterBatteryLevelReceiver(Context ctx){
+
+        if (ctx == null)return;
+
         broadcastBatteryLevelReceiver.setDeregitered(true);
         ctx.unregisterReceiver(broadcastBatteryLevelReceiver);
     }
