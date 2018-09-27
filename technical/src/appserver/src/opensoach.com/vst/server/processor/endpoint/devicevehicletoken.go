@@ -673,6 +673,10 @@ func ProcessDeviceJobExeConfigList(ctx *lmodels.PacketProccessExecution, packetP
 		return
 	}
 
+	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		false, 0, nil)
+
 	packetTokenData := *devicePacket.Payload.(*lmodels.PacketTokenData)
 
 	tokensConfigList := []hktmodels.DBTokenConfigModel{}
@@ -696,14 +700,11 @@ func ProcessDeviceJobExeConfigList(ctx *lmodels.PacketProccessExecution, packetP
 
 	packetProcessingResult.IsSuccess = true
 
-	vhltokenconfiginfo := &gmodels.DevicePacket{}
-	vhltokenconfiginfo.Header = gmodels.DeviceHeaderData{}
-	vhltokenconfiginfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
-	vhltokenconfiginfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_TOKEN_CONFIG_LIST
+	commandAck = lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CONFIG_DEVICE_TOKEN_CONFIG_LIST,
+		devicePacket.Header.SeqID,
+		true, 0, tokensConfigList)
 
-	vhltokenconfiginfo.Payload = tokensConfigList
-
-	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, vhltokenconfiginfo)
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 
 }
 
@@ -720,12 +721,17 @@ func ProcessDeviceVehicleDetails(ctx *lmodels.PacketProccessExecution, packetPro
 		return
 	}
 
+	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		false, 0, nil)
+
 	packetVehicleTokenData := *devicePacket.Payload.(*lmodels.PacketVehicleTokenData)
 
 	dbErr, vhlDetailsData := dbaccess.EPGetVehicleDetailsDataByVhlNo(ctx.InstanceDBConn, packetVehicleTokenData.VehicleNo)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get vhl details data ", dbErr)
 		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		return
 	}
 
@@ -733,14 +739,11 @@ func ProcessDeviceVehicleDetails(ctx *lmodels.PacketProccessExecution, packetPro
 
 	packetProcessingResult.IsSuccess = true
 
-	vhldetailsinfo := &gmodels.DevicePacket{}
-	vhldetailsinfo.Header = gmodels.DeviceHeaderData{}
-	vhldetailsinfo.Header.Category = lconst.DEVICE_CMD_CAT_ACK
-	vhldetailsinfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_VHL_DETAILS
+	commandAck = lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CONFIG_DEVICE_VHL_DETAILS,
+		devicePacket.Header.SeqID,
+		true, 0, vhlDetails[0])
 
-	vhldetailsinfo.Payload = vhlDetails[0]
-
-	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, vhldetailsinfo)
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 
 }
 
