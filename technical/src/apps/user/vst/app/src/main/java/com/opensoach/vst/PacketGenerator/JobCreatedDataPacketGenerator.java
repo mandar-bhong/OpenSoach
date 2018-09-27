@@ -68,7 +68,7 @@ public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServic
         packetVehicleDetailsModel.VehicleDetails.Petrol = data.getJobServiceDetailsViewModel().getPetrolLevel();
 
         packetVehicleDetailsModel.Tasks = new ArrayList<>();
-
+        Integer tentetiveCost = 0;
 
         for(JobServiceItemViewModel model : data.getJobServiceListViewModel().getData()){
             PacketServiceTaskItemDataModel item = new PacketServiceTaskItemDataModel();
@@ -77,8 +77,12 @@ public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServic
             item.Comment = model.getComment();
             item.Cost = model.getCost();
 
+            tentetiveCost = tentetiveCost + Integer.parseInt( item.Cost);
+
             packetVehicleDetailsModel.Tasks.add(item);
         }
+
+        packetVehicleDetailsModel.TentetiveCost = tentetiveCost.toString();
 
         Gson gson = new GsonBuilder().setDateFormat(ApplicationConstants.PACKET_DATE_FORMAT).create();
         packetServiceJobCreatedDataModel.TxnData =  gson.toJson(packetVehicleDetailsModel);
