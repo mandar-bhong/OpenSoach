@@ -640,23 +640,36 @@ func ProcessJobClaimData(ctx *lmodels.PacketProccessExecution, packetProcessingR
 
 func ProcessDeviceTokenList(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
+	devicePacket := &gmodels.DevicePacket{}
+	devicePacket.Payload = &lmodels.PacketVehicleTokenData{}
+
+	convErr := ghelper.ConvertFromJSONBytes(ctx.DevicePacket, devicePacket)
+
+	if convErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while converting from json data.", convErr)
+		packetProcessingResult.IsSuccess = false
+		return
+	}
+
+	commandAck := lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CAT_ACK_DEFAULT,
+		devicePacket.Header.SeqID,
+		false, 0, nil)
+
 	dbErr, vhlTokenDataList := dbaccess.EPGetTokenList(ctx.InstanceDBConn)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get vhl token data list", dbErr)
 		packetProcessingResult.IsSuccess = false
+		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		return
 	}
 
 	packetProcessingResult.IsSuccess = true
 
-	vhltokeninfo := &gmodels.DevicePacket{}
-	vhltokeninfo.Header = gmodels.DeviceHeaderData{}
-	vhltokeninfo.Header.Category = lconst.DEVICE_CMD_CAT_ACK
-	vhltokeninfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_TOKEN_LIST
+	commandAck = lhelper.GetEPAckPacket(lconst.DEVICE_CMD_CONFIG_DEVICE_TOKEN_LIST,
+		devicePacket.Header.SeqID,
+		true, 0, vhlTokenDataList)
 
-	vhltokeninfo.Payload = vhlTokenDataList
-
-	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, vhltokeninfo)
+	packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 
 }
 
