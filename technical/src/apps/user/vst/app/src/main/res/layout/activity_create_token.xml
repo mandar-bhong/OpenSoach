@@ -114,13 +114,69 @@
 
                             <EditText
                                 android:id="@+id/vehicalNo1"
-                                android:layout_width="135dp"
+                                android:layout_width="45dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="80dp"
-                                android:hint="MH 12 AB1111"
+                                android:layout_marginLeft="20dp"
+                                android:hint="MH"
                                 android:textAlignment="center"
-                                android:maxLength="12"
+                                android:inputType="textCapWords"
+                                android:maxLength="2"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
                                 android:text="@={VM.vehicleNo1}"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="0dp"
+                                android:text="-"/>
+
+                            <EditText
+                                android:id="@+id/vehicalNo2"
+                                android:layout_width="45dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:hint="12"
+                                android:textAlignment="center"
+                                android:inputType="number"
+                                android:digits="0123456789"
+                                android:maxLength="2"
+                                android:text="@={VM.vehicleNo2}"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="0dp"
+                                android:text="-"/>
+
+                            <EditText
+                                android:id="@+id/vehicalNo3"
+                                android:layout_width="45dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:hint="AB"
+                                android:textAlignment="center"
+                                android:inputType="textCapWords"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                                android:maxLength="2"
+                                android:text="@={VM.vehicleNo3}"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="0dp"
+                                android:text="-"/>
+
+                            <EditText
+                                android:id="@+id/vehicalNo4"
+                                android:layout_width="55dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:hint="1234"
+                                android:textAlignment="center"
+                                android:inputType="number"
+                                android:digits="0123456789"
+                                android:maxLength="4"
+                                android:text="@={VM.vehicleNo4}"/>
 
 
                         </LinearLayout>
