@@ -15,4 +15,8 @@ public class PacketVehicleDetailsModel {
     @SerializedName("tasks")
     public ArrayList<PacketServiceTaskItemDataModel> Tasks;
 
+
+    @SerializedName("tentcost")
+    public String TentetiveCost;
+
 }
