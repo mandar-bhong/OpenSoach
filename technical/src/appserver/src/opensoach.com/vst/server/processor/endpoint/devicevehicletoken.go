@@ -651,7 +651,7 @@ func ProcessDeviceTokenList(ctx *lmodels.PacketProccessExecution, packetProcessi
 
 	vhltokeninfo := &gmodels.DevicePacket{}
 	vhltokeninfo.Header = gmodels.DeviceHeaderData{}
-	vhltokeninfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
+	vhltokeninfo.Header.Category = lconst.DEVICE_CMD_CAT_ACK
 	vhltokeninfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_TOKEN_LIST
 
 	vhltokeninfo.Payload = vhlTokenDataList
@@ -735,7 +735,7 @@ func ProcessDeviceVehicleDetails(ctx *lmodels.PacketProccessExecution, packetPro
 
 	vhldetailsinfo := &gmodels.DevicePacket{}
 	vhldetailsinfo.Header = gmodels.DeviceHeaderData{}
-	vhldetailsinfo.Header.Category = lconst.DEVICE_CMD_CAT_CONFIG
+	vhldetailsinfo.Header.Category = lconst.DEVICE_CMD_CAT_ACK
 	vhldetailsinfo.Header.CommandID = lconst.DEVICE_CMD_CONFIG_DEVICE_VHL_DETAILS
 
 	vhldetailsinfo.Payload = vhlDetails[0]
