@@ -13,6 +13,7 @@ public class ApplicationConstants {
     public static   final int UI_PROCESSING_STATERGY_TOKEN_CREATED =5;
     public static   final int UI_PROCESSING_STATERGY_TOKEN_LIST =6;
     public static   final int UI_PROCESSING_STATERGY_VEHICLE_DETAILS =7;
+    public static   final int UI_PROCESSING_STATERGY_JOB_SERVICE_DETAILS =8;
 
 
 

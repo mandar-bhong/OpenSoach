@@ -9,7 +9,16 @@ public class JobServiceItemViewModel extends BaseViewModel {
     private String taskName;
     private String comment;
     private String cost;
+    private Boolean isTaskCompleted;
 
+
+    public Boolean getTaskCompleted() {
+        return isTaskCompleted;
+    }
+
+    public void setTaskCompleted(Boolean taskCompleted) {
+        isTaskCompleted = taskCompleted;
+    }
 
     public String getTaskName() {
         return taskName;
