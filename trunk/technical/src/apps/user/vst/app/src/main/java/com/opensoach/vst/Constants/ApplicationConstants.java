@@ -12,6 +12,7 @@ public class ApplicationConstants {
     public static   final int UI_PROCESSING_STATERGY_CARD_LIST_DATA =4;
     public static   final int UI_PROCESSING_STATERGY_TOKEN_CREATED =5;
     public static   final int UI_PROCESSING_STATERGY_TOKEN_LIST =6;
+    public static   final int UI_PROCESSING_STATERGY_VEHICLE_DETAILS =7;
 
 
 
@@ -51,4 +52,5 @@ public class ApplicationConstants {
     public static final String APP_STORE_SERVICE_INST_ID = "ServiceInstId";
     public static final String APP_STORE_SERVICE_CONFIG_ID = "ServiceConfigId";
     public static final String APP_STORE_JOB_SUBMITTED = "JobSubmitted";
+    public static final String APP_STORE_VEHICLE_DETAILS_PREFIX = "Vehicle_";
 }

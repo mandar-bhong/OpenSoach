@@ -1,6 +1,7 @@
 package com.opensoach.vst.ViewModels;
 
 import android.databinding.Bindable;
+import com.opensoach.vst.BR;
 
 public class JobServiceDetailsViewModel extends BaseViewModel {
 
@@ -43,6 +44,7 @@ public class JobServiceDetailsViewModel extends BaseViewModel {
         this.jobCustomerDetailsViewModel = jobCustomerDetailsViewModel;
     }
 
+    @Bindable
     public String getFirstName() {
         return firstName;
     }
@@ -50,8 +52,10 @@ public class JobServiceDetailsViewModel extends BaseViewModel {
     @Bindable
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+        notifyPropertyChanged(BR.firstName);
     }
 
+    @Bindable
     public String getLastName() {
         return lastName;
     }
@@ -63,11 +67,13 @@ public class JobServiceDetailsViewModel extends BaseViewModel {
 
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
+        notifyPropertyChanged(BR.mobileNo);
     }
 
     @Bindable
     public void setLastName(String lastName) {
         this.lastName = lastName;
+        notifyPropertyChanged(BR.lastName);
     }
 
     public String getKmRuns() {
