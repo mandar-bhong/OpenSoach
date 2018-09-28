@@ -8,6 +8,7 @@ import com.opensoach.vst.Manager.RequestManager;
 import com.opensoach.vst.Model.Communication.CommandRequest;
 import com.opensoach.vst.Model.Communication.PacketModel;
 import com.opensoach.vst.Model.Communication.PacketServiceCustomerDetailsDataModel;
+import com.opensoach.vst.Model.Communication.PacketServiceCustomerNVehicleDetailsDataModel;
 import com.opensoach.vst.Model.Communication.PacketServiceJobCreatedDataModel;
 import com.opensoach.vst.Model.Communication.PacketServiceOwnerVehicleDetailsDataModel;
 import com.opensoach.vst.Model.Communication.PacketServiceVehicleDetailsDataModel;
@@ -25,11 +26,11 @@ public class JobServiceOwnerVehicleDetailsPacketGenerator  implements IPacketGen
 
         PacketServiceOwnerVehicleDetailsDataModel custVechDetails = new PacketServiceOwnerVehicleDetailsDataModel();
 
-        PacketServiceCustomerDetailsDataModel cutdetalis = new PacketServiceCustomerDetailsDataModel();
-        //cutdetalis.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
-        cutdetalis.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
-        cutdetalis.LastName = data.getJobServiceDetailsViewModel().getLastName();
-        cutdetalis.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
+        PacketServiceCustomerNVehicleDetailsDataModel cutdetalis = new PacketServiceCustomerNVehicleDetailsDataModel();
+        cutdetalis.CustomerDetails = new PacketServiceCustomerDetailsDataModel();
+        cutdetalis.CustomerDetails.FirstName = data.getJobServiceDetailsViewModel().getFirstName();
+        cutdetalis.CustomerDetails.LastName = data.getJobServiceDetailsViewModel().getLastName();
+        cutdetalis.CustomerDetails.MobileNo = data.getJobServiceDetailsViewModel().getMobileNo();
 
 
         custVechDetails.CustomerDetails = new Gson().toJson(cutdetalis);

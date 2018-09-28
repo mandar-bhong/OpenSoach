@@ -77,7 +77,9 @@ public class JobCreatedDataPacketGenerator implements IPacketGenerator<JobServic
             item.Comment = model.getComment();
             item.Cost = model.getCost();
 
-            tentetiveCost = tentetiveCost + Integer.parseInt( item.Cost);
+            if (!(item.Cost == null || item.Cost == "")){
+                tentetiveCost = tentetiveCost + Integer.parseInt(item.Cost);
+            }
 
             packetVehicleDetailsModel.Tasks.add(item);
         }

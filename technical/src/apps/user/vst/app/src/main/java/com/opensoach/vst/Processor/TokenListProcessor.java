@@ -2,13 +2,19 @@ package com.opensoach.vst.Processor;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Constants.ApplicationConstants;
+import com.opensoach.vst.Constants.Constants;
 import com.opensoach.vst.DAL.DatabaseManager;
+import com.opensoach.vst.Manager.RequestManager;
 import com.opensoach.vst.Model.AppNotificationModelBase;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
 import com.opensoach.vst.Model.Communication.PacketLocationDataModel;
 import com.opensoach.vst.Model.Communication.PacketModel;
+import com.opensoach.vst.Model.Communication.PacketSimpleAckModel;
 import com.opensoach.vst.Model.Communication.PacketTokenListDataModel;
 import com.opensoach.vst.Model.DB.DBLocationTableQueryModel;
 import com.opensoach.vst.Model.DB.DBLocationTableRowModel;
@@ -17,6 +23,7 @@ import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.Model.PacketDecodeResultModel;
 import com.opensoach.vst.Model.PacketProcessResultModel;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +35,15 @@ public class TokenListProcessor implements IProcessor {
         PacketProcessResultModel packetProcessResultModel = new PacketProcessResultModel();
 
         try {
-            PacketModel<ArrayList<PacketTokenListDataModel>> pcketTokenListDataModel = (PacketModel<ArrayList<PacketTokenListDataModel>>) resultModel.Packet.Payload;
+
+            RequestManager.Instance().CompleteRequest(resultModel.Packet.Header.SeqID);
+
+            Gson gson = new GsonBuilder().setDateFormat(ApplicationConstants.PACKET_DATE_FORMAT).create();
+
+            Type packetType = new TypeToken<PacketModel<PacketSimpleAckModel<ArrayList<PacketTokenListDataModel>>>>() {
+            }.getType();
+
+            PacketModel<PacketSimpleAckModel<ArrayList<PacketTokenListDataModel>>> packet =  gson.fromJson(resultModel.JSONPacket,packetType);
 
             DBTokenTableRowModel dbRowModel = new DBTokenTableRowModel();
 
@@ -47,7 +62,7 @@ public class TokenListProcessor implements IProcessor {
 
             ArrayList<DBTokenTableRowModel> list = new ArrayList<>();
 
-            for (PacketTokenListDataModel token : pcketTokenListDataModel.Payload) {
+            for (PacketTokenListDataModel token : packet.Payload.Data) {
 
                 switch (AppRepo.getInstance().getCurrentRunningMode()){
                     case Token:

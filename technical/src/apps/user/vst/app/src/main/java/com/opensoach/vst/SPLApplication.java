@@ -17,8 +17,10 @@ import com.opensoach.vst.DAL.DatabaseManager;
 import com.opensoach.vst.Helper.AppHelper;
 import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Helper.CommonHelper;
+import com.opensoach.vst.Helper.ExceptionHelper;
 import com.opensoach.vst.Model.AppNotificationModelBase;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
+import com.opensoach.vst.Model.Communication.PacketServiceCustomerDetailsDataModel;
 import com.opensoach.vst.Model.DB.DBLocationTableRowModel;
 import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.Model.View.ChartConfigModel;
@@ -26,6 +28,8 @@ import com.opensoach.vst.Model.View.DisplayChartDataModel;
 import com.opensoach.vst.Scheduler.ScheduleManager;
 import com.opensoach.vst.Utility.AppLogger;
 import com.opensoach.vst.ViewModels.CardBriefViewModel;
+import com.opensoach.vst.ViewModels.JobCustomerDetailsViewModel;
+import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
@@ -62,6 +66,9 @@ public class SPLApplication extends Application {
 
         //Initialise WebSocket Connection
         // initWSConnection();
+
+        //Setting global unhandled exception
+        new ExceptionHelper(this);
 
         (new ScheduleManager()).startScheduler(this, 1, 30, 1);
 
@@ -117,7 +124,7 @@ public class SPLApplication extends Application {
 
                         MainViewModel.getInstance().getTokenListViewModel().getTokensDataAdapter().addItem(viewModel);
 
-                        if (MainViewModel.getInstance().getCreateTokenViewModel() != null){
+                        if (MainViewModel.getInstance().getCreateTokenViewModel() != null) {
                             MainViewModel.getInstance().getCreateTokenViewModel().setDbTokenTableRowModel(tokenItem);
                         }
                     }
@@ -150,16 +157,16 @@ public class SPLApplication extends Application {
             case ApplicationConstants.UI_PROCESSING_STATERGY_AUTH_CODE_UPDATE: {
                 ArrayList<String> packetAuthCodeDataModel = (ArrayList) model.Data;
 
-                if(packetAuthCodeDataModel == null) {
+                if (packetAuthCodeDataModel == null) {
                     AppRepo.getInstance().setAuthCodeList(new ArrayList<String>());
-                }else{
+                } else {
                     AppRepo.getInstance().setAuthCodeList(packetAuthCodeDataModel);
                 }
             }
 
-            case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA:{
+            case ApplicationConstants.UI_PROCESSING_STATERGY_CARD_LIST_DATA: {
 
-                PacketCardListConfigurationModel packetCardListConfigurationModel  = (PacketCardListConfigurationModel)model.Data;
+                PacketCardListConfigurationModel packetCardListConfigurationModel = (PacketCardListConfigurationModel) model.Data;
 
                 String configType = packetCardListConfigurationModel.ConfTypeCode;
                 Intent i = null;
@@ -168,7 +175,7 @@ public class SPLApplication extends Application {
                 AppRepo.getInstance().getStore().put(ApplicationConstants.APP_STORE_SERVICE_CONFIG_ID, packetCardListConfigurationModel.ServConfID);
 
 
-                switch (configType){
+                switch (configType) {
                     case "TOKEN_GENERATION":
                         i = new Intent(MainViewModel.getInstance().ContextActivity, TokenListActivity.class);
                         AppRepo.getInstance().setCurrentRunningMode(ApplicationConstants.AppRunningMode.Token);
@@ -190,8 +197,8 @@ public class SPLApplication extends Application {
             break;
 
 
-            case ApplicationConstants.UI_PROCESSING_STATERGY_TOKEN_LIST:{
-              final  ArrayList<DBTokenTableRowModel> tokenList  = (ArrayList<DBTokenTableRowModel>)model.Data;
+            case ApplicationConstants.UI_PROCESSING_STATERGY_TOKEN_LIST: {
+                final ArrayList<DBTokenTableRowModel> tokenList = (ArrayList<DBTokenTableRowModel>) model.Data;
 
                 MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
 
@@ -200,7 +207,7 @@ public class SPLApplication extends Application {
 
                         MainViewModel.getInstance().getTokenListViewModel().getData().clear();
 
-                        for(DBTokenTableRowModel tokenModel : tokenList ){
+                        for (DBTokenTableRowModel tokenModel : tokenList) {
 
                             TokenItemViewModel tokenItemViewModel = new TokenItemViewModel(tokenModel);
 
@@ -216,6 +223,22 @@ public class SPLApplication extends Application {
 
             }
             break;
+
+            case ApplicationConstants.UI_PROCESSING_STATERGY_VEHICLE_DETAILS: {
+                final PacketServiceCustomerDetailsDataModel custDetails = (PacketServiceCustomerDetailsDataModel) model.Data;
+
+                MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //JobServiceDetailsViewModel
+                        JobServiceDetailsViewModel jobServiceDetailsVM = AppRepo.getInstance().getJobServiceViewModel().getJobServiceDetailsViewModel();
+                        jobServiceDetailsVM.setFirstName(custDetails.FirstName);
+                        jobServiceDetailsVM.setLastName(custDetails.LastName);
+                        jobServiceDetailsVM.setMobileNo(custDetails.MobileNo);
+                    }
+                });
+                break;
+            }
         }
     }
 

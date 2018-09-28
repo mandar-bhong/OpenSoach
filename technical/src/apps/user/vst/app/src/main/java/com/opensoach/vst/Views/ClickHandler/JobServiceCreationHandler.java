@@ -53,8 +53,7 @@ public class JobServiceCreationHandler {
         JobServiceDetailsViewModel jobServiceDetailsViewModel =  jobServiceViewModel.getJobServiceDetailsViewModel();
         JobServiceListViewModel jobServiceListViewModel  = jobServiceViewModel.getJobServiceListViewModel();
 
-
-        //SendPacketManager.Instance().send(AppAction.UPADATE_VEHICLE_OWNER_DETAILS,jobServiceViewModel);
+        SendPacketManager.Instance().send(AppAction.UPADATE_VEHICLE_OWNER_DETAILS,jobServiceViewModel);
 
         SendPacketManager.Instance().send(AppAction.CREATE_JOB_COMFIRM,jobServiceViewModel);
 
