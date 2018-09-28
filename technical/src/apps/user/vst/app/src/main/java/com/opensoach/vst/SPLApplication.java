@@ -7,10 +7,14 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.util.Log;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Communication.WebSocketConnector;
 import com.opensoach.vst.DAL.DatabaseManager;
@@ -20,7 +24,13 @@ import com.opensoach.vst.Helper.CommonHelper;
 import com.opensoach.vst.Helper.ExceptionHelper;
 import com.opensoach.vst.Model.AppNotificationModelBase;
 import com.opensoach.vst.Model.Communication.PacketCardListConfigurationModel;
+import com.opensoach.vst.Model.Communication.PacketModel;
 import com.opensoach.vst.Model.Communication.PacketServiceCustomerDetailsDataModel;
+import com.opensoach.vst.Model.Communication.PacketServiceInstanceModel;
+import com.opensoach.vst.Model.Communication.PacketServiceJobDetailsDataModel;
+import com.opensoach.vst.Model.Communication.PacketServiceTaskItemDataModel;
+import com.opensoach.vst.Model.Communication.PacketSimpleAckModel;
+import com.opensoach.vst.Model.Communication.PacketVehicleDetailsModel;
 import com.opensoach.vst.Model.DB.DBLocationTableRowModel;
 import com.opensoach.vst.Model.DB.DBTokenTableRowModel;
 import com.opensoach.vst.Model.View.ChartConfigModel;
@@ -31,6 +41,7 @@ import com.opensoach.vst.ViewModels.CardBriefViewModel;
 import com.opensoach.vst.ViewModels.JobCustomerDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceDetailsViewModel;
 import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
+import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
@@ -239,9 +250,58 @@ public class SPLApplication extends Application {
                 });
                 break;
             }
+            case ApplicationConstants.UI_PROCESSING_STATERGY_JOB_SERVICE_DETAILS: {
+                final PacketServiceJobDetailsDataModel jobDetails = (PacketServiceJobDetailsDataModel) model.Data;
+
+                if (jobDetails.ServiceConfig.size() < 1) {
+                    return;
+                }
+
+                Gson gson = new GsonBuilder().setDateFormat(ApplicationConstants.PACKET_DATE_FORMAT).create();
+
+                Type packetType = new TypeToken<PacketVehicleDetailsModel>() {
+                }.getType();
+
+                try{
+                    final PacketVehicleDetailsModel configTasks = gson.fromJson(jobDetails.ServiceConfig.get(0).txndata, packetType);
+                    //final PacketVehicleDetailsModel exeTasks = gson.fromJson(jobDetails.ServiceExeConfig.get(0).txndata, packetType);
+
+                    MainViewModel.getInstance().ContextActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            JobServiceListViewModel jobListVM = AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel();
+                            for (PacketServiceTaskItemDataModel model : configTasks.Tasks) {
+
+                                JobServiceItemViewModel vm = new JobServiceItemViewModel();
+                                vm.Parent = jobListVM;
+                                vm.ContextActivity = jobListVM.ContextActivity;
+                                vm.setComment(model.Comment);
+                                vm.setCost(model.Cost);
+                                vm.setTaskName(model.taskName);
+
+                                jobListVM.getJobServiceDataAdapter().addItem(vm);
+                            }
+
+                            //TODO: Implement the completed task checkbox
+//                            for (PacketServiceTaskItemDataModel model : exeTasks) {
+//                                for (JobServiceItemViewModel vm : jobListVM.getData()) {
+//                                    if (model.taskName.equals( vm.getTaskName())) {
+//                                        vm.setTaskCompleted(true);
+//                                        break;
+//                                    }
+//                                }
+//                            }
+                        }
+                    });
+
+                }catch (Exception ex){
+                    AppLogger.getInstance().Log(ex);
+                }
+            }
+            break;
         }
     }
-
 
 
     void UpdateChart(AppNotificationModelBase model) {

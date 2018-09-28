@@ -31,6 +31,7 @@ import com.opensoach.vst.PacketGenerator.ComplaintDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.DeviceSyncCompletedDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.FeedbackDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.JobCreatedDataPacketGenerator;
+import com.opensoach.vst.PacketGenerator.JobServiceExeDetailsPacketGenerator;
 import com.opensoach.vst.PacketGenerator.JobServiceOwnerVehicleDetailsPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TaskDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TokenClaimPacketGenerator;
@@ -129,6 +130,12 @@ public class SendPacketManager {
                         case UPADATE_VEHICLE_OWNER_DETAILS: {
                             JobServiceOwnerVehicleDetailsPacketGenerator jsvowd = new JobServiceOwnerVehicleDetailsPacketGenerator();
                             request = jsvowd.GenerateRequest(locationID, (JobServiceViewModel) data);
+                            break;
+                        }
+
+                        case GET_JOB_DETAILS_FOR_EXE: {
+                            JobServiceExeDetailsPacketGenerator jsvowd = new JobServiceExeDetailsPacketGenerator();
+                            request = jsvowd.GenerateRequest(locationID, (Integer) data);
                             break;
                         }
 

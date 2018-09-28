@@ -148,7 +148,7 @@ public class TokenSelectionHandler {
                 Intent i = new Intent(view.getContext(), JobServiceTaskListActivity.class);
                 view.getContext().startActivity(i);
 
-                SendPacketManager.Instance().send(AppAction.GET_VEHICLE_DETAILS, vm.getTokenListViewModel().getSelectedToken().getVehicleNo());
+                SendPacketManager.Instance().send(AppAction.GET_JOB_DETAILS_FOR_EXE,vm.getTokenListViewModel().getSelectedToken().getDbTokenTableRowModel().getId());
 
                 break;
             }

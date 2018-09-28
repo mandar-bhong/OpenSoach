@@ -23,6 +23,7 @@ public class CommandConstants {
     public static final int CMD_CONFIG_LOCATION_AUTH_CODE_REMOVED = 9;
     public static final int CMD_CONFIG_GET_TOKEN_LIST = 13;
     public static final int CMD_CONFIG_GET_VEHICLE_DETAILS = 15;
+    public static final int CMD_CONFIG_GET_TOKEN_JOB_DETAILS = 14;
 
 
     public static final int CMD_CAT_DATA = 3;//Category
