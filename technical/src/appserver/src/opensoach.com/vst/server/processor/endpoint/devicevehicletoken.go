@@ -60,7 +60,7 @@ func ProcessVehicleTokenData(ctx *lmodels.PacketProccessExecution, packetProcess
 	dbTxErr, tx := dbaccess.GetDBTransaction(ctx.InstanceDBConn)
 
 	if dbTxErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Transaction Error.", convErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Transaction Error.", dbTxErr)
 		packetProcessingResult.IsSuccess = false
 		packetProcessingResult.AckPayload = append(packetProcessingResult.AckPayload, commandAck)
 		return
@@ -699,14 +699,22 @@ func ProcessDeviceJobExeConfigList(ctx *lmodels.PacketProccessExecution, packetP
 		dbTokenConfigModel := hktmodels.DBTokenConfigModel{}
 		dbTokenConfigModel.TokenId = packetTokenData.TokenId[i]
 
-		dbErr, tokenConfigList := dbaccess.EPGetConfigListByTokenId(ctx.InstanceDBConn, packetTokenData.TokenId[i])
+		dbErr, tokenExeConfigList := dbaccess.EPGetConfigListByTokenId(ctx.InstanceDBConn, packetTokenData.TokenId[i], constants.JOB_TXN_STATUS_EXE)
 		if dbErr != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get vhl token config list", dbErr)
 			packetProcessingResult.IsSuccess = false
 			return
 		}
 
-		dbTokenConfigModel.TokenConfig = tokenConfigList
+		dbErr, tokenServiceConfigList := dbaccess.EPGetConfigListByTokenId(ctx.InstanceDBConn, packetTokenData.TokenId[i], constants.JOB_TXN_STATUS_CREATION)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get vhl token config list", dbErr)
+			packetProcessingResult.IsSuccess = false
+			return
+		}
+
+		dbTokenConfigModel.ServiceConfig = tokenServiceConfigList
+		dbTokenConfigModel.ServiceExeConfig = tokenExeConfigList
 
 		tokensConfigList = append(tokensConfigList, dbTokenConfigModel)
 	}
