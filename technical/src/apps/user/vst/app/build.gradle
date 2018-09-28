@@ -28,19 +28,19 @@ android {
 
     productFlavors {
         prod {
-            applicationId = "com.opensoach.hpft.prod"
+            applicationId = "com.opensoach.vst.prod"
             versionName = "1.0"
             buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
         }
 
         dev {
-            applicationId = "com.opensoach.hpft.dev"
+            applicationId = "com.opensoach.vst.dev"
             versionName = "1.0"
             buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
         }
 
         qa {
-            applicationId = "com.opensoach.hpft.qa"
+            applicationId = "com.opensoach.vst.qa"
             versionName = "1.0"
             buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
         }
