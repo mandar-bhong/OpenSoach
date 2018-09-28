@@ -43,8 +43,9 @@ type DBTokenStateUpdateModel struct {
 }
 
 type DBTokenConfigModel struct {
-	TokenId     int64
-	TokenConfig *[]DBTokenConfigBriefDataModel
+	TokenId          int64                          `json:"tokenid"`
+	ServiceConfig    *[]DBTokenConfigBriefDataModel `json:"serviceconfig"`
+	ServiceExeConfig *[]DBTokenConfigBriefDataModel `json:"serviceexeconfig"`
 }
 
 type DBTokenConfigBriefDataModel struct {

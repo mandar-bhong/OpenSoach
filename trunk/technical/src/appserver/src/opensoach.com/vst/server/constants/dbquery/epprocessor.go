@@ -30,6 +30,6 @@ inner join spl_vst_vehicle_master_tbl vehicle on token.vhl_id_fk = vehicle.id`
 const QUERY_EP_PROC_GET_VHL_TOKEN_BY_TOKEN_ID = `select token.id,token,vhl_id_fk,vehicle_no,state,generated_on from spl_vst_token token
 inner join spl_vst_vehicle_master_tbl vehicle on token.vhl_id_fk = vehicle.id where token.id = ?`
 
-const QUERY_EP_PROC_GET_CONFIG_LIST_BY_TOKEN_ID = `select id,serv_in_id_fk,status,txn_data,txn_date from spl_node_service_in_txn_tbl where spl_node_service_in_txn_tbl.txn_data -> '$.tokenid' = ? and status = 4`
+const QUERY_EP_PROC_GET_CONFIG_LIST_BY_TOKEN_ID = `select id,serv_in_id_fk,status,txn_data,txn_date from spl_node_service_in_txn_tbl where spl_node_service_in_txn_tbl.txn_data -> '$.tokenid' = ? and status = ?`
 
 const QUERY_EP_PROC_GET_VEHICLE_DETAILS_BY_VHL_NO = `select vehicle_no,details from spl_vst_vehicle_master_tbl where vehicle_no = ?`

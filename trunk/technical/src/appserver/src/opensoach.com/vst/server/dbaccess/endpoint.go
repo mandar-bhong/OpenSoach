@@ -298,7 +298,7 @@ func EPGetTokenDataById(dbConn string, tokenID int64) (error, *[]hktmodels.DBEPS
 	return nil, data
 }
 
-func EPGetConfigListByTokenId(dbConn string, tokenid int64) (error, *[]hktmodels.DBTokenConfigBriefDataModel) {
+func EPGetConfigListByTokenId(dbConn string, tokenid int64, status int) (error, *[]hktmodels.DBTokenConfigBriefDataModel) {
 
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]hktmodels.DBTokenConfigBriefDataModel{}
@@ -306,7 +306,7 @@ func EPGetConfigListByTokenId(dbConn string, tokenid int64) (error, *[]hktmodels
 	selDBCtx.Query = dbquery.QUERY_EP_PROC_GET_CONFIG_LIST_BY_TOKEN_ID
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(tokenid)
+	selErr := selDBCtx.Select(tokenid, status)
 	if selErr != nil {
 		return selErr, nil
 	}
