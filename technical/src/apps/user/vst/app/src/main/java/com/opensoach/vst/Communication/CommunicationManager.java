@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.neovisionaries.ws.client.*;
+import com.opensoach.vst.Utility.AppLogger;
 
 /**
  * Created by Mandar on 2/25/2017.
@@ -98,7 +99,7 @@ public class CommunicationManager {
 
         if(_webSocket != null){
             _webSocket.sendText(packet);
-
+            AppLogger.getInstance().Log(AppLogger.LogLevel.Verbose,packet);
             return true;
         }
         return false;
