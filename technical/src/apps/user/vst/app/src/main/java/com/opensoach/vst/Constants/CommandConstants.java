@@ -35,7 +35,9 @@ public class CommandConstants {
     public static final int CMD_DATA_OWNER_VEHICLE_DETAILS = 301;
     public static final int CMD_DATA_POST_GENERATE_TOKEN = 302;
     public static final int CMD_DATA_CREATE_JOB = 303;
-    public static final int CMD_DATA_CLAIM_TOKEN = 306;
+    public static final int CMD_DATA_JOB_TASK_COMPLETED = 304;
+    public static final int CMD_DATA_CLAIM_TOKEN = 305;
+    public static final int CMD_DATA_JOB_COMPLETED = 306;
 
 
     //Category

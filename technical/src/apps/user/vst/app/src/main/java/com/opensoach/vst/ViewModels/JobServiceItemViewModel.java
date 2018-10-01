@@ -11,7 +11,12 @@ public class JobServiceItemViewModel extends BaseViewModel {
     private String comment;
     private String cost;
     private Boolean isTaskCompleted;
+    private String note;
 
+
+    public JobServiceItemViewModel(){
+        isTaskCompleted = false;
+    }
 
     public Boolean getTaskCompleted() {
         return isTaskCompleted;
@@ -28,6 +33,14 @@ public class JobServiceItemViewModel extends BaseViewModel {
 
     public String getComment() {
         return comment;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public void setComment(String comment) {

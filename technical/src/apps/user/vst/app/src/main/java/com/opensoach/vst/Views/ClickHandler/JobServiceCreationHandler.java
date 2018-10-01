@@ -47,6 +47,23 @@ public class JobServiceCreationHandler {
         ((Activity) view.getContext()).finish();
     }
 
+    public void onTaskMarkCompleted(View view, JobServiceItemViewModel vm) {
+
+        if ( vm.getTaskCompleted() ) {
+            ((Activity) view.getContext()).finish();
+            return;
+        }
+
+        vm.setTaskCompleted(true);
+
+        SendPacketManager.Instance().send(AppAction.UPDATE_JOB_TASK_COMPLETED,vm);
+        ((Activity) view.getContext()).finish();
+    }
+
+    public void onTaskCancle(View view, JobServiceItemViewModel vm) {
+        ((Activity) view.getContext()).finish();
+    }
+
     public void onShowSummary(View view) {
 
         Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceSummaryActivity.class);

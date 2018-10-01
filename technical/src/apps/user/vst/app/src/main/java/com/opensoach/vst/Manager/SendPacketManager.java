@@ -33,12 +33,14 @@ import com.opensoach.vst.PacketGenerator.FeedbackDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.JobCreatedDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.JobServiceExeDetailsPacketGenerator;
 import com.opensoach.vst.PacketGenerator.JobServiceOwnerVehicleDetailsPacketGenerator;
+import com.opensoach.vst.PacketGenerator.JobServiceTaskCompletedPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TaskDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TokenClaimPacketGenerator;
 import com.opensoach.vst.PacketGenerator.TokenGenerateDataPacketGenerator;
 import com.opensoach.vst.PacketGenerator.VehicleDetailsPacketGenerator;
 import com.opensoach.vst.Utility.AppLogger;
 import com.opensoach.vst.ViewModels.CreateTokenViewModel;
+import com.opensoach.vst.ViewModels.JobServiceItemViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
 
@@ -139,6 +141,11 @@ public class SendPacketManager {
                             break;
                         }
 
+                        case UPDATE_JOB_TASK_COMPLETED:
+                            JobServiceItemViewModel jobServiceItemViewModel = (JobServiceItemViewModel)data;
+                            JobServiceTaskCompletedPacketGenerator taskCompletedPacketGenerator = new JobServiceTaskCompletedPacketGenerator();
+                            request = taskCompletedPacketGenerator.GenerateRequest(locationID,jobServiceItemViewModel);
+                            break;
                     }
 
                     if (request != null) {
