@@ -42,11 +42,12 @@ public class ApplicationConstants {
 
 
     public static int TOKEN_CREATED = 0;
-    public static int TOKEN_CLAIMED = 1;
-    public static int TOKEN_JOB_CREATED = 2;
-    public static int TOKEN_JOB_EXECUTION_INPROGRESS = 3;
-    public static int TOKEN_JOB_EXECUTED = 4;
-    public static int TOKEN_JOB_DELIVERED = 5;
+    public static int TOKEN_GENERATED = 1;
+    public static int TOKEN_CLAIMED = 2;
+    public static int TOKEN_JOB_CREATED = 3;
+    public static int TOKEN_JOB_EXECUTION_INPROGRESS = 4;
+    public static int TOKEN_JOB_EXECUTED_COMPLETED = 5;
+    public static int TOKEN_JOB_DELIVERED = 6;
 
 
 

@@ -10,6 +10,9 @@ public class PacketServiceTaskItemDataModel {
     @SerializedName("comment")
     public String Comment;
 
+    @SerializedName("note")
+    public String Note;//Operator comment
+
     @SerializedName("cost")
     public String Cost;
 }

@@ -188,6 +188,14 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1" />
 
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="15dp">
+
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -195,9 +203,49 @@
                                 android:layout_alignParentRight="true"
                                 android:gravity="center"
                                 android:padding="5dp"
-                                android:text="Done"
+                                android:text="Completed"
+                                android:background="@color/colorAccent"
+                                android:layout_marginLeft="15dp"
+                                android:visibility="@{VM.taskCostVisibility == false ? View.VISIBLE : View.GONE}"
+                                android:onClick="@{(view) -> ClickHandler.onTaskMarkCompleted(view,VM)}"/>
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Update"
+                                android:layout_marginLeft="15dp"
+                                android:background="@color/colorAccent"
+                                android:visibility="@{VM.taskCostVisibility == true ? View.VISIBLE : View.GONE}"
                                 android:onClick="@{(view) -> ClickHandler.onTaskCreateCompleted(view,VM)}"/>
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Cancle"
+                                android:layout_marginLeft="15dp"
+                                android:background="@color/colorAccent"
+                                android:onClick="@{(view) -> ClickHandler.onTaskCancle(view,VM)}"/>
+
+
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+
+                        </LinearLayout>
+
+
+
 
                     </LinearLayout>
 

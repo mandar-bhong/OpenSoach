@@ -22,6 +22,8 @@ public class PacketServiceJobCreatedDataModel {
     @SerializedName("txndata")
     public String TxnData;
 
+    @SerializedName("fopcode")
+    public String OpCode;
 
     @SerializedName("txndate")
     public Date TxnDate;
