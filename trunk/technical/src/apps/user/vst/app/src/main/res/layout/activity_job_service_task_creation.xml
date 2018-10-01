@@ -5,6 +5,7 @@
     tools:context="com.opensoach.vst.Views.Activity.JobServiceTaskCreationActivity">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="VM"
             type="com.opensoach.vst.ViewModels.JobServiceItemViewModel"/>
@@ -154,7 +155,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:visibility="@{VM.taskCostVisibility == true ? View.VISIBLE : View.GONE}">
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -185,6 +187,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
                                 android:layout_weight="1" />
+
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

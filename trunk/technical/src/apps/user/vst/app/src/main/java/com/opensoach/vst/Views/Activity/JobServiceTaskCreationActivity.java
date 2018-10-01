@@ -41,7 +41,14 @@ public class JobServiceTaskCreationActivity extends AppCompatActivity
     void setBinding(){
         ActivityJobServiceTaskCreationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_job_service_task_creation);
 
-        JobServiceItemViewModel jobServiceItemViewModel = new JobServiceItemViewModel();
+        JobServiceItemViewModel jobServiceItemViewModel = null;
+
+        if(AppRepo.getInstance().getJobServiceViewModel().getJobServiceItemViewModel() == null){
+            jobServiceItemViewModel = new JobServiceItemViewModel();
+        }else{
+            jobServiceItemViewModel = AppRepo.getInstance().getJobServiceViewModel().getJobServiceItemViewModel();
+        }
+
         jobServiceItemViewModel.Parent = AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel();
         jobServiceItemViewModel.ContextActivity = AppRepo.getInstance().getJobServiceViewModel().ContextActivity;
 

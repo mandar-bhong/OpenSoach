@@ -91,6 +91,7 @@ public class TokenSelectionHandler {
 
                 SendPacketManager.Instance().send(AppAction.CLAIM_TOKEN, vm.getTokenListViewModel().getSelectedToken());
                 SendPacketManager.Instance().send(AppAction.GET_VEHICLE_DETAILS, vm.getTokenListViewModel().getSelectedToken().getVehicleNo());
+                SendPacketManager.Instance().send(AppAction.GET_JOB_DETAILS_FOR_EXE,vm.getTokenListViewModel().getSelectedToken().getDbTokenTableRowModel().getId());
 
             }
             break;

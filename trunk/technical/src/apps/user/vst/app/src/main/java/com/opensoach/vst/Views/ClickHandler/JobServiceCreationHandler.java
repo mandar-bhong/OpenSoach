@@ -35,6 +35,13 @@ public class JobServiceCreationHandler {
     }
 
     public void onTaskCreateCompleted(View view, JobServiceItemViewModel vm) {
+
+        if(AppRepo.getInstance().getJobServiceViewModel().getJobServiceItemViewModel() == vm){
+            ((Activity) view.getContext()).finish();
+            return;
+        }
+
+
         AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().addItem(vm);
 
         ((Activity) view.getContext()).finish();
@@ -95,5 +102,12 @@ public class JobServiceCreationHandler {
         AlertDialog alert = builder.create();
         alert.show();
 
+    }
+
+    public void onShowTaskDetails(View view, JobServiceItemViewModel vm) {
+
+        AppRepo.getInstance().getJobServiceViewModel().setJobServiceItemViewModel(vm);
+        Intent i = new Intent(view.getContext(), JobServiceTaskCreationActivity.class);
+        view.getContext().startActivity(i);
     }
 }
