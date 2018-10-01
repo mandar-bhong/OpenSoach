@@ -2,6 +2,7 @@ package com.opensoach.vst.ViewModels;
 
 import android.databinding.Bindable;
 
+import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.Constants.ApplicationConstants;
 
 public class JobServiceItemViewModel extends BaseViewModel {
@@ -78,6 +79,15 @@ public class JobServiceItemViewModel extends BaseViewModel {
             return false;
         }
 
+    }
+
+    @Bindable
+    public boolean getTaskCostVisibility(){
+        if (AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

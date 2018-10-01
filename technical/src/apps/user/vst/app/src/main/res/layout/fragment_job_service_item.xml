@@ -32,7 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             card_view:contentPadding="10dp"
-            card_view:cardCornerRadius="0dp">
+            card_view:cardCornerRadius="0dp"
+            android:onClick="@{(view)->ClickHandler.onShowTaskDetails(view,VM)}">
 
             <RelativeLayout
                 android:layout_width="match_parent"
