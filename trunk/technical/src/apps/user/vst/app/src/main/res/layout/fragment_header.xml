@@ -87,17 +87,15 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/token"/>
+                    android:background="@drawable/token"
+                    android:layout_marginLeft="300dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#FFFFFF"
-                    android:text="@{VM.tokenItemViewModel.tokenNo}"/>
-
-
+                    android:text="@{VM.tokenItemViewModel.tokenNo}"
+                    android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:id="@+id/servicePointTextView1"
