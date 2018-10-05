@@ -30,8 +30,8 @@ public class JobServiceCreationHandler {
 
     public void onCreateTask(View view, JobServiceListViewModel vm) {
 
-        Intent i = new Intent(view.getContext(), JobServiceTaskCreationActivity.class);
-        view.getContext().startActivity(i);
+        Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceTaskCreationActivity.class);
+        MainViewModel.getInstance().ContextActivity.startActivity(i);
     }
 
     public void onTaskCreateCompleted(View view, JobServiceItemViewModel vm) {
@@ -43,8 +43,8 @@ public class JobServiceCreationHandler {
 
 
         AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().addItem(vm);
-
-        ((Activity) view.getContext()).finish();
+        Intent i = new Intent(view.getContext(), JobServiceTaskListActivity.class);
+        view.getContext().startActivity(i);
     }
 
     public void onTaskMarkCompleted(View view, JobServiceItemViewModel vm) {
@@ -70,6 +70,13 @@ public class JobServiceCreationHandler {
         MainViewModel.getInstance().ContextActivity.startActivity(i);
     }
 
+    public void onEditTask(View view ,JobServiceItemViewModel vm ) {
+        AppRepo.getInstance().getJobServiceViewModel().setJobServiceItemViewModel(vm);
+        
+        Intent i = new Intent(view.getContext(), JobServiceTaskCreationActivity.class);
+        view.getContext().startActivity(i);
+    }
+
     public void onSummaryConfirmClick(View view) {
         JobServiceViewModel jobServiceViewModel  = AppRepo.getInstance().getJobServiceViewModel();
 
@@ -86,7 +93,7 @@ public class JobServiceCreationHandler {
 
     }
 
-    public void onServiceTaskRemove(View view, JobServiceItemViewModel vm) {
+    public void onServiceTaskRemove(final View view, JobServiceItemViewModel vm) {
 
         final JobServiceItemViewModel jobServiceItemViewModel = vm;
 
@@ -103,6 +110,8 @@ public class JobServiceCreationHandler {
                         removeItem(jobServiceItemViewModel);
 
                 dialog.dismiss();
+                Intent i = new Intent(view.getContext(), JobServiceTaskListActivity.class);
+                view.getContext().startActivity(i);
             }
         });
 
