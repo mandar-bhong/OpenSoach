@@ -98,6 +98,6 @@ type APITopFeedbacksRequest struct {
 }
 
 type APIDashboardVehicleRequest struct {
-	StartTime time.Time `db:"raised_on"  json:"startdate"`
-	EndTime   time.Time `db:"raised_on"  json:"enddate"`
+	StartDate *time.Time `json:"startdate"`
+	EndDate   *time.Time `json:"enddate"`
 }
