@@ -18,6 +18,8 @@ const DB_SPL_NODE_SERVICE_CONF_TBL string = "spl_node_service_conf_tbl"
 const DB_SPL_NODE_REPORT_TEMPLATE_TBL string = "spl_node_report_template_tbl"
 const DB_SPL_DEV_TBL string = "spl_node_dev_tbl"
 const DB_SPL_VST_VEHICLE_MASTER_TBL string = "spl_vst_vehicle_master_tbl"
+const DB_SPL_VST_TOKEN_TBL string = "spl_vst_token"
+const DB_SPL_NODE_SERV_IN_TXN_TBL string = "spl_node_service_in_txn_tbl"
 
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"
