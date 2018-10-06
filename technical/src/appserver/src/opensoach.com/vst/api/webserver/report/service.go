@@ -58,6 +58,7 @@ func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequest
 	err, data := ghelper.CreateExcel(exceldatalist)
 	if err != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", err)
+		return false, nil
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Report Excel File")
@@ -149,5 +150,42 @@ func (service ReportService) ReportShortList() (bool, interface{}) {
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched report short data list.")
 
 	return true, listData
+
+}
+
+func (service ReportService) GenerateConsolidatedReport(req lmodels.APIGenerateReportRequestModel) (bool, interface{}) {
+
+	issuccess, respData := service.ViewReport(req.APIViewReportRequestModel)
+	if issuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to generate report failed to get report data")
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	exceldatalist := []gmodels.ExcelData{}
+
+	taskDetailsData := respData.([]hktmodels.DBGetReportDataModel)[0]
+
+	exceldata := gmodels.ExcelData{}
+
+	exceldata = gmodels.ExcelData{}
+	exceldata.SheetName = "Details"
+	exceldata.IsVertical = true
+	exceldata.Headers = taskDetailsData.ReportHeader
+	exceldata.Data = taskDetailsData.ReportData
+	exceldata.StartDate = req.ReportRequest[0].QueryParams[0].(string)
+	exceldata.EndDate = req.ReportRequest[0].QueryParams[1].(string)
+	exceldatalist = append(exceldatalist, exceldata)
+
+	err, data := ghelper.CreatePdf(exceldatalist)
+	if err != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", err)
+		return false, nil
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Consolidated Report Excel File")
+
+	return true, data
 
 }
