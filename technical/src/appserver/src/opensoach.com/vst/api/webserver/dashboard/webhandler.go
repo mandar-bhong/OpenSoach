@@ -24,6 +24,10 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DASHBOARD_TOP_FEEDBACKS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_SNAPSHOT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_AVERAGE_TIME, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DASHBOARD_VEHICLE_PER_MONTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DASHBOARD_VEHICLE_PER_WEEK, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DASHBOARD_AVG_TIME_PER_MONTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DASHBOARD_AVG_TIME_PER_WEEK, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -223,6 +227,74 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = DashboardService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.AverageTime(req)
+
+		break
+
+	case constants.API_DASHBOARD_VEHICLE_PER_MONTH:
+
+		req := lmodels.APIDashboardVehicleRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.VehicleSummaryPerMonth(req)
+
+		break
+
+	case constants.API_DASHBOARD_VEHICLE_PER_WEEK:
+
+		req := lmodels.APIDashboardVehicleRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.VehicleSummaryPerWeek(req)
+
+		break
+
+	case constants.API_DASHBOARD_AVG_TIME_PER_MONTH:
+
+		req := lmodels.APIDashboardVehicleRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.AverageTimePerMonth(req)
+
+		break
+
+	case constants.API_DASHBOARD_AVG_TIME_PER_WEEK:
+
+		req := lmodels.APIDashboardVehicleRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.AverageTimePerWeek(req)
 
 		break
 

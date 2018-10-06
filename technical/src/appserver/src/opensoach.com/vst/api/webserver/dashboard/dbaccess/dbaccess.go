@@ -356,8 +356,8 @@ func GetSnapshotData(dbConn string, req lmodels.APIDashboardVehicleRequest, cpmI
 
 	data := []hktmodels.DBSnapshotDataModel{}
 
-	dbStartTime := req.StartTime.Format(pcconst.DB_TIME_FORMAT)
-	dbEndTime := req.EndTime.Format(pcconst.DB_TIME_FORMAT)
+	dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+	dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
 
 	selectCtx := dbmgr.SelectContext{}
 	selectCtx.DBConnection = dbConn
@@ -372,18 +372,187 @@ func GetSnapshotData(dbConn string, req lmodels.APIDashboardVehicleRequest, cpmI
 	return nil, data
 }
 
-func GetVhlAverageTime(dbConn string, req lmodels.APIDashboardVehicleRequest) (error, []hktmodels.DBAverageTimeDataModel) {
+func GetVhlAverageTime(dbConn string, req lmodels.APIDashboardVehicleRequest, filtermodel hktmodels.DBVehiclesPerFilterDataModel) (error, []hktmodels.DBAverageTimeDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetVhlAverageTime")
 
 	data := []hktmodels.DBAverageTimeDataModel{}
 
-	dbStartTime := req.StartTime.Format(pcconst.DB_TIME_FORMAT)
-	dbEndTime := req.EndTime.Format(pcconst.DB_TIME_FORMAT)
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
 
-	betweenDateData := " between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	if req.StartDate != nil && req.EndDate != nil {
 
-	query := strings.Replace(dbquery.QUERY_GET_AVERAGE_TIME, "$BetweenCondition$", betweenDateData, -1)
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " txn_date between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_AVERAGE_TIME, "$BetweenCondition$", whereCondition, -1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetVehicleServicedPerMonth(dbConn string, req lmodels.APIDashboardVehicleRequest, filtermodel hktmodels.DBVehiclesPerFilterDataModel) (error, []hktmodels.DBVehicleSummaryPerMonthDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetVehicleServicedPerMonth")
+
+	data := []hktmodels.DBVehicleSummaryPerMonthDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " txn_date between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_VEHICLE_SUMMARY_PER_MONTH, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetVehicleServicedPerWeek(dbConn string, req lmodels.APIDashboardVehicleRequest, filtermodel hktmodels.DBVehiclesPerFilterDataModel) (error, []hktmodels.DBVehicleSummaryPerWeekDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetVehicleServicedPerWeek")
+
+	data := []hktmodels.DBVehicleSummaryPerWeekDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " txn_date between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_VEHICLE_SUMMARY_PER_WEEK, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetAverageTimePerMonth(dbConn string, req lmodels.APIDashboardVehicleRequest, filtermodel hktmodels.DBVehiclesPerFilterDataModel) (error, []hktmodels.DBAverageTimePerMonthModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetAverageTimePerMonth")
+
+	data := []hktmodels.DBAverageTimePerMonthModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " generated_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_AVG_TIME_SUMMARY_PER_MONTH, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}
+
+func GetAverageTimePerWeek(dbConn string, req lmodels.APIDashboardVehicleRequest, filtermodel hktmodels.DBVehiclesPerFilterDataModel) (error, []hktmodels.DBAverageTimePerWeekModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetAverageTimePerWeek")
+
+	data := []hktmodels.DBAverageTimePerWeekModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " generated_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_AVG_TIME_SUMMARY_PER_WEEK, "$WhereCondition$", whereCondition, 1)
 
 	selectCtx := dbmgr.SelectContext{}
 	selectCtx.DBConnection = dbConn

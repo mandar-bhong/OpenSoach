@@ -113,3 +113,35 @@ type DBAverageTimeDataModel struct {
 	JobExeTime      *float64 `db:"jobexetime" json:"jobexetime"`
 	DeliveryTime    *float64 `db:"deliverytime" json:"deliverytime"`
 }
+
+type DBVehiclesPerFilterDataModel struct {
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+}
+
+type DBVehicleSummaryPerMonthDataModel struct {
+	Year            int `db:"year" json:"year"`
+	Month           int `db:"month" json:"month"`
+	VehicleServiced int `db:"vehicleserviced" json:"vehicleserviced"`
+}
+
+type DBVehicleSummaryPerWeekDataModel struct {
+	ServiceDate     time.Time `db:"servicedate" json:"servicedate"`
+	VehicleServiced int       `db:"vehicleserviced" json:"vehicleserviced"`
+}
+
+type DBAverageTimePerMonthModel struct {
+	Year            int      `db:"year" json:"year"`
+	Month           int      `db:"month" json:"month"`
+	WaitTime        *float64 `db:"waittime" json:"waittime"`
+	JobCreationTime *float64 `db:"jobcreationtime" json:"jobcreationtime"`
+	JobExeTime      *float64 `db:"jobexetime" json:"jobexetime"`
+	DeliveryTime    *float64 `db:"deliverytime" json:"deliverytime"`
+}
+
+type DBAverageTimePerWeekModel struct {
+	ServiceDate     time.Time `db:"servicedate" json:"servicedate"`
+	WaitTime        *float64  `db:"waittime" json:"waittime"`
+	JobCreationTime *float64  `db:"jobcreationtime" json:"jobcreationtime"`
+	JobExeTime      *float64  `db:"jobexetime" json:"jobexetime"`
+	DeliveryTime    *float64  `db:"deliverytime" json:"deliverytime"`
+}

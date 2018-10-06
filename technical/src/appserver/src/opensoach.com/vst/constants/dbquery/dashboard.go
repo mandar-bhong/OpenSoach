@@ -63,24 +63,102 @@ cpm_id_fk = ? and
 txn_date between ? and ? 
 group by status`
 
-const QUERY_GET_AVERAGE_TIME = `select(
-	select avg(time_to_sec(timediff(b.txn_date,a.txn_date))) as waittime from spl_node_service_in_txn_tbl as a
-	inner join spl_node_service_in_txn_tbl  as b
-	on a.txn_data->'$.tokenid' = b.txn_data->'$.tokenid'  and a.status= 1 and b.status= 2 
-	where a.txn_date $BetweenCondition$) as waittime,
-	
-	(select avg(time_to_sec(timediff(d.txn_date,c.txn_date))) as jobcreationtime from spl_node_service_in_txn_tbl as c
-	inner join spl_node_service_in_txn_tbl  as d
-	on c.txn_data->'$.tokenid' = d.txn_data->'$.tokenid'  and c.status = 2 and d.status= 3 
-	where c.txn_date $BetweenCondition$) as jobcreationtime,
-	
-	(select avg(time_to_sec(timediff(f.txn_date,e.txn_date))) as jobexetime from spl_node_service_in_txn_tbl as e
-	inner join spl_node_service_in_txn_tbl  as f
-	on e.txn_data->'$.tokenid' = f.txn_data->'$.tokenid'  and e.status= 2 and f.status= 4 
-	where e.txn_date $BetweenCondition$) as jobexetime,
-	
-	(select avg(time_to_sec(timediff(h.txn_date,g.txn_date))) as deliverytime from spl_node_service_in_txn_tbl as g
-	inner join spl_node_service_in_txn_tbl  as h
-	on g.txn_data->'$.tokenid' = h.txn_data->'$.tokenid'  and g.status= 5 and h.status= 6
-	where g.txn_date $BetweenCondition$) as deliverytime
-	`
+const QUERY_GET_AVERAGE_TIME = `select
+avg(t.waittime) as waittime,
+avg(t.jobcreationtime) as jobcreationtime,
+avg(t.jobexetime) as jobexetime,
+avg(t.deliverytime) as deliverytime
+from
+(
+select
+token.id as tokenid,
+(select time_to_sec(timediff(b.txn_date,a.txn_date)) as waittime 
+from spl_node_service_in_txn_tbl as a,spl_node_service_in_txn_tbl as b
+where a.status = 1 and b.status = 2 and a.txn_data->'$.tokenid'= token.id and b.txn_data->'$.tokenid'= token.id) as waittime,
+(select time_to_sec(timediff(d.txn_date,c.txn_date)) as jobcreationtime 
+from spl_node_service_in_txn_tbl as c,spl_node_service_in_txn_tbl as d
+where c.status = 2 and d.status = 3 and c.txn_data->'$.tokenid'= token.id and d.txn_data->'$.tokenid'= token.id) as jobcreationtime,
+(select time_to_sec(timediff(f.txn_date,e.txn_date)) as jobexetime 
+from spl_node_service_in_txn_tbl as e,spl_node_service_in_txn_tbl as f
+where e.status = 2 and f.status = 4 and e.txn_data->'$.tokenid'= token.id and f.txn_data->'$.tokenid'= token.id limit 1) as jobexetime,
+(select time_to_sec(timediff(h.txn_date,g.txn_date)) as deliverytime 
+from spl_node_service_in_txn_tbl as g,spl_node_service_in_txn_tbl as h
+where g.status = 5 and h.status = 6 and g.txn_data->'$.tokenid'= token.id and h.txn_data->'$.tokenid'= token.id) as deliverytime
+from spl_vst_token token
+inner join spl_node_service_in_txn_tbl serv_in_txn on token.id = serv_in_txn.txn_data->'$.tokenid'
+$WhereCondition$
+group by tokenid
+) as t`
+
+const QUERY_GET_VEHICLE_SUMMARY_PER_MONTH = `select year(txn_date) as year,
+	month(txn_date) as month,
+	count(if(status=6,1,null)) as vehicleserviced
+	from spl_node_service_in_txn_tbl
+	$WhereCondition$
+	group by month,year`
+
+const QUERY_GET_VEHICLE_SUMMARY_PER_WEEK = `select
+	date(txn_date) as servicedate,
+	count(if(status=6,1,null)) as vehicleserviced
+	from spl_node_service_in_txn_tbl
+	$WhereCondition$
+	group by servicedate`
+
+const QUERY_GET_AVG_TIME_SUMMARY_PER_MONTH = `select
+year(generated_on) as year,
+month(generated_on) as month,
+avg(t1.waittime) as waittime,
+avg(t1.waittime) as jobcreationtime,
+avg(t1.waittime) as jobexetime,
+avg(t1.waittime) as deliverytime
+from
+(
+select
+token.id as tokenid,
+generated_on,
+(select time_to_sec(timediff(b.txn_date,a.txn_date)) as waittime 
+from spl_node_service_in_txn_tbl as a,spl_node_service_in_txn_tbl as b
+where a.status = 1 and b.status = 2 and a.txn_data->'$.tokenid'= token.id and b.txn_data->'$.tokenid'= token.id) as waittime,
+(select time_to_sec(timediff(d.txn_date,c.txn_date)) as jobcreationtime 
+from spl_node_service_in_txn_tbl as c,spl_node_service_in_txn_tbl as d
+where c.status = 2 and d.status = 3 and c.txn_data->'$.tokenid'= token.id and d.txn_data->'$.tokenid'= token.id) as jobcreationtime,
+(select time_to_sec(timediff(f.txn_date,e.txn_date)) as jobexetime 
+from spl_node_service_in_txn_tbl as e,spl_node_service_in_txn_tbl as f
+where e.status = 2 and f.status = 4 and e.txn_data->'$.tokenid'= token.id and f.txn_data->'$.tokenid'= token.id limit 1) as jobexetime,
+(select time_to_sec(timediff(h.txn_date,g.txn_date)) as deliverytime 
+from spl_node_service_in_txn_tbl as g,spl_node_service_in_txn_tbl as h
+where g.status = 5 and h.status = 6 and g.txn_data->'$.tokenid'= token.id and h.txn_data->'$.tokenid'= token.id) as deliverytime
+from spl_vst_token token
+inner join spl_node_service_in_txn_tbl serv_in_txn on token.id = serv_in_txn.txn_data->'$.tokenid'
+$WhereCondition$
+group by tokenid) as t1
+group by month,year`
+
+const QUERY_GET_AVG_TIME_SUMMARY_PER_WEEK = `select
+date(generated_on) as servicedate,
+avg(t1.waittime) as waittime,
+avg(t1.waittime) as jobcreationtime,
+avg(t1.waittime) as jobexetime,
+avg(t1.waittime) as deliverytime
+from
+(
+select
+token.id as tokenid,
+generated_on,
+(select time_to_sec(timediff(b.txn_date,a.txn_date)) as waittime 
+from spl_node_service_in_txn_tbl as a,spl_node_service_in_txn_tbl as b
+where a.status = 1 and b.status = 2 and a.txn_data->'$.tokenid'= token.id and b.txn_data->'$.tokenid'= token.id) as waittime,
+(select time_to_sec(timediff(d.txn_date,c.txn_date)) as jobcreationtime 
+from spl_node_service_in_txn_tbl as c,spl_node_service_in_txn_tbl as d
+where c.status = 2 and d.status = 3 and c.txn_data->'$.tokenid'= token.id and d.txn_data->'$.tokenid'= token.id) as jobcreationtime,
+(select time_to_sec(timediff(f.txn_date,e.txn_date)) as jobexetime 
+from spl_node_service_in_txn_tbl as e,spl_node_service_in_txn_tbl as f
+where e.status = 2 and f.status = 4 and e.txn_data->'$.tokenid'= token.id and f.txn_data->'$.tokenid'= token.id limit 1) as jobexetime,
+(select time_to_sec(timediff(h.txn_date,g.txn_date)) as deliverytime 
+from spl_node_service_in_txn_tbl as g,spl_node_service_in_txn_tbl as h
+where g.status = 5 and h.status = 6 and g.txn_data->'$.tokenid'= token.id and h.txn_data->'$.tokenid'= token.id) as deliverytime
+from spl_vst_token token
+inner join spl_node_service_in_txn_tbl serv_in_txn on token.id = serv_in_txn.txn_data->'$.tokenid'
+group by tokenid) as t1
+$WhereCondition$
+group by servicedate`

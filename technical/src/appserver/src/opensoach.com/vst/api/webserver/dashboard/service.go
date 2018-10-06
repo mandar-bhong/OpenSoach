@@ -340,7 +340,10 @@ func (service DashboardService) AverageTime(req lmodels.APIDashboardVehicleReque
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution snapshot data.")
 
-	dbErr, dataList := dbaccess.GetVhlAverageTime(service.ExeCtx.SessionInfo.Product.NodeDbConn, req)
+	filterModel := hktmodels.DBVehiclesPerFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, dataList := dbaccess.GetVhlAverageTime(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting average time data.", dbErr)
 
@@ -351,4 +354,84 @@ func (service DashboardService) AverageTime(req lmodels.APIDashboardVehicleReque
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched snapshot data")
 	return true, dataList[0]
+}
+
+func (service DashboardService) VehicleSummaryPerMonth(req lmodels.APIDashboardVehicleRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution vehilce summary per month")
+
+	filterModel := hktmodels.DBVehiclesPerFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, dataList := dbaccess.GetVehicleServicedPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while gettting vehicle summary per month.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched vehicle summary per month.")
+	return true, dataList
+}
+
+func (service DashboardService) VehicleSummaryPerWeek(req lmodels.APIDashboardVehicleRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution vehilce summary per week")
+
+	filterModel := hktmodels.DBVehiclesPerFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, dataList := dbaccess.GetVehicleServicedPerWeek(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while gettting vehicle summary per week.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched vehicle summary per week.")
+	return true, dataList
+}
+
+func (service DashboardService) AverageTimePerMonth(req lmodels.APIDashboardVehicleRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution avg time summary per month")
+
+	filterModel := hktmodels.DBVehiclesPerFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, dataList := dbaccess.GetAverageTimePerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while gettting avg time summary per month.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched avg time summary per month.")
+	return true, dataList
+}
+
+func (service DashboardService) AverageTimePerWeek(req lmodels.APIDashboardVehicleRequest) (bool, interface{}) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Execution avg time summary per week")
+
+	filterModel := hktmodels.DBVehiclesPerFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, dataList := dbaccess.GetAverageTimePerWeek(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while gettting avg time summary per week.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched avg time summary per week.")
+	return true, dataList
 }
