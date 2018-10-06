@@ -17,6 +17,7 @@ import (
 	device "opensoach.com/vst/api/webserver/device"
 	feedback "opensoach.com/vst/api/webserver/feedback"
 	fieldoperator "opensoach.com/vst/api/webserver/fieldoperator"
+	job "opensoach.com/vst/api/webserver/job"
 	master "opensoach.com/vst/api/webserver/master"
 	report "opensoach.com/vst/api/webserver/report"
 	service "opensoach.com/vst/api/webserver/service"
@@ -55,6 +56,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	dashboard.Init(webConfig)
 	feedback.Init(webConfig)
 	vehicle.Init(webConfig)
+	job.Init(webConfig)
 
 	var webServerStartErr error
 

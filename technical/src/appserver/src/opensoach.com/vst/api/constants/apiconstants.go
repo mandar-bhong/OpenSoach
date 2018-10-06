@@ -58,6 +58,7 @@ const API_SPL_PROD_BASE_URL = API_BASE_URL + "/v1/splprod/baseurl"
 const API_REPORT_GENERATE = API_BASE_URL + "/v1/report/generate"
 const API_REPORT_VIEW = API_BASE_URL + "/v1/report/view"
 const API_REPORT_LIST_SHORT = API_BASE_URL + "/v1/report/list/short"
+const API_CONSOLIDATE_REPORT_GENERATE = API_BASE_URL + "/v1/report/generate/consolidate"
 
 const API_DASHBOARD_DEVICE_SUMMARY = API_BASE_URL + "/v1/dashboard/device/summary"
 const API_DASHBOARD_LOCATION_SUMMARY = API_BASE_URL + "/v1/dashboard/location/summary"
@@ -71,7 +72,15 @@ const API_DASHBOARD_TASK_PER_MONTH = API_BASE_URL + "/v1/dashboard/task/permonth
 const API_DASHBOARD_TOP_FEEDBACKS = API_BASE_URL + "/v1/dashboard/topfeedbacks"
 const API_DASHBOARD_SNAPSHOT = API_BASE_URL + "/v1/dashboard/vehicle/snapshot"
 const API_DASHBOARD_AVERAGE_TIME = API_BASE_URL + "/v1/dashboard/vehicle/averagetime"
+const API_DASHBOARD_VEHICLE_PER_MONTH = API_BASE_URL + "/v1/dashboard/vehicleserviced/permonth"
+const API_DASHBOARD_VEHICLE_PER_WEEK = API_BASE_URL + "/v1/dashboard/vehicleserviced/perweek"
+const API_DASHBOARD_AVG_TIME_PER_MONTH = API_BASE_URL + "/v1/dashboard/averagetime/permonth"
+const API_DASHBOARD_AVG_TIME_PER_WEEK = API_BASE_URL + "/v1/dashboard/averagetime/perweek"
 
 const API_FEEDBACK_LIST = API_BASE_URL + "/v1/feedback/list"
 
 const API_VEHICLE_INFO_MASTER = API_BASE_URL + "/v1/vehicle/info"
+
+const API_JOB_LIST = API_BASE_URL + "/v1/job/list"
+const API_JOB_STATE_UPDATE = API_BASE_URL + "/v1/job/update/state"
+const API_JOB_INFO = API_BASE_URL + "/v1/job/info"

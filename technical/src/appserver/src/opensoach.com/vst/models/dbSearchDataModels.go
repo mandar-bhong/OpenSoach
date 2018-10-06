@@ -122,3 +122,21 @@ type DBSearchFeedbackResponseFilterDataModel struct {
 	Feedback        int     `db:"feedback" json:"feedback"`
 	FeedbackComment *string `db:"feedback_comment" json:"feedbackcomment"`
 }
+
+type DBSearchJobRequestFilterDataModel struct {
+	VehicleNo *string    `db:"vehicle_no" json:"vehicleno"`
+	Status    *int64     `db:"status" json:"status"`
+	StartDate *time.Time `json:"startdate"`
+	EndDate   *time.Time `json:"enddate"`
+}
+
+type DBSearchJobResponseFilterDataModel struct {
+	VehicleId   int64      `db:"vehicleid" json:"vehicleid"`
+	VehicleNo   string     `db:"vehicle_no" json:"vehicleno"`
+	GeneratedOn time.Time  `db:"generated_on" json:"generatedon"`
+	Token       int64      `db:"token" json:"token"`
+	TokenId     int64      `db:"tokenid" json:"tokenid"`
+	State       int64      `db:"state" json:"state"`
+	Intime      time.Time  `db:"intime" json:"intime"`
+	Outtime     *time.Time `db:"outtime" json:"outtime"`
+}
