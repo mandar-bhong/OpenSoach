@@ -32,4 +32,6 @@ type ExcelData struct {
 	IsVertical bool
 	Headers    []string
 	Data       [][]string
+	StartDate  string
+	EndDate    string
 }
