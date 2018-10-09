@@ -2,7 +2,7 @@
   <div class="card-block">
     <div class="row">
       <div class="col-7">
-        <h6 class="f-w-400 text-muted">Service Average Time (12 months)</h6>
+        <h6 class="f-w-400 text-muted">Service Average Time (12 Months)</h6>
       </div>
       <!-- <div class="col-5">
         <button mat-icon-button >
@@ -20,7 +20,7 @@
       </div> -->
 
     </div>
-    <div class="row" *ngIf="data.length>0">
+    <div class="row" *ngIf="feedbacktrendchartdata.length>0">
       <ngx-charts-line-chart style="height:200px;" class="chart-container" [legend]=true [legendTitle]="legendTitle" [xAxis]=true
         [yAxis]=true [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [showXAxisLabel]=true [showYAxisLabel]=true [results]="feedbacktrendchartdata"
         [curve]="curve" [xAxisTickFormatting]="formatXAxis" [customColors]="customColors">

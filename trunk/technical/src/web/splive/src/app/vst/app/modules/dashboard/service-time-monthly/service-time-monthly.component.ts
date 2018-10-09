@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { curveLinear } from 'd3-shape';
 
-import { FeedbackTrendRequest } from '../../../models/api/dashboard-models';
-import { FeedbackTrendModel, TrendChartPerMonthXaxis } from '../../../models/ui/dashboard-models';
+import { FeedbackTrendRequest, ServiceTimeAvrRequest } from '../../../models/api/dashboard-models';
+import { FeedbackTrendModel, TrendChartPerMonthXaxis, SeriveTimeAvrModel } from '../../../models/ui/dashboard-models';
 import { DashboardService } from '../../../services/dashboard.service';
 
 @Component({
@@ -15,69 +15,42 @@ export class ServiceTimeMonthlyComponent implements OnInit {
   curve = curveLinear;
   xAxisLabel = 'Time';
   yAxisLabel = 'Time (%)';
-  feedbacktrenddata: FeedbackTrendModel[] = [];
+  feedbacktrenddata: SeriveTimeAvrModel[] = [];
   feedbacktrendchartdata = [];
-  request = new FeedbackTrendRequest();
+  request = new ServiceTimeAvrRequest();
   timeline: TrendChartPerMonthXaxis[] = [];
-  rating1Label = 'Wait time';
-  rating2Label = 'Job Creation';
-  rating3Label = 'Job Execution';
-  rating4Label = 'Delivery Time';
-  // rating5Label = 'Rating 5';
+  waittime = 'Wait time';
+  creationtime = 'Job Creation';
+  exectiontime = 'Job Execution';
+  deliverytime = 'Delivery Time';
   legendTitle = 'Option';
   test = [];
   customColors = [
-    // {
-    //   name: this.rating5Label,
-    //   value: '#28a745'
-    // },
     {
-      name: this.rating4Label,
+      name: this.deliverytime,
       value: '#19915c'
     },
     {
-      name: this.rating3Label,
+      name: this.exectiontime,
       value: '#ffc107'
     },
     {
-      name: this.rating2Label,
+      name: this.creationtime,
       value: '#FF4C89'
     },
     {
-      name: this.rating1Label,
+      name: this.waittime,
       value: '#37A5CD'
     }
   ];
-  // data: any;
   data = [];
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.getTrend();
+    // this.getTrend();
+    this.getSeviceTimeMonth();
   }
-  // getFeedbackTrend() {
-  //   const currentDate = new Date();
-  //   this.request.enddate = new Date(Date.UTC(
-  //     currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
-
-  //   const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
-  //   this.request.startdate = new Date(ticks);
-
-  //   this.dashboardService.getFeedbackTrend(this.request).subscribe(payloadResponse => {
-  //     if (payloadResponse && payloadResponse.issuccess) {
-  //       payloadResponse.data.forEach(item => {
-  //         const trendModel = new FeedbackTrendModel();
-  //         trendModel.copyFrom(item);
-  //         this.feedbacktrenddata.push(trendModel);
-  //       });
-
-  //       this.generateSeriesTimeline();
-  //       this.generateRatingChartData();
-  //     }
-  //   });
-  // }
-
-  getTrend() {
+  getSeviceTimeMonth() {
     const currentDate = new Date();
     this.request.enddate = new Date(Date.UTC(
       currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
@@ -85,56 +58,62 @@ export class ServiceTimeMonthlyComponent implements OnInit {
     const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
     this.request.startdate = new Date(ticks);
 
-    this.generateSeriesTimeline();
-    this.generateRatingChartData();
+    this.dashboardService.getSeviceTimeMonth(this.request).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        payloadResponse.data.forEach(item => {
+          const trendModel = new SeriveTimeAvrModel();
+          trendModel.copyFrom(item);
+          this.feedbacktrenddata.push(trendModel);
+        });
 
-    this.timeline.forEach(item => {
-      const xAxisDate = new Date(item.year, item.month).toUTCString();
-      this.data.push({ name: xAxisDate, value: 10 + Math.floor(Math.random() * 100) });
+        this.generateSeriesTimeline();
+        this.generateRatingChartData();
+      }
     });
   }
 
-  generateRatingChartData() {
-    // const rating5Data = { name: this.rating5Label, series: [] };
-    // this.feedbacktrendchartdata.push(rating5Data);
-    const rating4Data = { name: this.rating4Label, series: [] };
-    this.feedbacktrendchartdata.push(rating4Data);
-    const rating3Data = { name: this.rating3Label, series: [] };
-    this.feedbacktrendchartdata.push(rating3Data);
-    const rating2Data = { name: this.rating2Label, series: [] };
-    this.feedbacktrendchartdata.push(rating2Data);
-    const rating1Data = { name: this.rating1Label, series: [] };
-    this.feedbacktrendchartdata.push(rating1Data);
+  // getTrend() {
+  //   const currentDate = new Date();
+  //   this.request.enddate = new Date(Date.UTC(
+  //     currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
 
-    const rating4 = 100;
-    const rating3 = 35;
-    const rating2 = 50;
-    const rating1 = 20;
+  //   const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
+  //   this.request.startdate = new Date(ticks);
+
+  //   this.generateSeriesTimeline();
+  //   this.generateRatingChartData();
+
+  //   this.timeline.forEach(item => {
+  //     const xAxisDate = new Date(item.year, item.month).toUTCString();
+  //     this.data.push({ name: xAxisDate, value: 10 + Math.floor(Math.random() * 100) });
+  //   });
+  // }
+
+  generateRatingChartData() {
+    const deliveryData = { name: this.deliverytime, series: [] };
+    this.feedbacktrendchartdata.push(deliveryData);
+    const exectionData = { name: this.exectiontime, series: [] };
+    this.feedbacktrendchartdata.push(exectionData);
+    const creationtData = { name: this.creationtime, series: [] };
+    this.feedbacktrendchartdata.push(creationtData);
+    const waitData = { name: this.waittime, series: [] };
+    this.feedbacktrendchartdata.push(waitData);
+
     this.timeline.forEach(item => {
       const xAxisDate = new Date(item.year, item.month).toUTCString();
       const trendModel = this.feedbacktrenddata.find(rating => rating.year === item.year
         && rating.month - 1 === item.month);
-      // if (trendModel) {
-      //   // rating5Data.series.push({ name: xAxisDate, value: trendModel.rating5 });
-      //   rating4Data.series.push({ name: xAxisDate, value: trendModel.rating4 });
-      //   rating3Data.series.push({ name: xAxisDate, value: trendModel.rating3 });
-      //   rating2Data.series.push({ name: xAxisDate, value: trendModel.rating2 });
-      //   rating1Data.series.push({ name: xAxisDate, value: trendModel.rating1 });
-      // } else {
-      //   // rating5Data.series.push({ name: xAxisDate, value: 0 });
-      //   rating4Data.series.push({ name: xAxisDate, value: 0 });
-      //   rating3Data.series.push({ name: xAxisDate, value: 0 });
-      //   rating2Data.series.push({ name: xAxisDate, value: 0 });
-      //   rating1Data.series.push({ name: xAxisDate, value: 0 });
-      // }
-      rating4Data.series.push({ name: xAxisDate, value: rating4 });
-      rating3Data.series.push({ name: xAxisDate, value: rating3 });
-      rating2Data.series.push({ name: xAxisDate, value: rating2 });
-      rating1Data.series.push({ name: xAxisDate, value: rating1 });
-
-      // rating4 = rating4 + 12;
-      // dummyDelayed = dummyDelayed - 13;
-      // dummyMissed = dummyMissed - 3;
+      if (trendModel) {
+        deliveryData.series.push({ name: xAxisDate, value: trendModel.deliverytime });
+        exectionData.series.push({ name: xAxisDate, value: trendModel.jobexetime });
+        creationtData.series.push({ name: xAxisDate, value: trendModel.jobcreationtime });
+        waitData.series.push({ name: xAxisDate, value: trendModel.waittime });
+      } else {
+        deliveryData.series.push({ name: xAxisDate, value: 0 });
+        exectionData.series.push({ name: xAxisDate, value: 0 });
+        creationtData.series.push({ name: xAxisDate, value: 0 });
+        waitData.series.push({ name: xAxisDate, value: 0 });
+      }
 
     });
   }
@@ -158,38 +137,4 @@ export class ServiceTimeMonthlyComponent implements OnInit {
   }
 
 }
-// this.test = [
-//   {
-//     'name': 'Wait time',
-//     'series': [
-//       {
-//         value: 35,
-//         name: 'Sat, 30 Sep 2017 18:30:00 GMT'
-//       },
-//       {
-//         value: 48,
-//         name: 'Tue, 31 Oct 2017 18:30:00 GMT'
-//       },
-//       {
-//         value: 20,
-//         name: 'Thu, 30 Nov 2017 18:30:00 GMT'
-//       },
-//       {
-//         value: 56,
-//         name: 'Sun, 31 Dec 2017 18:30:00 GMT'
-//       },
-//       {
-//         value: 95,
-//         name: 'Wed, 31 Jan 2018 18:30:00 GMT'
-//       },
-//       {
-//         name: 'Wed, 28 Feb 2018 18:30:00 GMT',
-//         value: 54
-//       },
-//       {
-//         name: 'Sat, 31 Mar 2018 18:30:00 GMT',
-//         value: 54
-//       }
-//     ]
-//   }
-// ];
+
