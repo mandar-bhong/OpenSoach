@@ -20,7 +20,7 @@ export class ReportService {
 
     generateReport(request: ReportRequestParams, implicitErrorHandling = true):
         Observable<Blob> {
-        return this.serverApiInterfaceService.downloadFile(EnvironmentProvider.appbaseurl + '/api/v1/report/generate',
+        return this.serverApiInterfaceService.downloadFile(EnvironmentProvider.appbaseurl + '/api/v1/report/generate/consolidate',
             request, implicitErrorHandling);
     }
 

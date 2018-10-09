@@ -23,18 +23,18 @@ export class ReportContainerComponent implements OnInit {
   paginator: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort;
+  selectedoption = '0';
   constructor(private prodServicepointService: ProdServicepointService,
     private reportService: ReportService,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe) {
-    this.dataModel.selecteddateoption = '0';
+    this.dataModel.selecteddateoption = '2';
     this.optionChange();
   }
 
   ngOnInit() {
     this.getServicepointList();
   }
-
   getServicepointList() {
     this.prodServicepointService.getServicepointList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
@@ -42,7 +42,13 @@ export class ReportContainerComponent implements OnInit {
       }
     });
   }
+  optionReportChange() {
+    if (this.selectedoption === '1') {
 
+    } else {
+
+    }
+  }
   optionChange() {
     switch (this.dataModel.selecteddateoption) {
       case '0':
@@ -51,6 +57,12 @@ export class ReportContainerComponent implements OnInit {
         break;
       case '1':
         break;
+      case '2':
+        this.dataModel.startdate = new Date();
+        this.dataModel.enddate = new Date();
+        this.dataModel.startdate.setHours(0, 0, 0, 0);
+        this.dataModel.enddate.setHours(24, 0, 0, 0);
+        break;
     }
   }
 
@@ -58,10 +70,10 @@ export class ReportContainerComponent implements OnInit {
     if (this.dataModel.enddate >= this.dataModel.startdate) {
       this.reportService.getReportData(this.createReportRequest()).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          this.summaryheader = payloadResponse.data[0].reportheader;
-          this.summarydata = payloadResponse.data[0].reportdata;
-          this.listheader = payloadResponse.data[1].reportheader;
-          this.dataSource = new MatTableDataSource<any>(payloadResponse.data[1].reportdata);
+          // this.summaryheader = payloadResponse.data[0].reportheader;
+          // this.summarydata = payloadResponse.data[0].reportdata;
+          this.listheader = payloadResponse.data[0].reportheader;
+          this.dataSource = new MatTableDataSource<any>(payloadResponse.data[0].reportdata);
           console.log('datasource', this.dataSource);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -77,7 +89,8 @@ export class ReportContainerComponent implements OnInit {
     this.reportService.generateReport(this.createReportRequest()).subscribe((payloadResponse: Blob) => {
       console.log('payloadResponse', payloadResponse);
       if (payloadResponse) {
-        this.reportService.saveReport(payloadResponse, 'Task Report.xlsx');
+        this.reportService.saveReport(payloadResponse, 'Consolidated Report.pdf');
+        // this.reportService.saveReport(payloadResponse, 'Task Report.pdf');
       }
     });
   }
@@ -95,12 +108,13 @@ export class ReportContainerComponent implements OnInit {
 
     if (this.dataModel.selectedsp) {
       requestSummary.queryparams.push(this.dataModel.selectedsp.spid);
-      requestSummary.reportcode = 'TASK_SUMMARY_SP';
-      requestList.queryparams.push(this.dataModel.selectedsp.spid);
-      requestList.reportcode = 'TASK_LIST_SP';
+      // requestSummary.reportcode = 'TASK_SUMMARY_SP';
+      // requestList.queryparams.push(this.dataModel.selectedsp.spid);
+
     } else {
-      requestSummary.reportcode = 'TASK_SUMMARY_ALL';
-      requestList.reportcode = 'TASK_LIST_ALL';
+      // requestSummary.reportcode = 'TASK_SUMMARY_ALL';
+      // requestList.reportcode = 'TASK_LIST_ALL';
+      requestList.reportcode = 'CONSOLIDATED_REPORT';
     }
 
 
@@ -122,7 +136,7 @@ export class ReportContainerComponent implements OnInit {
     }
 
     reportParams.reportreq = [];
-    reportParams.reportreq.push(requestSummary);
+    // reportParams.reportreq.push(requestSummary);
     reportParams.reportreq.push(requestList);
     console.log('request', reportParams);
     return reportParams;

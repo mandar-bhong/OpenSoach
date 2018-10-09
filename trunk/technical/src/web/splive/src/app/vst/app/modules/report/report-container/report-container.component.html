@@ -17,39 +17,46 @@
       <mat-card-content style="padding-top: 10px; margin: 10px;">
         <mat-card style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
               <div class="row">
                 <div class="col-sm-12">
                   <mat-button-toggle-group [(ngModel)]="dataModel.selecteddateoption" (ngModelChange)="optionChange()">
+                    <mat-button-toggle value="2">Today</mat-button-toggle>
                     <mat-button-toggle value="0">This Month</mat-button-toggle>
                     <mat-button-toggle value="1">Select Duration</mat-button-toggle>
                   </mat-button-toggle-group>
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-4 col-md-4">
+                <div class="col-sm-4 col-md-3">
                   <mat-form-field style="max-width: 190px;">
-                    <input matInput [matDatepicker]="startdatepicker" placeholder="Choose a start date" [(ngModel)]="dataModel.startdate" [disabled]="dataModel.selecteddateoption==='0'">
+                    <input matInput [matDatepicker]="startdatepicker" placeholder="Choose a start date" [(ngModel)]="dataModel.startdate" [disabled]="dataModel.selecteddateoption==='0'|| dataModel.selecteddateoption==='2'">
                     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
                     <mat-datepicker #startdatepicker></mat-datepicker>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-4 col-md-4">
+                <div class="col-sm-3 col-md-3">
                   <mat-form-field style="max-width: 190px;">
-                    <input matInput [matDatepicker]="enddatepicker" placeholder="Choose a end date" [(ngModel)]="dataModel.enddate" [disabled]="dataModel.selecteddateoption==='0'">
+                    <input matInput [matDatepicker]="enddatepicker" placeholder="Choose a end date" [(ngModel)]="dataModel.enddate" [disabled]="dataModel.selecteddateoption==='0' || dataModel.selecteddateoption==='2'">
                     <mat-datepicker-toggle matSuffix [for]="enddatepicker"></mat-datepicker-toggle>
                     <mat-datepicker #enddatepicker></mat-datepicker>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-4 col-md-4">
-                    <mat-form-field>
-                        <mat-select placeholder="Select a service point" [(ngModel)]="dataModel.selectedsp">
-                          <mat-option>ALL</mat-option>
-                          <mat-option *ngFor="let sp of dataModel.splist" [value]="sp">
-                            {{sp.spname}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
+                <div class="col-sm-3 col-md-3">
+                  <!-- <mat-form-field>
+                    <mat-select placeholder="Select a service point" [(ngModel)]="dataModel.selectedsp">
+                      <mat-option>ALL</mat-option>
+                      <mat-option *ngFor="let sp of dataModel.splist" [value]="sp">
+                        {{sp.spname}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+                  <mat-button-toggle-group [(ngModel)]="selectedoption" (ngModelChange)="optionReportChange()">
+                    <mat-button-toggle value="0">Consolidated Report</mat-button-toggle>
+                    <!-- <mat-button-toggle value="1">Job Report</mat-button-toggle> -->
+                  </mat-button-toggle-group>
+                </div>
+                <div class="col-sm-3 col-md-3">
                 </div>
               </div>
               <!-- <div class="row">
@@ -73,7 +80,7 @@
                 <!-- <div class="col-md-4"></div> -->
               </div>
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-3"></div>
           </div>
         </mat-card>
         <div class="row" style="padding-top:10px 0px;">
@@ -85,7 +92,7 @@
         </div>
         <div class="row" *ngFor="let summaryitem of summarydata;let i=index">
           <div class="col-sm-12 col-md-12">
-            <mat-card  style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <mat-card style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
               <mat-card-content>
                 <div class="row" *ngFor="let item of summaryheader;let j = index">
                   <div class="col-3 text-muted">{{item}}</div>
