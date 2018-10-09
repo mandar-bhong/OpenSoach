@@ -228,3 +228,32 @@ button:focus {
 .mat-cell, .mat-footer-cell {
   font-size: 13px !important;
 }
+
+
+/* animation zoom start */
+.w3-animate-zoom {
+  position: relative;
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.4s; 
+  animation-name: zoom;
+  animation-duration: 0.4s;
+}
+/* zome in */
+@-webkit-keyframes zoom {
+  0%   {transform: scale(0)}
+  100% {transform: scale(1)}
+}
+/* animation zoom end */
+/* animation zoom bottom effect start */
+.w3-animate-bottom {
+  position: relative;
+  -webkit-animation-name: bottomside;
+  -webkit-animation-duration: 0.4s; 
+  animation-name: bottomside;
+  animation-duration: 0.4s;
+}
+@-webkit-keyframes bottomside {
+  0%   { bottom:-250px;}
+  100% {bottom:0px;}
+}
+/* animation zoom bottom effect end */
