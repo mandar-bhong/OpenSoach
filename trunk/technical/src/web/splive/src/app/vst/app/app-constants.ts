@@ -45,26 +45,26 @@ export const APP_ROUTES: RoutingModel[] = [
     },
     {
         url: '/foperators',
-        linktitle: 'Operators',
-        pagetitle: 'Operators',
+        linktitle: 'Service Personnel',
+        pagetitle: 'Service Personnel',
         linkiconcss: 'fa fa-meh-o'
     },
     {
         url: '/foperators/add',
         linktitle: 'Add',
-        pagetitle: 'Add New Operators',
+        pagetitle: 'Add New Service Personnel',
         linkiconcss: 'fa fa-meh-o'
     },
     {
         url: '/foperators/detail',
         linktitle: 'Details',
-        pagetitle: 'Operator Details',
+        pagetitle: 'Service Personnel Details',
         linkiconcss: 'fa fa-meh-o'
     },
     {
         url: '/foperators/associate',
         linktitle: 'Associate',
-        pagetitle: 'Operator Associate',
+        pagetitle: 'Service Personnel Associate',
         linkiconcss: 'fa fa-meh-o'
     },
     {
@@ -109,13 +109,26 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Change Password',
         linkiconcss: 'fa fa-users'
     },
+    {
+        url: '/jobs',
+        linktitle: 'Jobs',
+        pagetitle: 'Jobs',
+        linkiconcss: 'fa fa-car'
+    },
+    {
+        url: '/jobs/details',
+        linktitle: 'Details',
+        pagetitle: 'Details',
+        linkiconcss: 'fa fa-car'
+    },
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
     { url: '/dashboard', level: 0, routingModel: null },
     { url: '/devices', level: 0, routingModel: null },
     { url: '/servicepoints', level: 0, routingModel: null },
-    { url: '/charts', level: 0, routingModel: null },
+    // { url: '/charts', level: 0, routingModel: null },
+    { url: '/jobs', level: 0, routingModel: null },
     { url: '/foperators', level: 0, routingModel: null },
     { url: '/complaints', level: 0, routingModel: null },
     { url: '/reports', level: 0, routingModel: null },
@@ -141,5 +154,10 @@ export const APP_LOCAL_STORAGE_KEYS: string[] = [
 export enum SERVICE_CONF_TYPE {
     SERVICE_DAILY_CHART = 'SERVICE_DAILY_CHART'
 }
-
-
+export enum SNAPSHOT_STATE {
+    TOKEN_GENERATED = 1,
+    JOB_CREATED = 3,
+    JOB_INPROGRESS = 4,
+    JOB_COMPLETED = 5,
+    VEHICAL_DELIVERY = 6,
+}
