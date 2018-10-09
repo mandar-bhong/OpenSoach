@@ -259,7 +259,7 @@ h6 {
 }
 .latest-update-card .card-block .latest-update-box .update-meta {
     z-index: 2;
-    min-width: 160px;
+    min-width: 220px;
 }
 .card1 .card-block p {
     /* line-height: 1.4; */
@@ -295,9 +295,10 @@ h6 {
     height: 100%;
     width: 1px;
     top: 0;
-    left: 110px;
+    left: 170px;
     z-index: 1;
 }
+
 .latest-update-card .card-block {
     padding-top: 0;
 }
