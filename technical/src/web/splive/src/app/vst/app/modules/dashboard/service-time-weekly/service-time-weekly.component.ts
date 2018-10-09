@@ -104,7 +104,7 @@ export class ServiceTimeWeeklyComponent implements OnInit {
       },
       {
         'name': 'SAT',
-        'value': 112
+        'value': 70
       },
       {
         'name': 'SUN',
@@ -144,5 +144,68 @@ export class ServiceTimeWeeklyComponent implements OnInit {
       }
     ];
   }
-
+  creationtime() {
+    this.data = [
+      {
+        'name': 'MON',
+        'value': 70
+      },
+      {
+        'name': 'TUE',
+        'value': 55
+      },
+      {
+        'name': 'WED',
+        'value': 45
+      },
+      {
+        'name': 'THU',
+        'value': 1
+      },
+      {
+        'name': 'FRI',
+        'value': 20
+      },
+      {
+        'name': 'SAT',
+        'value': 60
+      },
+      {
+        'name': 'SUN',
+        'value': 100
+      }
+    ];
+  }
+  deliverytime() {
+    this.data = [
+      {
+        'name': 'MON',
+        'value': 43
+      },
+      {
+        'name': 'TUE',
+        'value': 55
+      },
+      {
+        'name': 'WED',
+        'value': 70
+      },
+      {
+        'name': 'THU',
+        'value': 30
+      },
+      {
+        'name': 'FRI',
+        'value': 61
+      },
+      {
+        'name': 'SAT',
+        'value': 35
+      },
+      {
+        'name': 'SUN',
+        'value': 100
+      }
+    ];
+  }
 }
