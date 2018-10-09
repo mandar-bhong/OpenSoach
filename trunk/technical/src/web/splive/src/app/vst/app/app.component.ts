@@ -10,6 +10,8 @@ import { AppDataStoreService } from '../../shared/services/app-data-store/app-da
 import { LoginHandlerService } from '../../shared/services/login-handler.service';
 import { environment } from '../environments/environment';
 import { APP_IN_MEMORY_STORE_KEYS, APP_LOCAL_STORAGE_KEYS, APP_ROUTES, SIDE_MENU_LINKS } from './app-constants';
+import { TranslateService } from '../../shared/pipes/translate/translate.service';
+import { APP_TRANSLATIONS } from 'translations';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private loginHandlerService: LoginHandlerService,
     private router: Router,
     private appDataStoreService: AppDataStoreService,
-    private splConfService: SplConfService) { }
+    private splConfService: SplConfService,
+    private translateService: TranslateService) {
+      this.translateService.addAppSpecificTranslations(APP_TRANSLATIONS);
+    }
 
   ngOnInit() {
 
