@@ -12,6 +12,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { MaterialModules } from '../../modules/material/material-modules';
+import { LoginLayoutComponent } from './login-layout/login-layout.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { MaterialModules } from '../../modules/material/material-modules';
     MaterialModules
   ],
   declarations: [LoginComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    LoginLayoutComponent
   ]
 })
 export class AuthModule { }
