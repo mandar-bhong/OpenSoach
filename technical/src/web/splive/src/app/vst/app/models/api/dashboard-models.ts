@@ -90,4 +90,57 @@ export class ComplaintTrendResponse {
     inprogress: number;
 }
 
+export class SnapShotRequest {
+    startdate: Date;
+    enddate: Date;
+}
+export class SnapShotResponse {
+    lastactiontime: Date;
+    count: number;
+    status: number;
+}
+export class TimeRequest {
+    startdate: Date;
+    enddate: Date;
+}
+export class TimeResponse {
+    waittime: number;
+    jobcreationtime: number;
+    jobexetime: number;
+    deliverytime: number;
+}
+
+export class ServiceTimeAvrResponse {
+    month: number;
+    year: number;
+    waittime: number;
+    jobcreationtime: number;
+    jobexetime: number;
+    deliverytime: number;
+}
+export class ServiceTimeAvrRequest {
+    // spid: number;
+    startdate: Date;
+    enddate: Date;
+}
+
+export class VehicleServiceTrendMontlyResponse {
+    month: number;
+    year: number;
+    vehicleserviced: number;
+}
+export class VehicleServiceTrendMontlyRequest {
+    // spid: number;
+    startdate: Date;
+    enddate: Date;
+}
+export class VehicleServiceTrendWeeklyRequest {
+    startdate: Date;
+    enddate: Date;
+}
+export class VehicleServiceTrendWeeklyResponse {
+    // days: string;
+    servicedate: Date;
+    vehicleserviced: number;
+}
 
