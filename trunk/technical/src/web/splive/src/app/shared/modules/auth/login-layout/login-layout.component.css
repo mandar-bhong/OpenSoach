@@ -1,15 +1,3 @@
-/* #logo{padding-top: 40px;}
-#form-id{padding-top: 50px;}
-.card {
-    margin: 0 auto;
-    float: none;
-    margin-bottom: 10px; 
-    padding: 1.25rem;
-}
-mat-form-field{width: 100%;}
-
-  */
-
 .player {
     position: relative !important;
     height: 100%;
@@ -25,6 +13,9 @@ mat-form-field{width: 100%;}
         position: absolute !important;
         height: 100%;
         width: 100%;
+        /* background: #FFF; */
+        /* text-align: center; */
+        /* line-height: 200px; */
         -webkit-backface-visibility: hidden !important;
         -moz-backface-visibility: hidden !important;
         backface-visibility: hidden !important;

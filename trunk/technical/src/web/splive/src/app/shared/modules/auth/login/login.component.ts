@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
   loginform: FormGroup;
+  flipped = false;
   constructor(private appDataStoreService: AppDataStoreService,
     private loginHandlerService: LoginHandlerService,
     private router: Router,
@@ -38,7 +39,9 @@ export class LoginComponent implements OnInit {
       passwordControl: new FormControl('', [Validators.required]),
     });
   }
-
+  flipIt() {
+    this.flipped = !this.flipped;
+  }
   login() {
     if (this.loginform.invalid) {
       return;
