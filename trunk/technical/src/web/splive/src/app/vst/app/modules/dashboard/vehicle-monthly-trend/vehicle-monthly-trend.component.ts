@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { curveLinear } from 'd3-shape';
 
-import { TaskTrendRequest } from '../../../models/api/dashboard-models';
-import { TaskTrendModel, TrendChartPerMonthXaxis } from '../../../models/ui/dashboard-models';
+import { TaskTrendRequest, VehicleServiceTrendMontlyRequest } from '../../../models/api/dashboard-models';
+import {
+  TaskTrendModel, TrendChartPerMonthXaxis, SeriveTimeAvrModel,
+  VehicleServiceTrendMonthlyModel
+} from '../../../models/ui/dashboard-models';
 import { DashboardService } from '../../../services/dashboard.service';
 
 @Component({
@@ -16,14 +19,11 @@ export class VehicleMonthlyTrendComponent implements OnInit {
   curve = curveLinear;
   xAxisLabel = 'Time';
   yAxisLabel = 'Vehicles';
-  tasktrenddata: TaskTrendModel[] = [];
+  vehicletrenddata: VehicleServiceTrendMonthlyModel[] = [];
   tasktrendchartdata = [];
-  request = new TaskTrendRequest();
+  request = new VehicleServiceTrendMontlyRequest();
   timeline: TrendChartPerMonthXaxis[] = [];
   ontimeLabel = 'Vehicles';
-  // delayedLabel = 'Delayed';
-  // missedLabel = 'Missed';
-  // legendTitle = 'Task Status';
   colorScheme = {
     domain: ['#E466C9', '#956EE8', '#00B1EA', '#00DDC6', '#FFB467', '#FF6859', '#245AAE']
   };
@@ -31,41 +31,10 @@ export class VehicleMonthlyTrendComponent implements OnInit {
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.getTrend();
-    //  this.data= [
-    //     {
-    //       "name": "MON",
-    //       "value": 82
-    //     },
-    //     {
-    //       "name": "TUE",
-    //       "value": 85
-    //     },
-    //     {
-    //       "name": "WED",
-    //       "value": 60
-    //     },
-    //     {
-    //       "name": "THU",
-    //       "value": 70
-    //     },
-    //     {
-    //       "name": "FRI",
-    //       "value": 80
-    //     },
-    //     {
-    //       "name": "SAT",
-    //       "value": 112
-    //     },
-    //     {
-    //       "name": "SUN",
-    //       "value": 100
-    //     }
-    //   ];
-    // this.getTaskTrend();
+    this.getSeviceTimeMonth();
+    // this.getTrend();
   }
-
-  getTrend() {
+  getSeviceTimeMonth() {
     const currentDate = new Date();
     this.request.enddate = new Date(Date.UTC(
       currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
@@ -73,72 +42,56 @@ export class VehicleMonthlyTrendComponent implements OnInit {
     const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
     this.request.startdate = new Date(ticks);
 
-    this.generateSeriesTimeline();
+    this.dashboardService.getVehicleServiceTrendMontly(this.request).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        payloadResponse.data.forEach(item => {
+          const trendModel = new VehicleServiceTrendMonthlyModel();
+          trendModel.copyFrom(item);
+          this.vehicletrenddata.push(trendModel);
+          console.log('this.tasktrenddata testing');
+          console.log(this.vehicletrenddata);
+        });
 
-    this.timeline.forEach(item => {
-      const xAxisDate = new Date(item.year, item.month).toUTCString();
-      this.data.push({ name: xAxisDate, value: 3000 + Math.floor(Math.random() * 1000) });
+        this.generateSeriesTimeline();
+        this.generateRatingChartData();
+      }
     });
   }
 
-  //   getTaskTrend() {
-  //     const currentDate = new Date();
-  //     this.request.enddate = new Date(Date.UTC(
-  //       currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
-
-  //     const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
-  //     this.request.startdate = new Date(ticks);
-
-  // //     this.dashboardService.getTaskTrend(this.request).subscribe(payloadResponse => {
-  // //       if (payloadResponse && payloadResponse.issuccess) {
-  // //         payloadResponse.data.forEach(item => {
-  // //           const trendModel = new TaskTrendModel();
-  // //           trendModel.copyFrom(item);
-  // //           this.tasktrenddata.push(trendModel);
-  // //         });
-  // // console.log('data received');
-  // //         this.generateSeriesTimeline();
-  // //         this.generateRatingChartData();
-  // //       }
-  // //     });
-
-  //     this.generateSeriesTimeline();
-  //         this.generateRatingChartData();
-  //   }
 
 
+  // getTrend() {
+  //   const currentDate = new Date();
+  //   this.request.enddate = new Date(Date.UTC(
+  //     currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
 
-  //   generateRatingChartData() {
-  //     const ontimeData = { name: this.ontimeLabel, series: [] };
-  //     this.tasktrendchartdata.push(ontimeData);
-  //     const delayedData = { name: this.delayedLabel, series: [] };
-  //     this.tasktrendchartdata.push(delayedData);
-  //     const missedData = { name: this.missedLabel, series: [] };
-  //     this.tasktrendchartdata.push(missedData);
+  //   const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
+  //   this.request.startdate = new Date(ticks);
 
-  //     let dummyOnTime =1000;
-  //     let dummyDelayed =205;
-  //     let dummyMissed =50;
-  //     this.timeline.forEach(item => {
-  //       const xAxisDate = new Date(item.year, item.month).toUTCString();
-  //       // const trendModel = this.tasktrenddata.find(rating => rating.year === item.year
-  //       //   && rating.month-1 === item.month);
+  //   this.generateSeriesTimeline();
 
-  //       // if (trendModel) {
-  //       //   ontimeData.series.push({ name: xAxisDate, value: trendModel.ontime });
-  //       //   delayedData.series.push({ name: xAxisDate, value: trendModel.delayed });
-  //       //   missedData.series.push({ name: xAxisDate, value: trendModel.missed });
-  //       // } else {
-  //         ontimeData.series.push({ name: xAxisDate, value: dummyOnTime });
-  //         delayedData.series.push({ name: xAxisDate, value: dummyDelayed });
-  //         missedData.series.push({ name: xAxisDate, value: dummyMissed });
+  //   this.timeline.forEach(item => {
+  //     const xAxisDate = new Date(item.year, item.month).toUTCString();
+  //     this.data.push({ name: xAxisDate, value: 3000 + Math.floor(Math.random() * 1000) });
+  //   });
+  // }
 
-  //         dummyOnTime=dummyOnTime+12;
-  //         dummyDelayed=dummyDelayed-13;
-  //         dummyMissed=dummyMissed-3;
-  //       //}
-  //     });
-  //   }
+
+  generateRatingChartData() {
+    this.timeline.forEach(item => {
+      const xAxisDate = new Date(item.year, item.month).toUTCString();
+      const trendModel = this.vehicletrenddata.find(rating => rating.year === item.year
+        && rating.month - 1 === item.month);
+      // console.log('trendModel testing', trendModel);
+      if (trendModel) {
+        this.tasktrendchartdata.push({ name: xAxisDate, value: trendModel.vehicleserviced});
+        // console.log('tasktrendchartdata');
+        // console.log(this.tasktrendchartdata);
+      } else {
+        this.tasktrendchartdata.push({ name: xAxisDate, value: 0 });
+      }
+    });
+  }
 
   generateSeriesTimeline() {
     let month = this.request.startdate.getMonth();

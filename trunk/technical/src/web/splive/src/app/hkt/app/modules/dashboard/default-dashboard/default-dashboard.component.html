@@ -74,13 +74,13 @@
 
 
 <div class="row" style="margin-top:10px">
-  <div class="col-lg-3 col-md-3">
+  <div class="col-lg-3 col-md-3 col-sm-6">
     <div class="card">
       <div class="card-block-tab">
         <div class="row align-items-center">
           <div class="col-8">
             <h4 class="text-c-green" class="b-block">{{devicesummary.total}}</h4>
-            <h6 class="text-muted m-b-0"> Devices Total</h6>
+            <h6 class="text-muted m-b-0">Total Devices</h6>
           </div>
           <div class="col-4 text-right text-c-green">
             <mat-icon class="f-28">tablet</mat-icon>
@@ -96,13 +96,13 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-3 col-md-3">
+  <div class="col-lg-3 col-md-3 col-sm-6">
     <div class="card">
       <div class="card-block-tab">
         <div class="row align-items-center">
           <div class="col-8">
             <h4 class="text-c-red" class="b-block">{{devicesummary.total}}</h4>
-            <h6 class="text-muted m-b-0"> Devices Total</h6>
+            <h6 class="text-muted m-b-0">Total Devices</h6>
           </div>
           <div class="col-4 text-right text-c-red" [ngClass]="{'text-c-red': devicesummary.offline>0, 'text-c-blue': devicesummary.offline===0}">
             <mat-icon class="f-28">tablet</mat-icon>
@@ -118,13 +118,13 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-3 col-md-3">
+  <div class="col-lg-3 col-md-3 col-sm-6">
     <div class="card">
       <div class="card-block-tab">
         <div class="row align-items-center">
           <div class="col-8">
             <h4 class="text-c-blue" class="b-block">{{spsummary.total}}</h4>
-            <h6 class="text-muted m-b-0">Service Points Total</h6>
+            <h6 class="text-muted m-b-0">Total Service Points</h6>
           </div>
           <div class="col-4 text-right icon_zoom" [ngClass]="spsummary.total===spsummary.inuse?'text-c-blue':'text-c-red'">
             <mat-icon class="f-28">place</mat-icon>
@@ -140,13 +140,13 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-3 col-md-3">
+  <div class="col-lg-3 col-md-3 col-sm-6">
     <div class="card">
       <div class="card-block-tab">
         <div class="row align-items-center">
           <div class="col-8">
             <h4 class="text-c-lightred" class="b-block">{{complaintsummary.total}}</h4>
-            <h6 class="text-muted m-b-0">Complaints Total</h6>
+            <h6 class="text-muted m-b-0">Total Complaints</h6>
           </div>
           <div class="col-4 text-right icon_zoom" [ngClass]="complaintsummary.active===0?'text-c-blue':'text-c-red'">
             <mat-icon class="f-28">assistant_photo</mat-icon>

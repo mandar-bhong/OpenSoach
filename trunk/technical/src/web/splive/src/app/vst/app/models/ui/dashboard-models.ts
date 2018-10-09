@@ -7,7 +7,15 @@ import {
     ServicePointSummaryResponse,
     TaskSummaryResponse,
     TaskTrendResponse,
+    SnapShotRequest,
+    SnapShotResponse,
+    TimeRequest,
+    TimeResponse,
+    ServiceTimeAvrResponse,
+    VehicleServiceTrendMontlyResponse,
+    VehicleServiceTrendWeeklyResponse,
 } from '../api/dashboard-models';
+import { SNAPSHOT_STATE } from '../../app-constants';
 
 export class DeviceSummaryModel {
     total: number;
@@ -202,14 +210,81 @@ export class ComplaintTrendModel {
 }
 
 export class SnapshotModel {
-    tokantime = 4;
-    tokancount = 3;
-    createdtime = 1;
-    createdcount = 4;
-    inprogtime = 2;
-    inprogconut = 5;
-    compltime = 7;
-    complcount = 8;
-    vehicletime = 4;
-    vehiclecount = 6;
+    startdate: Date;
+    enddate: Date;
+    lastactiontime: Date;
+    count: number;
+    status: SNAPSHOT_STATE;
+    copyTo(snapShotRequest: SnapShotRequest) {
+        snapShotRequest.startdate = this.startdate;
+        snapShotRequest.enddate = this.enddate;
+    }
+    copyFrom(response: SnapShotResponse) {
+        this.lastactiontime = response.lastactiontime;
+        this.count = response.count;
+        this.status = response.status;
+    }
+}
+export class TimeModel {
+    startdate: Date;
+    enddate: Date;
+    waittime: number;
+    jobcreationtime: number;
+    jobexetime: number;
+    deliverytime: number;
+    copyTo(timeRequest: TimeRequest) {
+        timeRequest.startdate = this.startdate;
+        timeRequest.enddate = this.enddate;
+    }
+    copyFrom(response: TimeResponse) {
+        this.waittime = response.waittime;
+        this.jobcreationtime = response.jobcreationtime;
+        this.jobexetime = response.jobexetime;
+        this.deliverytime = response.deliverytime;
+    }
+}
+
+export class SeriveTimeAvrModel {
+    month: number;
+    year: number;
+    waittime: number;
+    jobcreationtime: number;
+    jobexetime: number;
+    deliverytime: number;
+
+    copyFrom(response: ServiceTimeAvrResponse) {
+        this.waittime = response.waittime;
+        this.jobcreationtime = response.jobcreationtime;
+        this.jobexetime = response.jobexetime;
+        this.deliverytime = response.deliverytime;
+        this.month = response.month;
+        this.year = response.year;
+    }
+}
+
+
+export class VehicleServiceTrendMonthlyModel {
+    month: number;
+    year: number;
+    vehicleserviced: number;
+
+    copyFrom(response: VehicleServiceTrendMontlyResponse) {
+        this.vehicleserviced = response.vehicleserviced;
+        this.month = response.month;
+        this.year = response.year;
+    }
+}
+export class VehicleServiceTrendWeeklyModel {
+    vehicleserviced: number;
+    servicedate: Date;
+
+    copyFrom(response: VehicleServiceTrendWeeklyResponse) {
+        this.vehicleserviced = response.vehicleserviced;
+        this.servicedate = response.servicedate;
+    }
+}
+export class VehicleChartPerWeeklyYaxis {
+    year: number;
+    month: number;
+    weekly: number;
 }
