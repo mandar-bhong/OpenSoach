@@ -2,7 +2,6 @@ INSERT INTO `spl_node_report_template_tbl` (`id`, `report_code`, `report_desc`, 
 	(1, 'CONSOLIDATED_REPORT', 'This will produce consolidated report', '{"en": ["Vehicle No", "Contact No", "Service Time", "In Time", "Out Time", "Wait Time", "Job Creation Time", "Execution Time", "Delivery Time", "Tentative Price", "Billed Amount"]}', '1', 'select 
 vehicle_no,
 vehicle.details->>\'$.ownerdetails.mobileno\' as contactno,
-convert(token.generated_on,char(50)) as servicetime,
 convert(token.generated_on,char(50)) as intime,
 case when status = 6 then convert(txn_date,char(50))
 			 else null 
@@ -10,36 +9,36 @@ case when status = 6 then convert(txn_date,char(50))
 (select 
 case when (time_to_sec(timediff(b.txn_date,a.txn_date))/60) > 60 
 	then
-		concat(hour(TIMEDIFF(b.txn_date,a.txn_date)),\'h\',minute(TIMEDIFF(b.txn_date,a.txn_date)),\'m\' )
+		concat(hour(TIMEDIFF(b.txn_date,a.txn_date)),\' hr \',minute(TIMEDIFF(b.txn_date,a.txn_date)),\' min\' )
 	else 	
-		concat(minute(TIMEDIFF(b.txn_date,a.txn_date)),\'m\' )
+		concat(minute(TIMEDIFF(b.txn_date,a.txn_date)),\' min\' )
 	end  as wt 
 from spl_node_service_in_txn_tbl as a,spl_node_service_in_txn_tbl as b
 where a.`status` = 1 and b.`status` = 2 and a.txn_data->\'$.tokenid\'= token.id and b.txn_data->\'$.tokenid\'= token.id) as waittime,
 (select 
 case when (time_to_sec(timediff(d.txn_date,c.txn_date))/60) > 60 
 	then
-		concat(hour(TIMEDIFF(d.txn_date,c.txn_date)),\'h\',minute(TIMEDIFF(d.txn_date,c.txn_date)),\'m\' )
+		concat(hour(TIMEDIFF(d.txn_date,c.txn_date)),\' hr \',minute(TIMEDIFF(d.txn_date,c.txn_date)),\' min\' )
 	else 	
-		concat(minute(TIMEDIFF(d.txn_date,c.txn_date)),\'m\' )
+		concat(minute(TIMEDIFF(d.txn_date,c.txn_date)),\' min\' )
 	end  as jobcreationtime 
 from spl_node_service_in_txn_tbl as c,spl_node_service_in_txn_tbl as d
 where c.`status` = 2 and d.`status` = 3 and c.txn_data->\'$.tokenid\'= token.id and d.txn_data->\'$.tokenid\'= token.id) as jobcreationtime,
 (select 
 case when (time_to_sec(timediff(f.txn_date,e.txn_date))/60) > 60 
 	then
-		concat(hour(TIMEDIFF(f.txn_date,e.txn_date)),\'h\',minute(TIMEDIFF(f.txn_date,e.txn_date)),\'m\' )
+		concat(hour(TIMEDIFF(f.txn_date,e.txn_date)),\' hr \',minute(TIMEDIFF(f.txn_date,e.txn_date)),\' min\' )
 	else 	
-		concat(minute(TIMEDIFF(f.txn_date,e.txn_date)),\'m\' )
+		concat(minute(TIMEDIFF(f.txn_date,e.txn_date)),\' min\' )
 	end  as jobexetime 
 from spl_node_service_in_txn_tbl as e,spl_node_service_in_txn_tbl as f
 where e.`status` = 2 and f.`status` = 4 and e.txn_data->\'$.tokenid\'= token.id and f.txn_data->\'$.tokenid\'= token.id limit 1) as jobexetime,
 (select 
 case when (time_to_sec(timediff(h.txn_date,g.txn_date))/60) > 60 
 	then
-		concat(hour(TIMEDIFF(h.txn_date,g.txn_date)),\'h\',minute(TIMEDIFF(h.txn_date,g.txn_date)),\'m\' )
+		concat(hour(TIMEDIFF(h.txn_date,g.txn_date)),\' hr \',minute(TIMEDIFF(h.txn_date,g.txn_date)),\' min\' )
 	else 	
-		concat(minute(TIMEDIFF(h.txn_date,g.txn_date)),\'m\' )
+		concat(minute(TIMEDIFF(h.txn_date,g.txn_date)),\' min\' )
 	end  as deliverytime 
 from spl_node_service_in_txn_tbl as g,spl_node_service_in_txn_tbl as h
 where g.`status` = 5 and h.`status` = 6 and g.txn_data->\'$.tokenid\'= token.id and h.txn_data->\'$.tokenid\'= token.id) as deliverytime,

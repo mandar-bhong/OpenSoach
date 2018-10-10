@@ -234,7 +234,7 @@ CREATE TABLE `spl_node_sp_complaint_tbl` (
   `employee_id` varchar(16) DEFAULT NULL,
   `severity` TINYINT(4) UNSIGNED NULL DEFAULT NULL COMMENT '1: Low, 2: Medium, 3: High,4: Critical etc.',
   `raised_on` datetime NOT NULL,
-  `complaint_state` tinyint(4) NOT NULL COMMENT '1: Open, 2: Closed, 3: Force Closed etc.',
+  `complaint_state` tinyint(4) NOT NULL COMMENT '1: Open, 2: In Progress, 3: Closed etc.',
   `closed_on` datetime DEFAULT NULL,
   `remarks` varchar(500) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
