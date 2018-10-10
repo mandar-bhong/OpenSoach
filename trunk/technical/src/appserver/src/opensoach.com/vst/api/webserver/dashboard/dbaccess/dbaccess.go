@@ -396,7 +396,7 @@ func GetVhlAverageTime(dbConn string, req lmodels.APIDashboardVehicleRequest, fi
 		whereCondition = " where " + whereCondition
 	}
 
-	query := strings.Replace(dbquery.QUERY_GET_AVERAGE_TIME, "$BetweenCondition$", whereCondition, -1)
+	query := strings.Replace(dbquery.QUERY_GET_AVERAGE_TIME, "$WhereCondition$", whereCondition, -1)
 
 	selectCtx := dbmgr.SelectContext{}
 	selectCtx.DBConnection = dbConn
