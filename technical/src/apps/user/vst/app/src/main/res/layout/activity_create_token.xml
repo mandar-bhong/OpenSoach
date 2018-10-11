@@ -112,17 +112,23 @@
                                 android:layout_marginLeft="10dp"
                                 android:text="Vehicle Number "/>
 
-                            <EditText
-                                android:id="@+id/vehicalNo1"
-                                android:layout_width="45dp"
+                            <!--<EditText-->
+                                <!--android:id="@+id/vehicalNo1"-->
+                                <!--android:layout_width="45dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="20dp"-->
+                                <!--android:hint="MH"-->
+                                <!--android:textAlignment="center"-->
+                                <!--android:inputType="textCapWords"-->
+                                <!--android:maxLength="2"-->
+                                <!--android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"-->
+                                <!--android:text="@={VM.vehicleNo1}"/>-->
+                            <TextView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-                                android:hint="MH"
-                                android:textAlignment="center"
-                                android:inputType="textCapWords"
-                                android:maxLength="2"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-                                android:text="@={VM.vehicleNo1}"/>
+                                android:layout_marginLeft="10dp"
+                                android:text=" MH "
+                                android:textSize="18dp"/>
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -130,17 +136,24 @@
                                 android:layout_marginLeft="0dp"
                                 android:text="-"/>
 
-                            <EditText
-                                android:id="@+id/vehicalNo2"
-                                android:layout_width="45dp"
+                            <TextView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="2dp"
-                                android:hint="12"
-                                android:textAlignment="center"
-                                android:inputType="number"
-                                android:digits="0123456789"
-                                android:maxLength="2"
-                                android:text="@={VM.vehicleNo2}"/>
+                                android:layout_marginLeft="0dp"
+                                android:text=" 12 "
+                                android:textSize="18dp"/>
+
+                            <!--<EditText-->
+                                <!--android:id="@+id/vehicalNo2"-->
+                                <!--android:layout_width="45dp"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_marginLeft="2dp"-->
+                                <!--android:hint="12"-->
+                                <!--android:textAlignment="center"-->
+                                <!--android:inputType="number"-->
+                                <!--android:digits="0123456789"-->
+                                <!--android:maxLength="2"-->
+                                <!--android:text="@={VM.vehicleNo2}"/>-->
 
                             <TextView
                                 android:layout_width="match_parent"
