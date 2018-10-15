@@ -63,7 +63,7 @@ public class JobServiceItemViewModel extends BaseViewModel {
     @Bindable
     public boolean getShowcheckbox(){
 
-        if ( ((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_EXECUTION){
+        if ( ((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_EXECUTION || AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution && (!(((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_CREATION_SUMMARY ))  ){
             return true;
         }else {
             return false;
@@ -75,7 +75,7 @@ public class JobServiceItemViewModel extends BaseViewModel {
     @Bindable
     public boolean getShowMoveRightIcon(){
 
-        if ( ((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_EXECUTION){
+        if ( ((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_EXECUTION ){
             return true;
         }else {
             return false;
@@ -86,7 +86,7 @@ public class JobServiceItemViewModel extends BaseViewModel {
     @Bindable
     public boolean getShowDelete(){
 
-        if ( ((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT){
+        if ( ((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_CREATION_EDIT && (!(AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution ))){
             return true;
         }else {
             return false;
@@ -103,4 +103,22 @@ public class JobServiceItemViewModel extends BaseViewModel {
         }
     }
 
+    @Bindable
+    public boolean getEditble(){
+        if(AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+
+    @Bindable
+    public boolean getTaskItemEdit(){
+        if(((JobServiceListViewModel)Parent).getDisplayMode() == ApplicationConstants.DISPLAY_MODE_JOB_CREATION_SUMMARY){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
