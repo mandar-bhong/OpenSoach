@@ -27,7 +27,7 @@
     <string name="dialog_enter_comment">Comments</string>
     <string name="dailog_task_name">Task Name</string>
     <string name="dailog_task_comment">Comments</string>
-    <string name="dailog_task_name_cost">Task Cost</string>
+    <string name="dailog_task_name_cost">Tentative Cost</string>
 
 
     <string name="invalid_auth_code">Entered attendant code is invalid</string>
@@ -54,5 +54,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_job_service_list">JobServiceListActivity</string>
     <string name="title_activity_job_exe_details">JobExeDetailsActivity</string>
+
 
 </resources>
