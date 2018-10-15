@@ -14,21 +14,7 @@ public class JobServiceViewModel extends BaseViewModel {
     private JobServiceListViewModel jobServiceListViewModel;
     private JobServiceDetailsViewModel jobServiceDetailsViewModel;
     private JobServiceItemViewModel jobServiceItemViewModel;
-    private  int clickMode;
-
-
-    public JobServiceViewModel() {
-        clickMode = ApplicationConstants.CLIK_MODE_ITEM_EDITABLE;
-    }
-
-//    public int getClickMode() {
-//        return clickMode;
-//    }
-//
-//    public void setClickMode(int clickMode) {
-//        this.clickMode = clickMode;
-//    }
-
+  
 
 
     public TokenSelectionViewModel getTokenSelectionViewModel() {
