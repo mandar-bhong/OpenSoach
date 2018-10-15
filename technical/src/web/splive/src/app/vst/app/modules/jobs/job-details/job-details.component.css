@@ -28,7 +28,7 @@
     padding-bottom: 22px;
 }
 .p-t-20 {
-    padding-top: 13px;
+    padding-top: 19px;
 }
 .latest-update-card .card-block .latest-update-box .update-meta {
     z-index: 2;
@@ -41,7 +41,7 @@
 
 
 
-.latest-update-card .card-block .latest-update-box .update-meta .update-icon {
+.latest-update-card .card-block .latest-update-box .update-meta .update {
     width: 40px;
     height: 40px;
     border-radius: 50%;

@@ -39,7 +39,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
   demodata: JobDataListResponse[];
   selected: JobDataListResponse;
   amountform: FormGroup;
-  amount:  number;
+  amount: number;
   constructor(private jobService: JobService,
     private router: Router,
     private appNotificationService: AppNotificationService,
@@ -133,8 +133,13 @@ export class ListViewComponent implements OnInit, OnDestroy {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
-  viewDetails(id: number) {
-    this.router.navigate(['jobs', 'details'], { queryParams: { id: id, callbackurl: 'jobs' }, skipLocationChange: true });
+  // viewDetails(id: number, tokenid: number) {
+  //  this.router.navigate(['jobs', 'details'],
+  // { queryParams: { id: id, tokenid: tokenid, callbackurl: 'jobs' }, skipLocationChange: true });
+  // }
+  viewDetails(row: JobDataListResponse) {
+    this.router.navigate(['jobs', 'details'],
+    { queryParams: { id: row.vehicleid, tokenid: row.tokenid, token: row.token, callbackurl: 'jobs' }, skipLocationChange: true });
   }
 
   ngOnDestroy(): void {

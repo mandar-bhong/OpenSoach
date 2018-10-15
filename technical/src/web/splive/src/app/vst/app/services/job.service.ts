@@ -12,11 +12,14 @@ import { JobFiltrRequest, JobDataListResponse, JobDetailsDataListResponse,
 import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
 import { EnumNumberDatasource } from '../../../shared/utility/enum-number-datasource';
 import { SNAPSHOT_STATE } from '../app-constants';
+import { ReportRequestParams } from '../models/api/report-models';
+import { SaveFileService } from '../../../shared/services/save-file.service';
 
 
 @Injectable()
 export class JobService extends ListingService<JobFiltrRequest, JobDataListResponse> {
-    constructor(private serverApiInterfaceService: ServerApiInterfaceService) {
+    constructor(private serverApiInterfaceService: ServerApiInterfaceService,
+        private saveFileService: SaveFileService) {
         super();
     }
     getDataList(dataListRequest: DataListRequest<JobFiltrRequest>, implicitErrorHandling = true):
@@ -31,11 +34,6 @@ export class JobService extends ListingService<JobFiltrRequest, JobDataListRespo
     getJobState(state: number) {
         return 'SNAPSHOT_STATE_' + state;
     }
-    // getDataListDetails(implicitErrorHandling = true):
-    //     Observable<PayloadResponse<JobDetailsDataListResponse[]>> {
-    //     return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/patient/list',
-    //         implicitErrorHandling);
-    // }
     updateStatus(statusChangeRequest: StatusChangeRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<null>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/job/update/state',
@@ -43,7 +41,7 @@ export class JobService extends ListingService<JobFiltrRequest, JobDataListRespo
     }
     getJobsDetails(request: RecordIDRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<VehicleDetailsResponse>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/vehicle/info',
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/job/vehicleinfo',
             request, implicitErrorHandling);
     }
     getJobsDetailsList(request: RecordIDRequest, implicitErrorHandling = true):
@@ -51,9 +49,12 @@ export class JobService extends ListingService<JobFiltrRequest, JobDataListRespo
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/job/info',
             request, implicitErrorHandling);
     }
-    // getDataListDetails(implicitErrorHandling = true):
-    //     Observable<PayloadResponse<JobDetailslistResponse[]>> {
-    //     return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/patient/list',
-    //         implicitErrorHandling);
-    // }
+    generateReport(request: ReportRequestParams, implicitErrorHandling = true):
+        Observable<Blob> {
+        return this.serverApiInterfaceService.downloadFile(EnvironmentProvider.appbaseurl + '/api/v1/report/generate',
+            request, implicitErrorHandling);
+    }
+    saveReport(data: Blob, filename: string) {
+        this.saveFileService.saveFile(data, filename);
+    }
 }
