@@ -19,17 +19,14 @@ export class JobFilterModel {
 }
 
 export class JobDetailsModel {
-    time: string;
-    servicepersonnel: string;
-    acitivty: string;
-    notes: string;
-    price: string;
+
     vehicleid: number;
-    vehicleno: number;
+    vehicleno: string;
     details: VehicleFullDetails;
-    // details: {};
-    // ownerdetails: OwnerResponse;
-    // vehicleetails: VehicleResponse;
+    mobileno: string;
+    name: string;
+    kms: string;
+    petrol: string;
     status: number;
     fopcode: number;
     txndata: any;
@@ -39,8 +36,12 @@ export class JobDetailsModel {
 
     copyFromDetails(vehicleDetailsResponse: VehicleDetailsResponse) {
         this.vehicleno = vehicleDetailsResponse.vehicleno;
-        this.details = new VehicleFullDetails();
-        Object.assign(this.details, JSON.parse(vehicleDetailsResponse.details));
+        this.mobileno = vehicleDetailsResponse.mobileno;
+        this.kms = vehicleDetailsResponse.kms;
+        this.petrol = vehicleDetailsResponse.petrol;
+        this.name = vehicleDetailsResponse.name;
+        // this.details = new VehicleFullDetails();
+        // Object.assign(this.details, JSON.parse(vehicleDetailsResponse.details));
     }
     copyFormList(jobDetailslistResponse: JobDetailslistResponse[]) {
         this.transactions = [];

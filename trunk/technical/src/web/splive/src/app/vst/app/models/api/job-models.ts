@@ -48,9 +48,13 @@ export class StatusChangeRequest {
     amount: number;
 }
 export class VehicleDetailsResponse {
-    vehicleno: number;
-    vehicleid: number;
-    details: string;
+    vehicleno: string;
+    // vehicleid: number;
+    // details: string;
+    mobileno: string;
+    name: string;
+    kms: string;
+    petrol: string;
 }
 export class VehicleFullDetails {
     ownerdetails: OwnerResponse;
@@ -61,4 +65,15 @@ export class OwnerResponse {
     firstname: string;
     lastname: string;
     mobileno: number;
+}
+
+export class ReportRequestParams {
+    reportreq: ReportRequest[];
+    reportfileformat: string;
+}
+
+export class ReportRequest {
+    reportcode: string;
+    lang: string;
+    queryparams: any[];
 }

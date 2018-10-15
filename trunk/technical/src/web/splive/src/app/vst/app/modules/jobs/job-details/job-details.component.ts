@@ -5,11 +5,13 @@ import { Subscription } from 'rxjs';
 import { JobService } from '../../../services/job.service';
 import {
   JobDetailsDataListResponse, OwnerResponse, VehicleFullDetails,
-  JobTxndata, JobTrnVehicleResponse, JobDetailslistResponse
+  JobTxndata, JobTrnVehicleResponse, JobDetailslistResponse, ReportRequestParams, ReportRequest
 } from '../../../models/api/job-models';
 import { JobDetailsModel, JobTransaction } from '../../../models/ui/job-models';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+// import { ReportService } from '../../../services/report.service';
+// import { ReportRequest, ReportRequestParams } from '../../../models/api/report-models';
 
 @Component({
   selector: 'app-job-details',
@@ -35,6 +37,7 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
   inprogressarray = [];
   numbercompleted;
   numberdelivered;
+  token;
   displayedColumns = ['txndate', 'fopcode', 'taskname', 'comment', 'cost'];
   sortByColumns = [{ text: 'Time', value: 'txndate' },
   { text: 'Service Personnel', value: 'fopcode' },
@@ -61,10 +64,16 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.dataModel.vehicleid = Number(params['id']);
+        // this.getJobsDetails();
+      }
+      if (params['tokenid']) {
+        this.dataModel.tokenid = Number(params['tokenid']);
         this.getJobsDetails();
-        this.dataModel.tokenid = Number(params['id']);
         this.getJobsDetailslist();
         this.getDataList();
+      }
+      if (params['token']) {
+        this.token = Number(params['token']);
       }
       this.callbackUrl = params['callbackurl'];
     });
@@ -79,10 +88,11 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
     }
   }
   getJobsDetails() {
-    this.jobService.getJobsDetails({ recid: this.dataModel.vehicleid }).subscribe(payloadResponse => {
+    this.jobService.getJobsDetails({ recid: this.dataModel.tokenid }).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data != null) {
           this.dataModel.copyFromDetails(payloadResponse.data);
+          console.log('job vehicle details',  this.dataModel);
         }
       }
     });
@@ -157,6 +167,42 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
   //   // calculate total price col
   //   return this.dataSource.map(t => t.price).reduce((acc, value) => acc + value, 0);
   // }
+
+  download() {
+    this.jobService.generateReport(this.createReportRequest()).subscribe((payloadResponse: Blob) => {
+      console.log('payloadResponse', payloadResponse);
+      if (payloadResponse) {
+        this.jobService.saveReport(payloadResponse, 'Report.pdf');
+      }
+    });
+  }
+
+  createReportRequest(): ReportRequestParams {
+    const reportParams = new ReportRequestParams();
+    const requestSummary = new ReportRequest();
+    const requestList = new ReportRequest();
+    reportParams.reportfileformat = 'pdf';
+
+    requestSummary.queryparams = [];
+    requestSummary.lang = 'en';
+
+    requestList.queryparams = [];
+    requestList.lang = 'en';
+
+    if (this.dataModel.tokenid) {
+      requestSummary.queryparams.push(this.dataModel.tokenid);
+      requestSummary.reportcode = 'JOB_REPORT_SUMMARY';
+      requestList.queryparams.push(this.dataModel.tokenid);
+      requestList.reportcode = 'JOB_REPORT_LIST';
+    }
+
+    reportParams.reportreq = [];
+    reportParams.reportreq.push(requestSummary);
+    reportParams.reportreq.push(requestList);
+    console.log('request', reportParams);
+    return reportParams;
+  }
+
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();

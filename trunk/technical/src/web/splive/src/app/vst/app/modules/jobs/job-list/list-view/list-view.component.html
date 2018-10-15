@@ -99,7 +99,7 @@
               </button>
               <mat-menu #menu="matMenu">
                 <ng-template matMenuContent>
-                  <button mat-menu-item (click)="viewDetails(row.vehicleid || row.tokenid || row.token)">
+                      <button mat-menu-item (click)="viewDetails(row)">
                     <mat-icon color='primary'>remove_red_eye</mat-icon>
                     <span>Details</span>
                   </button>
