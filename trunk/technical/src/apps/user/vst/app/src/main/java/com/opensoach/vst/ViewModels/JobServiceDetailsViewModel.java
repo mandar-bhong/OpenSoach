@@ -3,6 +3,8 @@ package com.opensoach.vst.ViewModels;
 import android.databinding.Bindable;
 import com.opensoach.vst.BR;
 
+import com.opensoach.vst.BR;
+
 public class JobServiceDetailsViewModel extends BaseViewModel {
 
 
@@ -16,7 +18,6 @@ public class JobServiceDetailsViewModel extends BaseViewModel {
     private String mobileNo;
     private String kmRuns;
     private String petrolLevel;
-
 
 
     public TokenSelectionViewModel getTokenSelectionViewModel() {
@@ -61,20 +62,22 @@ public class JobServiceDetailsViewModel extends BaseViewModel {
     }
 
     @Bindable
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+        notifyPropertyChanged(BR.lastName);
+    }
+
+
     public String getMobileNo() {
         return mobileNo;
     }
 
+    @Bindable
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
         notifyPropertyChanged(BR.mobileNo);
     }
 
-    @Bindable
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-        notifyPropertyChanged(BR.lastName);
-    }
 
     public String getKmRuns() {
         return kmRuns;
@@ -83,6 +86,7 @@ public class JobServiceDetailsViewModel extends BaseViewModel {
     @Bindable
     public void setKmRuns(String kmRuns) {
         this.kmRuns = kmRuns;
+        notifyPropertyChanged(BR.kmRuns);
     }
 
     public String getPetrolLevel() {
@@ -92,6 +96,7 @@ public class JobServiceDetailsViewModel extends BaseViewModel {
     @Bindable
     public void setPetrolLevel(String petrolLevel) {
         this.petrolLevel = petrolLevel;
+        notifyPropertyChanged(BR.petrolLevel);
     }
 
 }
