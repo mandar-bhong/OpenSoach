@@ -115,6 +115,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textCapSentences|textFilter|textNoSuggestions"
                             android:layout_marginLeft="10dp"
+                            android:focusable="@{VM.editble == true}"
                             android:lines="1"
                             android:maxLines="1"
                             android:text="@={VM.taskName}">
@@ -140,6 +141,7 @@
                                     android:layout_height="80dp"
                                     android:inputType="text|textMultiLine"
                                     android:gravity="top"
+                                    android:focusable="@{VM.editble == true}"
                                     android:layout_marginLeft="10dp"
                                     android:maxLines="3"
                                     android:text="@={VM.comment}">
