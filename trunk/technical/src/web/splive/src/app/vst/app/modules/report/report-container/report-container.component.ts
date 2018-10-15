@@ -23,7 +23,6 @@ export class ReportContainerComponent implements OnInit {
   paginator: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort;
-  selectedoption = '0';
   constructor(private prodServicepointService: ProdServicepointService,
     private reportService: ReportService,
     private appNotificationService: AppNotificationService,
@@ -42,13 +41,13 @@ export class ReportContainerComponent implements OnInit {
       }
     });
   }
-  optionReportChange() {
-    if (this.selectedoption === '1') {
+  // optionReportChange() {
+  //   if (this.selectedoption === '1') {
 
-    } else {
+  //   } else {
 
-    }
-  }
+  //   }
+  // }
   optionChange() {
     switch (this.dataModel.selecteddateoption) {
       case '0':
@@ -114,7 +113,7 @@ export class ReportContainerComponent implements OnInit {
     } else {
       // requestSummary.reportcode = 'TASK_SUMMARY_ALL';
       // requestList.reportcode = 'TASK_LIST_ALL';
-      requestList.reportcode = 'CONSOLIDATED_REPORT';
+      requestList.reportcode = 'CONSOLIDATED_VH_REPORT';
     }
 
 

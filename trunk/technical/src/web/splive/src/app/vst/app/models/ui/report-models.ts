@@ -2,8 +2,8 @@ import { ServicepointListResponse } from '../../../../prod-shared/models/api/ser
 
 export class ReportContainerModel {
     selecteddateoption: string;
-    selectedsp:ServicepointListResponse;
+    selectedsp: ServicepointListResponse;
     splist: ServicepointListResponse[];
     startdate: Date;
-    enddate:Date;
+    enddate: Date;
 }
