@@ -33,14 +33,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/holo_blue_dark">
-
             </FrameLayout>
         </RelativeLayout>
 
-        <ScrollView
-            android:layout_below="@+id/headerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_below="@id/headerView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:fillViewport="true">
 
 
@@ -58,90 +57,7 @@
                     android:orientation="vertical">
 
 
-                    <android.support.v7.widget.CardView
-                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        card_view:cardCornerRadius="2dp"
-                        card_view:cardElevation="1dp"
-                        card_view:cardUseCompatPadding="true">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="37sp"
-                                android:background="@color/colorAccent"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:textAlignment="center">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Vehicle Details"
-                                    android:textSize="@dimen/card_header_font_size"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="Token Number"
-                                        android:textColor="@color/colorCardFieldLabel" />
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="@{VM.tokenItemViewModel.tokenNo}"
-                                        android:textColor="@color/colorCardFieldValue" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="Vehical Number"
-                                        android:textColor="@color/colorCardFieldLabel" />
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginLeft="10dp"
-                                        android:layout_marginBottom="5dp"
-                                        android:text="@{VM.tokenItemViewModel.vehicleNo}"
-                                        android:textColor="@color/colorCardFieldValue" />
-
-                                </LinearLayout>
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                         android:layout_width="match_parent"
@@ -183,18 +99,34 @@
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="First Name"
-                                        android:textColor="@color/colorCardFieldLabel" />
+                                        android:layout_marginTop="10dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="First Name"
+                                            android:layout_marginLeft="10dp"
+                                            android:textColor="@color/colorCardFieldLabel" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="4dp"
+                                            android:text="*"
+                                            android:textColor="@color/color_needs_attention" />
+
+                                    </LinearLayout>
 
                                     <EditText
+                                        android:id="@+id/firstName"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="10dp"
-                                        android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                                        android:inputType="textCapSentences|textFilter|textNoSuggestions|textPersonName"
                                         android:lines="1"
                                         android:maxLines="1"
                                         android:text="@={VM.firstName}">
@@ -210,23 +142,39 @@
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="Last Name"
-                                        android:textColor="@color/colorCardFieldLabel" />
+                                        android:layout_marginTop="10dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="Last Name"
+                                            android:textColor="@color/colorCardFieldLabel" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="4dp"
+                                            android:text="*"
+                                            android:textColor="@color/color_needs_attention" />
+
+                                    </LinearLayout>
 
                                     <EditText
+                                        android:id="@+id/lastName"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="10dp"
-                                        android:inputType="textCapSentences|textFilter|textNoSuggestions"
+                                        android:inputType="textCapSentences|textFilter|textNoSuggestions|textPersonName"
                                         android:lines="1"
                                         android:maxLines="1"
                                         android:text="@={VM.lastName}">
 
-                                        <requestFocus />
+
                                     </EditText>
 
                                 </LinearLayout>
@@ -237,14 +185,29 @@
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="Mobile Number"
-                                        android:textColor="@color/colorCardFieldLabel" />
+                                        android:layout_marginTop="10dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="Mobile Number"
+                                            android:textColor="@color/colorCardFieldLabel" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="4dp"
+                                            android:text="*"
+                                            android:textColor="@color/color_needs_attention" />
+
+                                    </LinearLayout>
 
                                     <EditText
+                                        android:id="@+id/mobileNo"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="10dp"
@@ -253,7 +216,7 @@
                                         android:maxLines="1"
                                         android:text="@={VM.mobileNo}">
 
-                                        <requestFocus />
+
                                     </EditText>
 
                                 </LinearLayout>
@@ -306,23 +269,37 @@
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="Km Runs"
-                                        android:textColor="@color/colorCardFieldLabel" />
+                                        android:layout_marginTop="10dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="Km Runs"
+                                            android:textColor="@color/colorCardFieldLabel" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="4dp"
+                                                android:text="*"
+                                                android:textColor="@color/color_needs_attention" />
+
+                                    </LinearLayout>
 
                                     <EditText
+                                        android:id="@+id/kmRuns"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="10dp"
-                                        android:inputType="numberDecimal"
+                                        android:inputType="number"
                                         android:lines="1"
                                         android:maxLines="1"
                                         android:text="@={VM.kmRuns}">
-
-                                        <requestFocus />
                                     </EditText>
 
                                 </LinearLayout>
@@ -333,26 +310,50 @@
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
 
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="10dp"
+                                            android:orientation="horizontal">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:text="Petrol Level"
+                                                    android:textColor="@color/colorCardFieldLabel" />
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginLeft="4dp"
+                                                    android:text="*"
+                                                    android:textColor="@color/color_needs_attention" />
+
+                                        </LinearLayout>
+
+                                    
+                                    <SeekBar
+                                    android:id="@+id/seekBar1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="20dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginTop="26dp"
+                                    android:max="100"  />
+
                                     <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:text="Petrol Level"
-                                        android:textColor="@color/colorCardFieldLabel" />
+                                    android:id="@+id/textView1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_below="@+id/seekBar1"
+                                    android:layout_marginLeft="29dp"
+                                    android:layout_marginTop="14dp"
+                                    android:layout_marginBottom="14dp"/>
 
-                                    <EditText
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="10dp"
-                                        android:inputType="numberDecimal"
-                                        android:lines="1"
-                                        android:maxLines="1"
-                                        android:text="@={VM.petrolLevel}">
 
-                                        <requestFocus />
-                                    </EditText>
-
-                                </LinearLayout>
+                                   </LinearLayout>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -371,6 +372,7 @@
                             android:layout_weight="1" />
 
                         <Button
+                            android:id="@+id/btn_next"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
