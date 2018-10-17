@@ -157,6 +157,7 @@ type DBSplNodeReportTemplateTableRowModel struct {
 	ReportHeader      string `db:"report_header" json:"reportheader"`
 	ReportQueryParams string `db:"report_query_params" json:"reportqueryparams"`
 	ReportQuery       string `db:"report_query" json:"reportquery"`
+	ReportFormat      string `db:"report_format" json:"reportformat"`
 }
 
 type DBSplVstTokenRowModel struct {
