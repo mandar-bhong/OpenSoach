@@ -15,6 +15,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_JOB_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_JOB_STATE_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_JOB_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_JOB_VEHICLE_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -74,6 +75,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = JobService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetJobDetailsByTokenID(recReq.RecId)
+
+		break
+
+	case constants.API_JOB_VEHICLE_INFO:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = JobService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetJobVhlInfoByTokenID(recReq.RecId)
 
 		break
 

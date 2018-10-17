@@ -140,3 +140,20 @@ func InsertJobDeliveredTxn(tx *sqlx.Tx, insrtStruct hktmodels.DBJobDeliveredTxnR
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func GetJobVhlInfoByTokenId(dbConn string, tokenid int64) (error, *[]hktmodels.DBJobVhlInfoModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetJobVhlInfoByVehicleId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBJobVhlInfoModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_JOB_VHL_INFO_BY_VHL_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(tokenid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

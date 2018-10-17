@@ -20,3 +20,11 @@ type DBJobDeliveredTxnDataModel struct {
 	Tokenid      int64 `db:"tokenid" json:"tokenid"`
 	BilledAmount int64 `db:"billedamount" json:"billedamount"`
 }
+
+type DBJobVhlInfoModel struct {
+	VehicleNo string `db:"vehicle_no" json:"vehicleno"`
+	MobileNo  string `db:"mobileno" json:"mobileno"`
+	Name      string `db:"name" json:"name"`
+	Kms       string `db:"kms" json:"kms"`
+	Petrol    string `db:"petrol" json:"petrol"`
+}
