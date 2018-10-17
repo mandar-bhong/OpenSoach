@@ -166,3 +166,26 @@ func (service JobService) GetJobDetailsByTokenID(tokenID int64) (bool, interface
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched job details")
 	return true, jobData
 }
+
+func (service JobService) GetJobVhlInfoByTokenID(tokenID int64) (bool, interface{}) {
+
+	dbErr, jobData := dbaccess.GetJobVhlInfoByTokenId(service.ExeCtx.SessionInfo.Product.NodeDbConn, tokenID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting job vehicle info by vehicle id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *jobData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched job vehicle info")
+	return true, dbRecord[0]
+}
