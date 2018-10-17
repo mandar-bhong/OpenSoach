@@ -274,8 +274,9 @@ CREATE TABLE `spl_node_report_template_tbl` (
 	`report_code` VARCHAR(100) NOT NULL,
 	`report_desc` VARCHAR(150) NOT NULL,
 	`report_header` JSON NOT NULL,
+	`report_format` JSON NOT NULL,
 	`report_query_params` VARCHAR(150) NOT NULL,
-	`report_query` VARCHAR(1000) NOT NULL,
+	`report_query` VARCHAR(3000) NOT NULL,
 	PRIMARY KEY (`id`)
 )   ENGINE=InnoDB COMMENT='Short Name for Table: report';
 
