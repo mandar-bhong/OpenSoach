@@ -20,6 +20,8 @@ type ReportService struct {
 
 func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequestModel) (bool, interface{}) {
 
+	var responseData []byte
+
 	issuccess, respData := service.ViewReport(req.APIViewReportRequestModel)
 	if issuccess == false {
 		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to generate report failed to get report data")
@@ -27,8 +29,6 @@ func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequest
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
-
-	exceldatalist := []gmodels.ExcelData{}
 
 	if len(respData.([]hktmodels.DBGetReportDataModel)) < 2 {
 		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to generate report insufficient report data")
@@ -38,9 +38,10 @@ func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequest
 	}
 
 	taskSummaryData := respData.([]hktmodels.DBGetReportDataModel)[0]
-
 	taskDetailsData := respData.([]hktmodels.DBGetReportDataModel)[1]
 
+	//excel report data model
+	exceldatalist := []gmodels.ExcelData{}
 	exceldata := gmodels.ExcelData{}
 	exceldata.SheetName = "Summary"
 	exceldata.IsVertical = false
@@ -55,15 +56,46 @@ func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequest
 	exceldata.Data = taskDetailsData.ReportData
 	exceldatalist = append(exceldatalist, exceldata)
 
-	err, data := ghelper.CreateExcel(exceldatalist)
-	if err != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", err)
-		return false, nil
+	//pdf report data model
+	pdfDataModel := gmodels.PdfDataModel{}
+	pdfDataModel.ReportName = taskDetailsData.ReportFormat.ReportName
+
+	pdfDataItem := gmodels.PdfDataItem{}
+	pdfDataItem.IsSummary = true
+	pdfDataItem.Headers = taskSummaryData.ReportHeader
+	pdfDataItem.Data = taskSummaryData.ReportData
+	pdfDataItem.ColsAlign = taskSummaryData.ReportFormat.ColumnsAlignment
+	pdfDataItem.ColsWidth = taskSummaryData.ReportFormat.ColumnsWidth
+	pdfDataModel.PdfData = append(pdfDataModel.PdfData, pdfDataItem)
+
+	pdfDataItem = gmodels.PdfDataItem{}
+	pdfDataItem.IsSummary = false
+	pdfDataItem.Headers = taskDetailsData.ReportHeader
+	pdfDataItem.Data = taskDetailsData.ReportData
+	pdfDataItem.ColsAlign = taskDetailsData.ReportFormat.ColumnsAlignment
+	pdfDataItem.ColsWidth = taskDetailsData.ReportFormat.ColumnsWidth
+	pdfDataModel.PdfData = append(pdfDataModel.PdfData, pdfDataItem)
+
+	switch req.ReportFileFormat {
+	case "pdf":
+		err, data := ghelper.CreatePdf(pdfDataModel)
+		if err != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while creating pdf report.", err)
+			return false, nil
+		}
+		responseData = data
+	default:
+		err, data := ghelper.CreateExcel(exceldatalist)
+		if err != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while creating excel report.", err)
+			return false, nil
+		}
+		responseData = data
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Report Excel File")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully created report")
 
-	return true, data
+	return true, responseData
 
 }
 
@@ -111,8 +143,18 @@ func (service ReportService) ViewReport(reqList lmodels.APIViewReportRequestMode
 			return false, nil
 		}
 
+		formatModel := hktmodels.ReportFormatModel{}
+
+		isJsonConvertSuccess = ghelper.ConvertFromJSONString(reportDataRecord[0].ReportFormat, &formatModel)
+
+		if isJsonConvertSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to convert from json string")
+			return false, nil
+		}
+
 		reportDataModel := hktmodels.DBGetReportDataModel{}
 		reportDataModel.ReportCode = reportDataRecord[0].ReportCode
+		reportDataModel.ReportFormat = formatModel
 
 		if req.Language == "en" {
 			reportDataModel.ReportHeader = headerModel.En
@@ -155,6 +197,8 @@ func (service ReportService) ReportShortList() (bool, interface{}) {
 
 func (service ReportService) GenerateConsolidatedReport(req lmodels.APIGenerateReportRequestModel) (bool, interface{}) {
 
+	var responseData []byte
+
 	issuccess, respData := service.ViewReport(req.APIViewReportRequestModel)
 	if issuccess == false {
 		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Failed to generate report failed to get report data")
@@ -163,10 +207,10 @@ func (service ReportService) GenerateConsolidatedReport(req lmodels.APIGenerateR
 		return false, errModel
 	}
 
-	exceldatalist := []gmodels.ExcelData{}
-
 	taskDetailsData := respData.([]hktmodels.DBGetReportDataModel)[0]
 
+	//excel report data model
+	exceldatalist := []gmodels.ExcelData{}
 	exceldata := gmodels.ExcelData{}
 
 	exceldata = gmodels.ExcelData{}
@@ -178,14 +222,39 @@ func (service ReportService) GenerateConsolidatedReport(req lmodels.APIGenerateR
 	exceldata.EndDate = req.ReportRequest[0].QueryParams[1].(string)
 	exceldatalist = append(exceldatalist, exceldata)
 
-	err, data := ghelper.CreatePdf(exceldatalist)
-	if err != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", err)
-		return false, nil
+	//pdf report data model
+	pdfDataModel := gmodels.PdfDataModel{}
+	pdfDataModel.StartDate = req.ReportRequest[0].QueryParams[0].(string)
+	pdfDataModel.EndDate = req.ReportRequest[0].QueryParams[1].(string)
+	pdfDataModel.ReportName = taskDetailsData.ReportFormat.ReportName
+
+	pdfDataItem := gmodels.PdfDataItem{}
+	pdfDataItem.IsSummary = false
+	pdfDataItem.Headers = taskDetailsData.ReportHeader
+	pdfDataItem.Data = taskDetailsData.ReportData
+	pdfDataItem.ColsAlign = taskDetailsData.ReportFormat.ColumnsAlignment
+	pdfDataItem.ColsWidth = taskDetailsData.ReportFormat.ColumnsWidth
+	pdfDataModel.PdfData = append(pdfDataModel.PdfData, pdfDataItem)
+
+	switch req.ReportFileFormat {
+	case "pdf":
+		err, data := ghelper.CreatePdf(pdfDataModel)
+		if err != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while creating pdf report.", err)
+			return false, nil
+		}
+		responseData = data
+	default:
+		err, data := ghelper.CreateExcel(exceldatalist)
+		if err != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while creating excel report.", err)
+			return false, nil
+		}
+		responseData = data
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Consolidated Report Excel File")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully created consolidated report")
 
-	return true, data
+	return true, responseData
 
 }

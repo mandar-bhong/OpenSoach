@@ -35,3 +35,18 @@ type ExcelData struct {
 	StartDate  string
 	EndDate    string
 }
+
+type PdfDataItem struct {
+	IsSummary bool
+	Headers   []string
+	Data      [][]string
+	ColsWidth []float64
+	ColsAlign []string
+}
+
+type PdfDataModel struct {
+	ReportName string
+	StartDate  string
+	EndDate    string
+	PdfData    []PdfDataItem
+}

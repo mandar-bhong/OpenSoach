@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	hktmodels "opensoach.com/vst/models"
 )
 
@@ -12,6 +10,5 @@ type APIViewReportRequestModel struct {
 
 type APIGenerateReportRequestModel struct {
 	APIViewReportRequestModel
-	StartDate time.Time `json:"startdate"`
-	EndDate   time.Time `json:"enddate"`
+	ReportFileFormat string
 }

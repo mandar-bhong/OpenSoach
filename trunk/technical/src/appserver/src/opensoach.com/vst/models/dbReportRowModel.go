@@ -1,9 +1,10 @@
 package models
 
 type DBGetReportDataModel struct {
-	ReportCode   string     `db:"report_code" json:"reportcode"`
-	ReportHeader []string   `db:"report_header" json:"reportheader"`
-	ReportData   [][]string `json:"reportdata"`
+	ReportCode   string            `db:"report_code" json:"reportcode"`
+	ReportHeader []string          `db:"report_header" json:"reportheader"`
+	ReportData   [][]string        `json:"reportdata"`
+	ReportFormat ReportFormatModel `json:"reportformat"`
 }
 
 type DBReportRequestDataModel struct {
@@ -21,4 +22,10 @@ type DBReportTemplateShortDataModel struct {
 type ReportHeaderModel struct {
 	En []string `json:"en"`
 	Hi []string `json:"hi"`
+}
+
+type ReportFormatModel struct {
+	ReportName       string    `json:"reportname"`
+	ColumnsWidth     []float64 `json:"columnswidth"`
+	ColumnsAlignment []string  `json:"columnsalignment"`
 }
