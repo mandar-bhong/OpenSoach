@@ -108,9 +108,9 @@ const QUERY_GET_AVG_TIME_SUMMARY_PER_MONTH = `select
 year(generated_on) as year,
 month(generated_on) as month,
 avg(t1.waittime) as waittime,
-avg(t1.waittime) as jobcreationtime,
-avg(t1.waittime) as jobexetime,
-avg(t1.waittime) as deliverytime
+avg(t1.jobcreationtime) as jobcreationtime,
+avg(t1.jobexetime) as jobexetime,
+avg(t1.deliverytime) as deliverytime
 from
 (
 select
@@ -137,9 +137,9 @@ group by month,year`
 const QUERY_GET_AVG_TIME_SUMMARY_PER_WEEK = `select
 date(generated_on) as servicedate,
 avg(t1.waittime) as waittime,
-avg(t1.waittime) as jobcreationtime,
-avg(t1.waittime) as jobexetime,
-avg(t1.waittime) as deliverytime
+avg(t1.jobcreationtime) as jobcreationtime,
+avg(t1.jobexetime) as jobexetime,
+avg(t1.deliverytime) as deliverytime
 from
 (
 select
@@ -159,6 +159,6 @@ from spl_node_service_in_txn_tbl as g,spl_node_service_in_txn_tbl as h
 where g.status = 5 and h.status = 6 and g.txn_data->'$.tokenid'= token.id and h.txn_data->'$.tokenid'= token.id) as deliverytime
 from spl_vst_token token
 inner join spl_node_service_in_txn_tbl serv_in_txn on token.id = serv_in_txn.txn_data->'$.tokenid'
-group by tokenid) as t1
 $WhereCondition$
+group by tokenid) as t1
 group by servicedate`
