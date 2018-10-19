@@ -38,7 +38,7 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Add
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.Port','6379');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.DB','0');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.Password','');
-INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Web.Service.Address',':81');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Web.Service.Address',':80');
 
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('HKT.Master.DB.Connection','root:welcome@tcp(localhost:3306)/spl_hkt_master?parseTime=true');
 
