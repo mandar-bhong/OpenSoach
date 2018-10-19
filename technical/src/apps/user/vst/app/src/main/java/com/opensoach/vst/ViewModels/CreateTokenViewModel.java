@@ -37,27 +37,31 @@ public class CreateTokenViewModel extends BaseViewModel  {
     }
 
     public String getVehicleNumber() {
-        return "MH 12 " + vehicleNo3 + " " + vehicleNo4;
+        return vehicleNo1+ " " + vehicleNo2 + " " + vehicleNo3 + " " + vehicleNo4;
     }
 
-//    public String getVehicleNo1() {
-//        return vehicleNo1;
-//    }
-//
-//    @Bindable
-//    public void setVehicleNo1(String vehicleNo1) {
-//        this.vehicleNo1 = vehicleNo1;
-//    }
-//
-//
-//    public String getVehicleNo2() {
-//        return vehicleNo2;
-//    }
-//
-//    @Bindable
-//    public void setVehicleNo2(String vehicleNo2) {
-//        this.vehicleNo2 = vehicleNo2;
-//    }
+    public String getVehicleNo1() {
+        if(vehicleNo1 == null)
+            setVehicleNo1("MH");
+        return vehicleNo1;
+    }
+
+    @Bindable
+    public void setVehicleNo1(String vehicleNo1) {
+        this.vehicleNo1 = vehicleNo1;
+    }
+
+
+    public String getVehicleNo2() {
+        if(vehicleNo2 == null)
+            setVehicleNo2("12");
+        return vehicleNo2;
+    }
+
+    @Bindable
+    public void setVehicleNo2(String vehicleNo2) {
+        this.vehicleNo2 = vehicleNo2;
+    }
 
 
     public String getVehicleNo3() {
