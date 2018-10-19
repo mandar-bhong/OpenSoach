@@ -12,10 +12,20 @@ public class JobServiceItemViewModel extends BaseViewModel {
     private String cost;
     private Boolean isTaskCompleted;
     private String note;
+    private Boolean isCheckCompleted;
 
+    public Boolean getCheckCompleted() {
+       return isCheckCompleted;
+
+    }
+
+    public void setCheckCompleted(Boolean checkCompleted) {
+       isCheckCompleted = checkCompleted;
+    }
 
     public JobServiceItemViewModel(){
         isTaskCompleted = false;
+        isCheckCompleted = false;
     }
 
     public Boolean getTaskCompleted() {
@@ -23,7 +33,7 @@ public class JobServiceItemViewModel extends BaseViewModel {
     }
 
     public void setTaskCompleted(Boolean taskCompleted) {
-        isTaskCompleted = taskCompleted;
+       isTaskCompleted = taskCompleted;
     }
 
     public String getTaskName() {
@@ -104,6 +114,15 @@ public class JobServiceItemViewModel extends BaseViewModel {
     }
 
     @Bindable
+    public boolean getTaskNoteVisibility(){
+        if (AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Bindable
     public boolean getEditble(){
         if(AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution) {
             return false;
@@ -121,4 +140,7 @@ public class JobServiceItemViewModel extends BaseViewModel {
             return false;
         }
     }
+
+
+
 }
