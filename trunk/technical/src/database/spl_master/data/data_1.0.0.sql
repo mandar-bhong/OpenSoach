@@ -38,7 +38,7 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Add
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.Port','6379');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.DB','0');
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Cache.Address.Password','');
-INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Web.Service.Address',':80');
+INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('Web.Service.Address',':81');
 
 INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('HKT.Master.DB.Connection','root:welcome@tcp(localhost:3306)/spl_hkt_master?parseTime=true');
 
@@ -70,7 +70,7 @@ INSERT INTO `spl_master_config` (`config_key`,`config_value`) VALUES ('VST.Maste
 --
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (1,'admin@servicepoint.live','admin',1,1,1,UTC_TIMESTAMP);
 
-INSERT INTO `spl_master_server_register` (`id`, `server_type_code`, `server_address`, `prod_id_fk`, `server_state`, `server_state_since`) VALUES (1, 'SPL', 'ws://172.105.232.148:8080/ws', 1, 1, '2018-05-05 20:08:55'),
+INSERT INTO `spl_master_server_register` (`id`, `server_type_code`, `server_address`, `prod_id_fk`, `server_state`, `server_state_since`) VALUES (1, 'SPL', 'ws://172.105.232.148:8081/ws', 1, 1, '2018-05-05 20:08:55'),
 (2, 'SPL', 'ws://172.105.232.148:8090/ws', 2, 1, '2018-05-05 20:08:55'),
 (3, 'SPL', 'ws://172.105.232.148:8091/ws', 3, 1, '2018-05-05 20:08:55');
 
