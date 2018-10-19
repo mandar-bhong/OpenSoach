@@ -68,45 +68,45 @@ public class CreateTokenActivity extends AppCompatActivity
 
 
     private void AttachedViewEvent(){
-//        VhlNo1 = (EditText)findViewById(R.id.vehicalNo1);
-//        VhlNo2 = (EditText)findViewById(R.id.vehicalNo2);
+        VhlNo1 = (EditText)findViewById(R.id.vehicalNo1);
+        VhlNo2 = (EditText)findViewById(R.id.vehicalNo2);
         VhlNo3 = (EditText)findViewById(R.id.vehicalNo3);
         VhlNo4 = (EditText)findViewById(R.id.vehicalNo4);
 
-//        VhlNo1.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        VhlNo1.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         VhlNo3.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
-//
-//        VhlNo1.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start,int count, int after) {}
-//            @Override
-//            public void onTextChanged(CharSequence s, int start,int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if(VhlNo1.getText().length() == 2){
-//                    VhlNo2.requestFocus();
-//                }
-//            }
-//        });
 
-//        VhlNo2.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start,int count, int after) {}
-//            @Override
-//            public void onTextChanged(CharSequence s, int start,int before, int count) {}
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if(VhlNo2.getText().length() == 2){
-//                    VhlNo3.requestFocus();
-//                }
-//            }
-//        });
+        VhlNo1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start,int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(VhlNo1.getText().length() == 2){
+                    VhlNo2.requestFocus();
+                }
+            }
+        });
+
+        VhlNo2.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start,int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(VhlNo2.getText().length() == 2){
+                    VhlNo3.requestFocus();
+                }
+            }
+        });
 
         VhlNo3.addTextChangedListener(new TextWatcher() {
             @Override
