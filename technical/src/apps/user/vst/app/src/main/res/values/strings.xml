@@ -28,6 +28,7 @@
     <string name="dailog_task_name">Task Name</string>
     <string name="dailog_task_comment">Comments</string>
     <string name="dailog_task_name_cost">Tentative Cost</string>
+    <string name="dailog_task_note">Note</string>
 
 
     <string name="invalid_auth_code">Entered attendant code is invalid</string>
