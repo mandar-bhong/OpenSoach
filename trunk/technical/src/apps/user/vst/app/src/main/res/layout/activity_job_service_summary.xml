@@ -289,6 +289,8 @@
                             android:layout_marginTop="10dp"
                             android:orientation="vertical">
 
+
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -296,13 +298,29 @@
                                 android:textColor="@color/colorCardFieldLabel"
                                 android:layout_marginLeft="10dp"/>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/colorCardFieldValue"
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginBottom="10dp"
-                                android:text="@{VM.jobServiceDetailsViewModel.petrolLevel}" />
+                                android:text="@{VM.jobServiceDetailsViewModel.petrolLevel}"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="4dp"
+                                    android:text="%" />
+
+
+                            </LinearLayout>
+
 
                         </LinearLayout>
 
