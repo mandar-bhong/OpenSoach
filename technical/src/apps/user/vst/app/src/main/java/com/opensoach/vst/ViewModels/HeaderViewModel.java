@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import com.opensoach.vst.AppRepo.AppRepo;
 import com.opensoach.vst.BR;
+import com.opensoach.vst.Constants.ApplicationConstants;
 import com.opensoach.vst.Constants.Constants;
 import com.opensoach.vst.R;
 
@@ -83,6 +84,16 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
         this.tokenItemViewModel = tokenItemViewModel;
     }
 
+
+    @Bindable
+    public boolean getShowVehicleTokenIcon(){
+        if(AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobCreation || AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     @Bindable
     public Drawable getNwState() {
         switch (networkState) {
@@ -136,6 +147,7 @@ public class HeaderViewModel extends BaseViewModel implements PropertyChangeList
         this.uploadVisiable = uploadVisiable;
         notifyPropertyChanged(BR.uploadVisiable);
     }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
