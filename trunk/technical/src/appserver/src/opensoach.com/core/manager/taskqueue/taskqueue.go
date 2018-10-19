@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/RichardKnop/machinery/v1/backends/result"
+
 	"github.com/RichardKnop/machinery/v1"
-	"github.com/RichardKnop/machinery/v1/backends"
 	machineryconfig "github.com/RichardKnop/machinery/v1/config"
 	"github.com/RichardKnop/machinery/v1/tasks"
 
@@ -62,7 +63,7 @@ func (ctx *TaskContext) StartWorker(consumerTag string) error {
 	return worker.Launch()
 }
 
-func (ctx *TaskContext) processAsync(taskname string, jsonData string) (error, *backends.AsyncResult) {
+func (ctx *TaskContext) processAsync(taskname string, jsonData string) (error, *result.AsyncResult) {
 
 	command := tasks.Signature{
 		Name: taskname,
