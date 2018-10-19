@@ -16,6 +16,7 @@ import com.opensoach.vst.ViewModels.JobServiceListViewModel;
 import com.opensoach.vst.ViewModels.JobServiceViewModel;
 import com.opensoach.vst.ViewModels.MainViewModel;
 import com.opensoach.vst.ViewModels.TokenItemViewModel;
+import com.opensoach.vst.Views.Activity.JobServiceDetailsActivity;
 import com.opensoach.vst.Views.Activity.JobServiceSummaryActivity;
 import com.opensoach.vst.Views.Activity.JobServiceTaskCreationActivity;
 import com.opensoach.vst.Views.Activity.JobServiceTaskListActivity;
@@ -23,6 +24,10 @@ import com.opensoach.vst.Views.Activity.JobServiceTaskListActivity;
 public class JobServiceCreationHandler {
 
     public void onShowJobTaskList(View view, JobServiceDetailsViewModel vm) {
+
+//        if(!((JobServiceDetailsActivity)view.getContext()).Validate()) {
+//            return;
+//        }
 
         Intent i = new Intent(MainViewModel.getInstance().ContextActivity, JobServiceTaskListActivity.class);
         MainViewModel.getInstance().ContextActivity.startActivity(i);
@@ -39,7 +44,7 @@ public class JobServiceCreationHandler {
         if(AppRepo.getInstance().getJobServiceViewModel().getJobServiceItemViewModel() == vm){
             ((Activity) view.getContext()).finish();
             return;
-        }
+       }
 
 
         AppRepo.getInstance().getJobServiceViewModel().getJobServiceListViewModel().getJobServiceDataAdapter().addItem(vm);
@@ -49,11 +54,13 @@ public class JobServiceCreationHandler {
 
     public void onTaskMarkCompleted(View view, JobServiceItemViewModel vm) {
 
+
         if ( vm.getTaskCompleted() ) {
             ((Activity) view.getContext()).finish();
             return;
         }
 
+        vm.setCheckCompleted(true);
         vm.setTaskCompleted(true);
 
         SendPacketManager.Instance().send(AppAction.UPDATE_JOB_TASK_COMPLETED,vm);
