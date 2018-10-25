@@ -2,6 +2,9 @@ package com.opensoach.vst.ViewModels;
 
 import android.databinding.Bindable;
 
+import com.opensoach.vst.AppRepo.AppRepo;
+import com.opensoach.vst.Constants.ApplicationConstants;
+
 public class TokenSelectionViewModel extends BaseViewModel{
 
     private boolean isJobCreate;
@@ -30,5 +33,14 @@ public class TokenSelectionViewModel extends BaseViewModel{
 
     public void setTokenListViewModel(TokenListViewModel tokenListViewModel) {
         this.tokenListViewModel = tokenListViewModel;
+    }
+
+    @Bindable
+    public boolean getCreateTokenBtn(){
+        if( (!(AppRepo.getInstance().getCurrentRunningMode() == ApplicationConstants.AppRunningMode.JobExecution))) {
+            return true;
+        }else {
+            return false;
+        }
     }
 }
