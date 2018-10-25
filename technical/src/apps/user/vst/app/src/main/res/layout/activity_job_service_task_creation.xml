@@ -118,6 +118,7 @@
                             android:focusable="@{VM.editble == true}"
                             android:lines="1"
                             android:maxLines="1"
+                            android:textColor="#446666"
                             android:text="@={VM.taskName}">
                             <requestFocus />
                         </EditText>
@@ -144,6 +145,7 @@
                                     android:focusable="@{VM.editble == true}"
                                     android:layout_marginLeft="10dp"
                                     android:maxLines="3"
+                                    android:textColor="#446666"
                                     android:text="@={VM.comment}">
                                 </EditText>
 
@@ -171,6 +173,7 @@
                                     android:lines="1"
                                     android:layout_marginLeft="10dp"
                                     android:text="@={VM.cost}"
+                                    android:textColor="#446666"
                                     android:maxLines="1">
                                 </EditText>
 
@@ -196,6 +199,7 @@
                                 android:lines="1"
                                 android:layout_marginLeft="10dp"
                                 android:text="@={VM.note}"
+                                android:textColor="#446666"
                                 android:maxLines="2">
                             </EditText>
 
