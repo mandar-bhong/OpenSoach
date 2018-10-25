@@ -56,7 +56,7 @@
                         android:textColor="@color/colorAccent"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="12dp"
-                        android:checked="@{VM.checkCompleted == true}"
+                        android:checked="@{VM.checkCompleted }"
                         android:clickable="false"
                         android:id="@+id/chk"/>
 
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginRight="45dp"
                     android:gravity="right|center"
                     android:text="@{VM.cost}"
                     android:textColor="@color/colorPrimary" />
