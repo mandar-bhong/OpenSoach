@@ -129,6 +129,7 @@
                                         android:inputType="textCapSentences|textFilter|textNoSuggestions|textPersonName"
                                         android:lines="1"
                                         android:maxLines="1"
+                                        android:textColor="#446666"
                                         android:text="@={VM.firstName}">
 
                                         <requestFocus />
@@ -172,6 +173,7 @@
                                         android:inputType="textCapSentences|textFilter|textNoSuggestions|textPersonName"
                                         android:lines="1"
                                         android:maxLines="1"
+                                        android:textColor="#446666"
                                         android:text="@={VM.lastName}">
 
 
@@ -216,6 +218,7 @@
                                         android:maxLength="10"
                                         android:lines="1"
                                         android:maxLines="1"
+                                        android:textColor="#446666"
                                         android:text="@={VM.mobileNo}">
 
 
@@ -301,6 +304,7 @@
                                         android:inputType="number"
                                         android:lines="1"
                                         android:maxLines="1"
+                                        android:textColor="#446666"
                                         android:text="@={VM.kmRuns}">
                                     </EditText>
 
