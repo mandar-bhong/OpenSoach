@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gin-contrib/pprof"
+	"github.com/gin-contrib/pprof"	
 	"github.com/gin-gonic/gin"
 	"github.com/itsjamie/gin-cors"
 	"opensoach.com/hpft/api/constants"
@@ -30,7 +30,7 @@ import (
 func Init(configSetting *gmodels.ConfigSettings) error {
 
 	ginEngine := gin.Default()
-	pprof.Register(ginEngine, &pprof.Options{RoutePrefix: "debug/pprof"})
+	pprof.Register(ginEngine, "debug/pprof")
 
 	enableCrossDomain(ginEngine)
 
