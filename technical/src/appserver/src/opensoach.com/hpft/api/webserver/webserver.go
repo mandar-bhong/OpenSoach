@@ -30,7 +30,7 @@ import (
 func Init(configSetting *gmodels.ConfigSettings) error {
 
 	ginEngine := gin.Default()
-	pprof.Register(ginEngine)
+	pprof.Register(ginEngine, &pprof.Options{RoutePrefix: "debug/pprof"})
 
 	enableCrossDomain(ginEngine)
 
