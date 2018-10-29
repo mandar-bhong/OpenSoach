@@ -1,0 +1,60 @@
+{
+  "$jason": {
+    "head": {
+      "title": "view window",
+      "styles": {
+        "imgstyle": {
+          "width": "100",
+          "height": "40"
+        }
+      },
+      "data": {
+        "headdata": {
+          "textt1": "text1"
+        }
+      },
+	  	"actions": {
+        "$load": {
+          "type": "$network.request",
+          "options": {
+            "url": "http://172.105.232.148:92/api/v1/job/vehicleinfo",
+			"method": "GET",
+			"data": {
+				"params": {
+					"recid": "{{$params.tokenid}}"
+                  }
+			}
+          },
+          "success": {
+            "type": "$render"
+          }
+		}
+		},
+      "templates": {
+        "body": {
+          "header": {
+            "title": "Details"
+          },
+          "sections": [
+            {
+              "items": [
+                {
+                  "type": "label",
+                  "text": "{{$jason.data.name}}"
+                },
+				{
+                  "type": "label",
+                  "text": "ssaasad"
+                },
+				{
+					"type": "label",
+					"text":"{{(function(){var d = 1; return d;})()}}"
+				}
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$jason": {
+    "head": {
+      "title": "Camera",
+      "description": "Tap to open up camera",
+      "actions": {
+        "$load": {
+          "type": "$media.camera",
+          "options": {
+            "edit": "true",
+            "type": "photo"
+          },
+          "success": {
+            "type": "$render"
+          }
+        }
+      },
+      "templates": {
+        "body": {
+          "background": "{{$jason.data_url}}"
+        }
+      }
+    }
+  }
+}

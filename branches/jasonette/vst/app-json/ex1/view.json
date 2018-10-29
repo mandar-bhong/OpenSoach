@@ -1,0 +1,35 @@
+{
+  "$jason": {
+    "head": {
+      "title": "view window",
+      "styles": {
+        "imgstyle": {
+          "width": "100",
+          "height": "40"
+        }
+      },
+      "data": {
+        "headdata": {
+          "textt1": "text1"
+        }
+      },
+      "templates": {
+        "body": {
+          "header": {
+            "title": "Details"
+          },
+          "sections": [
+            {
+              "items": [
+                {
+                  "type": "label",
+                  "text": "{{$params.detailsdata}}"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

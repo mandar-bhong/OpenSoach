@@ -1,0 +1,165 @@
+{
+  "$jason": {
+    "head": {
+      "title": "Main",
+      "styles": {
+        "imgstyle": {
+          "width": "100",
+          "height": "40"
+        }
+      },
+      "data": {
+        "headdata": {
+          "textt1": "text1",
+          "textt2": "text2",
+          "textt3": "text3"
+        },
+        "listdata": [
+          {
+            "text": "text1",
+            "date": "date1"
+          },
+          {
+            "text": "text2",
+            "date": "date2"
+          },
+          {
+            "text": "text3",
+            "date": "date3"
+          },
+          {
+            "text": "text4",
+            "date": "date4"
+          }
+        ]
+      },
+	  "actions": {
+        "$load": {
+          "type": "$network.request",
+          "options": {
+            "url": "http://172.105.232.148:92/api/v1/job/list",
+			"method": "GET",
+			"data": {
+				"params": {
+                    "page": 1,
+                    "limit": 20,
+                    "orderby": "vehicleno",
+					"orderdirection": "asc"
+                  }
+			}
+          },
+          "success": {
+            "type": "$render"
+          }
+		}
+		},
+      "templates": {
+        "body": {
+          "sections": [
+            {
+              "type": "horizontal",
+              "header": {
+                "type": "horizontal",
+                "components": [
+                  {
+                    "type": "image",
+                    "class": "imgstyle",
+                    "url": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+                  },
+                  {
+                    "type": "label",
+                    "text": "{{$params.usrname}}",
+                    "style": {
+                      "align": "center",
+                      "size": "20"
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "class": "imgstyle",
+                    "url": "https://png.icons8.com/metro/100/333333/camera.png",
+                    "href": {
+                      "url": "http://172.105.232.148:81/camera.json"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "vertical",
+              "header": {
+                "type": "horizontal",
+                "components": [
+                  {
+                    "type": "label",
+                    "text": "Vehicle No",
+					"style":{
+						"width":"30%",
+						"align":"center"
+					}
+                  },
+                  {
+                    "type": "label",
+                    "text": "In Time",
+					"style":{
+						"width":"50%",
+						"align":"center"
+					}
+                  },
+                  {
+                    "type": "label",
+                    "text": "Details",
+					"style":{
+						"width":"20%",
+						"align":"center"
+					}
+                  }
+                ]
+              },
+              "items": {
+                "{{#each $jason.data.records}}": {
+                  "type": "horizontal",
+                  "components": [
+                    {
+                      "type": "label",
+                      "text": "{{vehicleno}}",
+					  "style":{
+						"width":"30%",
+						"align":"center"
+					}
+                    },
+                    {
+                      "type": "label",
+                      "text": "{{intime}}",
+					  "style":{
+						"width":"50%",
+						"align":"center"
+					}
+                    },
+                    {
+                      "type": "label",
+                      "text": "view",
+                      "action": {
+                        "type": "$href",
+                        "options": {
+                          "url": "http://172.105.232.148:81/view.json",
+                          "options": {
+                            "tokenid": "{{tokenid}}"
+                          }
+                        }
+                      },
+					  "style":{
+						"width":"20%",
+						"align":"center"
+					}
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
