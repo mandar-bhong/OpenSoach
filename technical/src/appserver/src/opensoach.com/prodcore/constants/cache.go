@@ -1,3 +1,0 @@
-package constants
-
-const CACHE_DEVICE_TOKEN_MAPPING_KEY_PREFIX = "DEVICE_VS_TOKEN_DEV_"

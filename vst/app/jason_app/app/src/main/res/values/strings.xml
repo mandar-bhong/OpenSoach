@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Vst</string>
+    <string name="url">http://172.105.232.148:81/login.json</string>
+    <string name="launch">file://preload.json</string>
+</resources>

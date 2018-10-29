@@ -1,0 +1,214 @@
+{
+  "$jason": {
+    "head": {
+      "title": "Main",
+      "styles": {
+        "imgstyle": {
+          "width": "100",
+          "height": "40"
+        }
+      },
+      "data": {
+        "headdata": {
+          "textt1": "text1",
+          "textt2": "text2",
+          "textt3": "text3"
+        },
+        "listdata": [
+          {
+            "text": "text1",
+            "date": "date1"
+          },
+          {
+            "text": "text2",
+            "date": "date2"
+          },
+          {
+            "text": "text3",
+            "date": "date3"
+          },
+          {
+            "text": "text4",
+            "date": "date4"
+          }
+        ]
+      },
+	  "actions": {
+		"$pull": {
+			"type": "$reload"
+		},
+        "$load": {
+          "type": "$network.request",
+          "options": {
+            "url": "http://172.105.232.148:92/api/v1/job/list",
+			"method": "GET",
+			"data": {
+				"params": {
+                    "page": 1,
+                    "limit": 20,
+                    "orderby": "vehicleno",
+					"orderdirection": "asc"
+                  }
+			}
+          },
+          "success": {
+            "type": "$render"
+          }
+		}
+		},
+      "templates": {
+        "body": {
+			"header":{
+				"title" : "{{$params.usrname}}",
+				
+				"menu":{
+					"image": "https://png.icons8.com/metro/100/333333/camera.png",
+					"class": "imgstyle",
+					"href": {
+                      "url": "http://172.105.232.148:81/camera.json"
+                    }
+				}
+			},
+          "sections": [
+            {
+              "type": "horizontal",
+              "header": {
+                "type": "horizontal",
+                "components": [
+                  {
+                    "type": "image",
+                    "class": "imgstyle",
+                    "url": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+                  },
+                  {
+                    "type": "label",
+                    "text": "{{$params.usrname}}",
+                    "style": {
+                      "align": "center",
+                      "size": "20"
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "class": "imgstyle",
+                    "url": "https://png.icons8.com/metro/100/333333/camera.png",
+                    "href": {
+                      "url": "http://172.105.232.148:81/camera.json"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "vertical",
+              "header": {
+                "type": "horizontal",
+                "components": [					
+				  {
+                    "type": "label",
+                    "text": "Token",
+					"style":{
+						"width":"10%",
+						"align":"center"
+					}
+                  },				
+                  {
+                    "type": "label",
+                    "text": "Vehicle No",
+					"style":{
+						"width":"25%",
+						"align":"center"
+					}
+                  },
+                  {
+                    "type": "label",
+                    "text": "In Time",
+					"style":{
+						"width":"30%",
+						"align":"center"
+					}
+                  },
+				  {
+                    "type": "label",
+                    "text": "State",
+					"style":{
+						"width":"15%",
+						"align":"center"
+					}
+                  },
+                  {
+                    "type": "label",
+                    "text": "Details",
+					"style":{
+						"width":"15%",
+						"align":"center"
+					}
+                  }
+                ]
+              },
+              "items": {
+                "{{#each $jason.data.records}}": {
+                  "type": "horizontal",
+                  "components": [
+				    {
+                      "type": "label",
+                      "text": "{{token}}",
+					  "style":{
+						"width":"10%",
+						"align":"center"
+					}
+                    },
+                    {
+                      "type": "label",
+                      "text": "{{vehicleno}}",
+					  "style":{
+						"width":"25%",
+						"align":"center"
+					}
+                    },
+                    {
+                      "type": "label",
+                      "text": "{{(new Date(intime)).toLocaleString()}}",
+					  "style":{
+						"width":"30%",
+						"align":"center"
+					}
+                    },	
+					{
+                      "type": "label",
+                      "text": "{{ var e ; switch (state) { case 6: e = 'delivered';break;};return e; }}",
+					  "style":{
+						"width":"15%",
+						"align":"center",
+						"background":"{{var e ; switch (state) { case 6: e = '#AF7AC5';break;};return e;}}",
+						"color": "{{var e ; switch (state) { case 6: e = '#ffffff';break;};return e;}}",
+						"corner_radius":"5"
+					}
+                    },
+                    {
+                      "type": "button",
+                      "url": "http://172.105.232.148:81/eye.png",
+                      "action": {
+                        "type": "$href",
+                        "options": {
+                          "url": "http://172.105.232.148:81/view.json",
+                          "options": {
+                            "tokenid": "{{tokenid}}"
+                          }
+                        }
+                      },
+					  "style":{
+						"align": "center",
+						"height":"30"
+					  }
+                    }
+                  ]
+                }
+			  }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

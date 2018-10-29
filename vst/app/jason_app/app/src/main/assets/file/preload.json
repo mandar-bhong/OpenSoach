@@ -1,0 +1,61 @@
+{
+  "layers": [
+    {
+      "type": "image",
+      "url": "file://twowheeler.png",
+      "style": {
+        "width": "150",
+        "height": "150",
+        "top": "15%-100",
+        "left": "50%-80",
+		"color":"#bfc9ca"
+      }
+    },
+	{
+		"type": "label",
+		"text": "VehicleService",
+		"style": {
+		"size":"32",
+		"top": "37%-100",
+		"left": "40%-100",
+		"color":"#ffffff"
+		}
+	},
+	{
+		"type":"image",
+		"url": "file://logo.png",
+		"style": {
+			     "width": "70",
+				"height": "70",
+				"top": "35%-100",
+				"left": "92%-100"
+		}
+	},
+		{
+		"type": "label",
+		"text": "Loading...",
+		"style": {
+		"size":"16",
+		"width": "100",
+		"height": "100",
+		"top": "38%-100",
+		"left": "50%-40",
+		"font": "Italic",
+		"color":"#ffffff"
+		}
+	},
+			{
+		"type": "image",
+		"url":"file://loading.gif",
+		"style": {
+		"width": "100",
+		"height": "100",
+		"top": "70%-100",
+		"left": "64%-100"
+		}
+	}
+  ],
+  "style":{
+  "background":"#396766"
+  }
+}

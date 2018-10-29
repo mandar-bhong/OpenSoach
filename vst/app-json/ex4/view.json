@@ -1,0 +1,104 @@
+{
+  "$jason": {
+    "head": {
+      "title": "view window",
+      "styles": {
+        "imgstyle": {
+          "width": "100",
+          "height": "40"
+        }
+      },
+	  	"actions": {
+		"$pull": {
+			"type": "$reload"
+		},
+        "$load": {
+          "type": "$network.request",
+          "options": {
+            "url": "http://172.105.232.148:92/api/v1/job/vehicleinfo",
+			"method": "GET",
+			"data": {
+				"params": {
+					"recid": "{{$params.tokenid}}"
+                  }
+			}
+          },
+          "success": {
+            "type": "$render"
+          }
+		}
+		},
+      "templates": {
+        "body": {
+		"style":{
+			"background":"#396767"
+		},
+          "header": {
+            "title": "vehicleservice.live",
+			"style":{
+				"color":"#ffffff",
+				"background":"#396767"
+			}
+          },
+          "sections": [
+            {
+			  "header":{
+				"type":"horizontal",
+				"components":[
+					{
+						"type":"label",
+						"text":"Vehicle No",
+						"style":{
+						"align": "center",
+						"color":"#ffffff"
+						}
+					},
+					{
+						"type":"label",
+						"text":"{{$jason.data.vehicleno}}",
+						"style":{
+							"align": "center",
+							"color":"#ffffff"
+						}
+					}
+				],
+				"style":{
+					"background":"#396767"
+				}
+			  },
+              "items": [
+                {
+				
+					"type" : "vertical",
+					"components":[
+						{
+							"type":"label",
+							"text":"Name"
+						},
+						{
+							"type":"label",
+							"text":"{{$jason.data.name}}"
+						},
+												{
+							"type":"label",
+							"text":"Mobile No"
+						},
+						{
+							"type":"label",
+							"text":"{{$jason.data.mobileno}}"
+						}					
+					],
+					"style":{
+						"background":"#ffffff",
+						"margin":"15",
+						"corner_radius":"25"
+					}
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

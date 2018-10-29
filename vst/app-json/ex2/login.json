@@ -1,0 +1,85 @@
+{
+  "$jason": {
+    "head": {
+      "title": "login"
+    },
+    "body": {
+      "header": {
+        "title": "Login"
+      },
+      "sections": [
+        {
+          "items": [
+            {
+              "type": "textfield",
+              "name": "username",
+              "placeholder": "Enter username"
+            },
+            {
+              "type": "textfield",
+              "name": "password",
+              "placeholder": "Enter password"
+            },
+            {
+              "type": "button",
+              "text": "Log In",
+              "style": {
+                "background": "#FF8912",
+                "color": "#ffffff",
+                "size": "15"
+              },
+              "action": {
+                "type": "$network.request",
+                "options": {
+                  "url": "http://172.105.232.148/api/v1/login",
+                  "method": "POST",
+                  "header": {
+                    "content_type": "json"
+                  },
+                  "data": {
+                    "username": "{{$get.username}}",
+                    "password": "{{$get.password}}",
+                    "prodcode": "SPL_VST"
+                  }
+                },				
+				"success":
+					[
+						{
+							"{{#if $jason.issuccess == true}}": {
+								"type": "$session.set",
+									"options": {
+									"domain": "172.105.232.148",
+									"header": {
+									"Authorization": "{{$jason.data.token}}"
+									}
+								},
+								"success":{
+									"type": "$href",
+									"options": {
+										"url": "http://172.105.232.148:81/main.json",
+										"options": {
+											"usrname": "{{$get.username}}"
+										}
+									}
+								}
+							}
+						},
+						{
+							"{{#elseif $jason.issuccess == false}}": {
+								"type": "$util.alert",
+								"options": {
+								"title": "Alert",
+								"description": "user or password invalid!"
+								}
+							}
+						}							
+					]
+				
+			   }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
