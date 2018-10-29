@@ -1,0 +1,1 @@
+{"driver":"mysql", "connectionstring":"root:welcome@tcp(localhost:3306)/spl_vst_node_0001?parseTime=true","dbname":"spl_vst_node_0001"}
