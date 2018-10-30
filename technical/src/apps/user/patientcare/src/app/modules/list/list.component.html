@@ -1,0 +1,70 @@
+<!-- <ActionBar title="Home" style="background-color: #396766; color: white; vertical-align: center;">
+	<StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left" style="background-color: #396766; color: white;">
+		<button text="<" class="btn" (tap)="goBackPage()"></button>
+		<Label text="patientcare" class="hometitle"></Label>
+		<Label text=".live" class="hometitlesub" style="color: #FF8912"></Label>
+	</StackLayout>
+</ActionBar> -->
+
+<ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+	<GridLayout columns="*" rows="auto, auto">
+	<GridLayout row="0" columns="auto,*,auto,auto,*,auto,auto,auto" ios:padding="5 10" height="100%" width="100%" >
+		<!-- <button col="0"  text="<" class="btn" (tap)="goBackPage()"></button> -->
+		<Label col="0" text="&#xf141;" class="homeicon mdi" (tap)="goBackPage()"></Label>
+		<Label col="2" text="patientcare" class="hometitle"></Label>
+		<Label col="3" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
+		<Label col="5" text="&#xf09a;" class="homeicon mdi"></Label>
+	   <Label col="6" text="&#xf349;" class="homeicon mdi"(tap)="searchTab()"  *ngIf="searchiocn"></Label>
+	   <Label col="6" text="&#xf349;" class="homeicon mdi"(tap)="searchTabClose()"  *ngIf="!searchiocn"></Label>
+		<Label col="7" text="&#xf111;" class="homeicon fas"></Label>
+	</GridLayout>
+	<GridLayout row="1"  style="vertical-align: bottom;" sdkExampleTitle sdkToggleNavButton  *ngIf="searchshow">
+					<SearchBar hint="Search by Patient Name or Bed" textFieldBackgroundColor="#396766" textFieldHintColor="white" (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (loaded)="searchBarLoaded($event)"
+					 (submit)="onSubmit($event)"></SearchBar>
+				<Label textWrap="false" class="h3 p-15 text-center"></Label>
+	</GridLayout>
+	</GridLayout>
+</ActionBar>
+
+<!-- <GridLayout>
+	<ScrollView>
+		<ListView row="1" class="list-group" [items]="data" class="card" stry>
+			<ng-template let-item="item">
+				<StackLayout class="card-layout" columns="auto,auto,*,auto" row="auto" (tap)="details()">
+					<Label class="h3" [text]="item.ward"></Label>
+					<Label class="body" textWrap="true" [text]="item.name"></Label>
+					<Label class="body" textWrap="true" [text]="item.mobile"></Label>
+				</StackLayout>
+			</ng-template>
+		</ListView>
+	</ScrollView>
+</GridLayout> -->
+<GridLayout>
+		<!-- <StackLayout>
+			
+		</StackLayout> -->
+		<ScrollView>
+			<ListView class="list-group" [items]="data" class="card" stry>
+				<ng-template let-item="item">
+					<GridLayout columns="*, auto" rows="auto" (tap)="details()">
+					<GridLayout col="0" class="card-layout" columns="auto,*,auto" rows="auto, auto, auto" (tap)="details()">
+						
+						<Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+						<Label row="0" col="1" class="h3" [text]="item.ward"></Label>
+
+						<Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+						<Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
+						
+						<Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+						<Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
+					</GridLayout>
+
+					<GridLayout col="1" class="card-layout" columns="auto" rows="auto, auto" (tap)="details()"  style=" vertical-align: center;">
+							<Label  text="&#xf020;" class="mdi listicon"></Label>
+							<Label row="1" text="test" ></Label>
+					</GridLayout>
+					</GridLayout>
+				</ng-template>
+			</ListView>
+		</ScrollView>
+	</GridLayout>
