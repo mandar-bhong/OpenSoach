@@ -19,7 +19,7 @@ components that have the btn class name.
     font-size: 18;
 }
 
-.mdi {
+/* .mdi {
     font-family: MaterialDesignIcons, 'materialdesignicons-webfont', materialdesignicons-webfont;
     font-size: 24;
     color: black;
@@ -41,6 +41,34 @@ components that have the btn class name.
     font-family: FontAwesome, 'fa-brands-400', fa-brands-400;
     font-size: 24;
     color: black;
+  } */
+
+  .mdi {
+    font-family:  "Material Design Icons", "materialdesignicons-webfont";
+    font-size: 24;
+    color: black;
   }
 
+  .far {
+    font-family: Font Awesome 5 Free, 'fa-regular-400', fa-regular-400;
+    font-size: 24;
+    color: black;
+  }
+
+  .fas {
+    font-family: Font Awesome 5 Free, 'fa-solid-900', fa-solid-900;
+    font-size: 24;
+    color: black;
+  }
+
+  .fab {
+    font-family: Font Awesome 5 Brands, 'fa-brands-400', fa-brands-400;
+    font-size: 24;
+    color: black;
+  }
   
+   .fa4 {
+    font-family: FontAwesome , "fontawesome-webfont";
+    font-size: 24;
+    color: black;
+  }
