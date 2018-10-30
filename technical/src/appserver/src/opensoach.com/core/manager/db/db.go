@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -515,6 +516,58 @@ func (spc *SelectContext) Select(args ...interface{}) error {
 	return errors.New(fmt.Sprintf("QueryType Not Set. Got %d", spc.QueryType))
 }
 
+func (spc *SelectContext) SelectToMap(args ...interface{}) (error, []map[string]interface{}) {
+
+	switch spc.QueryType {
+	case AutoQuery:
+		return errors.New("AutoQuery is not supported for Select method"), nil
+	case Query:
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr, nil
+		}
+
+		stmt, err := dbEngine.Preparex(spc.Query)
+		if err != nil {
+			return err, nil
+		}
+		defer stmt.Close()
+
+		err, result := getMapOfColumnsValues(stmt, args...)
+		return err, result
+
+	case StoredProcedure:
+		spQuery := ""
+
+		for i := 0; i < len(args); i++ {
+			spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
+		}
+
+		spQuery = strings.TrimRight(spQuery, ",")
+
+		spQuery = "call " + spc.Query + "(" + spQuery + ")"
+
+		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
+
+		if dbConnErr != nil {
+			return dbConnErr, nil
+		}
+
+		stmt, err := dbEngine.Preparex(spc.Query)
+		if err != nil {
+			return err, nil
+		}
+		defer stmt.Close()
+
+		err, result := getMapOfColumnsValues(stmt, args...)
+		return err, result
+
+	}
+
+	return errors.New(fmt.Sprintf("QueryType Not Set. Got %d", spc.QueryType)), nil
+}
+
 func (spc *SelectContext) Get(args ...interface{}) error {
 	switch spc.QueryType {
 	case AutoQuery:
@@ -727,6 +780,47 @@ func (spc *SelectTxContext) Select(args ...interface{}) error {
 	return nil
 }
 
+func (spc *SelectTxContext) SelectToMap(args ...interface{}) (error, []map[string]interface{}) {
+
+	switch spc.QueryType {
+	case AutoQuery:
+		return errors.New("AutoQuery is not supported for Select method"), nil
+	case Query:
+
+		stmt, err := spc.Tx.Preparex(spc.Query)
+		if err != nil {
+			return err, nil
+		}
+		defer stmt.Close()
+
+		err, result := getMapOfColumnsValues(stmt, args...)
+		return err, result
+
+	case StoredProcedure:
+		spQuery := ""
+
+		for i := 0; i < len(args); i++ {
+			spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
+		}
+
+		spQuery = strings.TrimRight(spQuery, ",")
+
+		spQuery = "call " + spc.Query + "(" + spQuery + ")"
+
+		stmt, err := spc.Tx.Preparex(spc.Query)
+		if err != nil {
+			return err, nil
+		}
+		defer stmt.Close()
+
+		err, result := getMapOfColumnsValues(stmt, args...)
+		return err, result
+
+	}
+
+	return errors.New(fmt.Sprintf("QueryType Not Set. Got %d", spc.QueryType)), nil
+}
+
 func getProcQuery(tx *sqlx.Tx, procname string) (error, string) {
 
 	procQuery := ""
@@ -779,4 +873,47 @@ func getDBTags(user interface{}) []string {
 	}
 
 	return []string{""}
+}
+
+func getMapOfColumnsValues(stmt *sqlx.Stmt, args ...interface{}) (error, []map[string]interface{}) {
+
+	rows, err := stmt.Query(args...)
+	if err != nil {
+		return err, nil
+	}
+
+	defer rows.Close()
+	columns, err := rows.Columns()
+	if err != nil {
+		return err, nil
+	}
+
+	colLength := len(columns)
+	tableData := make([]map[string]interface{}, 0)
+	values := make([]interface{}, colLength)
+	valuePtrs := make([]interface{}, colLength)
+	for rows.Next() {
+		for i := 0; i < colLength; i++ {
+			valuePtrs[i] = &values[i]
+		}
+		rows.Scan(valuePtrs...)
+		m := make(map[string]interface{})
+		for i, col := range columns {
+			var newVal interface{}
+			val := values[i]
+
+			switch val.(type) {
+			case []byte:
+				newVal = string(val.([]byte))
+			case time.Time:
+				newVal = val.(time.Time).Format("2006-01-02 15:04:05")
+			default:
+				newVal = val
+			}
+			m[col] = newVal
+		}
+		tableData = append(tableData, m)
+	}
+
+	return nil, tableData
 }
