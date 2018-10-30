@@ -18,3 +18,29 @@ components that have the btn class name.
 .btn {
     font-size: 18;
 }
+
+.mdi {
+    font-family: MaterialDesignIcons, 'materialdesignicons-webfont', materialdesignicons-webfont;
+    font-size: 24;
+    color: black;
+  }
+
+  .far {
+    font-family: FontAwesome, 'fa-regular-400', fa-regular-400;
+    font-size: 24;
+    color: black;
+  }
+
+  .fas {
+    font-family: FontAwesome, 'fa-solid-900', fa-solid-900;
+    font-size: 24;
+    color: black;
+  }
+
+  .fab {
+    font-family: FontAwesome, 'fa-brands-400', fa-brands-400;
+    font-size: 24;
+    color: black;
+  }
+
+  
