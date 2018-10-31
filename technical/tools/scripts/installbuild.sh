@@ -85,6 +85,7 @@ if [ "$1" == "true" ]; then
   mysql -u root -pwelcome -Bse "use spl_vst_node_0001;source /opt/build/spl/Build/database/spl_vst_node/testdata/testdata_1.0.0.sql;"
 fi
 
+cp $builddir/Build/vst/web/vst/assets/images/logo.png $builddir/Build/vst/logo.png
 
 
 sleep 5
