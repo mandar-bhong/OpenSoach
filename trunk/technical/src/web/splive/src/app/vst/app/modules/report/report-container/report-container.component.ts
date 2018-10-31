@@ -138,6 +138,10 @@ export class ReportContainerComponent implements OnInit {
         this.dataModel.enddate = new Date();
         this.dataModel.startdate.setHours(0, 0, 0, 0);
         this.dataModel.enddate.setHours(24, 0, 0, 0);
+        requestList.queryparams.push(this.dataModel.startdate );
+        requestList.queryparams.push(this.dataModel.enddate );
+        console.log('this.dataModel.enddate', requestList.queryparams);
+        console.log('this.dataModel.startdate', requestSummary.queryparams);
         break;
     }
 
