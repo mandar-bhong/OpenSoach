@@ -20,7 +20,9 @@ import (
 	pcmgr "opensoach.com/prodcore/manager"
 )
 
-func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
+func InitilizeModues(config *gmodels.ConfigSettings) error {
+
+	dbconfig := config.DBConfig
 
 	dbConnnErr := pchelper.VerifyDBConnection(dbconfig)
 

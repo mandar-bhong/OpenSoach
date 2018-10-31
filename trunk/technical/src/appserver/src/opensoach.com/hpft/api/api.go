@@ -7,7 +7,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-func Init(config *gmodels.ConfigDB) bool {
+func Init(config *gmodels.ConfigSettings) bool {
 
 	initilizationErr := apimgr.InitilizeModues(config)
 

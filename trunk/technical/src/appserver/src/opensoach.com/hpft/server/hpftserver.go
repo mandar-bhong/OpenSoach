@@ -7,11 +7,11 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-func Init(dbconfig *gmodels.ConfigDB) bool {
+func Init(config *gmodels.ConfigSettings) bool {
 
 	fmt.Println("Starting HPFT Server")
 
-	initErr := manager.InitilizeModues(dbconfig)
+	initErr := manager.InitilizeModues(config)
 
 	if initErr != nil {
 		fmt.Printf("Unable to start server. Error: %s \n", initErr)

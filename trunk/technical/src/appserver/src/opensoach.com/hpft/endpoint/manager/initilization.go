@@ -20,7 +20,9 @@ import (
 
 var SUB_MODULE_NAME = "HPFT.Endpoint.Manager"
 
-func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
+func InitilizeModues(config *gmodels.ConfigSettings) error {
+
+	dbconfig := config.DBConfig
 
 	dbConnnErr := pchelper.VerifyDBConnection(dbconfig)
 
