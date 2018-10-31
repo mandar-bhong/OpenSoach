@@ -1,5 +1,6 @@
 export class ReportRequestParams {
     reportreq: ReportRequest[];
+    reportfileformat: string;
 }
 
 export class ReportRequest {
