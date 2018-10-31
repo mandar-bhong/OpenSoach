@@ -169,9 +169,10 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
   // }
 
   download() {
-    this.jobService.generateReport(this.createReportRequest()).subscribe((payloadResponse: Blob) => {
+    this.jobService.generateReportDetails(this.createReportRequest()).subscribe((payloadResponse: Blob) => {
       console.log('payloadResponse', payloadResponse);
       if (payloadResponse) {
+        // this.jobService.saveReport(payloadResponse, 'Report.xlsx');
         this.jobService.saveReport(payloadResponse, 'Report.pdf');
       }
     });

@@ -98,6 +98,7 @@ export class ReportContainerComponent implements OnInit {
     const reportParams = new ReportRequestParams();
     const requestSummary = new ReportRequest();
     const requestList = new ReportRequest();
+    reportParams.reportfileformat = 'pdf';
 
     requestSummary.queryparams = [];
     requestSummary.lang = 'en';
@@ -113,7 +114,7 @@ export class ReportContainerComponent implements OnInit {
     } else {
       // requestSummary.reportcode = 'TASK_SUMMARY_ALL';
       // requestList.reportcode = 'TASK_LIST_ALL';
-      requestList.reportcode = 'CONSOLIDATED_VH_REPORT';
+      requestList.reportcode = 'CONSOLIDATED_VHL_REPORT';
     }
 
 
@@ -131,6 +132,12 @@ export class ReportContainerComponent implements OnInit {
         requestList.queryparams.push(this.dataModel.startdate);
         requestList.queryparams.push(new Date(this.dataModel.enddate.getFullYear(),
           this.dataModel.enddate.getMonth(), this.dataModel.enddate.getDate() + 1));
+        break;
+        case '2':
+        // this.dataModel.startdate = new Date();
+        this.dataModel.enddate = new Date();
+        this.dataModel.startdate.setHours(0, 0, 0, 0);
+        this.dataModel.enddate.setHours(24, 0, 0, 0);
         break;
     }
 

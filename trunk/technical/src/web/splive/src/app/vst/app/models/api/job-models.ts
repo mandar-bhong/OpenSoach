@@ -29,7 +29,7 @@ export class JobDetailslistResponse {
     txndate: Date;
 }
 export class JobTxndata {
-    tasks: JobTrndatalist[];
+    task: JobTrndatalist;
     tokenid: number;
     vehicledetails: JobTrnVehicleResponse;
 }

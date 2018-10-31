@@ -51,6 +51,11 @@ export class JobService extends ListingService<JobFiltrRequest, JobDataListRespo
     }
     generateReport(request: ReportRequestParams, implicitErrorHandling = true):
         Observable<Blob> {
+        return this.serverApiInterfaceService.downloadFile(EnvironmentProvider.appbaseurl + '/api/v1/report/generate/consolidate',
+            request, implicitErrorHandling);
+    }
+    generateReportDetails(request: ReportRequestParams, implicitErrorHandling = true):
+        Observable<Blob> {
         return this.serverApiInterfaceService.downloadFile(EnvironmentProvider.appbaseurl + '/api/v1/report/generate',
             request, implicitErrorHandling);
     }

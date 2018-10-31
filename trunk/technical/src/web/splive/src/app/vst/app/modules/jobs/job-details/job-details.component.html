@@ -127,8 +127,8 @@
                       <!-- <mat-icon class="feather icon-check f-w-600 bg-c-yellow update-icon">looks_3</mat-icon> -->
                     </div>
                     <div class="col" class="set">
-                      <h6 class="snaptext" *ngIf="jobstate.txndata.tasks && jobstate.txndata.tasks != null">{{jobstate.txndata.tasks[0].taskname}}</h6>
-                      <p class="text-muted m-b-0" *ngIf="jobstate.txndata.tasks && jobstate.txndata.tasks != null">{{jobstate.txndata.tasks[0].comment}}</p>
+                      <h6 class="snaptext" *ngIf="jobstate.txndata.task && jobstate.txndata.task != null">{{jobstate.txndata.task.taskname}}</h6>
+                      <p class="text-muted m-b-0" *ngIf="jobstate.txndata.task && jobstate.txndata.task != null">{{jobstate.txndata.task.comment}}</p>
                       <p class="text-muted m-b-0">Service Personnel :- {{dataModel.transactions[0].fopcode}}</p>
                     </div>
                   </div>
@@ -225,21 +225,21 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Activity</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
                     <span class="mat-cell-responsive-label">Activity</span>
-                    <span class="ellipsis mat-cell-text" *ngIf="row.txndata.tasks && row.txndata.tasks != null"> {{row.txndata.tasks[0].taskname}}</span>
+                    <span class="ellipsis mat-cell-text" *ngIf="row.txndata.task && row.txndata.task != null"> {{row.txndata.task.taskname}}</span>
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="comment">
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Notes</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
                     <span class="mat-cell-responsive-label">Notes</span>
-                    <span class="ellipsis mat-cell-text" *ngIf="row.txndata.tasks && row.txndata.tasks != null"> {{row.txndata.tasks[0].comment}}</span>
+                    <span class="ellipsis mat-cell-text" *ngIf="row.txndata.task && row.txndata.task != null"> {{row.txndata.task.comment}}</span>
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="cost">
                   <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 20%;">Tentative Price</mat-header-cell>
                   <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
                     <span class="mat-cell-responsive-label">Tentative Price</span>
-                    <span class="ellipsis mat-cell-text" *ngIf="row.txndata.tasks && row.txndata.tasks != null">{{row.txndata.tasks[0].cost}}</span>
+                    <span class="ellipsis mat-cell-text" *ngIf="row.txndata.task && row.txndata.task != null">{{row.txndata.task.cost}}</span>
                   </mat-cell>
                 </ng-container>
               </mat-table>
