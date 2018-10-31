@@ -16,22 +16,22 @@ import (
 
 func main() {
 
-	isSuccess, dbconfig := readConfiguration()
+	isSuccess, config := readConfiguration()
 
 	if !isSuccess {
 		shutDown(100)
 		return
 	}
 
-	if startOk := api.Init(dbconfig); startOk == false {
+	if startOk := api.Init(config); startOk == false {
 		return
 	}
 
-	if startOk := endpoint.Init(dbconfig); startOk == false {
+	if startOk := endpoint.Init(config); startOk == false {
 		return
 	}
 
-	if startOk := server.Init(dbconfig); startOk == false {
+	if startOk := server.Init(config); startOk == false {
 		return
 	}
 
@@ -55,7 +55,7 @@ func DeInit() {
 	server.DeInit()
 }
 
-func readConfiguration() (bool, *gmodels.ConfigDB) {
+func readConfiguration() (bool, *gmodels.ConfigSettings) {
 
 	currentPath := ghelper.GetExeFolder()
 
@@ -76,7 +76,7 @@ func readConfiguration() (bool, *gmodels.ConfigDB) {
 		return false, nil
 	}
 
-	return true, settings.DBConfig
+	return true, &settings
 }
 
 func shutDown(errorCode int) {

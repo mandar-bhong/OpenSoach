@@ -7,7 +7,7 @@ import (
 	gmodels "opensoach.com/models"
 )
 
-func Init(dbconfig *gmodels.ConfigDB) bool {
+func Init(dbconfig *gmodels.ConfigSettings) bool {
 
 	fmt.Println("Starting HPFT EndPoint")
 
