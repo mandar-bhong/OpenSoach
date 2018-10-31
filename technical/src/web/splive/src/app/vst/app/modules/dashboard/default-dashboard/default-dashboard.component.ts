@@ -137,7 +137,12 @@ export class DefaultDashboardComponent implements OnInit {
       }
     });
   }
-  windowfull() {
-
-  }
+//   fullwindow() {
+//     // if (window.resizeTo) {
+// // window.onload();
+//       window.moveTo(80, 80);
+//       window.resizeTo(screen.availWidth, screen.availHeight);
+//     // }
+//     alert (window.resizeTo);
+//   }
 }
