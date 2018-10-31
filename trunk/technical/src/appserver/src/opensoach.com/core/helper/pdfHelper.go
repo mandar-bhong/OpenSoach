@@ -3,7 +3,6 @@ package helper
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/jung-kurt/gofpdf"
@@ -53,7 +52,7 @@ func CreatePdf(pdfdatamodel gmodels.PdfDataModel) (error, []byte) {
 	}
 
 	if pdf.Err() {
-		log.Fatalf("Failed creating PDF report: %s\n", pdf.Error())
+		return pdf.Error(), nil
 	}
 
 	// Saving Pdf File
@@ -66,7 +65,7 @@ func CreatePdf(pdfdatamodel gmodels.PdfDataModel) (error, []byte) {
 
 	err := pdf.Output(&b)
 	if err != nil {
-		log.Fatalf("failed to write in buffer: %s|n", err)
+		return err, nil
 	}
 
 	return nil, b.Bytes()
