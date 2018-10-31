@@ -3,6 +3,9 @@
     <div class="card latest-update-card card1">
       <div class="card-header">
         <h5>Snapshot</h5>
+          <button mat-icon-button color="accent" data-toggle="modal" data-target="#myModal" style="float: right; width: 0px; height: 0px; line-height: 1; margin-right:20px;">
+            <mat-icon aria-hidden="true" matTooltip="Full Screen">fullscreen</mat-icon>
+          </button>
       </div>
       <div class="card-block">
         <div class="latest-update-box">
@@ -61,12 +64,94 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-12 col-md-6">
-    <div class="card latest-update-card card1">
-      <div class="card-header">
-        <h5>Timeing Average Today</h5>
+
+
+  <div class="modal fade " id="myModal" role="dialog" style="background-color: white;">
+    <div class="modal-dialog" style="max-width: 100%;">
+      <div class="modal-content" style="border: 0px;">
+        <div class="modal-body">
+          <div class="card latest-update-card card1">
+            <div class="card-header">
+              <h5>Snapshot</h5>
+                <button mat-icon-button color="accent" style="float: right; line-height: 1;">
+                  <mat-icon aria-hidden="true" matTooltip="Close Full Screen" data-dismiss="modal">fullscreen_exit</mat-icon>
+                </button>
+            </div>
+            <div class="card-block">
+              <div class="latest-update-box">
+                <div class="row p-t-20 p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted d-inline" *ngIf="tokendata && tokendata.lastactiontime != null">Last updated {{tokendata.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-red update-icon">local_offer</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!tokendata.count">{{tokendata.count}} Token(s)</h6>
+                    <h6 class="snaptext" [hidden]="tokendata.count">No Token Available</h6>
+                    <!-- <p class="text-muted m-b-0">Congratulations!</p> -->
+                  </div>
+                </div>
+                <div class="row p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted m-b-0 d-inline" *ngIf="jobcreated && jobcreated.lastactiontime != null">Last updated {{jobcreated.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-green update-icon">done</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!jobcreated.count">{{jobcreated.count}} Job(s) Created</h6>
+                    <h6 class="snaptext" [hidden]="jobcreated.count">No Job(s) Created</h6>
+                  </div>
+                </div>
+                <div class="row p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted d-inline" *ngIf="jobcreated && jobcreated.lastactiontime != null">Last updated {{jobinprogress.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-yellow update-icon">av_timer</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!jobinprogress.count">{{jobinprogress.count}} Job(s) In-Progress</h6>
+                    <h6 class="snaptext" [hidden]="jobinprogress.count">{{jobinprogress.count}}No Job(s) In-Progress</h6>
+                  </div>
+                </div>
+                <div class="row p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted m-b-0 d-inline" *ngIf="jobcompleted && jobcompleted.lastactiontime != null">Last updated {{jobcompleted.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-blue update-icon">check_box</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!jobcompleted.count">{{jobcompleted.count}} Job(s) Completed </h6>
+                    <h6 class="snaptext" [hidden]="jobcompleted.count">{{jobcompleted.count}}No Job(s) Completed </h6>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted m-b-0 d-inline" *ngIf="vehical && vehical.lastactiontime != null">Last updated {{vehical.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-green update-icon">directions_car</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!vehical.count">{{vehical.count}} Vehicles Delivered</h6>
+                    <h6 class="snaptext" [hidden]="vehical.count">{{vehical.count}}No Vehicle Delivered</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="row" style="padding: 10px; margin-top:20px;">
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="col-sm-12 col-md-6" id="myDiv">
+    <div class="card latest-update-card card1" style="min-height: 386px">
+      <div class="card-header">
+        <h5>Today Timing Average</h5>
+        <!-- <button mat-icon-button color="accent" style="float: right; width: 0px; height: 0px; line-height: 1; margin-right:20px;">
+          <mat-icon aria-hidden="true" [ngClass]="{'fullscreen':item=== false}" matTooltip="Full Screen">fullscreen</mat-icon>
+        </button> -->
+      </div>
+      <div class="row" style="padding: 0px 10px; margin-top:26px;">
         <div class="col-sm-6 col-md-6">
           <div class="card bg-c-blue text-white widget-visitor-card">
             <div class="card-block-small text-center">

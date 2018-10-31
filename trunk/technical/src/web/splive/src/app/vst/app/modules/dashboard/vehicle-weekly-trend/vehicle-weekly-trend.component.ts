@@ -4,7 +4,6 @@ import { curveLinear } from 'd3-shape';
 import { TaskTrendRequest, VehicleServiceTrendWeeklyRequest } from '../../../models/api/dashboard-models';
 import {
   TaskTrendModel, TrendChartPerMonthXaxis, VehicleServiceTrendWeeklyModel,
-  VehicleChartPerWeeklyYaxis
 } from '../../../models/ui/dashboard-models';
 import { DashboardService } from '../../../services/dashboard.service';
 
@@ -21,6 +20,8 @@ export class VehicleWeeklyTrendComponent implements OnInit {
   yAxisLabel = 'Days';
   tasktrenddata: VehicleServiceTrendWeeklyModel[] = [];
   tasktrendchartdata = [];
+  a = [];
+  b = [];
   request = new VehicleServiceTrendWeeklyRequest();
   timeline: TrendChartPerMonthXaxis[] = [];
   // timeday: VehicleChartPerWeeklyYaxis[] = [];
@@ -64,36 +65,36 @@ export class VehicleWeeklyTrendComponent implements OnInit {
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.data = [
-      {
-        'name': 'MON',
-        'value': 82
-      },
-      {
-        'name': 'TUE',
-        'value': 85
-      },
-      {
-        'name': 'WED',
-        'value': 60
-      },
-      {
-        'name': 'THU',
-        'value': 70
-      },
-      {
-        'name': 'FRI',
-        'value': 80
-      },
-      {
-        'name': 'SAT',
-        'value': 11
-      },
-      {
-        'name': 'SUN',
-        'value': 100
-      }
-    ];
+    // this.data = [
+    //   {
+    //     'name': 'MON',
+    //     'value': 82
+    //   },
+    //   {
+    //     'name': 'TUE',
+    //     'value': 85
+    //   },
+    //   {
+    //     'name': 'WED',
+    //     'value': 60
+    //   },
+    //   {
+    //     'name': 'THU',
+    //     'value': 70
+    //   },
+    //   {
+    //     'name': 'FRI',
+    //     'value': 80
+    //   },
+    //   {
+    //     'name': 'SAT',
+    //     'value': 11
+    //   },
+    //   {
+    //     'name': 'SUN',
+    //     'value': 100
+    //   }
+    // ];
     this.getTaskTrend();
   }
 
@@ -101,9 +102,10 @@ export class VehicleWeeklyTrendComponent implements OnInit {
     const currentDate = new Date();
     this.request.enddate = new Date(Date.UTC(
       currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
+    console.log('this.request.enddate', this.request.enddate);
 
     const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth(),
-      this.request.enddate.getUTCDay() - 6);
+      this.request.enddate.getUTCDate() - 6);
     console.log('this.request.enddate.getUTCDay()', this.request.enddate.getUTCDay() - 6);
     this.request.startdate = new Date(ticks);
     console.log('ticks', ticks);
@@ -142,50 +144,18 @@ export class VehicleWeeklyTrendComponent implements OnInit {
 
     const start = this.request.startdate;
     const end = this.request.enddate;
-    // const one_day = 1000 * 60 * 60 * 24;
 
-    const dt = new Date(start);
     this.tasktrenddata.forEach(a => {
-      // const ab = this.tasktrenddata.filter(x => x.servicedate >= start);
       const ab = this.tasktrenddata;
       if (ab) {
         this.tasktrendchartdata.push({ name: a.servicedate, value: a.vehicleserviced });
+        // console.log('a', this.b);
         console.log('this.tasktrendchartdata check', this.tasktrendchartdata);
       } else {
         this.tasktrendchartdata.push({ name: a.servicedate, value: 0 });
       }
     });
 
-    // const dt = new Date(start);
-    // if (dt) {
-    //   while (dt <= end) {
-    //     this.tasktrendchartdata.push({ name: new Date(dt) , value: 0 });
-    //     dt.setDate(dt.getDate() + 1);
-    //     console.log(this.tasktrendchartdata);
-    //   }
-    //   return this.tasktrendchartdata;
-    // }
-
-
-
-
-
-
-    // this.timeline.forEach(item => {
-    //   const xAxisDate = new Date(item.year, item.month).toUTCString();
-    //   const trendModel = this.tasktrenddata.find(rating => rating.servicedate >= this.request.startdate);
-    //   console.log('trendModel', trendModel);
-    //   console.log('this.request.startdate', this.request.startdate);
-    //   // console.log('this.request.startdate', this.request.startdate);
-    //   // console.log('this.request.enddate', this.request.enddate);
-    //   if (trendModel) {
-    //     this.tasktrendchartdata.push({ name: xAxisDate, value: trendModel.vehicleserviced });
-    //     console.log('this.tasktrendchartdata check', this.tasktrendchartdata);
-    //   } else {
-    //     this.tasktrendchartdata.push({ name: xAxisDate, value: 0 });
-    //     console.log('this.tasktrendchartdata else ', this.tasktrendchartdata);
-    //   }
-    // });
   }
 
   generateSeriesTimeline() {
