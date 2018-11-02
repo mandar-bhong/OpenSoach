@@ -164,5 +164,6 @@ TextField {
 .listicon{
   font-size: 22;
   color: #396767;
+  margin-right: 5px;
 }
 /* home page css start */
