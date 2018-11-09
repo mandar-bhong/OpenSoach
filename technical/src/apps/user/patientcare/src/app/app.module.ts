@@ -4,7 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-
+import { DatabaseService } from "./services/offline-store/database.service";
+import {NativeScriptFormsModule} from "nativescript-angular/forms"
+import { DatabaseSchemaService } from "./services/offline-store/database-schema.service";
 @NgModule({
     bootstrap: [
         AppComponent
@@ -12,6 +14,7 @@ import { AppComponent } from "./app.component";
     imports: [
         NativeScriptModule,
         AppRoutingModule,
+        NativeScriptFormsModule,
         HttpClientModule
     ],
     declarations: [
@@ -19,6 +22,10 @@ import { AppComponent } from "./app.component";
     ],
     schemas: [
         NO_ERRORS_SCHEMA
-    ]
+    ],
+    providers: [
+        DatabaseService,
+        DatabaseSchemaService
+    ],
 })
 export class AppModule { }
