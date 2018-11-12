@@ -41,10 +41,10 @@ func GetTableDataCount(dbConn string, query string, updateon time.Time) (error, 
 	selDBCtx := dbmgr.SelectContext{}
 	selDBCtx.DBConnection = dbConn
 	var count int
-	selDBCtx.Dest = count
+	selDBCtx.Dest = &count
 	selDBCtx.Query = query
 	selDBCtx.QueryType = dbmgr.Query
-	selErr := selDBCtx.Select(updateon)
+	selErr := selDBCtx.Get(updateon)
 	if selErr != nil {
 		return selErr, 0
 	}
