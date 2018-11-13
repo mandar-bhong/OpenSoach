@@ -1,0 +1,6 @@
+{
+	"port": ":8089",
+	"isssl":true,
+	"cert":"/opt/certificate/ssl.crt",
+	"certkey":"/opt/certificate/ssl.key"
+}
