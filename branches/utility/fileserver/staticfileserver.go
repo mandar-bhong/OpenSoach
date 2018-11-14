@@ -1,7 +1,6 @@
 package main
 
 import (
-	"compress/gzip"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -36,7 +35,7 @@ func main() {
 		return
 	}
 
-	http.Handle("/", gzipHandler(http.FileServer(http.Dir("./web/"))))
+	http.Handle("/", http.FileServer(http.Dir("./web/")))
 	fmt.Printf("Running on Port %s\n", config.Port)
 
 	if config.IsSSL {
