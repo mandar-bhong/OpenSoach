@@ -100,6 +100,14 @@ firewall-cmd --reload
 #We can check the ports that are opened in the current default zone with ‘--list-ports’.
 firewall-cmd --list-ports
 
+#Firewall Status
+firewall-cmd --list-all
+
+#Block IP 
+firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='116.31.116.12' reject"
+
+#Unblock IP
+firewall-cmd --remove-rich-rule='rule family=ipv4 source address=192.168.17.112 reject' --permanent
 
 
 #To start svn through firewall
