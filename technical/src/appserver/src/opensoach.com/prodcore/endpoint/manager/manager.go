@@ -3,6 +3,7 @@ package manager
 import (
 	gmodels "opensoach.com/models"
 	wm "opensoach.com/prodcore/endpoint/websocketmanager"
+	"opensoach.com/core/logger"
 )
 
 var epHandler EPHandler
@@ -25,5 +26,6 @@ func Init(port int, handler EPHandler) error {
 
 	webServerStartErr := wm.Init(port, WSHandler{})
 
+	logger.Context().WithField("Port",port) .LogDebug(SUB_MODULE_NAME,logger.Debug,"Starting WebSocket server" )
 	return webServerStartErr
 }
