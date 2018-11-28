@@ -18,14 +18,14 @@ type StoreEntityModel struct {
 
 type StoreSyncGetRequestModel struct {
 	StoreSyncModel
-	UpdatedOn time.Time `json:"updatedon"`
+	UpdatedOn   time.Time              `json:"updatedon"`
+	QueryParams map[string]interface{} `json:"queryparams"`
 }
 type StoreSyncGetResponseModel struct {
 	StoreSyncModel
-	UpdatedOn   time.Time              `json:"updatedon"`
-	Count       int                    `json:"count"`
-	Data        interface{}            `json:"data"`
-	QueryParams map[string]interface{} `json:"queryparams"`
+	UpdatedOn time.Time   `json:"updatedon"`
+	Count     int         `json:"count"`
+	Data      interface{} `json:"data"`
 }
 
 type StoreSyncApplyRequestModel struct {

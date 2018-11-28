@@ -324,3 +324,19 @@ CREATE TABLE `spl_hpft_patient_master_tbl` (
 	CONSTRAINT `fk_patient_serv_in` FOREIGN KEY (`serv_in_id_fk`) REFERENCES `spl_node_service_instance_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_patient_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
 )   ENGINE=InnoDB COMMENT='Short Name for Table: patient';
+
+--
+-- Table structure for table `spl_node_sync_config_tbl`
+--
+
+CREATE TABLE `spl_node_sync_config_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`store_name` VARCHAR(50) NOT NULL,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`has_qry` VARCHAR(5000) NOT NULL,
+	`select_count_qry` VARCHAR(5000) NOT NULL,
+	`select_qry` VARCHAR(5000) NOT NULL,
+	`insert_qry` VARCHAR(1000) NOT NULL,
+	`update_qry` VARCHAR(1000) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB COMMENT='Short Name for Table: sync';

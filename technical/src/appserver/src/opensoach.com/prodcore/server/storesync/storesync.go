@@ -2,8 +2,10 @@ package storesync
 
 import (
 	"opensoach.com/core/logger"
+	gmodels "opensoach.com/models"
 	pcmodels "opensoach.com/prodcore/models"
 	"opensoach.com/prodcore/server/dbaccess"
+	pcservices "opensoach.com/prodcore/services"
 )
 
 var SUB_MODULE_NAME = "ProdCore.StoreSync"
@@ -77,4 +79,36 @@ func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (e
 	storeSyncApplyResponseModel := &pcmodels.StoreSyncApplyResponseModel{}
 
 	return nil, storeSyncApplyResponseModel
+}
+
+func ApplyChangesNotify(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel, devPacket *gmodels.DevicePacket, Token string,
+	repo pcmodels.Repo) (error, *pcmodels.StoreSyncApplyResponseModel) {
+
+	deviceCommandAck := gmodels.DeviceCommandAck{}
+	deviceCommandAck.Ack = true
+
+	err, resp := ApplyChanges(dbConn, syncReq)
+	if err != nil {
+		logger.Context().WithField("Sync Req", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to apply sync changes.", err)
+		deviceCommandAck.Ack = false
+	} else {
+		storeSyncModel := pcmodels.StoreSyncModel{}
+		storeSyncModel.StoreId = syncReq.StoreId
+
+		serviceCtx := &pcservices.ServiceContext{}
+		serviceCtx.Repo = repo
+		serviceCtx.ServiceConfig.SourcePacket = devPacket
+		serviceCtx.ServiceConfig.SourceToken = Token
+		serviceCtx.ServiceConfig.AckData = deviceCommandAck
+		serviceCtx.ServiceConfig.DestinationData = storeSyncModel
+
+		err = NotifyCPMID(serviceCtx)
+		if err != nil {
+			logger.Context().WithField("Service Context", serviceCtx).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to notify apply sync changes.", err)
+			return err, resp
+		}
+	}
+
+	return err, resp
+
 }

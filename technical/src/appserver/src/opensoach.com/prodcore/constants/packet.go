@@ -11,3 +11,8 @@ const DEVICE_CMD_DEVICE_AUTH int = 1
 
 const DEVICE_CMD_CAT_ACK int = 6
 const DEVICE_CMD_CAT_ACK_DEFAULT int = 0
+
+//EP Command packets
+
+const DEVICE_CMD_STORE_GET_SYNC int = 50
+const DEVICE_CMD_STORE_APPLY_SYNC int = 51
