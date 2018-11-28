@@ -4,6 +4,8 @@ https://linode.com/docs/development/version-control/manage-source-code-versions-
 
 du -ah /var/log --- space utilization
 
+du -sh *
+
 sudo yum update -- updating system
 
 sudo yum install httpd
@@ -104,10 +106,10 @@ firewall-cmd --list-ports
 firewall-cmd --list-all
 
 #Block IP 
-firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='116.31.116.12' reject"
+firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='159.89.102.173' reject"
 
 #Unblock IP
-firewall-cmd --remove-rich-rule='rule family=ipv4 source address=192.168.17.112 reject' --permanent
+firewall-cmd --remove-rich-rule='rule family=ipv4 source address=116.31.116.12 reject' --permanent
 
 
 #To start svn through firewall
@@ -115,3 +117,15 @@ https://www.vultr.com/docs/how-to-setup-an-apache-subversion-svn-server-on-cento
 
 sudo firewall-cmd --zone=public --permanent --add-service=http
 sudo firewall-cmd --reload
+
+
+
+#disable ping to server
+---------permanant-----------
+/etc/sysctl.conf
+net.ipv4.icmp_echo_ignore_all = 1
+----------------------
+-------temp------
+echo "1" > /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+
