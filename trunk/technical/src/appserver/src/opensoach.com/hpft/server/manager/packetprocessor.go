@@ -48,6 +48,13 @@ func InitProcessor() {
 	CAT_DATA_DEVICE_STATE_BATTERY_LEVEL_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_DEVICE_STATE_BATTERY_LEVEL_DATA)
 
+	CAT_DATA_STORE_GET_SYNC:= pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+			serconst.DEVICE_CMD_STORE_GET_SYNC)
+
+	CAT_DATA_STORE_APPLY_SYNC:= pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+				serconst.DEVICE_CMD_STORE_APPLY_SYNC)
+
+
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 
 	PacketProcessExecutor[CAT_CONFIG_DEV_SYNC_COMP] = epproc.ProcessDeviceSyncCompleted
@@ -58,6 +65,9 @@ func InitProcessor() {
 	PacketProcessExecutor[CAT_DATA_COMPLAINT_DATA] = endpoint.ProcessComplaintData
 	PacketProcessExecutor[CAT_DATA_FEEDBACK_DATA] = endpoint.ProcessFeedbackData
 	PacketProcessExecutor[CAT_DATA_DEVICE_STATE_BATTERY_LEVEL_DATA] = endpoint.ProcessDeviceStateBatteryLevelData
+
+	PacketProcessExecutor[CAT_DATA_STORE_GET_SYNC] = endpoint.ProcessGetStoreSync
+	PacketProcessExecutor[CAT_DATA_STORE_APPLY_SYNC] = endpoint.ProcessApplyStoreSync
 
 }
 
