@@ -28,16 +28,16 @@ func ProcessGetStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while converting from json", convErr)
 		deviceCommandAck.Ack = false
 		packetProcessingResult.IsSuccess = false
-	}
+	} else {
+		err, data := pcstoresync.GetChanges(ctx.InstanceDBConn, reqModel)
+		if err != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting db changes", err)
+			deviceCommandAck.Ack = false
+			packetProcessingResult.IsSuccess = false
+		}
 
-	err, data := pcstoresync.GetChanges(ctx.InstanceDBConn, reqModel)
-	if err != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting db changes", err)
-		deviceCommandAck.Ack = false
-		packetProcessingResult.IsSuccess = false
+		deviceCommandAck.Data = data
 	}
-
-	deviceCommandAck.Data = data
 
 	serviceCtx := &pcservices.ServiceContext{}
 	serviceCtx.Repo = *repo.Instance()
