@@ -5,15 +5,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { ListRoutingModule } from "./list-routing.module";
 import { ListComponent } from "./list.component";
 import { DetailsComponent } from "./details/details.component";
-// import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
-
+import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
         ListRoutingModule,
         HttpClientModule,
-        // NativeScriptUISideDrawerModule
+        NativeScriptUIListViewModule
     ],
     declarations: [
         ListComponent,
