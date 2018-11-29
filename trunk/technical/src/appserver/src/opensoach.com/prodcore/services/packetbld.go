@@ -6,7 +6,6 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
-	pcconst "opensoach.com/prodcore/constants"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 )
@@ -18,6 +17,11 @@ type PacketbldService struct {
 
 //Handle Send Available to EP
 func (r *PacketbldService) Handle(serctx *ServiceContext) error {
+
+	packetbldheaderService := PacketbldheaderService{}
+	packetbldheaderService.ServiceContext = r.ServiceContext
+
+	header := packetbldheaderService.Build()
 
 	packet := pcmodels.TaskEPPacketSendDataModel{}
 
@@ -35,8 +39,7 @@ func (r *PacketbldService) Handle(serctx *ServiceContext) error {
 			if ok {
 				for _, each := range val {
 					devPacket := gmodels.DevicePacket{}
-					devPacket.Header = gmodels.DeviceHeaderData{}
-					devPacket.Header.Category = pcconst.DEVICE_CMD_STORE_APPLY_SYNC
+					devPacket.Header = header
 					devPacket.Header.SPID = each
 					devPacket.Payload = r.ServiceConfig.DestinationData
 					_, jsonpack := ghelper.ConvertToJSON(devPacket)

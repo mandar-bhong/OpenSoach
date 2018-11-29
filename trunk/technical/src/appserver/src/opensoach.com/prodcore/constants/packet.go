@@ -13,6 +13,11 @@ const DEVICE_CMD_CAT_ACK int = 6
 const DEVICE_CMD_CAT_ACK_DEFAULT int = 0
 
 //EP Command packets
+const DEVICE_CMD_CAT_CONFIG int = 2
+
+const DEVICE_CMD_CAT_DATA int = 3
+
+const DEVICE_CMD_CAT_NOTIFICATION int = 5
 
 const DEVICE_CMD_STORE_GET_SYNC int = 50
 const DEVICE_CMD_STORE_APPLY_SYNC int = 51
