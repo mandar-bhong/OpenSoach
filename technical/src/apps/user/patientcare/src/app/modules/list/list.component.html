@@ -1,24 +1,23 @@
-
-
-<ActionBar class="action-bar"   style="background-color: #396766; color: white; vertical-align: center;">
-	<GridLayout row="0" columns="auto,*, auto, auto, auto,auto,*,auto,auto,auto" ios:padding="5 10" height="100%" width="100%"  *ngIf="searchiocn">
+<ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+	<GridLayout row="0" columns="auto,*, auto, auto, auto,auto,*,auto,auto,auto" ios:padding="5 10" height="100%" width="100%"
+	 *ngIf="searchiocn">
 		<Label col="0" text="&#xf04d;" class="homeicon mdi" (tap)="goBackPage()"></Label>
 
 		<Label col="1" text="&#xf9d4;" class="homeicon mdi" (tap)="showWithSound()"></Label>
-	  <Label   col="2"  text="&#xf950;" class="homeicon mdi" (tap)="conti()"></Label>
-	  <Label col="3" text="&#xf9d4;" class="homeicon mdi" (tap)="cancelAll()"></Label>
+		<Label col="2" text="&#xf950;" class="homeicon mdi" (tap)="conti()"></Label>
+		<Label col="3" text="&#xf9d4;" class="homeicon mdi" (tap)="cancelAll()"></Label>
 
 		<Label col="4" text="patientcare" class="hometitle"></Label>
 		<Label col="5" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
 		<Label col="7" text="&#xf09a;" class="homeicon mdi"></Label>
-	   <Label col="8" text="&#xf349;" class="homeicon mdi"(tap)="searchTab()"></Label>
+		<Label col="8" text="&#xf349;" class="homeicon mdi" (tap)="searchTab()"></Label>
 		<Label col="9" text="&#xf111;" class="homeicon fas"></Label>
 	</GridLayout>
 
-	<GridLayout rows="auto" columns="auto, *"  height="100%" width="100%" *ngIf="!searchiocn" sdkExampleTitle sdkToggleNavButton>
+	<GridLayout rows="auto" columns="auto, *" height="100%" width="100%" *ngIf="!searchiocn" sdkExampleTitle sdkToggleNavButton>
 		<Label col="0" text="&#xf04d;" class="homeicon mdi" (tap)="searchTabClose()"></Label>
-		<SearchBar col="1" hint="Search by Patient Name or Bed" textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8" color="#A8A8A8" (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (loaded)="searchBarLoaded($event)"
-					 (submit)="onSubmit($event)"></SearchBar>
+		<SearchBar col="1" hint="Search by Patient Name or Bed" textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8" color="#A8A8A8"
+		 (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (loaded)="searchBarLoaded($event)" (submit)="onSubmit($event)"></SearchBar>
 		<Label textWrap="false" class="h3 p-15 text-center"></Label>
 	</GridLayout>
 </ActionBar>
@@ -42,7 +41,7 @@
 </ActionBar> -->
 
 
-<GridLayout>
+<!-- <GridLayout>
 		<ScrollView>
 			<ListView class="list-group" [items]="data" class="card" stry>
 				<ng-template let-item="item">
@@ -67,4 +66,28 @@
 				</ng-template>
 			</ListView>
 		</ScrollView>
-	</GridLayout>
+	</GridLayout> -->
+<GridLayout>
+	<RadListView [items]="dataItems">
+		<ng-template tkListItemTemplate let-item="item">			
+			<GridLayout columns="*, auto" rows="auto" (tap)="details()">
+				<GridLayout col="0" class="card-layout" columns="auto,*,auto" rows="auto, auto, auto" (tap)="details()">
+
+					<Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+					<Label row="0" col="1" class="h3" [text]="item.ward"></Label>
+
+					<Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+					<Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
+
+					<Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+					<Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
+				</GridLayout>
+
+				<GridLayout col="1" class="card-layout" columns="auto" rows="auto, auto" (tap)="details()" style=" vertical-align: center;">
+					<Label text="&#xf020;" class="mdi listicon"></Label>
+					<Label row="1" text="test"></Label>
+				</GridLayout>
+			</GridLayout>
+		</ng-template>
+	</RadListView>
+</GridLayout>
