@@ -218,7 +218,7 @@ export class ListComponent implements OnInit {
 		setTimeout(() => {
 			this.initDataItems();
 			this.addMoreItemsFromSource(20);
-		}, 100);
+		}, 200);
 	}
 
 	public initDataItems() {
@@ -254,11 +254,11 @@ export class ListComponent implements OnInit {
 		// const that = new WeakRef(this);
 		const listView: RadListView = args.object;
 		if (this.dataItems.length < this.data.length) {
-			//setTimeout(()=> {
+			setTimeout(()=> {
 				this.addMoreItemsFromSource(20);
 				listView.notifyLoadOnDemandFinished();
 				//console.log('onLoadMoreItemsRequested', this.dataItems.length);
-			//}, 500);
+			}, 200);
 		} else {
 			args.returnValue = false;
 			listView.notifyLoadOnDemandFinished(true);
