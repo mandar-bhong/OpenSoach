@@ -1,178 +1,67 @@
-
 <ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
-		<NavigationButton visibility="collapsed"></NavigationButton>
-		<GridLayout columns="auto,auto,auto,*,auto" ios:padding="0 10" height="100%" width="100%">
-            <!-- <button col="1"  text="<" class="btn" (tap)="goBackPage()"></button> -->
-            <Label col="0" text="&#xf04d;" class="homeicon mdi" (tap)="goBackPage()"></Label>
-            <Label col="1" text="&#xf236;"  style="margin-left:30px; color:white;" class="fas listicon"></Label>
-            <Label  col="2" text="Bed no: 12" style="margin-left:10px;" class="homeheader"></Label>
-			<!-- <Label col="2" text="patientcare" class="hometitle"></Label>
-           <Label   col="2" text=".live" class="hometitlesub" style="color: #FF8912"></Label> -->
-           <Label col="4" text="Sumeet karande" style="margin-left:100px;" class="homeheader"></Label>
-		</GridLayout>
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
+        <GridLayout col="0" columns="auto,auto,auto,*,auto,auto, auto">
+            <RL:Ripple col="0" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30" (tap)="goBackPage()">
+                <Label col="0" text="&#xf04d;" class="homeicon mdi"></Label>
+            </RL:Ripple>
+            <Label col="1" text="&#xf47d;" class="mdi listicon" style="margin-left:30px; color:white;vertical-align: center;"></Label>
+            <Label col="2" text="12, Sumeet Karande" style="margin-left:10px;" class="homeheader"></Label>
+            <RL:Ripple col="4" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30" (tap)="patientdetail()">
+                <Label col="4" text="&#xf2fd;" class="homeicon mdi" (tap)="patientdetail()"></Label>
+            </RL:Ripple>
+            <RL:Ripple col="5" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30">
+                <Label col="5" text="&#xf09a;" class="homeicon mdi"></Label>
+            </RL:Ripple>
+        </GridLayout>
+        <GridLayout col="1" columns="auto">
+            <network-status></network-status>
+        </GridLayout>
+    </GridLayout>
 </ActionBar>
-    
-<!-- <ScrollView height="auto"> -->
-<TabView [(ngModel)]="tabSelectedIndex" tabBackgroundColor="#396766" tabTextColor="white" selectedTabTextColor="#FF8912"
-    androidSelectedTabHighlightColor="#FF8912" style="height:auto;">
 
-    <StackLayout *tabItem="{title: 'Details'}" style="background-color:#396766;">
-        <StackLayout>
+<StackLayout>
 
-            <FlexboxLayout style="justify-content: center;">
-                <StackLayout class="form cardeffect">
-                    <Label class="body" textWrap="true" text="PATIENT DETAILS"></Label>
-                    <StackLayout class="hr-light m-10"></StackLayout>
+    <GridLayout rows="*,60">
+        <ScrollView row="0">
+            <monitor *ngIf="monitor"></monitor>
+            <action *ngIf="action"></action>
+            <charts *ngIf="chart"></charts>
+        </ScrollView>
+
+        <StackLayout row="1" orientation="horizontal" style="background-color:#396766; color:#ffffff;">
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="monitorData()" (tap)="buttonClicked = true">
+                <StackLayout textWrap="true" width="25%" [class.button-clicked]="buttonClicked" class="tab-layout">
+                    <Label text="&#xf201;" class="fas button-icon"></Label>
+                    <Label text="Monitor" class="button-text"></Label>
                 </StackLayout>
-            </FlexboxLayout>
-            <!-- <Label text="Details" class="h2 m-t-16 text-center" textWrap="true"></Label> -->
-
-            <!-- <FlexboxLayout style="justify-content: center;">
-                    <StackLayout class="form cardeffect">
-                        <Label class="body" textWrap="true" text="PATIENT DETAILS"></Label>
-                        <StackLayout class="hr-light m-10"></StackLayout>
-
-                        <StackLayout>
-                            <Label class="body" textWrap="true" text="Name"></Label>
-                            <StackLayout orientation="horizontal">
-                                <Label class="labelleft" textWrap="true" text="Sumeet Karande"></Label>
-                                <Label class="labelright" textWrap="true" text="35 Years"></Label>
-                            </StackLayout>
-                        </StackLayout>
-
-                        <StackLayout class="margintop">
-                            <Label class="body" textWrap="true" text="Registration Number"></Label>
-                            <StackLayout orientation="horizontal">
-                                <Label class="labelleft" textWrap="true" text="RHC-2018-3456"></Label>
-                                <Label class="labelright" style="color:#FF8912;" textWrap="true" text="A+"></Label>
-                            </StackLayout>
-                        </StackLayout>
-
-                        <StackLayout class="margintop">
-                            <Label class="body" textWrap="true" text="Rome/Bed Number"></Label>
-                            <StackLayout orientation="horizontal">
-                                <Label class="labelleft" textWrap="true" text="#A/312"></Label>
-                                <Label class="labelright" style="color:#FF8912;" textWrap="true" text="64 Kgs"></Label>
-                            </StackLayout>
-                        </StackLayout>
-
-                        <StackLayout class="margintop">
-                            <Label class="body" textWrap="true" text="Emergency/Contacct Number"></Label>
-                            <Label class="labelleft" textWrap="true" text="779884760"></Label>
-                        </StackLayout>
-                    </StackLayout>
-                </FlexboxLayout> -->
-
-            <!-- <FlexboxLayout style="justify-content: center; margin-top:30px;">
-                <StackLayout class="form cardeffect">
-                    <Label class="body" textWrap="true" text="MEDICAL DETAILS"></Label>
-                    <StackLayout class="hr-light m-10"></StackLayout>
-                    <StackLayout>
-                        <Label class="body" textWrap="true" text="Reason for Hospitalization"></Label>
-                        <Label class="labelleft" textWrap="true" text="Uneasyness in the chest"></Label>
-                    </StackLayout>
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Undergoing treatment"></Label>
-                        <Label class="labelleft" textWrap="true" text="Under Diagnosis"></Label>
-                    </StackLayout>
-
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Medical History (if any)"></Label>
-                        <Label class="labelleft" textWrap="true" text="Undergone treatment for bone fracture in right leg"></Label>
-                    </StackLayout>
-
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Allergies (if any)"></Label>
-                        <Label class="labelleft" textWrap="true" text="Allergy with peanuts"></Label>
-                    </StackLayout>
+            </RL:Ripple>
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="actionData()" (tap)="actionbuttonClicked = true">
+                <StackLayout textWrap="true" width="25%" [class.button-clicked]="actionbuttonClicked" class="tab-layout">
+                    <Label text="&#xf00c;" class="fas button-icon"></Label>
+                    <Label text="Action" class="button-text"></Label>
                 </StackLayout>
-            </FlexboxLayout> -->
+            </RL:Ripple>
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="chartData()" (tap)="chartbuttonClicked = true">
+                <StackLayout textWrap="true" width="25%" [class.button-clicked]="chartbuttonClicked" class="tab-layout">
+                    <Label text="&#xf080;" class="fas button-icon"></Label>
+                    <Label text="Charts" class="button-text"></Label>
+                </StackLayout>
+            </RL:Ripple>
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="reportData()" (tap)="reportbuttonClicked = true">
+                <!-- <Button textWrap="true" width="25%" class="btn-border-hide" (tap)="reportData()" (tap)="reportbuttonClicked = true">
+                    <FormattedString [class.button-clicked]="reportbuttonClicked">
+                        <Span text="&#xf15b;\n" class="fas button-icon" ></Span>
+                        <Span text="Reports" class="button-text"></Span>
+                    </FormattedString>
+                </Button> -->
+                <StackLayout textWrap="true" width="25%" [class.button-clicked]="reportbuttonClicked" class="tab-layout">
+                    <Label text="&#xf15b;" class="fas button-icon"></Label>
+                    <Label text="Reports" class="button-text"></Label>
+                </StackLayout>
+            </RL:Ripple>
         </StackLayout>
-
-        <FlexboxLayout style="justify-content: center;  margin-top:30px;">
-            <StackLayout class="form cardeffect">
-                <StackLayout orientation="horizontal">
-                    <StackLayout (tap)="firstTab()">
-                        <Label class="body" textWrap="true" text="Name"></Label>
-                        <Label class="labelleft" textWrap="true" text="Sumeet Karande"></Label>
-                    </StackLayout>
-                    <StackLayout class="vl"></StackLayout>
-                    <StackLayout (tap)="secondTab()">
-                        <Label class="body" textWrap="true" text="Reason for Hospitalization"></Label>
-                        <Label class="labelleft" textWrap="true" text="Uneasyness in the chest"></Label>
-                    </StackLayout>
-                </StackLayout>
-                <StackLayout class="hr-light m-10"></StackLayout>
+    </GridLayout>
 
 
-
-                <StackLayout *ngIf="selectedfirst" class="view">
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Registration Number"></Label>
-                        <StackLayout orientation="horizontal">
-                            <Label class="labelleft" textWrap="true" text="RHC-2018-3456"></Label>
-                            <Label class="labelright" style="color:#FF8912;" textWrap="true" text="A+"></Label>
-                        </StackLayout>
-                    </StackLayout>
-
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Rome/Bed Number"></Label>
-                        <StackLayout orientation="horizontal">
-                            <Label class="labelleft" textWrap="true" text="#A/312"></Label>
-                            <Label class="labelright" style="color:#FF8912;" textWrap="true" text="64 Kgs"></Label>
-                        </StackLayout>
-                    </StackLayout>
-
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Emergency/Contacct Number"></Label>
-                        <Label class="labelleft" textWrap="true" text="779884760"></Label>
-                    </StackLayout>
-                </StackLayout>
-
-                <StackLayout *ngIf="selectedsecond" class="view">
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Reason for Hospitalization"></Label>
-                        <Label class="labelleft" textWrap="true" text="Uneasyness in the chest"></Label>
-                    </StackLayout>
-
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Undergoing treatment"></Label>
-                        <Label class="labelleft" textWrap="true" text="Under Diagnosis"></Label>
-                    </StackLayout>
-
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Medical History (if any)"></Label>
-                        <Label class="labelleft" textWrap="true" text="Undergone treatment for bone fracture in right leg"></Label>
-                    </StackLayout>
-
-                    <StackLayout class="margintop">
-                        <Label class="body" textWrap="true" text="Allergies (if any)"></Label>
-                        <Label class="labelleft" textWrap="true" text="Allergy with peanuts"></Label>
-                    </StackLayout>
-                </StackLayout>
-
-            </StackLayout>
-        </FlexboxLayout>
-
-
-
-    </StackLayout>
-
-    <StackLayout *tabItem="{title: 'Check list'}">
-        <StackLayout>
-            <!-- <Label text="Check List" class="h2 m-t-16 text-center" textWrap="true"></Label> -->
-
-
-
-        <Label class="fab" test="+"> 
-        </Label>
-        </StackLayout>
-    </StackLayout>
-    <StackLayout *tabItem="{title: 'Tab 3'}">
-        <StackLayout>
-            <!-- <Label text="Tab 3" class="h2 m-t-16 text-center" textWrap="true"></Label> -->
-        </StackLayout>
-    </StackLayout>
-
-</TabView>
-<!-- </ScrollView> -->
+</StackLayout>
