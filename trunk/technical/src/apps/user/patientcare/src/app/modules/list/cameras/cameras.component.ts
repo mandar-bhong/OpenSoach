@@ -38,7 +38,7 @@ export class CamerasComponent implements OnInit {
 	constructor(private routerExtensions: RouterExtensions,) { }
 
 	ngOnInit() {
-        alert('cameras component load ');
+        // alert('cameras component load ');
      }
 	goBackPage() {
 		// this.routerExtensions.back();
@@ -48,7 +48,7 @@ export class CamerasComponent implements OnInit {
     //     this.routerExtensions.back();
     //     console.log("click back button");
     // }
-    
+
     // take picture 
 	onTakePictureTap(args) {
         requestPermissions().then(

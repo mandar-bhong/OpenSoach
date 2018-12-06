@@ -1,17 +1,21 @@
 <ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
-    <GridLayout col="0" columns="*, auto" ios:padding="5 10" height="100%" width="100%">
-        <GridLayout row="0" columns="auto, *, auto,auto,*, auto">
-            <Ripple col="0" class="ripplecenter" rippleColor="#fff" borderRadius="20" height="40" width="40" (tap)="goBackPage()" rippleRoundedCorners="35dp">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
+        <GridLayout col="0" columns="auto,*,auto" style="text-align:center;">
+            <RL:Ripple col="0" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30" (tap)="goBackPage()">
                 <Label text="&#xf04d;" class="homeicon mdi"></Label>
-            </Ripple>
-            <Label col="2" text="patientcare" class="hometitle"></Label>
-            <Label col="3" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
+            </RL:Ripple>
+            <StackLayout col="4" class="button-dist">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30">
+                    <Label text="&#xf09a;" class="homeicon mdi"></Label>
+                </RL:Ripple>
+            </StackLayout>
+
         </GridLayout>
-        <GridLayout col="1" columns="auto">
+        <GridLayout col="1" columns="auto" style="margin-top:5px;">
             <network-status></network-status>
         </GridLayout>
     </GridLayout>
-
 </ActionBar>
 
 <ScrollView>
