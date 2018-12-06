@@ -102,11 +102,9 @@ components that have the btn class name.
   horizontal-align: center;
   color: #A8A8A8;
   font-size: 16;
-  margin-top: 20px;
+  /* margin-top: 40px; */
 }
-.sign-up-label {
-  margin-bottom: 20;
-}
+
 .bold {
   color: #00A6CE; 
 }
@@ -117,10 +115,6 @@ FlexboxLayout {
   background-color: #396766
 }
 
-/* Image {
-  margin-bottom: 20;
-  height: 70;
-} */
 Button, TextField {
   margin-bottom: 10;
 }
@@ -159,7 +153,6 @@ TextField {
 .homeicon{
   vertical-align: center; 
   color:white;
-  margin-left:15px;
 }
 .listicon{
   font-size: 22;
@@ -167,3 +160,15 @@ TextField {
   margin-right: 5px;
 }
 /* home page css start */
+
+.hr-light{
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 0 0;
+  padding: 0;
+}
+.ripplecenter{
+  text-align: center;
+}
