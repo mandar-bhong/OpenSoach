@@ -11,58 +11,60 @@ import { SegmentedBar, SegmentedBarItem } from "tns-core-modules/ui/segmented-ba
 })
 
 export class DetailsComponent implements OnInit {
-	public tabSelectedIndex: number;
-	b1;
-	selectedfirst = true;
-	selectedsecond = false;
-	public SelectedIndex: number;
+	// public tabSelectedIndex: number;
+	// data = [];
+	monitor = true;
+	action = false;
+	chart = false;
+	buttonClicked: boolean = true;
+	actionbuttonClicked: boolean = false;
+	chartbuttonClicked: boolean = false;
+	reportbuttonClicked: boolean = false;
 
 	constructor(private routerExtensions: RouterExtensions) {
-		this.tabSelectedIndex = 0;
+
 	}
 
 	ngOnInit() { }
-	changeTab() {
-		if (this.tabSelectedIndex === 0) {
-			this.tabSelectedIndex = 1;
-		} else if (this.tabSelectedIndex === 1) {
-			this.tabSelectedIndex = 2;
-		} else if (this.tabSelectedIndex === 2) {
-			this.tabSelectedIndex = 0;
-		}
-	}
+
 	goBackPage() {
 		this.routerExtensions.navigate(["/list"], { clearHistory: true });
 	}
-	firstTab() {
-		this.selectedfirst = true;
-		this.selectedsecond = false;
+	
+	patientdetail(){
+		this.routerExtensions.navigate(['list', 'patient'], { clearHistory: true });
 	}
-	secondTab() {
-		this.selectedfirst = false;
-		this.selectedsecond = true;
+	monitorData() {
+		this.monitor = true;
+		this.action = false;
+		this.chart = false;
+		this.actionbuttonClicked= false;
+		this.chartbuttonClicked = false;
+		this.reportbuttonClicked = false;
 	}
-	test() {
-		var coll = document.getElementsByClassName("collapsible");
-		var i;
-
-		for (i = 0; i < coll.length; i++) {
-			coll[i].addEventListener("click", function () {
-				this.classList.toggle("active");
-				var content = this.nextElementSibling;
-				if (content.style.display === "block") {
-					content.style.display = "none";
-				} else {
-					content.style.display = "block";
-				}
-			});
-		}
-
+	actionData() {
+		this.monitor = false;
+		this.action = true;
+		this.chart =false;
+		this.buttonClicked= false;
+		this.chartbuttonClicked = false;
+		this.reportbuttonClicked = false;
 	}
-
-
-
-
-
+	chartData() {
+		this.monitor = false;
+		this.action = false;
+		this.chart =true;
+		this.buttonClicked= false;
+		this.actionbuttonClicked = false;
+		this.reportbuttonClicked = false;
+	}
+	reportData(){
+		this.monitor = false;
+		this.action = false;
+		this.chart =false;
+		this.buttonClicked= false;
+		this.actionbuttonClicked = false;
+		this.chartbuttonClicked = false;
+	}
 	
 }
