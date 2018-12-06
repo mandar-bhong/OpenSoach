@@ -1,104 +1,73 @@
 <ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
-	<GridLayout row="0" columns="auto,*, auto, auto, auto,auto,*,auto,auto,auto" ios:padding="5 10" height="100%" width="100%"
-	 *ngIf="searchiocn">
-		<Label col="0" text="&#xf04d;" class="homeicon mdi" (tap)="goBackPage()"></Label>
 
-		<Label col="1" text="&#xf9d4;" class="homeicon mdi" (tap)="showWithSound()"></Label>
-		<Label col="2" text="&#xf950;" class="homeicon mdi" (tap)="conti()"></Label>
-		<Label col="3" text="&#xf9d4;" class="homeicon mdi" (tap)="cancelAll()"></Label>
-
-		<Label col="4" text="patientcare" class="hometitle"></Label>
-		<Label col="5" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
-		<Label col="7" text="&#xf09a;" class="homeicon mdi"></Label>
-		<Label col="8" text="&#xf349;" class="homeicon mdi" (tap)="searchTab()"></Label>
-		<Label col="9" text="&#xf111;" class="homeicon fas"></Label>
+	<GridLayout row="*" columns="*,auto,*, auto, auto" ios:padding="5 10" height="100%" width="100%">
+		<GridLayout col="1" columns="*,auto, auto" style="text-align: center;">
+			<Label col="1" text="patientcare" class="hometitle"></Label>
+			<Label col="2" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
+		</GridLayout>
+		<GridLayout col="3" columns="auto">
+			<RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="8" height="32" width="32">
+				<Label col="0" (tap)="camerasdetails()" text="&#xf09a;" class="homeicon mdi"></Label>
+			</RL:Ripple>
+		</GridLayout>
+		<GridLayout col="4" columns="auto">
+			<network-status col="0"></network-status>
+		</GridLayout>
 	</GridLayout>
 
-	<GridLayout rows="auto" columns="auto, *" height="100%" width="100%" *ngIf="!searchiocn" sdkExampleTitle sdkToggleNavButton>
-		<Label col="0" text="&#xf04d;" class="homeicon mdi" (tap)="searchTabClose()"></Label>
-		<SearchBar col="1" hint="Search by Patient Name or Bed" textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8" color="#A8A8A8"
-		 (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (loaded)="searchBarLoaded($event)" (submit)="onSubmit($event)"></SearchBar>
-		<Label textWrap="false" class="h3 p-15 text-center"></Label>
-	</GridLayout>
 </ActionBar>
 
-<!-- <ActionBar class="action-bar" *ngIf="searchshow" style="background-color: #396766; color: white; vertical-align: center;">
-		<GridLayout row="0" columns="auto,*,auto,auto,*,auto,auto,auto" ios:padding="5 10" height="100%" width="100%" *ngIf="searchiocn">
-			<Label col="0" text="&#xf141;" class="homeicon mdi" (tap)="goBackPage()"></Label>
-			<Label col="2" text="patientcare" class="hometitle"></Label>
-			<Label col="3" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
-			<Label col="5" text="&#xf09a;" class="homeicon mdi"></Label>
-		   <Label col="6" text="&#xf349;" class="homeicon mdi"(tap)="searchTab()"></Label>
-			<Label col="7" text="&#xf111;" class="homeicon fas"></Label>
-		</GridLayout>
-	
-		<GridLayout rows="auto" columns="auto, *"  height="100%" width="100%" sdkExampleTitle sdkToggleNavButton>
-			<Label col="0" text="&#xf141;" class="homeicon mdi" (tap)="searchTabClose()"></Label>
-			<SearchBar col="1" hint="Search by Patient Name or Bed" textFieldBackgroundColor="#ffffff" textFieldHintColor="white" (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (loaded)="searchBarLoaded($event)"
-						 (submit)="onSubmit($event)"></SearchBar>
+<GridLayout rows="auto, *" columns="*" height="100%" width="100%" style="background-color:#396766;">
+	<StackLayout row="0">
+		<GridLayout rows="auto" columns="*" style="background-color:#396766; margin-top:6px;">
+			<SearchBar col="1" hint="Search by Patient Name or Bed" textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8" color="#A8A8A8"
+			 (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (clear)="onClear($event)" (submit)="onSubmit($event)"></SearchBar>
 			<Label textWrap="false" class="h3 p-15 text-center"></Label>
 		</GridLayout>
-</ActionBar> -->
+	</StackLayout>
 
-
-<!-- <GridLayout>
+	<StackLayout row="1">
 		<ScrollView>
-			<ListView class="list-group" [items]="data" class="card" stry>
-				<ng-template let-item="item">
-					<GridLayout columns="*, auto" rows="auto" (tap)="details()">
-					<GridLayout col="0" class="card-layout" columns="auto,*,auto" rows="auto, auto, auto" (tap)="details()">
-						
-						<Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
-						<Label row="0" col="1" class="h3" [text]="item.ward"></Label>
+			<GridLayout>
 
-						<Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
-						<Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
-						
-						<Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
-						<Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
-					</GridLayout>
+				<RadListView #myListView [items]="myItems" (loaded)="listLoaded()">
 
-					<GridLayout col="1" class="card-layout" columns="auto" rows="auto, auto" (tap)="details()"  style=" vertical-align: center;">
-							<Label  text="&#xf020;" class="mdi listicon"></Label>
-							<Label row="1" text="test" ></Label>
-					</GridLayout>
-					</GridLayout>
-				</ng-template>
-			</ListView>
-		</ScrollView>
-	</GridLayout> -->
-<GridLayout orientation="vertical" rows="auto, *">
-	<RadListView #myListView [items]="dataItems" row="1" (loaded)="listLoaded()" (itemSwipeProgressEnded)="onSwipeCellFinished($event)"
-	 (itemSwipeProgressStarted)="onSwipeCellStarted($event)" (itemSwipeProgressChanged)="onCellSwiping($event)" swipeActions="true"
-	 loadOnDemandMode="Auto" (loadMoreDataRequested)="onLoadMoreItemsRequested($event)">
-		<ng-template tkListItemTemplate let-item="item">
-			<GridLayout class="listItemStackLayout" columns="*, *" rows="auto" (tap)="details()">
+					<ng-template tkListItemTemplate let-item="item">
+						<!-- <RL:Ripple rippleColor="#6E737B"> -->
+						<GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" (tap)="details()">
+							<GridLayout row="0" columns="*, auto, auto" rows="auto, auto " class="card-layout">
 
-				<GridLayout col="0" class="card-layout" columns="auto,*,auto" rows="auto, auto, auto" (tap)="details()">
+								<GridLayout col="0" columns="auto,*,auto" rows="auto, auto, auto">
 
-					<Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
-					<Label row="0" col="1" class="h3" [text]="item.ward"></Label>
+									<Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+									<Label row="0" col="1" class="h3" [text]="item.ward"></Label>
 
-					<Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
-					<Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
+									<Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+									<Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
 
-					<Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
-					<Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
-				</GridLayout>
+									<Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+									<Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
+								</GridLayout>
 
-				<GridLayout col="1" class="card-layout" columns="*" rows="auto, auto" (tap)="details()" style=" vertical-align: center;">
-					<Label text="&#xf020;" class="mdi listicon"></Label>
-					<Label row="1" text="test"></Label>
-				</GridLayout>
-			</GridLayout>
-			<!-- <StackLayout class="listItemStackLayout" orientation="vertical">
-                <Label class="labelName" [text]="item.name"></Label>
-                <Label class="labelTitle" [text]="item.title"></Label>
-                <Label class="labelText" [text]="item.text"></Label>
-            </StackLayout> -->
-		</ng-template>
-		<!-- >> angular-listview-swipe-actions-multiple-template-html -->
-		<GridLayout *tkListItemSwipeTemplate columns="auto, *, auto">
+								<GridLayout col="1" columns="*" rows="auto, auto" style="vertical-align: center; text-align: center;">
+									<Label text="&#xf020;" class="mdi listicon"></Label>
+									<Label row="1" text="last attended "></Label>
+								</GridLayout>
+							</GridLayout>
+							<GridLayout row="1" col="1">
+								<StackLayout class="hr-light m-10"></StackLayout>
+							</GridLayout>
+						</GridLayout>
+						<!-- </RL:Ripple> -->
+					</ng-template>
+
+
+
+
+					<!-- >> angular-listview-swipe-actions-multiple-template-html -->
+
+
+					<!-- <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto">
 			<GridLayout columns="*, *, *" col="0" id="left-stack">
 				<GridLayout col="0" class="markGridLayout" (tap)="onLeftSwipeClick($event)" id="btnMark">
 					<Label text="mark" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
@@ -121,7 +90,15 @@
 					<Label text="forward" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
 				</GridLayout>
 			</GridLayout>
-		</GridLayout>
-		<!-- << angular-listview-swipe-actions-multiple-template-html -->
-	</RadListView>
+		</GridLayout> -->
+
+
+					<!-- << angular-listview-swipe-actions-multiple-template-html -->
+				</RadListView>
+
+			</GridLayout>
+		</ScrollView>
+
+	</StackLayout>
+
 </GridLayout>

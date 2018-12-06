@@ -67,14 +67,12 @@ border: none;
 }
 
 .card-layout {
-    padding: 12;
+    padding: 8;
 }
 .card-layout .h1 {
     margin-bottom: 15;
 }
-.wardimg{
-    background-image: url("../assets/logo_full.png") no-repeat;
-}
+
 
 
 /* swipe action css */
@@ -129,4 +127,10 @@ border: none;
 
 .swipeTemplateLabel {
     font-size: 15;
+}
+
+
+.float-btn-container {
+    margin-top: 80%;
+    margin-left: 80%;
 }
