@@ -1,0 +1,67 @@
+<ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+    <GridLayout col="0" columns="*, auto" ios:padding="5 10" height="100%" width="100%">
+        <GridLayout row="0" columns="auto, *, auto,auto,*, auto">
+            <Ripple col="0" class="ripplecenter" rippleColor="#fff" borderRadius="20" height="40" width="40" (tap)="goBackPage()" rippleRoundedCorners="35dp">
+                <Label text="&#xf04d;" class="homeicon mdi"></Label>
+            </Ripple>
+            <Label col="2" text="patientcare" class="hometitle"></Label>
+            <Label col="3" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
+        </GridLayout>
+        <GridLayout col="1" columns="auto">
+            <network-status></network-status>
+        </GridLayout>
+    </GridLayout>
+
+</ActionBar>
+
+<ScrollView>
+    <StackLayout>
+        <GridLayout rows="auto, *, auto, auto">
+            <StackLayout row="0" orientation="vertical" padding="10">
+                <StackLayout orientation="horizontal" padding="10">
+                    <Label text="saveToGallery"></Label>
+                    <Switch [(ngModel)]="saveToGallery"></Switch>
+                </StackLayout>
+                <!-- <StackLayout orientation="horizontal" padding="10">
+                            <Label text="keepAspectRatio"></Label>
+                            <Switch [(ngModel)]="keepAspectRatio"></Switch>
+                        </StackLayout>
+                        <StackLayout orientation="horizontal" padding="10">
+                            <Label text="width: "></Label>
+                            <TextField hint="Enter width" keyboardType="number" [(ngModel)]="width" class="input"></TextField>
+                            <Label text="height: "></Label>
+                            <TextField hint="Enter height" keyboardType="number" [(ngModel)]="height" class="input"></TextField>
+                        </StackLayout> -->
+            </StackLayout>
+
+            <Image row="1" [src]="cameraImage" stretch="aspectFit" margin="10"></Image>
+            <TextView row="2" [(ngModel)]="labelText" editable="false"></TextView>>
+            <Button row="3" text="Take Picture" (tap)='onTakePictureTap($event)' padding="10" style="background-color: #FF8912; color:#ffffff"></Button>
+        </GridLayout>
+        <StackLayout class="hr-light m-10"></StackLayout>
+
+        <StackLayout>
+            <GridLayout rows="*, auto, auto">
+                <stackLayout *ngIf="imgpicker" style="background-color:#B1B6BF;border-width:1px;  
+                border-style:dotted; vertical-align: center;" [width]="previewSize" [height]="previewSize" stretch="aspectFit">
+                    <Ripple row="1" rippleColor="#fff" borderRadius="20" style="text-align: center;" (tap)="onSelectSingleTap()">
+                        <Label text="&#xf167;" class="homeicon mdi" style="  font-size: 60;"></Label>
+                    </Ripple>
+                </stackLayout>
+                <Image [src]="imageSrc" *ngIf="isSingleMode || !imgpicker" [width]="previewSize" [height]="previewSize" stretch="aspectFit"></Image>
+                <Button row="1" text="Pick Single Picture" (tap)="onSelectSingleTap()" horizontalAlignment="center" style="background-color: #FF8912; color:#ffffff"></Button>
+                <!-- <Button row="2" text="Pick Multiple" (tap)="onSelectMultipleTap()" horizontalAlignment="center" style="background-color: #FF8912; color:#ffffff"></Button> -->
+                <Button row="2" text="Remove Picture" (tap)="onRemoveImageButtonTap()" horizontalAlignment="center" style="background-color: #FF8912; color:#ffffff"></Button>
+            </GridLayout>
+            <ListView [items]="imageAssets" style="margin-top:10px;">
+                <ng-template let-image="item" let-i="index">
+                    <GridLayout columns="auto, *">
+                        <Image [width]="thumbSize" [height]="thumbSize" [src]="image" stretch="fill"></Image>
+                        <Label col="1" [text]="'image ' + i"></Label>
+                    </GridLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
+    </StackLayout>
+
+</ScrollView>
