@@ -1,0 +1,112 @@
+<ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
+        <GridLayout col="0" columns="auto,auto,auto,*,auto">
+            <RL:Ripple col="0" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30" (tap)="goBackPage()">
+                <Label text="&#xf04d;" class="homeicon mdi"></Label>
+            </RL:Ripple>
+            <Label col="1" text="&#xf47d;" class="mdi listicon" style="margin-left:30px; color:white;vertical-align: center;"></Label>
+            <Label col="2" text="12, Sumeet Karande" style="margin-left:10px;" class="homeheader"></Label>
+
+            <RL:Ripple col="4" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30">
+                <Label col="4" text="&#xf09a;" class="homeicon mdi"></Label>
+            </RL:Ripple>
+
+        </GridLayout>
+        <GridLayout col="1" columns="auto">
+            <network-status></network-status>
+        </GridLayout>
+    </GridLayout>
+</ActionBar>
+
+
+
+<StackLayout style="background-color:#396766;">
+    <StackLayout style="margin-top:20px;">
+        <FlexboxLayout style="justify-content: center; margin: 5px 0px;">
+            <StackLayout class="cardeffect">
+                <Label class="body" textWrap="true" text="PATIENT DETAILS"></Label>
+                <StackLayout class="hr-light m-10"></StackLayout>
+                <GridLayout columns="*, auto" rows="auto, auto, auto">
+
+                    <GridLayout col="0" columns="auto,*,auto,auto" rows="auto" style=" vertical-align: center;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Name"></Label>
+                            <Label class="labelleft" textWrap="true" text="Sumeet Karande"></Label>
+                        </StackLayout>
+                    </GridLayout>
+                    <GridLayout col="1" columns="auto, auto" style="justify-content: center; vertical-align: center;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Hospitalised on: "></Label>
+                        </StackLayout>
+                        <StackLayout col="1" style="margin-left: 5px;">
+                            <Label textWrap="true" text="23/11/2018"></Label>
+                        </StackLayout>
+                    </GridLayout>
+
+                    <GridLayout row="1" col="0" columns="auto,*,auto,auto" rows="auto" style=" vertical-align: center; margin-top:5px;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Registration Number"></Label>
+                            <Label class="labelleft" textWrap="true" text="RHC-2018-3456"></Label>
+                        </StackLayout>
+                    </GridLayout>
+
+                    <GridLayout row="2" col="0" columns="auto,*,auto,auto" rows="auto" style=" vertical-align: center; margin-top:5px;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Rome/Bed Number"></Label>
+                            <Label class="labelleft" textWrap="true" text="#A/312"></Label>
+                        </StackLayout>
+
+                    </GridLayout>
+
+                    <GridLayout row="2" col="1" columns="auto, auto" style="justify-content: center; vertical-align: center;">
+                        <StackLayout col="0">
+                            <Label style="color:#FF8912;" textWrap="true" text="64 Kgs"></Label>
+                        </StackLayout>
+                    </GridLayout>
+                </GridLayout>
+            </StackLayout>
+        </FlexboxLayout>
+    </StackLayout>
+
+
+
+    <StackLayout style="margin-top:20px;">
+        <FlexboxLayout style="justify-content: center; margin: 5px 0px;">
+            <StackLayout class="cardeffect">
+                <Label class="body" textWrap="true" text="MEDICAL DETAILS"></Label>
+                <StackLayout class="hr-light m-10"></StackLayout>
+                <GridLayout columns="*, auto" rows="auto, auto, auto, auto">
+
+                    <GridLayout col="0" columns="auto,*,auto,auto" rows="auto" style=" vertical-align: center;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Reason for Hospitalization"></Label>
+                            <Label class="labelleft" textWrap="true" text=" test body"></Label>
+                        </StackLayout>
+                    </GridLayout>
+
+                    <GridLayout row="1" col="0" style=" vertical-align: center; margin-top:5px;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Undergoing treatment"></Label>
+                            <Label class="labelleft" textWrap="true" text="Under Diagnosis"></Label>
+                        </StackLayout>
+                    </GridLayout>
+
+                    <GridLayout row="2" col="0" style=" vertical-align: center; margin-top:5px;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Medical History (if any)"></Label>
+                            <Label class="labelleft" textWrap="true" text="Undergone treatment for bone fracture in right leg"></Label>
+                        </StackLayout>
+                    </GridLayout>
+
+                    <GridLayout row="3" col="0" style=" vertical-align: center; margin-top:5px;">
+                        <StackLayout col="0">
+                            <Label class="body" textWrap="true" text="Allergies (if any)"></Label>
+                            <Label class="labelleft" textWrap="true" text="Allergy with peanuts"></Label>
+                        </StackLayout>
+                    </GridLayout>
+                </GridLayout>
+            </StackLayout>
+        </FlexboxLayout>
+    </StackLayout>
+</StackLayout>
