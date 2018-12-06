@@ -1,19 +1,20 @@
 <ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
     <NavigationButton visibility="collapsed"></NavigationButton>
     <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
-        <GridLayout col="0" columns="auto,auto,auto,*,auto">
+        <GridLayout col="0" columns="auto,auto,auto,*,auto" style="text-align:center;">
             <RL:Ripple col="0" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30" (tap)="goBackPage()">
                 <Label text="&#xf04d;" class="homeicon mdi"></Label>
             </RL:Ripple>
             <Label col="1" text="&#xf47d;" class="mdi listicon" style="margin-left:30px; color:white;vertical-align: center;"></Label>
-            <Label col="2" text="12, Sumeet Karande" style="margin-left:10px;" class="homeheader"></Label>
-
-            <RL:Ripple col="4" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30">
-                <Label col="4" text="&#xf09a;" class="homeicon mdi"></Label>
-            </RL:Ripple>
+            <Label col="2" text="12, Sumeet Karande" style="margin-left:10px;vertical-align: center;" class="homeheader"></Label>
+            <StackLayout col="4" class="button-dist">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="30" width="30">
+                    <Label text="&#xf09a;" class="homeicon mdi"></Label>
+                </RL:Ripple>
+            </StackLayout>
 
         </GridLayout>
-        <GridLayout col="1" columns="auto">
+        <GridLayout col="1" columns="auto" style="margin-top:5px;">
             <network-status></network-status>
         </GridLayout>
     </GridLayout>
