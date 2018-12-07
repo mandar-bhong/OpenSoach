@@ -3,10 +3,19 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 const routes: Routes = [
-    { path: "", redirectTo: "/home", pathMatch: "full" },
-    // { path: "", redirectTo: "/login", pathMatch: "full" },
-    { path: "home", loadChildren: "~/app/home/home.module#HomeModule" },
-	{ path: "list", loadChildren: "~/app/modules/list/list.module#ListModule" },
+    // { path: "", redirectTo: "/home", pathMatch: "full" },
+    {
+        path: "", redirectTo: "/login", pathMatch: "full"
+    },
+    {
+        path: "login", loadChildren: "~/app/login/login.module#LoginModule"
+    },
+    {
+        path: "home", loadChildren: "~/app/home/home.module#HomeModule"
+    },
+    {
+        path: "patientmgnt", loadChildren: "~/app/modules/patient-management/patient-mgnt.module#PatientMgntModule"
+    },
 ];
 
 @NgModule({

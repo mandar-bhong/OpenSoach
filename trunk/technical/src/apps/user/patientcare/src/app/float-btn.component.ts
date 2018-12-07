@@ -34,6 +34,6 @@ export class FloatBtnComponent {
     constructor(private routerExtensions: RouterExtensions) {
     }
     details() {
-		this.routerExtensions.navigate(["/list/cameras"], { clearHistory: true });
+		this.routerExtensions.navigate(["/home"], { clearHistory: true });
 	}
 }
