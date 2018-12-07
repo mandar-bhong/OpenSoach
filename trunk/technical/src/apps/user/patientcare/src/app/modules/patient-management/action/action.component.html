@@ -1,0 +1,33 @@
+
+        <GridLayout style="background-color:#ffffff; height:100%;" >
+            <!-- <ScrollView> -->
+                <ListView class="list-group" [items]="data" class="card" stry>
+                    <ng-template let-item="item">
+                        <Ripple rippleFadeDuration="5">
+                            <GridLayout columns="*, auto" rows="auto">
+                                <GridLayout col="0" class="card-layout" columns="auto,*,auto" rows="auto, auto, auto">
+                                    <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+                                    <Label row="0" col="1" class="h3" [text]="item.ward"></Label>
+
+                                    <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+                                    <Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
+
+                                    <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+                                    <Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
+                                </GridLayout>
+
+                                <GridLayout col="1" class="card-layout" columns="auto" rows="auto, auto" style=" vertical-align: center;">
+                                    <Label text="&#xf020;" class="mdi listicon"></Label>
+                                    <Label row="1" text="test"></Label>
+                                </GridLayout>
+                            </GridLayout>
+                        </Ripple>
+                    </ng-template>
+                </ListView>
+            <!-- </ScrollView> -->
+
+            <StackLayout class="float-btn-container">
+                <float-btn></float-btn>
+            </StackLayout>
+
+        </GridLayout>
