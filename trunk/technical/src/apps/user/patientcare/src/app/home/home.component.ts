@@ -277,12 +277,13 @@ export class HomeComponent implements OnInit {
 	// search record by list code start
 	public onSubmit(args) {
 		let searchBar = <SearchBar>args.object;
+		// let searchValue = searchBar.text;
 		let searchValue = searchBar.text.toLowerCase();
 
 		this.myItems = new ObservableArray<DataItem>();
 		if (searchValue !== "") {
 			for (let i = 0; i < this.tempdata.length; i++) {
-				if (this.tempdata[i].name.toLowerCase().indexOf(searchValue) !== -1) {
+				if (this.tempdata[i].name.toLowerCase().indexOf(searchValue) !== -1 || this.tempdata[i].ward.toLowerCase().indexOf(searchValue) !== -1 || this.tempdata[i].ward.toLowerCase().indexOf(searchValue) !== -1) {
 					this.myItems.push(this.tempdata[i]);
 				}
 			}
