@@ -1,6 +1,4 @@
-
-        <GridLayout style="background-color:#ffffff; height:100%;" >
-            <!-- <ScrollView> -->
+<!-- <GridLayout style="background-color:#ffffff; height:100%;" >
                 <ListView class="list-group" [items]="data" class="card" stry>
                     <ng-template let-item="item">
                         <Ripple rippleFadeDuration="5">
@@ -24,10 +22,138 @@
                         </Ripple>
                     </ng-template>
                 </ListView>
-            <!-- </ScrollView> -->
 
             <StackLayout class="float-btn-container">
                 <float-btn></float-btn>
             </StackLayout>
 
+        </GridLayout> -->
+
+
+
+
+
+
+
+
+
+
+<GridLayout rows="auto" columns="*" height="100%" width="100%" style="background-color:#396766;">
+
+    <StackLayout row="0" horizontalAlignment="center" class="center" height="100%" width="100%">
+        <GridLayout rows="auto, *" columns="*" height="100%" width="100%" style="background-color:#396766;">
+
+
+            <StackLayout row="1" col="0">
+                <ScrollView>
+                    <RadListView multipleSelection="true" selectionBehavior="Press" (itemSelected)="itemSelected($event)" (itemDeselected)="itemDeselected($event)"
+                        (loaded)="listLoaded()" [items]="_dataItems" multipleSelection="true" selectionBehavior="Press" [groupingFunction]="_funcGrouping">
+
+                        <ng-template tkListItemTemplate let-item="item">
+                            <!-- <RL:Ripple rippleFadeDuration="5"> -->
+                            <GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" [class]="'item ' + (item.selected ? 'item-selected' : '')"
+                                [backgroundColor]="item.selected ? '#95a5a6' : '#ffffff'">
+                                <GridLayout row="0" columns="*, auto, auto" rows="auto, auto ">
+                                    <!-- <GridLayout col="0" rows="*"> -->
+                                    <!-- <Label col="0" *ngIf="item.attended === 1" style="background-color:green;"></Label>
+                                                <Label col="0" *ngIf="item.attended === 2" style="background-color:red;"></Label> -->
+                                    <!-- </GridLayout> -->
+                                    <GridLayout col="0" columns="auto,*,auto" rows="auto, auto, auto" class="card-layout">
+
+                                        <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+                                        <Label row="0" col="1" class="h3" [text]="item.ward"></Label>
+
+                                        <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+                                        <Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
+
+                                        <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+                                        <Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
+                                    </GridLayout>
+
+                                    <GridLayout col="1" columns="*" rows="auto, auto" style="vertical-align: center; text-align: center;">
+                                        <StackLayout>
+                                            <!-- <Label text="&#xf020;" class="mdi listicon"></Label> -->
+                                            <Label row="1" text="last attended 12:30 AM"></Label>
+                                        </StackLayout>
+                                        <!-- <StackLayout *ngIf="item.attended === 2" style="vertical-align: center; text-align: center;">
+                                                  <Label text="&#xf240;" class="mdi listicon" style="color:red;"></Label>
+                                                  <Label row="1" text="Need attended"></Label>
+                                                </StackLayout> -->
+                                    </GridLayout>
+                                </GridLayout>
+                                <GridLayout row="1" col="1">
+                                    <StackLayout class="hr-light m-10"></StackLayout>
+                                </GridLayout>
+                            </GridLayout>
+                            <!-- </RL:Ripple> -->
+                        </ng-template>
+                        <!-- <ng-template tkListViewHeader [items]="_dataItems">
+                            <Label [text]="items.pstatus" class="header" style="font-size: 22; color:#ffffff; padding: 5px, 5px"></Label>
+                        </ng-template> -->
+
+
+
+
+                        <!-- >> angular-listview-swipe-actions-multiple-template-html -->
+
+
+                        <!-- <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto">
+                                      <GridLayout columns="*, *, *" col="0" id="left-stack">
+                                        <GridLayout col="0" class="markGridLayout" (tap)="onLeftSwipeClick($event)" id="btnMark">
+                                          <Label text="mark" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+                                        </GridLayout>
+                                        <GridLayout col="1" class="archiveGridLayout" (tap)="onLeftSwipeClick($event)" id="btnArchive">
+                                          <Label text="archive" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+                                        </GridLayout>
+                                        <GridLayout col="2" class="unreadGridLayout" (tap)="onLeftSwipeClick($event)" id="btnUnread">
+                                          <Label text="unread" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+                                        </GridLayout>
+                                      </GridLayout>
+                                      <GridLayout columns="*, *, *" col="2" id="right-stack">
+                                        <GridLayout col="0" class="deleteGridLayout" (tap)="onRightSwipeClick($event)" id="btnDelete">
+                                          <Label text="delete" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+                                        </GridLayout>
+                                        <GridLayout col="1" class="readGridLayout" (tap)="onRightSwipeClick($event)" id="btnRead">
+                                          <Label text="read" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+                                        </GridLayout>
+                                        <GridLayout col="2" class="forwardGridLayout" (tap)="onRightSwipeClick($event)" id="btnForward">
+                                          <Label text="forward" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
+                                        </GridLayout>
+                                      </GridLayout>
+                                    </GridLayout> -->
+
+
+                        <!-- << angular-listview-swipe-actions-multiple-template-html -->
+                    </RadListView>
+
+                </ScrollView>
+
+            </StackLayout>
+
         </GridLayout>
+
+    </StackLayout>
+
+    <StackLayout row="0" horizontalAlignment="right" class="right">
+        <RL:Ripple rippleColor="#fff" style="margin-top: 20px;" (tap)="onSubmit($event)">
+            <StackLayout class="float-btn-monitor fas">
+                <Label class="float-btn-text-monitor" text="&#xf201;"></Label>
+            </StackLayout>
+        </RL:Ripple>
+        <RL:Ripple rippleColor="#fff">
+            <StackLayout class="float-btn-medicene">
+                <Label class="float-btn-text-medicene fas" text="&#xf46b;"></Label>
+            </StackLayout>
+        </RL:Ripple>
+        <RL:Ripple rippleColor="#fff">
+            <StackLayout class="float-btn-intake">
+                <Label class="float-btn-text-intake fas" text="&#xf48e;"></Label>
+            </StackLayout>
+        </RL:Ripple>
+        <RL:Ripple rippleColor="#fff">
+            <StackLayout class="float-btn-output">
+                <Label class="float-btn-text-output fas" text="&#xf46c;"></Label>
+            </StackLayout>
+        </RL:Ripple>
+    </StackLayout>
+</GridLayout>

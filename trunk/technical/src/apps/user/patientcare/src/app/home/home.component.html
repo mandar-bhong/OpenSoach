@@ -33,7 +33,7 @@
         <RadListView #myListView [items]="myItems" (loaded)="listLoaded()">
 
           <ng-template tkListItemTemplate let-item="item">
-            <!-- <RL:Ripple rippleColor="#6E737B"> -->
+            <RL:Ripple rippleColor="#6E737B" (tap)="details()">
             <GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" (tap)="details()">
               <GridLayout row="0" columns="8,*, auto, auto" rows="auto, auto " >
                 <!-- <GridLayout col="0" rows="*"> -->
@@ -67,7 +67,7 @@
                 <StackLayout class="hr-light m-10"></StackLayout>
               </GridLayout>
             </GridLayout>
-            <!-- </RL:Ripple> -->
+            </RL:Ripple>
           </ng-template>
 
 

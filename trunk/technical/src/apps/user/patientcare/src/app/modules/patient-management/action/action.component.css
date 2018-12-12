@@ -1,13 +1,145 @@
-.action {
+.action {}
 
-}
-.float-btn-container{
+.float-btn-container {
     margin-top: 85%;
     margin-left: 80%;
-  }
-  .card-layout {
+}
+
+.card-layout {
     padding: 12;
-  }
-  .card-layout .h1 {
+}
+
+.card-layout .h1 {
     margin-bottom: 15;
-  }
+}
+
+.listItemStackLayout {
+    background-color: white;
+    /* padding-left: 5; */
+    padding-right: 5;
+}
+
+.labelName {
+    font-size: 20;
+    margin-bottom: 8;
+}
+
+.labelTitle {
+    font-size: 14;
+    font-weight: bold;
+}
+
+.labelText {
+    font-size: 12;
+}
+
+.markGridLayout {
+    background-color: #0099ff;
+    padding: 16;
+}
+
+.archiveGridLayout {
+    background-color: #ffcc99;
+    padding: 16;
+}
+
+.unreadGridLayout {
+    background-color: #ff3300;
+    padding: 16;
+}
+
+.deleteGridLayout {
+    background-color: red;
+    padding: 16;
+}
+
+.readGridLayout {
+    background-color: #ff66ff;
+    padding: 16;
+}
+
+.forwardGridLayout {
+    background-color: #9966ff;
+    padding: 16;
+}
+
+.swipeTemplateLabel {
+    font-size: 15;
+}
+
+/* right side button css start */
+.center {
+    horizontal-align: center;
+}
+
+.right {
+    horizontal-align: right;
+    margin-top: 45%;
+    /* padding-right: 20; */
+}
+
+.float-btn-text-monitor {
+    color: #ffffff;
+    font-size: 17;
+}
+
+
+.float-btn-text-medicene {
+    color: #ffffff;
+    font-size: 19;
+}
+
+
+.float-btn-text-intake {
+    color: #ffffff;
+    font-size: 21;
+}
+
+
+.float-btn-text-output {
+    color: #ffffff;
+    font-size: 22;
+}
+
+.float-btn-monitor {
+    background-color: #E94E77;
+    border-radius: 3px;
+    width: 44;
+    height: 44;
+    text-align: center;
+    vertical-align: middle;
+}
+.float-btn-medicene {
+    width: 44;
+    height: 44;
+    background: #3FB8AF;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+.float-btn-intake {
+    background-color: #FF8910;
+    border-radius: 3px;
+    width: 44;
+    height: 44;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.float-btn-output {
+    background-color: #008BFF;
+    border-radius: 3px;
+    width: 44;
+    height: 44;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* right side button css end */
+
+ /* selected css start */
+.item-selected {
+    border-width: 1;
+    border-color: #990033;
+}
+ /* selected css end */
