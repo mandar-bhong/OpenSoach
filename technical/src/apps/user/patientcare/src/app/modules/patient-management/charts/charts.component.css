@@ -15,23 +15,105 @@
     margin: 0px 2%;
     height: 25%;
 }
-.intentbox{
-    background-color:#008BFF; 
-    vertical-align: center; 
-    height:350px
+
+.intentbox {
+    background-color: #008BFF;
+    vertical-align: center;
+    height: 350px
 }
-.outputbox{
-    background-color:#FF3A7F; 
-    vertical-align: center; 
-    height:350px
+
+.outputbox {
+    background-color: #FF3A7F;
+    vertical-align: center;
+    height: 350px
 }
-.medicalbox{
-    background-color:#FFBD00; 
-    vertical-align: center; 
-    height:350px
+
+.medicalbox {
+    background-color: #FFBD00;
+    vertical-align: center;
+    height: 350px
 }
-.outbox{
-    background-color:#00A84F; 
-    vertical-align: center; 
-    height:350px
+
+.outbox {
+    background-color: #00A84F;
+    vertical-align: center;
+    height: 350px
+}
+
+
+
+.center{
+    horizontal-align:center;
+}
+.right{
+    horizontal-align:right;
+    margin-top: 60%;
+    padding-right: 20;
+    
+}
+.float-btn-container {
+    margin-top: 50%;
+    /* margin-left: 80%; */
+}
+
+
+.float-btn-monitor {
+    background-color: #E94E77;
+    border-radius: 22;
+    width: 44;
+    height: 44;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.float-btn-text-monitor {
+    color: #ffffff;
+    font-size: 17;
+}
+
+
+.float-btn-medicene {
+    background-color: #3FB8AF;
+    border-radius: 24;
+    width: 48;
+    height: 48;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.float-btn-text-medicene {
+    color: #ffffff;
+    font-size: 19;
+}
+
+.float-btn-intake {
+    background-color: #FF8910;
+    border-radius: 26;
+    width: 52;
+    height: 52;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.float-btn-text-intake {
+    color: #ffffff;
+    font-size: 21;
+}
+
+.float-btn-output {
+    background-color: #008BFF;
+    border-radius: 28;
+    width: 56;
+    height: 56;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.float-btn-text-output {
+    color: #ffffff;
+    font-size: 22;
 }

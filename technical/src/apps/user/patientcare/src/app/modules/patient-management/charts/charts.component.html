@@ -1,16 +1,12 @@
-<GridLayout rows="auto, auto" columns="*" height="100%" width="100%" style="background-color:#396766; padding: 20px 20px;">
+<!-- <GridLayout rows="auto, auto" columns="*" height="100%" width="100%" style="background-color:#396766; padding: 20px 20px;">
     <GridLayout row="0" rows="auto" columns="auto, auto" style="padding: 10px 10px;">
-        <StackLayout row="0" col="0" class="cardbox intentbox">
+        <StackLayout row="0" col="0" class="cardbox intentbox" ios:shadowRadius="3" android:shadowRadius="3">
             <Label textWrap="true" text="Intent" class="designcard"></Label>
         </StackLayout>
         <StackLayout row="0" col="1" class="cardbox outputbox">
             <Label textWrap="true" text="Output" class="designcard"></Label>
         </StackLayout>
     </GridLayout>
-    <!-- <StackLayout row="0" col="1" class="cardbox">
-            <Label class="body" textWrap="true" text="Output"></Label>
-            <StackLayout class="hr-light m-10"></StackLayout>
-        </StackLayout> -->
     <GridLayout row="1" rows="auto, auto" columns="auto, auto" style="padding: 10px 10px;">
         <StackLayout row="0" col="0" class="cardbox medicalbox">
             <Label textWrap="true" text="Medical" class="designcard"></Label>
@@ -19,4 +15,81 @@
             <Label textWrap="true" text="Output" class="designcard"></Label>
         </StackLayout>
     </GridLayout>
+</GridLayout> -->
+<!-- 
+<StackLayout height="100%" width="100%" style="background-color:#396766;  position: relative;">
+    <GridLayout row="0" rows="auto" columns="auto, auto" style="padding: 10px 10px; position: relative;">
+                <StackLayout row="0" col="0" class="cardbox intentbox" ios:shadowRadius="3" android:shadowRadius="3">
+                    <Label textWrap="true" text="Intent" class="designcard"></Label>
+                </StackLayout>
+                <StackLayout row="0" col="1" class="cardbox outputbox">
+                    <Label textWrap="true" text="Output" class="designcard"></Label>
+                </StackLayout>
+            </GridLayout>
+            <GridLayout row="1" rows="auto, auto" columns="auto, auto" style="padding: 10px 10px;">
+                <StackLayout row="0" col="0" class="cardbox medicalbox">
+                    <Label textWrap="true" text="Medical" class="designcard"></Label>
+                </StackLayout>
+                <StackLayout row="0" col="1" class="cardbox outbox">
+                    <Label textWrap="true" text="Output" class="designcard"></Label>
+                </StackLayout>
+    </GridLayout>
+    <StackLayout height="100%" width="20%" style=" position: absolute;">
+            <RL:Ripple rippleColor="#fff" borderRadius="25" height="50" width="50" (tap)="details()">
+                    <StackLayout class="float-btn-second">
+                        <Label class="float-btn-text-second" text="&#xf201;" class="fas"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" borderRadius="28" height="56" width="56" (tap)="details()" style="margin-top: 20px;">
+                    <StackLayout class="float-btn-first">
+                        <Label class="float-btn-text" text="+"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+    </StackLayout>
+
+</StackLayout> -->
+
+<GridLayout rows="auto" columns="*" height="100%" width="100%" style="background-color:#396766;">
+    
+    <StackLayout row="0" horizontalAlignment="center" class="center">
+        <GridLayout row="0" rows="auto" columns="auto, auto" style="padding: 10px 10px; position: relative;">
+            <StackLayout row="0" col="0" class="cardbox intentbox" ios:shadowRadius="3" android:shadowRadius="3">
+                <Label textWrap="true" text="Intent" class="designcard"></Label>
+            </StackLayout>
+            <StackLayout row="0" col="1" class="cardbox outputbox">
+                <Label textWrap="true" text="Output" class="designcard"></Label>
+            </StackLayout>
+        </GridLayout>
+        <GridLayout row="1" rows="auto, auto" columns="auto, auto" style="padding: 10px 10px;">
+            <StackLayout row="0" col="0" class="cardbox medicalbox">
+                <Label textWrap="true" text="Medical" class="designcard"></Label>
+            </StackLayout>
+            <StackLayout row="0" col="1" class="cardbox outbox">
+                <Label textWrap="true" text="Output" class="designcard"></Label>
+            </StackLayout>
+        </GridLayout>
+    </StackLayout>
+
+    <StackLayout row="0" horizontalAlignment="right" class="right">
+        <RL:Ripple rippleColor="#fff" borderRadius="28" height="56" width="56" (tap)="details()" style="margin-top: 20px;">
+            <StackLayout class="float-btn-monitor fas">
+                <Label class="float-btn-text-monitor" text="&#xf201;"></Label>
+            </StackLayout>
+        </RL:Ripple>
+        <RL:Ripple rippleColor="#fff" borderRadius="28" height="56" width="56" (tap)="details()" style="margin-top: 20px;">
+            <StackLayout class="float-btn-medicene">
+                <Label class="float-btn-text-medicene fas" text="&#xf46b;" ></Label>
+            </StackLayout>
+        </RL:Ripple>
+        <RL:Ripple rippleColor="#fff" borderRadius="28" height="56" width="56" (tap)="details()" style="margin-top: 20px;">
+            <StackLayout class="float-btn-intake">
+                <Label class="float-btn-text-intake fas" text="&#xf48e;" ></Label>
+            </StackLayout>
+        </RL:Ripple>
+        <RL:Ripple rippleColor="#fff" borderRadius="28" height="56" width="56" (tap)="details()" style="margin-top: 20px;">
+            <StackLayout class="float-btn-output">
+                <Label class="float-btn-text-output fas" text="&#xf46c;" ></Label>
+            </StackLayout>
+        </RL:Ripple>
+    </StackLayout>
 </GridLayout>
