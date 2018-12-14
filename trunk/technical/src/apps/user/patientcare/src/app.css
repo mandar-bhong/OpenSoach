@@ -159,8 +159,11 @@ TextField {
   color: #396767;
   margin-right: 5px;
 }
+.button-dist{
+  margin-right: 10px;
+}
 /* home page css start */
-
+/* horizontal line strat */
 .hr-light{
   display: block;
   height: 1px;
@@ -169,14 +172,44 @@ TextField {
   margin: 0 0;
   padding: 0;
 }
+/* horizontal line end */
 .ripplecenter{
   text-align: center;
 }
-.button-dist{
-  margin-right: 10px;
+
+
+
+
+/* @font-face {
+  font-family: 'Open Sans';
+  src: url('~/fonts/Open Sans Regular.tff') format('truetype');
+  font-weight: 300;
 }
 
+@font-face {
+  font-family: 'Open Sans';
+  src: url('~/fonts/Open Sans Light.tff') format('truetype');
+  font-weight: 100;
+}
 
+@font-face {
+  font-family: 'Open Sans';
+  src: url('~/fonts/Open Sans Bold.tff') format('truetype');
+  font-weight: 500;
+} */
 
-
-
+Label {
+  /* font-family: 'Open Sans';
+  font-weight: 300; */
+   /* Regular Open Sans */
+ }
+ 
+ Label.mod-light {
+  /* font-family: 100;  */
+   /* Light Open Sans */
+ }
+ 
+ Label.mod-bold {
+  /* font-family: 500;  */
+   /* Bold Open Sans */
+ }

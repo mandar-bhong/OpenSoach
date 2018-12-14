@@ -1,16 +1,22 @@
 .action {}
 
-.float-btn-container {
-    margin-top: 85%;
-    margin-left: 80%;
-}
-
 .card-layout {
     padding: 12;
 }
 
 .card-layout .h1 {
     margin-bottom: 15;
+}
+
+.lextra-container {
+    position: relative;
+}
+
+.cardeffect {
+    width: 100%;
+    /* padding: 5 10; */
+    background-color: #f0f0f0;
+    border-radius: 8px;
 }
 
 .listItemStackLayout {
@@ -33,7 +39,7 @@
     font-size: 12;
 }
 
-.markGridLayout {
+/* .markGridLayout {
     background-color: #0099ff;
     padding: 16;
 }
@@ -65,9 +71,10 @@
 
 .swipeTemplateLabel {
     font-size: 15;
-}
+} */
 
 /* right side button css start */
+
 .center {
     horizontal-align: center;
 }
@@ -83,18 +90,15 @@
     font-size: 17;
 }
 
-
 .float-btn-text-medicene {
     color: #ffffff;
     font-size: 19;
 }
 
-
 .float-btn-text-intake {
     color: #ffffff;
     font-size: 21;
 }
-
 
 .float-btn-text-output {
     color: #ffffff;
@@ -109,6 +113,7 @@
     text-align: center;
     vertical-align: middle;
 }
+
 .float-btn-medicene {
     width: 44;
     height: 44;
@@ -117,6 +122,7 @@
     vertical-align: middle;
     border-radius: 3px;
 }
+
 .float-btn-intake {
     background-color: #FF8910;
     border-radius: 3px;
@@ -137,9 +143,73 @@
 
 /* right side button css end */
 
- /* selected css start */
+/* selected css start */
+
 .item-selected {
     border-width: 1;
     border-color: #990033;
 }
- /* selected css end */
+
+/* selected css end */
+
+/* swipe action animated swipe css start */
+
+.markViewStackLayout {
+    background-color: blue;
+    padding: 16
+}
+
+.deleteViewStackLayout {
+    background-color: red;
+    padding: 16;
+}
+
+.gridLayoutLayout {
+    background-color: white;
+}
+
+.markViewStackLayout {
+    background-color: blue;
+    padding-left: 16;
+    padding-right: 16;
+}
+
+.swipeTemplateLabel {
+    size: 20;
+}
+
+.deleteViewStackLayout {
+    background-color: red;
+    padding-left: 16;
+    padding-right: 16;
+}
+
+/* swipe action animated swipe css end */
+
+/* grouping title color change css  start*/
+
+.groupLabelIntake {
+    background-color: #FF8910;
+    padding: 15;
+    color: #ffffff;
+}
+
+.groupLabelMonitor {
+    background-color: #E94E77;
+    padding: 15;
+    color: #ffffff;
+}
+
+.groupLabelMedicine {
+    background-color: #3FB8AF;
+    padding: 15;
+    color: #ffffff;
+}
+
+.groupLabelOutput {
+    background-color: #008BFF;
+    padding: 15;
+    color: #ffffff;
+}
+
+/* grouping title color change css  start*/
