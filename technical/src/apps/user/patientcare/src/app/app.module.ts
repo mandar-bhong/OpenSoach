@@ -8,6 +8,7 @@ import { DatabaseService } from "./services/offline-store/database.service";
 import {NativeScriptFormsModule} from "nativescript-angular/forms"
 import { DatabaseSchemaService } from "./services/offline-store/database-schema.service";
 import { InternetConnectionService } from "~/app/services/internet-status/internet-connection.service";
+import { WorkerService } from "./services/worker.service";
 @NgModule({
     bootstrap: [
         AppComponent
@@ -27,7 +28,8 @@ import { InternetConnectionService } from "~/app/services/internet-status/intern
     providers: [
         DatabaseService,
         DatabaseSchemaService,
-        InternetConnectionService
+        InternetConnectionService,
+        WorkerService
     ],
 })
 export class AppModule { }

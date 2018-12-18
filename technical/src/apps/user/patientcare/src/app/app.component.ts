@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, NgZone } from "@angular/core";
 import { DatabaseSchemaService } from "./services/offline-store/database-schema.service";
 import { server } from './environments/environment';
+import { WorkerService } from "./services/worker.service";
 var WS = require('nativescript-websockets');
 
 @Component({
@@ -14,7 +15,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public messages: Array<any>;
     public chatBox: string;
     constructor(private databaseSchemaService: DatabaseSchemaService,
-        private zone: NgZone) {
+        private zone: NgZone,
+    private workerService:WorkerService) {
         this.databaseSchemaService.setOfflineDB();
         console.log('server', server);
         this.socket = new WS("ws://echo.websocket.org", []);
@@ -24,6 +26,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+
+        // Initialize the worker here
+        this.workerService.initServerDataProcessorWorker();  
+        
+        // TODO: Dummy code for testing 
+        this.workerService.ServerDataProcessorWorker.onmessage=m=>this.workerOnMessage(m);
+        this.workerService.ServerDataProcessorWorker.postMessage('message posted to worker');
+        
         // console.log('socketIO', this.socketIO);
         // this.socketIO.connect();
         this.socket.on('open', socket => {
@@ -59,6 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         //   this.socketIO.disconnect();
         this.socket.close();
+        this.workerService.ServerDataProcessorWorker.terminate();
     }
 
     public send() {
@@ -66,6 +77,12 @@ export class AppComponent implements OnInit, OnDestroy {
             this.socket.send(this.chatBox);
             this.chatBox = "";
         }
+    }
+
+    workerOnMessage(message:MessageEvent)
+    {
+        console.log('worker message recieved', message);
+
     }
 
 
