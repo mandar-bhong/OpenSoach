@@ -3,7 +3,6 @@ import { ObservableArray } from 'tns-core-modules/data/observable-array/observab
 import { View, isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { ListViewLinearLayout, ListViewEventData, RadListView, LoadOnDemandListViewEventData, ListViewItemSnapMode } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
-import { ObservableProperty } from '~/app/observable-property-decorator';
 import { layout } from "tns-core-modules/utils/utils";
 import { EventData } from "tns-core-modules/data/observable";
 import { Observable } from 'tns-core-modules/data/observable';
