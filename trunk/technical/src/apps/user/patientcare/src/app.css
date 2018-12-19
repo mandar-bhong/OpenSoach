@@ -123,6 +123,12 @@ Button, TextField {
   margin-left: 0;
   margin-right: 0;
 }
+.btn-danger {
+  background-color: 	#d9534f;
+  margin-left: 0;
+  margin-right: 0;
+  color: #ffffff;
+}
 TextField {
   placeholder-color: #C4AFB4;
   color: black;
@@ -155,9 +161,9 @@ TextField {
   color:white;
 }
 .listicon{
-  font-size: 22;
+  font-size: 24;
   color: #396767;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 .button-dist{
   margin-right: 10px;

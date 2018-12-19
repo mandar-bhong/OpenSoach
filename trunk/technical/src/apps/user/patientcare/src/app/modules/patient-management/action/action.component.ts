@@ -10,14 +10,13 @@ import { Observable } from 'tns-core-modules/data/observable';
 // expand row 
 import * as utils from "utils/utils";
 declare var UIView, NSMutableArray, NSIndexPath;
-import { TextField } from "ui/text-field"; 
+// import { TextField } from "ui/text-field";
 
 export class DataItem {
 	// public name: string;
 	// public ward: string;
 	// public mobile: string;
 	// public attended: number;
-	
 	public pstatus: string;
 	public title: string;
 	public due_at: string;
@@ -40,7 +39,11 @@ export class ActionComponent implements OnInit {
 	private mainView: View;
 	private layout: ListViewLinearLayout;
 
-	// data = [];
+	// >> seleced bottom button change color
+	monitorbuttonClicked: boolean = false;
+	intakebuttonClicked: boolean = true;
+	medicinebuttonClicked: boolean = false;
+	outputbuttonClicked: boolean = false;
 
 	// >> search var declaration
 	// public myItems: ObservableArray<DataItem> = new ObservableArray<DataItem>();
@@ -57,7 +60,7 @@ export class ActionComponent implements OnInit {
 	private leftThresholdPassed = false;
 	private rightThresholdPassed = false;
 
-	// >> finding
+	// >> finding grouping index then after click show in top
 	intakeIndex;
 	medicineIndex;
 	monitorIndex;
@@ -189,11 +192,19 @@ export class ActionComponent implements OnInit {
 		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
 		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
 		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
 		this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
 		this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
 		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
 		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
 		this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
+		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
 		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
 		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
 
@@ -281,7 +292,10 @@ export class ActionComponent implements OnInit {
 
 		const listView = this.listViewComponent.listView;
 		listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
-		// this.listViewComponent.listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
+		this.monitorbuttonClicked = false;
+		this.intakebuttonClicked = true;
+		this.medicinebuttonClicked = false;
+		this.outputbuttonClicked = false;
 		console.log("Clicked select intake", this.intakeIndex);
 
 	}
@@ -292,6 +306,10 @@ export class ActionComponent implements OnInit {
 
 		const listView = this.listViewComponent.listView;
 		listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
+		this.monitorbuttonClicked = true;
+		this.intakebuttonClicked = false;
+		this.medicinebuttonClicked = false;
+		this.outputbuttonClicked = false;
 
 		console.log("Clicked select monitor", this.monitorIndex);
 
@@ -303,7 +321,10 @@ export class ActionComponent implements OnInit {
 
 		const listView = this.listViewComponent.listView;
 		listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
-
+		this.monitorbuttonClicked = false;
+		this.intakebuttonClicked = false;
+		this.medicinebuttonClicked = true;
+		this.outputbuttonClicked = false;
 		console.log("Clicked select medicine", this.medicineIndex);
 	}
 	// <<  Grouping medicine scroll to top position change 
@@ -313,7 +334,10 @@ export class ActionComponent implements OnInit {
 
 		const listView = this.listViewComponent.listView;
 		listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
-
+		this.monitorbuttonClicked = false;
+		this.intakebuttonClicked = false;
+		this.medicinebuttonClicked = false;
+		this.outputbuttonClicked = true;
 		console.log("Clicked select output", this.outputIndex);
 	}
 	// <<  Grouping medicine scroll to top position change
