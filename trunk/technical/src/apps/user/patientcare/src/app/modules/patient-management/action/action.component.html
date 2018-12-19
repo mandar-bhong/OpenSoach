@@ -12,10 +12,10 @@
                         </GridLayout>
 
                         <GridLayout col="1" columns="auto" rows="auto" style="vertical-align: center; ">
-                            <StackLayout *ngIf="item.has_details === true" row="1" style=" margin-right:7px; color: green;">
+                            <StackLayout *ngIf="item.status === 1" row="1" style=" margin-right:7px; color: green;">
                                 <Label row="0" col="0" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
                             </StackLayout>
-                            <StackLayout *ngIf="item.has_details === false" row="1" style=" margin-right:7px; color: red;">
+                            <StackLayout *ngIf="item.status === 2" row="1" style=" margin-right:7px; color: red;">
                                 <Label row="0" col="0" style="color:red;" text="&#xf021;" class="mdi listicon"></Label>
                             </StackLayout>
                         </GridLayout>
@@ -43,10 +43,10 @@
                         </GridLayout>
 
                         <GridLayout col="1" columns="auto" rows="auto" style="vertical-align: center; ">
-                            <StackLayout *ngIf="item.has_details === true" row="1" style=" margin-right:7px; color: green;">
+                            <StackLayout *ngIf="item.status === 1" row="1" style=" margin-right:7px; color: green;">
                                 <Label row="0" col="0" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
                             </StackLayout>
-                            <StackLayout *ngIf="item.has_details === false" row="1" style=" margin-right:7px; color: red;">
+                            <StackLayout *ngIf="item.status === 2" row="1" style=" margin-right:7px; color: red;">
                                 <Label row="0" col="0" style="color:red;" text="&#xf021;" class="mdi listicon"></Label>
                             </StackLayout>
                         </GridLayout>
@@ -69,7 +69,7 @@
                                     <StackLayout col="1" style="width:20%;">
                                         <Button text="Done" class="btn btn-primary"></Button>
                                     </StackLayout>
-                                    <StackLayout col="2" style="width:20%;">
+                                    <StackLayout col="2" style="width:30%;">
                                         <Button text="Discard" class="btn btn-danger"></Button>
                                     </StackLayout>
                                 </GridLayout>

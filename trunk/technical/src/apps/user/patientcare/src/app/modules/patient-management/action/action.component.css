@@ -64,7 +64,8 @@
 
 .float-btn-cat {
     background-color: #6e6e6e;
-    border-radius: 3px;
+    /* border-radius: 3px; */
+    border-radius:22;
     width: 44;
     height: 44;
     text-align: center;
