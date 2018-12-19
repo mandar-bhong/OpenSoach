@@ -32,7 +32,7 @@
       
       <!-- <GridLayout> -->
 
-        <RadListView #myListView [items]="_patientListItems" (loaded)="listLoaded()">
+        <RadListView #myListView [items]="patientListSource" (loaded)="listLoaded()">
 
           <ng-template tkListItemTemplate let-item="item">
             <RL:Ripple rippleColor="#6E737B" (tap)="details()">

@@ -36,7 +36,7 @@ export class DataItem {
 export class HomeComponent implements OnInit {
 	private _dataItems: ObservableArray<DataItem>;
 	private patientListItems = new ObservableArray<PatientListViewModel>();
-	private patientListSource = new Array<PatientListViewModel>();
+	private patientListSource = new ObservableArray<PatientListViewModel>();
 	public isBusy = true;
 	//private patientListItem = new PatientListViewModel();
 	
@@ -263,7 +263,7 @@ export class HomeComponent implements OnInit {
 		}
 
 		// this.dataItems.push(this.tempdata);
-		this.myItems = new ObservableArray<DataItem>(this.tempdata);
+		// this.myItems = new ObservableArray<DataItem>(this.tempdata);
 	}
 
 	public getPatientListData(){
@@ -318,14 +318,26 @@ export class HomeComponent implements OnInit {
 		// let searchValue = searchBar.text;
 		let searchValue = searchBar.text.toLowerCase();
 
-		this.myItems = new ObservableArray<DataItem>();
+		// this.myItems = new ObservableArray<DataItem>();
+		this.patientListSource = new ObservableArray<PatientListViewModel>()
 		if (searchValue !== "") {
-			for (let i = 0; i < this.tempdata.length; i++) {
-				if (this.tempdata[i].name.toLowerCase().indexOf(searchValue) !== -1 || this.tempdata[i].ward.toLowerCase().indexOf(searchValue) !== -1 || this.tempdata[i].ward.toLowerCase().indexOf(searchValue) !== -1) {
-					this.myItems.push(this.tempdata[i]);
-				}
-			}
+			// for (let i = 0; i < this.patientListItems.length; i++) {
+				
+			// 	console.log("this.patientListItems",this.patientListItems[i]);
+
+			// 	if (this.patientListItems[i].dbmodel.fname.toLowerCase().indexOf(searchValue) !== -1 || this.patientListItems[i].dbmodel.lname.toLowerCase().indexOf(searchValue) !== -1 || this.patientListItems[i].dbmodel.bed_no.toLowerCase().indexOf(searchValue) !== -1) {
+			// 		this.patientListSource.push(this.patientListItems[i]);
+			// 	}
+			// }
+
+			this.patientListItems.forEach(item=>{
+				if (item.dbmodel.fname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.lname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.bed_no.toLowerCase().indexOf(searchValue) !== -1) {
+							this.patientListSource.push(item);
+						}
+			});
+
 		}
+		console.log("onsubmit",this.patientListSource)
 	}
 	// search record by list code end
 
@@ -334,10 +346,11 @@ export class HomeComponent implements OnInit {
 		let searchBar = <SearchBar>args.object;
 		searchBar.text = "";
 		// searchBar.hint = "Search for a country and press enter";
-		this.myItems = new ObservableArray<DataItem>();
-		this.tempdata.forEach(item => {
-			this.myItems.push(item);
+		this.patientListSource = new ObservableArray<PatientListViewModel>();
+		this.patientListItems.forEach(item => {
+			this.patientListSource.push(item);
 		});
+		console.log("conclear",this.patientListSource)
 	}
 	//clear search record list then show all list record code end
 
