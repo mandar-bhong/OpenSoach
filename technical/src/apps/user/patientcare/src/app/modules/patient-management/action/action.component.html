@@ -1,6 +1,6 @@
 <GridLayout rows="*" columns="*,auto" height="100%" width="100%" style="background-color:#396766">
     <RadListView #myListView [items]="_dataItems" [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)" (loaded)="listLoaded()"
-        multipleSelection="true" selectionBehavior="Press" [groupingFunction]="_funcGrouping">
+        multipleSelection="true" selectionBehavior="Press" [groupingFunction]="_funcGrouping" colSpan="2">
         <ng-template tkListItemTemplate let-item="item">
             <!-- <RL:Ripple rippleFadeDuration="5"> -->
             <GridLayout columns="*" rows="auto, auto">
@@ -28,7 +28,7 @@
             <!-- </RL:Ripple> -->
         </ng-template>
         <ng-template tkGroupTemplate let-category="category">
-            <GridLayout>
+            <GridLayout class="category-header">
                 <Label class="nameLabel" [text]="category" [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output'}"></Label>
             </GridLayout>
         </ng-template>
@@ -89,23 +89,23 @@
 
     <StackLayout row="0" col="1" horizontalAlignment="right" class="right">
         <RL:Ripple rippleColor="#fff" style="margin-top: 20px;">
-            <StackLayout class="float-btn-monitor" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
-                <Label class="float-btn-text-monitor fas" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#ffffff'"></Label>
+            <StackLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
+                <Label class="float-btn-cat-text fas" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#396766'"></Label>
             </StackLayout>
         </RL:Ripple>
         <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-            <StackLayout class="float-btn-medicene" (tap)="medicinebuttonClicked = true" [class.button-clicked]="medicinebuttonClicked">
-                <Label class="float-btn-text-medicene fas" (tap)="selectMedicine()" text="&#xf484;" [style.color]="medicinebuttonClicked ? '#FF8910' : '#ffffff'"></Label>
+            <StackLayout class="float-btn-cat" (tap)="medicinebuttonClicked = true" [class.button-clicked]="medicinebuttonClicked">
+                <Label class="float-btn-cat-text fas" (tap)="selectMedicine()" text="&#xf484;" [style.color]="medicinebuttonClicked ? '#FF8910' : '#396766'"></Label>
             </StackLayout>
         </RL:Ripple>
         <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-            <StackLayout class="float-btn-intake" (tap)="intakebuttonClicked = true" [class.button-clicked]="intakebuttonClicked">
-                <Label class="float-btn-text-intake fas" (tap)="selectIntake()" text="&#xf48e;" [style.color]="intakebuttonClicked ? '#FF8910' : '#ffffff'"></Label>
+            <StackLayout class="float-btn-cat" (tap)="intakebuttonClicked = true" [class.button-clicked]="intakebuttonClicked">
+                <Label class="float-btn-cat-text fas" (tap)="selectIntake()" text="&#xf48e;" [style.color]="intakebuttonClicked ? '#FF8910' : '#396766'"></Label>
             </StackLayout>
         </RL:Ripple>
         <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-            <StackLayout class="float-btn-output" (tap)="outputbuttonClicked = true" [class.button-clicked]="outputbuttonClicked">
-                <Label class="float-btn-text-output fas" (tap)="selectOutput()" text="&#xf46c;" [style.color]="outputbuttonClicked ? '#FF8910' : '#ffffff'"></Label>
+            <StackLayout class="float-btn-cat" (tap)="outputbuttonClicked = true" [class.button-clicked]="outputbuttonClicked">
+                <Label class="float-btn-cat-text fas" (tap)="selectOutput()" text="&#xf46c;" [style.color]="outputbuttonClicked ? '#FF8910' : '#396766'"></Label>
             </StackLayout>
         </RL:Ripple>
     </StackLayout>
