@@ -9,6 +9,7 @@ import {NativeScriptFormsModule} from "nativescript-angular/forms"
 import { DatabaseSchemaService } from "./services/offline-store/database-schema.service";
 import { InternetConnectionService } from "~/app/services/internet-status/internet-connection.service";
 import { WorkerService } from "./services/worker.service";
+import { PatientListService } from "~/app/services/patient-list/patient-list.service";
 @NgModule({
     bootstrap: [
         AppComponent
@@ -29,7 +30,8 @@ import { WorkerService } from "./services/worker.service";
         DatabaseService,
         DatabaseSchemaService,
         InternetConnectionService,
-        WorkerService
+        WorkerService,
+        PatientListService
     ],
 })
 export class AppModule { }

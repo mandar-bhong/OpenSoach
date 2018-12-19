@@ -27,29 +27,31 @@
   </StackLayout>
 
   <StackLayout row="1" col="0" >
-    <ScrollView>
+
+      <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator" ></ActivityIndicator>
+      
       <!-- <GridLayout> -->
 
-        <RadListView #myListView [items]="myItems" (loaded)="listLoaded()">
+        <RadListView #myListView [items]="_patientListItems" (loaded)="listLoaded()">
 
           <ng-template tkListItemTemplate let-item="item">
             <RL:Ripple rippleColor="#6E737B" (tap)="details()">
             <GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" (tap)="details()">
               <GridLayout row="0" columns="8,*, auto, auto" rows="auto, auto " >
                 <!-- <GridLayout col="0" rows="*"> -->
-                  <Label col="0" *ngIf="item.attended === 1" style="background-color:green;"></Label>
-                  <Label col="0" *ngIf="item.attended === 2"  style="background-color:red;"></Label>
+                  <Label col="0" *ngIf="item.dbmodel.status === 1" style="background-color:green;"></Label>
+                  <Label col="0" *ngIf="item.dbmodel.status === 2"  style="background-color:red;"></Label>
                 <!-- </GridLayout> -->
                 <GridLayout col="1" columns="auto,*,auto" rows="auto, auto, auto" class="card-layout">
 
                   <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
-                  <Label row="0" col="1" class="h3" [text]="item.ward"></Label>
+                  <Label row="0" col="1" class="h3" [text]="item.dbmodel.bed_no"></Label>
 
                   <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
-                  <Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
+                  <Label row="1" col="1" class="body" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
 
                   <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
-                  <Label row="2" col="1" class="body" textWrap="true" [text]="item.mobile"></Label>
+                  <Label row="2" col="1" class="body" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
                 </GridLayout>
 
                 <GridLayout col="2" columns="*" rows="auto, auto" style="vertical-align: center; text-align: center;">
@@ -106,7 +108,6 @@
         </RadListView>
 
       <!-- </GridLayout> -->
-    </ScrollView>
 
   </StackLayout>
 
