@@ -1,84 +1,97 @@
 <ActionBar class="action-bar" width="100%" style="background-color: #396766; color: white; vertical-align: center;">
 
-  <GridLayout row="*" columns="*,auto,*, auto, auto" height="100%" width="100%">
-    <GridLayout col="1" columns="*,auto, auto" style="text-align: center;">
-      <Label col="1" text="patientcare" class="hometitle"></Label>
-      <Label col="2" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
+  <GridLayout row="*" columns="auto,*, auto, auto" height="100%" width="100%">
+    <GridLayout col="1" columns="auto, auto" style="text-align: center;" height="37">
+      <Label col="0" text="PatientCare" class="hometitle"></Label>
+      <Label col="1" text=".live" class="hometitlesub" style="color: #FF8912"></Label>
     </GridLayout>
-    <GridLayout col="3" columns="auto" class="button-dist">
+    <GridLayout col="2" columns="auto" class="button-dist">
       <RL:Ripple rippleColor="#fff" class="ripplecenter " borderRadius="8" height="37" width="37">
         <Label col="0" (tap)="camerasdetails()" text="&#xf09a;" class="homeicon mdi"></Label>
       </RL:Ripple>
     </GridLayout>
-    <GridLayout col="4" columns="auto" class="button-dist" style="margin-top:7px;">
+    <GridLayout col="3" columns="auto" class="button-dist" style="margin-top:7px;">
       <network-status col="0"></network-status>
     </GridLayout>
   </GridLayout>
 
 </ActionBar>
 
-<GridLayout rows="auto, *" columns="*" height="100%" width="100%" style="background-color:#396766;">
-  <StackLayout row="0">
-    <GridLayout rows="auto" columns="*" style="background-color:#396766; margin-top:6px;">
-      <SearchBar col="1" hint="Search by Patient Name or Bed" textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8" color="#A8A8A8"
-        (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (clear)="onClear($event)" (submit)="onSubmit($event)"></SearchBar>
-      <Label textWrap="false" class="h3 p-15 text-center"></Label>
-    </GridLayout>
-  </StackLayout>
+<GridLayout rows="auto,auto, *" columns="*" height="100%" width="100%">
+  <!-- <StackLayout row="0">
+    <GridLayout rows="auto" columns="*" style="background-color:#ffffff; margin-top:6px;"> -->
+  <SearchBar col="0" hint="Search by Patient Name or Bed" textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8" color="#A8A8A8"
+    (loaded)="sBLoaded($event)" (textChange)="onTextChange($event)" (clear)="onClear($event)" (submit)="onSubmit($event)"></SearchBar>
+  <StackLayout row="1" class="hr-light m-10"></StackLayout>
+  <!-- </GridLayout>
+  </StackLayout> -->
 
-  <StackLayout row="1" col="0" >
+  <StackLayout row="2" col="0">
 
-      <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator" ></ActivityIndicator>
-      
-      <!-- <GridLayout> -->
+    <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
 
-        <RadListView #myListView [items]="patientListSource" (loaded)="listLoaded()">
+    <!-- <GridLayout> -->
 
-          <ng-template tkListItemTemplate let-item="item">
-            <RL:Ripple rippleColor="#6E737B" (tap)="details()">
-            <GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" (tap)="details()">
-              <GridLayout row="0" columns="8,*, auto, auto" rows="auto, auto " >
-                <!-- <GridLayout col="0" rows="*"> -->
-                  <Label col="0" *ngIf="item.dbmodel.status === 1" style="background-color:green;"></Label>
-                  <Label col="0" *ngIf="item.dbmodel.status === 2"  style="background-color:red;"></Label>
-                <!-- </GridLayout> -->
-                <GridLayout col="1" columns="auto,*,auto" rows="auto, auto, auto" class="card-layout">
+    <RadListView #myListView [items]="patientListSource" (loaded)="listLoaded()">
 
-                  <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
-                  <Label row="0" col="1" class="h3" [text]="item.dbmodel.bed_no"></Label>
+      <ng-template tkListItemTemplate let-item="item">
+        <RL:Ripple rippleColor="#6E737B" (tap)="details()">
+          <GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" (tap)="details()">
+            <GridLayout row="0" columns="*, auto, auto" rows="auto, auto ">
+              <!-- <GridLayout col="0" rows="*"> -->
+              <!-- <Label col="0" *ngIf="item.dbmodel.status === 1" style="background-color:green;"></Label>
+                  <Label col="0" *ngIf="item.dbmodel.status === 2"  style="background-color:red;"></Label> -->
+              <!-- </GridLayout> -->
+              <GridLayout col="0" columns="auto,*,auto" rows="auto, auto, auto" class="card-layout">
 
-                  <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
-                  <Label row="1" col="1" class="body" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
+                <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+                <Label row="0" col="1" class="h3" [text]="item.dbmodel.bed_no" style="color: #396767;"></Label>
+                <!-- <Label row="0" col="2" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf020;" class="mdi listicon"></Label>
+                <Label row="0" col="2" *ngIf="item.dbmodel.status === 2" style="color:red;" text="&#xf020;" class="mdi listicon"></Label> -->
 
-                  <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
-                  <Label row="2" col="1" class="body" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
-                </GridLayout>
+                <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+                <Label row="1" col="1" class="body" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
+                <!-- <Label row="1" col="2" text="Last 12:30 AM"></Label> -->
 
-                <GridLayout col="2" columns="*" rows="auto, auto" style="vertical-align: center; text-align: center;">
-                  <StackLayout>
-                    <!-- <Label text="&#xf020;" class="mdi listicon"></Label> -->
-                    <Label row="1" text="last attended 12:30 AM"></Label>
-                  </StackLayout>
-                  <!-- <StackLayout *ngIf="item.attended === 2" style="vertical-align: center; text-align: center;">
-                    <Label text="&#xf240;" class="mdi listicon" style="color:red;"></Label>
-                    <Label row="1" text="Need attended"></Label>
-                  </StackLayout> -->
-                </GridLayout>
+                <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+                <Label row="2" col="1" class="body" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
+                <!-- <Label row="2" col="2" text="Next 1:30 AM"></Label> -->
               </GridLayout>
-              <GridLayout row="1" col="1">
-                <StackLayout class="hr-light m-10"></StackLayout>
+
+              <GridLayout col="2" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
+
+                <Label row="0" col="0" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 1" text="1:45 PM"></Label>
+
+                <Label row="0" col="0" *ngIf="item.dbmodel.status === 2" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 2" text="1:50 PM"></Label>
+
+                <Label row="0" col="0" *ngIf="item.dbmodel.status === 3" style="color:#FF8912;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 3" text="2:30 PM"></Label>
+
+                <Label row="0" col="0" *ngIf="item.dbmodel.status === 4" style="color:yellow;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 4" text="2:30 PM"></Label>
+
+                <Label row="1" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label>
+                <Label row="1" col="1" text="3:30 PM"></Label>
+
+
               </GridLayout>
             </GridLayout>
-            </RL:Ripple>
-          </ng-template>
+            <GridLayout row="1" col="1">
+              <StackLayout class="hr-light m-10"></StackLayout>
+            </GridLayout>
+          </GridLayout>
+        </RL:Ripple>
+      </ng-template>
 
 
 
 
-          <!-- >> angular-listview-swipe-actions-multiple-template-html -->
+      <!-- >> angular-listview-swipe-actions-multiple-template-html -->
 
 
-          <!-- <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto">
+      <!-- <GridLayout *tkListItemSwipeTemplate columns="auto, *, auto">
         <GridLayout columns="*, *, *" col="0" id="left-stack">
           <GridLayout col="0" class="markGridLayout" (tap)="onLeftSwipeClick($event)" id="btnMark">
             <Label text="mark" class="swipeTemplateLabel" verticalAlignment="center" horizontalAlignment="center"></Label>
@@ -104,10 +117,10 @@
       </GridLayout> -->
 
 
-          <!-- << angular-listview-swipe-actions-multiple-template-html -->
-        </RadListView>
+      <!-- << angular-listview-swipe-actions-multiple-template-html -->
+    </RadListView>
 
-      <!-- </GridLayout> -->
+    <!-- </GridLayout> -->
 
   </StackLayout>
 
