@@ -136,3 +136,10 @@ TextField {
     margin-top: 50%;
     margin-left: 80%;
 }
+
+.indicator {
+    color:#FF8912;
+    vertical-align: center;
+    height: 20%;
+    width: 20%;
+}

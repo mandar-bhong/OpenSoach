@@ -16,6 +16,8 @@ import { ListViewEventData, RadListView, LoadOnDemandListViewEventData, ListView
 import { View } from "tns-core-modules/ui/core/view";
 import { layout } from "tns-core-modules/utils/utils";
 import { EventData } from "tns-core-modules/data/observable";
+import { PatientListService } from "~/app/services/patient-list/patient-list.service";
+import { PatientListViewModel } from "~/app/models/ui/patient-view-models";
 
 export class DataItem {
 	public name: string;
@@ -33,20 +35,30 @@ export class DataItem {
 })
 export class HomeComponent implements OnInit {
 	private _dataItems: ObservableArray<DataItem>;
+	private patientListItems = new ObservableArray<PatientListViewModel>();
+	private patientListSource = new Array<PatientListViewModel>();
+	public isBusy = true;
+	//private patientListItem = new PatientListViewModel();
+	
 	data = new Array<DataItem>();
 	private leftItem: View;
 	private rightItem: View;
 	private mainView: View;
-	private layout: ListViewLinearLayout;
+	private layout: ListViewLinearLayout;	
 
 	// var for search 
 	public myItems: ObservableArray<DataItem> = new ObservableArray<DataItem>();
 	tempdata = new Array<DataItem>();
-	constructor(private routerExtensions: RouterExtensions,
-		private page: Page) { }
+	constructor(private routerExtensions: RouterExtensions,private patientListService: PatientListService,
+		private page: Page) { 
+		}
 
 	get dataItems(): ObservableArray<DataItem> {
 		return this._dataItems;
+	}
+
+	get _patientListItems(): ObservableArray<PatientListViewModel> {
+		return this.patientListItems;
 	}
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
@@ -55,6 +67,13 @@ export class HomeComponent implements OnInit {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this._dataItems = new ObservableArray<DataItem>();
+
+		setTimeout(() => {
+			this.getPatientListData();
+			//this.addMoreItemsFromSource(20);
+		}, 1000);
+
+		// this.getPatientListData()
 
 		// console.log('this.data', this.data);
 		// for (let i = 1; i < 100; i++) {
@@ -245,6 +264,25 @@ export class HomeComponent implements OnInit {
 
 		// this.dataItems.push(this.tempdata);
 		this.myItems = new ObservableArray<DataItem>(this.tempdata);
+	}
+
+	public getPatientListData(){
+		this.patientListService.getData().then(
+			(val)=>{
+				val.forEach(item => {
+					const patientListItem = new PatientListViewModel();
+					patientListItem.dbmodel = item;
+					this.patientListSource.push(patientListItem);
+					this.patientListItems.push(patientListItem);
+					this.isBusy = false;
+				});
+				//this.patientListSource.for
+
+			},
+			(error)=>{
+				console.log("patientListService error:",error);
+			}
+		);
 	}
 
 	// public addMoreItemsFromSource(chunkSize: number) {
