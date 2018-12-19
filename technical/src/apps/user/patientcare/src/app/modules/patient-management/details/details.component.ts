@@ -16,6 +16,8 @@ export class DetailsComponent implements OnInit {
 	monitor = true;
 	action = false;
 	chart = false;
+
+	// >> seleced bottom button change color
 	buttonClicked: boolean = true;
 	actionbuttonClicked: boolean = false;
 	chartbuttonClicked: boolean = false;
