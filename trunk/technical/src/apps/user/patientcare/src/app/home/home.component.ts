@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
 			//this.addMoreItemsFromSource(20);
 		}, 1000);
 
-		// this.getPatientListData()
+		// this.getPatientListData();
 
 		console.log('init completed');
 	}
@@ -127,14 +127,16 @@ export class HomeComponent implements OnInit {
 					patientListItem.dbmodel = item;
 					this.patientListSource.push(patientListItem);
 					this.patientListItems.push(patientListItem);
-					this.isBusy = false;
 				});
-
 			},
 			(error)=>{
 				console.log("patientListService error:",error);
 			}
+
 		);
+
+		this.isBusy = false;
+
 	}
 
 	
