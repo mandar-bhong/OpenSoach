@@ -19,14 +19,6 @@ import { EventData } from "tns-core-modules/data/observable";
 import { PatientListService } from "~/app/services/patient-list/patient-list.service";
 import { PatientListViewModel } from "~/app/models/ui/patient-view-models";
 
-export class DataItem {
-	public name: string;
-	public ward: string;
-	public mobile: string;
-	public attended: number;
-
-}
-
 @Component({
 	selector: "Home",
 	moduleId: module.id,
@@ -34,28 +26,15 @@ export class DataItem {
 	styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	private _dataItems: ObservableArray<DataItem>;
+
 	private patientListItems = new ObservableArray<PatientListViewModel>();
 	private patientListSource = new ObservableArray<PatientListViewModel>();
 	public isBusy = true;
-	//private patientListItem = new PatientListViewModel();
-	
-	data = new Array<DataItem>();
-	private leftItem: View;
-	private rightItem: View;
-	private mainView: View;
 	private layout: ListViewLinearLayout;	
 
-	// var for search 
-	public myItems: ObservableArray<DataItem> = new ObservableArray<DataItem>();
-	tempdata = new Array<DataItem>();
 	constructor(private routerExtensions: RouterExtensions,private patientListService: PatientListService,
 		private page: Page) { 
 		}
-
-	get dataItems(): ObservableArray<DataItem> {
-		return this._dataItems;
-	}
 
 	get _patientListItems(): ObservableArray<PatientListViewModel> {
 		return this.patientListItems;
@@ -66,7 +45,6 @@ export class HomeComponent implements OnInit {
 	ngOnInit() {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
-		this._dataItems = new ObservableArray<DataItem>();
 
 		setTimeout(() => {
 			this.getPatientListData();
@@ -75,12 +53,6 @@ export class HomeComponent implements OnInit {
 
 		// this.getPatientListData()
 
-		// console.log('this.data', this.data);
-		// for (let i = 1; i < 100; i++) {
-		// 	let newName = { ward: "3A/312", name: "Sumeet karande", mobile: "9878978980"};
-		// 	this.data.push(newName);
-		// }
-		//this.initDataItems();
 		console.log('init completed');
 	}
 	public sBLoaded(args) {
@@ -100,12 +72,6 @@ export class HomeComponent implements OnInit {
 		this.routerExtensions.navigate(["/patientmgnt/cameras"], { clearHistory: true });
 	}
 
-	// onSubmit() {
-
-	// }
-	searchBarLoaded() {
-
-	}
 	onTextChange() {
 
 	}
@@ -149,121 +115,8 @@ export class HomeComponent implements OnInit {
 	}
 	// cancel all push notiffication code start
 
-
-	// public onCellSwiping(args: ListViewEventData) {
-	// 	const swipeLimits = args.data.swipeLimits;
-	// 	const swipeView = args['swipeView'];
-	// 	this.mainView = args['mainView'];
-	// 	this.leftItem = swipeView.getViewById('left-stack');
-	// 	this.rightItem = swipeView.getViewById('right-stack');
-
-	// 	if (args.data.x > 0) {
-	// 		const leftDimensions = View.measureChild(
-	// 			<View>this.leftItem.parent,
-	// 			this.leftItem,
-	// 			layout.makeMeasureSpec(Math.abs(args.data.x), layout.EXACTLY),
-	// 			layout.makeMeasureSpec(this.mainView.getMeasuredHeight(), layout.EXACTLY));
-	// 		View.layoutChild(<View>this.leftItem.parent, this.leftItem, 0, 0, leftDimensions.measuredWidth, leftDimensions.measuredHeight);
-	// 		this.hideOtherSwipeTemplateView("left");
-	// 	} else {
-	// 		const rightDimensions = View.measureChild(
-	// 			<View>this.rightItem.parent,
-	// 			this.rightItem,
-	// 			layout.makeMeasureSpec(Math.abs(args.data.x), layout.EXACTLY),
-	// 			layout.makeMeasureSpec(this.mainView.getMeasuredHeight(), layout.EXACTLY));
-
-	// 		View.layoutChild(<View>this.rightItem.parent, this.rightItem, this.mainView.getMeasuredWidth() - rightDimensions.measuredWidth, 0, this.mainView.getMeasuredWidth(), rightDimensions.measuredHeight);
-	// 		this.hideOtherSwipeTemplateView("right");
-	// 	}
-	// }
-
-	// private hideOtherSwipeTemplateView(currentSwipeView: string) {
-	// 	switch (currentSwipeView) {
-	// 		case "left":
-	// 			if (this.rightItem.getActualSize().width !== 0) {
-	// 				View.layoutChild(<View>this.rightItem.parent, this.rightItem, this.mainView.getMeasuredWidth(), 0, this.mainView.getMeasuredWidth(), 0);
-	// 			}
-	// 			break;
-	// 		case "right":
-	// 			if (this.leftItem.getActualSize().width !== 0) {
-	// 				View.layoutChild(<View>this.leftItem.parent, this.leftItem, 0, 0, 0, 0);
-	// 			}
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-	// }
-	// // << angular-listview-swipe-action-multiple
-
-	// // >> angular-listview-swipe-action-multiple-limits
-	// public onSwipeCellStarted(args: ListViewEventData) {
-	// 	const swipeLimits = args.data.swipeLimits;
-	// 	swipeLimits.threshold = args['mainView'].getMeasuredWidth() * 0.2; // 20% of whole width
-	// 	swipeLimits.left = swipeLimits.right = args['mainView'].getMeasuredWidth() * 0.65; // 65% of whole width
-	// }
-	// // << angular-listview-swipe-action-multiple-limits
-
-	// public onSwipeCellFinished(args: ListViewEventData) {
-	// 	if (args.data.x > 200) {
-	// 		console.log("Perform left action");
-	// 	} else if (args.data.x < -200) {
-	// 		console.log("Perform right action");
-	// 	}
-	// }
-
-	// public onLeftSwipeClick(args: EventData) {
-	// 	let itemView = args.object as View;
-	// 	console.log("Button clicked: " + itemView.id + " for item with index: " + this.listViewComponent.listView.items.indexOf(itemView.bindingContext));
-	// 	this.listViewComponent.listView.notifySwipeToExecuteFinished();
-	// }
-
-	// public onRightSwipeClick(args: EventData) {
-	// 	let itemView = args.object as View;
-	// 	console.log("Button clicked: " + itemView.id + " for item with index: " + this.listViewComponent.listView.items.indexOf(itemView.bindingContext));
-	// 	this.listViewComponent.listView.notifySwipeToExecuteFinished();
-	// }
-
 	public listLoaded() {
-		//return; 
-		console.log('list loaded');
 
-		// this._dataItems = new ObservableArray(this.data);
-		// this.addMoreItemsFromSource(20);
-		setTimeout(() => {
-			this.initDataItems();
-			//this.addMoreItemsFromSource(20);
-		}, 200);
-	}
-
-	public initDataItems() {
-		// const tempdata = new Array<DataItem>();
-		this.tempdata.push({ ward: "3A/312", name: "Sumeet karande", mobile: "9878978980", attended: 1 });
-		this.tempdata.push({ ward: "3B/323", name: "Amol Patil", mobile: "32423432432", attended: 2 });
-		this.tempdata.push({ ward: "2A/643", name: "Sanjay Mohan", mobile: "453545352", attended: 2 });
-		this.tempdata.push({ ward: "4A/515", name: "Sanjay Sawant", mobile: "9878978980", attended: 1 });
-		this.tempdata.push({ ward: "5A/616", name: "Parveen", mobile: "5645645665", attended: 1 });
-		this.tempdata.push({ ward: "3A/312", name: "Sumeet karande", mobile: "9878978980", attended: 1 });
-		this.tempdata.push({ ward: "3B/323", name: "Amol Patil", mobile: "32423432432", attended: 2 });
-		this.tempdata.push({ ward: "2A/643", name: "Sanjay Mohan", mobile: "453545352", attended: 1 });
-		this.tempdata.push({ ward: "4A/515", name: "Sanjay Sawant", mobile: "9878978980", attended: 1 });
-		this.tempdata.push({ ward: "5A/616", name: "Parveen", mobile: "5645645665", attended: 2 });
-		this.tempdata.push({ ward: "3A/312", name: "Sumeet karande", mobile: "9878978980", attended: 1 });
-		this.tempdata.push({ ward: "3B/323", name: "Amol Patil", mobile: "32423432432", attended: 1 });
-		this.tempdata.push({ ward: "2A/643", name: "Sanjay Mohan", mobile: "453545352", attended: 2 });
-		this.tempdata.push({ ward: "4A/515", name: "Sanjay Sawant", mobile: "9878978980", attended: 1 });
-		this.tempdata.push({ ward: "5A/616", name: "Parveen", mobile: "5645645665", attended: 1 });
-
-
-
-
-		for (let i = 0; i < 20; i++) {
-			this.tempdata.forEach(item => {
-				this.data.push(item);
-			})
-		}
-
-		// this.dataItems.push(this.tempdata);
-		// this.myItems = new ObservableArray<DataItem>(this.tempdata);
 	}
 
 	public getPatientListData(){
@@ -276,7 +129,6 @@ export class HomeComponent implements OnInit {
 					this.patientListItems.push(patientListItem);
 					this.isBusy = false;
 				});
-				//this.patientListSource.for
 
 			},
 			(error)=>{
@@ -285,59 +137,24 @@ export class HomeComponent implements OnInit {
 		);
 	}
 
-	// public addMoreItemsFromSource(chunkSize: number) {
-	// 	// console.log('items loaded pre dataitems', this.dataItems.length);
-	// 	// console.log('items loaded pre data', this.data.length);
-	// 	let newItems = this.data.slice(this.dataItems.length, this.dataItems.length + chunkSize);
-	// 	this.dataItems.push(newItems);
-	// 	// console.log('items loaded post new items', newItems.length);
-	// 	// console.log('items loaded post', this.dataItems.length);
-	// }
-
-	// public onLoadMoreItemsRequested(args: LoadOnDemandListViewEventData) {
-	// 	// console.log('onLoadMoreItemsRequested');
-
-	// 	// const that = new WeakRef(this);
-	// 	const listView: RadListView = args.object;
-	// 	if (this.dataItems.length < this.data.length) {
-	// 		setTimeout(()=> {
-	// 			this.addMoreItemsFromSource(20);
-	// 			listView.notifyLoadOnDemandFinished();
-	// 			//console.log('onLoadMoreItemsRequested', this.dataItems.length);
-	// 		}, 200);
-	// 	} else {
-	// 		args.returnValue = false;
-	// 		listView.notifyLoadOnDemandFinished(true);
-	// 		// console.log('onLoadMoreItemsRequested', 'load on demand finished');
-	// 	}
-	// }
+	
 
 	// search record by list code start
 	public onSubmit(args) {
+
 		let searchBar = <SearchBar>args.object;
-		// let searchValue = searchBar.text;
 		let searchValue = searchBar.text.toLowerCase();
-
-		// this.myItems = new ObservableArray<DataItem>();
 		this.patientListSource = new ObservableArray<PatientListViewModel>()
-		if (searchValue !== "") {
-			// for (let i = 0; i < this.patientListItems.length; i++) {
-				
-			// 	console.log("this.patientListItems",this.patientListItems[i]);
 
-			// 	if (this.patientListItems[i].dbmodel.fname.toLowerCase().indexOf(searchValue) !== -1 || this.patientListItems[i].dbmodel.lname.toLowerCase().indexOf(searchValue) !== -1 || this.patientListItems[i].dbmodel.bed_no.toLowerCase().indexOf(searchValue) !== -1) {
-			// 		this.patientListSource.push(this.patientListItems[i]);
-			// 	}
-			// }
+		if (searchValue !== "") {
 
 			this.patientListItems.forEach(item=>{
 				if (item.dbmodel.fname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.lname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.bed_no.toLowerCase().indexOf(searchValue) !== -1) {
 							this.patientListSource.push(item);
 						}
 			});
-
 		}
-		console.log("onsubmit",this.patientListSource)
+
 	}
 	// search record by list code end
 
@@ -345,12 +162,10 @@ export class HomeComponent implements OnInit {
 	public onClear(args) {
 		let searchBar = <SearchBar>args.object;
 		searchBar.text = "";
-		// searchBar.hint = "Search for a country and press enter";
 		this.patientListSource = new ObservableArray<PatientListViewModel>();
 		this.patientListItems.forEach(item => {
 			this.patientListSource.push(item);
 		});
-		console.log("conclear",this.patientListSource)
 	}
 	//clear search record list then show all list record code end
 
