@@ -13,16 +13,18 @@
 }
 
 .cardeffect {
-    width: 100%;
+    width: 95%;
     /* padding: 5 10; */
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
     border-radius: 8px;
 }
 
 .listItemStackLayout {
-    background-color: white;
+    background-color: #ffffff;
     /* padding-left: 5; */
     padding-right: 5;
+    border-radius: 5px;
+
 }
 
 .labelName {
@@ -38,40 +40,6 @@
 .labelText {
     font-size: 12;
 }
-
-/* .markGridLayout {
-    background-color: #0099ff;
-    padding: 16;
-}
-
-.archiveGridLayout {
-    background-color: #ffcc99;
-    padding: 16;
-}
-
-.unreadGridLayout {
-    background-color: #ff3300;
-    padding: 16;
-}
-
-.deleteGridLayout {
-    background-color: red;
-    padding: 16;
-}
-
-.readGridLayout {
-    background-color: #ff66ff;
-    padding: 16;
-}
-
-.forwardGridLayout {
-    background-color: #9966ff;
-    padding: 16;
-}
-
-.swipeTemplateLabel {
-    font-size: 15;
-} */
 
 /* right side button css start */
 
@@ -106,7 +74,7 @@
 }
 
 .float-btn-monitor {
-    background-color: #E94E77;
+    background-color: #396766;
     border-radius: 3px;
     width: 44;
     height: 44;
@@ -117,14 +85,15 @@
 .float-btn-medicene {
     width: 44;
     height: 44;
-    background: #3FB8AF;
+    background-color: #396766;
     text-align: center;
     vertical-align: middle;
     border-radius: 3px;
+    /* content: "\f201"; */
 }
 
 .float-btn-intake {
-    background-color: #FF8910;
+    background-color: #396766;
     border-radius: 3px;
     width: 44;
     height: 44;
@@ -133,7 +102,7 @@
 }
 
 .float-btn-output {
-    background-color: #008BFF;
+    background-color: #396766;
     border-radius: 3px;
     width: 44;
     height: 44;
@@ -189,27 +158,52 @@
 /* grouping title color change css  start*/
 
 .groupLabelIntake {
-    background-color: #FF8910;
+    background-color: #396766;
     padding: 15;
     color: #ffffff;
+    font-weight: bold;
 }
 
 .groupLabelMonitor {
-    background-color: #E94E77;
+    background-color: #396766;
     padding: 15;
     color: #ffffff;
+    font-weight: bold;
 }
 
 .groupLabelMedicine {
-    background-color: #3FB8AF;
+    background-color: #396766;
     padding: 15;
     color: #ffffff;
+    font-weight: bold;
 }
 
 .groupLabelOutput {
-    background-color: #008BFF;
+    background-color: #396766;
     padding: 15;
     color: #ffffff;
+    font-weight: bold;
 }
 
 /* grouping title color change css  start*/
+
+.button-clicked {
+    color: #FF8910;
+}
+
+.example-class {
+    color: red;
+}
+
+.other-class {
+    color: green;
+}
+
+.hr-lightt {
+    display: block;
+    /* height: 1px; */
+    /* border: 0px; */
+    border-top: 1px solid #396766;
+    margin: 0 0;
+    padding: 3px 0px;
+}
