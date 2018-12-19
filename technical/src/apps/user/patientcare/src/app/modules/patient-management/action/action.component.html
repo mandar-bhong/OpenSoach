@@ -3,26 +3,24 @@
         multipleSelection="true" selectionBehavior="Press" [groupingFunction]="_funcGrouping">
         <ng-template tkListItemTemplate let-item="item">
             <!-- <RL:Ripple rippleFadeDuration="5"> -->
-            <GridLayout columns="*" rows="auto, auto">                
+            <GridLayout columns="*" rows="auto, auto">
                 <GridLayout col="0" class="listItemStackLayout" columns="*" rows="auto, auto">
                     <GridLayout row="0" columns="*, auto" rows="auto, auto " style="padding: 5px 0px;">
-                        <GridLayout col="0" columns="auto,*,auto" rows="auto, auto" class="card-layout">
+                        <GridLayout col="0" columns="auto,*" rows="auto, auto" class="card-layout">
                             <Label row="0" col="1" class="h3" [text]="item.title" style="color: #396767;"></Label>
-                            <Label row="1" col="1" class="body" textWrap="true" [text]="item.title"></Label>
+                            <Label row="1" col="1" class="body" textWrap="true" [text]="item.desc" style="margin-left: 10px;"></Label>
                         </GridLayout>
 
                         <GridLayout col="1" columns="auto" rows="auto" style="vertical-align: center; ">
                             <StackLayout *ngIf="item.has_details === true" row="1" style=" margin-right:7px; color: green;">
-                                <Label row="1" col="0" text="last attended"></Label>
-                                <Label row="1" col="0" [text]="item.due_at"></Label>
+                                <Label row="0" col="0" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
                             </StackLayout>
                             <StackLayout *ngIf="item.has_details === false" row="1" style=" margin-right:7px; color: red;">
-                                <Label row="1" col="0" text="last attended"></Label>
-                                <Label row="1" col="0" [text]="item.due_at"></Label>
+                                <Label row="0" col="0" style="color:red;" text="&#xf021;" class="mdi listicon"></Label>
                             </StackLayout>
                         </GridLayout>
                     </GridLayout>
-                </GridLayout>                
+                </GridLayout>
                 <GridLayout row="1" col="0">
                     <StackLayout class="hr-light m-10"></StackLayout>
                 </GridLayout>
@@ -36,22 +34,20 @@
         </ng-template>
 
         <ng-template tkTemplateKey="expanded" let-item="item">
-            <GridLayout columns="auto,*, auto" rows="auto, auto">
-                <GridLayout col="0" width="2%" columns="*" rows="auto">
-                    <StackLayout style="background-color:#396766;"></StackLayout>
-                </GridLayout>
-                <GridLayout col="1" rows="auto,auto,auto,auto" columns="*" class="listItemStackLayout" width="90%">
-
+            <GridLayout columns="*" rows="auto, auto">
+                <GridLayout col="0" rows="auto,auto" columns="*" class="listItemStackLayout">
                     <GridLayout row="0" col="0" columns="*, auto" rows="auto, auto" style="padding: 5px 0px;">
-                        <GridLayout col="0" columns="auto,*,auto" rows="auto, auto, auto" class="card-layout">
-                            <Label row="0" col="1" class="h3" [text]="item.title"></Label>
-                            <Label row="1" col="1" class="body" textWrap="true" [text]="item.name"></Label>
+                        <GridLayout col="0" columns="auto,*" rows="auto, auto, auto" class="card-layout">
+                            <Label row="0" col="1" class="h3" [text]="item.title" style="color: #396767;"></Label>
+                            <Label row="1" col="1" class="body" textWrap="true" [text]="item.desc" style="margin-left: 10px;"></Label>
                         </GridLayout>
 
-                        <GridLayout col="1" columns="auto, auto" rows="auto, auto" style="vertical-align: center; text-align: center;">
-                            <StackLayout row="1" style=" margin-right:5px;">
-                                <Label row="1" col="0" text="last attended"></Label>
-                                <Label row="1" col="0" [text]="item.due_at"></Label>
+                        <GridLayout col="1" columns="auto" rows="auto" style="vertical-align: center; ">
+                            <StackLayout *ngIf="item.has_details === true" row="1" style=" margin-right:7px; color: green;">
+                                <Label row="0" col="0" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
+                            </StackLayout>
+                            <StackLayout *ngIf="item.has_details === false" row="1" style=" margin-right:7px; color: red;">
+                                <Label row="0" col="0" style="color:red;" text="&#xf021;" class="mdi listicon"></Label>
                             </StackLayout>
                         </GridLayout>
                     </GridLayout>
@@ -81,11 +77,11 @@
                         </StackLayout>
                     </GridLayout>
                 </GridLayout>
-                <GridLayout col="2" width="8%" columns="*" rows="auto">
+                <!-- <GridLayout col="2" width="8%" columns="*" rows="auto">
                     <StackLayout style="background-color:#396766;"></StackLayout>
-                </GridLayout>
-                <GridLayout row="2" col="1">
-                    <StackLayout class="hr-lightt m-10"></StackLayout>
+                </GridLayout> -->
+                <GridLayout row="1" col="0">
+                    <StackLayout class="hr-light m-10"></StackLayout>
                 </GridLayout>
             </GridLayout>
         </ng-template>
@@ -99,7 +95,7 @@
         </RL:Ripple>
         <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
             <StackLayout class="float-btn-medicene" (tap)="medicinebuttonClicked = true" [class.button-clicked]="medicinebuttonClicked">
-                <Label class="float-btn-text-medicene fas" (tap)="selectMedicine()" text="&#xf46b;" [style.color]="medicinebuttonClicked ? '#FF8910' : '#ffffff'"></Label>
+                <Label class="float-btn-text-medicene fas" (tap)="selectMedicine()" text="&#xf484;" [style.color]="medicinebuttonClicked ? '#FF8910' : '#ffffff'"></Label>
             </StackLayout>
         </RL:Ripple>
         <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
