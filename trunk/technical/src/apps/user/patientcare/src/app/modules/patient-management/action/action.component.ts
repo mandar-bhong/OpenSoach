@@ -21,6 +21,7 @@ export class DataItem {
 	public title: string;
 	public due_at: string;
 	public has_details: boolean;
+	public desc: string;
 
 }
 @Component({
@@ -184,30 +185,38 @@ export class ActionComponent implements OnInit {
 
 	public initDataItems() {
 		const tempdata = new Array<DataItem>();
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
-		this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
-		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
+		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
+		this.tempdata.push({ title: "Saline",  desc:"200ml", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
+		// this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
+		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		this.tempdata.push({ title: "Output", desc:"200ml", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
+		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
+		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Sinarest", desc:"3 times a day after meal" ,due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
+		this.tempdata.push({ title: "Acetaminophen", desc:"Morning and evening before meal", due_at: "17:30:00", has_details: false, pstatus: "Medicine" });
+		this.tempdata.push({ title: "Aspirin", desc:"Incase of high body temperature", due_at: "17:50:00", has_details: false, pstatus: "Medicine" });
+		this.tempdata.push({ title: "Zofran", desc:"Incase of continuos vomitting and nausea", due_at: "18:00:00", has_details: false, pstatus: "Medicine" });
+		this.tempdata.push({ title: "Temperature", desc:"Monitor every 2 hours", due_at: "12:00:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "12:30:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "13:00:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Pulse Rate", desc:"Monitor every 15 mins", due_at: "14:15:00", has_details: true, pstatus: "Monitor" });
+		this.tempdata.push({ title: "Respiration Rate", desc:"Monitor every 30 mins", due_at: "14:45:00", has_details: true, pstatus: "Monitor" });
 
 		for (let i = 0; i < 20; i++) {
 			this.tempdata.forEach(item => {
