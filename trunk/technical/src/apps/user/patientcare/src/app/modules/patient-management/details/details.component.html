@@ -8,7 +8,7 @@
                 </RL:Ripple>
             </StackLayout>
             <Label col="1" text="&#xf47d;" class="mdi listicon" style="margin-left:30px; color:white;vertical-align: center;"></Label>
-            <Label col="2" text="12, Sumeet Karande" style="margin-left:10px;" class="homeheader"></Label>
+            <Label col="2" text="3A/312, Amol Patil" style="margin-left:10px;" class="homeheader"></Label>
             <StackLayout col="4" class="button-dist">
                 <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="patientdetail()">
                     <Label text="&#xf2fd;" class="homeicon mdi" (tap)="patientdetail()"></Label>
@@ -52,19 +52,13 @@
             </RL:Ripple>
             <RL:Ripple rippleColor="#fff" width="25%" (tap)="chartData()" (tap)="chartbuttonClicked = true">
                 <StackLayout textWrap="true" [class.button-clicked]="chartbuttonClicked" class="tab-layout">
-                    <Label text="{{(chartbuttonClicked) ? '&#xf14a;' : '&#xf14a;'}}" [style.color]="chartbuttonClicked ? '#FF8910' : '#ffffff'"
-                        class="fas button-icon"></Label>
+                    <Label text="{{(chartbuttonClicked) ? '&#xf520;' : '&#xf520;'}}" [style.color]="chartbuttonClicked ? '#FF8910' : '#ffffff'"
+                        class="mdi button-icon"></Label>
                     <!-- <Label text="&#xf080;" class="fas button-icon"></Label> -->
                     <Label text="Charts" class="button-text"></Label>
                 </StackLayout>
             </RL:Ripple>
             <RL:Ripple rippleColor="#fff" width="25%" (tap)="reportData()" (tap)="reportbuttonClicked = true">
-                <!-- <Button textWrap="true" width="25%" class="btn-border-hide" (tap)="reportData()" (tap)="reportbuttonClicked = true">
-                    <FormattedString [class.button-clicked]="reportbuttonClicked">
-                        <Span text="&#xf15b;\n" class="fas button-icon" ></Span>
-                        <Span text="Reports" class="button-text"></Span>
-                    </FormattedString>
-                </Button> -->
                 <StackLayout textWrap="true" [class.button-clicked]="reportbuttonClicked" class="tab-layout">
                     <Label text="{{(reportbuttonClicked) ? '&#xf15b;' : '&#xf15b;'}}" [style.color]="reportbuttonClicked ? '#FF8910' : '#ffffff'"
                         class="fas button-icon"></Label>
