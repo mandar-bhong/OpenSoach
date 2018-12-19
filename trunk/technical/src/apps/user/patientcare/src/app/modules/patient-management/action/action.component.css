@@ -53,61 +53,27 @@
     /* padding-right: 20; */
 }
 
-.float-btn-text-monitor {
+.float-btn-cat-text {
     color: #ffffff;
     font-size: 17;
+    opacity: 1;
+    /* background-color: red;
+    padding: 5; */
 }
 
-.float-btn-text-medicene {
-    color: #ffffff;
-    font-size: 19;
-}
 
-.float-btn-text-intake {
-    color: #ffffff;
-    font-size: 21;
-}
-
-.float-btn-text-output {
-    color: #ffffff;
-    font-size: 22;
-}
-
-.float-btn-monitor {
-    background-color: #396766;
+.float-btn-cat {
+    background-color: #6e6e6e;
     border-radius: 3px;
     width: 44;
     height: 44;
     text-align: center;
     vertical-align: middle;
+    opacity:0.7;
 }
 
-.float-btn-medicene {
-    width: 44;
-    height: 44;
-    background-color: #396766;
-    text-align: center;
-    vertical-align: middle;
-    border-radius: 3px;
-    /* content: "\f201"; */
-}
-
-.float-btn-intake {
-    background-color: #396766;
-    border-radius: 3px;
-    width: 44;
-    height: 44;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.float-btn-output {
-    background-color: #396766;
-    border-radius: 3px;
-    width: 44;
-    height: 44;
-    text-align: center;
-    vertical-align: middle;
+.category-header {
+    background-color: #00A6CE;    
 }
 
 /* right side button css end */
@@ -158,28 +124,28 @@
 /* grouping title color change css  start*/
 
 .groupLabelIntake {
-    background-color: #396766;
+    /* background-color: #00A6CE; */
     padding: 15;
     color: #ffffff;
     font-weight: bold;
 }
 
 .groupLabelMonitor {
-    background-color: #396766;
+    /* background-color: #396766; */
     padding: 15;
     color: #ffffff;
     font-weight: bold;
 }
 
 .groupLabelMedicine {
-    background-color: #396766;
+    /* background-color: #396766; */
     padding: 15;
     color: #ffffff;
     font-weight: bold;
 }
 
 .groupLabelOutput {
-    background-color: #396766;
+    /* background-color: #396766; */
     padding: 15;
     color: #ffffff;
     font-weight: bold;
