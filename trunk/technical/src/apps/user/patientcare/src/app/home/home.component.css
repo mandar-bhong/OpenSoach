@@ -143,3 +143,8 @@ TextField {
     height: 20%;
     width: 20%;
 }
+
+.align-centre{
+    vertical-align: middle;
+}
+
