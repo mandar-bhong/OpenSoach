@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
 		setTimeout(() => {
 			this.getPatientListData();
 			//this.addMoreItemsFromSource(20);
-		}, 1000);
+		}, 800);
 
 		// this.getPatientListData();
 

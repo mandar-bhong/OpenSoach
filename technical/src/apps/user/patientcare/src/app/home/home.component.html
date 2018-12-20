@@ -10,7 +10,7 @@
         <Label col="0" (tap)="camerasdetails()" text="&#xf09a;" class="homeicon mdi"></Label>
       </RL:Ripple>
     </GridLayout>
-    <GridLayout col="3" columns="auto" class="button-dist" style="margin-top:7px;">
+    <GridLayout col="3" columns="auto" class="button-dist" style="vertical-align: center;">
       <network-status col="0"></network-status>
     </GridLayout>
   </GridLayout>
@@ -45,35 +45,35 @@
               <GridLayout col="0" columns="auto,*,auto" rows="auto, auto, auto" class="card-layout">
 
                 <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
-                <Label row="0" col="1" class="h3" [text]="item.dbmodel.bed_no" style="color: #396767;"></Label>
+                <Label row="0" col="1" class="h3 align-centre" [text]="item.dbmodel.bed_no" style="color: #396767;"></Label>
                 <!-- <Label row="0" col="2" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf020;" class="mdi listicon"></Label>
                 <Label row="0" col="2" *ngIf="item.dbmodel.status === 2" style="color:red;" text="&#xf020;" class="mdi listicon"></Label> -->
 
                 <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
-                <Label row="1" col="1" class="body" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
+                <Label row="1" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
                 <!-- <Label row="1" col="2" text="Last 12:30 AM"></Label> -->
 
                 <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
-                <Label row="2" col="1" class="body" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
+                <Label row="2" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
                 <!-- <Label row="2" col="2" text="Next 1:30 AM"></Label> -->
               </GridLayout>
 
               <GridLayout col="2" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
 
                 <Label row="0" col="0" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 1" text="1:45 PM"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 1" text="1:45 PM" class="align-centre"></Label>
 
                 <Label row="0" col="0" *ngIf="item.dbmodel.status === 2" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 2" text="1:50 PM"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 2" text="1:50 PM" class="align-centre"></Label>
 
                 <Label row="0" col="0" *ngIf="item.dbmodel.status === 3" style="color:#FF8912;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 3" text="2:30 PM"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 3" text="2:30 PM" class="align-centre"></Label>
 
                 <Label row="0" col="0" *ngIf="item.dbmodel.status === 4" style="color:yellow;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 4" text="2:30 PM"></Label>
+                <Label row="0" col="1" *ngIf="item.dbmodel.status === 4" text="2:30 PM" class="align-centre"></Label>
 
                 <Label row="1" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label>
-                <Label row="1" col="1" text="3:30 PM"></Label>
+                <Label row="1" col="1" text="3:30 PM" class="align-centre"></Label>
 
 
               </GridLayout>
