@@ -60,22 +60,21 @@
 
               <GridLayout col="2" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
 
-                <Label row="0" col="0" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 1" text="1:45 PM" class="align-centre"></Label>
+                <Label row="0" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label>
+                <Label row="0" col="1" text="3:30 PM" class="align-centre"></Label>
+                
+                <Label row="1" col="0" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="1" col="1" *ngIf="item.dbmodel.status === 1" text="1:45 PM" class="align-centre"></Label>
 
-                <Label row="0" col="0" *ngIf="item.dbmodel.status === 2" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 2" text="1:50 PM" class="align-centre"></Label>
+                <Label row="1" col="0" *ngIf="item.dbmodel.status === 2" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="1" col="1" *ngIf="item.dbmodel.status === 2" text="1:50 PM" class="align-centre"></Label>
 
-                <Label row="0" col="0" *ngIf="item.dbmodel.status === 3" style="color:#FF8912;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 3" text="2:30 PM" class="align-centre"></Label>
+                <Label row="1" col="0" *ngIf="item.dbmodel.status === 3" style="color:#FF8912;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="1" col="1" *ngIf="item.dbmodel.status === 3" text="2:30 PM" class="align-centre"></Label>
 
-                <Label row="0" col="0" *ngIf="item.dbmodel.status === 4" style="color:yellow;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="0" col="1" *ngIf="item.dbmodel.status === 4" text="2:30 PM" class="align-centre"></Label>
-
-                <Label row="1" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label>
-                <Label row="1" col="1" text="3:30 PM" class="align-centre"></Label>
-
-
+                <Label row="1" col="0" *ngIf="item.dbmodel.status === 4" style="color:yellow;" text="&#xf021;" class="mdi listicon"></Label>
+                <Label row="1" col="1" *ngIf="item.dbmodel.status === 4" text="2:30 PM" class="align-centre"></Label>
+            
               </GridLayout>
             </GridLayout>
             <GridLayout row="1" col="1">
