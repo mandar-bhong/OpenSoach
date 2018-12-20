@@ -213,10 +213,10 @@ export class ActionComponent implements OnInit {
 		this.tempdata.push({ title: "Acetaminophen", desc:"Morning and evening before meal", due_at: "17:30:00", has_details: false, pstatus: "Medicine", status: 2 });
 		this.tempdata.push({ title: "Aspirin", desc:"Incase of high body temperature", due_at: "17:50:00", has_details: false, pstatus: "Medicine", status: 1 });
 		this.tempdata.push({ title: "Zofran", desc:"Incase of continuos vomitting and nausea", due_at: "18:00:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Temperature", desc:"Monitor every 2 hours", due_at: "12:00:00", has_details: true, pstatus: "Monitor", status: 1 });
+		this.tempdata.push({ title: "Temperature", desc:"Monitor every 2 hours", due_at: "12:00:00", has_details: true, pstatus: "Monitor", status: 3 });
 		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "12:30:00", has_details: true, pstatus: "Monitor", status: 1 });
-		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "13:00:00", has_details: true, pstatus: "Monitor", status: 1 });
-		this.tempdata.push({ title: "Pulse Rate", desc:"Monitor every 15 mins", due_at: "14:15:00", has_details: true, pstatus: "Monitor", status: 1 });
+		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "13:00:00", has_details: true, pstatus: "Monitor", status: 3 });
+		this.tempdata.push({ title: "Pulse Rate", desc:"Monitor every 15 mins", due_at: "14:15:00", has_details: true, pstatus: "Monitor", status: 3 });
 		this.tempdata.push({ title: "Respiration Rate", desc:"Monitor every 30 mins", due_at: "14:45:00", has_details: true, pstatus: "Monitor", status: 1 });
 
 		for (let i = 0; i < 20; i++) {
