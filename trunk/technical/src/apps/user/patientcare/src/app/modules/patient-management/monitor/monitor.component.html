@@ -1,9 +1,10 @@
+
 <StackLayout style="background-color:#396766;">
     <FlexboxLayout style="justify-content: center;">
         <StackLayout class="form cardeffect" style="margin-top:20px;">
-            <!-- <Label class="body" textWrap="true" text="PATIENT DETAILS"></Label>
-            <StackLayout class="hr-light m-10"></StackLayout> -->
-            <GridLayout rows="*" height="500px">
+            <Label class="body" textWrap="true" text="PATIENT TEMPERATURE"></Label>
+            <StackLayout class="hr-light m-10"></StackLayout>
+            <GridLayout rows="*" height="400px" style="margin:15px 0px;">
                 <RadCartesianChart row="0">
                     <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
                     <LinearAxis tkCartesianVerticalAxis></LinearAxis>
@@ -12,7 +13,21 @@
             </GridLayout>
         </StackLayout>
     </FlexboxLayout>
-    <StackLayout class="float-btn-container">
+    <FlexboxLayout style="justify-content: center;">
+            <StackLayout class="form cardeffect" style="margin-top:20px;">
+                <Label class="body" textWrap="true" text="PATIENT BLOOD PRESSURE"></Label>
+                <StackLayout class="hr-light m-10"></StackLayout>
+                <GridLayout rows="*" height="400px" style="margin: 15px 0px;">
+                        <RadCartesianChart row="0">
+                            <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                            <BarSeries tkCartesianSeries [items]="categoricalSource"
+                                categoryProperty="Country" valueProperty="Amount"></BarSeries>
+                        </RadCartesianChart>
+                    </GridLayout>
+            </StackLayout>
+        </FlexboxLayout>
+    <!-- <StackLayout class="float-btn-container">
         <float-btn></float-btn>
-    </StackLayout>
+    </StackLayout> -->
 </StackLayout>

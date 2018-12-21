@@ -64,15 +64,16 @@
 
 
 .float-btn-cat {
-    /* background-color: #696969; */
-    border-radius: 3px;
-    /* border-radius:22; */
-    width: 23;
-    height: 23;
+    background-color: #396766;
+    /* border-radius: 3px; */
+    border-radius:22;
+    width: 44;
+    height: 44;
     text-align: center;
     vertical-align: middle;
+    
     /* opacity:0.7; */
-    background-color: rgb(105, 105, 105, 0.6);
+    /* background-color: rgb(105, 105, 105, 0.6); */
 }
 
 .category-header {
@@ -175,4 +176,20 @@
     border-top: 1px solid #396766;
     margin: 0 0;
     padding: 3px 0px;
+}
+.green{
+    background-color: #989898;
+}
+.red{
+    background-color: rgb(236, 59, 59);
+}
+.orenge{
+    background-color: #FF8910;
+}
+.list-layout{
+    padding: 13px 7px;
+    padding-left: 11px;
+}
+.list-text{
+    color: #ebebeb;
 }
