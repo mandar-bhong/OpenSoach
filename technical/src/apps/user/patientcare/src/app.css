@@ -219,3 +219,8 @@ Label {
   /* font-family: 500;  */
    /* Bold Open Sans */
  }
+
+ .cardStyle {
+  background-color: #3489db;
+  color: #fff;
+}

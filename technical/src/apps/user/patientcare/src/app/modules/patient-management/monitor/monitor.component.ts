@@ -8,16 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class MonitorComponent implements OnInit {
-    categoricalSource: { Country: string, Amount: number, SecondVal: number, ThirdVal: number }[] = [
-        { Country: "Germany", Amount: 15, SecondVal: 14, ThirdVal: 24 },
-        { Country: "France", Amount: 13, SecondVal: 23, ThirdVal: 25 },
-        { Country: "Bulgaria", Amount: 24, SecondVal: 17, ThirdVal: 23 },
-        { Country: "Spain", Amount: 11, SecondVal: 19, ThirdVal: 24 },
-        { Country: "USA", Amount: 18, SecondVal: 8, ThirdVal: 21 }
-    ];
+	categoricalSource: { Country: string, Amount: any }[] = [
+		{ Country: "10:00 AM", Amount: 35 },
+		{ Country: "11:00 AM", Amount: 20 },
+		{ Country: "12:00 AM", Amount: 28 },
+		{ Country: "1:00 PM", Amount: 10 },
+		{ Country: "2:00 PM", Amount: 40 },
+
+		{ Country: "3:00 PM", Amount: 15 }
+		// { Country: "6:00 PM", Amount: 11 },
+		// { Country: "7:00 PM", Amount: 18 }
+	];
+
 	constructor() { }
 
 	ngOnInit() {
 		// alert('monitor');
-	 }
+	}
+
 }
