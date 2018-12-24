@@ -1,119 +1,181 @@
 .charts {}
 
-.designcard {
-    font-size: 34;
-    font-weight: bold;
-    color: #ffffff;
-    text-align: center;
+.card-layout {
+    padding: 12;
 }
 
-.cardbox {
-    padding: 5 10;
-    background-color: #f0f0f0;
+.card-layout .h1 {
+    margin-bottom: 15;
+}
+
+.lextra-container {
+    position: relative;
+}
+
+.cardeffect {
+    width: 95%;
+    /* padding: 5 10; */
+    /* background-color: #f0f0f0; */
     border-radius: 8px;
-    width: 46%;
-    margin: 0px 2%;
-    height: 25%;
 }
 
-.intentbox {
-    background-color: #008BFF;
-    vertical-align: center;
-    height: 350px
+.listItemStackLayout {
+    background-color: #ffffff;
+    /* padding-left: 5; */
+    padding-right: 5;
+    /* border-radius: 5px; */
+
 }
 
-.outputbox {
-    background-color: #FF3A7F;
-    vertical-align: center;
-    height: 350px
+.labelName {
+    font-size: 20;
+    margin-bottom: 8;
 }
 
-.medicalbox {
-    background-color: #FFBD00;
-    vertical-align: center;
-    height: 350px
+.labelTitle {
+    font-size: 14;
+    font-weight: bold;
 }
 
-.outbox {
-    background-color: #00A84F;
-    vertical-align: center;
-    height: 350px
+.labelText {
+    font-size: 12;
 }
 
+/* right side button css start */
 
-
-.center{
-    horizontal-align:center;
-}
-.right{
-    horizontal-align:right;
-    margin-top: 60%;
-    padding-right: 20;
-    
-}
-.float-btn-container {
-    margin-top: 50%;
-    /* margin-left: 80%; */
+.center {
+    horizontal-align: center;
 }
 
-
-.float-btn-monitor {
-    background-color: #E94E77;
-    border-radius: 22;
-    width: 44;
-    height: 44;
-    text-align: center;
-    vertical-align: middle;
-    box-shadow: 2px 2px 3px #999;
+.right {
+    horizontal-align: right;
+    margin-top: 45%;
+    /* padding-right: 20; */
 }
 
-.float-btn-text-monitor {
+.float-btn-cat-text {
     color: #ffffff;
     font-size: 17;
+    color: rgba(255,255,255,1);
+    /* opacity: 1; */
+    /* background-color: red;
+    padding: 5; */
 }
 
 
-.float-btn-medicene {
-    background-color: #3FB8AF;
-    border-radius: 24;
-    width: 48;
-    height: 48;
+.float-btn-cat {
+    /* background-color: #696969; */
+    border-radius: 3px;
+    /* border-radius:22; */
+    width: 23;
+    height: 23;
     text-align: center;
     vertical-align: middle;
-    box-shadow: 2px 2px 3px #999;
+    /* opacity:0.7; */
+    background-color: rgb(105, 105, 105, 0.6);
 }
 
-.float-btn-text-medicene {
+.category-header {
+    background-color: #00A6CE;
+    padding: 15;
     color: #ffffff;
-    font-size: 19;
+    font-weight: bold;
 }
 
-.float-btn-intake {
-    background-color: #FF8910;
-    border-radius: 26;
-    width: 52;
-    height: 52;
-    text-align: center;
-    vertical-align: middle;
-    box-shadow: 2px 2px 3px #999;
+/* right side button css end */
+
+/* selected css start */
+
+.item-selected {
+    border-width: 1;
+    border-color: #990033;
 }
 
-.float-btn-text-intake {
+/* selected css end */
+
+/* swipe action animated swipe css start */
+
+.markViewStackLayout {
+    background-color: blue;
+    padding: 16
+}
+
+.deleteViewStackLayout {
+    background-color: red;
+    padding: 16;
+}
+
+.gridLayoutLayout {
+    background-color: white;
+}
+
+.markViewStackLayout {
+    background-color: blue;
+    padding-left: 16;
+    padding-right: 16;
+}
+
+.swipeTemplateLabel {
+    size: 20;
+}
+
+.deleteViewStackLayout {
+    background-color: red;
+    padding-left: 16;
+    padding-right: 16;
+}
+
+/* swipe action animated swipe css end */
+
+/* grouping title color change css  start*/
+
+.groupLabelIntake {
+    /* background-color: #00A6CE; */
+    padding: 15;
     color: #ffffff;
-    font-size: 21;
+    font-weight: bold;
 }
 
-.float-btn-output {
-    background-color: #008BFF;
-    border-radius: 28;
-    width: 56;
-    height: 56;
-    text-align: center;
-    vertical-align: middle;
-    box-shadow: 2px 2px 3px #999;
-}
-
-.float-btn-text-output {
+.groupLabelMonitor {
+    /* background-color: #396766; */
+    padding: 15;
     color: #ffffff;
-    font-size: 22;
+    font-weight: bold;
+}
+
+.groupLabelMedicine {
+    /* background-color: #396766; */
+    padding: 15;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.groupLabelOutput {
+    /* background-color: #396766; */
+    padding: 15;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* grouping title color change css  start*/
+
+.button-clicked {
+    color: #FF8910;
+}
+
+.example-class {
+    color: red;
+}
+
+.other-class {
+    color: green;
+}
+
+.hr-lightt {
+    display: block;
+    /* height: 1px; */
+    /* border: 0px; */
+    border-top: 1px solid #396766;
+    margin: 0 0;
+    padding: 3px 0px;
 }
