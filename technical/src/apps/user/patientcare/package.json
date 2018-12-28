@@ -27,6 +27,7 @@
     "nativescript-imagepicker": "^6.0.4",
     "nativescript-local-notifications": "^3.1.0",
     "nativescript-ripple": "^2.1.0",
+    "nativescript-snackbar": "^4.0.0",
     "nativescript-sqlite": "^2.2.3",
     "nativescript-theme-core": "~1.0.4",
     "nativescript-ui-chart": "^3.10.0",
