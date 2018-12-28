@@ -13,9 +13,11 @@ import { PatientDetailsComponent } from "~/app/modules/patient-management/patien
 import { MonitorComponent } from "~/app/modules/patient-management/monitor/monitor.component";
 import { ActionComponent } from "~/app/modules/patient-management/action/action.component";
 import { ChartsComponent } from "~/app/modules/patient-management/charts/charts.component";
-import { MedicineChartComponent } from "~/app/modules/patient-management/charts/medicine-chart/medicine-chart.component";
-import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
+// import { MedicineChartComponent } from "~/app/modules/patient-management/charts/medicine-chart/medicine-chart.component";
+// import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
+import { MedicalDetailsComponent } from "~/app/modules/patient-management/patient-details/medical-details/medical-details.component";
+import { PatientInfoComponent } from "~/app/modules/patient-management/patient-details/patient-info/patient-info.component";
 
 @NgModule({
     imports: [
@@ -23,7 +25,7 @@ import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
         PatientMgntRoutingModule,
         HttpClientModule,
         NativeScriptUIListViewModule,
-        NativeScriptUIDataFormModule,
+        // NativeScriptUIDataFormModule,
         NativeScriptUIChartModule
     ],
     declarations: [
@@ -35,7 +37,9 @@ import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
         MonitorComponent,
         ActionComponent,
         ChartsComponent,
-        MedicineChartComponent
+        MedicalDetailsComponent,
+        PatientInfoComponent
+        // MedicineChartComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
