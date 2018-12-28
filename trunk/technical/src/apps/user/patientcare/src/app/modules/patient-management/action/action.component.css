@@ -64,6 +64,7 @@
 
 
 .float-btn-cat {
+    /* background-color: #00A6CE ; */
     background-color: #396766;
     /* border-radius: 3px; */
     border-radius:22;
@@ -77,7 +78,9 @@
 }
 
 .category-header {
-    background-color: #00A6CE;    
+    /* background-color: #608584;   */
+    background-color: #9fb5b5;  
+    /* background-color: #7fd2e6; */
 }
 
 /* right side button css end */
@@ -171,25 +174,22 @@
 
 .hr-lightt {
     display: block;
-    /* height: 1px; */
-    /* border: 0px; */
     border-top: 1px solid #396766;
     margin: 0 0;
     padding: 3px 0px;
 }
-.green{
-    background-color: #989898;
+.grey{
+    background-color: #608584;
 }
 .red{
-    background-color: rgb(236, 59, 59);
+    background-color: #FF8910;
 }
 .orenge{
     background-color: #FF8910;
 }
 .list-layout{
-    padding: 13px 7px;
-    padding-left: 11px;
+    padding: 15% 7px;
 }
 .list-text{
-    color: #ebebeb;
+    color: #ffffff;
 }

@@ -12,11 +12,12 @@ import * as utils from "utils/utils";
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
 
+// SnackBar import 
+import { alert } from "tns-core-modules/ui/dialogs";
+import { SnackBar, SnackBarOptions } from "nativescript-snackbar";
+import {Page} from "ui/page";
+
 export class DataItem {
-	// public name: string;
-	// public ward: string;
-	// public mobile: string;
-	// public attended: number;
 	public pstatus: string;
 	public title: string;
 	public due_at: string;
@@ -68,11 +69,18 @@ export class ActionComponent implements OnInit {
 	monitorIndex;
 	outputIndex;
 
-	constructor() {
+	// >>  bottom snackbar msg
+	private snackbar: SnackBar;
+
+	constructor(public page:Page) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
 			return item.pstatus;
 		};
+
+		// >>  bottom snackbar msg
+		this.snackbar = new SnackBar();
+		
 	}
 
 	get dataItems(): ObservableArray<DataItem> {
@@ -189,35 +197,19 @@ export class ActionComponent implements OnInit {
 		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
 		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
 		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		this.tempdata.push({ title: "Saline",  desc:"200ml", due_at: "17:00:00", has_details: true, pstatus: "Intake", status: 1 });
+		this.tempdata.push({ title: "Saline", desc: "200ml", due_at: "17:00:00", has_details: true, pstatus: "Intake", status: 1 });
 		// this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
 		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		this.tempdata.push({ title: "Output", desc:"200ml", due_at: "15:00:00", has_details: true, pstatus: "Output", status: 1 });
-		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
-		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		this.tempdata.push({ title: "Sinarest", desc:"3 times a day after meal" ,due_at: "16:00:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Acetaminophen", desc:"Morning and evening before meal", due_at: "17:30:00", has_details: false, pstatus: "Medicine", status: 2 });
-		this.tempdata.push({ title: "Aspirin", desc:"Incase of high body temperature", due_at: "17:50:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Zofran", desc:"Incase of continuos vomitting and nausea", due_at: "18:00:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Temperature", desc:"Monitor every 2 hours", due_at: "12:00:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "12:30:00", has_details: true, pstatus: "Monitor", status: 1 });
-		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "13:00:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Pulse Rate", desc:"Monitor every 15 mins", due_at: "14:15:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Respiration Rate", desc:"Monitor every 30 mins", due_at: "14:45:00", has_details: true, pstatus: "Monitor", status: 1 });
+		this.tempdata.push({ title: "Output", desc: "200ml", due_at: "15:00:00", has_details: true, pstatus: "Output", status: 1 });
+		this.tempdata.push({ title: "Sinarest", desc: "3 times a day after meal", due_at: "16:00:00", has_details: false, pstatus: "Medicine", status: 1 });
+		this.tempdata.push({ title: "Acetaminophen", desc: "Morning and evening before meal", due_at: "17:30:00", has_details: false, pstatus: "Medicine", status: 2 });
+		this.tempdata.push({ title: "Aspirin", desc: "Incase of high body temperature", due_at: "17:50:00", has_details: false, pstatus: "Medicine", status: 1 });
+		this.tempdata.push({ title: "Zofran", desc: "Incase of continuos vomitting and nausea", due_at: "18:00:00", has_details: false, pstatus: "Medicine", status: 1 });
+		this.tempdata.push({ title: "Temperature", desc: "Monitor every 2 hours", due_at: "12:00:00", has_details: true, pstatus: "Monitor", status: 3 });
+		this.tempdata.push({ title: "Blood pressure", desc: "Monitor every 3 hours", due_at: "12:30:00", has_details: true, pstatus: "Monitor", status: 1 });
+		this.tempdata.push({ title: "Blood pressure", desc: "Monitor every 3 hours", due_at: "13:00:00", has_details: true, pstatus: "Monitor", status: 3 });
+		this.tempdata.push({ title: "Pulse Rate", desc: "Monitor every 15 mins", due_at: "14:15:00", has_details: true, pstatus: "Monitor", status: 3 });
+		this.tempdata.push({ title: "Respiration Rate", desc: "Monitor every 30 mins", due_at: "14:45:00", has_details: true, pstatus: "Monitor", status: 1 });
 
 		for (let i = 0; i < 20; i++) {
 			this.tempdata.forEach(item => {
@@ -258,16 +250,16 @@ export class ActionComponent implements OnInit {
 	}
 
 	// >> select list item >> multipleSelection="true" selectionBehavior="Press" (itemSelected)="itemSelected($event)" (itemDeselected)="itemDeselected($event)"
-	itemSelected(args: ListViewEventData) {
-		// const item = this._dataItems.getItem(args.index);
-		// alert(item.name);
-		// item.selected = true;
-	}
+	// itemSelected(args: ListViewEventData) {
+	// const item = this._dataItems.getItem(args.index);
+	// alert(item.name);
+	// item.selected = true;
+	// }
 	// >> deselect list item 
-	itemDeselected(args: ListViewEventData) {
-		// const item = this._dataItems.getItem(args.index);
-		// item.selected = false;
-	}
+	// itemDeselected(args: ListViewEventData) {
+	// 	const item = this._dataItems.getItem(args.index);
+	// 	item.selected = false;
+	// }
 	// >> expand row code start
 	templateSelector(item: any, index: number, items: any): string {
 		return item.expanded ? "expanded" : "default";
@@ -385,4 +377,47 @@ export class ActionComponent implements OnInit {
 	// << Calculate Grouping index value
 
 
+	// >> discard patient in list 
+	public onDeleteRow(event: ListViewEventData) {
+
+		console.log("Right swipe click");
+		this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
+		console.log(this._dataItems);
+		console.log(this._dataItems.length);
+		// this.showAction();
+	}
+	// << discard patient in list 
+
+	// >> snackbar mes show bottom 
+	// showMessage(): void {
+	// 	this.snackbar.simple("Have a snack(bar)!");
+	// }
+	public showAction(event: ListViewEventData) {
+		console.log("Right swipe click");
+		// this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
+		// console.log(this._dataItems);
+		// console.log(this._dataItems.length);
+
+
+		let options: SnackBarOptions = {
+			actionText: "Undo",
+			actionTextColor: "#FF8910", // Android only
+			snackText: "Patient action have been discard!",
+			hideDelay: 3500
+		}
+		this.snackbar.action(options).then(args => {
+			if (args.command === "Action") {
+
+				// this._dataItems.push(this._dataItems.indexOf(event.object.bindingContext), 1);
+				// console.log(this._dataItems.length);
+				// alert({
+				//   title: "Well hello there!",
+				//   message: "That Snackbar seems useful, right?",
+				//   okButtonText: "Uhm, I guess..",
+				//   cancelable: true
+				// });
+			}
+		});
+	}
+	// << snackbar mes show bottom 
 }
