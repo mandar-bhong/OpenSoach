@@ -186,7 +186,7 @@ TextField {
 
 
 
-/* @font-face {
+@font-face {
   font-family: 'Open Sans';
   src: url('~/fonts/Open Sans Regular.tff') format('truetype');
   font-weight: 300;
@@ -202,25 +202,20 @@ TextField {
   font-family: 'Open Sans';
   src: url('~/fonts/Open Sans Bold.tff') format('truetype');
   font-weight: 500;
-} */
+}
 
 Label {
-  /* font-family: 'Open Sans';
-  font-weight: 300; */
+  font-family: 'Open Sans';
+  font-weight: 300;
    /* Regular Open Sans */
  }
  
  Label.mod-light {
-  /* font-family: 100;  */
+  font-family: 100; 
    /* Light Open Sans */
  }
  
  Label.mod-bold {
-  /* font-family: 500;  */
+  font-family: 500; 
    /* Bold Open Sans */
  }
-
- .cardStyle {
-  background-color: #3489db;
-  color: #fff;
-}

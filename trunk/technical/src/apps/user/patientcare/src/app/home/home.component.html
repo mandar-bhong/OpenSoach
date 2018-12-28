@@ -36,49 +36,123 @@
 
       <ng-template tkListItemTemplate let-item="item">
         <RL:Ripple rippleColor="#6E737B" (tap)="details()">
-          <GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" (tap)="details()">
-            <GridLayout row="0" columns="*, auto, auto" rows="auto, auto ">
-              <!-- <GridLayout col="0" rows="*"> -->
-              <!-- <Label col="0" *ngIf="item.dbmodel.status === 1" style="background-color:green;"></Label>
-                  <Label col="0" *ngIf="item.dbmodel.status === 2"  style="background-color:red;"></Label> -->
-              <!-- </GridLayout> -->
-              <GridLayout col="0" columns="auto,*,auto" rows="auto, auto, auto" class="card-layout">
+          <!-- <GridLayout columns="*" rows="auto, auto">
+            <GridLayout class="listItemStackLayout" columns="*" rows="auto, auto" (tap)="details()">
+              <GridLayout row="0" columns="70, *" rows="auto, auto ">
 
-                <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
-                <Label row="0" col="1" class="h3 align-centre" [text]="item.dbmodel.bed_no" style="color: #396767;"></Label>
-                <!-- <Label row="0" col="2" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf020;" class="mdi listicon"></Label>
-                <Label row="0" col="2" *ngIf="item.dbmodel.status === 2" style="color:red;" text="&#xf020;" class="mdi listicon"></Label> -->
+                <GridLayout col="0" columns="*" rows="auto" style="text-align: center;color: white" [text]="item.dbmodel.status" [ngClass]="{grey: item.dbmodel.status === 1,green: item.dbmodel.status === 2,orenge: item.dbmodel.status === 3,yellow: item.dbmodel.status === 4}">
 
-                <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
-                <Label row="1" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
-                <!-- <Label row="1" col="2" text="Last 12:30 AM"></Label> -->
+                  <StackLayout *ngIf="item.dbmodel.status === 1" columns="*, *" row="auto" class="list-layout">
+                    <Label row="0" col="0" text="&#xf021;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="1:45 PM"></Label>
+                  </StackLayout>
 
-                <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
-                <Label row="2" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
-                <!-- <Label row="2" col="2" text="Next 1:30 AM"></Label> -->
+                  <StackLayout *ngIf="item.dbmodel.status === 2" columns="*, *" row="auto" class="list-layout">
+                    <Label row="0" col="0" text="&#xf021;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="2:30 PM"></Label>
+                  </StackLayout>
+
+                  <StackLayout *ngIf="item.dbmodel.status === 3" columns="*, *" row="auto" class="list-layout">
+                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="4:30 PM"></Label>
+                  </StackLayout>
+
+                  <StackLayout *ngIf="item.dbmodel.status === 4" columns="*, *" row="auto" class="list-layout">
+                    <Label row="0" col="0" text="&#xf021;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="2:30 PM"></Label>
+                  </StackLayout>
+
+
+                </GridLayout>
+
+                <GridLayout row="0" col="1" columns="*, auto" rows="auto">
+                  <GridLayout col="0" columns="auto,*, auto" rows="auto, auto, auto" class="list-layout">
+                    <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+                    <Label row="0" col="1" class="h3 align-centre" [text]="item.dbmodel.bed_no" style="color: #396767;"></Label>
+
+                    <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+                    <Label row="1" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
+
+                    <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+                    <Label row="2" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
+                  </GridLayout>
+                  <GridLayout col="2" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
+                    <Label row="0" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label>
+                    <Label row="0" col="1" text="3:30 PM" class="align-centre"></Label>
+                  </GridLayout>
+                </GridLayout>
+
               </GridLayout>
 
-              <GridLayout col="2" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
-
-                <Label row="0" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label>
-                <Label row="0" col="1" text="3:30 PM" class="align-centre"></Label>
-                
-                <Label row="1" col="0" *ngIf="item.dbmodel.status === 1" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="1" col="1" *ngIf="item.dbmodel.status === 1" text="1:45 PM" class="align-centre"></Label>
-
-                <Label row="1" col="0" *ngIf="item.dbmodel.status === 2" style="color:green;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="1" col="1" *ngIf="item.dbmodel.status === 2" text="1:50 PM" class="align-centre"></Label>
-
-                <Label row="1" col="0" *ngIf="item.dbmodel.status === 3" style="color:#FF8912;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="1" col="1" *ngIf="item.dbmodel.status === 3" text="2:30 PM" class="align-centre"></Label>
-
-                <Label row="1" col="0" *ngIf="item.dbmodel.status === 4" style="color:yellow;" text="&#xf021;" class="mdi listicon"></Label>
-                <Label row="1" col="1" *ngIf="item.dbmodel.status === 4" text="2:30 PM" class="align-centre"></Label>
-            
-              </GridLayout>
             </GridLayout>
-            <GridLayout row="1" col="1">
+            <GridLayout row="1">
               <StackLayout class="hr-light m-10"></StackLayout>
+            </GridLayout>
+          </GridLayout> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <GridLayout columns="*" rows="auto">
+            <GridLayout col="0" class="listItemStackLayout" columns="*" rows="auto">
+              <GridLayout row="0" columns="70, *" rows="auto ">
+                <GridLayout col="0" columns="*" rows="auto, auto" [text]="item.dbmodel.status" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}">
+                  <StackLayout *ngIf="item.dbmodel.status === 1" row="1" class="list-layout">
+                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="1:45 PM" style="margin-top:5px;"></Label>
+                  </StackLayout>
+                  <StackLayout *ngIf="item.dbmodel.status === 2" row="1" class="list-layout">
+                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="2:30 PM" style="margin-top:5px;"></Label>
+                  </StackLayout>
+                  <StackLayout *ngIf="item.dbmodel.status === 3" row="1" class="list-layout">
+                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="4:30 PM" style="margin-top:5px;"></Label>
+                  </StackLayout>
+                  <StackLayout *ngIf="item.dbmodel.status === 4" row="1" class="list-layout">
+                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
+                    <Label row="1" col="0" text="2:30 PM" style="margin-top:5px;"></Label>
+                  </StackLayout>
+                </GridLayout>
+
+                <GridLayout row="0" col="1" columns="*, auto" rows="auto" style="margin-left: 15px;">
+                  <GridLayout col="0" columns="auto,*, auto" rows="auto, auto, auto">
+                    <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
+                    <Label row="0" col="1" class="h3 align-centre" [text]="item.dbmodel.bed_no" style="color: #396767;"></Label>
+
+                    <Label row="1" col="0" text="&#xf004;" class="mdi listicon"></Label>
+                    <Label row="1" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.fname + ' ' + item.dbmodel.lname "></Label>
+
+                    <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+                    <Label row="2" col="1" class="body align-centre" textWrap="true" [text]="item.dbmodel.mob_no"></Label>
+
+                    <GridLayout row="2" col="2" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
+                      <!-- <Label row="0" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label> -->
+                      <Label row="0" col="0" text="attended" class="align-centre" style="margin-right:6px;"></Label>
+                      <Label row="0" col="1" text="3:30 PM" class="align-centre"></Label>
+                    </GridLayout>
+                  </GridLayout>
+                  <!-- <GridLayout col="2" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
+                      <Label row="0" col="0" style="color: #396766;" text="&#xf020;" class="mdi listicon"></Label>
+                      <Label row="0" col="0" text="attended" class="align-centre" style="margin-right:6px;"></Label>
+                      <Label row="0" col="1" text="3:30 PM" class="align-centre"></Label>
+                    </GridLayout> -->
+                </GridLayout>
+              </GridLayout>
+              <GridLayout row="1" col="0">
+                <StackLayout class="hr-light m-10"></StackLayout>
+              </GridLayout>
             </GridLayout>
           </GridLayout>
         </RL:Ripple>
