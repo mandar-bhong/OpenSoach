@@ -1,7 +1,6 @@
 <GridLayout rows="*" columns="*,auto" height="100%" width="100%">
     <RadListView #myListView [items]="_dataItems" [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)" (loaded)="listLoaded()"
-        multipleSelection="false" selectionBehavior="Press" [groupingFunction]="_funcGrouping" colSpan="2" selectionBehavior="Press"
-        (itemSelected)="showAction($event)">
+        multipleSelection="false" selectionBehavior="Press" [groupingFunction]="_funcGrouping" colSpan="2" >
         <ng-template tkListItemTemplate let-item="item">
             <!-- <CardView class="cardStyle" margin="3" shadowOffsetWidth = 1; style="margin-bottom: 10px; padding: 6% 6%;"> -->
             <GridLayout columns="*" rows="auto, auto" class="listItemStackLayout">
