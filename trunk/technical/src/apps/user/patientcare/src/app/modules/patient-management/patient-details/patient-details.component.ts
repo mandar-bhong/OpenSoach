@@ -12,7 +12,8 @@ export class PatientDetailsComponent implements OnInit {
 	constructor(private routerExtensions: RouterExtensions) { }
 
 	ngOnInit() { }
-	goBackPage(){
+	goBackPage() {
 		this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
+
 	}
 }

@@ -13,11 +13,7 @@ export class MonitorComponent implements OnInit {
 		{ Country: "11:00 AM", Amount: 20 },
 		{ Country: "12:00 AM", Amount: 28 },
 		{ Country: "1:00 PM", Amount: 10 },
-		{ Country: "2:00 PM", Amount: 40 },
-
-		{ Country: "3:00 PM", Amount: 15 }
-		// { Country: "6:00 PM", Amount: 11 },
-		// { Country: "7:00 PM", Amount: 18 }
+		{ Country: "2:00 PM", Amount: 40 }
 	];
 
 	constructor() { }
