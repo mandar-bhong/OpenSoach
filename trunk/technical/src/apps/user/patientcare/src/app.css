@@ -175,6 +175,7 @@ TextField {
   height: 1px;
   margin: 0 0;
   padding: 0;
+  background-color: #00a6ce;
 }
 /* horizontal line end */
 .ripplecenter{
