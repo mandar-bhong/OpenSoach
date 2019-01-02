@@ -9,13 +9,21 @@ import { Component, OnInit } from '@angular/core';
 
 export class MonitorComponent implements OnInit {
 	categoricalSource: { Country: string, Amount: any }[] = [
-		{ Country: "10:00 AM", Amount: 35 },
-		{ Country: "11:00 AM", Amount: 20 },
-		{ Country: "12:00 AM", Amount: 28 },
-		{ Country: "1:00 PM", Amount: 10 },
-		{ Country: "2:00 PM", Amount: 40 }
+		{ Country: "08:00 AM", Amount: 98 },
+		{ Country: "12:00 AM", Amount: 98.3 },
+		{ Country: "04:00 PM", Amount: 99 },
+		{ Country: "08:00 PM", Amount: 101 },
+		{ Country: "12:00 PM", Amount: 97 },
+		{ Country: "04:00 AM", Amount: 100 }
 	];
-
+	bloodSource: { Country: string, Amount: any }[] = [
+		{ Country: "08:00 AM", Amount: 70 },
+		{ Country: "12:00 AM", Amount: 90 },
+		{ Country: "04:00 PM", Amount: 75 },
+		{ Country: "08:00 PM", Amount: 110 },
+		{ Country: "12:00 PM", Amount: 80 },
+		{ Country: "04:00 AM", Amount: 130 }
+	];
 	constructor() { }
 
 	ngOnInit() {
