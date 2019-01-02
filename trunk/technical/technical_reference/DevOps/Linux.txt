@@ -3,6 +3,7 @@ SVN installation
 https://linode.com/docs/development/version-control/manage-source-code-versions-with-subversion/
 
 du -ah /var/log --- space utilization
+du -ah --max-depth=1 -- for 1 level depth
 
 du -sh *
 
