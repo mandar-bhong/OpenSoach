@@ -1,4 +1,4 @@
-<ActionBar flat="true" class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+<ActionBar  class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
     <NavigationButton visibility="collapsed"></NavigationButton>
     <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
         <GridLayout col="0" columns="auto,auto,auto,*,auto,auto, auto">
@@ -32,6 +32,7 @@
             <monitor *ngIf="monitor"></monitor>
             <action *ngIf="action"></action>
             <charts *ngIf="chart"></charts>
+            <reports *ngIf="report"></reports>
         </ScrollView>
 
         <StackLayout row="1" orientation="horizontal" style="background-color:#396766; color:#ffffff;">
@@ -55,7 +56,7 @@
                     <Label text="{{(chartbuttonClicked) ? '&#xf520;' : '&#xf520;'}}" [style.color]="chartbuttonClicked ? '#FF8910' : '#ffffff'"
                         class="mdi button-icon"></Label>
                     <!-- <Label text="&#xf080;" class="fas button-icon"></Label> -->
-                    <Label text="Charts" class="button-text"></Label>
+                    <Label text="Scheduler" class="button-text"></Label>
                 </StackLayout>
             </RL:Ripple>
             <RL:Ripple rippleColor="#fff" width="25%" (tap)="reportData()" (tap)="reportbuttonClicked = true">
