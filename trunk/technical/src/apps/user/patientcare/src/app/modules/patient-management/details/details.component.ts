@@ -16,6 +16,7 @@ export class DetailsComponent implements OnInit {
 	monitor = true;
 	action = false;
 	chart = false;
+	report = false;
 
 	// >> seleced bottom button change color
 	buttonClicked: boolean = true;
@@ -40,6 +41,7 @@ export class DetailsComponent implements OnInit {
 		this.monitor = true;
 		this.action = false;
 		this.chart = false;
+		this.report = false;
 		this.actionbuttonClicked= false;
 		this.chartbuttonClicked = false;
 		this.reportbuttonClicked = false;
@@ -48,6 +50,7 @@ export class DetailsComponent implements OnInit {
 		this.monitor = false;
 		this.action = true;
 		this.chart =false;
+		this.report = false;
 		this.buttonClicked= false;
 		this.chartbuttonClicked = false;
 		this.reportbuttonClicked = false;
@@ -56,6 +59,7 @@ export class DetailsComponent implements OnInit {
 		this.monitor = false;
 		this.action = false;
 		this.chart =true;
+		this.report = false;
 		this.buttonClicked= false;
 		this.actionbuttonClicked = false;
 		this.reportbuttonClicked = false;
@@ -64,6 +68,7 @@ export class DetailsComponent implements OnInit {
 		this.monitor = false;
 		this.action = false;
 		this.chart =false;
+		this.report = true;
 		this.buttonClicked= false;
 		this.actionbuttonClicked = false;
 		this.chartbuttonClicked = false;

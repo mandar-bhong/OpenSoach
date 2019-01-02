@@ -15,7 +15,7 @@ declare var UIView, NSMutableArray, NSIndexPath;
 // SnackBar import 
 import { alert } from "tns-core-modules/ui/dialogs";
 import { SnackBar, SnackBarOptions } from "nativescript-snackbar";
-import {Page} from "ui/page";
+import { Page } from "ui/page";
 
 export class DataItem {
 	public pstatus: string;
@@ -72,7 +72,7 @@ export class ActionComponent implements OnInit {
 	// >>  bottom snackbar msg
 	private snackbar: SnackBar;
 
-	constructor(public page:Page) {
+	constructor(public page: Page) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
 			return item.pstatus;
@@ -80,7 +80,7 @@ export class ActionComponent implements OnInit {
 
 		// >>  bottom snackbar msg
 		this.snackbar = new SnackBar();
-		
+
 	}
 
 	get dataItems(): ObservableArray<DataItem> {
@@ -251,9 +251,9 @@ export class ActionComponent implements OnInit {
 
 	// >> select list item >> multipleSelection="true" selectionBehavior="Press" (itemSelected)="itemSelected($event)" (itemDeselected)="itemDeselected($event)"
 	// itemSelected(args: ListViewEventData) {
-	// const item = this._dataItems.getItem(args.index);
-	// alert(item.name);
-	// item.selected = true;
+	// 	const item = this._dataItems.getItem(args.index);
+	// 	alert(item.name);
+	// 	item.selected = true;
 	// }
 	// >> deselect list item 
 	// itemDeselected(args: ListViewEventData) {
@@ -393,7 +393,13 @@ export class ActionComponent implements OnInit {
 	// 	this.snackbar.simple("Have a snack(bar)!");
 	// }
 	public showAction(event: ListViewEventData) {
-		console.log("Right swipe click");
+		const abcd = this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
+		console.log('delete element', abcd);
+		const item = this._dataItems.getItem(event.index);
+		// this._dataItems.push(this._dataItems.indexOf(abcd), 1);
+		console.log(item);
+
+		// console.log(this._dataItems.length);
 		// this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
 		// console.log(this._dataItems);
 		// console.log(this._dataItems.length);
@@ -407,8 +413,8 @@ export class ActionComponent implements OnInit {
 		}
 		this.snackbar.action(options).then(args => {
 			if (args.command === "Action") {
-
-				// this._dataItems.push(this._dataItems.indexOf(event.object.bindingContext), 1);
+				// this._dataItems.push(abcd);
+				// this._dataItems.push(this._dataItems.indexOf(abcd), 1);
 				// console.log(this._dataItems.length);
 				// alert({
 				//   title: "Well hello there!",
