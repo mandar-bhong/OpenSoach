@@ -157,42 +157,36 @@ TextField {
 }
 
 .green {
-    background-color: #608584;
+   color: #608584;
     vertical-align: center;
-    text-align:center;
-    color: #ffffff;
+    text-align: center;
+    /* color: #ffffff; */
 }
 
 .grey {
-    background-color: #608584;
+    color: #608584;
     vertical-align: center;
-    text-align:center;
-    color: #ffffff;
+    text-align: center;
+    /* color: #ffffff; */
 }
 
 .red {
-    background-color: #d8524d;
+    color: #d8524d;
     vertical-align: center;
-    text-align:center;
-    color: #ebebeb;
-    
+    text-align: center;
+    /* color: #ebebeb; */
 }
 
 .orenge {
     /* background-color: #FF8910; */
-    background-color:#ffa03f;
+    color: #ffa03f;
     vertical-align: center;
-    text-align:center;
-    color: #ebebeb;
-    /* border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px; */
+    text-align: center;
+    /* color: #ebebeb; */
+
 }
 
 .list-layout {
     padding: 15% 7px;
     /* vertical-align: center; */
-}
-
-.list-text {
-    color: #ebebeb;
 }
