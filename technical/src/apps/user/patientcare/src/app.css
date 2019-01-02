@@ -112,7 +112,7 @@ components that have the btn class name.
 FlexboxLayout {
   align-items: center;
   background-size: cover;
-  background-color: #396766
+  /* background-color: #396766; */
 }
 
 Button, TextField {
