@@ -65,7 +65,7 @@
 
 .float-btn-cat {
     /* background-color: #00A6CE ; */
-    background-color: #396766;
+    background-color: #00a6ce;
     /* border-radius: 3px; */
     border-radius:22;
     width: 44;
@@ -79,8 +79,12 @@
 
 .category-header {
     /* background-color: #608584;   */
-    background-color: #9fb5b5;  
+    background-color: #fafafa;
     /* background-color: #7fd2e6; */
+}
+
+.nameLabel{
+    color: #396766;
 }
 
 /* right side button css end */
@@ -133,28 +137,24 @@
 .groupLabelIntake {
     /* background-color: #00A6CE; */
     padding: 15;
-    color: #ffffff;
     font-weight: bold;
 }
 
 .groupLabelMonitor {
     /* background-color: #396766; */
     padding: 15;
-    color: #ffffff;
     font-weight: bold;
 }
 
 .groupLabelMedicine {
     /* background-color: #396766; */
     padding: 15;
-    color: #ffffff;
     font-weight: bold;
 }
 
 .groupLabelOutput {
     /* background-color: #396766; */
     padding: 15;
-    color: #ffffff;
     font-weight: bold;
 }
 
