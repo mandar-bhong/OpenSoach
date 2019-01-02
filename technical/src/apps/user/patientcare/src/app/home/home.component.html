@@ -32,26 +32,26 @@
           
             <GridLayout columns="*" rows="auto,auto">
               <GridLayout row="0" columns="70, *" rows="auto" class="listItemStackLayout" >
-                <GridLayout col="0" columns="*" rows="auto, auto" [text]="item.dbmodel.status" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}">
+                <GridLayout col="0" columns="*" rows="auto, auto" [text]="item.dbmodel.status">
                   <StackLayout *ngIf="item.dbmodel.status === 1" row="1" class="list-layout">
-                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
-                    <Label row="1" col="0" text="1:45 PM" style="margin-top:5px;"></Label>
+                    <Label row="0" col="0" text="&#xf020;" class="mdi" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
+                    <Label row="1" col="0" text="1:45 PM" style="margin-top:5px;" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
                   </StackLayout>
                   <StackLayout *ngIf="item.dbmodel.status === 2" row="1" class="list-layout">
-                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
-                    <Label row="1" col="0" text="2:30 PM" style="margin-top:5px;"></Label>
+                    <Label row="0" col="0" text="&#xf020;" class="mdi" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
+                    <Label row="1" col="0" text="2:30 PM" style="margin-top:5px;" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
                   </StackLayout>
                   <StackLayout *ngIf="item.dbmodel.status === 3" row="1" class="list-layout">
-                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
-                    <Label row="1" col="0" text="4:30 PM" style="margin-top:5px;"></Label>
+                    <Label row="0" col="0" text="&#xf020;" class="mdi " [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
+                    <Label row="1" col="0" text="4:30 PM" style="margin-top:5px;" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
                   </StackLayout>
                   <StackLayout *ngIf="item.dbmodel.status === 4" row="1" class="list-layout">
-                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
-                    <Label row="1" col="0" text="2:30 PM" style="margin-top:5px;"></Label>
+                    <Label row="0" col="0" text="&#xf020;" class="mdi " [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
+                    <Label row="1" col="0" text="2:30 PM" style="margin-top:5px;"[ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
                   </StackLayout>
                 </GridLayout>
 
-                <GridLayout row="0" col="1" columns="*, auto" rows="auto" style="margin-left: 15px;">
+                <GridLayout row="0" col="1" columns="*, auto" rows="auto, auto" style="margin-left: 8px;">
                   <GridLayout col="0" columns="auto,*, auto" rows="auto, auto, auto">
                     <Label row="0" col="0" text="&#xf47d;" class="mdi listicon"></Label>
                     <Label row="0" col="1" class="h3 align-centre" [text]="item.dbmodel.bed_no" style="color: #396767;"></Label>
@@ -66,12 +66,13 @@
                       <Label row="0" col="0" text="attended" class="align-centre" style="margin-right:6px;"></Label>
                       <Label row="0" col="1" text="3:30 PM" class="align-centre"></Label>
                     </GridLayout>
-                  </GridLayout>                  
+                  </GridLayout>
+                  <GridLayout row="1" col="0">
+                      <StackLayout class="hr-light"></StackLayout>
+                    </GridLayout>                  
                 </GridLayout>
               </GridLayout>
-              <GridLayout row="1" col="0">
-                <StackLayout class="hr-light"></StackLayout>
-              </GridLayout>
+              
            </GridLayout>        
         </RL:Ripple>
       </ng-template>      
