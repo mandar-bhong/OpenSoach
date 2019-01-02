@@ -33,9 +33,11 @@
         </ng-template>
 
         <ng-template tkGroupTemplate let-category="category">
-            <GridLayout class="category-header">
+            <StackLayout class="category-header">
                 <Label class="nameLabel" [text]="category" [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output'}"></Label>
-            </GridLayout>
+                <StackLayout class="hr-light m-10"></StackLayout>
+            </StackLayout>
+            
         </ng-template>
 
         <ng-template tkTemplateKey="expanded" let-item="item">
