@@ -8,6 +8,7 @@ import { PatientDetailsComponent } from "~/app/modules/patient-management/patien
 import { MonitorComponent } from "~/app/modules/patient-management/monitor/monitor.component";
 import { ActionComponent } from "~/app/modules/patient-management/action/action.component";
 import { ChartsComponent } from "~/app/modules/patient-management/charts/charts.component";
+import { ReportsComponent } from "~/app/modules/patient-management/reports/reports.component";
 
 
 const routes: Routes = [
@@ -31,6 +32,9 @@ const routes: Routes = [
     },
     { 
         path: "charts", component: ChartsComponent
+    },
+    { 
+        path: "reports", component: ReportsComponent
     },
 ];
 

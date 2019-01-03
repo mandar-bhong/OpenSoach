@@ -18,6 +18,8 @@ import { ChartsComponent } from "~/app/modules/patient-management/charts/charts.
 import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
 import { MedicalDetailsComponent } from "~/app/modules/patient-management/patient-details/medical-details/medical-details.component";
 import { PatientInfoComponent } from "~/app/modules/patient-management/patient-details/patient-info/patient-info.component";
+import { ReportsComponent } from "~/app/modules/patient-management/reports/reports.component";
+import { SectionOneComponent } from "~/app/modules/patient-management/reports/section-one/section-one.component";
 
 @NgModule({
     imports: [
@@ -38,7 +40,9 @@ import { PatientInfoComponent } from "~/app/modules/patient-management/patient-d
         ActionComponent,
         ChartsComponent,
         MedicalDetailsComponent,
-        PatientInfoComponent
+        PatientInfoComponent,
+        ReportsComponent, 
+        SectionOneComponent
         // MedicineChartComponent
     ],
     schemas: [
