@@ -7,6 +7,7 @@ import { ImageAsset } from 'tns-core-modules/image-asset';
 
 
 import * as imagepicker from "nativescript-imagepicker";
+import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({
 	moduleId: module.id,
@@ -35,14 +36,18 @@ export class CamerasComponent implements OnInit {
     imgpicker: boolean = true;
     public removedImageUrl: string;
 
-	constructor(private routerExtensions: RouterExtensions,) { }
+    constructor(private routerExtensions: RouterExtensions,
+    private  page: Page)
+     {
+        // page.actionBarHidden = true;
+     }
 
 	ngOnInit() {
         // alert('cameras component load ');
      }
 	goBackPage() {
 		// this.routerExtensions.back();
-		this.routerExtensions.navigate(["/patientmgnt"], { clearHistory: true });
+		this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
 	}
     // public goBackPage() {
     //     this.routerExtensions.back();
