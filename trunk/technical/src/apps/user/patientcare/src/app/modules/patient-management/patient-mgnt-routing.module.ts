@@ -8,6 +8,9 @@ import { PatientDetailsComponent } from "~/app/modules/patient-management/patien
 import { MonitorComponent } from "~/app/modules/patient-management/monitor/monitor.component";
 import { ActionComponent } from "~/app/modules/patient-management/action/action.component";
 import { ChartsComponent } from "~/app/modules/patient-management/charts/charts.component";
+import { MedicineChartComponent } from "~/app/modules/patient-management/charts/medicine-chart/medicine-chart.component";
+import { IntakeChartComponent } from "~/app/modules/patient-management/charts/intake-chart/intake-chart.component";
+import { MonitorChartComponent } from "~/app/modules/patient-management/charts/monitor-chart/monitor-chart.component";
 import { ReportsComponent } from "~/app/modules/patient-management/reports/reports.component";
 
 
@@ -32,6 +35,15 @@ const routes: Routes = [
     },
     { 
         path: "charts", component: ChartsComponent
+    },
+    { 
+        path: "medicine-chart", component: MedicineChartComponent
+    },
+    { 
+        path: "intake-chart", component: IntakeChartComponent
+    },
+    { 
+        path: "monitor-chart", component: MonitorChartComponent
     },
     { 
         path: "reports", component: ReportsComponent

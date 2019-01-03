@@ -13,11 +13,17 @@ import { PatientDetailsComponent } from "~/app/modules/patient-management/patien
 import { MonitorComponent } from "~/app/modules/patient-management/monitor/monitor.component";
 import { ActionComponent } from "~/app/modules/patient-management/action/action.component";
 import { ChartsComponent } from "~/app/modules/patient-management/charts/charts.component";
-// import { MedicineChartComponent } from "~/app/modules/patient-management/charts/medicine-chart/medicine-chart.component";
-// import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
+import { MedicineChartComponent } from "~/app/modules/patient-management/charts/medicine-chart/medicine-chart.component";
+import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
+import { DatePipe } from "@angular/common";
+import { ChartService } from "~/app/services/chart/chart.service";
+import { IntakeChartComponent } from "~/app/modules/patient-management/charts/intake-chart/intake-chart.component";
+import { MonitorChartComponent } from "~/app/modules/patient-management/charts/monitor-chart/monitor-chart.component";
 import { MedicalDetailsComponent } from "~/app/modules/patient-management/patient-details/medical-details/medical-details.component";
 import { PatientInfoComponent } from "~/app/modules/patient-management/patient-details/patient-info/patient-info.component";
+import { ConfService } from "~/app/services/conf/conf.service";
 import { ReportsComponent } from "~/app/modules/patient-management/reports/reports.component";
 import { SectionOneComponent } from "~/app/modules/patient-management/reports/section-one/section-one.component";
 
@@ -27,8 +33,9 @@ import { SectionOneComponent } from "~/app/modules/patient-management/reports/se
         PatientMgntRoutingModule,
         HttpClientModule,
         NativeScriptUIListViewModule,
-        // NativeScriptUIDataFormModule,
-        NativeScriptUIChartModule
+        NativeScriptUIDataFormModule,
+        NativeScriptUIChartModule,
+        NativeScriptFormsModule
     ],
     declarations: [
         PatientMgntComponent,
@@ -39,14 +46,21 @@ import { SectionOneComponent } from "~/app/modules/patient-management/reports/se
         MonitorComponent,
         ActionComponent,
         ChartsComponent,
+        MedicineChartComponent,
+        IntakeChartComponent,
+        MonitorChartComponent,
         MedicalDetailsComponent,
         PatientInfoComponent,
         ReportsComponent, 
         SectionOneComponent
-        // MedicineChartComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
+    ],
+    providers:[
+        DatePipe,
+        ChartService,
+        ConfService
     ]
 })
 export class PatientMgntModule { }
