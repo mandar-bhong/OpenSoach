@@ -61,7 +61,8 @@
 
                   <GridLayout row="2" col="3" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">
                     <Label row="0" col="0" text="attended" class="align-centre label-small" style="margin-right:6px;"></Label>
-                    <Label row="0" col="1" text="3:30 PM" class="align-centre label-small"></Label>
+                    <Label row="0" col="1" [text]="item.dbmodel.attended | date : 'shortTime'" class="align-centre label-small"></Label>
+                    <!-- <Label [text]="myDate | date:'shortTime'"></Label> -->
                   </GridLayout>
                 </GridLayout>
                 <GridLayout row="1" col="0">
