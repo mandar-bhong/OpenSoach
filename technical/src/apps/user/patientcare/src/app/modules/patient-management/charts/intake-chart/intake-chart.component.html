@@ -1,0 +1,79 @@
+<ActionBar title="Intake Data Form" class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <GridLayout columns="*" ios:padding="0 10" height="100%" width="100%">
+        <StackLayout col="0">
+            <GridLayout columns="auto, *, auto" rows="auto">
+                <Label col="0" text="&#xf156;" class="homeicon mdi mdi" (tap)="goBackPage()"></Label>
+                <Label col="1" text="Intake Form" style="text-align:center"></Label>
+                <Label col="2" text="&#xf12c;" class="homeicon mdi mdi" (tap)="onSubmit()" style="margin-right: 1px"></Label>
+            </GridLayout>
+        </StackLayout>
+    </GridLayout>
+</ActionBar>
+
+<ScrollView>
+    <StackLayout class="form">
+        <StackLayout class="input-field">
+            <Label text="Intake Name"></Label>
+            <TextField class="input" [(ngModel)]="formData.intakeName"></TextField>
+            <StackLayout class="hr-light"></StackLayout>
+        </StackLayout>
+
+        <StackLayout class="input-field">
+            <Label text="Quantity"></Label>
+            <TextField class="input" [(ngModel)]="formData.quantity" hint="No. of units"></TextField>
+            <StackLayout class="hr-light"></StackLayout>
+        </StackLayout>
+
+        <StackLayout class="input-field">
+            <Label text="Frequency"></Label>
+
+            <SegmentedBar [items]="frequencyItems" [(ngModel)]="formData.frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
+                class="segmented-bar" selectedIndex="0" class="m-5"></SegmentedBar>
+
+            <StackLayout></StackLayout>
+
+            <StackLayout *ngIf="freqSelectedIndex===0 ">
+                <StackLayout class="input-field">
+                    <Label col="0" row="0" text="Enter interval hours"></Label>
+                    <TextField col="1" row="0" class="input" keyboardType="number" [(ngModel)]="formData.intervalHrs"></TextField>
+                </StackLayout>
+                <StackLayout class="hr-light"></StackLayout>
+                <StackLayout class="input-field">
+                    <Label text="Start Time"></Label>
+                    <TimePicker verticalAlignment="center" class="m-15" [(ngModel)]="formData.starttime"></TimePicker>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout *ngIf="freqSelectedIndex===1">
+                <StackLayout class="input-field">
+                    <Label text="Specific Time"></Label>
+                    <TimePicker verticalAlignment="center" class="m-15" [(ngModel)]="formData.specificTime"></TimePicker>
+                    <button (tap)="addSpecificTime()" text="Add Time" ></button>
+                </StackLayout>
+                <StackLayout class="input-field" *ngFor="let specificTime of formData.specificTimes" >
+                    <Label text="{{specificTime | date:' h:mm a' }}"></Label>
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+
+        <StackLayout class="input-field">
+            <Label text="Duration"></Label>
+            <TextField class="input" keyboardType="number" hint="No. of days" [(ngModel)]="formData.duration"></TextField>
+            <StackLayout class="hr-light"></StackLayout>
+        </StackLayout>
+
+        <StackLayout class="input-field">
+            <Label text="Start Date"></Label>
+            <DatePicker verticalAlignment="center" [(ngModel)]="formData.startDate"></DatePicker>
+        </StackLayout>
+
+        <StackLayout class="input-field">
+            <Label text="Instruction"></Label>
+            <TextView [(ngModel)]="formData.desc" hint="Enter instruction" editable="true" class="input input-border"></TextView>
+            <StackLayout class="hr-light"></StackLayout>
+        </StackLayout>
+
+    </StackLayout>
+</ScrollView>

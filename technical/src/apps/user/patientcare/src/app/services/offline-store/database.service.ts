@@ -2,7 +2,10 @@ import { Injectable } from "@angular/core";
 var Sqlite = require("nativescript-sqlite");
 
 let selectQueries = new Map([
-    [ "patientlist", "select fname,lname,bed_no,mob_no,status from patient_admission_tbl as padmsn inner join patient_master_tbl as patient on patient.id = padmsn.patient_id" ]
+    [ "patientlist", "select fname,lname,bed_no,mob_no,status,attended from patient_admission_tbl as padmsn inner join patient_master_tbl as patient on patient.id = padmsn.patient_id" ],
+    [ "chartlist", "select id,admission_id,conf_type_code,conf from patient_chart_conf_tbl" ],
+    [ "chartInsert", "insert into patient_chart_conf_tbl (admission_id,conf_type_code,conf) values ( ?, ?, ?)" ],
+    [ "monitorConfList", "select id,conf_type_code,conf from patient_conf_tbl where conf_type_code = 'Monitor'"]
 ]);
 
 @Injectable()
@@ -58,5 +61,31 @@ export class DatabaseService {
 
         });
       }
+
+    public insert(key: string,dataList:Array<any>) {
+
+        return new Promise((resolve, reject) => {
+
+        var query: string;
+
+        if (selectQueries.has(key) == true) {
+            query = selectQueries.get(key);
+        };
+
+        this.getdbConnection()
+            .then(db => {   
+
+                db.execSQL(query,dataList).then(id => {
+                    // console.log("INSERT RESULT", id);
+                    resolve(id);
+                }, error => {
+                    // console.log("INSERT ERROR", error);
+                    reject(error);
+                });
+            });
+
+        });
+
+    }
 
 }

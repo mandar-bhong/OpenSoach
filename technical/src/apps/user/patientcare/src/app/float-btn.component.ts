@@ -4,19 +4,30 @@ import { RouterExtensions } from "nativescript-angular/router";
     moduleId: module.id,
     selector: "float-btn",
     template: `
-    <RL:Ripple rippleColor="#fff" borderRadius="28" height="56" width="56" (tap)="details()">
-    <StackLayout class="float-btn">
-        <Label class="float-btn-text" text="+"></Label>
+    <RL:Ripple rippleColor="#fff" borderRadius="28" height="30" width="30" (tap)="monitor()">
+    <StackLayout class="float-btn" (tap)="monitor()" >
+        <Label class="float-btn-text fas" text="&#xf201;"></Label>
     </StackLayout>
-    </RL:Ripple>`,
+    </RL:Ripple>
+    <RL:Ripple rippleColor="#fff" borderRadius="28" height="30" width="30" (tap)="medicine()">
+    <StackLayout class="float-btn">
+        <Label class="float-btn-text fas" text="&#xf484;"></Label>
+    </StackLayout>
+    </RL:Ripple>
+    <RL:Ripple rippleColor="#fff" borderRadius="28" height="30" width="30" (tap)="intake()">
+    <StackLayout class="float-btn">
+        <Label class="float-btn-text fas" text="&#xf48e;"></Label>
+    </StackLayout>
+    </RL:Ripple>
+    `,
     styles: [
         ` 
             .float-btn
             {
                 background-color: #FF8910;
                 border-radius:28;
-                width:56;
-                height: 56;
+                width:30;
+                height: 30;
                 text-align: center;
                 vertical-align: middle;
                 box-shadow: 2px 2px 3px #999;
@@ -24,7 +35,7 @@ import { RouterExtensions } from "nativescript-angular/router";
             .float-btn-text
             {
                 color: #ffffff;
-                font-size:36;
+                font-size:15;
             }
         `
     ]
@@ -33,7 +44,14 @@ import { RouterExtensions } from "nativescript-angular/router";
 export class FloatBtnComponent {
     constructor(private routerExtensions: RouterExtensions) {
     }
-    details() {
-		this.routerExtensions.navigate(["/home"], { clearHistory: true });
-	}
+
+    monitor() {
+		this.routerExtensions.navigate(["/patientmgnt/monitor-chart"], { clearHistory: true });	
+    }
+    medicine() {
+		this.routerExtensions.navigate(["/patientmgnt/medicine-chart"], { clearHistory: true });			
+    }
+    intake() {
+		this.routerExtensions.navigate(["/patientmgnt/intake-chart"], { clearHistory: true });		
+    }
 }

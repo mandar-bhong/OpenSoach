@@ -4,15 +4,8 @@ import { View, isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { ListViewLinearLayout, ListViewEventData, RadListView, ListViewItemSnapMode } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
 import { Observable } from 'tns-core-modules/data/observable';
-
-export class DataItem {
-	public pstatus: string;
-	public title: string;
-	public due_at: string;
-	public has_details: boolean;
-	public desc: string;
-	public status: number;
-}
+import { ChartService } from "~/app/services/chart/chart.service";
+import { ChartModel } from "~/app/models/ui/chart-models";
 
 @Component({
 	moduleId: module.id,
@@ -23,7 +16,7 @@ export class DataItem {
 
 export class ChartsComponent implements OnInit {
 
-	private _dataItems: ObservableArray<any>;
+	private chartListItems = new ObservableArray<ChartModel>();
 
 	// >> seleced bottom button change color
 	monitorbuttonClicked: boolean = false;
@@ -38,53 +31,26 @@ export class ChartsComponent implements OnInit {
 	outputIndex;
 
 	// >> grouping 
-	private _funcGrouping: (item: DataItem) => DataItem;
+	private _funcGrouping: (item: ChartModel) => ChartModel;
 
-	tempdata = new Array<DataItem>();
-
-	constructor() {
+	constructor(private chartService:ChartService) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
-			return item.pstatus;
+			return item.conf_type_code;
 		};
-	}
-
-	get dataItems(): ObservableArray<DataItem> {
-		return this._dataItems;
 	}
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
 
-		this._dataItems = new ObservableArray<DataItem>();
+		this.getChartData();
+
 	}
 
 	public listLoaded() {
 
 		console.log('list loaded');
-
-		setTimeout(() => {
-			this.initDataItems();
-		}, 200);
-	}
-
-	public initDataItems() {
-		const tempdata = new Array<DataItem>();
-		this.tempdata.push({ title: "Saline",  desc:"200ml", due_at: "17:00:00", has_details: true, pstatus: "Intake", status: 1 });
-		this.tempdata.push({ title: "Output", desc:"200ml", due_at: "15:00:00", has_details: true, pstatus: "Output", status: 1 });
-		this.tempdata.push({ title: "Sinarest", desc:"3 times a day after meal" ,due_at: "16:00:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Acetaminophen", desc:"Morning and evening before meal", due_at: "17:30:00", has_details: false, pstatus: "Medicine", status: 2 });
-		this.tempdata.push({ title: "Aspirin", desc:"Incase of high body temperature", due_at: "17:50:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Zofran", desc:"Incase of continuos vomitting and nausea", due_at: "18:00:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Temperature", desc:"Monitor every 2 hours", due_at: "12:00:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "12:30:00", has_details: true, pstatus: "Monitor", status: 1 });
-		this.tempdata.push({ title: "Blood pressure", desc:"Monitor every 3 hours", due_at: "13:00:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Pulse Rate", desc:"Monitor every 15 mins", due_at: "14:15:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Respiration Rate", desc:"Monitor every 30 mins", due_at: "14:45:00", has_details: true, pstatus: "Monitor", status: 1 });
-
-		this._dataItems = new ObservableArray(this.tempdata);
-		this.getGroupIndex();
 	}
 
 	// >> Grouping position change 
@@ -135,16 +101,16 @@ export class ChartsComponent implements OnInit {
 	// >> Calculate Grouping index value
 	public getGroupIndex() {
 
-		const medicine = this.tempdata.filter(a => a.pstatus === "Medicine");
+		const medicine = this.chartListItems.filter(a => a.conf_type_code === "Medicine");
 		const medicineCount = medicine.length;
 
-		const monitor = this.tempdata.filter(a => a.pstatus === "Monitor");
+		const monitor = this.chartListItems.filter(a => a.conf_type_code === "Monitor");
 		const monitorCount = monitor.length;
 
-		const intake = this.tempdata.filter(a => a.pstatus === "Intake");
+		const intake = this.chartListItems.filter(a => a.conf_type_code === "Intake");
 		const intakeCount = intake.length;
 
-		const output = this.tempdata.filter(a => a.pstatus === "Output");
+		const output = this.chartListItems.filter(a => a.conf_type_code === "Output");
 		const outputCount = output.length;
 
 		this.intakeIndex = 0;
@@ -152,6 +118,27 @@ export class ChartsComponent implements OnInit {
 		this.monitorIndex = intakeCount + medicineCount + 2;
 		this.outputIndex = intakeCount + medicineCount + monitorCount + 3;
 
+	}
+
+	get _medicineListItems(): ObservableArray<ChartModel> {
+		return this.chartListItems;
+	}
+
+	public getChartData(){
+		this.chartService.getChartList().then(
+			(val)=>{
+				val.forEach(item => {
+					let chartListItem = new ChartModel();
+					chartListItem = item;
+					chartListItem.conf = JSON.parse(item.conf);
+					this.chartListItems.push(chartListItem);
+				});
+				this.getGroupIndex();
+			},
+			(error)=>{
+				console.log("getChartData error:",error);
+			}
+		);		
 	}
 
 }
