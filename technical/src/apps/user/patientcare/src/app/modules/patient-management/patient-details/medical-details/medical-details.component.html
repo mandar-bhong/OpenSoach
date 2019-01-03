@@ -1,34 +1,34 @@
 <RadListView #myListView [items]="_dataItems" multipleSelection="false" selectionBehavior="Press">
     <ng-template tkListItemTemplate let-item="item">
-        <GridLayout columns="*, auto" rows="auto,auto,auto, auto, auto, auto" style="padding:10px;">
+        <GridLayout columns="*, auto" rows="auto,auto,auto, auto, auto, auto" style="padding:20px;">
             <Label row="0" class="body" textWrap="true" text="MEDICAL DETAILS"></Label>
             <StackLayout row="1" class="hr-light m-10"></StackLayout>
 
             <GridLayout row=2 col="0" columns="auto,*,auto,auto" rows="auto" style=" vertical-align: center;">
                 <StackLayout col="0">
                     <Label class="body" textWrap="true" text="Reason for Hospitalization"></Label>
-                    <Label class="labelleft" textWrap="true" [text]="item.reason"></Label>
+                    <Label class="labelleft label-small" textWrap="true" [text]="item.reason"></Label>
                 </StackLayout>
             </GridLayout>
 
             <GridLayout row="3" col="0" style=" vertical-align: center; margin-top:5px;">
                 <StackLayout col="0">
                     <Label class="body" textWrap="true" text="Undergoing treatment"></Label>
-                    <Label class="labelleft" textWrap="true" [text]="item.reason"></Label>
+                    <Label class="labelleft label-small" textWrap="true" [text]="item.reason"></Label>
                 </StackLayout>
             </GridLayout>
 
             <GridLayout row="4" col="0" style=" vertical-align: center; margin-top:5px;">
                 <StackLayout col="0">
                     <Label class="body" textWrap="true" text="Medical History (if any)"></Label>
-                    <Label class="labelleft" textWrap="true" [text]="item.reason"></Label>
+                    <Label class="labelleft label-small" textWrap="true" [text]="item.reason"></Label>
                 </StackLayout>
             </GridLayout>
 
             <GridLayout row="5" col="0" style=" vertical-align: center; margin-top:5px;">
                 <StackLayout col="0">
                     <Label class="body" textWrap="true" text="Allergies (if any)"></Label>
-                    <Label class="labelleft" textWrap="true" [text]="item.reason"></Label>
+                    <Label class="labelleft label-small" textWrap="true" [text]="item.reason"></Label>
                 </StackLayout>
             </GridLayout>
         </GridLayout>
