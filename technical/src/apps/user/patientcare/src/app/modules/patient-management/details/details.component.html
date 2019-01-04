@@ -1,4 +1,4 @@
-<ActionBar  class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+<!-- <ActionBar  class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
     <NavigationButton visibility="collapsed"></NavigationButton>
     <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
         <GridLayout col="0" columns="auto,auto,auto,*,auto,auto, auto">
@@ -24,8 +24,10 @@
             <network-status></network-status>
         </GridLayout>
     </GridLayout>
-</ActionBar>
-
+</ActionBar> -->
+<!-- selcetors for action importing action bar  -->
+<patient-action-bar [patientName]='patientName'></patient-action-bar>
+<!-- end  -->
 <StackLayout>
     <GridLayout rows="*,60">
         <ScrollView row="0">
