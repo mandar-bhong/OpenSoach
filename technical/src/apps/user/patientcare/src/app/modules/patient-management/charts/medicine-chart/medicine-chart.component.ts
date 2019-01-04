@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RouterExtensions } from "nativescript-angular/router";
 import { Data } from '@angular/router';
 import { dateProperty } from 'tns-core-modules/ui/date-picker/date-picker';
-import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
-import { RadDataForm, DataFormEventData } from "nativescript-ui-dataform";
 import { SegmentedBar, SegmentedBarItem } from "tns-core-modules/ui/segmented-bar";
 import {DatePipe} from '@angular/common';
 import { Switch } from "tns-core-modules/ui/switch";
@@ -91,8 +89,6 @@ export class MedicineChartComponent implements OnInit {
         this.frequencyItems.push(freqItem2);
 
     }
-
-    @ViewChild('myDataForm') myCommitDataFormComp: RadDataFormComponent;
     
     goBackPage() {
 		this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
