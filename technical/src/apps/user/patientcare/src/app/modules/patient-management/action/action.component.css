@@ -1,6 +1,6 @@
-.action {}
 
-.card-layout {
+
+/* .card-layout {
     padding: 12;
 }
 
@@ -10,7 +10,7 @@
 
 .lextra-container {
     position: relative;
-}
+} */
 
 .cardeffect {
     width: 95%;
@@ -99,39 +99,6 @@
 
 /* selected css end */
 
-/* swipe action animated swipe css start */
-
-.markViewStackLayout {
-    background-color: blue;
-    padding: 16
-}
-
-.deleteViewStackLayout {
-    background-color: red;
-    padding: 16;
-}
-
-.gridLayoutLayout {
-    background-color: white;
-}
-
-.markViewStackLayout {
-    background-color: blue;
-    padding-left: 16;
-    padding-right: 16;
-}
-
-.swipeTemplateLabel {
-    size: 20;
-}
-
-.deleteViewStackLayout {
-    background-color: red;
-    padding-left: 16;
-    padding-right: 16;
-}
-
-/* swipe action animated swipe css end */
 
 /* grouping title color change css  start*/
 
@@ -165,14 +132,6 @@
     color: #FF8910;
 }
 
-.example-class {
-    color: red;
-}
-
-.other-class {
-    color: green;
-}
-
 .hr-lightt {
     display: block;
     border-top: 1px solid #396766;
@@ -194,9 +153,3 @@
  .list-text{
     /* color: #ffffff; */
 } 
-.xyz:not(:last-child):after {
-    display: block;
-    border-top: 1px solid #396766;
-    margin: 0 0;
-    padding: 3px 0px;
-}
