@@ -14,7 +14,6 @@ import { MonitorComponent } from "~/app/modules/patient-management/monitor/monit
 import { ActionComponent } from "~/app/modules/patient-management/action/action.component";
 import { ChartsComponent } from "~/app/modules/patient-management/charts/charts.component";
 import { MedicineChartComponent } from "~/app/modules/patient-management/charts/medicine-chart/medicine-chart.component";
-import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { DatePipe } from "@angular/common";
@@ -33,7 +32,6 @@ import { SectionOneComponent } from "~/app/modules/patient-management/reports/se
         PatientMgntRoutingModule,
         HttpClientModule,
         NativeScriptUIListViewModule,
-        NativeScriptUIDataFormModule,
         NativeScriptUIChartModule,
         NativeScriptFormsModule
     ],
