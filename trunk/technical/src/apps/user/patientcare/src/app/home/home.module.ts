@@ -7,6 +7,8 @@ import { HomeComponent } from "./home.component";
 import {NativeScriptFormsModule} from "nativescript-angular/forms"
 import { NetworkStatusComponent } from "~/app/network-status.component";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
+import { AppModule } from "~/app/app.module";
+import { sharedModule } from "~/app/modules/shared-mudule";
 
 @NgModule({
     imports: [
@@ -14,11 +16,12 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/l
         HomeRoutingModule,
         NativeScriptFormsModule,
         HttpClientModule,
-        NativeScriptUIListViewModule
+        NativeScriptUIListViewModule,     
+        sharedModule 
     ],
     declarations: [
-        HomeComponent,
-        NetworkStatusComponent
+        HomeComponent
+      
     ],
     schemas: [
         NO_ERRORS_SCHEMA

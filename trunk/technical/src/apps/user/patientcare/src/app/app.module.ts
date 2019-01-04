@@ -10,6 +10,9 @@ import { DatabaseSchemaService } from "./services/offline-store/database-schema.
 import { InternetConnectionService } from "~/app/services/internet-status/internet-connection.service";
 import { WorkerService } from "./services/worker.service";
 import { PatientListService } from "~/app/services/patient-list/patient-list.service";
+import { NetworkStatusComponent } from "~/app/network-status.component";
+import { sharedModule } from "~/app/modules/shared-mudule";
+
 @NgModule({
     bootstrap: [
         AppComponent
@@ -18,11 +21,12 @@ import { PatientListService } from "~/app/services/patient-list/patient-list.ser
         NativeScriptModule,
         AppRoutingModule,
         NativeScriptFormsModule,
-        HttpClientModule
+        HttpClientModule,
+        sharedModule
     ],
     declarations: [
         AppComponent
-    ],
+           ],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
@@ -33,5 +37,8 @@ import { PatientListService } from "~/app/services/patient-list/patient-list.ser
         WorkerService,
         PatientListService
     ],
+    exports:[
+        // NetworkStatusComponent
+    ]
 })
 export class AppModule { }

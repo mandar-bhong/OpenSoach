@@ -17,7 +17,7 @@ export class DetailsComponent implements OnInit {
 	action = false;
 	chart = false;
 	report = false;
-
+	patientName ='3A/312, Amol Patil';
 	// >> seleced bottom button change color
 	buttonClicked: boolean = true;
 	actionbuttonClicked: boolean = false;
@@ -30,13 +30,13 @@ export class DetailsComponent implements OnInit {
 
 	ngOnInit() { }
 
-	goBackPage() {
-		this.routerExtensions.navigate(["/home"], { clearHistory: true });
-	}
+	// goBackPage() {
+	// 	this.routerExtensions.navigate(["/home"], { clearHistory: true });
+	// }
 	
-	patientdetail(){
-		this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: true });
-	}
+	// patientdetail(){
+	// 	this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: true });
+	// }
 	monitorData() {
 		this.monitor = true;
 		this.action = false;
