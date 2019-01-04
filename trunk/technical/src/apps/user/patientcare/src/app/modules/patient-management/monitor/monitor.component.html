@@ -9,7 +9,7 @@
                 <LineSeries tkCartesianSeries [items]="categoricalSource" categoryProperty="Country" valueProperty="Amount"></LineSeries>
             </RadCartesianChart> -->
             <RadCartesianChart row="0">
-                <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+                <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate" labelSize="10" lineThickness="3"></CategoricalAxis>
                 <LinearAxis tkCartesianVerticalAxis></LinearAxis>
         
                 <LineSeries tkCartesianSeries [items]="categoricalSourcehigh"
@@ -55,12 +55,12 @@
                 <BarSeries tkCartesianSeries [items]="bloodSource" categoryProperty="Country" valueProperty="Amount"></BarSeries>
             </RadCartesianChart> -->
             <RadCartesianChart row="0">
-                <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+                <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate" labelSize="10" lineThickness="3"></CategoricalAxis>
                 <LinearAxis tkCartesianVerticalAxis></LinearAxis>
         
                 <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcehigh"
                     strokeColor="RadCartesianChart" valueProperty="Amount1"
-                    categoryProperty="Country" seriesName="high">
+                    categoryProperty="Country" seriesName="high" >
                 </LineSeries>
                 <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcelow"
                     valueProperty="Amount1" categoryProperty="Country" seriesName="low"></LineSeries>
