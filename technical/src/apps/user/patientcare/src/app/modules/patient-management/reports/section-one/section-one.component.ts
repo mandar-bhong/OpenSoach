@@ -44,6 +44,9 @@ export class SectionOneComponent implements OnInit {
 		this.tempdata.push({ name: "Praveen Pandey",  description:"Monitor every 15 mins" });
 		this.tempdata.push({ name: "Shashank Atre",  description:"Incase of high body temperature" });
 		this.tempdata.push({ name: "Abhijeet Kalbhor",  description:"Morning and evening before meal" });
+		this.tempdata.push({ name: "Sarjerao",  description:"Monitor every 15 mins" });
+		this.tempdata.push({ name: "Rahul",  description:"Incase of high body temperature" });
+		this.tempdata.push({ name: "Praveen",  description:"Morning and evening before meal" });
 
 		this._dataItems = new ObservableArray(this.tempdata);
 	}
