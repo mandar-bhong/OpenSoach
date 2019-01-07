@@ -1,9 +1,9 @@
 <GridLayout rows="*" columns="*,auto" height="100%" width="100%">
-    <RadListView #myListView [items]="_medicineListItems" (loaded)="listLoaded()" [groupingFunction]="_funcGrouping" colSpan="2">
+    <RadListView #myListView [items]="_listItems" (loaded)="listLoaded()" [groupingFunction]="_funcGrouping" colSpan="2">
         <ng-template tkListItemTemplate let-item="item">
             <GridLayout row="0" columns="70, *" rows="auto, auto " class="listItemStackLayout">
                 <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
-                    [text]="item.status">
+                    [text]="item.dbmodel.status">
                     <StackLayout row="1" class="list-layout">
                         <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
                         <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
@@ -28,8 +28,8 @@
                     <!-- todo clock color chnage condition code -->
                 </GridLayout>
                 <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout">
-                    <Label row="0" col="0" class="body" [text]="item.conf.name" style="color: #396767;"></Label>
-                    <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.conf.desc" style="margin-left: 10px;"></Label>
+                    <Label row="0" col="0" class="body" [text]="item.dbmodel.conf.name" style="color: #396767;"></Label>
+                    <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.dbmodel.conf.desc" style="margin-left: 10px;"></Label>
                 </GridLayout>
                 <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
                     <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
