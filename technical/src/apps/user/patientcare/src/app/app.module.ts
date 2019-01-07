@@ -12,6 +12,7 @@ import { WorkerService } from "./services/worker.service";
 import { PatientListService } from "~/app/services/patient-list/patient-list.service";
 import { NetworkStatusComponent } from "~/app/network-status.component";
 import { sharedModule } from "~/app/modules/shared-mudule";
+import { PassDataService } from "~/app/services/pass-data-service";
 
 @NgModule({
     bootstrap: [
@@ -32,6 +33,7 @@ import { sharedModule } from "~/app/modules/shared-mudule";
     ],
     providers: [
         DatabaseService,
+        PassDataService,
         DatabaseSchemaService,
         InternetConnectionService,
         WorkerService,

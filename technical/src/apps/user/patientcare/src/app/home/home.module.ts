@@ -20,8 +20,7 @@ import { sharedModule } from "~/app/modules/shared-mudule";
         sharedModule 
     ],
     declarations: [
-        HomeComponent
-      
+        HomeComponent      
     ],
     schemas: [
         NO_ERRORS_SCHEMA
