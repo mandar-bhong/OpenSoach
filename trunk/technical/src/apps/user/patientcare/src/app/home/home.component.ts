@@ -18,6 +18,8 @@ import { layout } from "tns-core-modules/utils/utils";
 import { EventData } from "tns-core-modules/data/observable";
 import { PatientListService } from "~/app/services/patient-list/patient-list.service";
 import { PatientListViewModel } from "~/app/models/ui/patient-view-models";
+import { PatientDetails } from "~/app/models/ui/patient-details";
+import { PassDataService } from "~/app/services/pass-data-service";
 
 @Component({
 	selector: "Home",
@@ -25,16 +27,19 @@ import { PatientListViewModel } from "~/app/models/ui/patient-view-models";
 	templateUrl: "./home.component.html",
 	styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
 
+export class HomeComponent implements OnInit {
+	patientname: string;
 	private patientListItems = new ObservableArray<PatientListViewModel>();
 	private patientListSource = new ObservableArray<PatientListViewModel>();
 	public isBusy = true;
-	private layout: ListViewLinearLayout;	
+	private layout: ListViewLinearLayout;
 
-	constructor(private routerExtensions: RouterExtensions,private patientListService: PatientListService,
-		private page: Page) { 
-		}
+	constructor(private routerExtensions: RouterExtensions,
+		private patientListService: PatientListService,
+		private page: Page,
+		private passdataservice: PassDataService) {
+	}
 
 	get _patientListItems(): ObservableArray<PatientListViewModel> {
 		return this.patientListItems;
@@ -65,9 +70,13 @@ export class HomeComponent implements OnInit {
 	goBackPage() {
 		this.routerExtensions.navigate(["/home"], { clearHistory: true });
 	}
-	details() {
+	//  fucntion for view patient details.
+	details(listItem) {
+		console.log(listItem);
+		// assigning data to service object.
+		this.passdataservice.setPatientData(listItem);
 		this.routerExtensions.navigate(["/patientmgnt/details"], { clearHistory: true });
-	}
+	}// end of code block.
 	camerasdetails() {
 		this.routerExtensions.navigate(["/patientmgnt/cameras"], { clearHistory: true });
 	}
@@ -119,9 +128,9 @@ export class HomeComponent implements OnInit {
 
 	}
 
-	public getPatientListData(){
+	public getPatientListData() {
 		this.patientListService.getData().then(
-			(val)=>{
+			(val) => {
 				val.forEach(item => {
 					const patientListItem = new PatientListViewModel();
 					patientListItem.dbmodel = item;
@@ -129,8 +138,8 @@ export class HomeComponent implements OnInit {
 					this.patientListItems.push(patientListItem);
 				});
 			},
-			(error)=>{
-				console.log("patientListService error:",error);
+			(error) => {
+				console.log("patientListService error:", error);
 			}
 
 		);
@@ -139,7 +148,7 @@ export class HomeComponent implements OnInit {
 
 	}
 
-	
+
 
 	// search record by list code start
 	public onSubmit(args) {
@@ -150,10 +159,10 @@ export class HomeComponent implements OnInit {
 
 		if (searchValue !== "") {
 
-			this.patientListItems.forEach(item=>{
+			this.patientListItems.forEach(item => {
 				if (item.dbmodel.fname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.lname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.bed_no.toLowerCase().indexOf(searchValue) !== -1) {
-							this.patientListSource.push(item);
-						}
+					this.patientListSource.push(item);
+				}
 			});
 		}
 
