@@ -5,7 +5,7 @@ import { ListViewLinearLayout, ListViewEventData, RadListView, ListViewItemSnapM
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
 import { Observable } from 'tns-core-modules/data/observable';
 import { ChartService } from "~/app/services/chart/chart.service";
-import { ChartModel } from "~/app/models/ui/chart-models";
+import { ChartListViewModel } from "~/app/models/ui/chart-models";
 
 @Component({
 	moduleId: module.id,
@@ -16,7 +16,7 @@ import { ChartModel } from "~/app/models/ui/chart-models";
 
 export class ChartsComponent implements OnInit {
 
-	private chartListItems = new ObservableArray<ChartModel>();
+	private chartListItems = new ObservableArray<ChartListViewModel>();
 
 	// >> seleced bottom button change color
 	monitorbuttonClicked: boolean = false;
@@ -31,12 +31,12 @@ export class ChartsComponent implements OnInit {
 	outputIndex;
 
 	// >> grouping 
-	private _funcGrouping: (item: ChartModel) => ChartModel;
+	private _funcGrouping: (item: ChartListViewModel) => ChartListViewModel;
 
 	constructor(private chartService:ChartService) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
-			return item.conf_type_code;
+			return item.dbmodel.conf_type_code;
 		};
 	}
 
@@ -101,16 +101,16 @@ export class ChartsComponent implements OnInit {
 	// >> Calculate Grouping index value
 	public getGroupIndex() {
 
-		const medicine = this.chartListItems.filter(a => a.conf_type_code === "Medicine");
+		const medicine = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Medicine");
 		const medicineCount = medicine.length;
 
-		const monitor = this.chartListItems.filter(a => a.conf_type_code === "Monitor");
+		const monitor = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Monitor");
 		const monitorCount = monitor.length;
 
-		const intake = this.chartListItems.filter(a => a.conf_type_code === "Intake");
+		const intake = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Intake");
 		const intakeCount = intake.length;
 
-		const output = this.chartListItems.filter(a => a.conf_type_code === "Output");
+		const output = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Output");
 		const outputCount = output.length;
 
 		this.intakeIndex = 0;
@@ -120,7 +120,7 @@ export class ChartsComponent implements OnInit {
 
 	}
 
-	get _medicineListItems(): ObservableArray<ChartModel> {
+	get _listItems(): ObservableArray<ChartListViewModel> {
 		return this.chartListItems;
 	}
 
@@ -128,9 +128,9 @@ export class ChartsComponent implements OnInit {
 		this.chartService.getChartList().then(
 			(val)=>{
 				val.forEach(item => {
-					let chartListItem = new ChartModel();
-					chartListItem = item;
-					chartListItem.conf = JSON.parse(item.conf);
+					let chartListItem = new ChartListViewModel();
+					chartListItem.dbmodel = item;
+					chartListItem.dbmodel.conf = JSON.parse(item.conf);
 					this.chartListItems.push(chartListItem);
 				});
 				this.getGroupIndex();

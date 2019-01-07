@@ -25,6 +25,7 @@ import { PatientInfoComponent } from "~/app/modules/patient-management/patient-d
 import { ConfService } from "~/app/services/conf/conf.service";
 import { ReportsComponent } from "~/app/modules/patient-management/reports/reports.component";
 import { SectionOneComponent } from "~/app/modules/patient-management/reports/section-one/section-one.component";
+import { ReactiveFormsModule } from "@angular/forms";
 import { sharedModule } from "~/app/modules/shared-mudule";
 import { PatientActionBarComponent } from "~/app/modules/patient-management/patient-action-bar/patient-action-bar.component";
 
@@ -34,8 +35,9 @@ import { PatientActionBarComponent } from "~/app/modules/patient-management/pati
         PatientMgntRoutingModule,
         HttpClientModule,
         NativeScriptUIListViewModule,
-        // NativeScriptUIDataFormModule,
         NativeScriptUIChartModule,
+        NativeScriptFormsModule,
+        ReactiveFormsModule,
         sharedModule,
         NativeScriptFormsModule
     ],

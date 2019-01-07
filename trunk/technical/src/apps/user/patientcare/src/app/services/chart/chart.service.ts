@@ -1,6 +1,6 @@
 import { Injectable, Version } from "@angular/core";
 import { DatabaseService } from "../../services/offline-store/database.service";
-import  { ChartModel } from "~/app/models/ui/chart-models";
+import  { ChartDBModel } from "~/app/models/ui/chart-models";
 
 @Injectable()
 export class ChartService {
@@ -28,7 +28,7 @@ export class ChartService {
     }
     
 
-    public insertChartItem(data: ChartModel) {
+    public insertChartItem(data: ChartDBModel) {
 
         return new Promise((resolve, reject) => {
 

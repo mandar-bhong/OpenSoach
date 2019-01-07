@@ -12,29 +12,34 @@
 </ActionBar>
 
 <ScrollView>
-    <StackLayout class="form">
+    <StackLayout class="form" [formGroup]="medicineForm">
         <StackLayout class="input-field">
             <Label text="Medicine Name"></Label>
-            <TextField class="input" [(ngModel)]="formData.medicineName"></TextField>
-            <StackLayout class="hr-light"></StackLayout>
+            <TextField class="input" formControlName="name"></TextField>
+            <StackLayout class="hr-light" [ngClass]="{invalid: medNameIsValid === true}"></StackLayout>
+            <StackLayout class="input-field">
+                <StackLayout *ngIf="medNameIsValid">
+                    <Label text="*medicine name is required " style="color:red"></Label>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
 
         <StackLayout class="input-field">
             <Label text="Dosage"></Label>
-            <TextField class="input" keyboardType="number" [(ngModel)]="formData.quantity" hint="No. of units"></TextField>
+            <TextField class="input" keyboardType="number" formControlName="quantity" hint="No. of units"></TextField>
             <StackLayout class="hr-light"></StackLayout>
         </StackLayout>
 
         <StackLayout class="input-field">
             <Label text="Food Instruction"></Label>
-            <SegmentedBar [items]="myItems" selectedIndex="0" [(ngModel)]="formData.instruction" (selectedIndexChange)="onInstructionSelectedIndexChange($event)"
+            <SegmentedBar [items]="foodInsItems" selectedIndex="0" formControlName="foodInst" (selectedIndexChange)="onInstructionSelectedIndexChange($event)"
                 class="m-5" style="background-color:white;color:black"></SegmentedBar>
         </StackLayout>
 
         <StackLayout class="input-field">
             <Label text="Frequency"></Label>
 
-            <SegmentedBar [items]="frequencyItems" [(ngModel)]="formData.frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
+            <SegmentedBar [items]="frequencyItems" formControlName="frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
                 class="segmented-bar" selectedIndex="0" class="m-5"></SegmentedBar>
 
             <StackLayout></StackLayout>
@@ -63,12 +68,17 @@
             <StackLayout *ngIf="freqSelectedIndex===1">
                 <StackLayout class="input-field">
                     <Label col="0" row="0" text="Enter interval hours"></Label>
-                    <TextField col="1" row="0" class="input" keyboardType="number" [(ngModel)]="formData.intervalHrs"></TextField>
+                    <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
                 </StackLayout>
-                <StackLayout class="hr-light"></StackLayout>
+                <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                <StackLayout class="input-field">
+                    <StackLayout *ngIf="intervalHrsIsValid">
+                        <Label text="*interval hours is required " style="color:red"></Label>
+                    </StackLayout>
+                </StackLayout>
                 <StackLayout class="input-field">
                     <Label text="Start Time"></Label>
-                    <TimePicker verticalAlignment="center" class="m-15" [(ngModel)]="formData.starttime"></TimePicker>
+                    <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
                 </StackLayout>
             </StackLayout>
 
@@ -78,18 +88,23 @@
 
         <StackLayout class="input-field">
             <Label text="Start Date"></Label>
-            <DatePicker verticalAlignment="center" [(ngModel)]="formData.startDate"></DatePicker>
+            <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
         </StackLayout>
 
         <StackLayout class="input-field">
             <Label text="Duration"></Label>
-            <TextField class="input" keyboardType="number" hint="No. of days" [(ngModel)]="formData.duration"></TextField>
-            <StackLayout class="hr-light"></StackLayout>
+            <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration"></TextField>
+            <StackLayout class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></StackLayout>
+            <StackLayout class="input-field">
+                <StackLayout *ngIf="durationIsValid">
+                    <Label text="*duration is required " style="color:red"></Label>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
 
         <StackLayout class="input-field">
             <Label text="Instruction"></Label>
-            <TextView [(ngModel)]="formData.desc" hint="Enter instruction" editable="true" class="input input-border"></TextView>
+            <TextView formControlName="desc" hint="Enter instruction" editable="true" class="input input-border"></TextView>
             <StackLayout class="hr-light"></StackLayout>
         </StackLayout>
 
