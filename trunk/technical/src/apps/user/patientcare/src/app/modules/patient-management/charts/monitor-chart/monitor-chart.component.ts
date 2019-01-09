@@ -81,7 +81,7 @@ export class MonitorChartComponent implements OnInit {
         this.frequencyItems.push(freqItem2);
 
         // load default form data
-        // this.monitorForm.get('startDate').setValue(Date.now());
+        // this.monitorForm.get('startDate').setValue(new Date());
 
     }
 
@@ -143,7 +143,6 @@ export class MonitorChartComponent implements OnInit {
         //set chart conf model
         if (data.frequency == 0) {
             this.chartConfModel.intervalHrs = data.intervalHrs;
-
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "h:mm a");
             this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "h:mm a");
 
