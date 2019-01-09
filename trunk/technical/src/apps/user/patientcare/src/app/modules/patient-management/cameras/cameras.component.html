@@ -40,7 +40,7 @@
 
             <Image row="1" [src]="cameraImage" stretch="aspectFit" margin="10"></Image>
             <TextView row="2" [(ngModel)]="labelText" editable="false"></TextView>>
-            <Button row="3" text="Take Picture" (tap)='onTakePictureTap($event)' padding="10" style="background-color: #FF8912; color:#ffffff"></Button>
+            <Button row="3" text="Take Picture" (tap)='onTakePictureTap()' padding="10" style="background-color: #FF8912; color:#ffffff"></Button>
         </GridLayout>
         <StackLayout class="hr-light m-10"></StackLayout>
 

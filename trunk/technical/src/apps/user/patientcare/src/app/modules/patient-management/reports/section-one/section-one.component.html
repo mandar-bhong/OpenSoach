@@ -20,12 +20,12 @@
 
     <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
         <StackLayout row="0">
-            <RL:Ripple rippleColor="#fff" style="margin-top: 20px;">
-                <StackLayout class="float-btn-cat" (tap)="goCameras()">
+            <RL:Ripple rippleColor="#fff" style="margin-top: 20px;" (tap)="onTakePictureTap()">
+                <StackLayout class="float-btn-cat" >
                     <Label class="float-btn-cat-text fas" text="&#xf030;"></Label>
                 </StackLayout>
             </RL:Ripple>
-            <RL:Ripple rippleColor="#fff" style="margin-top: 10px;" (tap)="goCameras()">
+            <RL:Ripple rippleColor="#fff" style="margin-top: 10px;" (tap)="onSelectSingleTap()">
                 <StackLayout class="float-btn-cat">
                     <Label class="float-btn-cat-text fas" text="&#xf574;"></Label>
                 </StackLayout>

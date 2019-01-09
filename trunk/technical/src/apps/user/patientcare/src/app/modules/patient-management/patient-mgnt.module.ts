@@ -28,6 +28,8 @@ import { SectionOneComponent } from "~/app/modules/patient-management/reports/se
 import { ReactiveFormsModule } from "@angular/forms";
 import { sharedModule } from "~/app/modules/shared-mudule";
 import { PatientActionBarComponent } from "~/app/modules/patient-management/patient-action-bar/patient-action-bar.component";
+import { ShowCameraImageComponent } from "~/app/modules/patient-management/reports/section-one/show-camera-image/show-camera-image.component";
+import { ShowUploadedImageComponent } from "~/app/modules/patient-management/reports/section-one/show-uploaded-image/show-uploaded-image.component";
 
 @NgModule({
     imports: [
@@ -57,7 +59,9 @@ import { PatientActionBarComponent } from "~/app/modules/patient-management/pati
         PatientInfoComponent,
         ReportsComponent, 
         SectionOneComponent,
-        PatientActionBarComponent
+        PatientActionBarComponent,
+        ShowCameraImageComponent,
+        ShowUploadedImageComponent
        
     ],
     schemas: [
@@ -69,4 +73,8 @@ import { PatientActionBarComponent } from "~/app/modules/patient-management/pati
         ConfService
     ]
 })
-export class PatientMgntModule { }
+export class PatientMgntModule {
+    constructor(){
+        console.log('PatientMgntModule muodule initiate');
+    }
+ }

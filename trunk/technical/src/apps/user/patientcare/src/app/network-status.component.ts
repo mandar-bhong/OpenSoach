@@ -8,13 +8,14 @@ import { InternetConnectionService } from '~/app/services/internet-status/intern
     moduleId: module.id,
     selector: "network-status",
     template: `
-    <Label  class="homeicon mdi" text="{{(connectionStatus) ? '&#xf12f;' : '&#xf12f;'}}" [style.color]="connectionStatus ? 'green' : 'red'"></Label>
+    <Label  class="homeicon mdi" text="&#xf12f;" [style.color]="connectionStatus ? 'green' : 'red'"></Label>
     `,
     styles: [`   ` ]
 
 })
 export class NetworkStatusComponent implements OnInit, OnDestroy  {
     connectionStatus: boolean = true;
+    connectiontext:string;
     connection$;
     constructor(private routerExtensions: RouterExtensions,
         private _internetConnection: InternetConnectionService) {
@@ -24,6 +25,7 @@ export class NetworkStatusComponent implements OnInit, OnDestroy  {
             this.connectionStatus = data.valueOf();
         });
     }
+
     ngOnDestroy(): void {
         if (this.connection$)
             this.connection$.unsubscribe();

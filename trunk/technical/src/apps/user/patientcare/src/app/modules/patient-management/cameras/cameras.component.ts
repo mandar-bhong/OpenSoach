@@ -8,16 +8,17 @@ import { ImageAsset } from 'tns-core-modules/image-asset';
 
 import * as imagepicker from "nativescript-imagepicker";
 import { Page } from 'tns-core-modules/ui/page/page';
+import { PassDataService } from '~/app/services/pass-data-service';
 
 @Component({
-	moduleId: module.id,
-	selector: 'cameras',
-	templateUrl: './cameras.component.html',
-	styleUrls: ['./cameras.component.css']
+    moduleId: module.id,
+    selector: 'cameras',
+    templateUrl: './cameras.component.html',
+    styleUrls: ['./cameras.component.css']
 })
 
 export class CamerasComponent implements OnInit {
-	public saveToGallery: boolean = true;
+    public saveToGallery: boolean = true;
     public keepAspectRatio: boolean = true;
     public width: number = 320;
     public height: number = 240;
@@ -37,54 +38,41 @@ export class CamerasComponent implements OnInit {
     public removedImageUrl: string;
 
     constructor(private routerExtensions: RouterExtensions,
-    private  page: Page)
-     {
+        private passdataservice: PassDataService,
+        private page: Page) {
         // page.actionBarHidden = true;
-     }
+    }
 
-	ngOnInit() {
+    ngOnInit() {
         // alert('cameras component load ');
-     }
-	goBackPage() {
-		// this.routerExtensions.back();
-		this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
-	}
+        this.onTakePictureTap();
+    }
+    goBackPage() {
+        // this.routerExtensions.back();
+        this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
+    }
     // public goBackPage() {
     //     this.routerExtensions.back();
     //     console.log("click back button");
     // }
 
     // take picture 
-	onTakePictureTap(args) {
+    onTakePictureTap() {
         requestPermissions().then(
             () => {
                 takePicture({ width: this.width, height: this.height, keepAspectRatio: this.keepAspectRatio, saveToGallery: this.saveToGallery })
                     .then((imageAsset: any) => {
-                        this.cameraImage = imageAsset;
-                        let that = this;
-                        imageAsset.getImageAsync(function (nativeImage) {
-                            if (imageAsset.android) {
-                                // get the current density of the screen (dpi) and divide it by the default one to get the scale
-                                // that.scale = nativeImage.getDensity() / android.util.DisplayMetrics.DENSITY_DEFAULT;
-                                that.actualWidth = nativeImage.getWidth();
-                                that.actualHeight = nativeImage.getHeight();
-                            } else {
-                                that.scale = nativeImage.scale;
-                                that.actualWidth = nativeImage.size.width * that.scale;
-                                that.actualHeight = nativeImage.size.height * that.scale;
-                            }
-                            that.labelText = `Displayed Size: ${that.actualWidth}x${that.actualHeight} with scale ${that.scale}\n` +
-                                `Image Size: ${Math.round(that.actualWidth / that.scale)}x${Math.round(that.actualHeight / that.scale)}`;
-
-                            console.log(`${that.labelText}`);
-                        });
-                    }, (error) => {
+                        console.log('imageAsset',imageAsset);
+                        this.passdataservice.pickedImage = imageAsset;
+                        // navigate to show camera image component once image has been picked.
+                        this.routerExtensions.navigate(['patientmgnt', 'showcameraimage']);
+                     }, (error) => {
                         console.log("Error: " + error);
                     });
             },
             () => alert('permissions rejected')
         );
-	}
+    }
 
 
 
@@ -115,33 +103,33 @@ export class CamerasComponent implements OnInit {
         let that = this;
 
         context
-        .authorize()
-        .then(() => {
-            that.imageAssets = [];
-            that.imageSrc = null;
-            return context.present();
-        })
-        .then((selection) => {
-            console.log("Selection done: " + JSON.stringify(selection));
-            that.imageSrc = that.isSingleMode && selection.length > 0 ? selection[0] : null;
+            .authorize()
+            .then(() => {
+                that.imageAssets = [];
+                that.imageSrc = null;
+                return context.present();
+            })
+            .then((selection) => {
+                console.log("Selection done: " + JSON.stringify(selection));
+                that.imageSrc = that.isSingleMode && selection.length > 0 ? selection[0] : null;
 
-            // set the images to be loaded from the assets with optimal sizes (optimize memory usage)
-            selection.forEach(function (element) {
-                element.options.width = that.isSingleMode ? that.previewSize : that.thumbSize;
-                element.options.height = that.isSingleMode ? that.previewSize : that.thumbSize;
+                // set the images to be loaded from the assets with optimal sizes (optimize memory usage)
+                selection.forEach(function (element) {
+                    element.options.width = that.isSingleMode ? that.previewSize : that.thumbSize;
+                    element.options.height = that.isSingleMode ? that.previewSize : that.thumbSize;
+                });
+
+                that.imageAssets = selection;
+            }).catch(function (e) {
+                console.log(e);
             });
-
-            that.imageAssets = selection;
-        }).catch(function (e) {
-            console.log(e);
-        });
     }
     onRemoveImageButtonTap(): void {
         this.imageSrc = null;
         this.imageAssets = []
 
-		// if (this.currentImageSource) {
-		// 	this.currentImageSource = null;
-		// }
-	}
+        // if (this.currentImageSource) {
+        // 	this.currentImageSource = null;
+        // }
+    }
 }
