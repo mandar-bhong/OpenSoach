@@ -5,7 +5,9 @@ let selectQueries = new Map([
     [ "patientlist", "select fname,lname,bed_no,mob_no,status,attended from patient_admission_tbl as padmsn inner join patient_master_tbl as patient on patient.id = padmsn.patient_id" ],
     [ "chartlist", "select id,admission_id,conf_type_code,conf from patient_chart_conf_tbl" ],
     [ "chartInsert", "insert into patient_chart_conf_tbl (admission_id,conf_type_code,conf) values ( ?, ?, ?)" ],
-    [ "monitorConfList", "select id,conf_type_code,conf from patient_conf_tbl where conf_type_code = 'Monitor'"]
+    [ "monitorConfList", "select id,conf_type_code,conf from patient_conf_tbl where conf_type_code = 'Monitor'"],
+    [ "actionList", "select id,conf_type_code,chart_conf_id,name,desc,exec_time from action_tbl"],
+    [ "actionInsert", "insert into action_tbl (conf_type_code,chart_conf_id,name,desc,exec_time) values ( ?, ?, ?, ?, ?)" ]
 ]);
 
 @Injectable()

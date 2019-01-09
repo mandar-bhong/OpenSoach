@@ -28,6 +28,8 @@ import { SectionOneComponent } from "~/app/modules/patient-management/reports/se
 import { ReactiveFormsModule } from "@angular/forms";
 import { sharedModule } from "~/app/modules/shared-mudule";
 import { PatientActionBarComponent } from "~/app/modules/patient-management/patient-action-bar/patient-action-bar.component";
+import { Action } from "rxjs/internal/scheduler/Action";
+import { ActionService } from "~/app/services/action/action.service";
 import { ShowCameraImageComponent } from "~/app/modules/patient-management/reports/section-one/show-camera-image/show-camera-image.component";
 import { ShowUploadedImageComponent } from "~/app/modules/patient-management/reports/section-one/show-uploaded-image/show-uploaded-image.component";
 
@@ -70,7 +72,8 @@ import { ShowUploadedImageComponent } from "~/app/modules/patient-management/rep
     providers:[
         DatePipe,
         ChartService,
-        ConfService
+        ConfService,
+        ActionService
     ]
 })
 export class PatientMgntModule {
