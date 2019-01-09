@@ -34,10 +34,8 @@ export class ActionService {
 
         const listData = new Array<any>();
 
-        listData.push(data.conf_type_code);
+        listData.push(data.admission_id);
         listData.push(data.chart_conf_id);
-        listData.push(data.name);
-        listData.push(data.desc);
         listData.push(data.exec_time);
 
         this.database.insert("actionInsert",listData).then(
