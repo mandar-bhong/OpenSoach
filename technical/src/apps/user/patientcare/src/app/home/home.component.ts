@@ -30,8 +30,8 @@ import { PassDataService } from "~/app/services/pass-data-service";
 
 export class HomeComponent implements OnInit {
 	patientname: string;
-	private patientListItems = new ObservableArray<PatientListViewModel>();
-	private patientListSource = new ObservableArray<PatientListViewModel>();
+	public patientListItems = new ObservableArray<PatientListViewModel>();
+	public patientListSource = new ObservableArray<PatientListViewModel>();
 	public isBusy = true;
 	private layout: ListViewLinearLayout;
 
@@ -51,10 +51,10 @@ export class HomeComponent implements OnInit {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 
-		setTimeout(() => {
+		
 			this.getPatientListData();
 			//this.addMoreItemsFromSource(20);
-		}, 800);
+		
 
 		// this.getPatientListData();
 
@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
 		this.routerExtensions.navigate(["/patientmgnt/cameras"], { clearHistory: true });
 	}
 
-	onTextChange() {
+	onTextChange(event) {
 
 	}
 
@@ -130,7 +130,8 @@ export class HomeComponent implements OnInit {
 
 	public getPatientListData() {
 		this.patientListService.getData().then(
-			(val) => {
+		  (val) => {
+				this.isBusy = false;
 				val.forEach(item => {
 					const patientListItem = new PatientListViewModel();
 					patientListItem.dbmodel = item;
@@ -144,7 +145,7 @@ export class HomeComponent implements OnInit {
 
 		);
 
-		this.isBusy = false;
+		
 
 	}
 

@@ -35,7 +35,7 @@ export class DataItem {
 
 export class ActionComponent implements OnInit {
 
-	private _dataItems: ObservableArray<any>;
+	public _dataItems: ObservableArray<any>;
 	data = new Array<DataItem>();
 	private leftItem: View;
 	private rightItem: View;
@@ -54,7 +54,7 @@ export class ActionComponent implements OnInit {
 
 
 	// >> grouping 
-	private _funcGrouping: (item: DataItem) => DataItem;
+	public _funcGrouping: (item: DataItem) => DataItem;
 
 	// >> exapnd row
 	expanded: false;

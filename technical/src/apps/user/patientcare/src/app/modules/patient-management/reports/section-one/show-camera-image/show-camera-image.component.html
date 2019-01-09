@@ -1,0 +1,16 @@
+
+    <patient-action-bar [patientName]='patientName'></patient-action-bar>
+    <ScrollView>
+        <StackLayout style="background-color: #396766; color: white; vertical-align: center;">
+            <!-- <GridLayout rows="auto, *, auto, auto"> -->
+             
+    
+                <Image row="1" [src]="cameraImage" stretch="aspectFit" margin="10"></Image>
+                <TextView row="2" [(ngModel)]="labelText" editable="false"></TextView>
+                <!-- <Button row="3" text="Take Picture" (tap)='onTakePictureTap($event)' padding="10" style="background-color: #FF8912; color:#ffffff"></Button> -->
+            <!-- </GridLayout> -->
+          
+    
+        </StackLayout>
+    
+    </ScrollView>

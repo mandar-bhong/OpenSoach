@@ -12,6 +12,8 @@ import { MedicineChartComponent } from "~/app/modules/patient-management/charts/
 import { IntakeChartComponent } from "~/app/modules/patient-management/charts/intake-chart/intake-chart.component";
 import { MonitorChartComponent } from "~/app/modules/patient-management/charts/monitor-chart/monitor-chart.component";
 import { ReportsComponent } from "~/app/modules/patient-management/reports/reports.component";
+import { ShowCameraImageComponent } from "~/app/modules/patient-management/reports/section-one/show-camera-image/show-camera-image.component";
+import { ShowUploadedImageComponent } from "~/app/modules/patient-management/reports/section-one/show-uploaded-image/show-uploaded-image.component";
 
 
 const routes: Routes = [
@@ -48,6 +50,12 @@ const routes: Routes = [
     { 
         path: "reports", component: ReportsComponent
     },
+    { 
+        path: "showcameraimage", component: ShowCameraImageComponent
+    },
+    { 
+        path: "showuoploadedimage", component: ShowUploadedImageComponent
+    }
 ];
 
 @NgModule({

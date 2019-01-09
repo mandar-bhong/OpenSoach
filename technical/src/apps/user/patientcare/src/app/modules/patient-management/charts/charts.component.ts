@@ -31,7 +31,7 @@ export class ChartsComponent implements OnInit {
 	outputIndex;
 
 	// >> grouping 
-	private _funcGrouping: (item: ChartListViewModel) => ChartListViewModel;
+	public _funcGrouping: (item: ChartListViewModel) => ChartListViewModel;
 
 	constructor(private chartService:ChartService) {
 		//  list grouping

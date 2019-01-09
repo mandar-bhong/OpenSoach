@@ -19,13 +19,14 @@ export class DetailsComponent implements OnInit {
 	action = false;
 	chart = false;
 	report = false;
-	patientName: string;
+
 	// >> seleced bottom button change color
 	buttonClicked: boolean = true;
 	actionbuttonClicked: boolean = false;
 	chartbuttonClicked: boolean = false;
 	reportbuttonClicked: boolean = false;
 	selectedPatient: PatientListViewModel;
+	patientName: string;
 	constructor(
 		private routerExtensions: RouterExtensions,
 		private passdataservice: PassDataService,
@@ -34,10 +35,8 @@ export class DetailsComponent implements OnInit {
 
 	ngOnInit() {
 		// getting patient data form service 
-	  
-		console.log('this.passdataservice.patientListViewModel',this.passdataservice.getpatientData());
-	   this.selectedPatient = this.passdataservice.patientListViewModel;
-		this.patientName = this.selectedPatient.dbmodel.bed_no + ', ' + this.selectedPatient.dbmodel.fname + ' ' + this.selectedPatient.dbmodel.lname;
+	      // for getting header name label text
+		this.patientName = this.passdataservice.getHeaderName();
 		console.log('patient name',this.patientName)
 		// goBackPage() {
 		// 	this.routerExtensions.navigate(["/home"], { clearHistory: true });
