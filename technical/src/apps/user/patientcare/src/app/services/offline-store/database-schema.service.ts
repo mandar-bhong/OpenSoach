@@ -15,9 +15,9 @@ export class DatabaseSchemaService {
         "CREATE TABLE IF NOT EXISTS patient_admission_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid TEXT, patient_id INTEGER, patient_reg_no TEXT, bed_no TEXT, status INTEGER, attended DATETIME, sp_id INTEGER, dr_incharge INTEGER, admitted_on DATETIME, discharged_on DATETIME, created_on DATETIME, updated_on DATETIME)",
         "CREATE TABLE IF NOT EXISTS patient_personal_details_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id INTEGER, admission_id INTEGER, uuid TEXT, age TEXT, weight TEXT, other_details TEXT, created_on DATETIME, updated_on DATETIME )",
         "CREATE TABLE IF NOT EXISTS patient_medical_details_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT,patient_id INTEGER, admission_id INTEGER, uuid TEXT, reason_for_admission TEXT, patient_medical_hist TEXT, treatment_recieved_before TEXT, family_hist TEXT, menstrual_hist TEXT, allergies TEXT, perdsonal_hist TEXT, general_physical_exam TEXT, systematic_exam TEXT, created_on DATETIME, updated_on DATETIME)",    
-        "CREATE TABLE IF NOT EXISTS patient_chart_conf_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT,admission_id INTEGER, conf_type_code TEXT, conf TEXT, created_on DATETIME DEFAULT CURRENT_TIMSESTAMP, updated_on DATETIME DEFAULT CURRENT_TIMSESTAMP)",
-        "CREATE TABLE IF NOT EXISTS patient_conf_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, conf_type_code TEXT, conf TEXT, created_on DATETIME DEFAULT CURRENT_TIMSESTAMP, updated_on DATETIME DEFAULT CURRENT_TIMSESTAMP)",
-        "CREATE TABLE IF NOT EXISTS action_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT,admission_id INTEGER,chart_conf_id INTEGER, exec_time TEXT)"
+        "CREATE TABLE IF NOT EXISTS patient_chart_conf_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT,admission_id INTEGER,  uuid TEXT, conf_type_code TEXT, conf TEXT, created_on TEXT DEFAULT CURRENT_TIMESTAMP, updated_on TEXT DEFAULT CURRENT_TIMESTAMP)",
+        "CREATE TABLE IF NOT EXISTS patient_conf_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid TEXT,conf_type_code TEXT, conf TEXT, created_on TEXT DEFAULT CURRENT_TIMESTAMP, updated_on TEXT DEFAULT CURRENT_TIMESTAMP)",
+        "CREATE TABLE IF NOT EXISTS action_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid TEXT,admission_id INTEGER,chart_conf_id INTEGER, exec_time TEXT)"
     ]
 
     seedData = [

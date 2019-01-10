@@ -34,6 +34,7 @@ export class ActionService {
 
         const listData = new Array<any>();
 
+        listData.push(data.uuid);
         listData.push(data.admission_id);
         listData.push(data.chart_conf_id);
         listData.push(data.exec_time);
