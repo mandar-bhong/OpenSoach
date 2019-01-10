@@ -32,6 +32,7 @@ import { Action } from "rxjs/internal/scheduler/Action";
 import { ActionService } from "~/app/services/action/action.service";
 import { ShowCameraImageComponent } from "~/app/modules/patient-management/reports/section-one/show-camera-image/show-camera-image.component";
 import { ShowUploadedImageComponent } from "~/app/modules/patient-management/reports/section-one/show-uploaded-image/show-uploaded-image.component";
+import { GetUUIDService } from "~/app/services/get-UUID.service";
 
 @NgModule({
     imports: [
@@ -73,7 +74,8 @@ import { ShowUploadedImageComponent } from "~/app/modules/patient-management/rep
         DatePipe,
         ChartService,
         ConfService,
-        ActionService
+        ActionService,
+        GetUUIDService
     ]
 })
 export class PatientMgntModule {

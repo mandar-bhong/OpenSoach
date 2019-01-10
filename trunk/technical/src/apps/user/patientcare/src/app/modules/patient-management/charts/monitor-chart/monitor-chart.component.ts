@@ -11,6 +11,7 @@ import { ConfListViewModel } from '~/app/models/ui/conf-models';
 import { ConfService } from '~/app/services/conf/conf.service';
 import { ListPicker } from "tns-core-modules/ui/list-picker";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GetUUIDService } from '~/app/services/get-UUID.service';
 
 @Component({
     moduleId: module.id,
@@ -43,7 +44,12 @@ export class MonitorChartComponent implements OnInit {
     monitorConf: ConfListViewModel;
     // end of proccess variables
 
-    constructor(private routerExtensions: RouterExtensions, private datePipe: DatePipe, private chartservice: ChartService, private confService: ConfService) {
+    constructor(
+        private routerExtensions: RouterExtensions, 
+        private datePipe: DatePipe, 
+        private chartservice: ChartService, 
+        private confService: ConfService,
+        private getUUIDService:GetUUIDService) {
 
         this.formData = new MonitorChartModel();
         this.formData.specificTimes = [];
@@ -174,6 +180,7 @@ export class MonitorChartComponent implements OnInit {
         let confString = JSON.stringify(this.chartConfModel);
 
         // set db model
+        this.chartDbModel.uuid = this.getUUIDService.getUUID();
         this.chartDbModel.admissionid = 2;
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = "Monitor";

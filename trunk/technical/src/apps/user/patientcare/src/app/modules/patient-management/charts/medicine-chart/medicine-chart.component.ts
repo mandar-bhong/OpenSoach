@@ -8,6 +8,7 @@ import { Switch } from "tns-core-modules/ui/switch";
 import { ChartDBModel, MedChartModel } from "~/app/models/ui/chart-models";
 import { ChartService } from "~/app/services/chart/chart.service";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GetUUIDService } from '~/app/services/get-UUID.service';
 
 @Component({
     moduleId: module.id,
@@ -39,7 +40,10 @@ export class MedicineChartComponent implements OnInit {
     freqNight:boolean;
     // end of proccess variables
 
-    constructor(private routerExtensions: RouterExtensions, private datePipe: DatePipe, private chartservice: ChartService) {
+    constructor(private routerExtensions: RouterExtensions, 
+        private datePipe: DatePipe, 
+        private chartservice: ChartService,
+        private getUUIDService:GetUUIDService) {
 
         this.formData = new MedChartModel();
         this.freqMorn = true;
@@ -237,6 +241,7 @@ export class MedicineChartComponent implements OnInit {
         let confString = JSON.stringify(this.chartConfModel);
 
         // set db model
+        this.chartDbModel.uuid = this.getUUIDService.getUUID();
         this.chartDbModel.admissionid = 2;
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = "Medicine";
