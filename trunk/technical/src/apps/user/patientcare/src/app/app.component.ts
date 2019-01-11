@@ -7,6 +7,9 @@ import { Subscription } from "rxjs";
 import { ServerDataProcessorMessageModel } from "./models/api/server-data-processor-message-model";
 import { SERVER_WORKER_MSG_TYPE } from "~/app/app-constants";
 var WS = require('nativescript-websockets');
+import * as appSettings from "tns-core-modules/application-settings";
+import { APP_MODE } from "./app-constants";
+import { AppGlobalContext } from "./app-global-context";
 
 @Component({
     moduleId: module.id,
@@ -18,11 +21,11 @@ export class AppComponent implements OnInit, OnDestroy {
     private socket: any;
     public messages: Array<any>;
     public chatBox: string;
-    private internetConnectionSubscription:Subscription;
+    private internetConnectionSubscription: Subscription;
     constructor(private databaseSchemaService: DatabaseSchemaService,
         private zone: NgZone,
-    private workerService:WorkerService, private internetConnectionService:InternetConnectionService) {
-       // this.databaseSchemaService.setOfflineDB();
+        private workerService: WorkerService, private internetConnectionService: InternetConnectionService) {
+        // this.databaseSchemaService.setOfflineDB();
         // console.log('server', server);
         // this.socket = new WS("ws://echo.websocket.org", []);
         // console.log('socket created', this.socket);
@@ -30,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.chatBox = "";
 
         // Initialize the worker here
-       this.workerService.initServerDataProcessorWorker();  
+        this.workerService.initServerDataProcessorWorker();
 
         // this.internetConnectionSubscription=   this.internetConnectionService.connectionStatus$.subscribe(status=>{
         //  if(status)
@@ -38,17 +41,29 @@ export class AppComponent implements OnInit, OnDestroy {
         //     // TODO if the status is connected, open webscocket connection again
         //  }
         // });
+
+        // Get APP_MODE
+
+        const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+        AppGlobalContext.AppMode = appMode;
+
+        if (appMode == APP_MODE.NONE) {
+            // TODO Dummy code to set the application mode to Shared device
+            appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
+            AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
+        }
+        console.log("APP_MODE", appSettings.getNumber("APP_MODE"));
     }
 
     ngOnInit() {
 
         // TODO: Dummy code for testing 
         console.log('in app component init');
-        this.workerService.ServerDataProcessorWorker.onmessage=m=>this.workerOnMessage(m);
-         const initModel= new ServerDataProcessorMessageModel();
-         initModel.msgtype=SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
+        this.workerService.ServerDataProcessorWorker.onmessage = m => this.workerOnMessage(m);
+        const initModel = new ServerDataProcessorMessageModel();
+        initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
         this.workerService.ServerDataProcessorWorker.postMessage(initModel);
-        
+
         // console.log('socketIO', this.socketIO);
         // this.socketIO.connect();
         // this.socket.on('open', socket => {
@@ -85,9 +100,9 @@ export class AppComponent implements OnInit, OnDestroy {
         //   this.socketIO.disconnect();
         // this.socket.close();
         // TODO: Send command to worker to disconnect the websocket before terminating server
-         this.workerService.ServerDataProcessorWorker.terminate();
+        this.workerService.ServerDataProcessorWorker.terminate();
 
-         this.internetConnectionSubscription.unsubscribe();
+        this.internetConnectionSubscription.unsubscribe();
     }
 
     public send() {
@@ -97,8 +112,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    workerOnMessage(message:MessageEvent)
-    {
+    workerOnMessage(message: MessageEvent) {
         console.log('worker message recieved', message);
 
     }

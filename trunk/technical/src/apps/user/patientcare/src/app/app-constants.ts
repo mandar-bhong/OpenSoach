@@ -5,3 +5,9 @@ export enum SERVER_WORKER_MSG_TYPE {
     CLOSE_SERVER_INTERFACE = 2,
     SEND_MESSAGE = 3
 }
+
+export enum APP_MODE {
+    NONE=0,
+    SHARED_DEVICE=1,
+    USER_DEVICE=2
+}
