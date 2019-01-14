@@ -53,6 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
             AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
         }
         console.log("APP_MODE", appSettings.getNumber("APP_MODE"));
+
+    this.checkIfLoggedIn();
     }
 
     ngOnInit() {
@@ -117,6 +119,36 @@ export class AppComponent implements OnInit, OnDestroy {
 
     }
 
+    checkIfLoggedIn()
+    {
+        // read appSetting to get AUTH_TOKEN && APP_MODE
+        // if APP_MODE doesnt exist call checkIfDeviceIsRegistered()
+        // if APP_MODE exists && AUTH_TOKEN exists
+            // check if token is still valid
+                // if valid call initAppStart()
+                // else call checkIfDeviceIsRegistered()
+    }
 
+    getSerialNumber()
+    {
+        //TODO: Read the serial number
+        // Set the Serial Number in AppGlobalContext
+    }
 
+    checkIfDeviceIsRegistered()
+    {
+        //TODO: Call HTTP API to check if device is registered. getSerialNumber()
+        // Handle the response        
+        //  Device is registered && is shared device
+            // save token in appSetting and AppGlobalContext
+            // call initAppStart();
+        //Else
+        // Navigate to login page        
+    }
+
+    initAppStart()
+    {
+        // post message to worker to connect websocket
+        // navigate to patient listing page
+    }
 }
