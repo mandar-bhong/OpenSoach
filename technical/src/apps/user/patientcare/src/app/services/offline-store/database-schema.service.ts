@@ -17,7 +17,8 @@ export class DatabaseSchemaService {
         "CREATE TABLE IF NOT EXISTS patient_medical_details_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT,patient_id INTEGER, admission_id INTEGER, uuid TEXT, reason_for_admission TEXT, patient_medical_hist TEXT, treatment_recieved_before TEXT, family_hist TEXT, menstrual_hist TEXT, allergies TEXT, perdsonal_hist TEXT, general_physical_exam TEXT, systematic_exam TEXT, created_on DATETIME, updated_on DATETIME)",    
         "CREATE TABLE IF NOT EXISTS patient_chart_conf_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT,admission_id INTEGER,  uuid TEXT, conf_type_code TEXT, conf TEXT, created_on TEXT DEFAULT CURRENT_TIMESTAMP, updated_on TEXT DEFAULT CURRENT_TIMESTAMP)",
         "CREATE TABLE IF NOT EXISTS patient_conf_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid TEXT,conf_type_code TEXT, conf TEXT, created_on TEXT DEFAULT CURRENT_TIMESTAMP, updated_on TEXT DEFAULT CURRENT_TIMESTAMP)",
-        "CREATE TABLE IF NOT EXISTS action_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid TEXT,admission_id INTEGER,chart_conf_id INTEGER, exec_time TEXT)"
+        "CREATE TABLE IF NOT EXISTS action_tbl (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid TEXT,admission_id INTEGER,chart_conf_id INTEGER, exec_time TEXT)",
+        "CREATE TABLE IF NOT EXISTS service_point_tbl (sp_id INTEGER, spc_id INTEGER, sp_name TEXT, short_desc TEXT, sp_state INTEGER, sp_state_since DATETIME, creadted_on DATETIME,updated_on DATETIME )"
     ]
 
     seedData = [
