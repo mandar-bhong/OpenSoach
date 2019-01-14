@@ -87,9 +87,9 @@ export class DatabaseSchemaService {
         `INSERT INTO patient_conf_tbl (id , conf_type_code , conf , created_on , updated_on ) 
             VALUES (1, 'Monitor' ,'{"tasks":[{"name":"Temperature"},{"name":"Blood Pressure"},{"name":"Pulse Rate"},{"name":"Respiration Rate"}]}' , '2018-12-04 14:37:53', '2018-12-04 14:37:53')`,
 
-        `INSERT INTO service_point_tbl (sp_id,spc_id,sp_name,short_desc,sp_state,sp_state_since,creadted_on,update_on ) values (1,1,"General Ward 1",1,'2018-12-04 14:37:53','2018-12-04 14:37:53','2018-12-04 14:37:53')`,
-        `INSERT INTO service_point_tbl (sp_id,spc_id,sp_name,short_desc,sp_state,sp_state_since,creadted_on,update_on ) values (2,1,"General Ward 2",1,'2018-12-04 14:37:53','2018-12-04 14:37:53','2018-12-04 14:37:53')`,
-        `INSERT INTO service_point_tbl (sp_id,spc_id,sp_name,short_desc,sp_state,sp_state_since,creadted_on,update_on ) values (3,1,"General Ward 3",1,'2018-12-04 14:37:53','2018-12-04 14:37:53','2018-12-04 14:37:53')`,
+        `INSERT INTO service_point_tbl (sp_id,spc_id,sp_name,short_desc,sp_state,sp_state_since,created_on,updated_on ) values (1,1,"General Ward 1","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53','2018-12-04 14:37:53')`,
+        `INSERT INTO service_point_tbl (sp_id,spc_id,sp_name,short_desc,sp_state,sp_state_since,created_on,updated_on ) values (2,1,"General Ward 2","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53','2018-12-04 14:37:53')`,
+        `INSERT INTO service_point_tbl (sp_id,spc_id,sp_name,short_desc,sp_state,sp_state_since,created_on,updated_on ) values (3,1,"General Ward 3","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53','2018-12-04 14:37:53')`,
     ]
     
 
