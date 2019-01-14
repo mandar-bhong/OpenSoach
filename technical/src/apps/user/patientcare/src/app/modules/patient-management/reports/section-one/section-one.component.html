@@ -1,7 +1,7 @@
 <GridLayout rows="*" columns="*,auto" height="100%" width="100%">
     <RadListView #myListView [items]="_dataItems" (loaded)="listLoaded()" colSpan="2">
         <ng-template tkListItemTemplate let-item="item">
-            <GridLayout columns="*" rows="auto" class="listItemStackLayout">
+            <GridLayout columns="*" rows="auto" class="listItemStackLayout" (tap)="openPDFFile()">
                 <GridLayout row="0" columns="30, *" rows="auto, auto ">
                     <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout">
                         <Label row="0" col="0" class="body" [text]="item.name" style="color: #396767;"></Label>
@@ -10,18 +10,15 @@
                     <GridLayout row="1" col="1" columns="*" rows="auto">
                         <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
                     </GridLayout>
-
                 </GridLayout>
             </GridLayout>
-
         </ng-template>
-
     </RadListView>
 
     <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
         <StackLayout row="0">
             <RL:Ripple rippleColor="#fff" style="margin-top: 20px;" (tap)="onTakePictureTap()">
-                <StackLayout class="float-btn-cat" >
+                <StackLayout class="float-btn-cat">
                     <Label class="float-btn-cat-text fas" text="&#xf030;"></Label>
                 </StackLayout>
             </RL:Ripple>

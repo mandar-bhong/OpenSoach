@@ -12,6 +12,7 @@ import { ImageAsset } from 'tns-core-modules/image-asset';
 import { PassDataService } from '~/app/services/pass-data-service';
 import * as imagepicker from "nativescript-imagepicker";
 import { Page } from 'tns-core-modules/ui/page/page';
+import * as utils from "tns-core-modules/utils/utils";
 
 export class DataItem {
 	public name: string;
@@ -56,19 +57,25 @@ export class SectionOneComponent implements OnInit {
 
 	public initDataItems() {
 		const tempdata = new Array<DataItem>();
-		this.tempdata.push({ name: "Amol Patil", description: "200ml" });
-		this.tempdata.push({ name: "Shubham Lunia", description: "3 times a day after meal" });
-		this.tempdata.push({ name: "Mayuri jain", description: "Morning and evening before meal" });
-		this.tempdata.push({ name: "Sanjay Mohan", description: "Incase of high body temperature" });
-		this.tempdata.push({ name: "Pooja Lokare", description: "Incase of continuos vomitting and nausea" });
-		this.tempdata.push({ name: "Jagdish Wagh", description: "Monitor every 2 hours" });
-		this.tempdata.push({ name: "Mandar Bhong", description: "Monitor every 3 hours" });
-		this.tempdata.push({ name: "Praveen Pandey", description: "Monitor every 15 mins" });
-		this.tempdata.push({ name: "Shashank Atre", description: "Incase of high body temperature" });
-		this.tempdata.push({ name: "Abhijeet Kalbhor", description: "Morning and evening before meal" });
-		this.tempdata.push({ name: "Sarjerao", description: "Monitor every 15 mins" });
-		this.tempdata.push({ name: "Rahul", description: "Incase of high body temperature" });
-		this.tempdata.push({ name: "Praveen", description: "Morning and evening before meal" });
+		this.tempdata.push({ name: "Laboratory Report", description: "Morning and evening before meal" });
+		this.tempdata.push({ name: "Radiology Report", description: "Incase of high body temperature" });
+		this.tempdata.push({ name: "Blood Test", description: "Incase of continuos vomitting and nausea" });
+		this.tempdata.push({ name: "Blood Glucose Test", description: "Blood glucose tests are also sometimes called blood sugar tests." });
+		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones." });
+		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. " });
+		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. " });
+		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells" });
+		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness" });
+		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes." });
+		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells" });
+		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones." });
+		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. " });
+		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. " });
+		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells" });
+		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness" });
+		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes." });
+		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells" });
+
 
 		this._dataItems = new ObservableArray(this.tempdata);
 	}
@@ -141,5 +148,8 @@ export class SectionOneComponent implements OnInit {
 		// if (this.currentImageSource) {
 		// 	this.currentImageSource = null;
 		// }
+	}
+	public openPDFFile() {
+		utils.openUrl("https://www.princexml.com/samples/flyer/flyer.pdf");
 	}
 }
