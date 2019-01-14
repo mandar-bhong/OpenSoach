@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { PatientListViewModel } from '~/app/models/ui/patient-view-models';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { TokenModel } from 'nativescript-ui-autocomplete';
 
 @Component({
 	moduleId: module.id,
@@ -17,6 +19,22 @@ export class ShowUploadedImageComponent implements OnInit {
 	labelText: string;
 	selectedPatient: PatientListViewModel;
 	patientName: string;
+
+
+	autocompleteReports: ObservableArray<TokenModel> = new ObservableArray<TokenModel>([
+		new TokenModel("Laboratory Report", undefined),
+		new TokenModel("Radiology Report", undefined),
+		new TokenModel("Blood Test", undefined),
+		new TokenModel("Blood Glucose Test", undefined),
+		new TokenModel("Calcium Test", undefined),
+		new TokenModel("D-dimer Test", undefined),
+		new TokenModel("ESR Test", undefined),
+		new TokenModel("Floate Test", undefined),
+		new TokenModel("Full Blood Count", undefined),
+		new TokenModel("HbA1c", undefined),
+		new TokenModel("Vitamin B12 test", undefined),
+		new TokenModel("Calcium Test", undefined),
+	]);
 	constructor(private passdataservice: PassDataService) { }
 
 	ngOnInit() {
