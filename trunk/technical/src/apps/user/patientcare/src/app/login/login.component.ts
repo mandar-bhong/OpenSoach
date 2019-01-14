@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { DatabaseService } from "../services/offline-store/database.service";
 import { Page } from "ui/page";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
 	moduleId: module.id,
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 	input: any;
 	isLoggingIn = true;
 	constructor(private httpClient: HttpClient,
-		private router: Router, private databaseService: DatabaseService,
+		private routerExtensions: RouterExtensions, 
+		private databaseService: DatabaseService,
 		private page: Page) {
 		// Use the component constructor to inject providers.
 		this.input = {
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
 					console.log("SELECT ERROR", error);
 				});
 			});
-		this.router.navigate(['/home'], { skipLocationChange: true });
+		this.routerExtensions.navigate(['/home'], { clearHistory: true });
 		// this.router.navigate(['/list'], { skipLocationChange: true });
 		// if (this.input.username && this.input.password) {
 		//     this.httpClient.post("http://172.105.232.148/api/v1/login",

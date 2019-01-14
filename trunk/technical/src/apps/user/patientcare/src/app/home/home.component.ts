@@ -20,6 +20,7 @@ import { PatientListService } from "~/app/services/patient-list/patient-list.ser
 import { PatientListViewModel } from "~/app/models/ui/patient-view-models";
 import { PatientDetails } from "~/app/models/ui/patient-details";
 import { PassDataService } from "~/app/services/pass-data-service";
+import { DataItem } from "~/app/modules/patient-management/reports/section-one/section-one.component";
 
 @Component({
 	selector: "Home",
@@ -34,11 +35,17 @@ export class HomeComponent implements OnInit {
 	public patientListSource = new ObservableArray<PatientListViewModel>();
 	public isBusy = true;
 	private layout: ListViewLinearLayout;
+	// >> grouping 
+	public _funcGrouping: (item: PatientListViewModel) => PatientListViewModel;
 
 	constructor(private routerExtensions: RouterExtensions,
 		private patientListService: PatientListService,
 		private page: Page,
 		private passdataservice: PassDataService) {
+			console.log("home");
+			this._funcGrouping = (item: any) => {
+				return item.dbmodel.sp_name;
+			};
 	}
 
 	get _patientListItems(): ObservableArray<PatientListViewModel> {
@@ -51,6 +58,7 @@ export class HomeComponent implements OnInit {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 
+		this.patientListSource = new ObservableArray<PatientListViewModel>();
 		
 			this.getPatientListData();
 			//this.addMoreItemsFromSource(20);
@@ -60,6 +68,7 @@ export class HomeComponent implements OnInit {
 
 		console.log('init completed');
 	}
+
 	public sBLoaded(args) {
 		var searchbar: SearchBar = <SearchBar>args.object;
 		if (isAndroid) {
@@ -67,15 +76,12 @@ export class HomeComponent implements OnInit {
 		}
 	}
 
-	goBackPage() {
-		this.routerExtensions.navigate(["/home"], { clearHistory: true });
-	}
 	//  fucntion for view patient details.
 	details(listItem) {
 		console.log(listItem);
 		// assigning data to service object.
 		this.passdataservice.setPatientData(listItem);
-		this.routerExtensions.navigate(["/patientmgnt/details"], { clearHistory: true });
+		this.routerExtensions.navigate(["/patientmgnt"], { clearHistory: true });
 	}// end of code block.
 	camerasdetails() {
 		this.routerExtensions.navigate(["/patientmgnt/cameras"], { clearHistory: true });
@@ -124,10 +130,6 @@ export class HomeComponent implements OnInit {
 	}
 	// cancel all push notiffication code start
 
-	public listLoaded() {
-
-	}
-
 	public getPatientListData() {
 		this.patientListService.getData().then(
 		  (val) => {
@@ -137,6 +139,8 @@ export class HomeComponent implements OnInit {
 					patientListItem.dbmodel = item;
 					this.patientListSource.push(patientListItem);
 					this.patientListItems.push(patientListItem);
+					// console.log("patient list",this.patientListSource);
+					// this.patientListSource = new ObservableArray(patientListItem);
 				});
 			},
 			(error) => {
@@ -144,9 +148,6 @@ export class HomeComponent implements OnInit {
 			}
 
 		);
-
-		
-
 	}
 
 
@@ -161,7 +162,7 @@ export class HomeComponent implements OnInit {
 		if (searchValue !== "") {
 
 			this.patientListItems.forEach(item => {
-				if (item.dbmodel.fname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.lname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.bed_no.toLowerCase().indexOf(searchValue) !== -1) {
+				if (item.dbmodel.fname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.lname.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.bed_no.toLowerCase().indexOf(searchValue) !== -1 || item.dbmodel.sp_name.toLowerCase().indexOf(searchValue) !== -1) {
 					this.patientListSource.push(item);
 				}
 			});

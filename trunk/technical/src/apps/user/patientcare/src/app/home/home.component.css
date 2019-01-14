@@ -67,6 +67,7 @@ TextField {
     background-color: white;
     /* padding-left: 5; */
     padding-right: 5;
+    /* padding-bottom: 8%; */
 }
 
 .labelName {
@@ -173,4 +174,11 @@ TextField {
 .list-layout {
     padding: 10% 7px;
     /* vertical-align: center; */
+}
+.category-header {
+    background-color: #ffffff;
+}
+.groupLabel {
+    padding: 15;
+    font-weight: bold;
 }
