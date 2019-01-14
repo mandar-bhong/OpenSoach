@@ -1,16 +1,26 @@
+<patient-action-bar [patientName]='patientName'>
+</patient-action-bar>
+<ScrollView style="background-color: #396766;vertical-align: center;">
+    <StackLayout >
+        <GridLayout rows=" *,20,auto">
+            <Image row="0" [src]="uploadedImage" stretch="aspectFit" margin="10"></Image>
+            <!-- <TextView row="2" [(ngModel)]="labelText" editable="false"></TextView> -->
+            <StackLayout row="2" padding="5">
+                <Label text="Report title"></Label>
+                <RadAutoCompleteTextView [items]="autocompleteReports" suggestMode="Suggest" displayMode="Tokens">
+                    <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
+                        <ng-template tkSuggestionItemTemplate let-item="item">
+                            <StackLayout orientation="vertical" padding="10">
+                                <Label [text]="item.text"></Label>
+                            </StackLayout>
+                        </ng-template>
+                    </SuggestionView>
+                </RadAutoCompleteTextView>
 
-    <patient-action-bar [patientName]='patientName'></patient-action-bar>
-    <ScrollView>
-        <StackLayout style="background-color: #396766; color: white; vertical-align: center;">
-            <!-- <GridLayout rows="auto, *, auto, auto"> -->
-             
-    
-                <Image row="1" [src]="uploadedImage" stretch="aspectFit" margin="10"></Image>
-                <TextView row="2" [(ngModel)]="labelText" editable="false"></TextView>
-                <!-- <Button row="3" text="Take Picture" (tap)='onTakePictureTap($event)' padding="10" style="background-color: #FF8912; color:#ffffff"></Button> -->
-            <!-- </GridLayout> -->
-          
-    
-        </StackLayout>
-    
-    </ScrollView>
+            </StackLayout>
+        </GridLayout>
+
+
+    </StackLayout>
+
+</ScrollView>
