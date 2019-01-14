@@ -1,7 +1,7 @@
 <ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
     <NavigationButton visibility="collapsed"></NavigationButton>
     <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
-        <GridLayout col="0" columns="auto,auto,auto,*,auto" style="text-align:center;">
+        <GridLayout col="0" columns="auto,auto,auto,*,auto, auto" style="text-align:center;">
             <RL:Ripple col="0" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="goBackPage()">
                 <Label text="&#xf04d;" class="homeicon mdi"></Label>
             </RL:Ripple>
@@ -12,9 +12,9 @@
                     <Label text="&#xf09a;" class="homeicon mdi"></Label>
                 </RL:Ripple>
             </StackLayout>
-        </GridLayout>
-        <GridLayout col="1" columns="auto" style="margin-top:5px;">
-            <network-status></network-status>
+            <GridLayout col="5" columns="auto" class="ripplecenter" class="button-dist" style="vertical-align: center;">
+                <network-status></network-status>
+            </GridLayout>
         </GridLayout>
     </GridLayout>
 </ActionBar>
@@ -24,9 +24,9 @@
 <StackLayout style="background-color:#396766;">
 
     <StackLayout style="margin-top:20px; justify-content: center;">
-            <CardView class="cardeffect" margin="3" shadowOffsetWidth=1 >
-                <patient-info></patient-info>
-            </CardView>
+        <CardView class="cardeffect" margin="3" shadowOffsetWidth=1>
+            <patient-info></patient-info>
+        </CardView>
     </StackLayout>
 
     <StackLayout style="margin-top:20px; justify-content: center;">
