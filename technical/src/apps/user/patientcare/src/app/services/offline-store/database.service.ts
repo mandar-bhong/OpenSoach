@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 var Sqlite = require("nativescript-sqlite");
 
 let selectQueries = new Map([
-    [ "patientlist", "select fname,lname,bed_no,mob_no,status,attended,sp_id,sp_name from patient_admission_tbl as padmsn inner join patient_master_tbl as patient on patient.id = padmsn.patient_id inner join service_point_tbl as sp on sp.sp_id = padmsn.sp_id" ],
+    [ "patientlist", "select fname,lname,bed_no,mob_no,status,attended,sp_id,sp_name from patient_admission_tbl as padmsn inner join patient_master_tbl as patient on patient.id = padmsn.patient_id left join service_point_tbl as sp on sp.sp_id = padmsn.sp_id" ],
     [ "chartlist", "select * from patient_chart_conf_tbl" ],
     [ "chartInsert", "insert into patient_chart_conf_tbl (uuid,admission_id,conf_type_code,conf) values ( ?, ?, ?, ?)" ],
     [ "monitorConfList", "select id,conf_type_code,conf from patient_conf_tbl where conf_type_code = 'Monitor'"],
