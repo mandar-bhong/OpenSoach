@@ -10,6 +10,7 @@ var WS = require('nativescript-websockets');
 import * as appSettings from "tns-core-modules/application-settings";
 import { APP_MODE } from "./app-constants";
 import { AppGlobalContext } from "./app-global-context";
+import { PlatformHelper } from "./helpers/platform-helper";
 
 @Component({
     moduleId: module.id,
@@ -25,7 +26,9 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(private databaseSchemaService: DatabaseSchemaService,
         private zone: NgZone,
         private workerService: WorkerService, private internetConnectionService: InternetConnectionService) {
-        // this.databaseSchemaService.setOfflineDB();
+        // init PlatformHelper
+        PlatformHelper.init();
+        this.databaseSchemaService.setOfflineDB();
         // console.log('server', server);
         // this.socket = new WS("ws://echo.websocket.org", []);
         // console.log('socket created', this.socket);
@@ -61,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // TODO: Dummy code for testing 
         console.log('in app component init');
-        this.workerService.ServerDataProcessorWorker.onmessage = m => this.workerOnMessage(m);
         const initModel = new ServerDataProcessorMessageModel();
         initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
         this.workerService.ServerDataProcessorWorker.postMessage(initModel);
