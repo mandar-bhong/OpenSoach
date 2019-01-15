@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
 					console.log("SELECT ERROR", error);
 				});
 			});
-		this.routerExtensions.navigate(['/home'], { clearHistory: true });
+		this.routerExtensions.navigate(['home'], { clearHistory: true });
 		// this.router.navigate(['/list'], { skipLocationChange: true });
 		// if (this.input.username && this.input.password) {
 		//     this.httpClient.post("http://172.105.232.148/api/v1/login",

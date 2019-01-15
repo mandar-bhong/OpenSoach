@@ -9,11 +9,11 @@ import { RouterExtensions } from "nativescript-angular/router";
 
 export class PatientDetailsComponent implements OnInit {
 
-	constructor(private routerExtensions: RouterExtensions) { }
+	constructor(private routerExtensions: RouterExtensions) {
+	}
 
 	ngOnInit() { }
 	goBackPage() {
-		this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
-
+		this.routerExtensions.back();
 	}
 }

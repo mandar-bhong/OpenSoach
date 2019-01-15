@@ -50,10 +50,7 @@ export class PatientMgntComponent implements OnInit {
 		// }
 	}
 	goBackPage() {
-		// this.routerExtensions.navigate(["/home"], { clearHistory: true });
 		this.routerExtensions.back();
-		console.log("back test",this.routerExtensions.back());
-		alert("back button click");
 	}
 	monitorData() {
 		this.monitor = true;
