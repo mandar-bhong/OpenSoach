@@ -79,10 +79,7 @@ export class SectionOneComponent implements OnInit {
 
 		this._dataItems = new ObservableArray(this.tempdata);
 	}
-	goCameras() {
-		this.routerExtensions.navigate(['patientmgnt', 'cameras'], { clearHistory: true });
 
-	}
 	onTakePictureTap() {
 		requestPermissions().then(
 			() => {

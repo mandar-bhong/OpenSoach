@@ -9,3 +9,9 @@
       margin-left: 8px;
       color: #396766;
   }
+  .homeheader {
+    /* font-weight: bold; */
+    vertical-align: center;
+    color: white;
+    margin-left:10px;
+}

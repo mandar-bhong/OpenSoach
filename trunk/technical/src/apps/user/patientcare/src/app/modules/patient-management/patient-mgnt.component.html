@@ -14,7 +14,7 @@
                 <StackLayout textWrap="true" [class.button-clicked]="buttonClicked" class="tab-layout">
                     <Label text="{{(buttonClicked) ? '&#xf201;' : '&#xf201;'}}" [style.color]="buttonClicked ? '#FF8910' : '#ffffff'" class="fas button-icon"></Label>
                     <!-- <Label text="&#xf201;" class="fas button-icon" [class.button-clicked]="buttonClicked"></Label> -->
-                    <Label text="Monitor" class="button-text"></Label>
+                    <Label text="Monitor" class="label-action"></Label>
                 </StackLayout>
             </RL:Ripple>
             <RL:Ripple rippleColor="#fff" width="25%" (tap)="actionData()" (tap)="actionbuttonClicked = true">
@@ -22,7 +22,7 @@
                     <Label text="{{(actionbuttonClicked) ? '&#xf00c;' : '&#xf00c;'}}" [style.color]="actionbuttonClicked ? '#FF8910' : '#ffffff'"
                         class="fas button-icon"></Label>
                     <!-- <Label text="&#xf00c;" class="fas button-icon"></Label> -->
-                    <Label text="Actions" class="button-text"></Label>
+                    <Label text="Actions" class="label-action"></Label>
                 </StackLayout>
             </RL:Ripple>
             <RL:Ripple rippleColor="#fff" width="25%" (tap)="chartData()" (tap)="chartbuttonClicked = true">
@@ -30,7 +30,7 @@
                     <Label text="{{(chartbuttonClicked) ? '&#xf520;' : '&#xf520;'}}" [style.color]="chartbuttonClicked ? '#FF8910' : '#ffffff'"
                         class="mdi button-icon"></Label>
                     <!-- <Label text="&#xf080;" class="fas button-icon"></Label> -->
-                    <Label text="Scheduler" class="button-text"></Label>
+                    <Label text="Scheduler" class="label-action"></Label>
                 </StackLayout>
             </RL:Ripple>
             <RL:Ripple rippleColor="#fff" width="25%" (tap)="reportData()" (tap)="reportbuttonClicked = true">
@@ -38,7 +38,7 @@
                     <Label text="{{(reportbuttonClicked) ? '&#xf15b;' : '&#xf15b;'}}" [style.color]="reportbuttonClicked ? '#FF8910' : '#ffffff'"
                         class="fas button-icon"></Label>
                     <!-- <Label text="&#xf15b;" class="fas button-icon"></Label> -->
-                    <Label text="Reports" class="button-text"></Label>
+                    <Label text="Reports" class="label-action"></Label>
                 </StackLayout>
             </RL:Ripple>
         </StackLayout>

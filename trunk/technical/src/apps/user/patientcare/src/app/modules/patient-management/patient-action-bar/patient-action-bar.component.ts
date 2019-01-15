@@ -22,10 +22,10 @@ export class PatientActionBarComponent implements OnInit {
 	}
 
 	goBackPage() {
-		this.routerExtensions.navigate(["/home"], { clearHistory: true });
+		this.routerExtensions.back();
 	}
 	
 	patientdetail(){
-		this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: true });
+		this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: false });
 	}
 }
