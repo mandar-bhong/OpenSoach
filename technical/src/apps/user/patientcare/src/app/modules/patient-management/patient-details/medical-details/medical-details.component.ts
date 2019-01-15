@@ -12,7 +12,6 @@ export class MedicalDetailsComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit() {
-		console.log("medical component load");
 		this._dataItems.push({ reason: "Test body", treatment: "Under Diagnosis", medhistory: "Undergone treatment for bone fracture in right leg", allergies: "Allergy with peanuts" });
 	}
 }

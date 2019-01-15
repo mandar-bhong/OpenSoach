@@ -109,9 +109,7 @@ TextField {
     color: #ffffff;
     font-size: 20,;
 }
-.button-text{
-    font-size: 13;
-}
+
 .tab-layout{
     padding-top: 8px;
     text-align: center; 
