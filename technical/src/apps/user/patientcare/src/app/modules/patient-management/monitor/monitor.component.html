@@ -3,43 +3,46 @@
         <Label row="0" class="body" textWrap="true" text="TEMPERATURE" style="color:#396766;"></Label>
         <StackLayout row="1" class="hr-light m-10"></StackLayout>
         <GridLayout rows="*" row="2" style="margin:2px 0px;">
-            <!-- <RadCartesianChart row="0">
-                <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate" labelSize="10" lineThickness="3"></CategoricalAxis>
-                <LinearAxis tkCartesianVerticalAxis labelSize="10" lineThickness="3"></LinearAxis>
-                <LineSeries tkCartesianSeries [items]="categoricalSource" categoryProperty="Country" valueProperty="Amount"></LineSeries>
-            </RadCartesianChart> -->
+
             <RadCartesianChart row="0">
                 <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate" labelSize="10" lineThickness="3"></CategoricalAxis>
                 <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-        
-                <LineSeries tkCartesianSeries [items]="categoricalSourcehigh"
-                    strokeColor="RadCartesianChart" valueProperty="Amount1"
-                    categoryProperty="Country" seriesName="high">
+
+                <LineSeries tkCartesianSeries [items]="categoricalSourcehigh" strokeColor="RadCartesianChart" valueProperty="Amount1" categoryProperty="Country"
+                    seriesName="high">
                 </LineSeries>
-                <LineSeries tkCartesianSeries [items]="categoricalSourcelow"
-                    valueProperty="Amount1" categoryProperty="Country" seriesName="low"></LineSeries>
-                <LineSeries tkCartesianSeries [items]="categoricalSource"
-                    categoryProperty="Country" valueProperty="Amount"></LineSeries>
-        
+
+                <LineSeries tkCartesianSeries [items]="categoricalSource" categoryProperty="Country" valueProperty="Amount" seriesName="main"></LineSeries>
+
+                <LineSeries tkCartesianSeries [items]="categoricalSourcelow" valueProperty="Amount1" strokeColor="RadCartesianChart" categoryProperty="Country"
+                    seriesName="low"></LineSeries>
+
                 <RadCartesianChart.palettes>
                     <Palette tkCartesianPalette seriesName="high">
                         <Palette.entries>
-                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray"
-                                strokeWidth="2">
+                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
                             </PaletteEntry>
                         </Palette.entries>
                     </Palette>
                 </RadCartesianChart.palettes>
+
+                <RadCartesianChart.palettes>
+                    <Palette tkCartesianPalette seriesName="main">
+                        <Palette.entries>
+                            <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
+                            </PaletteEntry>
+                        </Palette.entries>
+                    </Palette>
+                </RadCartesianChart.palettes>
+
                 <RadCartesianChart.palettes>
                     <Palette tkCartesianPalette seriesName="low">
                         <Palette.entries>
-                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray"
-                                strokeWidth="2">
+                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
                             </PaletteEntry>
                         </Palette.entries>
                     </Palette>
                 </RadCartesianChart.palettes>
-        
             </RadCartesianChart>
 
         </GridLayout>
@@ -57,35 +60,44 @@
             <RadCartesianChart row="0">
                 <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate" labelSize="10" lineThickness="3"></CategoricalAxis>
                 <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-        
-                <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcehigh"
-                    strokeColor="RadCartesianChart" valueProperty="Amount1"
-                    categoryProperty="Country" seriesName="high" >
+
+                <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcehigh" valueProperty="Amount1" categoryProperty="Country"
+                    seriesName="high">
                 </LineSeries>
-                <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcelow"
-                    valueProperty="Amount1" categoryProperty="Country" seriesName="low"></LineSeries>
-                <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSource"
-                    categoryProperty="Country" valueProperty="Amount"></LineSeries>
-        
+
+                <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSource" categoryProperty="Country" valueProperty="Amount" seriesName="main"></LineSeries>
+
+                <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcelow" valueProperty="Amount1" categoryProperty="Country"
+                    seriesName="low"></LineSeries>
+
+
                 <RadCartesianChart.palettes>
                     <Palette tkCartesianPalette seriesName="high">
                         <Palette.entries>
-                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray"
-                                strokeWidth="2">
+                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
                             </PaletteEntry>
                         </Palette.entries>
                     </Palette>
                 </RadCartesianChart.palettes>
+
+                <RadCartesianChart.palettes>
+                    <Palette tkCartesianPalette seriesName="main">
+                        <Palette.entries>
+                            <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
+                            </PaletteEntry>
+                        </Palette.entries>
+                    </Palette>
+                </RadCartesianChart.palettes>
+
                 <RadCartesianChart.palettes>
                     <Palette tkCartesianPalette seriesName="low">
                         <Palette.entries>
-                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray"
-                                strokeWidth="2">
+                            <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
                             </PaletteEntry>
                         </Palette.entries>
                     </Palette>
                 </RadCartesianChart.palettes>
-        
+
             </RadCartesianChart>
         </GridLayout>
     </StackLayout>
