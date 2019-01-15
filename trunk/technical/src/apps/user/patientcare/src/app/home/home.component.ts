@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
 		console.log(listItem);
 		// assigning data to service object.
 		this.passdataservice.setPatientData(listItem);
-		this.routerExtensions.navigate(["/patientmgnt"], { clearHistory: true });
+		this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
 	}// end of code block.
 	camerasdetails() {
 		this.routerExtensions.navigate(["/patientmgnt/cameras"], { clearHistory: true });
