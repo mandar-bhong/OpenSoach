@@ -1,6 +1,8 @@
  import { ServerDataProcessorMessageModel } from "~/app/models/api/server-data-processor-message-model";
- import { SERVER_WORKER_MSG_TYPE } from "~/app/app-constants.js";
+ import { SERVER_WORKER_MSG_TYPE,SERVER_WORKER_EVENT_MSG_TYPE } from "~/app/app-constants.js";
+import { ServerWorkerEventDataModel } from "~/app/models/api/server-worker-event-data-model.js";
  const timerModule = require("tns-core-modules/timer");
+ 
  //require('~/app/app-constants')
 
 require('globals');
@@ -43,6 +45,10 @@ export class WorkerTasks
 
         this.socket.on('open', socket => {
                 console.log('messages', "WebSocket opened");
+                const test= new ServerWorkerEventDataModel();
+                test.msgtype=SERVER_WORKER_EVENT_MSG_TYPE.SERVER_CONNECTED;
+                test.msg ="WebSocket opened";
+                (<any>global).postMessage(test);   
                 this.socket.send("test message");          
         });
         this.socket.on('message', (socket, message) => {
@@ -61,6 +67,10 @@ export class WorkerTasks
        const timer = timerModule.setInterval(() => {
             const randNumber = Math.floor(Math.random());
             this.socket.send("message"+randNumber);
+            const test= new ServerWorkerEventDataModel();
+                test.msgtype=SERVER_WORKER_EVENT_MSG_TYPE.DATA_RECEIVED;
+                test.msg ="New Patient";
+            (<any>global).postMessage(test);
         }, 10000);
     }
 }
