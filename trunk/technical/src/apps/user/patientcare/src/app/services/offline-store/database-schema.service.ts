@@ -140,7 +140,7 @@ export class DatabaseSchemaService {
     createSchema() {
         this.schema.forEach(query => {
             this.dbConnection.execSQL(query).then(() => {
-                console.log("TABLE CREATED", query);
+                // console.log("TABLE CREATED", query);
             });
         }, (error) => {
             console.error("CREATE TABLE ERROR", error);
@@ -152,7 +152,7 @@ export class DatabaseSchemaService {
         return new Promise<any>((resolve, reject) => {
             this.schema.forEach(query => {
                 this.dbConnection.execSQL(query).then(() => {
-                    console.log('Table created', query);
+                   // console.log('Table created', query);
                 });
             }, (error) => {
                 console.log("CREATE TABLE ERROR", error);
@@ -164,7 +164,7 @@ export class DatabaseSchemaService {
     createSeedData() {
         this.seedData.forEach(query => {
             this.dbConnection.execSQL(query).then(() => {
-                console.log("SEED DATA CREATED", query);
+              //  console.log("SEED DATA CREATED", query);
             });
         }, (error) => {
             console.error("CREATE TABLE ERROR", error);
