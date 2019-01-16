@@ -28,14 +28,29 @@ export class MedChartModel{
     quantity:number;
     foodInst:number;
     frequency:number;
-    freqMorn:boolean;
-    freqAftrn:boolean;  
-    freqNight:boolean;      
+    mornFreqInfo:MornFreqInfo;
+    aftrnFreqInfo:AftrnFreqInfo;
+    nightFreqInfo:NightFreqInfo    
     intervalHrs: number;
     startDate:string;
     duration:number;    
     startTime:string;
     desc:string;
+}
+
+export class MornFreqInfo{
+    mornFreq:boolean;
+    mornFreqQuantity:number;
+}
+
+export class AftrnFreqInfo{
+    aftrnFreq:boolean;
+    aftrnFreqQuantity:number;
+}
+
+export class NightFreqInfo{
+    nightFreq:boolean;
+    nightFreqQuantity:number;
 }
 
 export class IntakeChartModel {

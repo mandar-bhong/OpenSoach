@@ -32,7 +32,6 @@ import { Action } from "rxjs/internal/scheduler/Action";
 import { ActionService } from "~/app/services/action/action.service";
 import { ShowCameraImageComponent } from "./reports/section-one/show-camera-image/show-camera-image.component";
 import { ShowUploadedImageComponent } from "./reports/section-one/show-uploaded-image/show-uploaded-image.component";
-import { GetUUIDService } from "~/app/services/get-UUID.service";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular"; 
 
 
@@ -77,8 +76,7 @@ import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autoco
         DatePipe,
         ChartService,
         ConfService,
-        ActionService,
-        GetUUIDService
+        ActionService
     ]
 })
 export class PatientMgntModule {
