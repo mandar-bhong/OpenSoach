@@ -7,7 +7,7 @@ import { Switch } from "tns-core-modules/ui/switch";
 import { ChartDBModel, IntakeChartModel } from "~/app/models/ui/chart-models";
 import { ChartService } from "~/app/services/chart/chart.service";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GetUUIDService } from '~/app/services/get-UUID.service';
+import { PlatformHelper } from "~/app/helpers/platform-helper";
 
 @Component({
     moduleId: module.id,
@@ -38,8 +38,7 @@ export class IntakeChartComponent implements OnInit {
 
     constructor(private routerExtensions: RouterExtensions, 
         private datePipe: DatePipe, 
-        private chartservice: ChartService,
-        private getUUIDservice:GetUUIDService) {
+        private chartservice: ChartService) {
 
         this.formData = new IntakeChartModel();
         this.formData.specificTimes = [];
@@ -143,7 +142,7 @@ export class IntakeChartComponent implements OnInit {
         let confString = JSON.stringify(this.chartConfModel);
 
         // set db model
-        this.chartDbModel.uuid = this.getUUIDservice.getUUID();
+        this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admissionid = 2;
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = "Intake";

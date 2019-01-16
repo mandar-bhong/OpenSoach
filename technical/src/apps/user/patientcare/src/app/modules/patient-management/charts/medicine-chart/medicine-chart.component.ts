@@ -5,10 +5,10 @@ import { dateProperty } from 'tns-core-modules/ui/date-picker/date-picker';
 import { SegmentedBar, SegmentedBarItem } from "tns-core-modules/ui/segmented-bar";
 import { DatePipe } from '@angular/common';
 import { Switch } from "tns-core-modules/ui/switch";
-import { ChartDBModel, MedChartModel } from "~/app/models/ui/chart-models";
+import { ChartDBModel, MedChartModel, MornFreqInfo, AftrnFreqInfo, NightFreqInfo } from "~/app/models/ui/chart-models";
 import { ChartService } from "~/app/services/chart/chart.service";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GetUUIDService } from '~/app/services/get-UUID.service';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { PlatformHelper } from "~/app/helpers/platform-helper";
 
 @Component({
     moduleId: module.id,
@@ -22,11 +22,11 @@ export class MedicineChartComponent implements OnInit {
     // proccess variables
     medicineForm: FormGroup;
 
-    medNameIsValid:boolean;
+    medNameIsValid: boolean;
     intervalHrsIsValid: boolean;
     durationIsValid: boolean;
 
-    formData: MedChartModel;
+    // formData: MedChartModel;
     chartConfModel: MedChartModel;
     chartDbModel: ChartDBModel
 
@@ -35,22 +35,23 @@ export class MedicineChartComponent implements OnInit {
     instSelectedIndex = 0;
     freqSelectedIndex = 0;
 
-    freqMorn:boolean;
-    freqAftrn:boolean;
-    freqNight:boolean;
+    freqMorn: boolean;
+    freqAftrn: boolean;
+    freqNight: boolean;
     // end of proccess variables
 
-    constructor(private routerExtensions: RouterExtensions, 
-        private datePipe: DatePipe, 
-        private chartservice: ChartService,
-        private getUUIDService:GetUUIDService) {
+    constructor(private routerExtensions: RouterExtensions,
+        private datePipe: DatePipe,
+        private chartservice: ChartService) {
 
-        this.formData = new MedChartModel();
         this.freqMorn = true;
         this.freqAftrn = true;
         this.freqNight = true;
 
         this.chartConfModel = new MedChartModel();
+        this.chartConfModel.mornFreqInfo = new MornFreqInfo();
+        this.chartConfModel.aftrnFreqInfo = new AftrnFreqInfo();
+        this.chartConfModel.nightFreqInfo = new NightFreqInfo();
         this.chartDbModel = new ChartDBModel();
 
     }
@@ -81,6 +82,7 @@ export class MedicineChartComponent implements OnInit {
 
         // load default form data
         this.medicineForm.get('quantity').setValue(1);
+        // this.medicineForm.get('mornQuantity').setValue(1);
         // this.medicineForm.get('startDate').setValue(new Date());
 
     }
@@ -128,13 +130,32 @@ export class MedicineChartComponent implements OnInit {
         }
 
         // assign form data to model
-        this.formData = Object.assign({}, this.medicineForm.value);
-        this.formData.freqMorn = this.freqMorn;
-        this.formData.freqAftrn = this.freqAftrn;
-        this.formData.freqNight = this.freqNight;
+        const formData = new MedChartModel();
+        formData.mornFreqInfo = new MornFreqInfo();
+        formData.aftrnFreqInfo = new AftrnFreqInfo();
+        formData.nightFreqInfo = new NightFreqInfo();
+
+        formData.name = this.medicineForm.get('name').value;
+        formData.quantity = this.medicineForm.get('quantity').value;
+        formData.foodInst = this.medicineForm.get('foodInst').value;
+        formData.frequency = this.medicineForm.get('frequency').value;
+        formData.mornFreqInfo.mornFreq = this.freqMorn;
+        formData.mornFreqInfo.mornFreqQuantity = this.medicineForm.get('mornQuantity').value;
+        formData.aftrnFreqInfo.aftrnFreq = this.freqAftrn;
+        formData.aftrnFreqInfo.aftrnFreqQuantity = this.medicineForm.get('aftrnQuantity').value;
+        formData.nightFreqInfo.nightFreq = this.freqNight;
+        formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
+        formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
+        formData.intervalHrs = this.medicineForm.get('intervalHrs').value;
+        formData.startDate = this.medicineForm.get('startDate').value;
+        formData.duration = this.medicineForm.get('duration').value;
+        formData.startTime = this.medicineForm.get('startTime').value;
+        formData.desc = this.medicineForm.get('desc').value;
+
+        console.log("formData",formData);
 
         // insert form data to sqlite db
-        this.insertData(this.formData);
+        this.insertData(formData);
 
     }
     // >> func for submit form data
@@ -188,28 +209,34 @@ export class MedicineChartComponent implements OnInit {
         }
 
         if (data.frequency == 0) {
-            if (data.freqMorn == true) {
-                this.chartConfModel.freqMorn = data.freqMorn;
+            if (data.mornFreqInfo.mornFreq == true) {
+                this.chartConfModel.mornFreqInfo.mornFreq = data.mornFreqInfo.mornFreq;
+                this.chartConfModel.mornFreqInfo.mornFreqQuantity = data.mornFreqInfo.mornFreqQuantity;
                 count = count + 1;
                 desc = desc + " Morning &"
-            }else{
-                this.chartConfModel.freqMorn = data.freqMorn;
+            } else {
+                this.chartConfModel.mornFreqInfo.mornFreq = data.mornFreqInfo.mornFreq;
+                this.chartConfModel.mornFreqInfo.mornFreqQuantity = 0;
             }
 
-            if (data.freqAftrn == true) {
-                this.chartConfModel.freqAftrn = data.freqAftrn;
+            if (data.aftrnFreqInfo.aftrnFreq == true) {
+                this.chartConfModel.aftrnFreqInfo.aftrnFreq = data.aftrnFreqInfo.aftrnFreq;
+                this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = data.aftrnFreqInfo.aftrnFreqQuantity;
                 count = count + 1;
                 desc = desc + " Afternoon &"
-            }else{
-                this.chartConfModel.freqAftrn = data.freqAftrn;
+            } else {
+                this.chartConfModel.aftrnFreqInfo.aftrnFreq = data.aftrnFreqInfo.aftrnFreq;
+                this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = 0;
             }
 
-            if (data.freqNight == true) {
-                this.chartConfModel.freqNight = data.freqNight;
+            if (data.nightFreqInfo.nightFreq == true) {
+                this.chartConfModel.nightFreqInfo.nightFreq = data.nightFreqInfo.nightFreq;
+                this.chartConfModel.nightFreqInfo.nightFreqQuantity = data.nightFreqInfo.nightFreqQuantity;
                 count = count + 1;
                 desc = desc + " Night &"
-            }else{
-                this.chartConfModel.freqNight = data.freqNight;
+            } else {
+                this.chartConfModel.nightFreqInfo.nightFreq = data.nightFreqInfo.nightFreq;
+                this.chartConfModel.nightFreqInfo.nightFreqQuantity = 0;
             }
 
             desc = desc.slice(0, -1);
@@ -219,7 +246,7 @@ export class MedicineChartComponent implements OnInit {
             } else {
                 this.chartConfModel.desc = desc + foodIns + ".";
             }
-            
+
         } else {
             this.chartConfModel.intervalHrs = data.intervalHrs;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "mediumTime");
@@ -231,9 +258,12 @@ export class MedicineChartComponent implements OnInit {
             }
         }
 
+        const currentTime = this.datePipe.transform(Date.now(), "H:mm");
+        console.log("currentTime",currentTime);
+
         this.chartConfModel.name = data.name;
         this.chartConfModel.quantity = data.quantity;
-        this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd");
+        this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd") + " " + currentTime;
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.foodInst = data.foodInst;
@@ -241,7 +271,7 @@ export class MedicineChartComponent implements OnInit {
         let confString = JSON.stringify(this.chartConfModel);
 
         // set db model
-        this.chartDbModel.uuid = this.getUUIDService.getUUID();
+        this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admissionid = 2;
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = "Medicine";
@@ -260,6 +290,7 @@ export class MedicineChartComponent implements OnInit {
 
     // << func for creating form controls
     createFormControls(): void {
+
         this.medicineForm = new FormGroup({
             name: new FormControl('', [Validators.required]),
             quantity: new FormControl(),
@@ -269,7 +300,10 @@ export class MedicineChartComponent implements OnInit {
             startDate: new FormControl(),
             duration: new FormControl('', [Validators.required]),
             startTime: new FormControl(),
-            desc: new FormControl()
+            desc: new FormControl(),
+            mornQuantity: new FormControl(),
+            aftrnQuantity: new FormControl(),
+            nightQuantity: new FormControl()
         });
     }
     // >> func for creating form controls
