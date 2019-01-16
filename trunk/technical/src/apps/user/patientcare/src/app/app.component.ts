@@ -10,7 +10,14 @@ var WS = require('nativescript-websockets');
 import * as appSettings from "tns-core-modules/application-settings";
 import { APP_MODE } from "./app-constants";
 import { AppGlobalContext } from "./app-global-context";
+import * as utils from "tns-core-modules/utils/utils";
+import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
+import * as application from 'application'
+import { RouterExtensions } from "nativescript-angular/router";
 import { PlatformHelper } from "./helpers/platform-helper";
+
+var fetchModule = require("fetch");
 
 @Component({
     moduleId: module.id,
@@ -25,7 +32,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private internetConnectionSubscription: Subscription;
     constructor(private databaseSchemaService: DatabaseSchemaService,
         private zone: NgZone,
-        private workerService: WorkerService, private internetConnectionService: InternetConnectionService) {
+        private workerService: WorkerService, 
+        private internetConnectionService: InternetConnectionService,
+        private routerExtensions: RouterExtensions,
+        private httpClient:HttpClient) {
         // init PlatformHelper
         PlatformHelper.init();
         this.databaseSchemaService.setOfflineDB();
@@ -47,26 +57,26 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Get APP_MODE
 
-        const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
-        AppGlobalContext.AppMode = appMode;
+        // const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+        // AppGlobalContext.AppMode = appMode;
 
-        if (appMode == APP_MODE.NONE) {
-            // TODO Dummy code to set the application mode to Shared device
-            appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
-            AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
-        }
-        console.log("APP_MODE", appSettings.getNumber("APP_MODE"));
+        // if (appMode == APP_MODE.NONE) {
+        //     // TODO Dummy code to set the application mode to Shared device
+        //     appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
+        //     AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
+        // }
+        // console.log("APP_MODE", appSettings.getNumber("APP_MODE"));
 
-    this.checkIfLoggedIn();
+        this.checkIfLoggedIn();
     }
 
     ngOnInit() {
 
         // TODO: Dummy code for testing 
         console.log('in app component init');
-        const initModel = new ServerDataProcessorMessageModel();
-        initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
-        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+        // const initModel = new ServerDataProcessorMessageModel();
+        // initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
+        // this.workerService.ServerDataProcessorWorker.postMessage(initModel);
 
         // console.log('socketIO', this.socketIO);
         // this.socketIO.connect();
@@ -121,36 +131,153 @@ export class AppComponent implements OnInit, OnDestroy {
 
     }
 
-    checkIfLoggedIn()
-    {
+    checkIfLoggedIn() {
         // read appSetting to get AUTH_TOKEN && APP_MODE
         // if APP_MODE doesnt exist call checkIfDeviceIsRegistered()
         // if APP_MODE exists && AUTH_TOKEN exists
-            // check if token is still valid
-                // if valid call initAppStart()
-                // else call checkIfDeviceIsRegistered()
+        // check if token is still valid
+        // if valid call initAppStart()
+        // else call checkIfDeviceIsRegistered()
+
+        const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+        const token = appSettings.getString("AUTH_TOKEN");
+
+        console.log("AUTH_TOKEN",token);
+        console.log("appMode",appMode);
+
+        if (appMode == APP_MODE.NONE) {
+            this.checkIfDeviceIsRegistered();
+        } else {
+            if (appMode == APP_MODE.SHARED_DEVICE && token != null) {
+
+
+                // http get method
+
+                // this.httpClient.get(
+                // this.buildUrl("http://172.105.232.148/api/v1/validateauthtoken", {
+                //         token: token,
+                //     })
+                // )
+                // .subscribe((result) => {
+                //     console.log("result",result);
+                // }, (error) => {
+                //     console.log(error);
+                // });
+
+                fetchModule.fetch(
+                    this.buildUrl("http://172.105.232.148/api/v1/validateauthtoken", {
+                        token: token,
+                    }),
+                    {
+                        method: "GET"
+                    }
+                )
+                .then((response) => response.text())
+                .then((r) => {
+                    console.log("r",r);
+
+                    if(r.issuccess===true){
+                        this.initAppStart();
+                    }else{
+                        this.checkIfDeviceIsRegistered();
+                    }
+
+                }).catch((e) => {
+                    console.log("error",e);
+                });
+
+            }
+
+        }
+
+
     }
 
-    getSerialNumber()
-    {
+    getSerialNumber(): string {
         //TODO: Read the serial number
         // Set the Serial Number in AppGlobalContext
+
+        const serialNumber = "1234567890123456";
+
+        return serialNumber;
+
     }
 
-    checkIfDeviceIsRegistered()
-    {
+    checkIfDeviceIsRegistered() {
         //TODO: Call HTTP API to check if device is registered. getSerialNumber()
         // Handle the response        
         //  Device is registered && is shared device
-            // save token in appSetting and AppGlobalContext
-            // call initAppStart();
+        // save token in appSetting and AppGlobalContext
+        // call initAppStart();
         //Else
-        // Navigate to login page        
+        // Navigate to login page
+
+        
+        // const SerialNo = PlatformHelper.API.getSerialNumber();
+        const SerialNo = this.getSerialNumber();
+        AppGlobalContext.SerialNumber = SerialNo;
+
+        console.log("SerialNo:",SerialNo);
+
+        this.httpClient.post("http://172.105.232.148/api/v1/endpoint/deviceauthorization",
+            {
+                'serialno': SerialNo,
+                'prodcode': 'SPL_HPFT'
+            })
+            .subscribe(
+                res => {
+                    console.log("POST Request is successful ", res);
+                    this.handleDevAuthResponse(res);
+                }, (error) => {
+                    console.log(error);
+                }
+            );
+
     }
 
-    initAppStart()
-    {
+    handleDevAuthResponse(resData) {
+        if (resData.issuccess == true) {
+            appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
+            AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
+            appSettings.setString("AUTH_TOKEN", resData.data.token);
+            AppGlobalContext.Token = resData.data.token;
+            this.initAppStart();
+        } else {
+            this.routerExtensions.navigate(['login']);
+        }
+    }
+
+    initAppStart() {
         // post message to worker to connect websocket
         // navigate to patient listing page
+
+        console.log('in initappStart');
+        const initModel = new ServerDataProcessorMessageModel();
+        initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
+        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+
+        this.routerExtensions.navigate(['home']);
+        
+
     }
+
+    buildUrl(url, parameters) {
+        let qs = "";
+        for (const key in parameters) {
+            if (parameters.hasOwnProperty(key)) {
+                const value = parameters[key];
+                qs +=
+                    "{" + "\"" + key + "\""  + ":" + "\"" + value + "\"" + "&";
+            }
+        }
+        if (qs.length > 0) {
+            qs = qs.substring(0, qs.length - 1); //chop off last "&"
+            url = url + "?params=" + qs + "}";
+        }
+
+        console.log("url",url);
+
+        return url;
+    }
+
 }
