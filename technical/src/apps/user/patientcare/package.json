@@ -33,7 +33,6 @@
     "nativescript-ui-autocomplete": "^3.11.0",
     "nativescript-ui-chart": "^3.10.0",
     "nativescript-ui-listview": "^5.0.0",
-    "nativescript-uuid": "0.0.1",
     "nativescript-websockets": "^1.5.3",
     "reflect-metadata": "~0.1.8",
     "rxjs": "~6.3.0",
