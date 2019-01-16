@@ -32,3 +32,17 @@ if(settingsGradleFile.exists())
 {
     apply from: settingsGradleFile;
 }
+
+// To supress the message, 
+// 01-16 12:19:18.296 32168 32168 I zygote  :   at java.lang.Object com.tns.Runtime.callJSMethodNative(int, int, java.lang.String, int, boolean, java.lang.Object[]) (Runtime.java:-2)
+// uncomment following lines
+// configurations.all {
+//     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//         def requested = details.requested
+//         if (requested.group == "com.android.support") {
+//             if (!requested.name.startsWith("multidex")) {
+//                 details.useVersion "26.+"
+//             }
+//         }
+//     }
+// }
