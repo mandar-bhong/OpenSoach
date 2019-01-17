@@ -19,7 +19,7 @@ import { Page } from "ui/page";
 import { Subscription } from 'rxjs/internal/Subscription';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { ChartService } from '~/app/services/chart/chart.service';
-import { ChartListViewModel , ConfigData, Schedulardata } from '~/app/models/ui/chart-models';
+import { ChartListViewModel, ConfigData, Schedulardata, MedChartModel, AftrnFreqInfo, MornFreqInfo, NightFreqInfo } from '~/app/models/ui/chart-models';
 import { error } from 'tns-core-modules/trace/trace';
 import { medicine, freuencyzero } from '~/app/common-constants';
 import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
@@ -442,44 +442,7 @@ export class ActionComponent implements OnInit {
 		});
 	}
 	// << snackbar mes show bottom 
-	createActions() {
-		this.schedulardata = new Schedulardata();
-		const dt = new Date();
-		this.schedulardata.uuid = '12';
-		this.schedulardata.admission_uuid = '2';
-		this.schedulardata.conf_type_code = "Medicine";
-		this.schedulardata.conf = new ConfigData();
-		this.schedulardata.conf.freqMorn = true;
-		this.schedulardata.conf.freqAftrn = true;
-		this.schedulardata.conf.freqNight = true;
-		this.schedulardata.conf.desc = " Morning & Afternoon & Night before meal. \nTest.";
-		this.schedulardata.conf.name = "Cipla";
-		this.schedulardata.conf.quantity = 10;
-		this.schedulardata.conf.startDate ="2019-01-16T11:40:37.438Z" // 5.10 pm
-		this.schedulardata.conf.duration = "3";
-		this.schedulardata.conf.frequency = 0;
-		this.schedulardata.conf.foodInst = 1;
-		let medicineSchedular = new MedicineHelper();
-		medicineSchedular.medicineActions(this.schedulardata);
-
-		console.log('in create actions fucntions');
-		// this.chartService.getChartList().then(
-		// 	(val) => {
-		// 		val.forEach(item => {
-		// 			item.conf = JSON.parse(item.conf);
-		// 		});					
-		// 		if (this.schedulardata.conf_type_code = medicine) {
-		// 			if (this.schedulardata.conf.frequency === freuencyzero) {
-
-		// 			}
-		// 		}				
-		// 	},
-		// 	(error) => {
-		// 		console.log("getChartData error:", error);
-		// 	}
-		// );
-	}
-	// code block for creating actions
+	
 
 
 	// end of code block

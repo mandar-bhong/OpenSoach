@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterExtensions } from "nativescript-angular/router";
 import { WorkerService } from '~/app/services/worker.service';
-import { ServerConnectivityStatusService } from '~/app/services/connectivity/server-connectivity.service';
+import { ServerConnectivityStatusService } from './services/connectivity/server-connectivity.service';
 
 @Component({
     moduleId: module.id,

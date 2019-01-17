@@ -3,6 +3,7 @@ import { action } from "tns-core-modules/ui/dialogs/dialogs";
 import { ActionItems, ActionList, SchedularData, ProcessTime, TimeConstants, dayTime, AfterMealTime, BeforeMealTime, BeforeMealTimeInMinutes, AfterMealTimeInMinutes } from "~/app/models/ui/action-model";
 import { ActionHelper } from "./action-helper";
 import { ActionDBModel } from "~/app/models/ui/action-models";
+import { Schedulardata } from "~/app/models/ui/chart-models";
 
 export class MedicineHelper extends ActionHelper {
     startdate: Date;
@@ -12,7 +13,7 @@ export class MedicineHelper extends ActionHelper {
     actionItems: ActionItems[];
     numberofdays: number;
     trueCount: number;
-    schedulardata: SchedularData;
+    schedulardata: Schedulardata;
     foodInstruction: number;
     actionList: ActionDBModel[];
     constructor() {
@@ -20,14 +21,14 @@ export class MedicineHelper extends ActionHelper {
         super();
     }
 
-    medicineActions(MedicineSchedularData: SchedularData) {
+    medicineActions(MedicineSchedularData: Schedulardata) {
         console.log('received data');
         console.log(MedicineSchedularData);
         this.schedulardata = MedicineSchedularData;
         let processTime = ProcessTime;
         this.startdate = new Date(MedicineSchedularData.conf.startDate);
         this.startdatetime = new Date(MedicineSchedularData.conf.startDate);
-        this.numberofdays = Number(MedicineSchedularData.conf.duration);
+        this.numberofdays = MedicineSchedularData.conf.duration;
         this.enddate = new Date();
         this.enddate.setDate(this.startdate.getDate() + this.numberofdays - 1);
 
@@ -85,13 +86,13 @@ export class MedicineHelper extends ActionHelper {
 
     CheckFrequencyCount() {
         let trueCount = 0;
-        if (this.schedulardata.conf.freqMorn) {
+        if (this.schedulardata.conf.mornFreqInfo.freqMorn) {
             trueCount++;
         }
-        if (this.schedulardata.conf.freqAftrn) {
+        if (this.schedulardata.conf.aftrnFreqInfo.freqAftrn) {
             trueCount++;
         }
-        if (this.schedulardata.conf.freqNight) {
+        if (this.schedulardata.conf.nightFreqInfo.freqNight) {
             trueCount++;
         }
         return trueCount;
@@ -105,6 +106,7 @@ export class MedicineHelper extends ActionHelper {
         const todaysdate = new Date()
         todaysdate.setHours(0, 0, 0, 0);
         receiveddate.setHours(0, 0, 0, 0);
+        console.log('received date', receiveddate);
         if (receiveddate.getTime() == todaysdate.getTime()) {
             const hours = this.startdatetime.getHours();
             const minutes = this.startdatetime.getMinutes();
@@ -180,19 +182,19 @@ export class MedicineHelper extends ActionHelper {
         return actionlen;
     }
     frequencyActionasGenerations(strdate, MedicineSchedularData, i) {
-        if (MedicineSchedularData.conf.freqMorn) {
+        if (MedicineSchedularData.conf.mornFreqInfo.freqMorn) {
             const dayactionTime = this.createDateActions(strdate, dayTime.Morning, MedicineSchedularData.conf.foodInst)
             if (dayactionTime && dayactionTime != null) {
                 this.actionItems[i].dayAction.push({ time: dayactionTime });
             }
         }
-        if (MedicineSchedularData.conf.freqAftrn) {
+        if (MedicineSchedularData.conf.aftrnFreqInfo.freqAftrn) {
             const dayactionTime = this.createDateActions(strdate, dayTime.Afternoon, MedicineSchedularData.conf.foodInst)
             if (dayactionTime && dayactionTime != null) {
                 this.actionItems[i].dayAction.push({ time: dayactionTime });
             }
         }
-        if (MedicineSchedularData.conf.freqNight) {
+        if (MedicineSchedularData.conf.nightFreqInfo.freqNight) {
             const dayactionTime = this.createDateActions(strdate, dayTime.Night, MedicineSchedularData.conf.foodInst)
             if (dayactionTime && dayactionTime != null) {
                 this.actionItems[i].dayAction.push({ time: dayactionTime });
