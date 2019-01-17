@@ -139,11 +139,11 @@ export class MedicineChartComponent implements OnInit {
         formData.quantity = this.medicineForm.get('quantity').value;
         formData.foodInst = this.medicineForm.get('foodInst').value;
         formData.frequency = this.medicineForm.get('frequency').value;
-        formData.mornFreqInfo.mornFreq = this.freqMorn;
+        formData.mornFreqInfo.freqMorn = this.freqMorn;
         formData.mornFreqInfo.mornFreqQuantity = this.medicineForm.get('mornQuantity').value;
-        formData.aftrnFreqInfo.aftrnFreq = this.freqAftrn;
+        formData.aftrnFreqInfo.freqAftrn = this.freqAftrn;
         formData.aftrnFreqInfo.aftrnFreqQuantity = this.medicineForm.get('aftrnQuantity').value;
-        formData.nightFreqInfo.nightFreq = this.freqNight;
+        formData.nightFreqInfo.freqNight = this.freqNight;
         formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
         formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
         formData.intervalHrs = this.medicineForm.get('intervalHrs').value;
@@ -209,33 +209,33 @@ export class MedicineChartComponent implements OnInit {
         }
 
         if (data.frequency == 0) {
-            if (data.mornFreqInfo.mornFreq == true) {
-                this.chartConfModel.mornFreqInfo.mornFreq = data.mornFreqInfo.mornFreq;
+            if (data.mornFreqInfo.freqMorn == true) {
+                this.chartConfModel.mornFreqInfo.freqMorn = data.mornFreqInfo.freqMorn;
                 this.chartConfModel.mornFreqInfo.mornFreqQuantity = data.mornFreqInfo.mornFreqQuantity;
                 count = count + 1;
                 desc = desc + " Morning &"
             } else {
-                this.chartConfModel.mornFreqInfo.mornFreq = data.mornFreqInfo.mornFreq;
+                this.chartConfModel.mornFreqInfo.freqMorn = data.mornFreqInfo.freqMorn;
                 this.chartConfModel.mornFreqInfo.mornFreqQuantity = 0;
             }
 
-            if (data.aftrnFreqInfo.aftrnFreq == true) {
-                this.chartConfModel.aftrnFreqInfo.aftrnFreq = data.aftrnFreqInfo.aftrnFreq;
+            if (data.aftrnFreqInfo.freqAftrn == true) {
+                this.chartConfModel.aftrnFreqInfo.freqAftrn = data.aftrnFreqInfo.freqAftrn;
                 this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = data.aftrnFreqInfo.aftrnFreqQuantity;
                 count = count + 1;
                 desc = desc + " Afternoon &"
             } else {
-                this.chartConfModel.aftrnFreqInfo.aftrnFreq = data.aftrnFreqInfo.aftrnFreq;
+                this.chartConfModel.aftrnFreqInfo.freqAftrn = data.aftrnFreqInfo.freqAftrn;
                 this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = 0;
             }
 
-            if (data.nightFreqInfo.nightFreq == true) {
-                this.chartConfModel.nightFreqInfo.nightFreq = data.nightFreqInfo.nightFreq;
+            if (data.nightFreqInfo.freqNight == true) {
+                this.chartConfModel.nightFreqInfo.freqNight = data.nightFreqInfo.freqNight;
                 this.chartConfModel.nightFreqInfo.nightFreqQuantity = data.nightFreqInfo.nightFreqQuantity;
                 count = count + 1;
                 desc = desc + " Night &"
             } else {
-                this.chartConfModel.nightFreqInfo.nightFreq = data.nightFreqInfo.nightFreq;
+                this.chartConfModel.nightFreqInfo.freqNight = data.nightFreqInfo.freqNight;
                 this.chartConfModel.nightFreqInfo.nightFreqQuantity = 0;
             }
 

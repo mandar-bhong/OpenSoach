@@ -81,16 +81,16 @@ export class ActionListModel {
 }
 
 export class MornFreqInfo{
-    mornFreq:boolean;
+    freqMorn:boolean;
     mornFreqQuantity:number;
 }
 
 export class AftrnFreqInfo{
-    aftrnFreq:boolean;
+    freqAftrn:boolean;
     aftrnFreqQuantity:number;
 }
 
 export class NightFreqInfo{
-    nightFreq:boolean;
+    freqNight:boolean;
     nightFreqQuantity:number;
 }
