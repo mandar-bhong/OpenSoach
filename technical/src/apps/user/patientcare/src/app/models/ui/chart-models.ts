@@ -4,7 +4,7 @@ export class ChartListViewModel {
 
 export class ChartDBModel {
     uuid:string;
-    admissionid:number;
+    admission_uuid:string;
     conf_type_code:string;
     conf:any;
 }

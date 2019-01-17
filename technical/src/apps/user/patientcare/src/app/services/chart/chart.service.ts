@@ -35,11 +35,11 @@ export class ChartService {
             const listData = new Array<any>();
 
             listData.push(data.uuid);
-            listData.push(data.admissionid);
+            listData.push(data.admission_uuid);
             listData.push(data.conf_type_code);
             listData.push(data.conf);
 
-            this.database.insert("chartInsert", listData).then(
+            this.database.update("chartInsert", listData).then(
                 (val) => {
                     // console.log("chart data",val);                  
                     resolve(val);
@@ -71,4 +71,22 @@ export class ChartService {
 
         });
     }
+
+    public getMonitorConf() :any {
+
+        return new Promise((resolve, reject) => {
+
+            this.database.selectAll("monitorConfList").then(
+                (val)=> {                  
+                    resolve(val);          
+                },
+                (error)=>{
+                    reject(error);
+                }
+            );      
+
+        });
+
+    }
+
 }

@@ -1,6 +1,6 @@
 import { Injectable, Version } from "@angular/core";
 import { DatabaseService } from "../../services/offline-store/database.service";
-import  { ActionDBModel } from "~/app/models/ui/action-models";
+import  { ActionDBModel, ActionTxnDBModel } from "~/app/models/ui/action-models";
 
 @Injectable()
 export class ActionService {
@@ -35,11 +35,12 @@ export class ActionService {
         const listData = new Array<any>();
 
         listData.push(data.uuid);
-        listData.push(data.admission_id);
-        listData.push(data.chart_conf_id);
+        listData.push(data.admission_uuid);
+        listData.push(data.conf_type_code);
+        listData.push(data.schedule_uuid);
         listData.push(data.exec_time);
 
-        this.database.insert("actionInsert",listData).then(
+        this.database.update("actionInsert",listData).then(
         (val)=> {
             // console.log("chart data",val);                  
             resolve(val);          
@@ -51,4 +52,32 @@ export class ActionService {
 
         });
     }
+
+    public insertActionTxnItem(data: ActionTxnDBModel) {
+
+        return new Promise((resolve, reject) => {
+
+        const listData = new Array<any>();
+
+        listData.push(data.uuid);
+        listData.push(data.schedule_uuid);
+        listData.push(data.txn_data);
+        listData.push(data.txn_date);
+        listData.push(data.txn_state);
+        listData.push(data.conf_type_code);
+        listData.push(data.runtime_config_data);
+
+        this.database.update("actionTxnInsert",listData).then(
+        (val)=> {
+            // console.log("chart data",val);                  
+            resolve(val);          
+        },
+        (error)=>{
+            reject(error);
+        }
+        ); 
+
+        });
+    }
+
 }
