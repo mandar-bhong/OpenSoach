@@ -16,6 +16,13 @@ declare var UIView, NSMutableArray, NSIndexPath;
 import { alert } from "tns-core-modules/ui/dialogs";
 import { SnackBar, SnackBarOptions } from "nativescript-snackbar";
 import { Page } from "ui/page";
+import { Subscription } from 'rxjs/internal/Subscription';
+import { PassDataService } from '~/app/services/pass-data-service';
+import { ChartService } from '~/app/services/chart/chart.service';
+import { ChartListViewModel , ConfigData, Schedulardata } from '~/app/models/ui/chart-models';
+import { error } from 'tns-core-modules/trace/trace';
+import { medicine, freuencyzero } from '~/app/common-constants';
+import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
 
 export class DataItem {
 	public pstatus: string;
@@ -41,13 +48,16 @@ export class ActionComponent implements OnInit {
 	private rightItem: View;
 	private mainView: View;
 	private layout: ListViewLinearLayout;
+	schedulardata: Schedulardata;
+	monitorschedulardata: Schedulardata[] = []
+	outputschedulardata: Schedulardata[] = []
 
 	// >> seleced bottom button change color
 	monitorbuttonClicked: boolean = false;
 	intakebuttonClicked: boolean = true;
 	medicinebuttonClicked: boolean = false;
 	outputbuttonClicked: boolean = false;
-
+	actionSubscription: Subscription;
 	// >> search var declaration
 	// public myItems: ObservableArray<DataItem> = new ObservableArray<DataItem>();
 	tempdata = new Array<DataItem>();
@@ -72,7 +82,9 @@ export class ActionComponent implements OnInit {
 	// >>  bottom snackbar msg
 	private snackbar: SnackBar;
 
-	constructor(public page: Page) {
+	constructor(public page: Page,
+		private chartService: ChartService,
+		private passdataservice: PassDataService) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
 			return item.pstatus;
@@ -80,7 +92,6 @@ export class ActionComponent implements OnInit {
 
 		// >>  bottom snackbar msg
 		this.snackbar = new SnackBar();
-
 	}
 
 	get dataItems(): ObservableArray<DataItem> {
@@ -100,6 +111,12 @@ export class ActionComponent implements OnInit {
 		// 	this.data.push(newName);
 		// }
 		// alert('action');
+
+		// subscription for create actions
+		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
+
+		}); // end of subscriptions.
+		// this.createActions();
 	}
 	// >> angular-listview-swipe-action-thresholds
 
@@ -425,4 +442,52 @@ export class ActionComponent implements OnInit {
 		});
 	}
 	// << snackbar mes show bottom 
+	createActions() {
+		this.schedulardata = new Schedulardata();
+		const dt = new Date();
+		this.schedulardata.uuid = '12';
+		this.schedulardata.admission_uuid = '2';
+		this.schedulardata.conf_type_code = "Medicine";
+		this.schedulardata.conf = new ConfigData();
+		this.schedulardata.conf.freqMorn = true;
+		this.schedulardata.conf.freqAftrn = true;
+		this.schedulardata.conf.freqNight = true;
+		this.schedulardata.conf.desc = " Morning & Afternoon & Night before meal. \nTest.";
+		this.schedulardata.conf.name = "Cipla";
+		this.schedulardata.conf.quantity = 10;
+		this.schedulardata.conf.startDate ="2019-01-16T11:40:37.438Z" // 5.10 pm
+		this.schedulardata.conf.duration = "3";
+		this.schedulardata.conf.frequency = 0;
+		this.schedulardata.conf.foodInst = 1;
+		let medicineSchedular = new MedicineHelper();
+		medicineSchedular.medicineActions(this.schedulardata);
+
+		console.log('in create actions fucntions');
+		// this.chartService.getChartList().then(
+		// 	(val) => {
+		// 		val.forEach(item => {
+		// 			item.conf = JSON.parse(item.conf);
+		// 		});					
+		// 		if (this.schedulardata.conf_type_code = medicine) {
+		// 			if (this.schedulardata.conf.frequency === freuencyzero) {
+
+		// 			}
+		// 		}				
+		// 	},
+		// 	(error) => {
+		// 		console.log("getChartData error:", error);
+		// 	}
+		// );
+	}
+	// code block for creating actions
+
+
+	// end of code block
+
+	// clean up
+	ngOnDestroy(): void {
+		//Called once, before the instance is destroyed.
+		if (this.actionSubscription) { this.actionSubscription.unsubscribe(); }
+
+	}
 }

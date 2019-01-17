@@ -1,12 +1,13 @@
 export class ChartListViewModel {
-    dbmodel:any;
+    dbmodel: any;
 }
 
-export class ChartDBModel {
+export class ChartDBModel {   
+    conf_type_code: string;
+    conf: any;
     uuid:string;
     admission_uuid:string;
-    conf_type_code:string;
-    conf:any;
+  
 }
 
 export class MonitorChartModel {
@@ -23,19 +24,60 @@ export class MonitorChartModel {
     desc: string;
 }
 
-export class MedChartModel{
-    name:string;
-    quantity:number;
-    foodInst:number;
-    frequency:number;
+export class MedChartModel {
+    name: string;
+    quantity: number;
+    foodInst: number;
+    frequency: number;
     mornFreqInfo:MornFreqInfo;
     aftrnFreqInfo:AftrnFreqInfo;
-    nightFreqInfo:NightFreqInfo    
+    nightFreqInfo:NightFreqInfo  
     intervalHrs: number;
-    startDate:string;
-    duration:number;    
-    startTime:string;
-    desc:string;
+    startDate: string;
+    duration: number;
+    startTime: string;
+    desc: string;
+}
+
+export class IntakeChartModel {
+    name: string;
+    quantity: string;
+    frequency: number;
+    duration: number;
+    startDate: string;
+    intervalHrs: number;
+    startTime: string;
+    specificTime: string;
+    specificTimes: Array<any>;
+    desc: string;
+}
+
+export class Schedulardata {
+    uuid:string;
+    admission_uuid:string;
+    conf_type_code: string;
+    conf: ConfigData;
+}
+
+export class ConfigData {
+    name: string;
+    desc: string;
+    freqMorn: boolean;
+    freqAftrn: boolean;
+    freqNight: boolean;
+    quantity: number;
+    startDate: string;
+    frequency: number;
+    foodInst: number;
+    duration: string;
+    intervalHrs: string;
+    startTime: string;
+}
+export class ActionListModel {
+    uuid:string;
+    admission_id:number;
+    chart_conf_id:number;
+    exec_time:string;
 }
 
 export class MornFreqInfo{
@@ -51,17 +93,4 @@ export class AftrnFreqInfo{
 export class NightFreqInfo{
     nightFreq:boolean;
     nightFreqQuantity:number;
-}
-
-export class IntakeChartModel {
-    name: string;
-    quantity: string;
-    frequency: number;
-    duration: number;
-    startDate: string;
-    intervalHrs: number;
-    startTime: string;
-    specificTime: string;
-    specificTimes: Array<any>;
-    desc: string;
 }

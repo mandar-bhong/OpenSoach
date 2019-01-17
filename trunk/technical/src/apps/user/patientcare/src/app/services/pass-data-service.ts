@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PatientListViewModel } from '~/app/models/ui/patient-view-models';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
+import { Subject } from 'rxjs/internal/Subject';
+import { action } from 'tns-core-modules/ui/dialogs/dialogs';
 @Injectable()
 
 export class PassDataService {
@@ -10,6 +12,7 @@ export class PassDataService {
     pickedImage: ImageAsset;
     uploadedImage: ImageAsset[] = [];
     patientName: string;
+    createActionsSubject: Subject<boolean> = new Subject<boolean>();
     constructor() {
         //  this.patientListViewModel = new PatientListViewModel();
         console.log('service initiated');
@@ -28,4 +31,9 @@ export class PassDataService {
         this.patientName = this.selectedPatient.dbmodel.bed_no + ', ' + this.selectedPatient.dbmodel.fname + ' ' + this.selectedPatient.dbmodel.lname;
         return this.patientName;
     }
+    // fucntion for create actions
+    createActions(actions: boolean) {
+        this.createActionsSubject.next(actions);
+    }
+    // end of fucntion
 }
