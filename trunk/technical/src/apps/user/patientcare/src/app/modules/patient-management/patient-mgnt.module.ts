@@ -22,7 +22,6 @@ import { IntakeChartComponent } from "./charts/intake-chart/intake-chart.compone
 import { MonitorChartComponent } from "./charts/monitor-chart/monitor-chart.component";
 import { MedicalDetailsComponent } from "./patient-details/medical-details/medical-details.component";
 import { PatientInfoComponent } from "./patient-details/patient-info/patient-info.component";
-import { ConfService } from "~/app/services/conf/conf.service";
 import { ReportsComponent } from "./reports/reports.component";
 import { SectionOneComponent } from "./reports/section-one/section-one.component";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -75,7 +74,6 @@ import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autoco
     providers:[
         DatePipe,
         ChartService,
-        ConfService,
         ActionService
     ]
 })

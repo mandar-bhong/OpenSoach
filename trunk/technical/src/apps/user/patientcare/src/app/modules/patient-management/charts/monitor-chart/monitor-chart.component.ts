@@ -3,12 +3,11 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { dateProperty } from 'tns-core-modules/ui/date-picker/date-picker';
 import { SegmentedBar, SegmentedBarItem } from "tns-core-modules/ui/segmented-bar";
 import { DatePipe } from '@angular/common';
-import { ChartDBModel, MonitorChartModel } from "~/app/models/ui/chart-models";
+import { ChartDBModel, MonitorChartModel, ChartListViewModel } from "~/app/models/ui/chart-models";
 import { ChartService } from "~/app/services/chart/chart.service";
 import { Observable } from 'tns-core-modules/ui/page/page';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { ConfListViewModel } from '~/app/models/ui/conf-models';
-import { ConfService } from '~/app/services/conf/conf.service';
 import { ListPicker } from "tns-core-modules/ui/list-picker";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlatformHelper } from "~/app/helpers/platform-helper";
@@ -40,15 +39,14 @@ export class MonitorChartComponent implements OnInit {
     foodInstSelectedIndex = 0;
     freqSelectedIndex = 0;
 
-    monitorConfListItems = new ObservableArray<ConfListViewModel>();
-    monitorConf: ConfListViewModel;
+    monitorConfListItems = new ObservableArray<ChartListViewModel>();
+    monitorConf: ChartListViewModel;
     // end of proccess variables
 
     constructor(
         private routerExtensions: RouterExtensions, 
         private datePipe: DatePipe, 
-        private chartservice: ChartService, 
-        private confService: ConfService) {
+        private chartService: ChartService) {
 
         this.formData = new MonitorChartModel();
         this.formData.specificTimes = [];
@@ -180,15 +178,15 @@ export class MonitorChartComponent implements OnInit {
 
         // set db model
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
-        this.chartDbModel.admissionid = 2;
+        this.chartDbModel.admission_uuid = "PA001";
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = "Monitor";
 
         // insert chart db model to sqlite db
-        this.chartservice.insertChartItem(this.chartDbModel);
+        this.chartService.insertChartItem(this.chartDbModel);
 
         // get chart data from sqlite db
-        this.chartservice.getChartList()
+        this.chartService.getChartList()
 
         this.goBackPage();
         
@@ -203,10 +201,10 @@ export class MonitorChartComponent implements OnInit {
 
     // << func for getting monitor conf data
     getMonitorConfListData() {
-        this.confService.getMonitorConf().then(
+        this.chartService.getMonitorConf().then(
             (val) => {
                 val.forEach(item => {
-                    let monitorConfListItem = new ConfListViewModel();
+                    let monitorConfListItem = new ChartListViewModel();
                     monitorConfListItem.dbmodel = item;
                     monitorConfListItem.dbmodel.conf = JSON.parse(item.conf);
                     this.monitorConfListItems.push(monitorConfListItem);

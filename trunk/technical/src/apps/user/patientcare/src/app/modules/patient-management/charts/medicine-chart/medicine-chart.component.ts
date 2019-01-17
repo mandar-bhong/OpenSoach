@@ -272,7 +272,7 @@ export class MedicineChartComponent implements OnInit {
 
         // set db model
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
-        this.chartDbModel.admissionid = 2;
+        this.chartDbModel.admission_uuid = "PA001";
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = "Medicine";
 

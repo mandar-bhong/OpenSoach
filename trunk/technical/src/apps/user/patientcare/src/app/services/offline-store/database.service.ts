@@ -2,14 +2,16 @@ import { Injectable } from "@angular/core";
 var Sqlite = require("nativescript-sqlite");
 
 let selectQueries = new Map([
-    [ "patientlist", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_id,sp_name from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.id = padmsn.patient_id left join service_point_tbl as sp on sp.sp_id = padmsn.sp_id" ],
-    [ "chartlist", "select * from patient_chart_conf_tbl" ],
-    [ "chartInsert", "insert into patient_chart_conf_tbl (uuid,admission_id,conf_type_code,conf) values ( ?, ?, ?, ?)" ],
-    [ "monitorConfList", "select id,conf_type_code,conf from patient_conf_tbl where conf_type_code = 'Monitor'"],
-    [ "actionList", "select id,uuid,admission_id,chart_conf_id,exec_time from action_tbl"],
-    [ "actionInsert", "insert into action_tbl (uuid,admission_id,chart_conf_id,exec_time) values ( ?, ?, ?, ?)" ],
-    [ "chartItemByUUID", "select * from patient_conf_tbl where uuid = ? "],
-    [ "servicePointList", "select * from service_point_tbl"]
+    [ "patientlist", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid" ],
+    [ "chartlist", "select * from schedule_tbl" ],
+    [ "chartInsert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf) values ( ?, ?, ?, ?)" ],
+    [ "monitorConfList", "select uuid,conf_type_code,conf from schedule_tbl where conf_type_code = 'Monitor'"],
+    [ "actionList", "select * from action_tbl"],
+    [ "actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time) values ( ?, ?, ?, ?, ?)" ],
+    [ "chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
+    [ "servicePointList", "select * from service_point_tbl"],
+    [ "actionTxnInsert", "insert into action_txn_tbl (uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?)" ],
+
 ]);
 
 @Injectable()
@@ -66,7 +68,7 @@ export class DatabaseService {
         });
       }
 
-    public insert(key: string,dataList:Array<any>) {
+    public update(key: string,dataList:Array<any>) {
 
         return new Promise((resolve, reject) => {
 
