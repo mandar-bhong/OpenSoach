@@ -102,5 +102,15 @@ INSERT INTO `spl_node_service_in_txn_tbl` (`cpm_id_fk`, `serv_in_id_fk`, `fopcod
 	(3, 1, '2222', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 480, "slotstarttime": 240}', '2018-08-15 00:30:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
 	(3, 1, '1111', 2, '{"comment": "Saline", "taskname": "Saline 250ML", "slotendtime": 480, "slotstarttime": 240}', '2018-08-15 05:25:39', '2018-08-07 01:13:19', '2018-08-07 16:13:19'),
 	(3, 1, '1111', 1, '{"value": 104, "comment": "High fever, 1 Crocin tablet provided", "taskname": "Monitor Temperature", "slotendtime": 720, "slotstarttime": 480}', '2018-08-15 05:15:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19');
+	
+
+--
+-- Dumping data for table `spl_node_sync_config_tbl`
+--
+
+
+INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `updated_on`, `has_qry`, `select_count_qry`, `select_qry`, `insert_qry`, `update_qry`) VALUES
+	(`service_point_tbl`,``,`'select count(*) as count from spl_node_sp_tbl where uuid = ?'`,`'select count(*) as count from spl_node_sp_tbl where updated_on > ?'`,`'select * from spl_node_spl_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+
 
 

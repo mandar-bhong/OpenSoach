@@ -63,6 +63,7 @@ CREATE TABLE `spl_node_dev_tbl` (
 
 CREATE TABLE `spl_node_sp_tbl` (
   `sp_id_fk` int(10) unsigned NOT NULL,
+  `uuid` VARCHAR(50) NOT NULL,
   `cpm_id_fk` int(10) unsigned NOT NULL,
   `spc_id_fk` int(10) unsigned NOT NULL,
   `sp_name` varchar(50) NOT NULL,
@@ -301,38 +302,13 @@ CREATE TABLE `spl_node_dev_status_tbl` (
 
 
 --
--- Table structure for table `spl_hpft_patient_master_tbl`
---
-
-CREATE TABLE `spl_hpft_patient_master_tbl` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
-	`patient_details` JSON NOT NULL,
-	`medical_details` JSON NOT NULL,
-	`patient_file_template` INT(11) UNSIGNED NOT NULL,
-	`sp_id_fk` INT(11) UNSIGNED NOT NULL,
-	`serv_in_id_fk` INT(11) UNSIGNED NOT NULL,
-	`status` TINYINT(3) UNSIGNED NOT NULL COMMENT '1: Admitted, 2: Discharged',
-	`discharged_on` DATETIME NULL DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	INDEX `fk_patient_cpm` (`cpm_id_fk`),
-	INDEX `fk_patient_serf_conf` (`patient_file_template`),
-	INDEX `fk_patient_sp` (`sp_id_fk`),
-	INDEX `fk_patient_serv_in` (`serv_in_id_fk`),
-	CONSTRAINT `fk_patient_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_patient_serv_conf` FOREIGN KEY (`patient_file_template`) REFERENCES `spl_node_service_conf_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_patient_serv_in` FOREIGN KEY (`serv_in_id_fk`) REFERENCES `spl_node_service_instance_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_patient_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
-)   ENGINE=InnoDB COMMENT='Short Name for Table: patient';
-
---
 -- Table structure for table `spl_node_sync_config_tbl`
 --
 
 CREATE TABLE `spl_node_sync_config_tbl` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`store_name` VARCHAR(50) NOT NULL,
-	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_on` DATETIME NOT NULL,
 	`has_qry` VARCHAR(5000) NOT NULL,
 	`select_count_qry` VARCHAR(5000) NOT NULL,
 	`select_qry` VARCHAR(5000) NOT NULL,
@@ -340,3 +316,176 @@ CREATE TABLE `spl_node_sync_config_tbl` (
 	`update_qry` VARCHAR(1000) NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: sync';
+
+
+--
+-- Table structure for table `spl_hpft_patient_master_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_master_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_reg_no` VARCHAR(50) NOT NULL,
+	`uuid` VARCHAR(16) NOT NULL,
+	`fname` VARCHAR(25) NOT NULL,
+	`lname` VARCHAR(25) NOT NULL,
+	`mob_no` VARCHAR(15) NOT NULL,
+	`age` VARCHAR(10) NOT NULL,
+	`blood_grp` VARCHAR(10) NOT NULL,
+	`gender` TINYINT(3) NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_patient_cpm` (`cpm_id_fk`),
+	CONSTRAINT `fk_patient_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='Short Name for Table: patient';
+
+
+--
+-- Table structure for table `spl_hpft_patient_admission_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_admission_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_reg_no` VARCHAR(50) NOT NULL,
+	`uuid` VARCHAR(50) NOT NULL,
+	`sp_id_fk` INT(10) UNSIGNED NOT NULL,
+	`dr_incharge` INT(10) NOT NULL,
+	`bed_no` VARCHAR(10) NOT NULL,
+	`status` TINYINT(3) NOT NULL,
+	`admitted_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`discharged_on` DATETIME NULL DEFAULT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_padmsn_cpm` (`cpm_id_fk`),
+	INDEX `fk_padmsn_patient` (`patient_id_fk`),
+	INDEX `fk_padmsn_sp` (`sp_id_fk`),
+	CONSTRAINT `fk_padmsn_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_padmsn_patient` FOREIGN KEY (`patient_id_fk`) REFERENCES `spl_hpft_patient_master_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_padmsn_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='Short Name for Table: padmsn';
+
+
+--
+-- Table structure for table `spl_hpft_patient_personal_details_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_personal_details_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_id` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`uuid` VARCHAR(50) NOT NULL,
+	`age` VARCHAR(10) NOT NULL,
+	`weight` VARCHAR(10) NOT NULL,
+	`other_details` JSON NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `admission_id_fk` (`admission_id_fk`),
+	INDEX `fk_ppd_cpm` (`cpm_id_fk`),
+	CONSTRAINT `fk_ppd_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_ppd_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='Short Name for Table: ppd';
+
+
+--
+-- Table structure for table `spl_hpft_patient_medical_details_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_medical_details_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_id` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`uuid` VARCHAR(50) NOT NULL,
+	`reason_for_admission` VARCHAR(500) NOT NULL,
+	`patient_medical_hist` VARCHAR(500) NOT NULL,
+	`treatment_recieved_before` VARCHAR(500) NOT NULL,
+	`family_hist` VARCHAR(500) NOT NULL,
+	`menstrual_hist` VARCHAR(500) NULL DEFAULT NULL,
+	`allergies` VARCHAR(500) NOT NULL,
+	`personal_history` JSON NOT NULL,
+	`general_physical_exam` JSON NOT NULL,
+	`systematic_exam` JSON NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `admission_id_fk` (`admission_id_fk`),
+	INDEX `fk_pmd_cpm` (`cpm_id_fk`),
+	CONSTRAINT `fk_pmd_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_pmd_padmsn_id` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='Short Name for Table: pmd';
+
+
+
+--
+-- Table structure for table `spl_hpft_conf_tbl`
+--
+
+CREATE TABLE `spl_hpft_conf_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`conf_type_code` VARCHAR(25) NOT NULL,
+	`conf` JSON NOT NULL,
+	`short_desc` VARCHAR(50) NULL DEFAULT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_conf_cpm` (`cpm_id_fk`),
+	CONSTRAINT `fk_conf_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='Short Name for Table: conf';
+
+
+
+--
+-- Table structure for table `spl_hpft_action_txn_tbl`
+--
+
+CREATE TABLE `spl_hpft_action_txn_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_conf_id_fk` INT(10) UNSIGNED NOT NULL,
+	`txn_data` JSON NOT NULL,
+	`runtime_config_data` JSON NOT NULL,
+	`txn_date` DATETIME NOT NULL,
+	`txn_state` INT(11) NOT NULL,
+	`conf_type_code` VARCHAR(25) NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_actn_txn_cpm` (`cpm_id_fk`),
+	INDEX `fk_actn_txn_pconf` (`patient_conf_id_fk`),
+	CONSTRAINT `fk_actn_txn_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_actn_txn_pconf` FOREIGN KEY (`patient_conf_id_fk`) REFERENCES `spl_hpft_patient_conf_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name: actn_txn';
+
+
+--
+-- Table structure for table `spl_hpft_patient_conf_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_conf_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`conf_type_code` INT(10) UNSIGNED NOT NULL,
+	`conf` JSON NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`update_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_pconf_cpm` (`cpm_id_fk`),
+	INDEX `fk_pconf_padmsn` (`admission_id_fk`),
+	CONSTRAINT `fk_pconf_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_pconf_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name: pconf';
+
+
+
+
