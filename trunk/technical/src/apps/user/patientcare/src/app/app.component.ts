@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, NgZone } from "@angular/core";
 import { DatabaseSchemaService } from "./services/offline-store/database-schema.service";
 import { server } from './environments/environment';
 import { WorkerService } from "./services/worker.service";
-import { InternetConnectionService } from "./services/internet-status/internet-connection.service";
 import { Subscription } from "rxjs";
 import { ServerDataProcessorMessageModel } from "./models/api/server-data-processor-message-model";
 import { SERVER_WORKER_MSG_TYPE } from "~/app/app-constants";
@@ -33,7 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(private databaseSchemaService: DatabaseSchemaService,
         private zone: NgZone,
         private workerService: WorkerService, 
-        private internetConnectionService: InternetConnectionService,
         private routerExtensions: RouterExtensions,
         private httpClient:HttpClient) {
         // init PlatformHelper
@@ -46,14 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.chatBox = "";
 
         // Initialize the worker here
-        this.workerService.initServerDataProcessorWorker();
-
-        // this.internetConnectionSubscription=   this.internetConnectionService.connectionStatus$.subscribe(status=>{
-        //  if(status)
-        //  {
-        //     // TODO if the status is connected, open webscocket connection again
-        //  }
-        // });
+        this.workerService.initServerDataProcessorWorker();        
 
         // Get APP_MODE
 
@@ -114,7 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
         //   this.socketIO.disconnect();
         // this.socket.close();
         // TODO: Send command to worker to disconnect the websocket before terminating server
-        this.workerService.ServerDataProcessorWorker.terminate();
+        this.workerService.closeServerDataProcessorWorker();
 
         this.internetConnectionSubscription.unsubscribe();
     }
@@ -254,7 +245,7 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('in initappStart');
         const initModel = new ServerDataProcessorMessageModel();
         initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
-        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+        this.workerService.postMessageToServerDataProcessorWorker(initModel);
 
         this.routerExtensions.navigate(['home']);
         

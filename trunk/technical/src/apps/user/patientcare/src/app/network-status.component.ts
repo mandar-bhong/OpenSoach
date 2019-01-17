@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterExtensions } from "nativescript-angular/router";
-
-
-import { InternetConnectionService } from '~/app/services/internet-status/internet-connection.service';
+import { WorkerService } from '~/app/services/worker.service';
+import { ServerConnectivityStatusService } from '~/app/services/connectivity/server-connectivity.service';
 
 @Component({
     moduleId: module.id,
@@ -10,24 +9,22 @@ import { InternetConnectionService } from '~/app/services/internet-status/intern
     template: `
     <Label  class="homeicon mdi" text="&#xf12f;" [style.color]="connectionStatus ? 'green' : 'red'"></Label>
     `,
-    styles: [`   ` ]
+    styles: [`   `]
 
 })
-export class NetworkStatusComponent implements OnInit, OnDestroy  {
-    connectionStatus: boolean = true;
-    connectiontext:string;
-    connection$;
+export class NetworkStatusComponent implements OnDestroy {
+    connectionStatus: boolean = false;
+    connectionSubscription;
     constructor(private routerExtensions: RouterExtensions,
-        private _internetConnection: InternetConnectionService) {
-    }
-    ngOnInit() {
-		this.connection$ = this._internetConnection.connectionStatus$.subscribe(data => {
-            this.connectionStatus = data.valueOf();
+        private serverConnectivityStatusService: ServerConnectivityStatusService) {
+        this.connectionStatus = this.serverConnectivityStatusService.ServerConnectionStatus;
+        this.serverConnectivityStatusService.ServerConnectionSubject.subscribe(status => {
+            this.connectionStatus = status;
         });
     }
 
     ngOnDestroy(): void {
-        if (this.connection$)
-            this.connection$.unsubscribe();
+        if (this.connectionSubscription)
+            this.connectionSubscription.unsubscribe();
     }
 }

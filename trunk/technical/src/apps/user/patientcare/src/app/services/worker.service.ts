@@ -4,11 +4,14 @@ import { Injectable } from "@angular/core";
 import * as ServerDataProcessorWorker from "nativescript-worker-loader!../workers/server-data-processor.worker";
 import { Subject } from "rxjs";
 import { SERVER_WORKER_EVENT_MSG_TYPE } from "~/app/app-constants";
+import { ServerDataProcessorMessageModel } from "~/app/models/api/server-data-processor-message-model";
 
 @Injectable()
 export class WorkerService {
-    public ServerDataProcessorWorker: Worker;
+    private ServerDataProcessorWorker: Worker;
     public ServerNotificationSubject = new Subject<any>();
+    public ServerConnectionSubject = new Subject<boolean>();
+    
     constructor() {
     }
 
@@ -24,6 +27,11 @@ export class WorkerService {
         this.ServerDataProcessorWorker.onmessage = m => this.serverWorkerMessageRecieved(m);
     }
 
+    postMessageToServerDataProcessorWorker(message: ServerDataProcessorMessageModel)
+    {
+        this.ServerDataProcessorWorker.postMessage(message);
+    }
+
     serverWorkerMessageRecieved(message: MessageEvent) {
         console.log('worker message recieved', message);        
         switch(message.data.msgtype)
@@ -32,6 +40,17 @@ export class WorkerService {
             console.log('subject triggered');
             this.ServerNotificationSubject.next(message.data);
             break;
+            case SERVER_WORKER_EVENT_MSG_TYPE.SERVER_CONNECTED:
+            this.ServerConnectionSubject.next(true);
+            break;
+            case SERVER_WORKER_EVENT_MSG_TYPE.SERVER_DISCONNECTED:
+            this.ServerConnectionSubject.next(false);
+            break;
         }        
+    }
+
+    closeServerDataProcessorWorker()
+    {
+        this.ServerDataProcessorWorker.terminate();
     }
 }
