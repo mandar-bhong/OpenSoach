@@ -7,12 +7,13 @@ import { AppComponent } from "./app.component";
 import { DatabaseService } from "./services/offline-store/database.service";
 import {NativeScriptFormsModule} from "nativescript-angular/forms"
 import { DatabaseSchemaService } from "./services/offline-store/database-schema.service";
-import { InternetConnectionService } from "~/app/services/internet-status/internet-connection.service";
+import { InternetConnectionService } from "~/app/services/connectivity/internet-connection.service";
 import { WorkerService } from "./services/worker.service";
 import { PatientListService } from "~/app/services/patient-list/patient-list.service";
 import { NetworkStatusComponent } from "~/app/network-status.component";
 import { sharedModule } from "~/app/modules/shared-mudule";
 import { PassDataService } from "~/app/services/pass-data-service";
+import { ServerConnectivityStatusService } from "~/app/services/connectivity/server-connectivity.service";
 
 @NgModule({
     bootstrap: [
@@ -37,7 +38,8 @@ import { PassDataService } from "~/app/services/pass-data-service";
         DatabaseSchemaService,
         InternetConnectionService,
         WorkerService,
-        PatientListService
+        PatientListService,
+        ServerConnectivityStatusService
     ],
     exports:[
         // NetworkStatusComponent
