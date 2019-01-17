@@ -49,33 +49,6 @@ INSERT INTO `spl_node_dev_status_tbl` (`dev_id_fk`,`connection_state`,`connectio
 INSERT INTO `spl_node_service_conf_tbl` (`cpm_id_fk`, `spc_id_fk`, `conf_type_code`, `serv_conf_name`, `serv_conf`) VALUES ('3', '3', 'SERVICE_DAILY_CHART', 'Patient File Template 1', '{"taskconf":{"tasks":[{"taskname":"Monitor Temperature","fields":["Value","Comments"]},{"taskname":"Monitor Pressure","fields":["Value","Comments"]},{"taskname":"Saline 250ML","fields":["Comments"]},{"taskname":"Monitor Heart Rate","fields":["Value","Comments"]},{"taskname":"Monitor Blood Pressure","fields":["Value","Comments"]},{"taskname":"Physiotherapy","fields":["Comments"]},{"taskname":"Dressing","fields":["Comments"]}]},"timeconf":{"endtime":1440,"interval":240,"starttime":0}}');
 
 
---
--- Dumping data for table `spl_node_service_instance_tbl`
---
-
-INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
-INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
-INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
-INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
-INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
-INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
-INSERT INTO `spl_node_service_instance_tbl` (`cpm_id_fk`, `serv_conf_id_fk`, `sp_id_fk`) VALUES ('3', '1', '3');
-
-
---
--- Dumping data for table `spl_hpft_patient_master_tbl`
---
-
-INSERT INTO `spl_hpft_patient_master_tbl` (`cpm_id_fk`, `patient_details`, `medical_details`, `patient_file_template`, `sp_id_fk`, `serv_in_id_fk`, `status`) VALUES 
-('3', '{"age": "35", "bedno": "3A/312", "patientname": "Sanjay Sawant", "admissiondate": "2018-08-05T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "7798847950", "patientregistrationno": "RHC-2018-3456","bloodgroup":"A+","weight":"64","drinst":"Arun Tripathi","gender":"Male"}', '{"allergies": "Allergy with Peanuts", "treatmentdone": "Under Diagnosis", "reasonadmission": "Uneasyness in the chest", "patientmedicalhistory": "Undergone treatment for bone fracture in right leg"}', '1', '3', '1', '1'),
-('3', '{"age": "32", "bedno": "3B/313", "patientname": "Praveen Pandey", "admissiondate": "2018-08-06T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "7028841950", "patientregistrationno": "RHC-2018-3457","bloodgroup":"A-","weight":"70","drinst":"Arun Tripathi","gender":"Male"}', '{"allergies": "Allergy with Shellfish", "treatmentdone": "Surgery for right ear", "reasonadmission": "Swelling in Ear", "patientmedicalhistory": "None"}', '1', '3', '2', '1'),
-('3', '{"age": "22", "bedno": "2A/314", "patientname": "Mandar bhong", "admissiondate": "2018-08-07T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "7938841950", "patientregistrationno": "RHC-2018-3458","bloodgroup":"AB+","weight":"55","drinst":"Arun Tripathi","gender":"Male"}', '{"allergies": "None", "treatmentdone": "traetment3", "reasonadmission": "Iritation in eye from last 15 days", "patientmedicalhistory": "None"}', '1', '3', '3', '1'),
-('3', '{"age": "60", "bedno": "4A/315", "patientname": "Amol Patil", "admissiondate": "2018-08-13T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "7648841950", "patientregistrationno": "RHC-2018-3459","bloodgroup":"O+","weight":"65","drinst":"Arun Tripathi","gender":"Male"}', '{"allergies": "None", "treatmentdone": "traetment4", "reasonadmission": "Uneasyness in the chest", "patientmedicalhistory": "None"}', '1', '3', '4', '1'),
-('3', '{"age": "67", "bedno": "5A/316", "patientname": "Sumeet Karande", "admissiondate": "2018-08-13T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9563242432", "patientregistrationno": "RHC-2018-3460","bloodgroup":"0-","weight":"80","drinst":"Arun Tripathi","gender":"Male"}', '{"allergies": "None", "treatmentdone": "traetment5", "reasonadmission": "reason5", "patientmedicalhistory": "None"}', '1', '3', '5', '1'),
-('3', '{"age": "45", "bedno": "6A/317", "patientname": "Arun Tripathi", "admissiondate": "2018-08-13T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "8793447950", "patientregistrationno": "RHC-2018-3461","bloodgroup":"B+","weight":"74","drinst":"Arun Tripathi","gender":"Male"}', '{"allergies": "None", "treatmentdone": "traetment6", "reasonadmission": "reason6", "patientmedicalhistory": "None"}', '1', '3', '6', '1'),
-('3', '{"age": "50", "bedno": "7A/318", "patientname": "Om Kumar", "admissiondate": "2018-08-13T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9068242932", "patientregistrationno": "RHC-2018-3462","bloodgroup":"AB-","weight":"93","drinst":"Arun Tripathi","gender":"Male"}', '{"allergies": "None", "treatmentdone": "traetment7", "reasonadmission": "reason7", "patientmedicalhistory": "None"}', '1', '3', '7', '1'),
-('3', '{"age": "42", "bedno": "7A/319", "patientname": "Mayuri Jain", "admissiondate": "2018-08-14T18:30:00.000Z", "dischargedate": "2018-08-09T18:30:00.000Z", "emergencycontactno": "9053241932", "patientregistrationno": "RHC-2018-3463","bloodgroup":"AB-","weight":"55","drinst":"Arun Tripathi","gender":"Female"}', '{"allergies": "None", "treatmentdone": "traetment7", "reasonadmission": "reason7", "patientmedicalhistory": "None"}', '1', '3', '7', '1'); 	
-
 
 --
 -- Dumping data for table `spl_node_field_operator_tbl`
@@ -91,17 +64,6 @@ INSERT INTO `spl_node_field_operator_tbl` (`fop_name`,`email_id`,`cpm_id_fk`, `f
 
 INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES ('2', '3', '3');
 
-
---
--- Dumping data for table `spl_node_service_in_txn_tbl`
---
-
-
-INSERT INTO `spl_node_service_in_txn_tbl` (`cpm_id_fk`, `serv_in_id_fk`, `fopcode`, `status`, `txn_data`, `txn_date`, `created_on`, `updated_on`) VALUES
-	(3, 1, '1111', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 240, "slotstarttime": 0}', '2018-08-14 20:30:19', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
-	(3, 1, '2222', 1, '{"value": 140, "comment": "High Blood Pressure", "taskname": "Monitor Blood Pressure", "slotendtime": 480, "slotstarttime": 240}', '2018-08-15 00:30:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19'),
-	(3, 1, '1111', 2, '{"comment": "Saline", "taskname": "Saline 250ML", "slotendtime": 480, "slotstarttime": 240}', '2018-08-15 05:25:39', '2018-08-07 01:13:19', '2018-08-07 16:13:19'),
-	(3, 1, '1111', 1, '{"value": 104, "comment": "High fever, 1 Crocin tablet provided", "taskname": "Monitor Temperature", "slotendtime": 720, "slotstarttime": 480}', '2018-08-15 05:15:39', '2018-08-07 16:13:19', '2018-08-07 16:13:19');
 	
 
 --
