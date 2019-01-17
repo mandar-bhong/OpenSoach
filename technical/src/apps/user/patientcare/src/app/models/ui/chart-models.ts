@@ -56,7 +56,7 @@ export class Schedulardata {
     uuid:string;
     admission_uuid:string;
     conf_type_code: string;
-    conf: ConfigData;
+    conf: MedChartModel;
 }
 
 export class ConfigData {
@@ -72,6 +72,7 @@ export class ConfigData {
     duration: string;
     intervalHrs: string;
     startTime: string;
+    
 }
 export class ActionListModel {
     uuid:string;

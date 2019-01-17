@@ -108,7 +108,7 @@ export class DatabaseSchemaService {
 
     public setOfflineDB() {
 
-        // this.database.deleteDatabaseInDebugMode();
+         this.database.deleteDatabaseInDebugMode();
         // var promise1 = new Promise(function(resolve, reject) {
         //     setTimeout(function() {
         //       // check if everything
