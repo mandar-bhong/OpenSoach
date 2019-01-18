@@ -249,7 +249,7 @@ export class MedicineChartComponent implements OnInit {
 
         } else {
             this.chartConfModel.intervalHrs = data.intervalHrs;
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "mediumTime");
+            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H:mm");
 
             if (data.desc != null) {
                 this.chartConfModel.desc = "Every " + data.intervalHrs + " hours in a day " + foodIns + ". \n" + data.desc + ".";
