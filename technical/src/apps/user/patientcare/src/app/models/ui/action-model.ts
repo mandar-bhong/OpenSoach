@@ -1,8 +1,8 @@
 import { Time } from "@angular/common/src/i18n/locale_data_api";
 
 export class SchedularData {
-    uuid:string;
-    admission_uuid:string;
+    uuid: string;
+    admission_uuid: string;
     conf_type_code: string;
     conf: SchedularConfigData;
 }
@@ -44,11 +44,7 @@ export class TimeConstants {
     afternoonTime: any
     nightTime: any;
 }
-export enum dayTime {
-    Morning = 'morning',
-    Afternoon = 'Afternoon',
-    Night = 'night'
-}
+
 export class DayActionValue {
     time: number;
 }
@@ -72,4 +68,18 @@ export enum AfterMealTime {
     MorningAfterMeal = "9.30 AM",
     AfternoonAfterMeal = "12.30 PM",
     NightAfteremeal = "8.00 PM",
+}
+export enum HospitalTime {
+    hospitalStartTime = 480, // minutes
+    hospitalEndTime = 1200 // minutes
+}
+
+export enum Medicinefrequency {
+    xTimesInDay = 0,
+    AfterXTimeInterval = 1
+}
+export enum dayTime {
+    Morning = 'morning',
+    Afternoon = 'Afternoon',
+    Night = 'night'
 }
