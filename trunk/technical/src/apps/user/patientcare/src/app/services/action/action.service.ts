@@ -26,6 +26,24 @@ export class ActionService {
         });
 
     }
+
+    public getActionTxnList() :any {
+
+        return new Promise((resolve, reject) => {
+
+            this.database.selectAll("actionTxnList").then(
+                (val)=> {
+                    // console.log("action data",val);                  
+                    resolve(val);          
+                },
+                (error)=>{
+                    reject(error);
+                }
+            );      
+
+        });
+
+    }
     
 
     public insertActionItem(data: ActionDBModel) {
