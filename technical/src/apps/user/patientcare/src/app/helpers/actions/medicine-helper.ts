@@ -103,16 +103,20 @@ export class MedicineHelper extends ActionHelper {
         timeConstants = this.beforeAfter(foodInst);
         let definedTime: TimeConstants;
         definedTime = this.beforeAfterProcessTime(foodInst)
-        const todaysdate = new Date()
-        todaysdate.setHours(0, 0, 0, 0);
+        const startDate = new Date(this.startdatetime);
+        startDate.setHours(0, 0, 0, 0);
         receiveddate.setHours(0, 0, 0, 0);
-        console.log('received date', receiveddate);
-        if (receiveddate.getTime() == todaysdate.getTime()) {
+
+       
+
+        if (receiveddate.getTime() == startDate.getTime()) {
+            console.log('received date', receiveddate);
+            console.log('startDate date', startDate);
             const hours = this.startdatetime.getHours();
             const minutes = this.startdatetime.getMinutes();
             const hourstominutes = hours * 60;
             const totalminutes = hourstominutes + minutes
-
+            console.log('total start time in minutes', totalminutes);
             if (frq == dayTime.Morning) {
                 if (totalminutes <= definedTime.morningTime) {
                     return definedTime.morningTime;
