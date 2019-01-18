@@ -11,6 +11,9 @@ let selectQueries = new Map([
     [ "chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
     [ "servicePointList", "select * from service_point_tbl"],
     [ "actionTxnInsert", "insert into action_txn_tbl (uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?)" ],
+    [ "syncList", "select * from sync_tbl"],
+    [ "actionTxnList", "select * from action_txn_tbl"],
+
 
 ]);
 
