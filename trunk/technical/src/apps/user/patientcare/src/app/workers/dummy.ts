@@ -1,4 +1,4 @@
-import { ServerWorkerContext } from "./server-worker-context";
+import { ServerWorkerContext } from "./server-worker-context.js";
 
 export class Dummy
 {
