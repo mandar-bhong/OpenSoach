@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	pcmodels "opensoach.com/prodcore/models"
+)
 
 type DBSplNodeSpComplaintTableRowModel struct {
 	ComplaintId    int64      `db:"id" dbattr:"pri,auto"  json:"complaintid"`
@@ -127,6 +131,7 @@ type DBSplNodeSpCategoryTableRowModel struct {
 }
 
 type DBSplNodeSpTableRowModel struct {
+	pcmodels.StoreEntityModel
 	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
 	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
 	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
@@ -158,13 +163,74 @@ type DBSplNodeReportTemplateTableRowModel struct {
 }
 
 type DBSplHpftPatientMasterTableRowModel struct {
-	PatientId             int64      `db:"id" dbattr:"pri,auto"  json:"patientid"`
-	CpmIdFk               int64      `db:"cpm_id_fk" json:"cpmidfk"`
-	PatientDetails        string     `db:"patient_details" json:"patientdetails"`
-	MedicalDetails        string     `db:"medical_details" json:"medicaldetails"`
-	PatientFileTemplateID int64      `db:"patient_file_template" json:"patientfiletemplate"`
-	SpId                  int64      `db:"sp_id_fk" json:"spid"`
-	ServInId              int64      `db:"serv_in_id_fk" json:"servinid"`
-	Status                int        `db:"status" json:"status"`
-	DischargedOn          *time.Time `db:"discharged_on" json:"dischargedon"`
+	PatientId int64 `db:"id" dbattr:"pri,auto"  json:"patientid"`
+	pcmodels.StoreEntityModel
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	PatientRegNo string    `db:"patient_reg_no" json:"patientregno"`
+	Fname        string    `db:"fname" json:"fname"`
+	Lname        string    `db:"lname" json:"lname"`
+	MobNo        string    `db:"mob_no" json:"mobno"`
+	Age          string    `db:"age" json:"age"`
+	BloodGrp     string    `db:"blood_grp" json:"bloodgrp"`
+	Gender       int       `db:"gender" json:"gender"`
+	CreatedOn    time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftPatientAdmissionTableRowModel struct {
+	pcmodels.StoreEntityModel
+	AdmissionId  int64      `db:"id" dbattr:"pri,auto"  json:"admissionid"`
+	CpmId        int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientId    int64      `db:"patient_id_fk" json:"patientid"`
+	PatientRegNo string     `db:"patient_reg_no" json:"patientregno"`
+	BedNo        string     `db:"bed_no" json:"bedno"`
+	Status       int        `db:"status" json:"status"`
+	SpId         int64      `db:"sp_id_fk" json:"spid"`
+	DrIncharge   int64      `db:"dr_incharge" json:"drincharge"`
+	AdmittedOn   time.Time  `db:"admitted_on" json:"admittedon"`
+	DischargedOn *time.Time `db:"discharged_on" json:"dischargedon"`
+	CreatedOn    time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn    time.Time  `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftPatientPersonalDetailsRowModel struct {
+	PersonalDetailsId int64     `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
+	CpmId             int64     `db:"cpm_id_fk" json:"cpmid"`
+	PatientId         int64     `db:"patient_id" json:"patientid"`
+	AdmissionId       int64     `db:"admission_id_fk" json:"admissionid"`
+	Uuid              string    `db:"uuid" json:"uuid"`
+	Age               string    `db:"age" json:"age"`
+	Weight            string    `db:"weight" json:"weight"`
+	OtherDetails      string    `db:"other_details" json:"otherdetails"`
+	CreatedOn         time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn         time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftPatientMedicalDetailsRowModel struct {
+	pcmodels.StoreEntityModel
+	MedicalDetailsId        int64     `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	CpmId                   int64     `db:"cpm_id_fk" json:"cpmid"`
+	PatientId               int64     `db:"patient_id" json:"patientid"`
+	AdmissionId             int64     `db:"admission_id_fk" json:"admissionid"`
+	ReasonForAdmission      string    `db:"reason_for_admission" json:"reasonforadmission"`
+	PatientMedicalHist      string    `db:"patient_medical_hist" json:"patientmedicalhist"`
+	TreatmentRecievedBefore string    `db:"treatment_recieved_before" json:"treatmentrecievedbefore"`
+	FamilyHist              string    `db:"family_hist" json:"familyhist"`
+	MenstrualHist           *string   `db:"menstrual_hist" json:"menstrualhist"`
+	Allergies               string    `db:"allergies" json:"allergies"`
+	PersonalHistory         string    `db:"personal_history" json:"personalhistory"`
+	GeneralPhysicalExam     string    `db:"general_physical_exam" json:"generalphysicalexam"`
+	SystematicExam          string    `db:"systematic_exam" json:"systematicexam"`
+	CreatedOn               time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn               time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftPatientConfTableRowModel struct {
+	PatientConfId int64     `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
+	CpmId         int64     `db:"cpm_id_fk" json:"cpmid"`
+	ConfTypeCode  string    `db:"conf_type_code" json:"conftypecode"`
+	Conf          string    `db:"conf" json:"conf"`
+	ShortDesc     *string   `db:"short_desc" json:"shortdesc"`
+	CreatedOn     time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn     time.Time `db:"updated_on" json:"updatedon"`
 }
