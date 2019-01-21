@@ -12,7 +12,7 @@ var SUB_MODULE_NAME = "ProdCore.StoreSync"
 
 func GetChanges(dbConn string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
 
-	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreId)
+	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName)
 	if dbErr != nil {
 		logger.Context().WithField("Sync Config Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get sync config.", dbErr)
 		return dbErr, nil
@@ -33,7 +33,7 @@ func GetChanges(dbConn string, syncReq pcmodels.StoreSyncGetRequestModel) (error
 	storeSyncGetResponseModel := &pcmodels.StoreSyncGetResponseModel{}
 	storeSyncGetResponseModel.Data = tableData
 	storeSyncGetResponseModel.Count = count
-	storeSyncGetResponseModel.StoreId = syncReq.StoreId
+	storeSyncGetResponseModel.StoreName = syncReq.StoreName
 
 	return nil, storeSyncGetResponseModel
 }
@@ -41,7 +41,7 @@ func GetChanges(dbConn string, syncReq pcmodels.StoreSyncGetRequestModel) (error
 //TODO Add notification logic
 func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (error, *pcmodels.StoreSyncApplyResponseModel) {
 
-	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreId)
+	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName)
 	if dbErr != nil {
 		logger.Context().WithField("Sync Config Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get sync config", dbErr)
 		return dbErr, nil
@@ -50,7 +50,7 @@ func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (e
 	err, list := syncReq.GetDataItems()
 	if err != nil {
 		logger.Context().WithField("Sync Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to IStoreSync list", err)
-		return dbErr, nil
+		return err, nil
 	}
 
 	for _, each := range list {
@@ -93,7 +93,7 @@ func ApplyChangesNotify(dbConn string, syncReq pcmodels.StoreSyncApplyRequestMod
 		deviceCommandAck.Ack = false
 	} else {
 		storeSyncModel := pcmodels.StoreSyncModel{}
-		storeSyncModel.StoreId = syncReq.StoreId
+		storeSyncModel.StoreName = syncReq.StoreName
 
 		serviceCtx := &pcservices.ServiceContext{}
 		serviceCtx.Repo = repo

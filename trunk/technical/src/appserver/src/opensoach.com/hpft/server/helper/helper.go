@@ -39,13 +39,17 @@ func GetStoreTableStruct(packet []byte) (error, pcmodels.StoreSyncApplyRequestMo
 	}
 
 	switch reqModel.StoreName {
-	case constants.DB_PATIENT_MASTER_TBL_STORE_ID:
+	case constants.DB_PATIENT_MASTER_TBL_STORE_NAME:
 		ss := *reqModel.Data.(*[]hpftmodels.DBSplHpftPatientMasterTableRowModel)
 		reqModel.Data = ss
 		break
-	case constants.DB_PATIENT_ADMISSION_TBL_STORE_ID:
+	case constants.DB_PATIENT_ADMISSION_TBL_STORE_NAME:
 		ss := *reqModel.Data.(*[]hpftmodels.DBSplHpftPatientAdmissionTableRowModel)
 		reqModel.Data = ss
+		break
+
+	case constants.DB_SP_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplNodeSpTableRowModel{}
 		break
 
 	}
