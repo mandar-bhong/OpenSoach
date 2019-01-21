@@ -6,9 +6,9 @@
     <GridLayout row="1" rows="*" columns="*,auto" height="100%" width="100%">
         <RadListView #myListView [items]="tempList" [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)"
             (loaded)="listLoaded()" multipleSelection="false" selectionBehavior="Press" [groupingFunction]="_funcGrouping"
-            colSpan="2" (itemSelected)="itemSelected($event)" >
+            colSpan="2" (itemSelected)="itemSelected($event)">
             <ng-template tkListItemTemplate let-item="item">
-                <GridLayout columns="*" rows="auto" class="listItemStackLayout" >
+                <GridLayout columns="*" rows="auto" class="listItemStackLayout">
                     <GridLayout row="0" columns="70, *" rows="auto, auto ">
                         <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                             [text]="item.status">
@@ -17,14 +17,14 @@
                                 <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
                                     [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
                             </StackLayout>
-                            <StackLayout *ngIf="item.status === 2" row="1" class="list-layout">
+                            <!-- <StackLayout *ngIf="item.status === 2" row="1" class="list-layout">
                                 <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
                                 <Label row="1" col="0" text="2:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
                             </StackLayout>
                             <StackLayout *ngIf="item.status === 3" row="1" class="list-layout">
                                 <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
                                 <Label row="1" col="0" text="4:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout>
+                            </StackLayout> -->
                         </GridLayout>
                         <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout" style="vertical-align: center;">
                             <Label row="0" col="0" class="body" [text]="item.name" style="color: #396767;"></Label>
@@ -46,9 +46,9 @@
             </ng-template>
 
             <ng-template tkTemplateKey="expanded" let-item="item">
-                <!-- <CardView class="cardStyle" margin="3" shadowOffsetWidth = 0; style="margin-bottom: 10px; padding: 6% 6%;"> -->
-                <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout" [class]="'item ' + (item.selected ? 'item-selected' : '')" [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
-                    <GridLayout row="0" columns="70, *" rows="auto, auto">
+                <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout"
+                    [class]="'item ' + (item.selected ? 'item-selected' : '')" [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
+                    <GridLayout row="0" columns="70, *" rows="auto, auto"style="padding-bottom: 8%;">
                         <GridLayout col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;">
                             <StackLayout row="1" class="list-layout">
                                 <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
@@ -78,7 +78,7 @@
                                 </StackLayout>
                                 <StackLayout row="0" col="2">
                                     <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5" height="37"
-                                        width="37">
+                                        width="37" (tap)="onDiscard(item)">
                                         <Label text="&#xf00d;" class="fas" style="color:red"></Label>
                                     </RL:Ripple>
                                 </StackLayout>
@@ -113,7 +113,6 @@
                         <StackLayout class="hr-light m-10"></StackLayout>
                     </GridLayout>
                 </GridLayout>
-                <!-- </CardView> -->
             </ng-template>
         </RadListView>
 

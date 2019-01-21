@@ -7,10 +7,10 @@ let selectQueries = new Map([
     [ "chartInsert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf) values ( ?, ?, ?, ?)" ],
     [ "monitorConfList", "select uuid,conf_type_code,conf from schedule_tbl where conf_type_code = 'Monitor'"],
     [ "actionList", "select * from action_tbl"],
-    [ "actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time) values ( ?, ?, ?, ?, ?)" ],
+    [ "actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status) values ( ?, ?, ?, ?, ?, ?)" ],
     [ "chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
     [ "servicePointList", "select * from service_point_tbl"],
-    [ "actionTxnInsert", "insert into action_txn_tbl (uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?)" ],
+    [ "actionTxnInsert", "insert into action_txn_tbl (uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,runtime_config_data, status) values ( ?, ?, ?, ?, ?, ?, ?, ?)" ],
     [ "syncList", "select * from sync_tbl"],
     [ "actionTxnList", "select * from action_txn_tbl"],
 
