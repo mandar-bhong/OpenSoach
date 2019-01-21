@@ -99,6 +99,21 @@ export class DatabaseSchemaService {
         `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_state ) values ('SP001',"General Ward 1","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
         `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_state ) values ('SP002', "General Ward 2","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
         `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_state ) values ('SP003', "General Ward 3","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
+
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  1547613042 ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A002', 'PA001' ,'Medicine' ,'PC001', 1547793053  ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A003', 'PA001' ,'Medicine' ,'PC001',  1547763053  ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A004', 'PA001' ,'Medicine' ,'PC001', 1547563053 ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A005', 'PA001' ,'Intake' ,'PC001',  1547793053  ,0)`,
+            `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A006', 'PA001' ,'Monitor' ,'PC001', 1547563053 ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A007', 'PA001' ,'Output' ,'PC001',  1547793053  ,0)`,
     ]
 
 
