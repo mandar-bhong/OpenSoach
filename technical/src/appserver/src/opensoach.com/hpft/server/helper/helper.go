@@ -20,13 +20,16 @@ func GetStoreTableStruct(packet []byte) (error, pcmodels.StoreSyncApplyRequestMo
 		return convErr, pcmodels.StoreSyncApplyRequestModel{}, nil
 	}
 
-	switch reqModel.StoreId {
-	case constants.DB_PATIENT_MASTER_TBL_STORE_ID:
+	switch reqModel.StoreName {
+	case constants.DB_PATIENT_MASTER_TBL_STORE_NAME:
 		reqModel.Data = &[]hpftmodels.DBSplHpftPatientMasterTableRowModel{}
 		break
-		// case constants.DB_PATIENT_ADMISSION_TBL_STORE_ID:
-		// 	reqModel.Data = &[]hpftmodels.DBSplHpftPatientAdmissionTableRowModel{}
-		// 	break
+	case constants.DB_PATIENT_ADMISSION_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftPatientAdmissionTableRowModel{}
+		break
+	case constants.DB_SP_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplNodeSpTableRowModel{}
+		break
 
 	}
 
@@ -35,15 +38,15 @@ func GetStoreTableStruct(packet []byte) (error, pcmodels.StoreSyncApplyRequestMo
 		return convErr, pcmodels.StoreSyncApplyRequestModel{}, nil
 	}
 
-	switch reqModel.StoreId {
+	switch reqModel.StoreName {
 	case constants.DB_PATIENT_MASTER_TBL_STORE_ID:
 		ss := *reqModel.Data.(*[]hpftmodels.DBSplHpftPatientMasterTableRowModel)
 		reqModel.Data = ss
 		break
-		// case constants.DB_PATIENT_ADMISSION_TBL_STORE_ID:
-		// 	ss := *reqModel.Data.(*[]hpftmodels.DBSplHpftPatientAdmissionTableRowModel)
-		// 	reqModel.Data = ss
-		// 	break
+	case constants.DB_PATIENT_ADMISSION_TBL_STORE_ID:
+		ss := *reqModel.Data.(*[]hpftmodels.DBSplHpftPatientAdmissionTableRowModel)
+		reqModel.Data = ss
+		break
 
 	}
 
