@@ -108,3 +108,63 @@
 .list-layout {
     padding: 10% 7px;
 }
+.rightsecond{
+    horizontal-align: right;
+    margin-top: 85%;
+    /* padding-right: 20; */
+}
+.float-btn {
+    background-color: #FF8912;
+    /* border-radius: 3px; */
+    border-radius: 28;
+    width: 56;
+    height: 56;
+    text-align: center;
+    vertical-align: middle;
+}
+.float-btn-text {
+    color: #ffffff;
+    font-size: 28;
+    color: rgba(255, 255, 255, 1);
+    /* opacity: 1; */
+    /* background-color: red;
+    padding: 5; */
+}
+
+
+@keyframes show {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.dialogOpen .content {
+  opacity:0.1; 
+}
+.dialogOpen .dialog-wrapper {
+    visibility: visible;
+    animation-name: show;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+   
+}
+.dialog-wrapper {
+    visibility: collapse;
+    opacity: 0;
+    width: 80%;
+}
+
+.dialog {
+    padding: 5 10;
+    background-color: #f0f0f0;  
+    border-radius: 8px;
+}
+.dialog Label {
+    margin: 0 15 15 15;
+    color: black;
+}
+.pop-list-layout {
+    padding: 12% 7px;
+}
+.pop-btn-icon {
+    font-size: 23;
+}
