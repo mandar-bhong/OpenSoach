@@ -40,14 +40,7 @@ export class PatientMgntComponent implements OnInit {
 		// getting patient data form service 
 	      // for getting header name label text
 		this.patientName = this.passdataservice.getHeaderName();
-		console.log('patient name',this.patientName)
-		// goBackPage() {
-		// 	this.routerExtensions.navigate(["/home"], { clearHistory: true });
-		// }
-
-		// patientdetail(){
-		// 	this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: true });
-		// }
+		console.log('patient name',this.patientName);
 	}
 	goBackPage() {
 		this.routerExtensions.back();
