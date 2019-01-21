@@ -6,6 +6,7 @@ import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-
 import { Observable } from 'tns-core-modules/data/observable';
 import { ChartService } from "~/app/services/chart/chart.service";
 import { ChartListViewModel } from "~/app/models/ui/chart-models";
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
 	moduleId: module.id,
@@ -33,7 +34,9 @@ export class ChartsComponent implements OnInit {
 	// >> grouping 
 	public _funcGrouping: (item: ChartListViewModel) => ChartListViewModel;
 
-	constructor(private chartService:ChartService) {
+	dialogOpen = false;
+	constructor(private chartService: ChartService,
+		private routerExtensions: RouterExtensions) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
 			return item.dbmodel.conf_type_code;
@@ -46,6 +49,13 @@ export class ChartsComponent implements OnInit {
 
 		this.getChartData();
 
+	}
+	showDialog() {
+		this.dialogOpen = true;
+	}
+
+	closeDialog() {
+		this.dialogOpen = false;
 	}
 
 	public listLoaded() {
@@ -124,9 +134,9 @@ export class ChartsComponent implements OnInit {
 		return this.chartListItems;
 	}
 
-	public getChartData(){
+	public getChartData() {
 		this.chartService.getChartList().then(
-			(val)=>{
+			(val) => {
 				val.forEach(item => {
 					let chartListItem = new ChartListViewModel();
 					chartListItem.dbmodel = item;
@@ -135,10 +145,19 @@ export class ChartsComponent implements OnInit {
 				});
 				this.getGroupIndex();
 			},
-			(error)=>{
-				console.log("getChartData error:",error);
+			(error) => {
+				console.log("getChartData error:", error);
 			}
-		);		
+		);
+	}
+	monitorForm() {
+		this.routerExtensions.navigate(['patientmgnt', 'monitor-chart'], { clearHistory: false });	
+	}
+	medicineForm() {
+		this.routerExtensions.navigate(['patientmgnt', 'medicine-chart'], { clearHistory: false });			
+	}
+	intakeForm() {
+		this.routerExtensions.navigate(['patientmgnt', 'intake-chart'], { clearHistory: false });		
 	}
 
 }

@@ -1,17 +1,20 @@
-<GridLayout rows="*" columns="*,auto" height="100%" width="100%">
-    <RadListView #myListView [items]="_listItems" (loaded)="listLoaded()" [groupingFunction]="_funcGrouping" colSpan="2">
-        <ng-template tkListItemTemplate let-item="item">
-            <GridLayout row="0" columns="70, *" rows="auto, auto " class="listItemStackLayout">
-                <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
-                    [text]="item.dbmodel.status">
-                    <StackLayout row="1" class="list-layout">
-                        <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
-                        <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
-                    </StackLayout>
+<GridLayout rows="*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
 
-                    <!-- todo clock color chnage condition code -->
+    <GridLayout rows="*" columns="*,auto" height="100%" width="100%" class="content">
+        <RadListView #myListView [items]="_listItems" (loaded)="listLoaded()" [groupingFunction]="_funcGrouping"
+            colSpan="2">
+            <ng-template tkListItemTemplate let-item="item">
+                <GridLayout row="0" columns="70, *" rows="auto, auto " class="listItemStackLayout">
+                    <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
+                        [text]="item.dbmodel.status">
+                        <StackLayout row="1" class="list-layout">
+                            <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
+                            <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
+                        </StackLayout>
 
-                    <!-- <StackLayout *ngIf="item.status === 1" row="1" class="list-layout">
+                        <!-- todo clock color chnage condition code -->
+
+                        <!-- <StackLayout *ngIf="item.status === 1" row="1" class="list-layout">
                                 <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
                                 <Label row="1" col="0" text="3:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
                             </StackLayout>
@@ -25,54 +28,100 @@
                             </StackLayout>
                          </StackLayout> -->
 
-                    <!-- todo clock color chnage condition code -->
+                        <!-- todo clock color chnage condition code -->
+                    </GridLayout>
+                    <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout">
+                        <Label row="0" col="0" class="body" [text]="item.dbmodel.conf.name" style="color: #396767;"></Label>
+                        <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.dbmodel.conf.desc"
+                            style="margin-left: 10px;"></Label>
+                    </GridLayout>
+                    <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
+                        <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
+                    </GridLayout>
                 </GridLayout>
-                <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout">
-                    <Label row="0" col="0" class="body" [text]="item.dbmodel.conf.name" style="color: #396767;"></Label>
-                    <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.dbmodel.conf.desc" style="margin-left: 10px;"></Label>
-                </GridLayout>
-                <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
-                    <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
-                </GridLayout>
-            </GridLayout>
-        </ng-template>
-        <ng-template tkGroupTemplate let-category="category">
-            <StackLayout class="category-header">
-                <StackLayout style="background-color:#f6f6f6;" height="7"></StackLayout>
-                <Label class="nameLabel" [text]="category"></Label>
+            </ng-template>
+            <ng-template tkGroupTemplate let-category="category">
+                <StackLayout class="category-header">
+                    <StackLayout style="background-color:#f6f6f6;" height="7"></StackLayout>
+                    <Label class="nameLabel" [text]="category"></Label>
+                </StackLayout>
+            </ng-template>
+
+        </RadListView>
+
+        <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
+            <StackLayout row="0">
+                <RL:Ripple rippleColor="#fff" style="margin-top: 20px;">
+                    <StackLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
+                        <Label class="float-btn-cat-text fas" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <StackLayout class="float-btn-cat" (tap)="medicinebuttonClicked = true" [class.button-clicked]="medicinebuttonClicked">
+                        <Label class="float-btn-cat-text fas" (tap)="selectMedicine()" text="&#xf484;" [style.color]="medicinebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <StackLayout class="float-btn-cat" (tap)="intakebuttonClicked = true" [class.button-clicked]="intakebuttonClicked">
+                        <Label class="float-btn-cat-text fas" (tap)="selectIntake()" text="&#xf48e;" [style.color]="intakebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <StackLayout class="float-btn-cat" (tap)="outputbuttonClicked = true" [class.button-clicked]="outputbuttonClicked">
+                        <Label class="float-btn-cat-text fas" (tap)="selectOutput()" text="&#xf46c;" [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </StackLayout>
+                </RL:Ripple>
             </StackLayout>
-        </ng-template>
+        </StackLayout>
 
-    </RadListView>
-
-    <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
-        <StackLayout row="0">
-            <RL:Ripple rippleColor="#fff" style="margin-top: 20px;">
-                <StackLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
-                    <Label class="float-btn-cat-text fas" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
-                </StackLayout>
-            </RL:Ripple>
-            <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-                <StackLayout class="float-btn-cat" (tap)="medicinebuttonClicked = true" [class.button-clicked]="medicinebuttonClicked">
-                    <Label class="float-btn-cat-text fas" (tap)="selectMedicine()" text="&#xf484;" [style.color]="medicinebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
-                </StackLayout>
-            </RL:Ripple>
-            <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-                <StackLayout class="float-btn-cat" (tap)="intakebuttonClicked = true" [class.button-clicked]="intakebuttonClicked">
-                    <Label class="float-btn-cat-text fas" (tap)="selectIntake()" text="&#xf48e;" [style.color]="intakebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
-                </StackLayout>
-            </RL:Ripple>
-            <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-                <StackLayout class="float-btn-cat" (tap)="outputbuttonClicked = true" [class.button-clicked]="outputbuttonClicked">
-                    <Label class="float-btn-cat-text fas" (tap)="selectOutput()" text="&#xf46c;" [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+        <StackLayout row="0" col="1" column="*" row="auto" horizontalAlignment="right" class="rightsecond">
+            <RL:Ripple rippleColor="#fff" (tap)="showDialog()">
+                <StackLayout class="float-btn">
+                    <Label class="float-btn-text" text="+"></Label>
                 </StackLayout>
             </RL:Ripple>
         </StackLayout>
 
-        <StackLayout class="float-btn-container">
-            <float-btn></float-btn>
+    </GridLayout>
+    <AbsoluteLayout class="dialog-wrapper" style="justify-content: center; vertical-align: center;">
+        <StackLayout class="dialog" width="100%">
+            <Label class="h3" textWrap="true" text="Create Courses" style="padding-top:10%;"></Label>
+            <GridLayout rows="auto, auto, auto, auto, auto" columns="*">
+
+                <GridLayout row="0" col="0" rows="*, auto" columns="50, *" (tap)="intakeForm()" style="vertical-align: center;">
+                    <!-- <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf201;"></Label> -->
+                    <!-- <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf201;" style="color: #396767; vertical-align: center;"></Label>
+                    <Label row="0" col="1" class="body" text="Intake" style="color: #396767;" class="pop-list-layout"></Label> -->
+                    <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf46c;" style="color: #396767;"></Label>
+                    <Label row="0" col="1" class="body" text="Intake" style="color: #396767;" class="pop-list-layout"></Label>
+                    <StackLayout row="1" col="1" class="hr-light m-10"></StackLayout>
+                </GridLayout>
+
+
+                <GridLayout row="1" col="0" rows="*, auto" columns="50, *" (tap)="medicineForm()">
+                    <!-- <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf484;"></Label> -->
+                    <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf484;" style="color: #396767; vertical-align: center;"></Label>
+                    <Label row="0" col="1" class="body" text="Medicine" style="color: #396767;" class="pop-list-layout"></Label>
+                    <StackLayout row="1" col="1" class="hr-light m-10"></StackLayout>
+                </GridLayout>
+
+
+                <GridLayout row="2" col="0" rows="*, auto" columns="50, *" (tap)="monitorForm()">
+                    <!-- <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf48e;"></Label> -->
+                    <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf520;" style="color: #396767;"></Label>
+                    <Label row="0" col="1" class="body" text="Monitar" style="color: #396767;" class="pop-list-layout"></Label>
+                    <StackLayout row="1" col="1" class="hr-light m-10"></StackLayout>
+                </GridLayout>
+
+
+                <GridLayout row="3" col="0" rows="*" columns="50, *">
+                    <Label row="0" col="0" class="pop-btn-icon fas" text="&#xf520;" style="color: #396767;"></Label>
+                    <Label class="body" col="1" text="Output" style="color: #396767;" class="pop-list-layout"></Label>
+                </GridLayout>
+
+                <Button row="4" col="0" class="btn btn-outline" text="Cancel" (tap)="closeDialog()"></Button>
+            </GridLayout>
+
         </StackLayout>
-
-    </StackLayout>
-
+    </AbsoluteLayout>
 </GridLayout>
