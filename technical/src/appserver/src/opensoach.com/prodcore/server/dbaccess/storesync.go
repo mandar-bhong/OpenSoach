@@ -8,7 +8,7 @@ import (
 	"opensoach.com/prodcore/models"
 )
 
-func GetSyncConfig(dbConn string, storeid int) (error, *models.SyncConfigModel) {
+func GetSyncConfig(dbConn string, storename string) (error, *models.SyncConfigModel) {
 
 	selDBCtx := dbmgr.SelectContext{}
 	data := &models.SyncConfigModel{}
@@ -16,7 +16,7 @@ func GetSyncConfig(dbConn string, storeid int) (error, *models.SyncConfigModel) 
 	selDBCtx.Query = dbquery.QUERY_SELECT_SYNC_CONFIG_ON
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Get(storeid)
+	selErr := selDBCtx.Get(storename)
 	if selErr != nil {
 		return selErr, nil
 	}

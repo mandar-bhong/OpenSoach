@@ -9,7 +9,7 @@ type IStoreSync interface {
 }
 
 type StoreSyncModel struct {
-	StoreId int `json:"storeid"`
+	StoreName string `json:"storename"`
 }
 
 type StoreEntityModel struct {
