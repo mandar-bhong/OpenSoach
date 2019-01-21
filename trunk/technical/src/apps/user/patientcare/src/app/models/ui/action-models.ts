@@ -18,4 +18,5 @@ export class ActionTxnDBModel {
     txn_state: string;
     conf_type_code: string;
     runtime_config_data: string;
+    status: number;
 }

@@ -33,7 +33,7 @@ export class ActionService {
 
             this.database.selectAll("actionTxnList").then(
                 (val)=> {
-                    // console.log("action data",val);                  
+                    console.log("action data service",val);                  
                     resolve(val);          
                 },
                 (error)=>{
@@ -84,6 +84,7 @@ export class ActionService {
         listData.push(data.txn_state);
         listData.push(data.conf_type_code);
         listData.push(data.runtime_config_data);
+        listData.push(data.status);
 
         this.database.update("actionTxnInsert",listData).then(
         (val)=> {

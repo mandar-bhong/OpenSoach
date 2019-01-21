@@ -16,7 +16,7 @@ export class DatabaseSchemaService {
         "CREATE TABLE IF NOT EXISTS schedule_tbl (admission_uuid TEXT, uuid TEXT, conf_type_code TEXT, conf TEXT, updated_on DATETIME, sync_state INTEGER)",
         "CREATE TABLE IF NOT EXISTS conf_tbl (uuid TEXT,conf_type_code TEXT, conf TEXT, updated_on DATETIME, sync_state INTEGER)",
         "CREATE TABLE IF NOT EXISTS action_tbl (uuid TEXT,admission_uuid TEXT, conf_type_code TEXT, schedule_uuid TEXT, exec_time INTEGER, sync_state INTEGER)",
-        "CREATE TABLE IF NOT EXISTS action_txn_tbl (uuid TEXT,schedule_uuid TEXT,txn_data TEXT,txn_date DATETIME, txn_state INTEGER, conf_type_code TEXT, runtime_config_data TEXT, updated_on DATETIME, sync_state INTEGER)",
+        "CREATE TABLE IF NOT EXISTS action_txn_tbl (uuid TEXT,schedule_uuid TEXT,txn_data TEXT,txn_date DATETIME, txn_state INTEGER, conf_type_code TEXT, runtime_config_data TEXT, updated_on DATETIME, sync_state INTEGER, status INTEGER)",
         "CREATE TABLE IF NOT EXISTS service_point_tbl (uuid TEXT, sp_name TEXT, short_desc TEXT, sp_state INTEGER, sp_state_since DATETIME, updated_on DATETIME, sync_state INTEGER )"
     ]
 
@@ -110,10 +110,18 @@ export class DatabaseSchemaService {
             VALUES ('A004', 'PA001' ,'Medicine' ,'PC001', 1547563053 ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
             VALUES ('A005', 'PA001' ,'Intake' ,'PC001',  1547793053  ,0)`,
-            `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
             VALUES ('A006', 'PA001' ,'Monitor' ,'PC001', 1547563053 ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
             VALUES ('A007', 'PA001' ,'Output' ,'PC001',  1547793053  ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A008', 'PA001' ,'Medicine' ,'PC001', 1547563053 ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A009', 'PA001' ,'Intake' ,'PC001',  1547793053  ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A010', 'PA001' ,'Monitor' ,'PC001', 1547563053 ,0)`,
+        `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
+            VALUES ('A011', 'PA001' ,'Output' ,'PC001',  1547793053  ,0)`,
     ]
 
 
@@ -123,7 +131,7 @@ export class DatabaseSchemaService {
 
     public setOfflineDB() {
 
-         this.database.deleteDatabaseInDebugMode();
+        this.database.deleteDatabaseInDebugMode();
         // var promise1 = new Promise(function(resolve, reject) {
         //     setTimeout(function() {
         //       // check if everything

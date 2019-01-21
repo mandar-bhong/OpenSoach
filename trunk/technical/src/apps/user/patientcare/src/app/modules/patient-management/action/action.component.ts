@@ -1,42 +1,33 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
-import { View, isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
-import { ListViewLinearLayout, ListViewEventData, RadListView, LoadOnDemandListViewEventData, ListViewItemSnapMode } from 'nativescript-ui-listview';
+import { SnackBar, SnackBarOptions } from 'nativescript-snackbar';
+import {
+	ListViewEventData,
+	ListViewItemSnapMode,
+	ListViewLinearLayout,
+	LoadOnDemandListViewEventData,
+	RadListView,
+} from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
-import { layout } from "tns-core-modules/utils/utils";
-import { EventData } from "tns-core-modules/data/observable";
-import { Observable } from 'tns-core-modules/data/observable';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { error } from 'tns-core-modules/trace/trace';
+import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
+import { layout } from 'tns-core-modules/utils/utils';
+import { Page } from 'ui/page';
+import { medicine } from '~/app/common-constants';
+import { PlatformHelper } from '~/app/helpers/platform-helper';
+import { ActionDataDBRequest } from '~/app/models/api/actions-models';
+import { ActionListViewModel, ActionTxnDBModel } from '~/app/models/ui/action-models';
+import { Schedulardata } from '~/app/models/ui/chart-models';
+import { ActionService } from '~/app/services/action/action.service';
+import { ChartService } from '~/app/services/chart/chart.service';
+import { PassDataService } from '~/app/services/pass-data-service';
 
 // expand row 
-import * as utils from "utils/utils";
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
 
 // SnackBar import 
-import { alert } from "tns-core-modules/ui/dialogs";
-import { SnackBar, SnackBarOptions } from "nativescript-snackbar";
-import { Page } from "ui/page";
-import { Subscription } from 'rxjs/internal/Subscription';
-import { PassDataService } from '~/app/services/pass-data-service';
-import { ChartService } from '~/app/services/chart/chart.service';
-import { ChartListViewModel, ConfigData, Schedulardata, MedChartModel, AftrnFreqInfo, MornFreqInfo, NightFreqInfo } from '~/app/models/ui/chart-models';
-import { error } from 'tns-core-modules/trace/trace';
-import { medicine, freuencyzero } from '~/app/common-constants';
-import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
-import { ActionService } from '~/app/services/action/action.service';
-import { ActionListViewModel, ActionTxnDBModel } from '~/app/models/ui/action-models';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActionDataDBRequest } from '~/app/models/api/actions-models';
-import { PlatformHelper } from '~/app/helpers/platform-helper';
-
-export class DataItem {
-	public pstatus: string;
-	public title: string;
-	public due_at: string;
-	public has_details: boolean;
-	public desc: string;
-	public status: number;
-}
 export class DataActionItem {
 	uuid: string;
 	admission_uuid: string;
@@ -58,7 +49,6 @@ export class ActionComponent implements OnInit {
 	public actionListItem = new ObservableArray<ActionListViewModel>();
 	chartbuttonClicked: boolean = false;
 	public _dataItems: ObservableArray<any>;
-	data = new Array<DataItem>();
 	private layout: ListViewLinearLayout;
 	schedulardata: Schedulardata;
 	monitorschedulardata: Schedulardata[] = []
@@ -72,20 +62,21 @@ export class ActionComponent implements OnInit {
 	actionSubscription: Subscription;
 	// >> search var declaration
 	// public myItems: ObservableArray<DataItem> = new ObservableArray<DataItem>();
-	tempdata = new Array<DataItem>();
+	// tempdata = new Array<DataItem>();
+	tempdata = new Array<ActionTxnDBModel>();
 
 
 	// >> grouping 
-	public _funcGrouping: (item: DataItem) => DataItem;
+	public _funcGrouping: (item: DataActionItem) => DataActionItem;
 
 	// >> exapnd row
 	expanded: false;
 
 	// >> finding grouping index then after click show in top
-	intakeIndex;
-	medicineIndex;
-	monitorIndex;
-	outputIndex;
+	intakeIndex: any;
+	medicineIndex: any;
+	monitorIndex: any;
+	outputIndex: any;
 
 	// >>  bottom snackbar msg
 	private snackbar: SnackBar;
@@ -119,9 +110,6 @@ export class ActionComponent implements OnInit {
 		this.actionDbData = new ActionDataDBRequest();
 	}
 
-	// get dataItems(): ObservableArray<DataItem> {
-	// 	return this._dataItems;
-	// }
 	get dataItems(): ObservableArray<DataActionItem> {
 		return this._dataItems;
 	}
@@ -133,7 +121,6 @@ export class ActionComponent implements OnInit {
 
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
-		this._dataItems = new ObservableArray<DataItem>();
 		this.getActionData();
 		// for (let i = 1; i < 50; i++) {
 		// 	let newName = { ward: "3A/312", name: "Sumeet karande", mobile: "9878978980" };
@@ -157,39 +144,14 @@ export class ActionComponent implements OnInit {
 		// this._dataItems = new ObservableArray(this.data);
 		// this.addMoreItemsFromSource(20);
 		setTimeout(() => {
-			this.initDataItems();
 			//this.addMoreItemsFromSource(20);
 		}, 200);
-	}
-
-	public initDataItems() {
-		const tempdata = new Array<DataItem>();
-		this.tempdata.push({ title: "Saline", desc: "200ml", due_at: "17:00:00", has_details: true, pstatus: "Intake", status: 1 });
-		this.tempdata.push({ title: "Output", desc: "200ml", due_at: "15:00:00", has_details: true, pstatus: "Output", status: 1 });
-		this.tempdata.push({ title: "Sinarest", desc: "3 times a day after meal", due_at: "16:00:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Acetaminophen", desc: "Morning and evening before meal", due_at: "17:30:00", has_details: false, pstatus: "Medicine", status: 2 });
-		this.tempdata.push({ title: "Aspirin", desc: "Incase of high body temperature", due_at: "17:50:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Zofran", desc: "Incase of continuos vomitting and nausea", due_at: "18:00:00", has_details: false, pstatus: "Medicine", status: 1 });
-		this.tempdata.push({ title: "Temperature", desc: "Monitor every 2 hours", due_at: "12:00:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Blood pressure", desc: "Monitor every 3 hours", due_at: "12:30:00", has_details: true, pstatus: "Monitor", status: 1 });
-		this.tempdata.push({ title: "Pulse Rate", desc: "Monitor every 15 mins", due_at: "14:15:00", has_details: true, pstatus: "Monitor", status: 3 });
-		this.tempdata.push({ title: "Respiration Rate", desc: "Monitor every 30 mins", due_at: "14:45:00", has_details: true, pstatus: "Monitor", status: 1 });
-
-		for (let i = 0; i < 20; i++) {
-			this.tempdata.forEach(item => {
-				this.data.push(item);
-			})
-		}
-		this._dataItems = new ObservableArray(this.tempdata);
-		this.getCount();
-		// this.dataItems.push(this.tempdata);
-		// this.myItems = new ObservableArray<DataItem>(this.tempdata);
 	}
 
 	public addMoreItemsFromSource(chunkSize: number) {
 		// console.log('items loaded pre dataitems', this.dataItems.length);
 		// console.log('items loaded pre data', this.data.length);
-		let newItems = this.data.slice(this.dataItems.length, this.dataItems.length + chunkSize);
+		let newItems = this.tempList.slice(this.dataItems.length, this.dataItems.length + chunkSize);
 		// this.dataItems.push(newItems);
 		// console.log('items loaded post new items', newItems.length);
 		// console.log('items loaded post', this.dataItems.length);
@@ -200,7 +162,7 @@ export class ActionComponent implements OnInit {
 
 		// const that = new WeakRef(this);
 		const listView: RadListView = args.object;
-		if (this.dataItems.length < this.data.length) {
+		if (this.dataItems.length < this.tempList.length) {
 			setTimeout(() => {
 				this.addMoreItemsFromSource(20);
 				listView.notifyLoadOnDemandFinished();
@@ -301,19 +263,19 @@ export class ActionComponent implements OnInit {
 	// >> Calculate Grouping index value
 	public getCount() {
 
-		const medicine = this.tempdata.filter(a => a.pstatus === "Medicine");
+		const medicine = this.tempList.filter(a => a.conf_type_code === "Medicine");
 		const medicineCount = medicine.length;
 		console.log("medicineCount", medicineCount);
 
-		const monitor = this.tempdata.filter(a => a.pstatus === "Monitor");
+		const monitor = this.tempList.filter(a => a.conf_type_code === "Monitor");
 		const monitorCount = monitor.length;
 		console.log("monitorCount", monitorCount);
 
-		const intake = this.tempdata.filter(a => a.pstatus === "Intake");
+		const intake = this.tempList.filter(a => a.conf_type_code === "Intake");
 		const intakeCount = intake.length;
 		console.log("intakeCount", intakeCount);
 
-		const output = this.tempdata.filter(a => a.pstatus === "Output");
+		const output = this.tempList.filter(a => a.conf_type_code === "Output");
 		const outputCount = output.length;
 		console.log("outputCount", outputCount);
 
@@ -380,7 +342,7 @@ export class ActionComponent implements OnInit {
 		});
 	}
 	// << snackbar mes show bottom 
-	
+
 
 
 	// end of code block
@@ -402,7 +364,7 @@ export class ActionComponent implements OnInit {
 					this.actionListItem.push(this.actionListItems);
 					console.log("action list", this.actionListItem);
 				});
-				// this.getCount();
+
 				this.getListDataById();
 			},
 			(error) => {
@@ -436,6 +398,7 @@ export class ActionComponent implements OnInit {
 			this.tempList.push(actionListDataItem);
 			// console.log('testItem array', this.tempList);
 		});
+		this.getCount();
 	}
 
 
@@ -475,6 +438,52 @@ export class ActionComponent implements OnInit {
 		this.formData.runtime_config_data = null;
 		this.formData.txn_date = null;
 		this.formData.txn_state = null;
+		this.formData.status = 1;
+
+		// console.log('this.actionformData', this.formData);
+
+		// after done data push one by one ietm in array hold data
+		this.actionDbArray.push(this.formData);
+		console.log('this.actionDbArray', this.actionDbArray);
+
+	}
+	// >> on discard one bye one item data
+	onDiscard(item) {
+		console.log(item);
+		//set action conf model
+
+		this.itemSelected(item);
+		this.saveViewOpen = true;
+		this.formData = new ActionTxnDBModel();
+
+		// >> check condition medicine data not add comment and value entries
+		if (item.conf_type_code === 'Medicine') {
+			this.actionDbData.comment = null;
+			this.actionDbData.value = null;
+			this.confString1 = JSON.stringify(this.actionDbData);
+			console.log('confString', this.confString1);
+		} else {
+			this.actionDbData.comment = this.actiondata.comment;
+			this.actionDbData.value = this.actiondata.value;
+			this.confString = JSON.stringify(this.actionDbData);
+			console.log('confString', this.confString);
+		}
+
+		// set db model 
+		this.formData.uuid = PlatformHelper.API.getRandomUUID();
+		this.formData.schedule_uuid = item.schedule_uuid;
+
+		// >> check condition medicine data in josn format push
+		if (item.conf_type_code === 'Medicine') {
+			this.formData.txn_data = this.confString1;
+		} else {
+			this.formData.txn_data = this.confString;
+		}
+		this.formData.conf_type_code = item.conf_type_code;
+		this.formData.runtime_config_data = null;
+		this.formData.txn_date = null;
+		this.formData.txn_state = null;
+		this.formData.status = 0;
 
 		// console.log('this.actionformData', this.formData);
 
@@ -497,24 +506,26 @@ export class ActionComponent implements OnInit {
 			this.actionformData.txn_state = item.txn_state;
 			this.actionformData.conf_type_code = item.conf_type_code;
 			this.actionformData.runtime_config_data = item.runtime_config_data;
+			this.actionformData.status = item.status
 
 			console.log('item.conf_type_code', item.conf_type_code);
 			console.log('this.actionformData.schedule_uuid', this.actionformData.conf_type_code);
 			console.log('actionformData', this.actionformData);
-			
+
 			// save action done and discard in DB
 			this.actionService.insertActionTxnItem(this.actionformData);
 		})
-		
+
 		// check data save entries added in action trn table 
 		this.gettrnlistdata();
 	}
 
 	// selected done and discard row change background color
-	itemSelected(item){
+	itemSelected(item) {
 		item.selected = true;
 	}
-	gettrnlistdata(){
+	gettrnlistdata() {
 		this.actionService.getActionTxnList();
 	}
+
 }
