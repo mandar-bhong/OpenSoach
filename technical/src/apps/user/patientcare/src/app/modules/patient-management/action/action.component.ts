@@ -23,6 +23,11 @@ import { ChartListViewModel, ConfigData, Schedulardata, MedChartModel, AftrnFreq
 import { error } from 'tns-core-modules/trace/trace';
 import { medicine, freuencyzero } from '~/app/common-constants';
 import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
+import { ActionService } from '~/app/services/action/action.service';
+import { ActionListViewModel, ActionTxnDBModel } from '~/app/models/ui/action-models';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActionDataDBRequest } from '~/app/models/api/actions-models';
+import { PlatformHelper } from '~/app/helpers/platform-helper';
 
 export class DataItem {
 	public pstatus: string;
@@ -31,7 +36,15 @@ export class DataItem {
 	public has_details: boolean;
 	public desc: string;
 	public status: number;
-
+}
+export class DataActionItem {
+	uuid: string;
+	admission_uuid: string;
+	conf_type_code: string;
+	schedule_uuid: string;
+	exec_time: Date;
+	name: string;
+	desc: string;
 }
 @Component({
 	moduleId: module.id,
@@ -42,11 +55,10 @@ export class DataItem {
 
 export class ActionComponent implements OnInit {
 
+	public actionListItem = new ObservableArray<ActionListViewModel>();
+	chartbuttonClicked: boolean = false;
 	public _dataItems: ObservableArray<any>;
 	data = new Array<DataItem>();
-	private leftItem: View;
-	private rightItem: View;
-	private mainView: View;
 	private layout: ListViewLinearLayout;
 	schedulardata: Schedulardata;
 	monitorschedulardata: Schedulardata[] = []
@@ -69,10 +81,6 @@ export class ActionComponent implements OnInit {
 	// >> exapnd row
 	expanded: false;
 
-	// >> swap delete
-	private leftThresholdPassed = false;
-	private rightThresholdPassed = false;
-
 	// >> finding grouping index then after click show in top
 	intakeIndex;
 	medicineIndex;
@@ -82,21 +90,42 @@ export class ActionComponent implements OnInit {
 	// >>  bottom snackbar msg
 	private snackbar: SnackBar;
 
+	actionListItems = new ActionListViewModel();;
+	tempList = new Array<DataActionItem>();
+
+	// >> details form field
+	// actionForm: FormGroup;
+	formData: ActionTxnDBModel;
+	actionformData: ActionTxnDBModel;
+	actiondata: ActionDataDBRequest;
+	actionDbData: ActionDataDBRequest;
+	actionDbArray: ActionTxnDBModel[] = [];
+	confString;
+	confString1;
+	saveViewOpen = false;
+
+
 	constructor(public page: Page,
-		private chartService: ChartService,
-		private passdataservice: PassDataService) {
+		private actionService: ActionService,
+		private passdataservice: PassDataService,
+		private chartService: ChartService) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
-			return item.pstatus;
+			return item.conf_type_code;
 		};
-
+		this.formData = new ActionTxnDBModel();
 		// >>  bottom snackbar msg
 		this.snackbar = new SnackBar();
+		this.actionDbData = new ActionDataDBRequest();
 	}
 
-	get dataItems(): ObservableArray<DataItem> {
+	// get dataItems(): ObservableArray<DataItem> {
+	// 	return this._dataItems;
+	// }
+	get dataItems(): ObservableArray<DataActionItem> {
 		return this._dataItems;
 	}
+
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
@@ -105,7 +134,7 @@ export class ActionComponent implements OnInit {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this._dataItems = new ObservableArray<DataItem>();
-
+		this.getActionData();
 		// for (let i = 1; i < 50; i++) {
 		// 	let newName = { ward: "3A/312", name: "Sumeet karande", mobile: "9878978980" };
 		// 	this.data.push(newName);
@@ -117,85 +146,9 @@ export class ActionComponent implements OnInit {
 
 		}); // end of subscriptions.
 		// this.createActions();
+		this.actionDbData = new ActionDataDBRequest();
+		this.actiondata = new ActionDataDBRequest();
 	}
-	// >> angular-listview-swipe-action-thresholds
-
-	// >> html code selectionBehavior="None" (itemSwipeProgressEnded)="onSwipeCellFinished($event)" (itemSwipeProgressStarted)="onSwipeCellStarted($event)" (itemSwipeProgressChanged)="onCellSwiping($event)" swipeActions="true"
-	public onCellSwiping(args: ListViewEventData) {
-		const swipeLimits = args.data.swipeLimits;
-		const swipeView = args['swipeView'];
-		const mainView = args['mainView'];
-		const leftItem = swipeView.getViewById('mark-view');
-		const rightItem = swipeView.getViewById('delete-view');
-
-		if (args.data.x > swipeView.getMeasuredWidth() / 4 && !this.leftThresholdPassed) {
-			console.log("Notify perform left action");
-			const markLabel = leftItem.getViewById('mark-text');
-			this.leftThresholdPassed = true;
-		} else if (args.data.x < -swipeView.getMeasuredWidth() / 4 && !this.rightThresholdPassed) {
-			const deleteLabel = rightItem.getViewById('delete-text');
-			console.log("Notify perform right action");
-			this.rightThresholdPassed = true;
-		}
-		if (args.data.x > 0) {
-			const leftDimensions = View.measureChild(
-				leftItem.parent,
-				leftItem,
-				layout.makeMeasureSpec(Math.abs(args.data.x), layout.EXACTLY),
-				layout.makeMeasureSpec(mainView.getMeasuredHeight(), layout.EXACTLY));
-			View.layoutChild(leftItem.parent, leftItem, 0, 0, leftDimensions.measuredWidth, leftDimensions.measuredHeight);
-		} else {
-			const rightDimensions = View.measureChild(
-				rightItem.parent,
-				rightItem,
-				layout.makeMeasureSpec(Math.abs(args.data.x), layout.EXACTLY),
-				layout.makeMeasureSpec(mainView.getMeasuredHeight(), layout.EXACTLY));
-
-			View.layoutChild(rightItem.parent, rightItem, mainView.getMeasuredWidth() - rightDimensions.measuredWidth, 0, mainView.getMeasuredWidth(), rightDimensions.measuredHeight);
-		}
-	}
-	// << angular-listview-swipe-action-thresholds
-
-	// >> angular-listview-swipe-action-thresholds-limits
-	public onSwipeCellStarted(args: ListViewEventData) {
-		const swipeLimits = args.data.swipeLimits;
-		const swipeView = args['object'];
-		const leftItem = swipeView.getViewById('mark-view');
-		const rightItem = swipeView.getViewById('delete-view');
-		swipeLimits.left = swipeLimits.right = args.data.x > 0 ? swipeView.getMeasuredWidth() / 2 : swipeView.getMeasuredWidth() / 2;
-		swipeLimits.threshold = swipeView.getMeasuredWidth();
-	}
-	// << angular-listview-swipe-action-thresholds-limits
-
-	// >> angular-listview-swipe-actions-execute
-	public onSwipeCellFinished(args: ListViewEventData) {
-		const swipeView = args['object'];
-		const leftItem = swipeView.getViewById('mark-view');
-		const rightItem = swipeView.getViewById('delete-view');
-		if (this.leftThresholdPassed) {
-			console.log("Perform left action");
-		} else if (this.rightThresholdPassed) {
-			console.log("Perform right action");
-			// this.onRightSwipeClick(args);
-		}
-		this.leftThresholdPassed = false;
-		this.rightThresholdPassed = false;
-	}
-	// << angular-listview-swipe-actions-execute
-
-	public onLeftSwipeClick(args: ListViewEventData) {
-		console.log("Left swipe click");
-		this.listViewComponent.listView.notifySwipeToExecuteFinished();
-	}
-
-	public onRightSwipeClick(args) {
-		console.log("Right swipe click");
-		this._dataItems.splice(this._dataItems.indexOf(args.object.bindingContext), 1);
-		console.log(this._dataItems);
-		// const index = this._dataItems.indexOf(args);
-		// this._dataItems.splice(index, 1);
-	}
-
 
 	public listLoaded() {
 		//return; 
@@ -211,12 +164,7 @@ export class ActionComponent implements OnInit {
 
 	public initDataItems() {
 		const tempdata = new Array<DataItem>();
-		// this.tempdata.push({ title: "Monitor Temperature", due_at: "15:00:00", has_details: true, pstatus: "Monitor" });
-		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
-		// this.tempdata.push({ title: "Crocin", due_at: "16:00:00", has_details: false, pstatus: "Medicine" });
 		this.tempdata.push({ title: "Saline", desc: "200ml", due_at: "17:00:00", has_details: true, pstatus: "Intake", status: 1 });
-		// this.tempdata.push({ title: "Saline", due_at: "17:00:00", has_details: true, pstatus: "Intake" });
-		// this.tempdata.push({ title: "Output", due_at: "15:00:00", has_details: true, pstatus: "Output" });
 		this.tempdata.push({ title: "Output", desc: "200ml", due_at: "15:00:00", has_details: true, pstatus: "Output", status: 1 });
 		this.tempdata.push({ title: "Sinarest", desc: "3 times a day after meal", due_at: "16:00:00", has_details: false, pstatus: "Medicine", status: 1 });
 		this.tempdata.push({ title: "Acetaminophen", desc: "Morning and evening before meal", due_at: "17:30:00", has_details: false, pstatus: "Medicine", status: 2 });
@@ -242,7 +190,7 @@ export class ActionComponent implements OnInit {
 		// console.log('items loaded pre dataitems', this.dataItems.length);
 		// console.log('items loaded pre data', this.data.length);
 		let newItems = this.data.slice(this.dataItems.length, this.dataItems.length + chunkSize);
-		this.dataItems.push(newItems);
+		// this.dataItems.push(newItems);
 		// console.log('items loaded post new items', newItems.length);
 		// console.log('items loaded post', this.dataItems.length);
 	}
@@ -265,17 +213,7 @@ export class ActionComponent implements OnInit {
 		}
 	}
 
-	// >> select list item >> multipleSelection="true" selectionBehavior="Press" (itemSelected)="itemSelected($event)" (itemDeselected)="itemDeselected($event)"
-	// itemSelected(args: ListViewEventData) {
-	// 	const item = this._dataItems.getItem(args.index);
-	// 	alert(item.name);
-	// 	item.selected = true;
-	// }
-	// >> deselect list item 
-	// itemDeselected(args: ListViewEventData) {
-	// 	const item = this._dataItems.getItem(args.index);
-	// 	item.selected = false;
-	// }
+
 	// >> expand row code start
 	templateSelector(item: any, index: number, items: any): string {
 		return item.expanded ? "expanded" : "default";
@@ -452,5 +390,131 @@ export class ActionComponent implements OnInit {
 		//Called once, before the instance is destroyed.
 		if (this.actionSubscription) { this.actionSubscription.unsubscribe(); }
 
+	}
+
+	// >>get action list 
+	public getActionData() {
+		this.actionService.getActionList().then(
+			(val) => {
+				val.forEach(item => {
+					this.actionListItems = new ActionListViewModel();
+					this.actionListItems.dbmodel = item;
+					this.actionListItem.push(this.actionListItems);
+					console.log("action list", this.actionListItem);
+				});
+				// this.getCount();
+				this.getListDataById();
+			},
+			(error) => {
+				console.log("getChartData error:", error);
+			}
+		);
+	}
+
+	// >> get action list by id
+	public getListDataById() {
+		console.log('this.actionnListItem', this.actionListItem);
+		// this.tempList = new Array<DataActionItem>();
+		this.actionListItem.forEach(item => {
+			const actionListDataItem = new DataActionItem();
+			actionListDataItem.admission_uuid = item.dbmodel.admission_uuid;
+			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
+			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
+			actionListDataItem.exec_time = item.dbmodel.exec_time;
+
+			this.chartService.getChartByUUID(actionListDataItem.schedule_uuid).then(
+				(val) => {
+					console.log('val', val);
+					let val1: any;
+					val1 = val;
+					const conf = JSON.parse(val1.conf);
+					actionListDataItem.name = conf.name;
+					actionListDataItem.desc = conf.desc;
+
+				})
+
+			this.tempList.push(actionListDataItem);
+			// console.log('testItem array', this.tempList);
+		});
+	}
+
+
+	// >> on submit one bye one item data
+	onSubmit(item) {
+		console.log(item);
+		//set action conf model
+
+		this.itemSelected(item);
+		this.saveViewOpen = true;
+		this.formData = new ActionTxnDBModel();
+
+		// >> check condition medicine data not add comment and value entries
+		if (item.conf_type_code === 'Medicine') {
+			this.actionDbData.comment = null;
+			this.actionDbData.value = null;
+			this.confString1 = JSON.stringify(this.actionDbData);
+			console.log('confString', this.confString1);
+		} else {
+			this.actionDbData.comment = this.actiondata.comment;
+			this.actionDbData.value = this.actiondata.value;
+			this.confString = JSON.stringify(this.actionDbData);
+			console.log('confString', this.confString);
+		}
+
+		// set db model 
+		this.formData.uuid = PlatformHelper.API.getRandomUUID();
+		this.formData.schedule_uuid = item.schedule_uuid;
+
+		// >> check condition medicine data in josn format push
+		if (item.conf_type_code === 'Medicine') {
+			this.formData.txn_data = this.confString1;
+		} else {
+			this.formData.txn_data = this.confString;
+		}
+		this.formData.conf_type_code = item.conf_type_code;
+		this.formData.runtime_config_data = null;
+		this.formData.txn_date = null;
+		this.formData.txn_state = null;
+
+		// console.log('this.actionformData', this.formData);
+
+		// after done data push one by one ietm in array hold data
+		this.actionDbArray.push(this.formData);
+		console.log('this.actionDbArray', this.actionDbArray);
+
+	}
+	// all action done and discard save in action-trn-table
+	save() {
+		// array hold entries one by one save
+		this.actionformData = new ActionTxnDBModel();
+		// insert Action db model to sqlite db
+		this.actionDbArray.forEach(item => {
+			this.actionformData.uuid = item.uuid;
+			this.actionformData.schedule_uuid = item.schedule_uuid;
+			this.actionformData.conf_type_code = item.conf_type_code;
+			this.actionformData.txn_data = item.txn_data;
+			this.actionformData.txn_date = item.txn_date;
+			this.actionformData.txn_state = item.txn_state;
+			this.actionformData.conf_type_code = item.conf_type_code;
+			this.actionformData.runtime_config_data = item.runtime_config_data;
+
+			console.log('item.conf_type_code', item.conf_type_code);
+			console.log('this.actionformData.schedule_uuid', this.actionformData.conf_type_code);
+			console.log('actionformData', this.actionformData);
+			
+			// save action done and discard in DB
+			this.actionService.insertActionTxnItem(this.actionformData);
+		})
+		
+		// check data save entries added in action trn table 
+		this.gettrnlistdata();
+	}
+
+	// selected done and discard row change background color
+	itemSelected(item){
+		item.selected = true;
+	}
+	gettrnlistdata(){
+		this.actionService.getActionTxnList();
 	}
 }
