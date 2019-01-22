@@ -26,7 +26,7 @@ INSERT INTO `spl_node_sp_category_tbl` (`id`, `cpm_id_fk` ,`spc_name`) VALUES (4
 -- Dumping data for table `spl_node_sp_tbl`
 --
 
-INSERT INTO `spl_node_sp_tbl` (`sp_id_fk`, `cpm_id_fk`, `spc_id_fk`, `sp_name`, `sp_state`, `sp_state_since`) VALUES ('3', '3', '1', 'General Ward 3', '1', UTC_TIMESTAMP);
+INSERT INTO `spl_node_sp_tbl` (`sp_id_fk`, `uuid`,`cpm_id_fk`, `spc_id_fk`, `sp_name`, `sp_state`, `sp_state_since`) VALUES ('3', 'SP001','3', '1', 'General Ward 3', '1', UTC_TIMESTAMP);
 
 
 --
@@ -72,7 +72,23 @@ INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES 
 
 
 INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `updated_on`, `has_qry`, `select_count_qry`, `select_qry`, `insert_qry`, `update_qry`) VALUES
-	(`service_point_tbl`,``,`'select count(*) as count from spl_node_sp_tbl where uuid = ?'`,`'select count(*) as count from spl_node_sp_tbl where updated_on > ?'`,`'select * from spl_node_spl_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	(`service_point_tbl`,``,`'select count(*) as count from spl_node_sp_tbl where uuid = ?'`,`'select count(*) as count from spl_node_sp_tbl where updated_on > ?'`,`'select * from spl_node_sp_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	(`conf_tbl`,``,`'select count(*) as count from spl_hpft_conf_tbl where uuid = ?'`,`'select count(*) as count from spl_hpft_conf_tbl where updated_on > ?'`,`'select * from spl_hpft_conf_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	(`patient_master_tbl`,``,`'select count(*) as count from spl_hpft_patient_master_tbl where uuid = ?'`,`'select count(*) as count from spl_hpft_patient_master_tbl where updated_on > ?'`,`'select * from spl_hpft_patient_master_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	(`schedule_tbl`,``,`'select count(*) as count from spl_hpft_patient_conf_tbl where uuid = ?'`,`'select count(*) as count from spl_hpft_patient_conf_tbl where updated_on > ?'`,`'select * from spl_hpft_patient_conf_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	(`patient_admission_tbl`,``,`'select count(*) as count from spl_hpft_patient_admission_tbl where uuid = ?'`,`'select count(*) as count from spl_hpft_patient_admission_tbl where updated_on > ?'`,`'select * from spl_hpft_patient_admission_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	(`patient_personal_details_tbl`,``,`'select count(*) as count from spl_hpft_patient_personal_details_tbl where uuid = ?'`,`'select count(*) as count from spl_hpft_patient_personal_details_tbl where updated_on > ?'`,`'select * from spl_hpft_patient_personal_details_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	(`patient_medical_details_tbl`,``,`'select count(*) as count from spl_hpft_patient_medical_details_tbl where uuid = ?'`,`'select count(*) as count from spl_hpft_patient_medical_details_tbl where updated_on > ?'`,`'select * from spl_hpft_patient_medical_details_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	(`action_txn_tbl`,``,`'select count(*) as count from spl_hpft_action_txn_tbl where uuid = ?'`,`'select count(*) as count from spl_hpft_action_txn_tbl where updated_on > ?'`,`'select * from spl_hpft_action_txn_tbl where updated_on > ?'`,`'insert_qry'`,`'update_qry'`);
+	
+	
 
 
 
