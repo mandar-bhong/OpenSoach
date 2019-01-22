@@ -233,7 +233,7 @@ type DBSplHpftPatientConfTableRowModel struct {
 	ConfTypeCode  int64     `db:"conf_type_code" json:"conftypecode"`
 	Conf          string    `db:"conf" json:"conf"`
 	CreatedOn     time.Time `db:"created_on" json:"createdon"`
-	UpdateOn      time.Time `db:"update_on" json:"updateon"`
+	UpdatedOn      time.Time `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftActionTxnTableRowModel struct {
