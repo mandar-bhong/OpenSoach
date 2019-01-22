@@ -69,17 +69,29 @@ export enum AfterMealTime {
     AfternoonAfterMeal = "12.30 PM",
     NightAfteremeal = "8.00 PM",
 }
-export enum HospitalTime {
-    hospitalStartTime = 480, // minutes
-    hospitalEndTime = 1200 // minutes
+export enum DayTimes {
+    dayStartTime = 0, // minutes
+    dayEndTime = 1440 // minutes
 }
-
 export enum Medicinefrequency {
     xTimesInDay = 0,
     AfterXTimeInterval = 1
+}
+export enum Monitorfrequency {
+    AfterXTimeInterval = 0,
+    speficicTime = 1
+}
+export enum Intakefrequency {
+    AfterXTimeInterval = 0,
+    speficicTime = 1
 }
 export enum dayTime {
     Morning = 'morning',
     Afternoon = 'Afternoon',
     Night = 'night'
+}
+
+export class AfterXtimeIntervl {
+    dateAction: Date;
+    time: number;
 }
