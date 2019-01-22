@@ -1,91 +1,60 @@
 
-import { action } from "tns-core-modules/ui/dialogs/dialogs";
-import { ActionItems, ActionList, SchedularData, ProcessTime, TimeConstants, dayTime, AfterMealTime, BeforeMealTime, BeforeMealTimeInMinutes, AfterMealTimeInMinutes, HospitalTime, Medicinefrequency } from "~/app/models/ui/action-model";
+import { ProcessTime, TimeConstants, dayTime, AfterMealTime, BeforeMealTime, BeforeMealTimeInMinutes, AfterMealTimeInMinutes, Medicinefrequency, AfterXtimeIntervl, DayTimes, ActionItems } from "~/app/models/ui/action-model";
 import { ActionHelper } from "./action-helper";
-import { ActionDBModel } from "~/app/models/ui/action-models";
 import { Schedulardata } from "~/app/models/ui/chart-models";
 
 export class MedicineHelper extends ActionHelper {
-    startdate: Date;
-    startdatetime: Date;
-    enddate: Date;
+    // process variables
     tempdate: Date;
-    actionItems: ActionItems[];
-    numberofdays: number;
     trueCount: number;
-    schedulardata: Schedulardata;
-    foodInstruction: number;
-    actionList: ActionDBModel[];
-    startDateWithoutHours: Date;
+    numberofTimes: number;
+    afterXtimeIntervl: AfterXtimeIntervl[]
+    arraylenght: number;
+    tempActionItems: ActionItems[];
+    // end 
     constructor() {
         console.log('medicine schedular initiated')
-        super();
+        super(); // calling base class
     }
-
-    medicineActions(MedicineSchedularData: Schedulardata) {
-        console.log('received data');
-        console.log(MedicineSchedularData);
+    // code block for creating actions.
+    createMedicineActions(MedicineSchedularData: Schedulardata) {
+        this.tempActionItems = [];
+        console.log('received data', MedicineSchedularData);
         this.schedulardata = MedicineSchedularData;
-        let processTime = ProcessTime;
-        this.startdate = new Date(MedicineSchedularData.conf.startDate);
-        this.startdatetime = new Date(MedicineSchedularData.conf.startDate);
-        this.startDateWithoutHours = new Date(MedicineSchedularData.conf.startDate);
-        this.startDateWithoutHours.setHours(0, 0, 0, 0);
-        this.numberofdays = MedicineSchedularData.conf.duration;
-        this.enddate = new Date();
-        this.enddate.setDate(this.startdate.getDate() + this.numberofdays - 1);
-
-        // for adding  dates in date array
-        this.actionItems = [];
-        const dt = this.startdate;
-        for (let i = 0; i < this.numberofdays; i++) {
-            let strdate = new Date(dt);
-            strdate.setDate(dt.getDate() + i);
-            this.actionItems.push({ dateAction: strdate, dayAction: [] });
-            console.log('str date', strdate);
+        this.numberofTimes = this.schedulardata.conf.numberofTimes;
+        this.createDateEntries(); // calling base class function for creating date entries.
+        // creating new array without memory ref.
+        const tempdata = this.actionItems.slice();
+        this.tempActionItems = tempdata;
+        // ittrating date array for creating action entries
+        for (let i = 0; i <= this.actionItems.length - 1; i++) {
             // creating actions for this Date
-            this.frequencyActionasGenerations(strdate, MedicineSchedularData, i);
-
+            this.frequencyActionasGenerations(this.actionItems[i].dateAction, MedicineSchedularData, i);
         }
-        console.log(this.actionItems);
         // this code block will executed  when user selected medicine x times in day
         if (MedicineSchedularData.conf.frequency == Medicinefrequency.xTimesInDay) {
             // check wherater we have add extra day or not 
             const totalActions = this.CheckFrequencyCount() * this.numberofdays;
             const createdActions = this.actionsLength();
             if (createdActions < totalActions) {
-                this.isNextDateRequired()
+                this.isNextDateRequired(); // checking if medicine dosage remening.if yes then adding one extra daty in array.
             }
             const updateActionsLen = this.actionsLength();
+        // removing unwanted day entries
             if (updateActionsLen > totalActions) {
                 this.removeActions(updateActionsLen, totalActions);
                 console.log('extra actions created');
             }
+        } else {
+            this.actionItems = this.tempActionItems;
+            console.log('processed action list', this.actionItems);
         }
-
-        this.actionList = [];
-        for (let i = 0; i < this.actionItems.length; i++) {
-            const dateaction = new Date(this.actionItems[i].dateAction);
-            dateaction.setHours(0, 0, 0, 0);
-            console.log('date actions', dateaction);
-            for (let j = 0; j < this.actionItems[i].dayAction.length; j++) {
-                const dateval = new Date(dateaction);
-
-                dateval.setMinutes(this.actionItems[i].dayAction[j].time);
-                const actionList = new ActionDBModel();
-                actionList.exec_time = new Date(dateval);
-                actionList.admission_uuid = MedicineSchedularData.admission_uuid;
-                actionList.schedule_uuid = MedicineSchedularData.uuid;
-                actionList.conf_type_code = MedicineSchedularData.conf_type_code
-                this.actionList.push(actionList);
-            }
-        }
+        // calling base function for  create final  action entries.
+        this.generateDBActions();
         console.log('action list');
         console.log(this.actionList);
-    } // end of 
-
-
-
+    } // end of code block
+// code  block for checking frequency count. 
     CheckFrequencyCount() {
         let trueCount = 0;
         if (this.schedulardata.conf.mornFreqInfo.freqMorn) {
@@ -99,21 +68,21 @@ export class MedicineHelper extends ActionHelper {
         }
         return trueCount;
     }
-    createDateActions(date: Date, frq, foodInst) {
+    // function for create date action entries.
+    createDateActionsEntries(date: Date, frq, foodInst) {
         const receiveddate = new Date(date);
         let timeConstants: TimeConstants;
+        // getiing time constants based on food  instructions in string format.
         timeConstants = this.beforeAfter(foodInst);
         let definedTime: TimeConstants;
+         // getiing time constants based on food  instructions in minutes
         definedTime = this.beforeAfterProcessTime(foodInst)
         const startDate = new Date(this.startdatetime);
         startDate.setHours(0, 0, 0, 0);
-        receiveddate.setHours(0, 0, 0, 0);
+        //  receiveddate.setHours(0, 0, 0, 0);
         // if received date from an array &  start date are same then execute following code. 
         if (receiveddate.getTime() == startDate.getTime()) {
-            const hours = this.startdatetime.getHours();
-            const minutes = this.startdatetime.getMinutes();
-            const hourstominutes = hours * 60;
-            const totalminutes = hourstominutes + minutes
+            const totalminutes = this.getMinutes();
             console.log('total start time in minutes', totalminutes);
             // checking wheater current time elapse scheduled start time.
             if (frq == dayTime.Morning) {
@@ -180,22 +149,14 @@ export class MedicineHelper extends ActionHelper {
     // fucntion for decide is next is required for complete dosage completions.
     isNextDateRequired() {
         const lastrec = new Date(this.actionItems[this.actionItems.length - 1].dateAction);
-        const newdate = new Date();
+        const newdate = new Date(lastrec);
         newdate.setDate(lastrec.getDate() + 1);
         this.actionItems.push({ dateAction: newdate, dayAction: [] });
         // if one extra day is required to complete dosage then execute following code.
         this.frequencyActionasGenerations(newdate, this.schedulardata, this.actionItems.length - 1);
-
     }
 
-    // fucntion for determining how much actions are created.
-    actionsLength() {
-        let actionlen = 0;
-        for (let i = 0; i < this.actionItems.length; i++) {
-            actionlen += this.actionItems[i].dayAction.length
-        }
-        return actionlen;
-    }
+
     // fucntion for geberatating actions for x times in day.
     frequencyActionasGenerations(strdate, MedicineSchedularData, i) {
         // if user has selectes  medicine after x time interval then following code blcok will executed
@@ -205,21 +166,21 @@ export class MedicineHelper extends ActionHelper {
             // if user selcted x times in day then following code block.
             if (MedicineSchedularData.conf.mornFreqInfo.freqMorn) {
                 // if user selected moringi time then created actions of moring.
-                const dayactionTime = this.createDateActions(strdate, dayTime.Morning, MedicineSchedularData.conf.foodInst)
+                const dayactionTime = this.createDateActionsEntries(strdate, dayTime.Morning, MedicineSchedularData.conf.foodInst)
                 if (dayactionTime && dayactionTime != null) {
                     this.actionItems[i].dayAction.push({ time: dayactionTime });
                 }
             }
             if (MedicineSchedularData.conf.aftrnFreqInfo.freqAftrn) {
                 // if user selected afternoon time then created actions of afternoon.
-                const dayactionTime = this.createDateActions(strdate, dayTime.Afternoon, MedicineSchedularData.conf.foodInst)
+                const dayactionTime = this.createDateActionsEntries(strdate, dayTime.Afternoon, MedicineSchedularData.conf.foodInst)
                 if (dayactionTime && dayactionTime != null) {
                     this.actionItems[i].dayAction.push({ time: dayactionTime });
                 }
             }
             if (MedicineSchedularData.conf.nightFreqInfo.freqNight) {
                 // if user selected night time then created actions of night.
-                const dayactionTime = this.createDateActions(strdate, dayTime.Night, MedicineSchedularData.conf.foodInst)
+                const dayactionTime = this.createDateActionsEntries(strdate, dayTime.Night, MedicineSchedularData.conf.foodInst)
                 if (dayactionTime && dayactionTime != null) {
                     this.actionItems[i].dayAction.push({ time: dayactionTime });
                 }
@@ -228,37 +189,58 @@ export class MedicineHelper extends ActionHelper {
     }
 
     // fucntion for creating actions after x timeinterval
-    createActionAfterXTimeinterval(receivedDate, MedicineSchedularData, i) {
+    createActionAfterXTimeinterval(receivedDate, MonitorSchedularData, i) {
+        console.log(' createActionAfterXTimeinterval function called');
         const receivedActionDate = new Date(receivedDate);
-        receivedActionDate.setHours(0, 0, 0, 0);
-        const TimeInterval = Math.floor(MedicineSchedularData.conf.intervalHrs * 60);
-        let treatmentStartTime = Math.floor(MedicineSchedularData.conf.startTime * 60);
-        // cheking received date is same with  startday.
+        // const TimeInterval = Math.floor(MedicineSchedularData.conf.intervalHrs * 60);
+        const TimeInterval = MonitorSchedularData.conf.intervalHrs;
+        let treatmentStartTime = Math.floor(MonitorSchedularData.conf.startTime * 60);
+        let xIntervalStartTime = treatmentStartTime;
         if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-             // adding actions from stat time of start date until hospital closetime
-            while (treatmentStartTime < HospitalTime.hospitalEndTime) {
-                this.actionItems[i].dayAction.push({ time: treatmentStartTime });
-                treatmentStartTime += TimeInterval;
+            // getting minutes in from schedule start date.
+            const totalminutes = this.getMinutes();
+            if (totalminutes > xIntervalStartTime) {
+                this.generateXTimesActions(totalminutes, receivedActionDate, TimeInterval, i)
+            } else {
+                this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
             }
         } else {
-             // adding actions from hospital start time  until hospital closetime
-            let hospitalStartTime = HospitalTime.hospitalStartTime;
-            while (hospitalStartTime < HospitalTime.hospitalEndTime) {
-                this.actionItems[i].dayAction.push({ time: hospitalStartTime });
-                hospitalStartTime += TimeInterval;
-            }
+            this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
         }
-    }
+    } // end of code block.
 
-   // function for removing deleting unwanted actions.
+    // function for removing  unwanted actions.
     removeActions(updateActionsLen, totalActions) {
         const actionDiff = updateActionsLen - totalActions;
         let i = 0;
-       while (i < actionDiff) {
+        while (i < actionDiff) {
             this.actionItems[this.actionItems.length - 1].dayAction.pop();
             i++;
         }
         console.log('this.actionItems', this.actionItems);
+    }
+// code block will generate actions based on x time interval
+    generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i) {
+        let index = i;
+        for (let x = 0; x < this.numberofTimes; x++) {
+            if (xIntervalStartTime > DayTimes.dayEndTime) {
+                const nextDate = new Date(receivedActionDate);
+                nextDate.setDate(receivedActionDate.getDate() + 1);
+                xIntervalStartTime -= DayTimes.dayEndTime;
+                const arraylen = this.actionItems.length - 1;
+                if (i >= arraylen) {
+                    this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
+                    this.tempActionItems[index + 1].dayAction.push({ time: xIntervalStartTime });
+                } else {
+                    // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
+                    this.tempActionItems[index + 1].dayAction.push({ time: xIntervalStartTime });
+                }
+                index++;
+            } else {
+                this.tempActionItems[index].dayAction.push({ time: xIntervalStartTime });
+            }
+            xIntervalStartTime += TimeInterval;
+        }
     }
 }// end of class
 
