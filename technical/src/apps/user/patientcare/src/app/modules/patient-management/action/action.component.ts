@@ -16,8 +16,7 @@ import { layout } from 'tns-core-modules/utils/utils';
 import { Page } from 'ui/page';
 import { medicine } from '~/app/common-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
-import { ActionDataDBRequest } from '~/app/models/api/actions-models';
-import { ActionListViewModel, ActionTxnDBModel } from '~/app/models/ui/action-models';
+import { ActionListViewModel, ActionTxnDBModel, ActionDataDBRequest } from '~/app/models/ui/action-models';
 import { Schedulardata } from '~/app/models/ui/chart-models';
 import { ActionService } from '~/app/services/action/action.service';
 import { ChartService } from '~/app/services/chart/chart.service';
@@ -383,7 +382,9 @@ export class ActionComponent implements OnInit {
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
 			actionListDataItem.exec_time = item.dbmodel.exec_time;
+			console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
 
+		
 			this.chartService.getChartByUUID(actionListDataItem.schedule_uuid).then(
 				(val) => {
 					console.log('val', val);
@@ -527,5 +528,6 @@ export class ActionComponent implements OnInit {
 	gettrnlistdata() {
 		this.actionService.getActionTxnList();
 	}
+
 
 }

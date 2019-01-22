@@ -20,3 +20,7 @@ export class ActionTxnDBModel {
     runtime_config_data: string;
     status: number;
 }
+export class ActionDataDBRequest{
+    comment: string;
+    value: string;
+}
