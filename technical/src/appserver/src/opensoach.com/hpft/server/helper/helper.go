@@ -30,6 +30,21 @@ func GetStoreTableStruct(packet []byte) (error, pcmodels.StoreSyncApplyRequestMo
 	case constants.DB_SP_TBL_STORE_NAME:
 		reqModel.Data = &[]hpftmodels.DBSplNodeSpTableRowModel{}
 		break
+	case constants.DB_CONF_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftConfTableRowModel{}
+		break
+	case constants.DB_PATIENT_CONF_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftPatientConfTableRowModel{}
+		break
+	case constants.DB_PATIENT_PERSONAL_DETAILS_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftPatientPersonalDetailsRowModel{}
+		break
+	case constants.DB_PATIENT_MEDICAL_DETAILS_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftPatientMedicalDetailsRowModel{}
+		break
+	case constants.DB_ACTION_TXN_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftActionTxnTableRowModel{}
+		break
 
 	}
 
@@ -50,6 +65,26 @@ func GetStoreTableStruct(packet []byte) (error, pcmodels.StoreSyncApplyRequestMo
 
 	case constants.DB_SP_TBL_STORE_NAME:
 		reqModel.Data = &[]hpftmodels.DBSplNodeSpTableRowModel{}
+		break
+
+	case constants.DB_CONF_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftConfTableRowModel{}
+		break
+
+	case constants.DB_PATIENT_CONF_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftPatientConfTableRowModel{}
+		break
+
+	case constants.DB_PATIENT_PERSONAL_DETAILS_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftPatientPersonalDetailsRowModel{}
+		break
+
+	case constants.DB_PATIENT_MEDICAL_DETAILS_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftPatientMedicalDetailsRowModel{}
+		break
+
+	case constants.DB_ACTION_TXN_TBL_STORE_NAME:
+		reqModel.Data = &[]hpftmodels.DBSplHpftActionTxnTableRowModel{}
 		break
 
 	}
