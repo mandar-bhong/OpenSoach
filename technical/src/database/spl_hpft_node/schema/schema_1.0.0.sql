@@ -441,6 +441,27 @@ CREATE TABLE `spl_hpft_conf_tbl` (
 )	ENGINE=InnoDB COMMENT='Short Name for Table: conf';
 
 
+--
+-- Table structure for table `spl_hpft_patient_conf_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_conf_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`conf_type_code` INT(10) UNSIGNED NOT NULL,
+	`conf` JSON NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`update_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_pconf_cpm` (`cpm_id_fk`),
+	INDEX `fk_pconf_padmsn` (`admission_id_fk`),
+	CONSTRAINT `fk_pconf_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_pconf_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name: pconf';
+
+
 
 --
 -- Table structure for table `spl_hpft_action_txn_tbl`
@@ -464,27 +485,6 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 	CONSTRAINT `fk_actn_txn_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_actn_txn_pconf` FOREIGN KEY (`patient_conf_id_fk`) REFERENCES `spl_hpft_patient_conf_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name: actn_txn';
-
-
---
--- Table structure for table `spl_hpft_patient_conf_tbl`
---
-
-CREATE TABLE `spl_hpft_patient_conf_tbl` (
-	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`uuid` VARCHAR(50) NOT NULL,
-	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
-	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
-	`conf_type_code` INT(10) UNSIGNED NOT NULL,
-	`conf` JSON NOT NULL,
-	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`update_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`),
-	INDEX `fk_pconf_cpm` (`cpm_id_fk`),
-	INDEX `fk_pconf_padmsn` (`admission_id_fk`),
-	CONSTRAINT `fk_pconf_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_pconf_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
-)	ENGINE=InnoDB COMMENT='short name: pconf';
 
 
 
