@@ -453,7 +453,7 @@ CREATE TABLE `spl_hpft_patient_conf_tbl` (
 	`conf_type_code` INT(10) UNSIGNED NOT NULL,
 	`conf` JSON NOT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`update_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
 	INDEX `fk_pconf_cpm` (`cpm_id_fk`),
 	INDEX `fk_pconf_padmsn` (`admission_id_fk`),
