@@ -16,8 +16,6 @@ import * as application from 'application'
 import { RouterExtensions } from "nativescript-angular/router";
 import { PlatformHelper } from "./helpers/platform-helper";
 
-var fetchModule = require("fetch");
-
 @Component({
     moduleId: module.id,
     selector: "ns-app",
@@ -31,9 +29,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private internetConnectionSubscription: Subscription;
     constructor(private databaseSchemaService: DatabaseSchemaService,
         private zone: NgZone,
-        private workerService: WorkerService, 
+        private workerService: WorkerService,
         private routerExtensions: RouterExtensions,
-        private httpClient:HttpClient) {
+        private httpClient: HttpClient) {
         // init PlatformHelper
         PlatformHelper.init();
         this.databaseSchemaService.setOfflineDB();
@@ -44,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.chatBox = "";
 
         // Initialize the worker here
-        this.workerService.initServerDataProcessorWorker();        
+        this.workerService.initServerDataProcessorWorker();
 
         // Get APP_MODE
 
@@ -133,8 +131,8 @@ export class AppComponent implements OnInit, OnDestroy {
         const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
         const token = appSettings.getString("AUTH_TOKEN");
 
-        console.log("AUTH_TOKEN",token);
-        console.log("appMode",appMode);
+        console.log("AUTH_TOKEN", token);
+        console.log("appMode", appMode);
 
         if (appMode == APP_MODE.NONE) {
             this.checkIfDeviceIsRegistered();
@@ -144,39 +142,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 // http get method
 
-                // this.httpClient.get(
-                // this.buildUrl("http://172.105.232.148/api/v1/validateauthtoken", {
-                //         token: token,
-                //     })
-                // )
-                // .subscribe((result) => {
-                //     console.log("result",result);
-                // }, (error) => {
-                //     console.log(error);
-                // });
-
-                fetchModule.fetch(
-                    this.buildUrl("http://172.105.232.148/api/v1/validateauthtoken", {
-                        token: token,
-                    }),
-                    {
-                        method: "GET"
-                    }
+                this.httpClient.get(
+                    this.buildUrl("http://172.105.232.148/api/v1/validateauthtoken",
+                        {
+                            token: token,
+                        })
                 )
-                .then((response) => response.text())
-                .then((r) => {
-                    console.log("r",r);
-
-                    if(r.issuccess===true){
-                        this.initAppStart();
-                    }else{
-                        this.checkIfDeviceIsRegistered();
-                    }
-
-                }).catch((e) => {
-                    console.log("error",e);
-                });
-
+                    .subscribe((result) => {
+                        console.log("result", result);
+                        var res = <any>result;
+                        if (res.issuccess === true) {
+                            console.log("token validate success");
+                            this.initAppStart();
+                        } else {
+                            console.log("token validate fail");
+                            this.checkIfDeviceIsRegistered();
+                        }
+                    }, (error) => {
+                        console.log(error);
+                    });
             }
 
         }
@@ -189,7 +173,6 @@ export class AppComponent implements OnInit, OnDestroy {
         // Set the Serial Number in AppGlobalContext
 
         const serialNumber = "1234567890123456";
-
         return serialNumber;
 
     }
@@ -203,12 +186,12 @@ export class AppComponent implements OnInit, OnDestroy {
         //Else
         // Navigate to login page
 
-        
+
         // const SerialNo = PlatformHelper.API.getSerialNumber();
         const SerialNo = this.getSerialNumber();
         AppGlobalContext.SerialNumber = SerialNo;
 
-        console.log("SerialNo:",SerialNo);
+        console.log("SerialNo:", SerialNo);
 
         this.httpClient.post("http://172.105.232.148/api/v1/endpoint/deviceauthorization",
             {
@@ -232,6 +215,7 @@ export class AppComponent implements OnInit, OnDestroy {
             AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
             appSettings.setString("AUTH_TOKEN", resData.data.token);
             AppGlobalContext.Token = resData.data.token;
+            console.log("AppGlobalContext.Token", AppGlobalContext.Token);
             this.initAppStart();
         } else {
             this.routerExtensions.navigate(['login']);
@@ -248,7 +232,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.workerService.postMessageToServerDataProcessorWorker(initModel);
 
         this.routerExtensions.navigate(['home']);
-        
+
 
     }
 
@@ -258,7 +242,7 @@ export class AppComponent implements OnInit, OnDestroy {
             if (parameters.hasOwnProperty(key)) {
                 const value = parameters[key];
                 qs +=
-                    "{" + "\"" + key + "\""  + ":" + "\"" + value + "\"" + "&";
+                    "{" + "\"" + key + "\"" + ":" + "\"" + value + "\"" + "&";
             }
         }
         if (qs.length > 0) {
@@ -266,7 +250,7 @@ export class AppComponent implements OnInit, OnDestroy {
             url = url + "?params=" + qs + "}";
         }
 
-        console.log("url",url);
+        console.log("url", url);
 
         return url;
     }
