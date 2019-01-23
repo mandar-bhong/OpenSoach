@@ -1,6 +1,6 @@
 import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-model.js";
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model.js";
-import { SERVER_WORKER_EVENT_MSG_TYPE } from "../app-constants.js";
+import { SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE } from "../app-constants.js";
 import { DatabaseHelper } from "../helpers/database-helper.js";
 
 export interface AppMessageHandlerInterface {
@@ -21,6 +21,12 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
         this.dataModel = msg;
         console.log('base message handle', this.dataModel);
         this.postMessageCallback = postMessageFn;
+
+        switch (msg.datastore) {
+            case SYNC_STORE.SCHEDULE:
+                this.handleScheduleMessage();
+                break;
+        }
     }
 
     saveToDataStore() {
@@ -36,6 +42,12 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
 
     notifySync() {
 
+    }
+
+    handleScheduleMessage() {
+        // this.dataModel.data
+        // create actions
+        // set schedule end date
     }
 
     updateSyncPending() {
