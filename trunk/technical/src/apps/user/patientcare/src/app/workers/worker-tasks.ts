@@ -1,18 +1,21 @@
 import { Dummy } from "./dummy.js";
-import { SERVER_WORKER_MSG_TYPE, SERVER_WORKER_EVENT_MSG_TYPE } from "../app-constants.js";
+import { SERVER_WORKER_MSG_TYPE, SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE } from "../app-constants.js";
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model.js";
 import { ServerWorkerContext } from "./server-worker-context.js";
+import { AppMessageUIHandler } from "./app-message-ui-handler.js";
+import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-model.js";
 
 var WS = require('nativescript-websockets');
 
 export class WorkerTasks {
     public static socket: any;
     private static isSocketInitialized: boolean;
-    public static Init()
-    {
+    private static workerReference: Worker;
+    public static Init(worker: Worker) {
+        WorkerTasks.workerReference = worker;
         console.log("in WorkerTasks Init")
         Dummy.sendToServerCallback = WorkerTasks.sendToServer;
-        ServerWorkerContext.ContextVar1="Worker Initialized";
+        ServerWorkerContext.ContextVar1 = "Worker Initialized";
         console.log('ServerWorkerContext.ContextVar1', ServerWorkerContext.ContextVar1);
     }
 
@@ -32,9 +35,12 @@ export class WorkerTasks {
                 }
                 break;
             case SERVER_WORKER_MSG_TYPE.SEND_MESSAGE:
-                WorkerTasks.socket.send();
+                msg.data.forEach(element => {
+                    const appMessageUIHandler = new AppMessageUIHandler();
+                    appMessageUIHandler.handleMessage(element, WorkerTasks.postMessage);
+                });
                 break;
-        }               
+        }
     }
 
     private static initWebSocket() {
@@ -61,7 +67,7 @@ export class WorkerTasks {
             WorkerTasks.raiseSocketConnectionEvent(false);
         });
 
-        WorkerTasks.socket.open();       
+        WorkerTasks.socket.open();
     }
 
     private static raiseSocketConnectionEvent(status: boolean) {
@@ -73,14 +79,17 @@ export class WorkerTasks {
             workerEvent.msgtype = SERVER_WORKER_EVENT_MSG_TYPE.SERVER_DISCONNECTED;
         }
 
-        (<any>global).postMessage(workerEvent);
+        WorkerTasks.postMessage(workerEvent);
     }
 
-   public static sendToServer(msg:any):void
-    {
-        console.log("sendToServer",msg);
-        console.log("sendToServer, socket",WorkerTasks.socket);
+    public static sendToServer(msg: any): void {
+        console.log("sendToServer", msg);
+        console.log("sendToServer, socket", WorkerTasks.socket);
         WorkerTasks.socket.send(msg);
         console.log('ServerWorkerContext.ContextVar1', ServerWorkerContext.ContextVar1);
+    }
+
+    public static postMessage(msg: ServerWorkerEventDataModel) {
+        WorkerTasks.workerReference.postMessage(msg);
     }
 }

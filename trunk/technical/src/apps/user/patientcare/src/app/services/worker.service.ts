@@ -5,20 +5,22 @@ import * as ServerDataProcessorWorker from "nativescript-worker-loader!../worker
 import { Subject } from "rxjs";
 import { SERVER_WORKER_EVENT_MSG_TYPE } from "~/app/app-constants";
 import { ServerDataProcessorMessageModel } from "~/app/models/api/server-data-processor-message-model";
+import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model";
+import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-model";
 
 @Injectable()
 export class WorkerService {
     private ServerDataProcessorWorker: Worker;
-    public ServerNotificationSubject = new Subject<any>();
+    public DataReceivedSubject = new Subject<ServerDataStoreDataModel>();
     public ServerConnectionSubject = new Subject<boolean>();
-    
+
     constructor() {
     }
 
     initServerDataProcessorWorker() {
         if (global["TNS_WEBPACK"]) {
             console.log('build with web pack');
-            this.ServerDataProcessorWorker = new ServerDataProcessorWorker();            
+            this.ServerDataProcessorWorker = new ServerDataProcessorWorker();
         } else {
             console.log('build without web pack');
             this.ServerDataProcessorWorker = new Worker("../workers/server-data-processor.worker");
@@ -27,30 +29,30 @@ export class WorkerService {
         this.ServerDataProcessorWorker.onmessage = m => this.serverWorkerMessageRecieved(m);
     }
 
-    postMessageToServerDataProcessorWorker(message: ServerDataProcessorMessageModel)
-    {
+    postMessageToServerDataProcessorWorker(message: ServerDataProcessorMessageModel) {
         this.ServerDataProcessorWorker.postMessage(message);
     }
 
-    serverWorkerMessageRecieved(message: MessageEvent) {
-        console.log('worker message recieved', message);        
-        switch(message.data.msgtype)
-        {
+    serverWorkerMessageRecieved(messageEvent: MessageEvent) {
+        console.log('worker message recieved', messageEvent);
+        const message: ServerWorkerEventDataModel = messageEvent.data;
+        switch (message.msgtype) {
             case SERVER_WORKER_EVENT_MSG_TYPE.DATA_RECEIVED:
-            console.log('subject triggered');
-            this.ServerNotificationSubject.next(message.data);
-            break;
+                message.data.forEach(element => {
+                    console.log('subject triggered');
+                    this.DataReceivedSubject.next(element);
+                });
+                break;
             case SERVER_WORKER_EVENT_MSG_TYPE.SERVER_CONNECTED:
-            this.ServerConnectionSubject.next(true);
-            break;
+                this.ServerConnectionSubject.next(true);
+                break;
             case SERVER_WORKER_EVENT_MSG_TYPE.SERVER_DISCONNECTED:
-            this.ServerConnectionSubject.next(false);
-            break;
-        }        
+                this.ServerConnectionSubject.next(false);
+                break;
+        }
     }
 
-    closeServerDataProcessorWorker()
-    {
+    closeServerDataProcessorWorker() {
         this.ServerDataProcessorWorker.terminate();
     }
 }

@@ -1,6 +1,5 @@
+import "globals";
 import { WorkerTasks } from "./worker-tasks.js";
-
-require('globals');
 
 const context: Worker = self as any;
 
@@ -9,4 +8,6 @@ context.onmessage = msg => {
     WorkerTasks.processMessage(msg.data);
 };
 
-WorkerTasks.Init();
+WorkerTasks.Init(context);
+
+console.log('worker started');
