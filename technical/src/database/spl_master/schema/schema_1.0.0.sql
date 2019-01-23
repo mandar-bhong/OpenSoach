@@ -210,7 +210,7 @@ CREATE TABLE `spl_master_device_tbl` (
   `cust_id_fk` int(10) unsigned DEFAULT NULL,
   `serialno` varchar(16) NOT NULL,
   `dev_state` tinyint(3) unsigned NOT NULL COMMENT '0:Unallocated, 1: Active, 2: Inactive, 3: Suspended etc.',
-  `dev_cpm_state` tinyint(3) unsigned NOT NULL COMMENT '0:Approved, 1: Pending for Approval',
+  `dev_cpm_state` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0:Approved, 1: Pending for Approval',
   `dev_state_since` datetime NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
