@@ -1,5 +1,4 @@
-export interface IDatastoreModel
-{
-    uuid:string;
-    getModelValues(): any[] 
+export interface IDatastoreModel {
+    uuid: string;
+    getModelValues(): any[]
 }
