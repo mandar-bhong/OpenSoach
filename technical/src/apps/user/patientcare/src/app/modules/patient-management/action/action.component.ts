@@ -35,6 +35,7 @@ export class DataActionItem {
 	exec_time: Date;
 	name: string;
 	desc: string;
+	status: number;
 }
 @Component({
 	moduleId: module.id,
@@ -93,6 +94,7 @@ export class ActionComponent implements OnInit {
 	confString;
 	confString1;
 	saveViewOpen = false;
+	exectime;
 
 
 	constructor(public page: Page,
@@ -381,19 +383,73 @@ export class ActionComponent implements OnInit {
 			actionListDataItem.admission_uuid = item.dbmodel.admission_uuid;
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
-			actionListDataItem.exec_time = item.dbmodel.exec_time;
+
+			const exectime = new Date(item.dbmodel.exec_time * 1000);
+			console.log('exectime', exectime);
+			actionListDataItem.exec_time = exectime;
 			console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
 
-		
+
+			// date to timestramp convert
+			// const todaydate = new Date().valueOf() / 1E3 | 0;
+			// console.log('timestramp', todaydate);
+
+			// >> today date live time
+			const thetodayDate = new Date();
+			const todayhr = thetodayDate.getHours();
+			const liveh = todayhr * 60;
+			const todaym = thetodayDate.getMinutes();
+			const totaltime = liveh + todaym;
+			console.log('totaltime', totaltime);
+			// << today date
+
+			// >> today date live time decress time 15 min 
+			const thetodayDate15dec = new Date();
+			const todayhr15dec = thetodayDate15dec.getHours();
+			const liveh15dec = todayhr15dec * 60;
+			const todaym15dec = thetodayDate15dec.getMinutes() - 15;
+			const totaltime15dec = liveh15dec + todaym15dec;
+			console.log('time _today_15_dec', totaltime15dec);
+			// << decress time 15 min 
+
+			// >> today date live time increass time 15 min 
+			const thetodayDate15 = new Date();
+			const todayhr15 = thetodayDate15.getHours();
+			const liveh15 = todayhr15 * 60;
+			const todaym15 = thetodayDate15.getMinutes() + 15;
+			const totaltime15 = liveh15 + todaym15;
+			console.log('time _today_15_inc', totaltime15);
+			// << increass time 15 min 
+
+			// >> Db Date timestramp convert in date 
+			const theDate = new Date(item.dbmodel.exec_time * 1000);
+			const hr = theDate.getHours();
+			const h = hr * 60;
+			const m = theDate.getMinutes();
+			const DBtotaltime = h + m;
+			console.log('DBtotaltime ', DBtotaltime);
+			// << Db Date timestramp convert 
+
+
+			if (totaltime15dec > DBtotaltime) {
+				console.log('red');
+				actionListDataItem.status = 1;
+			} else if (totaltime15 > DBtotaltime && DBtotaltime > totaltime15dec) {
+				console.log('yellow');
+				actionListDataItem.status = 2;
+			} else if (DBtotaltime > totaltime15) {
+				console.log('green');
+				actionListDataItem.status = 3;
+			}
+
 			this.chartService.getChartByUUID(actionListDataItem.schedule_uuid).then(
 				(val) => {
-					console.log('val', val);
-					let val1: any;
-					val1 = val;
-					const conf = JSON.parse(val1.conf);
-					actionListDataItem.name = conf.name;
-					actionListDataItem.desc = conf.desc;
-
+					val.forEach(item => {
+						console.log('val', val);
+						const conf = JSON.parse(item.conf);
+						actionListDataItem.name = conf.name;
+						actionListDataItem.desc = conf.desc;
+					});
 				})
 
 			this.tempList.push(actionListDataItem);

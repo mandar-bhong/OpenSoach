@@ -138,13 +138,13 @@
     margin: 0 0;
     padding: 3px 0px;
 }
-.grey{
+.default_color{
     color: #608584;
 }
-.red{
- color: #FF8910;
+.pendding{
+ color: #eb5c5c;
 }
-.orenge{
+.waiting{
     color: #FF8910;
 }
 .list-layout{

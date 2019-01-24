@@ -44,21 +44,21 @@ export class DatabaseSchemaService {
         "INSERT INTO patient_master_tbl ( uuid, patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_state) VALUES ('PM009','P12B12221', 'Shashank', 'Atre', '9642xxxxxx', '21', 'O+', '1', '2018-12-03 12:22:57', 0 )",
         "INSERT INTO patient_master_tbl ( uuid, patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_state) VALUES ('PM010','P12B12222', 'Tejal', 'Deshmukh', '9412xxxxxx', '25', 'AB-', '2', '2018-12-03 12:22:57', 0 )",
         "INSERT INTO patient_master_tbl ( uuid, patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_state) VALUES ('PM011','P12B1223', 'Shahuraj', 'Patil', '9572xxxxxx', '21', 'O+', '1', '2018-12-03 12:22:57', 0 )",
-        "INSERT INTO patient_master_tbl ( uuid, patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_state) VALUES ('PM012','P12B12224', 'Abhijeet', 'Kalbhor', '9042xxxxxx', '24', 'O+', '1', '2018-12-03 12:22:57', 0 )",
+        "INSERT INTO patient_master_tbl ( uuid, patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_state) VALUES ('PM012','P12B12224', 'Sanjay', 'Mohan', '9042xxxxxx', '24', 'O+', '1', '2018-12-03 12:22:57', 0 )",
 
         "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM001', 'P12B12213', '3A/312', '1', '2018-12-04 14:37:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
         "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA002', 'PM002', 'P12B12214', '3B/323', '1', '2018-12-04 12:47:53', 'SP001', '1', '2018-12-05 14:37:53', '', '2018-12-05 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM003', 'P12B12213', '2A/643', '1', '2018-12-04 09:17:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM004', 'P12B12213', '4A/415', '2', '2018-12-04 11:00:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM005', 'P12B12213', '5A/616', '3', '2018-12-04 01:11:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM006', 'P12B12213', '6A/317', '1', '2018-12-04 14:32:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM007', 'P12B12213', '7A/312', '2', '2018-12-04 16:44:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM008', 'P12B12213', '3A/319', '3', '2018-12-04 11:12:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM009', 'P12B12213', '8A/314', '2', '2018-12-04 04:54:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM010', 'P12B12213', '4A/309', '1', '2018-12-04 15:55:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM011', 'P12B12213', '2B/231', '4', '2018-12-04 21:35:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM012', 'P12B12213', '2B/232', '1', '2018-12-04 19:33:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA001', 'PM001', 'P12B12213', '4A/416', '2', '2018-12-04 13:32:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA003', 'PM003', 'P12B12213', '2A/643', '1', '2018-12-04 09:17:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA004', 'PM004', 'P12B12213', '4A/415', '2', '2018-12-04 11:00:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA005', 'PM005', 'P12B12213', '5A/616', '3', '2018-12-04 01:11:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA006', 'PM006', 'P12B12213', '6A/317', '1', '2018-12-04 14:32:53', 'SP001', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA007', 'PM007', 'P12B12213', '7A/312', '2', '2018-12-04 16:44:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA008', 'PM008', 'P12B12213', '3A/319', '3', '2018-12-04 11:12:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA009', 'PM009', 'P12B12213', '8A/314', '2', '2018-12-04 04:54:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA010', 'PM010', 'P12B12213', '4A/309', '1', '2018-12-04 15:55:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA011', 'PM011', 'P12B12213', '2B/231', '4', '2018-12-04 21:35:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA012', 'PM012', 'P12B12213', '2B/232', '1', '2018-12-04 19:33:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_state) VALUES ('PA013', 'PM001', 'P12B12213', '4A/416', '2', '2018-12-04 13:32:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
             VALUES ('PA001', 'PC001','Medicine' ,'{"name":"Sinarest","desc":"3 times a day after meal"}' , '2018-12-04 14:37:53' , 0)`,
@@ -67,31 +67,31 @@ export class DatabaseSchemaService {
             VALUES ('PA001', 'PC002','Medicine' ,'{"name":"Aspirin","desc":"Incase of high body temperature"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC001','Medicine' ,'{"name":"Zofran","desc":"Incase of continuos vomitting and nausea"}' , '2018-12-04 14:37:53' , 0)`,
+            VALUES ('PA001', 'PC003','Medicine' ,'{"name":"Zofran","desc":"Incase of continuos vomitting and nausea"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC003','Intake' ,'{"name":"Saline","desc":"200ml"}' , '2018-12-04 14:37:53' , 0)`,
+            VALUES ('PA001', 'PC004','Intake' ,'{"name":"Saline","desc":"200ml"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC004','Output' ,'{"name":"Output","desc":"200ml"}' , '2018-12-04 14:37:53' , 0)`,
+            VALUES ('PA001', 'PC005','Output' ,'{"name":"Output","desc":"200ml"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC005','Monitor' ,'{"name":"Temperature","desc":"Monitor every 2 hours"}' , '2018-12-04 14:37:53' , 0)`,
-
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC006','Monitor' ,'{"name":"Blood pressure","desc":"Monitor every 3 hours"}' , '2018-12-04 14:37:53' , 0)`,
+            VALUES ('PA001', 'PC006','Monitor' ,'{"name":"Temperature","desc":"Monitor every 2 hours"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
             VALUES ('PA001', 'PC007','Monitor' ,'{"name":"Blood pressure","desc":"Monitor every 3 hours"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC008','Monitor' ,'{"name":"Pulse Rate","desc":"Monitor every 15 mins"}' , '2018-12-04 14:37:53' , 0)`,
+            VALUES ('PA001', 'PC008','Monitor' ,'{"name":"Blood pressure","desc":"Monitor every 3 hours"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC009','Monitor' ,'{"name":"Respiration Rate","desc":"Monitor every 30 mins"}' , '2018-12-04 14:37:53' , 0)`,
+            VALUES ('PA001', 'PC009','Monitor' ,'{"name":"Pulse Rate","desc":"Monitor every 15 mins"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
-            VALUES ('PA001', 'PC010','Medicine' ,'{"name":"Acetaminophen","desc":"3 times a day after meal"}' , '2018-12-04 14:37:53' , 0)`,
+            VALUES ('PA001', 'PC010','Monitor' ,'{"name":"Respiration Rate","desc":"Monitor every 30 mins"}' , '2018-12-04 14:37:53' , 0)`,
+
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_state) 
+            VALUES ('PA001', 'PC011','Medicine' ,'{"name":"Acetaminophen","desc":"3 times a day after meal"}' , '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO conf_tbl (uuid, conf_type_code , conf , updated_on , sync_state) 
             VALUES ('C0001', 'Monitor' ,'{"tasks":[{"name":"Temperature"},{"name":"Blood Pressure"},{"name":"Pulse Rate"},{"name":"Respiration Rate"}]}' , '2018-12-04 14:37:53' , 0)`,
@@ -101,27 +101,27 @@ export class DatabaseSchemaService {
         `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_state ) values ('SP003', "General Ward 3","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
 
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  1547613042 ,0)`,
+            VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  1548218525 ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A002', 'PA001' ,'Medicine' ,'PC001', 1547793053  ,0)`,
+            VALUES ('A002', 'PA001' ,'Medicine' ,'PC001', 1548218525  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A003', 'PA001' ,'Medicine' ,'PC001',  1547763053  ,0)`,
+            VALUES ('A003', 'PA001' ,'Medicine' ,'PC001',   1548240000  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A004', 'PA001' ,'Medicine' ,'PC001', 1547563053 ,0)`,
+            VALUES ('A004', 'PA001' ,'Medicine' ,'PC001', 1548240000 ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A005', 'PA001' ,'Intake' ,'PC001',  1547793053  ,0)`,
+            VALUES ('A005', 'PA001' ,'Intake' ,'PC001',  1548243000  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A006', 'PA001' ,'Monitor' ,'PC001', 1547563053 ,0)`,
+            VALUES ('A006', 'PA001' ,'Monitor' ,'PC001', 1548243000 ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A007', 'PA001' ,'Output' ,'PC001',  1547793053  ,0)`,
+            VALUES ('A007', 'PA001' ,'Output' ,'PC001',   1548243000  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A008', 'PA001' ,'Medicine' ,'PC001', 1547563053 ,0)`,
+            VALUES ('A008', 'PA001' ,'Medicine' ,'PC001', 1548243000 ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A009', 'PA001' ,'Intake' ,'PC001',  1547793053  ,0)`,
+            VALUES ('A009', 'PA001' ,'Intake' ,'PC001',   1548241200  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A010', 'PA001' ,'Monitor' ,'PC001', 1547563053 ,0)`,
+            VALUES ('A010', 'PA001' ,'Monitor' ,'PC001', 1548241200 ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_state) 
-            VALUES ('A011', 'PA001' ,'Output' ,'PC001',  1547793053  ,0)`,
+            VALUES ('A011', 'PA001' ,'Output' ,'PC001',  1548218525  ,0)`,
     ]
 
 

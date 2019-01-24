@@ -1,7 +1,9 @@
 var Sqlite = require("nativescript-sqlite");
 
 let selectQueries = new Map([
-    ["patientlist", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid"],
+    ["patientlist", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid"],
+    ["patientlistbyuuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where padmsn.uuid=?"],
+    ["patientlistbymasteruuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where patient.uuid=?"],
     ["chartlist", "select * from schedule_tbl"],
     ["chartInsert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf) values ( ?, ?, ?, ?)"],
     ["monitorConfList", "select uuid,conf_type_code,conf from conf_tbl where conf_type_code = 'Monitor'"],
@@ -123,12 +125,12 @@ export class DatabaseHelper {
 
                     db.resultType(Sqlite.RESULTSASOBJECT);
 
-                    db.get(query, paramList, function (err, row) {
+                    db.all(query, paramList, function (err, result) {
 
                         if (err) {
                             reject(err);
                         } else {
-                            resolve(row);
+                            resolve(result);
                         }
 
                     });

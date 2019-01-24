@@ -50,14 +50,14 @@ export class ChartService {
         });
     }
 
-    public getChartByUUID(uuid: string) {
+    public getChartByUUID(uuid: string): any {
         return new Promise((resolve, reject) => {
 
             const paramList = new Array<any>();
 
             paramList.push(uuid);
 
-            this.database.selectByID("chartItemByUUID",paramList).then(
+            this.database.selectByID("chartItemByUUID", paramList).then(
                 (val) => {
                     console.log("chart item", val);
                     resolve(val);
@@ -70,18 +70,18 @@ export class ChartService {
         });
     }
 
-    public getMonitorConf() :any {
+    public getMonitorConf(): any {
 
         return new Promise((resolve, reject) => {
 
             this.database.selectAll("monitorConfList").then(
-                (val)=> {                  
-                    resolve(val);          
+                (val) => {
+                    resolve(val);
                 },
-                (error)=>{
+                (error) => {
                     reject(error);
                 }
-            );      
+            );
 
         });
 
