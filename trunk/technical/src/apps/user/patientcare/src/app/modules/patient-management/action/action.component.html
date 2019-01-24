@@ -13,18 +13,10 @@
                         <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                             [text]="item.status">
                             <StackLayout row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
+                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                 <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
-                                    [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
+                                    [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                             </StackLayout>
-                            <!-- <StackLayout *ngIf="item.status === 2" row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                                <Label row="1" col="0" text="2:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout>
-                            <StackLayout *ngIf="item.status === 3" row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                                <Label row="1" col="0" text="4:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout> -->
                         </GridLayout>
                         <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout" style="vertical-align: center;">
                             <Label row="0" col="0" class="body" [text]="item.name" style="color: #396767;"></Label>
@@ -46,22 +38,14 @@
             </ng-template>
 
             <ng-template tkTemplateKey="expanded" let-item="item">
-                <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout"
-                    [class]="'item ' + (item.selected ? 'item-selected' : '')" [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
-                    <GridLayout row="0" columns="70, *" rows="auto, auto"style="padding-bottom: 8%;">
+                <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout" [class]="'item ' + (item.selected ? 'item-selected' : '')"
+                    [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
+                    <GridLayout row="0" columns="70, *" rows="auto, auto" style="padding-bottom: 8%;">
                         <GridLayout col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;">
                             <StackLayout row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
+                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                 <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
-                                    [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout>
-                            <StackLayout *ngIf="item.status === 2" row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                                <Label row="1" col="0" text="2:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout>
-                            <StackLayout *ngIf="item.status === 3" row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                                <Label row="1" col="0" text="4:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
+                                    [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                             </StackLayout>
                         </GridLayout>
                         <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout" style="vertical-align: center;">
