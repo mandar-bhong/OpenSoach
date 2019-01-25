@@ -1,4 +1,4 @@
-import { IDatastoreModel } from "./idatastore-model";
+import { IDatastoreModel } from "./idatastore-model.js";
 
 export class ScheduleDatastoreModel implements IDatastoreModel {
     uuid: string;

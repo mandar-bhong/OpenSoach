@@ -7,11 +7,13 @@ import { SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE } from "~/app/app-constants";
 import { ServerDataProcessorMessageModel } from "~/app/models/api/server-data-processor-message-model";
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model";
 import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-model";
+import { IDatastoreModel } from "../models/db/idatastore-model";
 import { ScheduleDatastoreModel } from "../models/db/schedule-model";
 
 @Injectable()
 export class WorkerService {
-    private ServerDataProcessorWorker: Worker;
+    public ServerDataProcessorWorker: Worker;
+    public DataReceivedSubject = new Subject<ServerDataStoreDataModel<any>>();
     public patientMasterDataReceivedSubject = new Subject<string>();
     public patientAdmissionDataReceivedSubject = new Subject<string>();
     public scheduleDataReceivedSubject = new Subject<ScheduleDatastoreModel>();
@@ -31,6 +33,9 @@ export class WorkerService {
         }
 
         this.ServerDataProcessorWorker.onmessage = m => this.serverWorkerMessageRecieved(m);
+        this.ServerDataProcessorWorker.onerror=e=>{
+            console.log("worker error", e);
+        };
     }
 
     postMessageToServerDataProcessorWorker(message: ServerDataProcessorMessageModel) {
@@ -57,7 +62,7 @@ export class WorkerService {
         this.ServerDataProcessorWorker.terminate();
     }
 
-    handleDataReceived(data: ServerDataStoreDataModel[]) {
+    handleDataReceived(data: ServerDataStoreDataModel<IDatastoreModel>[]) {
         data.forEach(item => {
             console.log('subject triggered');
 

@@ -16,6 +16,7 @@ let selectQueries = new Map([
     ["actionTxnList", "select * from action_txn_tbl"],
     ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?)"],
     ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_on=?,sync_pending=? where uuid=?"],
+    ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,sync_pending) values ( ?, ?, ?, ?,?)"],
 ]);
 
 let selectTableName = new Map([

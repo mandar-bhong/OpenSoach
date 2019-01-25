@@ -2,11 +2,17 @@ import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-m
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model.js";
 import { SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE } from "../app-constants.js";
 import { DatabaseHelper } from "../helpers/database-helper.js";
+import { ScheduleDatastoreModel } from "../models/db/schedule-model.js";
+import { IDatastoreModel } from "../models/db/idatastore-model.js";
+import { Schedulardata, SchedularConfigData } from "../models/ui/chart-models.js";
+import { MedicineHelper } from "../helpers/actions/medicine-helper.js";
+import { medicine } from "../common-constants.js";
+import { ActionsData } from "../models/db/action-datastore.js";
 
 export interface AppMessageHandlerInterface {
-    dataModel: ServerDataStoreDataModel;
+    dataModel: ServerDataStoreDataModel<IDatastoreModel>;
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
-    handleMessage(msg: ServerDataStoreDataModel, postMessageFn: (msg: ServerWorkerEventDataModel) => void): void
+    handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void): void
     saveToDataStore(): void;
     notifyUI(): void;
     updateSyncPending(): void;
@@ -14,23 +20,31 @@ export interface AppMessageHandlerInterface {
 }
 
 export class AppMessageHandler implements AppMessageHandlerInterface {
-    dataModel: ServerDataStoreDataModel;
+    dataModel: ServerDataStoreDataModel<IDatastoreModel>;
+    //ScheduleDatastoreModel
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
-
-    handleMessage(msg: ServerDataStoreDataModel, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
+    handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
         this.dataModel = msg;
-        console.log('base message handle', this.dataModel);
+        // console.log('base message handle executed', this.dataModel);
         this.postMessageCallback = postMessageFn;
 
         switch (msg.datastore) {
             case SYNC_STORE.SCHEDULE:
-                this.handleScheduleMessage();
+                const obj = new ScheduleDatastoreModel();
+                Object.assign(obj, this.dataModel.data)
+                this.dataModel.data = obj;
+                this.handleScheduleMessage(obj);
                 break;
         }
     }
 
     saveToDataStore() {
-        DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues());
+        console.log('saveToDataStore', this.dataModel);
+        try {
+            DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues());
+        } catch (e) {
+            console.log(e.error);
+        }
     }
 
     notifyUI() {
@@ -44,7 +58,36 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
 
     }
 
-    handleScheduleMessage() {
+    handleScheduleMessage(obj: ScheduleDatastoreModel) {
+        console.log('handleScheduleMessage executed 3wdqed');
+
+        // const data = <ScheduleDatastoreModel>this.dataModel.data;
+        const schedulardata = new Schedulardata();
+        schedulardata.data = obj;
+        schedulardata.conf = new SchedularConfigData()
+        const parsedConf = <SchedularConfigData>JSON.parse(obj.conf);
+        schedulardata.conf = parsedConf;
+        console.log('schedulardata.conf ', schedulardata.conf);
+        //  if (schedulardata.conf_type_code == medicine) {
+        console.log('MedicineHelper creating');
+        const medicineHelper = new MedicineHelper();
+        console.log('MedicineHelper created');
+        try {
+            const actiondata = <ActionsData>medicineHelper.createMedicineActions(schedulardata);
+            console.log('in try catch block');
+           parsedConf.endDate = actiondata.enddate;
+          obj.conf=JSON.stringify(parsedConf);
+            console.log(actiondata.enddate);
+            console.log(actiondata.actions);
+            // actiondata.actions.forEach(element=>{
+            //     DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, element.getModelValues());
+            // })
+        }
+        catch (e) {
+            console.error('MedicineHelper', e);
+        }
+
+        //  }
         // this.dataModel.data
         // create actions
         // set schedule end date

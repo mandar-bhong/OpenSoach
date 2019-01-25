@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Schedulardata, SchedularConfigData, MornFreqInfo, AftrnFreqInfo, NightFreqInfo } from '~/app/models/ui/chart-models';
+import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
+import { MonitorHelper } from '~/app/helpers/actions/monitor-helper';
+import { IntakeHelper } from '~/app/helpers/actions/intake-helper';
 
 @Component({
     moduleId: module.id,
@@ -63,6 +67,7 @@ export class MonitorComponent implements OnInit {
         { Country: "12:00 AM", Amount: 87 },
         { Country: "04:00 AM", Amount: 110 }
     ];
+    schedulardata: Schedulardata;
 
 
     // bloodSource: { Country: string, Amount: any }[] = [
@@ -77,6 +82,60 @@ export class MonitorComponent implements OnInit {
 
     ngOnInit() {
         // alert('monitor');
+       // this.createActions();
     }
+    createActions() {
+		this.schedulardata = new Schedulardata();
+		const dt = new Date();
+		this.schedulardata.uuid = '12';
+		this.schedulardata.admission_uuid = '2';
+		this.schedulardata.conf_type_code = "Medicine";
+		this.schedulardata.conf = new SchedularConfigData();
+		this.schedulardata.conf.mornFreqInfo = new MornFreqInfo();
+		this.schedulardata.conf.mornFreqInfo.freqMorn = true
 
+		this.schedulardata.conf.aftrnFreqInfo = new AftrnFreqInfo();
+		this.schedulardata.conf.aftrnFreqInfo.freqAftrn = true;
+		this.schedulardata.conf.nightFreqInfo = new NightFreqInfo();
+		this.schedulardata.conf.nightFreqInfo.freqNight = true;
+		this.schedulardata.conf.desc = " Morning & Afternoon & Night before meal. \nTest.";
+		this.schedulardata.conf.name = "Cipla";
+		this.schedulardata.conf.quantity = 11;
+		this.schedulardata.conf.startDate = "2019-01-23T08:30:00.438Z" // 23th 12.10 pm
+		this.schedulardata.conf.duration = 3;
+		this.schedulardata.conf.frequency = 0;
+		this.schedulardata.conf.startTime = '20.30' // 16.30
+		this.schedulardata.conf.intervalHrs = 180
+		this.schedulardata.conf.foodInst = 1;
+		this.schedulardata.conf.endTime = '12.30';
+		this.schedulardata.conf.numberofTimes = 3
+		this.schedulardata.conf.specificTimes = [];
+		this.schedulardata.conf.specificTimes.push(11.30);
+        this.schedulardata.conf.specificTimes.push(12.30);
+        console.log('JSON.stringyfy');
+        console.log(JSON.stringify(this.schedulardata));
+
+//	let medicineSchedular = new MedicineHelper();
+//	let mmonitorHelper = new MonitorHelper();
+//	mmonitorHelper.createMonitorActions(this.schedulardata);
+	//	let intakeHelper = new IntakeHelper();
+	//	intakeHelper.createIntakeActions(this.schedulardata);
+		//	medicineSchedular.createMedicineActions(this.schedulardata);
+	//	console.log('in create actions fucntions');
+		// this.chartService.getChartList().then(
+		// 	(val) => {
+		// 		val.forEach(item => {
+		// 			item.conf = JSON.parse(item.conf);
+		// 		});					
+		// 		if (this.schedulardata.conf_type_code = medicine) {
+		// 			if (this.schedulardata.conf.frequency === freuencyzero) {
+
+		// 			}
+		// 		}				
+		// 	},
+		// 	(error) => {
+		// 		console.log("getChartData error:", error);
+		// 	}
+		// );
+	}
 }

@@ -63,6 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // TODO: Dummy code for testing 
         console.log('in app component init');
+        
         // const initModel = new ServerDataProcessorMessageModel();
         // initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
         // this.workerService.ServerDataProcessorWorker.postMessage(initModel);

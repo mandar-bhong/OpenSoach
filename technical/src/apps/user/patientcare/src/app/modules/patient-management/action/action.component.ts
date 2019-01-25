@@ -17,10 +17,12 @@ import { Page } from 'ui/page';
 import { medicine } from '~/app/common-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { ActionListViewModel, ActionTxnDBModel, ActionDataDBRequest } from '~/app/models/ui/action-models';
-import { Schedulardata } from '~/app/models/ui/chart-models';
+import { Schedulardata, SchedularConfigData, MornFreqInfo, AftrnFreqInfo, NightFreqInfo } from '~/app/models/ui/chart-models';
 import { ActionService } from '~/app/services/action/action.service';
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { IntakeHelper } from '~/app/helpers/actions/intake-helper';
+import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
 
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
@@ -133,7 +135,6 @@ export class ActionComponent implements OnInit {
 		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
 
 		}); // end of subscriptions.
-		// this.createActions();
 		this.actionDbData = new ActionDataDBRequest();
 		this.actiondata = new ActionDataDBRequest();
 	}
@@ -585,5 +586,5 @@ export class ActionComponent implements OnInit {
 		this.actionService.getActionTxnList();
 	}
 
-
+	
 }

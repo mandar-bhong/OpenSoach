@@ -1,3 +1,5 @@
+import { ScheduleDatastoreModel } from "../db/schedule-model.js";
+
 export class ChartListViewModel {
     dbmodel: any;
 }
@@ -22,6 +24,7 @@ export class MonitorChartModel {
     specificTime: string;
     specificTimes: Array<any>;
     desc: string;
+    endDate: Date
 }
 
 export class MedChartModel {
@@ -37,6 +40,7 @@ export class MedChartModel {
     duration: number;
     startTime: string;
     desc: string;
+    endDate: Date
 }
 
 export class IntakeChartModel {
@@ -50,9 +54,11 @@ export class IntakeChartModel {
     specificTime: string;
     specificTimes: Array<any>;
     desc: string;
+    endDate: Date
 }
 
 export class Schedulardata {
+    data: ScheduleDatastoreModel;
     uuid: string;
     admission_uuid: string;
     conf_type_code: string;
@@ -111,5 +117,6 @@ export class SchedularConfigData {
     endTime: string;
     specificTime: string;
     specificTimes: Array<any>;
-    numberofTimes: number;   
+    numberofTimes: number;
+    endDate: Date
 }
