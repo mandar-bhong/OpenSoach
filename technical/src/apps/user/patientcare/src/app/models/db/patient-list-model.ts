@@ -8,4 +8,5 @@ export class PatientListBindData{
     sp_uuid: string;
     patient_uuid: string;
     admission_uuid: string;
+    sp_name: string;
 }
