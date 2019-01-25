@@ -11,7 +11,7 @@ let selectQueries = new Map([
     ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status) values ( ?, ?, ?, ?, ?, ?)"],
     ["chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
     ["servicePointList", "select * from service_point_tbl"],
-    ["actionTxnInsert", "insert into action_txn_tbl (uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,runtime_config_data, status) values ( ?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,runtime_config_data, status) values ( ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["syncList", "select * from sync_tbl"],
     ["actionTxnList", "select * from action_txn_tbl"],
     ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?)"],
@@ -144,12 +144,12 @@ export class DatabaseHelper {
 
         return new Promise((resolve, reject) => {
 
-            console.log("dataList", dataList);
+            // console.log("dataList", dataList);
 
             var newDatalist = dataList.slice(0);
             newDatalist = newDatalist.concat(newDatalist.splice(0, 1));
 
-            console.log("newDatalist", newDatalist);
+            // console.log("newDatalist", newDatalist);
 
             var tblname: string;
             var getQuery = "select * from TABLENAME where uuid = ?";
@@ -159,7 +159,7 @@ export class DatabaseHelper {
             };
 
             getQuery = getQuery.replace("TABLENAME", tblname);
-            console.log("getQuery", getQuery);
+            // console.log("getQuery", getQuery);
 
             this.getdbConn()
                 .then(db => {

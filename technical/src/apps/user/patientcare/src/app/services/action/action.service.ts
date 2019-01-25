@@ -78,6 +78,7 @@ export class ActionService {
         const listData = new Array<any>();
 
         listData.push(data.uuid);
+        listData.push(data.admission_uuid);
         listData.push(data.schedule_uuid);
         listData.push(data.txn_data);
         listData.push(data.txn_date);
