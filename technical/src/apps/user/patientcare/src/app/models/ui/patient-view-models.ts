@@ -1,3 +1,6 @@
+import { PatientListBindData } from "../db/patient-list-model";
+
 export class PatientListViewModel {
-    dbmodel:any;
+    dbmodel: PatientListBindData;
 }
+
