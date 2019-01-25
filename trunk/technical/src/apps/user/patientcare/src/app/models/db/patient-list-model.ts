@@ -1,6 +1,6 @@
 export class PatientListBindData{
     fname: string;
-    lanme: string;
+    lname: string;
     bed_no: string;
     mob_no: string;
     status: number;
