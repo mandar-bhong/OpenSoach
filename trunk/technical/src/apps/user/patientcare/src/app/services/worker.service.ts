@@ -7,13 +7,14 @@ import { SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE } from "~/app/app-constants";
 import { ServerDataProcessorMessageModel } from "~/app/models/api/server-data-processor-message-model";
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model";
 import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-model";
+import { ScheduleDatastoreModel } from "../models/db/schedule-model";
 
 @Injectable()
 export class WorkerService {
     private ServerDataProcessorWorker: Worker;
-    //public DataReceivedSubject = new Subject<ServerDataStoreDataModel>();
     public patientMasterDataReceivedSubject = new Subject<string>();
     public patientAdmissionDataReceivedSubject = new Subject<string>();
+    public scheduleDataReceivedSubject = new Subject<ScheduleDatastoreModel>();
 
     public ServerConnectionSubject = new Subject<boolean>();
 
@@ -62,10 +63,13 @@ export class WorkerService {
 
             switch (item.datastore) {
                 case SYNC_STORE.PATIENT_MASTER:
-                    this.patientMasterDataReceivedSubject.next();
+                    this.patientMasterDataReceivedSubject.next(item.data.uuid);
                     break;
                 case SYNC_STORE.PATIENT_ADMISSION:
-                    this.patientAdmissionDataReceivedSubject.next();
+                    this.patientAdmissionDataReceivedSubject.next(item.data.uuid);
+                    break;
+                case SYNC_STORE.SCHEDULE:
+                    this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
                     break;
             }
         });
