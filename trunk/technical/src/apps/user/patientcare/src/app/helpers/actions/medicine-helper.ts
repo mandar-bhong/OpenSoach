@@ -1,7 +1,8 @@
 
-import { ProcessTime, TimeConstants, dayTime, AfterMealTime, BeforeMealTime, BeforeMealTimeInMinutes, AfterMealTimeInMinutes, Medicinefrequency, AfterXtimeIntervl, DayTimes, ActionItems } from "~/app/models/ui/action-model";
-import { ActionHelper } from "./action-helper";
-import { Schedulardata } from "~/app/models/ui/chart-models";
+import { ProcessTime, TimeConstants, dayTime, AfterMealTime, BeforeMealTime, BeforeMealTimeInMinutes, AfterMealTimeInMinutes, Medicinefrequency, AfterXtimeIntervl, DayTimes, ActionItems } from "~/app/models/ui/action-model.js";
+import { ActionHelper } from "./action-helper.js";
+import { Schedulardata } from "~/app/models/ui/chart-models.js";
+import { ActionsData } from "~/app/models/db/action-datastore.js";
 
 export class MedicineHelper extends ActionHelper {
     // process variables
@@ -40,7 +41,7 @@ export class MedicineHelper extends ActionHelper {
                 this.isNextDateRequired(); // checking if medicine dosage remening.if yes then adding one extra daty in array.
             }
             const updateActionsLen = this.actionsLength();
-        // removing unwanted day entries
+            // removing unwanted day entries
             if (updateActionsLen > totalActions) {
                 this.removeActions(updateActionsLen, totalActions);
                 console.log('extra actions created');
@@ -51,10 +52,12 @@ export class MedicineHelper extends ActionHelper {
         }
         // calling base function for  create final  action entries.
         this.generateDBActions();
-        console.log('action list');
-        console.log(this.actionList);
+        const actios = new ActionsData();
+        actios.actions = this.actionList;
+        actios.enddate = this.getScheduleEnddate();
+        return actios;
     } // end of code block
-// code  block for checking frequency count. 
+    // code  block for checking frequency count. 
     CheckFrequencyCount() {
         let trueCount = 0;
         if (this.schedulardata.conf.mornFreqInfo.freqMorn) {
@@ -75,7 +78,7 @@ export class MedicineHelper extends ActionHelper {
         // getiing time constants based on food  instructions in string format.
         timeConstants = this.beforeAfter(foodInst);
         let definedTime: TimeConstants;
-         // getiing time constants based on food  instructions in minutes
+        // getiing time constants based on food  instructions in minutes
         definedTime = this.beforeAfterProcessTime(foodInst)
         const startDate = new Date(this.startdatetime);
         startDate.setHours(0, 0, 0, 0);
@@ -189,24 +192,53 @@ export class MedicineHelper extends ActionHelper {
     }
 
     // fucntion for creating actions after x timeinterval
-    createActionAfterXTimeinterval(receivedDate, MonitorSchedularData, i) {
-        console.log(' createActionAfterXTimeinterval function called');
+    createActionAfterXTimeinterval(receivedDate, SchedularData, i) {
+        let index = i;
         const receivedActionDate = new Date(receivedDate);
-        // const TimeInterval = Math.floor(MedicineSchedularData.conf.intervalHrs * 60);
-        const TimeInterval = MonitorSchedularData.conf.intervalHrs;
-        let treatmentStartTime = Math.floor(MonitorSchedularData.conf.startTime * 60);
-        let xIntervalStartTime = treatmentStartTime;
-        if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-            // getting minutes in from schedule start date.
-            const totalminutes = this.getMinutes();
-            if (totalminutes > xIntervalStartTime) {
-                this.generateXTimesActions(totalminutes, receivedActionDate, TimeInterval, i)
+        const TimeInterval = SchedularData.conf.intervalHrs;
+        let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
+        const scheduleCreationTime = this.getMinutes();
+        for (let x = 0; x < this.numberofTimes; x++) {
+            if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
+                if (scheduleTime >= scheduleCreationTime) {
+                    if (scheduleTime > DayTimes.dayEndTime) {
+                        const nextDate = new Date(receivedActionDate);
+                        nextDate.setDate(receivedActionDate.getDate() + 1);
+                        scheduleTime -= DayTimes.dayEndTime;
+                        const arraylen = this.actionItems.length - 1;
+                        if (i >= arraylen) {
+                            this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
+                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        } else {
+                            // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
+                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        }
+                        index++;
+                    } else {
+                        this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                    }
+                }
             } else {
-                this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
+                if (scheduleTime > DayTimes.dayEndTime) {
+                    const nextDate = new Date(receivedActionDate);
+                    nextDate.setDate(receivedActionDate.getDate() + 1);
+                    scheduleTime -= DayTimes.dayEndTime;
+                    const arraylen = this.actionItems.length - 1;
+                    if (i >= arraylen) {
+                        this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
+                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                    } else {
+                        // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
+                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                    }
+                    index++;
+                } else {
+                    this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                }
             }
-        } else {
-            this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
+            scheduleTime += TimeInterval;
         }
+
     } // end of code block.
 
     // function for removing  unwanted actions.
@@ -219,27 +251,38 @@ export class MedicineHelper extends ActionHelper {
         }
         console.log('this.actionItems', this.actionItems);
     }
-// code block will generate actions based on x time interval
-    generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i) {
+    // code block will generate actions based on x time interval
+    generateXTimesActions(scheduleStartTime, receivedActionDate, TimeInterval, i) {
         let index = i;
         for (let x = 0; x < this.numberofTimes; x++) {
-            if (xIntervalStartTime > DayTimes.dayEndTime) {
-                const nextDate = new Date(receivedActionDate);
-                nextDate.setDate(receivedActionDate.getDate() + 1);
-                xIntervalStartTime -= DayTimes.dayEndTime;
-                const arraylen = this.actionItems.length - 1;
-                if (i >= arraylen) {
-                    this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
-                    this.tempActionItems[index + 1].dayAction.push({ time: xIntervalStartTime });
-                } else {
-                    // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
-                    this.tempActionItems[index + 1].dayAction.push({ time: xIntervalStartTime });
+            if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
+                const scheduleCreationTime = this.getMinutes();
+                if (scheduleCreationTime > scheduleStartTime) {
+                    if (scheduleStartTime > DayTimes.dayEndTime) {
+                        const nextDate = new Date(receivedActionDate);
+                        nextDate.setDate(receivedActionDate.getDate() + 1);
+                        scheduleStartTime -= DayTimes.dayEndTime;
+                        const arraylen = this.actionItems.length - 1;
+                        if (i >= arraylen) {
+                            this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
+                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleStartTime });
+                        } else {
+                            // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
+                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleStartTime });
+                        }
+                        index++;
+                    } else {
+                        this.tempActionItems[index].dayAction.push({ time: scheduleStartTime });
+                    }
                 }
-                index++;
+
             } else {
-                this.tempActionItems[index].dayAction.push({ time: xIntervalStartTime });
+
             }
-            xIntervalStartTime += TimeInterval;
+
+
+
+            scheduleStartTime += TimeInterval;
         }
     }
 }// end of class

@@ -9,6 +9,11 @@ import { ChartDBModel, MedChartModel, MornFreqInfo, AftrnFreqInfo, NightFreqInfo
 import { ChartService } from "~/app/services/chart/chart.service";
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { PlatformHelper } from "~/app/helpers/platform-helper";
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
+import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { WorkerService } from '~/app/services/worker.service';
+import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 
 @Component({
     moduleId: module.id,
@@ -42,6 +47,7 @@ export class MedicineChartComponent implements OnInit {
 
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
+        public workerService: WorkerService,
         private chartservice: ChartService) {
 
         this.freqMorn = true;
@@ -85,6 +91,8 @@ export class MedicineChartComponent implements OnInit {
         // this.medicineForm.get('mornQuantity').setValue(1);
         // this.medicineForm.get('startDate').setValue(new Date());
 
+        // remove this code block once u done testing of 
+     //   this.createActions();
     }
 
     // << func for navigating previous page
@@ -152,13 +160,28 @@ export class MedicineChartComponent implements OnInit {
         formData.startTime = this.medicineForm.get('startTime').value;
         formData.desc = this.medicineForm.get('desc').value;
 
-        console.log("formData",formData);
+        console.log("formData", formData);
 
         // insert form data to sqlite db
         this.insertData(formData);
-
     }
     // >> func for submit form data
+
+    createActions() {
+        const initModel = new ServerDataProcessorMessageModel();
+        const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
+        serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
+        serverDataStoreModel.data = new ScheduleDatastoreModel();
+        serverDataStoreModel.data.uuid = '11'
+        serverDataStoreModel.data.sync_pending = 1
+        serverDataStoreModel.data.admission_uuid = "11";
+        serverDataStoreModel.data.conf_type_code = 'Medicine';
+        // serverDataStoreModel.data.conf = JSON.stringify(formData);
+        serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
+        initModel.data = [serverDataStoreModel];
+        initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+    }
 
     // set frequency checkbox value
     onMorningChecked(args) {
@@ -259,7 +282,7 @@ export class MedicineChartComponent implements OnInit {
         }
 
         const currentTime = this.datePipe.transform(Date.now(), "H:mm");
-        console.log("currentTime",currentTime);
+        console.log("currentTime", currentTime);
 
         this.chartConfModel.name = data.name;
         this.chartConfModel.quantity = data.quantity;
@@ -278,6 +301,18 @@ export class MedicineChartComponent implements OnInit {
 
         // insert chart db model to sqlite db
         this.chartservice.insertChartItem(this.chartDbModel);
+        // call creating action block blcok with  following params.
+
+        // this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
+        // this.chartDbModel.admission_uuid = "PA001";
+        // this.chartDbModel.conf = confString;
+        // this.chartDbModel.conf_type_code = "Medicine";
+
+        //to do 
+
+        // update this fucntion with entered data param
+        this.createActions();
+
 
         // get chart data from sqlite db
         this.chartservice.getChartList();

@@ -1,6 +1,7 @@
-import { ActionHelper } from "./action-helper";
-import { Schedulardata } from "~/app/models/ui/chart-models";
-import { Medicinefrequency, DayTimes, ActionItems, Monitorfrequency } from "~/app/models/ui/action-model";
+import { ActionHelper } from "./action-helper.js";
+import { Schedulardata } from "~/app/models/ui/chart-models.js";
+import { Medicinefrequency, DayTimes, ActionItems, Monitorfrequency } from "~/app/models/ui/action-model.js";
+import { ActionsData } from "~/app/models/db/action-datastore.js";
 
 export class MonitorHelper extends ActionHelper {
     // process variables
@@ -34,8 +35,10 @@ export class MonitorHelper extends ActionHelper {
         }
         // creating final  actions.
         this.generateDBActions();
-        console.log('action list');
-        console.log(this.actionList);
+        const actios = new ActionsData();
+        actios.actions = this.actionList;
+        actios.enddate = this.getScheduleEnddate();
+        return actios;
     }// end of fucntions.
 
     // fucntion for geberatating actions for x times in day.
@@ -51,27 +54,73 @@ export class MonitorHelper extends ActionHelper {
     }// end of class
 
     // fucntion for creating actions after x timeinterval
-    createActionAfterXTimeinterval(receivedDate, MonitorSchedularData, i) {
-        console.log(' createActionAfterXTimeinterval function called');
+    createActionAfterXTimeinterval(receivedDate, SchedularData, i) {
+        let index = i;
         const receivedActionDate = new Date(receivedDate);
-        // const TimeInterval = Math.floor(MedicineSchedularData.conf.intervalHrs * 60);
-        const TimeInterval = MonitorSchedularData.conf.intervalHrs;
-        let treatmentStartTime = Math.floor(MonitorSchedularData.conf.startTime * 60);
-        let xIntervalStartTime = treatmentStartTime;
-        //cheking schedule start date periods
-        if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-            // geting minutes from date- base class function
-            const totalminutes = this.getMinutes();
-            // cheking schedule create time is greater than schedule start time if
-            if (totalminutes > xIntervalStartTime) {
-                //if greater then pass schedule create time as start time.
-                this.generateXTimesActions(totalminutes, receivedActionDate, TimeInterval, i)
+        const TimeInterval = SchedularData.conf.intervalHrs;
+        let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
+        console.log('scheduled time', scheduleTime);
+        const scheduleCreationTime = this.getMinutes();
+        for (let x = 0; x < this.numberofTimes; x++) {
+            if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
+                if (scheduleTime >= scheduleCreationTime) {
+                    if (scheduleTime > DayTimes.dayEndTime) {
+                        const nextDate = new Date(receivedActionDate);
+                        nextDate.setDate(receivedActionDate.getDate() + 1);
+                        scheduleTime -= DayTimes.dayEndTime;
+                        const arraylen = this.actionItems.length - 1;
+                        if (i >= arraylen) {
+                            this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
+                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        } else {
+                            // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
+                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        }
+                        index++;
+                    } else {
+                        this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                    }
+                }
             } else {
-                this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
+                if (scheduleTime > DayTimes.dayEndTime) {
+                    const nextDate = new Date(receivedActionDate);
+                    nextDate.setDate(receivedActionDate.getDate() + 1);
+                    scheduleTime -= DayTimes.dayEndTime;
+                    const arraylen = this.actionItems.length - 1;
+                    if (i >= arraylen) {
+                        this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
+                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                    } else {
+                        // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
+                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                    }
+                    index++;
+                } else {
+                    this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                }
             }
-        } else {
-            this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
+            scheduleTime += TimeInterval;
         }
+        // console.log(' createActionAfterXTimeinterval function called');
+        // const receivedActionDate = new Date(receivedDate);
+        // // const TimeInterval = Math.floor(MedicineSchedularData.conf.intervalHrs * 60);
+        // const TimeInterval = MonitorSchedularData.conf.intervalHrs;
+        // let treatmentStartTime = Math.floor(MonitorSchedularData.conf.startTime * 60);
+        // let xIntervalStartTime = treatmentStartTime;
+        // //cheking schedule start date periods
+        // if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
+        //     // geting minutes from date- base class function
+        //     const totalminutes = this.getMinutes();
+        //     // cheking schedule create time is greater than schedule start time if
+        //     if (totalminutes > xIntervalStartTime) {
+        //         //if greater then pass schedule create time as start time.
+        //         this.generateXTimesActions(totalminutes, receivedActionDate, TimeInterval, i)
+        //     } else {
+        //         this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
+        //     }
+        // } else {
+        //     this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
+        // }  
     } // end of code block.
     //code block for generatring actions after x time interval
     generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i) {
@@ -108,7 +157,7 @@ export class MonitorHelper extends ActionHelper {
             const totalminutes = this.getMinutes();
             // checking schedule start date time period.
             for (let h = 0; h < MonitorSchedularData.conf.specificTimes.length; h++) {
-                const receivedSpecificTime = Math.floor(MonitorSchedularData.conf.specificTimes[h] * 60);
+                const receivedSpecificTime = this.getStartTime(MonitorSchedularData.conf.specificTimes[h]);
                 // cheking schedule start time ellpased  of not 
                 if (receivedSpecificTime >= totalminutes) {
                     this.actionItems[i].dayAction.push({ time: receivedSpecificTime });
@@ -116,7 +165,7 @@ export class MonitorHelper extends ActionHelper {
             }
         } else {
             for (let h = 0; h < MonitorSchedularData.conf.specificTimes.length; h++) {
-                const receivedSpecificTime = Math.floor(MonitorSchedularData.conf.specificTimes[h] * 60);
+                const receivedSpecificTime = this.getStartTime(MonitorSchedularData.conf.specificTimes[h]);
                 this.actionItems[i].dayAction.push({ time: receivedSpecificTime });
             }
         }

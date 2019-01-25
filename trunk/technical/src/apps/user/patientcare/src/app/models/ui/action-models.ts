@@ -19,8 +19,9 @@ export class ActionTxnDBModel {
     conf_type_code: string;
     runtime_config_data: string;
     status: number;
+    admission_uuid: string;
 }
-export class ActionDataDBRequest{
+export class ActionDataDBRequest {
     comment: string;
     value: string;
 }
