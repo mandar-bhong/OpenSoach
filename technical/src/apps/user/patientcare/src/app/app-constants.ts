@@ -32,14 +32,35 @@ export enum SYNC_STORE {
     ACTION = 'action_tbl'
 }
 
-export enum SYNC_TYPE {
+export enum DB_SYNC_TYPE {
     NONE = 0,
     SYNC_FROM_SERVER = 1,
     SYNC_TO_SERVER = 2,
     SYNC_TO_AND_FROM_SERVER = 3
 }
 
-export enum SYNC_STATE {
-    IN_SYNC = 0,
-    NOT_IN_SYNC = 1
+export enum SYNC_PENDING {
+    FALSE = 0,
+    TRUE = 1
+}
+
+export enum SERVER_SYNC_STATE {
+    NONE = 0,
+    SEND_AUTH_CMD = 1,
+    AUTHOURIZED = 2,
+    SYNC_TO_SERVER = 3,
+    SYNC_TO_SERVER_COMPLETED = 4,
+    SYNC_FROM_SERVER = 5,
+    SYNC_FROM_SERVER_COMPLETED = 6
+}
+
+export enum CMD_CATEGORY {
+    CMD_CAT_DEV_REGISTRATION = 1,
+    CMD_CAT_SYNC = 3
+}
+
+export enum CMD_ID {
+    CMD_DEV_REGISTRATION = 1,
+    CMD_GET_STORE_SYNC = 50,
+    CMD_APPLY_STORE_SYNC = 51
 }
