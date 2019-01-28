@@ -3,10 +3,10 @@ package endpoint
 import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
-	shelper "opensoach.com/hpft/server/helper"
 	lmodels "opensoach.com/hpft/server/models"
 	repo "opensoach.com/hpft/server/repository"
 	gmodels "opensoach.com/models"
+	pchelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 	pcstoresync "opensoach.com/prodcore/server/storesync"
 	pcservices "opensoach.com/prodcore/services"
@@ -68,7 +68,7 @@ func ProcessApplyStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessin
 	deviceCommandAck := gmodels.DeviceCommandAck{}
 	deviceCommandAck.Ack = true
 
-	convErr, reqModel, devPacket := shelper.GetStoreTableStruct(ctx.DevicePacket)
+	convErr, reqModel, devPacket := pchelper.GetStoreTableStruct(ctx.DevicePacket, pcmodels.StoreConfigModel{})
 	if convErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting store struct", convErr)
 		packetProcessingResult.IsSuccess = false
