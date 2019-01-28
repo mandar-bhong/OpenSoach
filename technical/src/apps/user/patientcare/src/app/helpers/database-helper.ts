@@ -17,6 +17,8 @@ let selectQueries = new Map([
     ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?)"],
     ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_on=?,sync_pending=? where uuid=?"],
     ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,sync_pending) values ( ?, ?, ?, ?,?)"],
+    ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, sync_pending) values ( ?, ?, ?, ?, ?, ?)"],
+
 ]);
 
 let selectTableName = new Map([
@@ -28,6 +30,7 @@ let selectTableName = new Map([
     ["patient_personal_details_tbl", "patient_personal_details_tbl"],
     ["patient_medical_details_tbl", "patient_medical_details_tbl"],
     ["action_txn_tbl", "action_txn_tbl"],
+    ["action_tbl", "action_tbl"],
 ]);
 
 
