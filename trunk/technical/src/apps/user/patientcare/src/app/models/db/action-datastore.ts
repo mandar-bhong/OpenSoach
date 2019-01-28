@@ -1,14 +1,15 @@
-import { IDatastoreModel } from "./idatastore-model.js";
+
+import { IDatastoreModel } from './idatastore-model.js';
 
 export class ActionDataStoreModel implements IDatastoreModel {
     uuid: string;
     admission_uuid: string;
     conf_type_code: string;
     schedule_uuid: string;
-    sync_pending: number;
     exec_time: Date;
-    getModelValues() {
-        return [this.uuid, this.admission_uuid];
+    sync_pending: number;
+    getModelValues(): any[] {
+        return [this.uuid, this.admission_uuid, this.conf_type_code, this.schedule_uuid, this.exec_time, this.sync_pending];
     }
 }
 
