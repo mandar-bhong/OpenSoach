@@ -47,6 +47,7 @@ func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (e
 		return dbErr, nil
 	}
 
+	//To Do - handle req data type if []map/[]IStoreSync
 	err, list := syncReq.GetDataItems()
 	if err != nil {
 		logger.Context().WithField("Sync Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to IStoreSync list", err)
@@ -55,9 +56,9 @@ func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (e
 
 	for _, each := range list {
 
-		dbErr, count := dbaccess.GetTableDataByUuid(dbConn, syncConfigData.HasQuery, each.GetUuid())
+		dbErr, count := dbaccess.GetTableDataByUuid(dbConn, syncConfigData.HasQuery, each["uuid"].(string))
 		if dbErr != nil {
-			logger.Context().WithField("Uuid", each.GetUuid).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get uuid  count", dbErr)
+			logger.Context().WithField("Uuid", each["uuid"]).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get uuid  count", dbErr)
 			return dbErr, nil
 		}
 

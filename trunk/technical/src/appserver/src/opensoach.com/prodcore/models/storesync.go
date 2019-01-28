@@ -46,3 +46,6 @@ type SyncConfigModel struct {
 	UpdateQry      string    `db:"update_qry" json:"updateqry"`
 	UpdatedOn      time.Time `db:"updated_on" json:"updatedon"`
 }
+
+type StoreConfigModel struct {
+}
