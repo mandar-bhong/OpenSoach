@@ -34,7 +34,7 @@ export class DataActionItem {
 	admission_uuid: string;
 	conf_type_code: string;
 	schedule_uuid: string;
-	exec_time: Date;
+	exec_time: String;
 	name: string;
 	desc: string;
 	status: number;
@@ -364,9 +364,9 @@ export class ActionComponent implements OnInit {
 					this.actionListItems = new ActionListViewModel();
 					this.actionListItems.dbmodel = item;
 					this.actionListItem.push(this.actionListItems);
-					console.log("action list", this.actionListItem);
-				});
 
+				});
+				//	console.log("received action list", this.actionListItem);
 				this.getListDataById();
 			},
 			(error) => {
@@ -385,9 +385,9 @@ export class ActionComponent implements OnInit {
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
 
-			const exectime = new Date(item.dbmodel.exec_time * 1000);
-			console.log('exectime', exectime);
-			actionListDataItem.exec_time = exectime;
+			// const exectime = new Date(item.dbmodel.exec_time);
+			// console.log('exectime', exectime);
+			actionListDataItem.exec_time = item.dbmodel.exec_time;
 			console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
 
 
@@ -586,5 +586,5 @@ export class ActionComponent implements OnInit {
 		this.actionService.getActionTxnList();
 	}
 
-	
+
 }

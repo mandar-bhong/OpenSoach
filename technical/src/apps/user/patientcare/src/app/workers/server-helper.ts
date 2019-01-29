@@ -475,7 +475,7 @@ export class ServerHelper {
             scheduleDatastoreModel.admission_uuid = item.admission_uuid;
             scheduleDatastoreModel.conf_type_code = item.conf_type_code;
             scheduleDatastoreModel.conf = item.conf;
-            scheduleDatastoreModel.updated_on = item.updated_on;
+           // scheduleDatastoreModel.updated_on = item.updated_on;
             scheduleDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             console.log("schedule store data:", scheduleDatastoreModel);

@@ -25,6 +25,7 @@ export class MonitorChartModel {
     specificTimes: Array<any>;
     desc: string;
     endDate: Date
+    numberofTimes: number;
 }
 
 export class MedChartModel {
@@ -41,6 +42,7 @@ export class MedChartModel {
     startTime: string;
     desc: string;
     endDate: Date
+    numberofTimes: number;
 }
 
 export class IntakeChartModel {
@@ -55,6 +57,7 @@ export class IntakeChartModel {
     specificTimes: Array<any>;
     desc: string;
     endDate: Date
+    numberofTimes: number;
 }
 
 export class Schedulardata {
@@ -101,7 +104,8 @@ export class NightFreqInfo {
     freqNight: boolean;
     nightFreqQuantity: number;
 }
-export class SchedularConfigData {
+export class 
+SchedularConfigData {
     name: string;
     quantity: number;
     foodInst: number;
