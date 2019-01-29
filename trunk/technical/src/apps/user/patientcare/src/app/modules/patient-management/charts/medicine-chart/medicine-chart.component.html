@@ -86,7 +86,7 @@
             </StackLayout>
 
             <StackLayout class="input-field" *ngIf="freqSelectedIndex===1">
-                <Label text="Enter interval hours"></Label>
+                <Label text="Enter interval in minutes"></Label>
                 <TextField class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
                 <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
                 <StackLayout class="input-field">

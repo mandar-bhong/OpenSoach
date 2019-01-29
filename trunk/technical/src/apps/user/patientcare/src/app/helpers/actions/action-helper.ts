@@ -2,6 +2,7 @@ import { ActionItems, ProcessTime, ActionList } from "~/app/models/ui/action-mod
 import { Schedulardata } from "~/app/models/ui/chart-models.js";
 import { ActionDBModel } from "~/app/models/ui/action-models.js";
 import { ActionDataStoreModel } from "~/app/models/db/action-datastore.js";
+import { PlatformHelper } from "../platform-helper.js";
 
 export class ActionHelper {
     startdate: Date;
@@ -36,6 +37,8 @@ export class ActionHelper {
             strdate.setDate(dt.getDate() + i);
             this.actionItems.push({ dateAction: strdate, dayAction: [] });
         }
+        console.log(' this.actionItems');
+        console.log(this.actionItems);
     }
     // fucntion for determining how much actions are created.
     actionsLength() {
@@ -53,10 +56,6 @@ export class ActionHelper {
             console.log('date actions', dateaction);
             for (let j = 0; j < this.actionItems[i].dayAction.length; j++) {
                 const dateval = new Date(dateaction);
-                // console.log('Date', dateval);
-                // console.log('Date hours', dateval.getHours());
-                // console.log('Date minuts', dateval.getMinutes());
-                // console.log('minutes', this.actionItems[i].dayAction[j].time);
                 dateval.setMinutes(this.actionItems[i].dayAction[j].time);
                 const actionList = new ActionDataStoreModel();
                 actionList.exec_time = new Date(dateval);
@@ -64,7 +63,10 @@ export class ActionHelper {
                 actionList.admission_uuid = this.schedulardata.data.admission_uuid;
                 actionList.schedule_uuid = this.schedulardata.data.uuid;
                 actionList.conf_type_code = this.schedulardata.data.conf_type_code;
-                actionList.sync_pending = this.schedulardata.data.sync_pending;
+                actionList.sync_pending = 1;
+                //  actionList.uuid = PlatformHelper.API.getRandomUUID();
+                const tempid = Math.random();
+                actionList.uuid = tempid.toString();
                 this.actionList.push(actionList);
             }
         }
@@ -79,7 +81,7 @@ export class ActionHelper {
         return totalminutes;
     }// end of code block
 
-    getStartTime(startTime) {
+    getStartTime(startTime): number {
         let t = startTime.toString();
         const time = t.split('.');
         const minutes = 60 * Number(time[0]);

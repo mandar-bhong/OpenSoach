@@ -18,6 +18,7 @@ let selectQueries = new Map([
     ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_on=?,sync_pending=? where uuid=?"],
     ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,sync_pending) values ( ?, ?, ?, ?,?)"],
     ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, sync_pending) values ( ?, ?, ?, ?, ?, ?)"],
+    ["action_tbl_delete", "DELETE FROM action_tbl"],
     ["patient_master_tbl_update", "update patient_master_tbl set  patient_uuid=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=? where uuid=?"],
     ["patient_admission_tbl_update", "update patient_admission_tbl set patient_uuid=?, patient_reg_no=?, bed_no=?, status=?, sp_uuid=?, dr_incharge=?, admitted_on=?, discharged_on=?, updated_on=?, sync_pending=? where uuid=?"],
 
@@ -150,8 +151,8 @@ export class DatabaseHelper {
 
         return new Promise((resolve, reject) => {
 
-            console.log("dataList", dataList);
 
+            // console.log("dataList", dataList);
             var updateDatalist = dataList.slice(0);
             updateDatalist = updateDatalist.concat(updateDatalist.splice(0, 1));
 

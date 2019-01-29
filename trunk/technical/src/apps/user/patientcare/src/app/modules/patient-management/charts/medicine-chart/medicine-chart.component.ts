@@ -92,7 +92,7 @@ export class MedicineChartComponent implements OnInit {
         // this.medicineForm.get('startDate').setValue(new Date());
 
         // remove this code block once u done testing of 
-     //   this.createActions();
+        //  this.createActions();
     }
 
     // << func for navigating previous page
@@ -159,25 +159,32 @@ export class MedicineChartComponent implements OnInit {
         formData.duration = this.medicineForm.get('duration').value;
         formData.startTime = this.medicineForm.get('startTime').value;
         formData.desc = this.medicineForm.get('desc').value;
-
-        console.log("formData", formData);
+        // replace this with user entered value of how many times take 
+        //  console.log("formData", formData);
 
         // insert form data to sqlite db
         this.insertData(formData);
     }
     // >> func for submit form data
 
-    createActions() {
+    createActions(uuid, admission_uuid, conf_type_code, conf) {
         const initModel = new ServerDataProcessorMessageModel();
         const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
         serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
         serverDataStoreModel.data = new ScheduleDatastoreModel();
-        serverDataStoreModel.data.uuid = '11'
-        serverDataStoreModel.data.sync_pending = 1
-        serverDataStoreModel.data.admission_uuid = "11";
-        serverDataStoreModel.data.conf_type_code = 'Medicine';
+        // serverDataStoreModel.data.uuid = '11'
+        // serverDataStoreModel.data.sync_pending = 1
+        // serverDataStoreModel.data.admission_uuid = "11";
+        // serverDataStoreModel.data.conf_type_code = 'Medicine';
+        //  serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
+
         // serverDataStoreModel.data.conf = JSON.stringify(formData);
-        serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
+        serverDataStoreModel.data.uuid = uuid
+        serverDataStoreModel.data.sync_pending = 1
+        serverDataStoreModel.data.admission_uuid = admission_uuid;
+        serverDataStoreModel.data.conf_type_code = conf_type_code;
+        serverDataStoreModel.data.conf = conf;
+        console.log('created data', serverDataStoreModel.data)
         initModel.data = [serverDataStoreModel];
         initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
         this.workerService.ServerDataProcessorWorker.postMessage(initModel);
@@ -271,9 +278,10 @@ export class MedicineChartComponent implements OnInit {
             }
 
         } else {
+            this.chartConfModel.numberofTimes = 3;
             this.chartConfModel.intervalHrs = data.intervalHrs;
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H:mm");
-
+            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
+            console.log(' this.chartConfModel.startTime', this.chartConfModel.startTime);
             if (data.desc != null) {
                 this.chartConfModel.desc = "Every " + data.intervalHrs + " hours in a day " + foodIns + ". \n" + data.desc + ".";
             } else {
@@ -303,15 +311,11 @@ export class MedicineChartComponent implements OnInit {
         this.chartservice.insertChartItem(this.chartDbModel);
         // call creating action block blcok with  following params.
 
-        // this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
-        // this.chartDbModel.admission_uuid = "PA001";
-        // this.chartDbModel.conf = confString;
-        // this.chartDbModel.conf_type_code = "Medicine";
-
-        //to do 
-
-        // update this fucntion with entered data param
-        this.createActions();
+        this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
+        this.chartDbModel.admission_uuid = "PA001";
+        this.chartDbModel.conf = confString;
+        this.chartDbModel.conf_type_code = "Medicine";       
+        this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
 
 
         // get chart data from sqlite db

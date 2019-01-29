@@ -7,7 +7,7 @@ import { IDatastoreModel } from "../models/db/idatastore-model.js";
 import { Schedulardata, SchedularConfigData } from "../models/ui/chart-models.js";
 import { MedicineHelper } from "../helpers/actions/medicine-helper.js";
 import { medicine } from "../common-constants.js";
-import { ActionsData } from "../models/db/action-datastore.js";
+import { ActionsData, ActionDataStoreModel } from "../models/db/action-datastore.js";
 import { PatientMasterDatastoreModel } from "../models/db/patient-master-model.js";
 import { PatientAdmissionDatastoreModel } from "../models/db/patient-admission-model.js";
 
@@ -51,7 +51,6 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
     }
 
     saveToDataStore() {
-        console.log('saveToDataStore', this.dataModel);
         try {
             DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues());
         } catch (e) {
@@ -89,11 +88,21 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
             console.log('in try catch block');
             parsedConf.endDate = actiondata.enddate;
             obj.conf = JSON.stringify(parsedConf);
-            console.log(actiondata.enddate);
-            console.log(actiondata.actions);
-            // actiondata.actions.forEach(element=>{
-            //     DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, element.getModelValues());
-            // })
+            console.log('action inserting..');
+            try {
+                // .action_tbl_delete
+                //   DatabaseHelper.update('action_tbl_delete', []);              
+                actiondata.actions.forEach(element => {
+                    const actionsdbdata = new ActionDataStoreModel();
+                    Object.assign(actionsdbdata, element);
+                    DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, actionsdbdata.getModelValues());
+                });
+
+            } catch (e) {
+                console.log('action inserting failed....', e.error);
+            }
+
+
         }
         catch (e) {
             console.error('MedicineHelper', e);

@@ -5,9 +5,9 @@ export class ScheduleDatastoreModel implements IDatastoreModel {
     admission_uuid: string;
     conf_type_code: string;
     conf: string;
-    updated_on: Date;
+  
     sync_pending: number;
     getModelValues(): any[] {
-        return [this.uuid, this.admission_uuid, this.conf_type_code, this.conf, this.updated_on, this.sync_pending];
+        return [this.uuid, this.admission_uuid, this.conf_type_code, this.conf,  this.sync_pending];
     }
 }
