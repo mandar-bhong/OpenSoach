@@ -1,9 +1,9 @@
 import { Dummy } from "./dummy.js";
-import { SERVER_WORKER_MSG_TYPE, SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE } from "../app-constants.js";
+import { SERVER_WORKER_MSG_TYPE, SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE, SERVER_SYNC_STATE } from "../app-constants.js";
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model.js";
 import { ServerWorkerContext } from "./server-worker-context.js";
 import { AppMessageUIHandler } from "./app-message-ui-handler.js";
-import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-model.js";
+import { ServerHelper } from "./server-helper.js";
 
 var WS = require('nativescript-websockets');
 
@@ -17,6 +17,8 @@ export class WorkerTasks {
         Dummy.sendToServerCallback = WorkerTasks.sendToServer;
         ServerWorkerContext.ContextVar1 = "Worker Initialized";
         console.log('ServerWorkerContext.ContextVar1', ServerWorkerContext.ContextVar1);
+        ServerHelper.Init(WorkerTasks.postMessage);
+        ServerHelper.sendToServerCallback = WorkerTasks.sendToServer;
     }
 
     public static processMessage(msg: any) {
@@ -52,10 +54,20 @@ export class WorkerTasks {
             WorkerTasks.raiseSocketConnectionEvent(true);
 
             // TODO: Dummy Code to trigger data send
-            Dummy.DummyMethod();
+            // Dummy.DummyMethod();
+
+            //on connect sync data
+            ServerWorkerContext.syncState = SERVER_SYNC_STATE.NONE;
+            ServerHelper.SwitchSyncState();
+
+
         });
         WorkerTasks.socket.on('message', (socket, message) => {
-            console.log("websocket message recieved", message);
+            // console.log("websocket message recieved", message);
+
+            // process resp msg
+            ServerHelper.CmdProcessor(message);
+
         });
 
         WorkerTasks.socket.on('close', (socket, code, reason) => {

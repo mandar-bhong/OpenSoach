@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // TODO: Dummy code for testing 
         console.log('in app component init');
-        
+
         // const initModel = new ServerDataProcessorMessageModel();
         // initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
         // this.workerService.ServerDataProcessorWorker.postMessage(initModel);
@@ -154,6 +154,11 @@ export class AppComponent implements OnInit, OnDestroy {
                         var res = <any>result;
                         if (res.issuccess === true) {
                             console.log("token validate success");
+                            // setting context if token validated
+                            AppGlobalContext.Token = token;
+                            console.log("AppGlobalContext.Token", AppGlobalContext.Token);
+                            AppGlobalContext.WebsocketUrl = appSettings.getString("WEB_SOCKET_URL");
+                            console.log("AppGlobalContext.WebsocketUrl", AppGlobalContext.WebsocketUrl);
                             this.initAppStart();
                         } else {
                             console.log("token validate fail");
@@ -215,7 +220,9 @@ export class AppComponent implements OnInit, OnDestroy {
             appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
             AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
             appSettings.setString("AUTH_TOKEN", resData.data.token);
+            appSettings.setString("WEB_SOCKET_URL", resData.data.locationurl);
             AppGlobalContext.Token = resData.data.token;
+            AppGlobalContext.WebsocketUrl = resData.data.locationurl;
             console.log("AppGlobalContext.Token", AppGlobalContext.Token);
             this.initAppStart();
         } else {
@@ -228,10 +235,9 @@ export class AppComponent implements OnInit, OnDestroy {
         // navigate to patient listing page
 
         console.log('in initappStart');
-        const initModel = new ServerDataProcessorMessageModel();
-        initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
-        this.workerService.postMessageToServerDataProcessorWorker(initModel);
-
+        // const initModel = new ServerDataProcessorMessageModel();
+        // initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
+        // this.workerService.postMessageToServerDataProcessorWorker(initModel);
         this.routerExtensions.navigate(['home']);
 
 
