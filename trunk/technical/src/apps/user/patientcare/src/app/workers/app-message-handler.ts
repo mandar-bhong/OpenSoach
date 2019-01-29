@@ -8,6 +8,8 @@ import { Schedulardata, SchedularConfigData } from "../models/ui/chart-models.js
 import { MedicineHelper } from "../helpers/actions/medicine-helper.js";
 import { medicine } from "../common-constants.js";
 import { ActionsData } from "../models/db/action-datastore.js";
+import { PatientMasterDatastoreModel } from "../models/db/patient-master-model.js";
+import { PatientAdmissionDatastoreModel } from "../models/db/patient-admission-model.js";
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
@@ -25,7 +27,7 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
         this.dataModel = msg;
-        // console.log('base message handle executed', this.dataModel);
+        console.log('base message handle executed', this.dataModel);
         this.postMessageCallback = postMessageFn;
 
         switch (msg.datastore) {
@@ -34,6 +36,16 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
                 Object.assign(obj, this.dataModel.data)
                 this.dataModel.data = obj;
                 this.handleScheduleMessage(obj);
+                break;
+            case SYNC_STORE.PATIENT_MASTER:
+                const patientMasterDatastoreModel = new PatientMasterDatastoreModel();
+                Object.assign(patientMasterDatastoreModel, this.dataModel.data)
+                this.dataModel.data = patientMasterDatastoreModel;
+                break;
+            case SYNC_STORE.PATIENT_ADMISSION:
+                const patientAdmissionDatastoreModel = new PatientAdmissionDatastoreModel();
+                Object.assign(patientAdmissionDatastoreModel, this.dataModel.data)
+                this.dataModel.data = patientAdmissionDatastoreModel;
                 break;
         }
     }
@@ -75,8 +87,8 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
         try {
             const actiondata = <ActionsData>medicineHelper.createMedicineActions(schedulardata);
             console.log('in try catch block');
-           parsedConf.endDate = actiondata.enddate;
-          obj.conf=JSON.stringify(parsedConf);
+            parsedConf.endDate = actiondata.enddate;
+            obj.conf = JSON.stringify(parsedConf);
             console.log(actiondata.enddate);
             console.log(actiondata.actions);
             // actiondata.actions.forEach(element=>{

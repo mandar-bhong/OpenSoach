@@ -1,6 +1,6 @@
-import { PatientListBindData } from "../db/patient-list-model";
+import { PatientListDBModel } from "../db/patient-list-model";
 
 export class PatientListViewModel {
-    dbmodel: PatientListBindData;
+    dbmodel: PatientListDBModel;
 }
 
