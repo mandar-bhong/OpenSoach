@@ -58,7 +58,7 @@ export class DatabaseSchemaService {
         "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_pending) VALUES ('PA010', 'PM010', 'P12B12213', '4A/309', '1', '2018-12-04 15:55:53', 'SP002', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
         "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_pending) VALUES ('PA011', 'PM011', 'P12B12213', '2B/231', '4', '2018-12-04 21:35:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
         "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_pending) VALUES ('PA012', 'PM012', 'P12B12213', '2B/232', '1', '2018-12-04 19:33:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
-        "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_pending) VALUES ('PA013', 'PM013', 'P12B12213', '4A/416', '2', '2018-12-04 13:32:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
+
 
         `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
             VALUES ('PA001', 'PC001','Medicine' ,'{"name":"Sinarest","desc":"3 times a day after meal"}' , '2018-12-04 14:37:53' , 0)`,

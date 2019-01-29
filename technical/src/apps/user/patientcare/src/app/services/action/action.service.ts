@@ -1,6 +1,7 @@
 import { Injectable, Version } from "@angular/core";
 import { DatabaseService } from "../../services/offline-store/database.service";
 import  { ActionDBModel, ActionTxnDBModel } from "~/app/models/ui/action-models";
+import { ActionDataStoreModel } from "~/app/models/db/action-datastore";
 
 @Injectable()
 export class ActionService {
@@ -46,10 +47,9 @@ export class ActionService {
     }
     
 
-    public insertActionItem(data: ActionDBModel) {
+    public insertActionItem(data: ActionDataStoreModel) {
 
         return new Promise((resolve, reject) => {
-
         const listData = new Array<any>();
 
         listData.push(data.uuid);
@@ -57,6 +57,7 @@ export class ActionService {
         listData.push(data.conf_type_code);
         listData.push(data.schedule_uuid);
         listData.push(data.exec_time);
+        listData.push(data.sync_pending);
 
         this.database.update("actionInsert",listData).then(
         (val)=> {

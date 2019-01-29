@@ -1,4 +1,4 @@
-export class PatientListBindData{
+export class PatientListDBModel{
     fname: string;
     lname: string;
     bed_no: string;

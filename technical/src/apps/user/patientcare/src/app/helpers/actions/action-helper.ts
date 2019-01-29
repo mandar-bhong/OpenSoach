@@ -1,4 +1,4 @@
-import { ActionItems, ProcessTime } from "~/app/models/ui/action-model.js";
+import { ActionItems, ProcessTime, ActionList } from "~/app/models/ui/action-model.js";
 import { Schedulardata } from "~/app/models/ui/chart-models.js";
 import { ActionDBModel } from "~/app/models/ui/action-models.js";
 import { ActionDataStoreModel } from "~/app/models/db/action-datastore.js";
@@ -58,12 +58,13 @@ export class ActionHelper {
                 // console.log('Date minuts', dateval.getMinutes());
                 // console.log('minutes', this.actionItems[i].dayAction[j].time);
                 dateval.setMinutes(this.actionItems[i].dayAction[j].time);
-                const actionList = new ActionDBModel();
+                const actionList = new ActionDataStoreModel();
                 actionList.exec_time = new Date(dateval);
                 console.log('in generate DB actions fucntion', this.schedulardata.data)
                 actionList.admission_uuid = this.schedulardata.data.admission_uuid;
                 actionList.schedule_uuid = this.schedulardata.data.uuid;
-                actionList.conf_type_code = this.schedulardata.data.conf_type_code
+                actionList.conf_type_code = this.schedulardata.data.conf_type_code;
+                actionList.sync_pending = this.schedulardata.data.sync_pending;
                 this.actionList.push(actionList);
             }
         }

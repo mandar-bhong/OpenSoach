@@ -8,6 +8,7 @@ export class ActionDBModel {
     conf_type_code: string;
     schedule_uuid: string;
     exec_time: Date;
+    sync_pending: number;
 }
 
 export class ActionTxnDBModel {

@@ -2,8 +2,8 @@ var Sqlite = require("nativescript-sqlite");
 
 let selectQueries = new Map([
     ["patientlist", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid"],
-    ["patientlistbyuuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where padmsn.uuid=?"],
-    ["patientlistbymasteruuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where patient.uuid=?"],
+    ["patientlistbyuuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where padmsn.uuid=?"],
+    ["patientlistbymasteruuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where patient.uuid=?"],
     ["chartlist", "select * from schedule_tbl"],
     ["chartInsert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf) values ( ?, ?, ?, ?)"],
     ["monitorConfList", "select uuid,conf_type_code,conf from conf_tbl where conf_type_code = 'Monitor'"],
@@ -18,6 +18,9 @@ let selectQueries = new Map([
     ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_on=?,sync_pending=? where uuid=?"],
     ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,sync_pending) values ( ?, ?, ?, ?,?)"],
     ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, sync_pending) values ( ?, ?, ?, ?, ?, ?)"],
+
+    ["patient_master_tbl_update", "update patient_master_tbl set  patient_uuid=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=? where uuid=?"],
+    ["patient_admission_tbl_update", "update patient_admission_tbl set patient_uuid=?, patient_reg_no=?, bed_no=?, status=?, sp_uuid=?, dr_incharge=?, admitted_on=?, discharged_on=?, updated_on=?, sync_pending=? where uuid=?"],
 
 ]);
 
@@ -148,12 +151,12 @@ export class DatabaseHelper {
 
         return new Promise((resolve, reject) => {
 
-            // console.log("dataList", dataList);
+            console.log("dataList", dataList);
 
             var newDatalist = dataList.slice(0);
             newDatalist = newDatalist.concat(newDatalist.splice(0, 1));
 
-            // console.log("newDatalist", newDatalist);
+            console.log("newDatalist", newDatalist);
 
             var tblname: string;
             var getQuery = "select * from TABLENAME where uuid = ?";

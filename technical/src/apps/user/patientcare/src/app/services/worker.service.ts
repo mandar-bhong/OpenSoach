@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Input } from "@angular/core";
 
 // add if building with webpack
 import * as ServerDataProcessorWorker from "nativescript-worker-loader!../workers/server-data-processor.worker";
@@ -9,20 +9,23 @@ import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-da
 import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-model";
 import { IDatastoreModel } from "../models/db/idatastore-model";
 import { ScheduleDatastoreModel } from "../models/db/schedule-model";
+import { PassDataService } from "./pass-data-service";
 
 @Injectable()
 export class WorkerService {
     public ServerDataProcessorWorker: Worker;
     public DataReceivedSubject = new Subject<ServerDataStoreDataModel<any>>();
     public patientMasterDataReceivedSubject = new Subject<string>();
-    public patientAdmissionDataReceivedSubject = new Subject<string>();
+    public patientAdmissionDataReceivedSubject: Subject<string> = new Subject<string>();
     public scheduleDataReceivedSubject = new Subject<ScheduleDatastoreModel>();
 
     public ServerConnectionSubject = new Subject<boolean>();
 
-    constructor() {
+    // patientname: string;
+    constructor(private passDataService: PassDataService) {
+        // this.patientname = this.patientName;
     }
-
+    @Input() patientName: string;
     initServerDataProcessorWorker() {
         if (global["TNS_WEBPACK"]) {
             console.log('build with web pack');
@@ -33,7 +36,7 @@ export class WorkerService {
         }
 
         this.ServerDataProcessorWorker.onmessage = m => this.serverWorkerMessageRecieved(m);
-        this.ServerDataProcessorWorker.onerror=e=>{
+        this.ServerDataProcessorWorker.onerror = e => {
             console.log("worker error", e);
         };
     }
@@ -64,7 +67,7 @@ export class WorkerService {
 
     handleDataReceived(data: ServerDataStoreDataModel<IDatastoreModel>[]) {
         data.forEach(item => {
-            console.log('subject triggered');
+            console.log('subject triggered', item);
 
             switch (item.datastore) {
                 case SYNC_STORE.PATIENT_MASTER:
@@ -72,10 +75,20 @@ export class WorkerService {
                     break;
                 case SYNC_STORE.PATIENT_ADMISSION:
                     this.patientAdmissionDataReceivedSubject.next(item.data.uuid);
+                    // console.log('item.data.uuid', item.data.uuid);
                     break;
                 case SYNC_STORE.SCHEDULE:
-                    this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
-                    break;
+                    // TODO: 
+                    // 
+                    // if patient is selected and (<ScheduleDatastoreModel>item.data).admission_uuid equals to selected patient admission_uuid in AppGlobalContext
+                    // then notify else do nothing
+                    const getpatientdata = this.passDataService.getpatientData();
+                    console.log('getpatientdata', getpatientdata);
+                    if (getpatientdata.dbmodel.admission_uuid === (<ScheduleDatastoreModel>item.data).admission_uuid) {
+                        this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
+                        break;
+                    }
+
             }
         });
     }
