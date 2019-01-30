@@ -1,7 +1,7 @@
 import { ActionHelper } from "./action-helper.js";
 import { Schedulardata } from "~/app/models/ui/chart-models.js";
 import { Medicinefrequency, DayTimes, ActionItems, Monitorfrequency, Intakefrequency } from "~/app/models/ui/action-model.js";
-import { ActionsData } from "~/app/models/db/action-datastore";
+import { ActionsData } from "~/app/models/db/action-datastore.js";
 
 export class IntakeHelper extends ActionHelper {
     // process variables 
@@ -59,47 +59,50 @@ export class IntakeHelper extends ActionHelper {
         const receivedActionDate = new Date(receivedDate);
         const TimeInterval = SchedularData.conf.intervalHrs;
         let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
+        let scheduleTimeOnStartDate = this.getStartTime(SchedularData.conf.startTime);
         console.log('scheduled time', scheduleTime);
         const scheduleCreationTime = this.getMinutes();
+        let position = 0;
         for (let x = 0; x < this.numberofTimes; x++) {
             if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-                if (scheduleTime >= scheduleCreationTime) {
+                if (scheduleTimeOnStartDate >= scheduleCreationTime) {
                     if (scheduleTime > DayTimes.dayEndTime) {
+                        position++;
                         const nextDate = new Date(receivedActionDate);
                         nextDate.setDate(receivedActionDate.getDate() + 1);
                         scheduleTime -= DayTimes.dayEndTime;
                         const arraylen = this.actionItems.length - 1;
                         if (i >= arraylen) {
                             this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
-                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                            this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                         } else {
                             // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
-                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                            this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                         }
-                        index++;
                     } else {
-                        this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                        this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                     }
                 }
             } else {
                 if (scheduleTime > DayTimes.dayEndTime) {
+                    position++;
                     const nextDate = new Date(receivedActionDate);
                     nextDate.setDate(receivedActionDate.getDate() + 1);
                     scheduleTime -= DayTimes.dayEndTime;
                     const arraylen = this.actionItems.length - 1;
                     if (i >= arraylen) {
                         this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
-                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                     } else {
                         // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
-                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                     }
                     index++;
                 } else {
-                    this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                    this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                 }
             }
-            scheduleTime += TimeInterval;
+            scheduleTime = Number(scheduleTime) + Number(TimeInterval);
         }
         // const receivedActionDate = new Date(receivedDate);
         // const TimeInterval = IntakeSchedularData.conf.intervalHrs;
@@ -156,7 +159,7 @@ export class IntakeHelper extends ActionHelper {
             }
         } else {
             for (let h = 0; h < IntakeSchedularData.conf.specificTimes.length; h++) {
-                const receivedSpecificTime =this.getStartTime(IntakeSchedularData.conf.specificTimes[h]);
+                const receivedSpecificTime = this.getStartTime(IntakeSchedularData.conf.specificTimes[h]);
                 this.actionItems[i].dayAction.push({ time: receivedSpecificTime });
             }
         }

@@ -12,7 +12,7 @@
 </ActionBar>
 
 <ScrollView>
-    <StackLayout class="form" [formGroup]="intakeForm" >
+    <StackLayout class="form" [formGroup]="intakeForm">
         <StackLayout class="input-field">
             <Label text="Intake Name"></Label>
             <TextField class="input" formControlName="name"></TextField>
@@ -37,18 +37,16 @@
 
         <StackLayout class="input-field">
             <Label text="Frequency"></Label>
-
             <SegmentedBar [items]="frequencyItems" formControlName="frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
                 class="segmented-bar" selectedIndex="0" class="m-5"></SegmentedBar>
-
             <StackLayout></StackLayout>
 
             <StackLayout *ngIf="freqSelectedIndex===0 ">
                 <StackLayout class="input-field">
-                    <Label col="0" row="0" text="Enter interval hours"></Label>
+                    <Label col="0" row="0" text="Enter interval in minutes"></Label>
                     <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
                 </StackLayout>
-                <StackLayout class="hr-light"  [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
                 <StackLayout class="input-field">
                     <StackLayout *ngIf="intervalHrsIsValid">
                         <Label text="*interval hours is required " style="color:red"></Label>
@@ -64,9 +62,9 @@
                 <StackLayout class="input-field">
                     <Label text="Specific Time"></Label>
                     <TimePicker verticalAlignment="center" class="m-15" formControlName="specificTime"></TimePicker>
-                    <button (tap)="addSpecificTime()" text="Add Time" ></button>
+                    <button (tap)="addSpecificTime()" text="Add Time"></button>
                 </StackLayout>
-                <StackLayout class="input-field" *ngFor="let specificTime of formData.specificTimes" >
+                <StackLayout class="input-field" *ngFor="let specificTime of specifictimes">
                     <Label text="{{specificTime | date:' h:mm a' }}"></Label>
                 </StackLayout>
             </StackLayout>
@@ -87,6 +85,12 @@
         <StackLayout class="input-field">
             <Label text="Start Date"></Label>
             <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
+            <StackLayout class="hr-light" [ngClass]="{invalid: SrtartdateIsValid === true}"></StackLayout>
+            <StackLayout class="input-field">
+                <StackLayout *ngIf="SrtartdateIsValid">
+                    <Label text="*Start date is required " style="color:red"></Label>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
 
         <StackLayout class="input-field">

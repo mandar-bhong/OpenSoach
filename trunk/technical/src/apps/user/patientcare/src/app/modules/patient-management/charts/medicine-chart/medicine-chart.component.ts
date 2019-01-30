@@ -283,12 +283,11 @@ export class MedicineChartComponent implements OnInit {
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
             console.log(' this.chartConfModel.startTime', this.chartConfModel.startTime);
             if (data.desc != null) {
-                this.chartConfModel.desc = "Every " + data.intervalHrs + " hours in a day " + foodIns + ". \n" + data.desc + ".";
+                this.chartConfModel.desc = "Every " + data.intervalHrs + " minutes in a day " + foodIns + ". \n" + data.desc + ".";
             } else {
-                this.chartConfModel.desc = "Every " + data.intervalHrs + " hours in a day " + foodIns + ".";
+                this.chartConfModel.desc = "Every " + data.intervalHrs + " minutes in a day " + foodIns + ".";
             }
         }
-
         const currentTime = this.datePipe.transform(Date.now(), "H:mm");
         console.log("currentTime", currentTime);
 

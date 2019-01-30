@@ -58,7 +58,7 @@ export class MedicineHelper extends ActionHelper {
         actios.actions = this.actionList;
         actios.enddate = this.getScheduleEnddate();
         console.log('final return array');
-       // console.log(actios);
+        console.log(actios);
         return actios;
     } // end of code block
     // code  block for checking frequency count. 

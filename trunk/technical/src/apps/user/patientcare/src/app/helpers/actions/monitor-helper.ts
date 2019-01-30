@@ -38,6 +38,7 @@ export class MonitorHelper extends ActionHelper {
         const actios = new ActionsData();
         actios.actions = this.actionList;
         actios.enddate = this.getScheduleEnddate();
+       // console.log('final actions')
         return actios;
     }// end of fucntions.
 
@@ -58,69 +59,53 @@ export class MonitorHelper extends ActionHelper {
         let index = i;
         const receivedActionDate = new Date(receivedDate);
         const TimeInterval = SchedularData.conf.intervalHrs;
+        let scheduleTimeOnStartDate = this.getStartTime(SchedularData.conf.startTime);
         let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
         console.log('scheduled time', scheduleTime);
         const scheduleCreationTime = this.getMinutes();
+        let position = 0;
         for (let x = 0; x < this.numberofTimes; x++) {
             if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-                if (scheduleTime >= scheduleCreationTime) {
+                if (scheduleTimeOnStartDate >= scheduleCreationTime) {
                     if (scheduleTime > DayTimes.dayEndTime) {
+                        position++;
                         const nextDate = new Date(receivedActionDate);
                         nextDate.setDate(receivedActionDate.getDate() + 1);
                         scheduleTime -= DayTimes.dayEndTime;
                         const arraylen = this.actionItems.length - 1;
                         if (i >= arraylen) {
                             this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
-                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                            this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                         } else {
                             // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
-                            this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                            this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                         }
                         index++;
                     } else {
-                        this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                        this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                     }
                 }
             } else {
                 if (scheduleTime > DayTimes.dayEndTime) {
+                    position++;
                     const nextDate = new Date(receivedActionDate);
                     nextDate.setDate(receivedActionDate.getDate() + 1);
                     scheduleTime -= DayTimes.dayEndTime;
                     const arraylen = this.actionItems.length - 1;
                     if (i >= arraylen) {
                         this.tempActionItems.push({ dateAction: nextDate, dayAction: [] });
-                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                     } else {
                         // this.tempActionItems[i].dayAction.push({ time: xIntervalStartTime });
-                        this.tempActionItems[index + 1].dayAction.push({ time: scheduleTime });
+                        this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                     }
                     index++;
                 } else {
-                    this.tempActionItems[index].dayAction.push({ time: scheduleTime });
+                    this.tempActionItems[index + position].dayAction.push({ time: scheduleTime });
                 }
             }
-            scheduleTime += TimeInterval;
+            scheduleTime = Number(scheduleTime) + Number(TimeInterval);
         }
-        // console.log(' createActionAfterXTimeinterval function called');
-        // const receivedActionDate = new Date(receivedDate);
-        // // const TimeInterval = Math.floor(MedicineSchedularData.conf.intervalHrs * 60);
-        // const TimeInterval = MonitorSchedularData.conf.intervalHrs;
-        // let treatmentStartTime = Math.floor(MonitorSchedularData.conf.startTime * 60);
-        // let xIntervalStartTime = treatmentStartTime;
-        // //cheking schedule start date periods
-        // if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-        //     // geting minutes from date- base class function
-        //     const totalminutes = this.getMinutes();
-        //     // cheking schedule create time is greater than schedule start time if
-        //     if (totalminutes > xIntervalStartTime) {
-        //         //if greater then pass schedule create time as start time.
-        //         this.generateXTimesActions(totalminutes, receivedActionDate, TimeInterval, i)
-        //     } else {
-        //         this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
-        //     }
-        // } else {
-        //     this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
-        // }  
     } // end of code block.
     //code block for generatring actions after x time interval
     generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i) {

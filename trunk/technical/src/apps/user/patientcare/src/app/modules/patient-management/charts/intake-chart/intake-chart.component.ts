@@ -8,6 +8,11 @@ import { ChartDBModel, IntakeChartModel } from "~/app/models/ui/chart-models";
 import { ChartService } from "~/app/services/chart/chart.service";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlatformHelper } from "~/app/helpers/platform-helper";
+import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
+import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { WorkerService } from '~/app/services/worker.service';
 
 @Component({
     moduleId: module.id,
@@ -21,8 +26,8 @@ export class IntakeChartComponent implements OnInit {
     // proccess variables
     intakeForm: FormGroup;
 
-    intakeNameIsValid:boolean;
-    quantityIsValid:boolean;
+    intakeNameIsValid: boolean;
+    quantityIsValid: boolean;
     intervalHrsIsValid: boolean;
     durationIsValid: boolean;
 
@@ -34,10 +39,12 @@ export class IntakeChartComponent implements OnInit {
 
     frequencyItems: Array<SegmentedBarItem>;
     freqSelectedIndex = 0;
+    SrtartdateIsValid: boolean;
     // end of proccess variables
 
-    constructor(private routerExtensions: RouterExtensions, 
-        private datePipe: DatePipe, 
+    constructor(private routerExtensions: RouterExtensions,
+        private datePipe: DatePipe,
+        public workerService: WorkerService,
         private chartservice: ChartService) {
 
         this.formData = new IntakeChartModel();
@@ -96,6 +103,7 @@ export class IntakeChartComponent implements OnInit {
         this.quantityIsValid = this.intakeForm.controls['quantity'].hasError('required');
         this.intervalHrsIsValid = this.intakeForm.controls['intervalHrs'].hasError('required');
         this.durationIsValid = this.intakeForm.controls['duration'].hasError('required');
+        this.SrtartdateIsValid = this.intakeForm.controls['startDate'].hasError('required');
 
         if (this.intakeForm.invalid) {
             console.log("validation error");
@@ -118,11 +126,11 @@ export class IntakeChartComponent implements OnInit {
         //set chart conf model
         if (data.frequency == 0) {
             this.chartConfModel.intervalHrs = data.intervalHrs;
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "h:mm a");
+            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
         }
         if (data.frequency == 1) {
             for (var i = 0; i < data.specificTimes.length; i++) {
-                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "h:mm a"));
+                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "H.mm"));
             }
         }
 
@@ -130,7 +138,10 @@ export class IntakeChartComponent implements OnInit {
         this.chartConfModel.quantity = data.quantity;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.duration = data.duration;
-        this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd");
+        this.chartConfModel.numberofTimes = 3;
+        const currentTime = this.datePipe.transform(Date.now(), "H:mm");
+        console.log("currentTime", currentTime);
+        this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd") + " " + currentTime;
 
         if (data.desc != null) {
             this.chartConfModel.desc = data.quantity + "\n" + data.desc;
@@ -149,6 +160,7 @@ export class IntakeChartComponent implements OnInit {
 
         // insert chart db model to sqlite db
         this.chartservice.insertChartItem(this.chartDbModel);
+        this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString);
 
         // get chart data from sqlite db
         this.chartservice.getChartList()
@@ -160,7 +172,11 @@ export class IntakeChartComponent implements OnInit {
 
     // << func for specific timings
     addSpecificTime() {
-        this.specifictimes.push(this.intakeForm.controls['specificTime'].value);
+        console.log('addSpecificTime Taped');
+        const time = this.intakeForm.controls['specificTime'].value;
+        if (time != null && time) {
+            this.specifictimes.push(this.intakeForm.controls['specificTime'].value);
+        }
     }
     // >> func for specific timings
 
@@ -171,7 +187,7 @@ export class IntakeChartComponent implements OnInit {
             quantity: new FormControl('', [Validators.required]),
             frequency: new FormControl(),
             duration: new FormControl('', [Validators.required]),
-            startDate: new FormControl(),
+            startDate: new FormControl('', [Validators.required]),
             intervalHrs: new FormControl(),
             startTime: new FormControl(),
             specificTime: new FormControl(),
@@ -179,5 +195,30 @@ export class IntakeChartComponent implements OnInit {
         });
     }
     // >> func for creating form controls
+
+    // fucntion for creating intake actions
+    createActions(uuid, admission_uuid, conf_type_code, conf) {
+        const initModel = new ServerDataProcessorMessageModel();
+        const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
+        serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
+        serverDataStoreModel.data = new ScheduleDatastoreModel();
+        // serverDataStoreModel.data.uuid = '11'
+        // serverDataStoreModel.data.sync_pending = 1
+        // serverDataStoreModel.data.admission_uuid = "11";
+        // serverDataStoreModel.data.conf_type_code = 'Medicine';
+        //  serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
+
+        // serverDataStoreModel.data.conf = JSON.stringify(formData);
+        serverDataStoreModel.data.uuid = uuid
+        serverDataStoreModel.data.sync_pending = 1
+        serverDataStoreModel.data.admission_uuid = admission_uuid;
+        serverDataStoreModel.data.conf_type_code = conf_type_code;
+        serverDataStoreModel.data.conf = conf;
+        console.log('created data', serverDataStoreModel.data)
+        initModel.data = [serverDataStoreModel];
+        initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+    }
+    // en dof fucntion
 
 }
