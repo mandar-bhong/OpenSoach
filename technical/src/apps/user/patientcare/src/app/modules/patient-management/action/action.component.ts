@@ -23,6 +23,12 @@ import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { IntakeHelper } from '~/app/helpers/actions/intake-helper';
 import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
+import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { SYNC_STORE, SERVER_WORKER_MSG_TYPE } from '~/app/app-constants';
+import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
+import { WorkerService } from '~/app/services/worker.service';
 
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
@@ -101,6 +107,7 @@ export class ActionComponent implements OnInit {
 
 	constructor(public page: Page,
 		private actionService: ActionService,
+		public workerService: WorkerService,
 		private passdataservice: PassDataService,
 		private chartService: ChartService) {
 		//  list grouping
@@ -556,26 +563,45 @@ export class ActionComponent implements OnInit {
 		this.actionformData = new ActionTxnDBModel();
 		// insert Action db model to sqlite db
 		this.actionDbArray.forEach(item => {
-			this.actionformData.uuid = item.uuid;
-			this.actionformData.schedule_uuid = item.schedule_uuid;
-			this.actionformData.conf_type_code = item.conf_type_code;
-			this.actionformData.txn_data = item.txn_data;
-			this.actionformData.txn_date = item.txn_date;
-			this.actionformData.txn_state = item.txn_state;
-			this.actionformData.conf_type_code = item.conf_type_code;
-			this.actionformData.runtime_config_data = item.runtime_config_data;
-			this.actionformData.status = item.status
+			// this.actionformData.uuid = item.uuid;
+			// this.actionformData.schedule_uuid = item.schedule_uuid;
+			// this.actionformData.conf_type_code = item.conf_type_code;
+			// this.actionformData.txn_data = item.txn_data;
+			// this.actionformData.txn_date = item.txn_date;
+			// this.actionformData.txn_state = item.txn_state;
+			// this.actionformData.conf_type_code = item.conf_type_code;
+			// this.actionformData.runtime_config_data = item.runtime_config_data;
+			// this.actionformData.status = item.status
 
-			console.log('item.conf_type_code', item.conf_type_code);
-			console.log('this.actionformData.schedule_uuid', this.actionformData.conf_type_code);
-			console.log('actionformData', this.actionformData);
+			// console.log('item.conf_type_code', item.conf_type_code);
+			// console.log('this.actionformData.schedule_uuid', this.actionformData.conf_type_code);
+			// console.log('actionformData', this.actionformData);
 
+
+			const actionModel = new ServerDataProcessorMessageModel();
+			const serverDataStoreModel = new ServerDataStoreDataModel<ActionTxnDatastoreModel>();
+			serverDataStoreModel.datastore = SYNC_STORE.ACTION_TXN;
+			serverDataStoreModel.data = new ActionTxnDatastoreModel();
+
+			serverDataStoreModel.data.uuid = item.uuid;
+			serverDataStoreModel.data.sync_pending = 1
+			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
+			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
+			serverDataStoreModel.data.txn_data = item.txn_data;
+			serverDataStoreModel.data.txn_date = item.txn_date;
+			serverDataStoreModel.data.txn_state = Number(item.txn_state);
+			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
+
+			console.log('created data', serverDataStoreModel.data)
+			actionModel.data = [serverDataStoreModel];
+			actionModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+			this.workerService.ServerDataProcessorWorker.postMessage(actionModel);
 			// save action done and discard in DB
-			this.actionService.insertActionTxnItem(this.actionformData);
-		})
+			//	this.actionService.insertActionTxnItem(this.actionformData);
+		});
 
 		// check data save entries added in action trn table 
-		this.gettrnlistdata();
+	//	this.gettrnlistdata();
 	}
 
 	// selected done and discard row change background color
@@ -583,7 +609,10 @@ export class ActionComponent implements OnInit {
 		item.selected = true;
 	}
 	gettrnlistdata() {
-		this.actionService.getActionTxnList();
+		setTimeout(() => {
+			this.actionService.getActionTxnList();
+		}, 300);
+
 	}
 
 

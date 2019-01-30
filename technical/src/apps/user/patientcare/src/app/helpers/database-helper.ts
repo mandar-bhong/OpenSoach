@@ -11,7 +11,7 @@ let selectQueries = new Map([
     ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status) values ( ?, ?, ?, ?, ?, ?)"],
     ["chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
     ["servicePointList", "select * from service_point_tbl"],
-    ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,runtime_config_data, status) values ( ?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code, updated_on,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?, ?,?)"],
     ["syncList", "select * from sync_tbl"],
     ["actionTxnList", "select * from action_txn_tbl"],
     ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?)"],
@@ -21,7 +21,8 @@ let selectQueries = new Map([
     ["action_tbl_delete", "DELETE FROM action_tbl"],
     ["patient_master_tbl_update", "update patient_master_tbl set  patient_uuid=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=? where uuid=?"],
     ["patient_admission_tbl_update", "update patient_admission_tbl set patient_uuid=?, patient_reg_no=?, bed_no=?, status=?, sp_uuid=?, dr_incharge=?, admitted_on=?, discharged_on=?, updated_on=?, sync_pending=? where uuid=?"],
-
+    ["action_txn_tbl_insert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,updated_on,runtime_config_data,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?)"]
+   
 ]);
 
 let selectTableName = new Map([
@@ -152,7 +153,7 @@ export class DatabaseHelper {
         return new Promise((resolve, reject) => {
 
 
-            // console.log("dataList", dataList);
+             console.log("dataList in DataStoreInsertUpdate", dataList);
             var updateDatalist = dataList.slice(0);
             updateDatalist = updateDatalist.concat(updateDatalist.splice(0, 1));
 

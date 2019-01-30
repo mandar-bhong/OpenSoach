@@ -12,6 +12,7 @@ import { PatientMasterDatastoreModel } from "../models/db/patient-master-model.j
 import { PatientAdmissionDatastoreModel } from "../models/db/patient-admission-model.js";
 import { IntakeHelper } from "../helpers/actions/intake-helper.js";
 import { MonitorHelper } from "../helpers/actions/monitor-helper.js";
+import { ActionTxnDatastoreModel } from "../models/db/action-txn-model.js";
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
@@ -49,10 +50,17 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
                 Object.assign(patientAdmissionDatastoreModel, this.dataModel.data)
                 this.dataModel.data = patientAdmissionDatastoreModel;
                 break;
+            case SYNC_STORE.ACTION_TXN:
+                const actionTxnDatastoreModel = new ActionTxnDatastoreModel();
+                Object.assign(actionTxnDatastoreModel, this.dataModel.data)
+                this.dataModel.data = actionTxnDatastoreModel;
+                break;
+            default:
+                break;
         }
     }
 
-    saveToDataStore() {
+    saveToDataStore() {       
         try {
             DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues());
         } catch (e) {
@@ -111,8 +119,7 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
                     const actionsdbdata = new ActionDataStoreModel();
                     Object.assign(actionsdbdata, element);
                     DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, actionsdbdata.getModelValues());
-                    console.log('inserting actions');
-                });
+                  });
             } catch (e) {
                 console.log('action inserting failed....', e.error);
             }
