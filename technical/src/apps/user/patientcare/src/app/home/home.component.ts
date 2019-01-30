@@ -74,50 +74,50 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		this.getData();
 		console.log('init completed');
 
-		setTimeout(() => {
-			// const patientMasterAdd = new ServerDataProcessorMessageModel();
-			// patientMasterAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+		// setTimeout(() => {
+		// 	// const patientMasterAdd = new ServerDataProcessorMessageModel();
+		// 	// patientMasterAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
 
-			// const masterModel = new PatientMasterDatastoreModel();
-			// masterModel.uuid = "PM003";
-			// masterModel.patient_reg_no = "P12B12213";
-			// masterModel.fname = "Shubham",
-			// 	masterModel.lname = "Lunia",
-			// 	masterModel.mob_no = "9832345333",
-			// 	masterModel.age = "28";
-			// masterModel.blood_grp = "B+ve";
-			// masterModel.gender = "Male";
-			// masterModel.updated_on = new Date;
-			// masterModel.sync_pending = 0;
-			// const serverDataStoreDataModelForMaster = new ServerDataStoreDataModel();
-			// serverDataStoreDataModelForMaster.datastore = SYNC_STORE.PATIENT_MASTER;
-			// serverDataStoreDataModelForMaster.data = masterModel;
+		// 	// const masterModel = new PatientMasterDatastoreModel();
+		// 	// masterModel.uuid = "PM003";
+		// 	// masterModel.patient_reg_no = "P12B12213";
+		// 	// masterModel.fname = "Shubham",
+		// 	// 	masterModel.lname = "Lunia",
+		// 	// 	masterModel.mob_no = "9832345333",
+		// 	// 	masterModel.age = "28";
+		// 	// masterModel.blood_grp = "B+ve";
+		// 	// masterModel.gender = "Male";
+		// 	// masterModel.updated_on = new Date;
+		// 	// masterModel.sync_pending = 0;
+		// 	// const serverDataStoreDataModelForMaster = new ServerDataStoreDataModel();
+		// 	// serverDataStoreDataModelForMaster.datastore = SYNC_STORE.PATIENT_MASTER;
+		// 	// serverDataStoreDataModelForMaster.data = masterModel;
 
-			// patientMasterAdd.data = [serverDataStoreDataModelForMaster];
-			// this.workerService.postMessageToServerDataProcessorWorker(patientMasterAdd);
+		// 	// patientMasterAdd.data = [serverDataStoreDataModelForMaster];
+		// 	// this.workerService.postMessageToServerDataProcessorWorker(patientMasterAdd);
 
-			const patientAdmissionAdd = new ServerDataProcessorMessageModel();
-			patientAdmissionAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+		// 	const patientAdmissionAdd = new ServerDataProcessorMessageModel();
+		// 	patientAdmissionAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
 
-			const admissionModel = new PatientAdmissionDatastoreModel();
-			admissionModel.uuid = "PA003";
-			admissionModel.patient_uuid = "PM003";
-			admissionModel.patient_reg_no = "P12B12213";
-			admissionModel.bed_no = "2A/666";
-			admissionModel.status = "1";
-			admissionModel.sp_uuid = "SP001";
-			admissionModel.dr_incharge = 1;
-			admissionModel.admitted_on = new Date;
-			admissionModel.discharged_on = new Date;
-			admissionModel.updated_on = new Date;
-			admissionModel.sync_pending = 0;
-			const serverDataStoreDataModelForAdmission = new ServerDataStoreDataModel();
-			serverDataStoreDataModelForAdmission.datastore = SYNC_STORE.PATIENT_ADMISSION;
-			serverDataStoreDataModelForAdmission.data = admissionModel;
+		// 	const admissionModel = new PatientAdmissionDatastoreModel();
+		// 	admissionModel.uuid = "PA003";
+		// 	admissionModel.patient_uuid = "PM003";
+		// 	admissionModel.patient_reg_no = "P12B12213";
+		// 	admissionModel.bed_no = "2A/666";
+		// 	admissionModel.status = "1";
+		// 	admissionModel.sp_uuid = "SP001";
+		// 	admissionModel.dr_incharge = 1;
+		// 	admissionModel.admitted_on = new Date;
+		// 	admissionModel.discharged_on = new Date;
+		// 	admissionModel.updated_on = new Date;
+		// 	admissionModel.sync_pending = 0;
+		// 	const serverDataStoreDataModelForAdmission = new ServerDataStoreDataModel();
+		// 	serverDataStoreDataModelForAdmission.datastore = SYNC_STORE.PATIENT_ADMISSION;
+		// 	serverDataStoreDataModelForAdmission.data = admissionModel;
 
-			patientAdmissionAdd.data = [serverDataStoreDataModelForAdmission];
-			this.workerService.postMessageToServerDataProcessorWorker(patientAdmissionAdd);
-		}, 15000);
+		// 	patientAdmissionAdd.data = [serverDataStoreDataModelForAdmission];
+		// 	this.workerService.postMessageToServerDataProcessorWorker(patientAdmissionAdd);
+		// }, 15000);
 	}
 
 	bindList() {
@@ -145,7 +145,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 			(val) => {
 				this.isBusy = false;
 				val.forEach(item => {
-					console.log("val", val);
+					// console.log("val", val);
 					const patientListItem = new PatientListViewModel();
 					patientListItem.dbmodel = item;
 					this.listSource.push(patientListItem);
@@ -170,21 +170,17 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 
 
 		items.forEach(item => {
-			console.log('home item', item);
-
 			const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid)[0];
-
-			// const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid)[0];
-			// const lenght = this.listSource.length;
-			// console.log('listsoure lenght', lenght);
+					const lenght = this.listSource.length;
+			console.log('listsoure lenght', lenght);
 			const index = this.listSource.indexOf(existingItems);
-			console.log(' index', index);
+			// console.log(' index', index);
 
 			if (existingItems) {
-				console.log('this.listSource[index].dbmodel', this.listSource[index].dbmodel);
+				// console.log('this.listSource[index].dbmodel', this.listSource[index].dbmodel);
 				this.listSource[index].dbmodel = item.dbmodel;
 				console.log('received item data', item.dbmodel);
-				console.log('admissionuuid', existingItems);
+				// console.log('admissionuuid', existingItems);
 				// remove existingItems[0]
 			}
 			// this.bindList();
