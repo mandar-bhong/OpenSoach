@@ -152,6 +152,7 @@ export class MonitorChartComponent implements OnInit {
         //set chart conf model
         if (data.frequency == 0) {
             this.chartConfModel.intervalHrs = data.intervalHrs;
+            this.chartConfModel.numberofTimes = data.numberofTimes;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
             this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "H.mm");
 
@@ -179,7 +180,6 @@ export class MonitorChartComponent implements OnInit {
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd");
         this.chartConfModel.foodInst = data.foodInst;
-        this.chartConfModel.numberofTimes = 3;
         const currentTime = this.datePipe.transform(Date.now(), "H:mm");
         console.log("currentTime", currentTime);
         this.chartConfModel.startDate = this.chartConfModel.startDate + " " + currentTime;
@@ -249,6 +249,7 @@ export class MonitorChartComponent implements OnInit {
             duration: new FormControl('', [Validators.required]),
             startDate: new FormControl(),
             intervalHrs: new FormControl('', [Validators.required]),
+            numberofTimes: new FormControl(),
             startTime: new FormControl(),
             endTime: new FormControl(),
             specificTime: new FormControl(),

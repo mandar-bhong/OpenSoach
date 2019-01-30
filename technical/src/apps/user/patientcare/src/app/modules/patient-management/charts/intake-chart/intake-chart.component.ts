@@ -126,6 +126,7 @@ export class IntakeChartComponent implements OnInit {
         //set chart conf model
         if (data.frequency == 0) {
             this.chartConfModel.intervalHrs = data.intervalHrs;
+            this.chartConfModel.numberofTimes = 3;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
         }
         if (data.frequency == 1) {
@@ -138,7 +139,6 @@ export class IntakeChartComponent implements OnInit {
         this.chartConfModel.quantity = data.quantity;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.duration = data.duration;
-        this.chartConfModel.numberofTimes = 3;
         const currentTime = this.datePipe.transform(Date.now(), "H:mm");
         console.log("currentTime", currentTime);
         this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd") + " " + currentTime;
@@ -189,6 +189,7 @@ export class IntakeChartComponent implements OnInit {
             duration: new FormControl('', [Validators.required]),
             startDate: new FormControl('', [Validators.required]),
             intervalHrs: new FormControl(),
+            numberofTimes: new FormControl(),
             startTime: new FormControl(),
             specificTime: new FormControl(),
             desc: new FormControl()
