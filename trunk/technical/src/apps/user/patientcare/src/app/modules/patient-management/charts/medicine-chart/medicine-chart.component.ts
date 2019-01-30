@@ -155,6 +155,7 @@ export class MedicineChartComponent implements OnInit {
         formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
         formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
         formData.intervalHrs = this.medicineForm.get('intervalHrs').value;
+        formData.numberofTimes = this.medicineForm.get('numberofTimes').value;
         formData.startDate = this.medicineForm.get('startDate').value;
         formData.duration = this.medicineForm.get('duration').value;
         formData.startTime = this.medicineForm.get('startTime').value;
@@ -335,6 +336,7 @@ export class MedicineChartComponent implements OnInit {
             foodInst: new FormControl(),
             frequency: new FormControl(),
             intervalHrs: new FormControl(),
+            numberofTimes: new FormControl(),
             startDate: new FormControl(),
             duration: new FormControl('', [Validators.required]),
             startTime: new FormControl(),

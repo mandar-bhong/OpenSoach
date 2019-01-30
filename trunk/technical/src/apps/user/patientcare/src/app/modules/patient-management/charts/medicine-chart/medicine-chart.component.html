@@ -51,7 +51,8 @@
                     <GridLayout row="0" columns="* *">
                         <GridLayout col="0" columns="* *">
                             <Label col="0" text="Morning"></Label>
-                            <Switch col="1" checked="true" (checkedChange)="onMorningChecked($event)" horizontalAlignment="center"></Switch>
+                            <Switch col="1" checked="true" (checkedChange)="onMorningChecked($event)"
+                                horizontalAlignment="center"></Switch>
                         </GridLayout>
                         <GridLayout col="1" columns="* *" *ngIf="freqMorn">
                             <Label col="0" text="Dosage"></Label>
@@ -62,7 +63,8 @@
                     <GridLayout row="1" columns="* *">
                         <GridLayout col="0" columns="* *">
                             <Label col="0" text="Afternoon"></Label>
-                            <Switch col="1" checked="true" (checkedChange)="onAfternoonChecked($event)" horizontalAlignment="center"></Switch>
+                            <Switch col="1" checked="true" (checkedChange)="onAfternoonChecked($event)"
+                                horizontalAlignment="center"></Switch>
                         </GridLayout>
                         <GridLayout col="1" columns="* *" *ngIf="freqAftrn">
                             <Label col="0" text="Dosage"></Label>
@@ -89,6 +91,11 @@
                 <Label text="Enter interval in minutes"></Label>
                 <TextField class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
                 <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                <StackLayout class="input-field">
+                    <Label col="0" row="1" text="Enter no. of times"></Label>
+                    <TextField col="1" row="0" class="input" keyboardType="number" formControlName="numberofTimes"></TextField>
+                </StackLayout>
+                <StackLayout class="hr-light"></StackLayout>
                 <StackLayout class="input-field">
                     <StackLayout *ngIf="intervalHrsIsValid">
                         <Label text="*interval hours is required " style="color:red"></Label>

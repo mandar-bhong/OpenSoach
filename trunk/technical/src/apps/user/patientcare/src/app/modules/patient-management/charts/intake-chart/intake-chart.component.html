@@ -48,6 +48,11 @@
                 </StackLayout>
                 <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
                 <StackLayout class="input-field">
+                    <Label col="0" row="1" text="Enter no. of times"></Label>
+                    <TextField col="1" row="0" class="input" keyboardType="number" formControlName="numberofTimes"></TextField>
+                </StackLayout>
+                <StackLayout class="hr-light"></StackLayout>
+                <StackLayout class="input-field">
                     <StackLayout *ngIf="intervalHrsIsValid">
                         <Label text="*interval hours is required " style="color:red"></Label>
                     </StackLayout>
