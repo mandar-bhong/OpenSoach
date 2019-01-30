@@ -11,6 +11,11 @@ import { ConfListViewModel } from '~/app/models/ui/conf-models';
 import { ListPicker } from "tns-core-modules/ui/list-picker";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlatformHelper } from "~/app/helpers/platform-helper";
+import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
+import { WorkerService } from '~/app/services/worker.service';
 
 @Component({
     moduleId: module.id,
@@ -44,8 +49,9 @@ export class MonitorChartComponent implements OnInit {
     // end of proccess variables
 
     constructor(
-        private routerExtensions: RouterExtensions, 
-        private datePipe: DatePipe, 
+        private routerExtensions: RouterExtensions,
+        private datePipe: DatePipe,
+        public workerService: WorkerService,
         private chartService: ChartService) {
 
         this.formData = new MonitorChartModel();
@@ -146,22 +152,22 @@ export class MonitorChartComponent implements OnInit {
         //set chart conf model
         if (data.frequency == 0) {
             this.chartConfModel.intervalHrs = data.intervalHrs;
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "h:mm a");
-            this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "h:mm a");
+            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
+            this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "H.mm");
 
             if (data.desc != null) {
-                this.chartConfModel.desc = "Monitor every " + data.intervalHrs + " hours.\n" + data.desc;
+                this.chartConfModel.desc = "Monitor every " + data.intervalHrs + " minutes.\n" + data.desc;
             } else {
-                this.chartConfModel.desc = "Monitor every " + data.intervalHrs + " hours.";
+                this.chartConfModel.desc = "Monitor every " + data.intervalHrs + " minutes.";
             }
         }
 
         if (data.frequency == 1) {
             this.chartConfModel.specificTimes = [];
             for (var i = 0; i < data.specificTimes.length; i++) {
-                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "h:mm a"));
+                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "H:mm"));
             }
-            if (data.desc !=null) {
+            if (data.desc != null) {
                 this.chartConfModel.desc = "Monitor as per specific timings." + "\n" + data.desc;
             } else {
                 this.chartConfModel.desc = "Monitor as per specific timings.";
@@ -173,6 +179,10 @@ export class MonitorChartComponent implements OnInit {
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd");
         this.chartConfModel.foodInst = data.foodInst;
+        this.chartConfModel.numberofTimes = 3;
+        const currentTime = this.datePipe.transform(Date.now(), "H:mm");
+        console.log("currentTime", currentTime);
+        this.chartConfModel.startDate = this.chartConfModel.startDate + " " + currentTime;
 
         let confString = JSON.stringify(this.chartConfModel);
 
@@ -184,12 +194,13 @@ export class MonitorChartComponent implements OnInit {
 
         // insert chart db model to sqlite db
         this.chartService.insertChartItem(this.chartDbModel);
+        this.createActions(this.chartDbModel, confString);
 
         // get chart data from sqlite db
         this.chartService.getChartList()
 
         this.goBackPage();
-        
+
     }
     // >> func for inserting form data to sqlite db
 
@@ -245,5 +256,21 @@ export class MonitorChartComponent implements OnInit {
         });
     }
     // >> func for creating form controls
+    // fucntion for creating intake actions
+    createActions(monitormodel, conf) {
+        const initModel = new ServerDataProcessorMessageModel();
+        const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
+        serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
+        serverDataStoreModel.data = new ScheduleDatastoreModel();
+        serverDataStoreModel.data = monitormodel;
+        serverDataStoreModel.data.sync_pending = 1
+        serverDataStoreModel.data.conf = conf;
+        console.log('created data', serverDataStoreModel.data)
+        initModel.data = [serverDataStoreModel];
+        initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+    }
+    // en dof fucntion
 
-}
+
+}// end of class

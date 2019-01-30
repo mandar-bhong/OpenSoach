@@ -3,6 +3,7 @@ import { Schedulardata, SchedularConfigData, MornFreqInfo, AftrnFreqInfo, NightF
 import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
 import { MonitorHelper } from '~/app/helpers/actions/monitor-helper';
 import { IntakeHelper } from '~/app/helpers/actions/intake-helper';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 
 @Component({
     moduleId: module.id,
@@ -21,7 +22,7 @@ export class MonitorComponent implements OnInit {
     // 	{ Country: "04:00 AM", Amount: 100 }
     // ];
     categoricalSourcehigh: { Country: string, Amount1: number }[] = [
-        { Country: "12:00 PM", Amount1:99.5 },
+        { Country: "12:00 PM", Amount1: 99.5 },
         { Country: "04:00 PM", Amount1: 99.5 },
         { Country: "08:00 PM", Amount1: 99.5 },
         { Country: "12:00 AM", Amount1: 99.5 },
@@ -29,17 +30,17 @@ export class MonitorComponent implements OnInit {
 
     ];
     categoricalSourcelow: { Country: string, Amount1: number }[] = [
-        { Country: "12:00 PM", Amount1:  97.7 },
-        { Country: "04:00 PM", Amount1:  97.7 },
-        { Country: "08:00 PM", Amount1:  97.7 },
-        { Country: "12:00 AM", Amount1:  97.7 },
-        { Country: "04:00 AM", Amount1:  97.7 },
+        { Country: "12:00 PM", Amount1: 97.7 },
+        { Country: "04:00 PM", Amount1: 97.7 },
+        { Country: "08:00 PM", Amount1: 97.7 },
+        { Country: "12:00 AM", Amount1: 97.7 },
+        { Country: "04:00 AM", Amount1: 97.7 },
 
     ];
     categoricalSource: { Country: string, Amount: number }[] = [
         { Country: "12:00 PM", Amount: 98.6 },
         { Country: "04:00 PM", Amount: 97.3 },
-        { Country: "08:00 PM", Amount: 99.0},
+        { Country: "08:00 PM", Amount: 99.0 },
         { Country: "12:00 AM", Amount: 98.0 },
         { Country: "04:00 AM", Amount: 99.8 }
     ];
@@ -63,7 +64,7 @@ export class MonitorComponent implements OnInit {
     bloodSourcecategoricalSource: { Country: string, Amount: number }[] = [
         { Country: "12:00 PM", Amount: 100 },
         { Country: "04:00 PM", Amount: 150 },
-        { Country: "08:00 PM", Amount: 130},
+        { Country: "08:00 PM", Amount: 130 },
         { Country: "12:00 AM", Amount: 87 },
         { Country: "04:00 AM", Amount: 110 }
     ];
@@ -82,60 +83,65 @@ export class MonitorComponent implements OnInit {
 
     ngOnInit() {
         // alert('monitor');
-       // this.createActions();
+      //  this.createActions();
     }
     createActions() {
-		this.schedulardata = new Schedulardata();
-		const dt = new Date();
-		this.schedulardata.uuid = '12';
-		this.schedulardata.admission_uuid = '2';
-		this.schedulardata.conf_type_code = "Medicine";
-		this.schedulardata.conf = new SchedularConfigData();
-		this.schedulardata.conf.mornFreqInfo = new MornFreqInfo();
-		this.schedulardata.conf.mornFreqInfo.freqMorn = true
+        this.schedulardata = new Schedulardata();
+        const dt = new Date();
 
-		this.schedulardata.conf.aftrnFreqInfo = new AftrnFreqInfo();
-		this.schedulardata.conf.aftrnFreqInfo.freqAftrn = true;
-		this.schedulardata.conf.nightFreqInfo = new NightFreqInfo();
-		this.schedulardata.conf.nightFreqInfo.freqNight = true;
-		this.schedulardata.conf.desc = " Morning & Afternoon & Night before meal. \nTest.";
-		this.schedulardata.conf.name = "Cipla";
-		this.schedulardata.conf.quantity = 11;
-		this.schedulardata.conf.startDate = "2019-01-23T08:30:00.438Z" // 23th 12.10 pm
-		this.schedulardata.conf.duration = 3;
-		this.schedulardata.conf.frequency = 0;
-		this.schedulardata.conf.startTime = '20.30' // 16.30
-		this.schedulardata.conf.intervalHrs = 180
-		this.schedulardata.conf.foodInst = 1;
-		this.schedulardata.conf.endTime = '12.30';
-		this.schedulardata.conf.numberofTimes = 3
-		this.schedulardata.conf.specificTimes = [];
-		this.schedulardata.conf.specificTimes.push(11.30);
+        const scheduleDatastoreModel = new ScheduleDatastoreModel();
+        scheduleDatastoreModel.uuid = '12';
+        scheduleDatastoreModel.admission_uuid = '2';
+        scheduleDatastoreModel.conf_type_code = "Medicine";
+        scheduleDatastoreModel.conf = '';
+        this.schedulardata.conf = new SchedularConfigData();
+        this.schedulardata.conf.mornFreqInfo = new MornFreqInfo();
+        this.schedulardata.conf.mornFreqInfo.freqMorn = true
+
+        this.schedulardata.conf.aftrnFreqInfo = new AftrnFreqInfo();
+        this.schedulardata.conf.aftrnFreqInfo.freqAftrn = true;
+        this.schedulardata.conf.nightFreqInfo = new NightFreqInfo();
+        this.schedulardata.conf.nightFreqInfo.freqNight = true;
+        this.schedulardata.conf.desc = " Morning & Afternoon & Night before meal. \nTest.";
+        this.schedulardata.conf.name = "Cipla";
+        this.schedulardata.conf.quantity = 11;
+        this.schedulardata.conf.startDate = "2019-01-29 12:04" // 23th 12.10 pm
+        this.schedulardata.conf.duration = 3;
+        this.schedulardata.conf.frequency = 1;
+        this.schedulardata.conf.startTime = '21.30' // 16.30
+        this.schedulardata.conf.intervalHrs = 180
+        this.schedulardata.conf.foodInst = 1;
+        this.schedulardata.conf.endTime = '12.30';
+        this.schedulardata.conf.numberofTimes = 3
+        this.schedulardata.conf.specificTimes = [];
+        this.schedulardata.conf.specificTimes.push(11.30);
         this.schedulardata.conf.specificTimes.push(12.30);
-        console.log('JSON.stringyfy');
-        console.log(JSON.stringify(this.schedulardata));
+        this.schedulardata.data = scheduleDatastoreModel;
 
-//	let medicineSchedular = new MedicineHelper();
-//	let mmonitorHelper = new MonitorHelper();
-//	mmonitorHelper.createMonitorActions(this.schedulardata);
-	//	let intakeHelper = new IntakeHelper();
-	//	intakeHelper.createIntakeActions(this.schedulardata);
-		//	medicineSchedular.createMedicineActions(this.schedulardata);
-	//	console.log('in create actions fucntions');
-		// this.chartService.getChartList().then(
-		// 	(val) => {
-		// 		val.forEach(item => {
-		// 			item.conf = JSON.parse(item.conf);
-		// 		});					
-		// 		if (this.schedulardata.conf_type_code = medicine) {
-		// 			if (this.schedulardata.conf.frequency === freuencyzero) {
 
-		// 			}
-		// 		}				
-		// 	},
-		// 	(error) => {
-		// 		console.log("getChartData error:", error);
-		// 	}
-		// );
-	}
+        let medicineSchedular = new MedicineHelper();
+
+        //	let mmonitorHelper = new MonitorHelper();
+        //	mmonitorHelper.createMonitorActions(this.schedulardata);
+        //	let intakeHelper = new IntakeHelper();
+        //	intakeHelper.createIntakeActions(this.schedulardata);
+        const test = medicineSchedular.createMedicineActions(this.schedulardata);
+        console.log('received actions data',test);
+        //	console.log('in create actions fucntions');
+        // this.chartService.getChartList().then(
+        // 	(val) => {
+        // 		val.forEach(item => {
+        // 			item.conf = JSON.parse(item.conf);
+        // 		});					
+        // 		if (this.schedulardata.conf_type_code = medicine) {
+        // 			if (this.schedulardata.conf.frequency === freuencyzero) {
+
+        // 			}
+        // 		}				
+        // 	},
+        // 	(error) => {
+        // 		console.log("getChartData error:", error);
+        // 	}
+        // );
+    }
 }

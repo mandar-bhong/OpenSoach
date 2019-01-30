@@ -6,10 +6,12 @@ import { ScheduleDatastoreModel } from "../models/db/schedule-model.js";
 import { IDatastoreModel } from "../models/db/idatastore-model.js";
 import { Schedulardata, SchedularConfigData } from "../models/ui/chart-models.js";
 import { MedicineHelper } from "../helpers/actions/medicine-helper.js";
-import { medicine } from "../common-constants.js";
+import { medicine, intake, monitor } from "../common-constants.js";
 import { ActionsData, ActionDataStoreModel } from "../models/db/action-datastore.js";
 import { PatientMasterDatastoreModel } from "../models/db/patient-master-model.js";
 import { PatientAdmissionDatastoreModel } from "../models/db/patient-admission-model.js";
+import { IntakeHelper } from "../helpers/actions/intake-helper.js";
+import { MonitorHelper } from "../helpers/actions/monitor-helper.js";
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
@@ -70,48 +72,54 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
     }
 
     handleScheduleMessage(obj: ScheduleDatastoreModel) {
-        console.log('handleScheduleMessage executed 3wdqed');
-
         // const data = <ScheduleDatastoreModel>this.dataModel.data;
         const schedulardata = new Schedulardata();
         schedulardata.data = obj;
         schedulardata.conf = new SchedularConfigData()
         const parsedConf = <SchedularConfigData>JSON.parse(obj.conf);
         schedulardata.conf = parsedConf;
-        console.log('schedulardata.conf ', schedulardata.conf);
-        //  if (schedulardata.conf_type_code == medicine) {
-        console.log('MedicineHelper creating');
-        const medicineHelper = new MedicineHelper();
-        console.log('MedicineHelper created');
+        let actiondata: ActionsData;
         try {
-            const actiondata = <ActionsData>medicineHelper.createMedicineActions(schedulardata);
-            console.log('in try catch block');
-            parsedConf.endDate = actiondata.enddate;
-            obj.conf = JSON.stringify(parsedConf);
-            console.log('action inserting..');
+            switch (schedulardata.data.conf_type_code) {
+                case medicine:
+                    const medicineHelper = new MedicineHelper();
+                    console.log('MedicineHelper created');
+                    actiondata = <ActionsData>medicineHelper.createMedicineActions(schedulardata);
+                    break;
+                case intake:
+                    console.log('intake invoked');
+                    const intakehelper = new IntakeHelper();
+                    actiondata = <ActionsData>intakehelper.createIntakeActions(schedulardata);
+                    console.log(actiondata);
+                    break;
+                case monitor:
+                    console.log('monitor invoked');
+                    const monitorhelper = new MonitorHelper()
+                    actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
+                    console.log('actions created');
+                    console.log(actiondata);
+                    break;
+                default:
+                    break;
+            }
             try {
                 // .action_tbl_delete
-                //   DatabaseHelper.update('action_tbl_delete', []);              
+                //   DatabaseHelper.update('action_tbl_delete', []);     
+                parsedConf.endDate = actiondata.enddate;
+                obj.conf = JSON.stringify(parsedConf);
                 actiondata.actions.forEach(element => {
                     const actionsdbdata = new ActionDataStoreModel();
                     Object.assign(actionsdbdata, element);
                     DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, actionsdbdata.getModelValues());
+                    console.log('inserting actions');
                 });
-
             } catch (e) {
                 console.log('action inserting failed....', e.error);
             }
-
-
         }
         catch (e) {
             console.error('MedicineHelper', e);
         }
-
-        //  }
-        // this.dataModel.data
-        // create actions
-        // set schedule end date
     }
 
     updateSyncPending() {
