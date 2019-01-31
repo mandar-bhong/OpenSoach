@@ -9,6 +9,11 @@ import { ChartListViewModel } from "~/app/models/ui/chart-models";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Subscription } from 'rxjs';
 import { WorkerService } from '~/app/services/worker.service';
+import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
+import { IDatastoreModel } from '~/app/models/db/idatastore-model';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
+import { SYNC_STORE, SERVER_WORKER_MSG_TYPE } from '~/app/app-constants';
 
 @Component({
 	moduleId: module.id,
@@ -52,9 +57,9 @@ export class ChartsComponent implements OnInit {
 
 		this.getChartData();
 		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
-			console.log('notified to schedule list page ');
-		});
-
+			//	console.log('notified to schedule list page ', value);
+			this.pushAddedSchedule(value);
+		});	
 	}
 	showDialog() {
 		this.dialogOpen = true;
@@ -149,6 +154,7 @@ export class ChartsComponent implements OnInit {
 					chartListItem.dbmodel.conf = JSON.parse(item.conf);
 					this.chartListItems.push(chartListItem);
 				});
+				console.log('this.chartListItems', this.chartListItems);
 				this.getGroupIndex();
 			},
 			(error) => {
@@ -171,5 +177,42 @@ export class ChartsComponent implements OnInit {
 		if (this.schedulecreationSubscription) {
 			this.schedulecreationSubscription.unsubscribe();
 		}
+	}// end 
+
+	pushAddedSchedule(Schedule: ServerDataStoreDataModel<IDatastoreModel>) {
+		const schedulDataStoreModel = new ScheduleDatastoreModel();
+		Object.assign(schedulDataStoreModel, Schedule.data);
+		let tempDbModel = new ScheduleDatastoreModel();
+		tempDbModel = schedulDataStoreModel;
+		tempDbModel.conf = JSON.parse(schedulDataStoreModel.conf);
+		const chartListViewModel = new ChartListViewModel();
+		chartListViewModel.dbmodel = tempDbModel;
+		try {
+			console.log('Before', this.chartListItems);
+			this.chartListItems.push(chartListViewModel);
+			console.log('after', this.chartListItems);
+		} catch (e) {
+			console.log(e.error);
+		}
 	}
+
+
+	test() {
+		console.log('test executed');
+		// const initModel = new ServerDataProcessorMessageModel();
+		// const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
+		// serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
+		// serverDataStoreModel.data = new ScheduleDatastoreModel();
+		// serverDataStoreModel.data.uuid = '111'
+		// serverDataStoreModel.data.sync_pending = 1
+		// serverDataStoreModel.data.admission_uuid = "11";
+		// serverDataStoreModel.data.conf_type_code = 'Medicine';
+		// serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla ks","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
+		// console.log('created data', serverDataStoreModel.data)
+		// initModel.data = [serverDataStoreModel];
+		// initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+		// this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
+
+	}
+
 }

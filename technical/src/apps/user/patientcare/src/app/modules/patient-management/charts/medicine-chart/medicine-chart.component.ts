@@ -43,6 +43,8 @@ export class MedicineChartComponent implements OnInit {
     freqMorn: boolean;
     freqAftrn: boolean;
     freqNight: boolean;
+    numberOfTimesValid: boolean;
+    startDateValid: boolean;
     // end of proccess variables
 
     constructor(private routerExtensions: RouterExtensions,
@@ -131,7 +133,8 @@ export class MedicineChartComponent implements OnInit {
         this.medNameIsValid = this.medicineForm.controls['name'].hasError('required');
         this.intervalHrsIsValid = this.medicineForm.controls['intervalHrs'].hasError('required');
         this.durationIsValid = this.medicineForm.controls['duration'].hasError('required');
-
+        this.numberOfTimesValid = this.medicineForm.controls['numberofTimes'].hasError('required');
+         this.startDateValid=this.medicineForm.controls['startDate'].hasError('required');
         if (this.medicineForm.invalid) {
             console.log("validation error");
             return;
@@ -279,7 +282,7 @@ export class MedicineChartComponent implements OnInit {
             }
 
         } else {
-            this.chartConfModel.numberofTimes = 3;
+            this.chartConfModel.numberofTimes = data.numberofTimes;
             this.chartConfModel.intervalHrs = data.intervalHrs;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
             console.log(' this.chartConfModel.startTime', this.chartConfModel.startTime);
@@ -314,7 +317,7 @@ export class MedicineChartComponent implements OnInit {
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admission_uuid = "PA001";
         this.chartDbModel.conf = confString;
-        this.chartDbModel.conf_type_code = "Medicine";       
+        this.chartDbModel.conf_type_code = "Medicine";
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
 
 
@@ -337,7 +340,7 @@ export class MedicineChartComponent implements OnInit {
             frequency: new FormControl(),
             intervalHrs: new FormControl(),
             numberofTimes: new FormControl(),
-            startDate: new FormControl(),
+            startDate: new FormControl('', [Validators.required]),
             duration: new FormControl('', [Validators.required]),
             startTime: new FormControl(),
             desc: new FormControl(),

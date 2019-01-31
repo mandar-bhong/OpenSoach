@@ -206,7 +206,10 @@ export class MonitorChartComponent implements OnInit {
 
     // << func for specific timings
     addSpecificTime() {
-        this.specifictimes.push(this.monitorForm.controls['specificTime'].value);
+        const timeValue = this.monitorForm.controls['specificTime'].value;
+        if (timeValue && timeValue != null) {
+            this.specifictimes.push(this.monitorForm.controls['specificTime'].value);
+        }
     }
     // >> func for specific timings
 
