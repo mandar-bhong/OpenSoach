@@ -95,6 +95,12 @@
                     <Label col="0" row="1" text="Enter no. of times"></Label>
                     <TextField col="1" row="0" class="input" keyboardType="number" formControlName="numberofTimes"></TextField>
                 </StackLayout>
+                <StackLayout class="input-field">
+                    <StackLayout *ngIf="numberOfTimesValid">
+                        <Label text="*No. of times is required " style="color:red"></Label>
+                    </StackLayout>
+                </StackLayout>
+
                 <StackLayout class="hr-light"></StackLayout>
                 <StackLayout class="input-field">
                     <StackLayout *ngIf="intervalHrsIsValid">
@@ -110,6 +116,9 @@
         <StackLayout class="input-field">
             <Label text="Start Date"></Label>
             <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
+        </StackLayout>
+        <StackLayout *ngIf="startDateValid">
+            <Label text="* Start date is required " style="color:red"></Label>
         </StackLayout>
 
         <StackLayout class="input-field">

@@ -10,6 +10,7 @@ import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-m
 import { IDatastoreModel } from "../models/db/idatastore-model";
 import { ScheduleDatastoreModel } from "../models/db/schedule-model";
 import { PassDataService } from "./pass-data-service";
+import { medicine, intake, monitor } from "../common-constants";
 
 @Injectable()
 export class WorkerService {
@@ -78,10 +79,8 @@ export class WorkerService {
                     // console.log('item.data.uuid', item.data.uuid);
                     break;
                 case SYNC_STORE.SCHEDULE:
-                    this.actionsSubject.next(item);
-
-
-
+                    // notifiyng to schedule list about newly added schedule.
+                     this.actionsSubject.next(item);
                     // TODO: 
                     // 
                     // if patient is selected and (<ScheduleDatastoreModel>item.data).admission_uuid equals to selected patient admission_uuid in AppGlobalContext

@@ -126,7 +126,7 @@ export class IntakeChartComponent implements OnInit {
         //set chart conf model
         if (data.frequency == 0) {
             this.chartConfModel.intervalHrs = data.intervalHrs;
-            this.chartConfModel.numberofTimes = 3;
+            this.chartConfModel.numberofTimes = data.numberofTimes;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
         }
         if (data.frequency == 1) {
