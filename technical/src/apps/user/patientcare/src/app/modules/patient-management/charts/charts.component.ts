@@ -59,7 +59,8 @@ export class ChartsComponent implements OnInit {
 		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
 			//	console.log('notified to schedule list page ', value);
 			this.pushAddedSchedule(value);
-		});	
+		});
+		
 	}
 	showDialog() {
 		this.dialogOpen = true;
@@ -189,7 +190,14 @@ export class ChartsComponent implements OnInit {
 		chartListViewModel.dbmodel = tempDbModel;
 		try {
 			console.log('Before', this.chartListItems);
-			this.chartListItems.push(chartListViewModel);
+			const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === chartListViewModel.dbmodel.uuid)[0];
+			// ittem found in array 
+			if (scheduleitem && scheduleitem != null) {
+				const itemIndex = this.chartListItems.indexOf(scheduleitem);
+				this.chartListItems[itemIndex].dbmodel = chartListViewModel;
+			} else {
+				this.chartListItems.push(chartListViewModel);
+			}
 			console.log('after', this.chartListItems);
 		} catch (e) {
 			console.log(e.error);
@@ -199,19 +207,19 @@ export class ChartsComponent implements OnInit {
 
 	test() {
 		console.log('test executed');
-		// const initModel = new ServerDataProcessorMessageModel();
-		// const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
-		// serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
-		// serverDataStoreModel.data = new ScheduleDatastoreModel();
-		// serverDataStoreModel.data.uuid = '111'
-		// serverDataStoreModel.data.sync_pending = 1
-		// serverDataStoreModel.data.admission_uuid = "11";
-		// serverDataStoreModel.data.conf_type_code = 'Medicine';
-		// serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla ks","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
-		// console.log('created data', serverDataStoreModel.data)
-		// initModel.data = [serverDataStoreModel];
-		// initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-		// this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
+		const initModel = new ServerDataProcessorMessageModel();
+		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
+		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
+		serverDataStoreModel.data = new ScheduleDatastoreModel();
+		serverDataStoreModel.data.uuid = '111'
+		serverDataStoreModel.data.sync_pending = 1
+		serverDataStoreModel.data.admission_uuid = "11";
+		serverDataStoreModel.data.conf_type_code = 'Medicine';
+		serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla ks","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
+		console.log('created data', serverDataStoreModel.data)
+		initModel.data = [serverDataStoreModel];
+		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
 
 	}
 
