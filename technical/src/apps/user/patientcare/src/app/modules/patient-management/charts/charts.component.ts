@@ -7,6 +7,8 @@ import { Observable } from 'tns-core-modules/data/observable';
 import { ChartService } from "~/app/services/chart/chart.service";
 import { ChartListViewModel } from "~/app/models/ui/chart-models";
 import { RouterExtensions } from 'nativescript-angular/router';
+import { Subscription } from 'rxjs';
+import { WorkerService } from '~/app/services/worker.service';
 
 @Component({
 	moduleId: module.id,
@@ -24,7 +26,7 @@ export class ChartsComponent implements OnInit {
 	intakebuttonClicked: boolean = true;
 	medicinebuttonClicked: boolean = false;
 	outputbuttonClicked: boolean = false;
-
+	schedulecreationSubscription: Subscription;
 	// >> finding grouping index then after click show in top
 	intakeIndex;
 	medicineIndex;
@@ -36,6 +38,7 @@ export class ChartsComponent implements OnInit {
 
 	dialogOpen = false;
 	constructor(private chartService: ChartService,
+		public workerservice: WorkerService,
 		private routerExtensions: RouterExtensions) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
@@ -48,6 +51,9 @@ export class ChartsComponent implements OnInit {
 	ngOnInit() {
 
 		this.getChartData();
+		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
+			console.log('notified to schedule list page ');
+		});
 
 	}
 	showDialog() {
@@ -151,13 +157,19 @@ export class ChartsComponent implements OnInit {
 		);
 	}
 	monitorForm() {
-		this.routerExtensions.navigate(['patientmgnt', 'monitor-chart'], { clearHistory: false });	
+		this.routerExtensions.navigate(['patientmgnt', 'monitor-chart'], { clearHistory: false });
 	}
 	medicineForm() {
-		this.routerExtensions.navigate(['patientmgnt', 'medicine-chart'], { clearHistory: false });			
+		this.routerExtensions.navigate(['patientmgnt', 'medicine-chart'], { clearHistory: false });
 	}
 	intakeForm() {
-		this.routerExtensions.navigate(['patientmgnt', 'intake-chart'], { clearHistory: false });		
+		this.routerExtensions.navigate(['patientmgnt', 'intake-chart'], { clearHistory: false });
 	}
-
+	ngOnDestroy(): void {
+		//Called once, before the instance is destroyed.
+		//Add 'implements OnDestroy' to the class.
+		if (this.schedulecreationSubscription) {
+			this.schedulecreationSubscription.unsubscribe();
+		}
+	}
 }

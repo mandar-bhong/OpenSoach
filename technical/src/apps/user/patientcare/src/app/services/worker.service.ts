@@ -18,7 +18,7 @@ export class WorkerService {
     public patientMasterDataReceivedSubject = new Subject<string>();
     public patientAdmissionDataReceivedSubject: Subject<string> = new Subject<string>();
     public scheduleDataReceivedSubject = new Subject<ScheduleDatastoreModel>();
-
+    actionsSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
     public ServerConnectionSubject = new Subject<boolean>();
 
     // patientname: string;
@@ -67,7 +67,7 @@ export class WorkerService {
 
     handleDataReceived(data: ServerDataStoreDataModel<IDatastoreModel>[]) {
         data.forEach(item => {
-            console.log('subject triggered', item);
+            console.log('subject triggered in worker service ', item);
 
             switch (item.datastore) {
                 case SYNC_STORE.PATIENT_MASTER:
@@ -78,6 +78,10 @@ export class WorkerService {
                     // console.log('item.data.uuid', item.data.uuid);
                     break;
                 case SYNC_STORE.SCHEDULE:
+                    this.actionsSubject.next(item);
+
+
+
                     // TODO: 
                     // 
                     // if patient is selected and (<ScheduleDatastoreModel>item.data).admission_uuid equals to selected patient admission_uuid in AppGlobalContext
@@ -86,8 +90,11 @@ export class WorkerService {
                     console.log('getpatientdata', getpatientdata);
                     if (getpatientdata.dbmodel.admission_uuid === (<ScheduleDatastoreModel>item.data).admission_uuid) {
                         this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
-                        break;
                     }
+                    break;
+                case SYNC_STORE.ACTION:
+                    console.log('in worker service action store');
+                    break;
 
             }
         });
