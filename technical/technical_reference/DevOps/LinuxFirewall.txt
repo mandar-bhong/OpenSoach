@@ -1,0 +1,16 @@
+
+#Firewall configuration to allow from specific ip only
+
+#https://www.linuxjournal.com/content/understanding-firewalld-multi-zone-configurations
+
+# firewall-cmd --permanent --zone=public --remove-service=dhcpv6-client
+# firewall-cmd --permanent --zone=public --remove-service=ssh
+# firewall-cmd --permanent --zone=public --add-service=http
+# firewall-cmd --permanent --zone=public --add-service=https
+
+# firewall-cmd --permanent --zone=internal --remove-service=mdns
+# firewall-cmd --permanent --zone=internal --remove-service=samba-client
+# firewall-cmd --permanent --zone=internal --remove-service=dhcpv6-client
+# firewall-cmd --permanent --zone=internal --add-source=113.193.188.206/16
+
+# firewall-cmd --reload
