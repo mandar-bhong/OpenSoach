@@ -64,9 +64,9 @@ export class ActionHelper {
                 actionList.schedule_uuid = this.schedulardata.data.uuid;
                 actionList.conf_type_code = this.schedulardata.data.conf_type_code;
                 actionList.sync_pending = 1;
-                //  actionList.uuid = PlatformHelper.API.getRandomUUID();
-                const tempid = Math.random();
-                actionList.uuid = tempid.toString();
+               actionList.uuid = PlatformHelper.API.getRandomUUID();
+                // const tempid = Math.random();
+                // actionList.uuid = tempid.toString();
                 this.actionList.push(actionList);
             }
         }

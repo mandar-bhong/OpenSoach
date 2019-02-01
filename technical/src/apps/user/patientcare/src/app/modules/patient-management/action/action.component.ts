@@ -14,7 +14,6 @@ import { error } from 'tns-core-modules/trace/trace';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { layout } from 'tns-core-modules/utils/utils';
 import { Page } from 'ui/page';
-import { medicine } from '~/app/common-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { ActionListViewModel, ActionTxnDBModel, ActionDataDBRequest } from '~/app/models/ui/action-models';
 import { Schedulardata, SchedularConfigData, MornFreqInfo, AftrnFreqInfo, NightFreqInfo } from '~/app/models/ui/chart-models';
@@ -601,7 +600,7 @@ export class ActionComponent implements OnInit {
 		});
 
 		// check data save entries added in action trn table 
-	//	this.gettrnlistdata();
+		this.gettrnlistdata();
 	}
 
 	// selected done and discard row change background color
