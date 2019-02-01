@@ -1,4 +1,14 @@
 
+#disable ping to server
+---------permanant-----------
+/etc/sysctl.conf
+net.ipv4.icmp_echo_ignore_all = 1
+----------------------
+-------temp------
+echo "1" > /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+
+
 #Firewall configuration to allow from specific ip only
 
 #https://www.linuxjournal.com/content/understanding-firewalld-multi-zone-configurations
@@ -14,3 +24,41 @@
 # firewall-cmd --permanent --zone=internal --add-source=113.193.188.206/16
 
 # firewall-cmd --reload
+
+
+
+########################Firewall
+#https://www.rootusers.com/how-to-use-firewalld-rich-rules-and-zones-for-filtering-and-nat/
+#https://www.linuxjournal.com/content/understanding-firewalld-multi-zone-configurations
+
+#Block IP 
+firewall-cmd --permanent --add-rich-rule="rule family='ipv4' source address='159.89.102.173' reject"
+
+#Unblock IP
+firewall-cmd --remove-rich-rule='rule family=ipv4 source address=116.31.116.12 reject' --permanent
+
+#We can check the ports that are opened in the current default zone with ‘--list-ports’.
+firewall-cmd --list-ports
+
+#Firewall Status
+firewall-cmd --list-all
+
+
+#To start svn through firewall
+https://www.vultr.com/docs/how-to-setup-an-apache-subversion-svn-server-on-centos-7
+
+sudo firewall-cmd --zone=public --permanent --add-service=http
+sudo firewall-cmd --reload
+
+#Start firewall
+systemctl enable firewalld
+systemctl start firewalld
+
+#Open Port in firewall
+firewall-cmd --permanent --add-port=80/tcp
+firewall-cmd --reload
+
+#remove port in firewall
+firewall-cmd --zone=public --remove-port=80/tcp
+firewall-cmd --runtime-to-permanent 
+firewall-cmd --reload
