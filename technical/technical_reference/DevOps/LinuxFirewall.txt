@@ -22,6 +22,7 @@ echo "1" > /proc/sys/net/ipv4/icmp_echo_ignore_all
 # firewall-cmd --permanent --zone=internal --remove-service=samba-client
 # firewall-cmd --permanent --zone=internal --remove-service=dhcpv6-client
 # firewall-cmd --permanent --zone=internal --add-source=113.193.188.206/16
+# firewall-cmd --permanent --zone=internal --add-source=114.143.212.246/16
 
 # firewall-cmd --reload
 
