@@ -10,7 +10,7 @@ import { ChartService } from "~/app/services/chart/chart.service";
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { PlatformHelper } from "~/app/helpers/platform-helper";
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
-import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { SERVER_WORKER_MSG_TYPE, SYNC_STORE, ConfigCodeType } from '~/app/app-constants';
 import { WorkerService } from '~/app/services/worker.service';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
@@ -95,6 +95,8 @@ export class MedicineChartComponent implements OnInit {
 
         // remove this code block once u done testing of 
         //  this.createActions();
+        this.medicineForm.get('startDate').setValue(new Date());
+        this.medicineForm.get('startTime').setValue(new Date());
     }
 
     // << func for navigating previous page
@@ -112,11 +114,15 @@ export class MedicineChartComponent implements OnInit {
         this.freqSelectedIndex = segmetedBar.selectedIndex;
 
         if (this.freqSelectedIndex == 1) {
+            this.medicineForm.controls['numberofTimes'].setValidators(Validators.required);
+            this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
             this.medicineForm.controls['intervalHrs'].setValidators([Validators.required]);
             this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
         } else {
             this.medicineForm.controls['intervalHrs'].clearValidators();
             this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
+            this.medicineForm.controls['numberofTimes'].clearValidators();
+            this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
             this.intervalHrsIsValid = false;
         }
 
@@ -134,7 +140,7 @@ export class MedicineChartComponent implements OnInit {
         this.intervalHrsIsValid = this.medicineForm.controls['intervalHrs'].hasError('required');
         this.durationIsValid = this.medicineForm.controls['duration'].hasError('required');
         this.numberOfTimesValid = this.medicineForm.controls['numberofTimes'].hasError('required');
-         this.startDateValid=this.medicineForm.controls['startDate'].hasError('required');
+        this.startDateValid = this.medicineForm.controls['startDate'].hasError('required');
         if (this.medicineForm.invalid) {
             console.log("validation error");
             return;
@@ -303,21 +309,10 @@ export class MedicineChartComponent implements OnInit {
         this.chartConfModel.foodInst = data.foodInst;
 
         let confString = JSON.stringify(this.chartConfModel);
-
-        // set db model
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admission_uuid = "PA001";
         this.chartDbModel.conf = confString;
-        this.chartDbModel.conf_type_code = "Medicine";
-
-        // insert chart db model to sqlite db
-        this.chartservice.insertChartItem(this.chartDbModel);
-        // call creating action block blcok with  following params.
-
-        this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
-        this.chartDbModel.admission_uuid = "PA001";
-        this.chartDbModel.conf = confString;
-        this.chartDbModel.conf_type_code = "Medicine";
+        this.chartDbModel.conf_type_code = ConfigCodeType.MEDICINE
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
 
 
@@ -340,7 +335,7 @@ export class MedicineChartComponent implements OnInit {
             frequency: new FormControl(),
             intervalHrs: new FormControl(),
             numberofTimes: new FormControl(),
-            startDate: new FormControl('', [Validators.required]),
+            startDate: new FormControl(),
             duration: new FormControl('', [Validators.required]),
             startTime: new FormControl(),
             desc: new FormControl(),

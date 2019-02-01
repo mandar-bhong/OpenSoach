@@ -64,3 +64,12 @@ export enum CMD_ID {
     CMD_GET_STORE_SYNC = 50,
     CMD_APPLY_STORE_SYNC = 51
 }
+export const freuencyzero = 0
+export const freuencyone = 1;
+
+export enum ConfigCodeType {
+    MEDICINE = "Medicine",
+    MONITOR = "Monitor",
+    OUTPUT = "Output",
+    INTAKE = "Intake"
+}

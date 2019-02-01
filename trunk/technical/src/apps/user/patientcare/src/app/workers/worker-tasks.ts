@@ -4,6 +4,7 @@ import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-da
 import { ServerWorkerContext } from "./server-worker-context.js";
 import { AppMessageUIHandler } from "./app-message-ui-handler.js";
 import { ServerHelper } from "./server-helper.js";
+import { PlatformHelper } from "../helpers/platform-helper.js";
 
 var WS = require('nativescript-websockets');
 
@@ -19,6 +20,7 @@ export class WorkerTasks {
         console.log('ServerWorkerContext.ContextVar1', ServerWorkerContext.ContextVar1);
         ServerHelper.Init(WorkerTasks.postMessage);
         ServerHelper.sendToServerCallback = WorkerTasks.sendToServer;
+        PlatformHelper.init();
     }
 
     public static processMessage(msg: any) {

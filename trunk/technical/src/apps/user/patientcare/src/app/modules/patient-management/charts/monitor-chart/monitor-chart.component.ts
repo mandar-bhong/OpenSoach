@@ -11,7 +11,7 @@ import { ConfListViewModel } from '~/app/models/ui/conf-models';
 import { ListPicker } from "tns-core-modules/ui/list-picker";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlatformHelper } from "~/app/helpers/platform-helper";
-import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { SERVER_WORKER_MSG_TYPE, SYNC_STORE, ConfigCodeType } from '~/app/app-constants';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
@@ -46,6 +46,8 @@ export class MonitorChartComponent implements OnInit {
 
     monitorConfListItems = new ObservableArray<ChartListViewModel>();
     monitorConf: ChartListViewModel;
+    isspecificTime: boolean;
+    isNumberOfTimes: boolean;
     // end of proccess variables
 
     constructor(
@@ -88,10 +90,10 @@ export class MonitorChartComponent implements OnInit {
         const freqItem2 = new SegmentedBarItem();
         freqItem2.title = "Specific time";
         this.frequencyItems.push(freqItem2);
-
+        this.monitorForm.get('startDate').setValue(new Date());
+        this.monitorForm.get('startTime').setValue(new Date());
         // load default form data
         // this.monitorForm.get('startDate').setValue(new Date());
-
     }
 
     // << func for navigating previous page
@@ -116,9 +118,13 @@ export class MonitorChartComponent implements OnInit {
         if (this.freqSelectedIndex == 0) {
             this.monitorForm.controls['intervalHrs'].setValidators([Validators.required]);
             this.monitorForm.controls['intervalHrs'].updateValueAndValidity();
+            this.monitorForm.controls['numberofTimes'].setValidators([Validators.required]);
+            this.monitorForm.controls['numberofTimes'].updateValueAndValidity();
         } else {
             this.monitorForm.controls['intervalHrs'].clearValidators();
             this.monitorForm.controls['intervalHrs'].updateValueAndValidity();
+            this.monitorForm.controls['numberofTimes'].clearValidators();
+            this.monitorForm.controls['numberofTimes'].updateValueAndValidity();
             this.intervalHrsIsValid = false;
         }
 
@@ -129,7 +135,7 @@ export class MonitorChartComponent implements OnInit {
 
         this.intervalHrsIsValid = this.monitorForm.controls['intervalHrs'].hasError('required');
         this.durationIsValid = this.monitorForm.controls['duration'].hasError('required');
-
+        this.isNumberOfTimes = this.monitorForm.controls['numberofTimes'].hasError('required');
         if (this.monitorForm.invalid) {
             console.log("validation error");
             return;
@@ -139,7 +145,12 @@ export class MonitorChartComponent implements OnInit {
         this.formData = Object.assign({}, this.monitorForm.value);
         this.formData.name = this.monitorName;
         this.formData.specificTimes = this.specifictimes;
-
+        if (this.formData.frequency == 1) {
+            if (this.specifictimes.length == 0) {
+                this.isspecificTime = true;
+                return;
+            }
+        }
         // insert form data to sqlite db
         this.insertData(this.formData);
 
@@ -190,10 +201,9 @@ export class MonitorChartComponent implements OnInit {
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admission_uuid = "PA001";
         this.chartDbModel.conf = confString;
-        this.chartDbModel.conf_type_code = "Monitor";
+        this.chartDbModel.conf_type_code = ConfigCodeType.MONITOR;
 
-        // insert chart db model to sqlite db
-        this.chartService.insertChartItem(this.chartDbModel);
+        // insert chart db model to sqlite db       ;
         this.createActions(this.chartDbModel, confString);
 
         // get chart data from sqlite db

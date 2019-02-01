@@ -10,7 +10,6 @@ import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-m
 import { IDatastoreModel } from "../models/db/idatastore-model";
 import { ScheduleDatastoreModel } from "../models/db/schedule-model";
 import { PassDataService } from "./pass-data-service";
-import { medicine, intake, monitor } from "../common-constants";
 
 @Injectable()
 export class WorkerService {
@@ -80,16 +79,16 @@ export class WorkerService {
                     break;
                 case SYNC_STORE.SCHEDULE:
                     // notifiyng to schedule list about newly added schedule.
-                     this.actionsSubject.next(item);
+                    this.actionsSubject.next(item);
                     // TODO: 
                     // 
                     // if patient is selected and (<ScheduleDatastoreModel>item.data).admission_uuid equals to selected patient admission_uuid in AppGlobalContext
                     // then notify else do nothing
-                    const getpatientdata = this.passDataService.getpatientData();
-                    console.log('getpatientdata', getpatientdata);
-                    if (getpatientdata.dbmodel.admission_uuid === (<ScheduleDatastoreModel>item.data).admission_uuid) {
-                        this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
-                    }
+                    console.log('get patient data');
+                    // const getpatientdata = this.passDataService.getpatientData();
+                    // if (getpatientdata.dbmodel.admission_uuid === (<ScheduleDatastoreModel>item.data).admission_uuid) {
+                    //     this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
+                    // }
                     break;
                 case SYNC_STORE.ACTION:
                     console.log('in worker service action store');

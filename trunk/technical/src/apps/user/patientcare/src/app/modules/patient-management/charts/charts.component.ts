@@ -59,7 +59,7 @@ export class ChartsComponent implements OnInit {
 		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
 			//	console.log('notified to schedule list page ', value);
 			this.pushAddedSchedule(value);
-		});
+		});		
 		
 	}
 	showDialog() {
@@ -147,9 +147,11 @@ export class ChartsComponent implements OnInit {
 	}
 
 	public getChartData() {
+		console.log('getChartData')
 		this.chartService.getChartList().then(
 			(val) => {
 				val.forEach(item => {
+					console.log(item);
 					let chartListItem = new ChartListViewModel();
 					chartListItem.dbmodel = item;
 					chartListItem.dbmodel.conf = JSON.parse(item.conf);
@@ -189,7 +191,6 @@ export class ChartsComponent implements OnInit {
 		const chartListViewModel = new ChartListViewModel();
 		chartListViewModel.dbmodel = tempDbModel;
 		try {
-			console.log('Before', this.chartListItems);
 			const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === chartListViewModel.dbmodel.uuid)[0];
 			// ittem found in array 
 			if (scheduleitem && scheduleitem != null) {
@@ -198,7 +199,8 @@ export class ChartsComponent implements OnInit {
 			} else {
 				this.chartListItems.push(chartListViewModel);
 			}
-			console.log('after', this.chartListItems);
+			console.log('pushAddedSchedule');
+			console.log(this.chartListItems);
 		} catch (e) {
 			console.log(e.error);
 		}
@@ -211,7 +213,7 @@ export class ChartsComponent implements OnInit {
 		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
 		serverDataStoreModel.data = new ScheduleDatastoreModel();
-		serverDataStoreModel.data.uuid = '111'
+		serverDataStoreModel.data.uuid = 'cb86aeee-c21b-475e-ab68-1335f97c9b9b'
 		serverDataStoreModel.data.sync_pending = 1
 		serverDataStoreModel.data.admission_uuid = "11";
 		serverDataStoreModel.data.conf_type_code = 'Medicine';

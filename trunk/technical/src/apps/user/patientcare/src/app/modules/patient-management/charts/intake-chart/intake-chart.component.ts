@@ -8,7 +8,7 @@ import { ChartDBModel, IntakeChartModel } from "~/app/models/ui/chart-models";
 import { ChartService } from "~/app/services/chart/chart.service";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PlatformHelper } from "~/app/helpers/platform-helper";
-import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { SERVER_WORKER_MSG_TYPE, SYNC_STORE, ConfigCodeType } from '~/app/app-constants';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
@@ -40,6 +40,8 @@ export class IntakeChartComponent implements OnInit {
     frequencyItems: Array<SegmentedBarItem>;
     freqSelectedIndex = 0;
     SrtartdateIsValid: boolean;
+    isNumberOfTimes: boolean;
+    isspecificTime: boolean;
     // end of proccess variables
 
     constructor(private routerExtensions: RouterExtensions,
@@ -68,7 +70,8 @@ export class IntakeChartComponent implements OnInit {
         const freqItem2 = new SegmentedBarItem();
         freqItem2.title = "Specific time";
         this.frequencyItems.push(freqItem2);
-
+        this.intakeForm.get('startDate').setValue(new Date());
+        this.intakeForm.get('startTime').setValue(new Date());
     }
 
     // << func for navigating previous page
@@ -86,11 +89,15 @@ export class IntakeChartComponent implements OnInit {
         this.freqSelectedIndex = segmetedBar.selectedIndex;
 
         if (this.freqSelectedIndex == 0) {
+            this.intakeForm.controls['numberofTimes'].setValidators([Validators.required]);
+            this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
             this.intakeForm.controls['intervalHrs'].setValidators([Validators.required]);
             this.intakeForm.controls['intervalHrs'].updateValueAndValidity();
         } else {
             this.intakeForm.controls['intervalHrs'].clearValidators();
             this.intakeForm.controls['intervalHrs'].updateValueAndValidity();
+            this.intakeForm.controls['numberofTimes'].clearValidators();
+            this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
             this.intervalHrsIsValid = false;
         }
 
@@ -104,16 +111,20 @@ export class IntakeChartComponent implements OnInit {
         this.intervalHrsIsValid = this.intakeForm.controls['intervalHrs'].hasError('required');
         this.durationIsValid = this.intakeForm.controls['duration'].hasError('required');
         this.SrtartdateIsValid = this.intakeForm.controls['startDate'].hasError('required');
-
+        this.isNumberOfTimes = this.intakeForm.controls['numberofTimes'].hasError('required');
         if (this.intakeForm.invalid) {
             console.log("validation error");
             return;
         }
-
         // assign form data to model
         this.formData = Object.assign({}, this.intakeForm.value);
         this.formData.specificTimes = this.specifictimes;
-
+        if (this.formData.frequency == 1) {
+            if (this.specifictimes.length == 0) {
+                this.isspecificTime = true;
+                return;
+            }
+        }
         // insert form data to sqlite db
         this.insertData(this.formData);
 
@@ -156,10 +167,9 @@ export class IntakeChartComponent implements OnInit {
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admission_uuid = "PA001";
         this.chartDbModel.conf = confString;
-        this.chartDbModel.conf_type_code = "Intake";
+        this.chartDbModel.conf_type_code = ConfigCodeType.INTAKE;
 
-        // insert chart db model to sqlite db
-        this.chartservice.insertChartItem(this.chartDbModel);
+        // insert chart db model to sqlite db       
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString);
 
         // get chart data from sqlite db
@@ -187,7 +197,7 @@ export class IntakeChartComponent implements OnInit {
             quantity: new FormControl('', [Validators.required]),
             frequency: new FormControl(),
             duration: new FormControl('', [Validators.required]),
-            startDate: new FormControl('', [Validators.required]),
+            startDate: new FormControl(),
             intervalHrs: new FormControl(),
             numberofTimes: new FormControl(),
             startTime: new FormControl(),

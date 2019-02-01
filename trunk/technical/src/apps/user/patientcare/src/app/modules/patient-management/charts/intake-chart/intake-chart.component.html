@@ -47,16 +47,18 @@
                     <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
                 </StackLayout>
                 <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                <StackLayout *ngIf="intervalHrsIsValid">
+                    <Label text="*interval minutes is required " style="color:red"></Label>
+                </StackLayout>
                 <StackLayout class="input-field">
                     <Label col="0" row="1" text="Enter no. of times"></Label>
                     <TextField col="1" row="0" class="input" keyboardType="number" formControlName="numberofTimes"></TextField>
                 </StackLayout>
-                <StackLayout class="hr-light"></StackLayout>
-                <StackLayout class="input-field">
-                    <StackLayout *ngIf="intervalHrsIsValid">
-                        <Label text="*interval hours is required " style="color:red"></Label>
-                    </StackLayout>
+                <StackLayout class="hr-light" [ngClass]="{invalid: isNumberOfTimes === true}"></StackLayout>
+                <StackLayout *ngIf="isNumberOfTimes">
+                    <Label text="*Number of times is required " style="color:red"></Label>
                 </StackLayout>
+
                 <StackLayout class="input-field">
                     <Label text="Start Time"></Label>
                     <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
@@ -71,6 +73,10 @@
                 </StackLayout>
                 <StackLayout class="input-field" *ngFor="let specificTime of specifictimes">
                     <Label text="{{specificTime | date:' h:mm a' }}"></Label>
+                </StackLayout>
+                <StackLayout class="hr-light" [ngClass]="{invalid: isspecificTime === true && specifictimes.length ==0}"></StackLayout>
+                <StackLayout *ngIf="isspecificTime && specifictimes.length ==0">
+                    <Label text="*Time required " style="color:red"></Label>
                 </StackLayout>
             </StackLayout>
 
