@@ -54,13 +54,13 @@ export class ChartsComponent implements OnInit {
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
-
+		console.log('on ng init executed');
 		this.getChartData();
 		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
 			//	console.log('notified to schedule list page ', value);
 			this.pushAddedSchedule(value);
-		});		
-		
+		});
+
 	}
 	showDialog() {
 		this.dialogOpen = true;
@@ -166,12 +166,15 @@ export class ChartsComponent implements OnInit {
 		);
 	}
 	monitorForm() {
+		this.dialogOpen = false;
 		this.routerExtensions.navigate(['patientmgnt', 'monitor-chart'], { clearHistory: false });
 	}
 	medicineForm() {
+		this.dialogOpen = false;
 		this.routerExtensions.navigate(['patientmgnt', 'medicine-chart'], { clearHistory: false });
 	}
 	intakeForm() {
+		this.dialogOpen = false;
 		this.routerExtensions.navigate(['patientmgnt', 'intake-chart'], { clearHistory: false });
 	}
 	ngOnDestroy(): void {
