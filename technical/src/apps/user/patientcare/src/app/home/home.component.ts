@@ -1,25 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { LocalNotifications } from 'nativescript-local-notifications';
 import { ListViewLinearLayout } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular';
 import { isAndroid } from 'platform';
+import { Subscription } from 'rxjs';
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
-import { alert } from 'tns-core-modules/ui/dialogs';
 import { SearchBar } from 'tns-core-modules/ui/search-bar';
 import { layout } from 'tns-core-modules/utils/utils';
 import { Page } from 'ui/page';
 import { PatientListViewModel } from '~/app/models/ui/patient-view-models';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
-import { DataListingInterface } from '../data-listing-interface';
-import { Subscription } from 'rxjs';
-import { ServerDataProcessorMessageModel } from '../models/api/server-data-processor-message-model';
+
 import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '../app-constants';
-import { PatientMasterDatastoreModel } from '../models/db/patient-master-model';
+import { DataListingInterface } from '../data-listing-interface';
+import { ServerDataProcessorMessageModel } from '../models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '../models/api/server-data-store-data-model';
-import { WorkerService } from '../services/worker.service';
 import { PatientAdmissionDatastoreModel } from '../models/db/patient-admission-model';
+import { PatientMasterDatastoreModel } from '../models/db/patient-master-model';
+import { WorkerService } from '../services/worker.service';
 
 @Component({
 	selector: "Home",
@@ -48,7 +47,8 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		private patientListService: PatientListService,
 		private page: Page,
 		private passdataservice: PassDataService,
-		private workerService: WorkerService) {
+		private workerService: WorkerService,
+		private ngZone: NgZone) {
 		console.log("home");
 		this._funcGrouping = (item: any) => {
 			if (item) {
@@ -62,9 +62,9 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	}
 
 
-	// get _patientListItems(): ObservableArray<PatientListViewModel> {
-	// 	return this.listItems;
-	// }
+	get _patientListItems(): ObservableArray<PatientListViewModel> {
+		return this.listItems;
+	}
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
@@ -74,56 +74,60 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		this.getData();
 		console.log('init completed');
 
-		// setTimeout(() => {
-		// 	// const patientMasterAdd = new ServerDataProcessorMessageModel();
-		// 	// patientMasterAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+		setTimeout(() => {
+			const patientMasterAdd = new ServerDataProcessorMessageModel();
+			patientMasterAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
 
-		// 	// const masterModel = new PatientMasterDatastoreModel();
-		// 	// masterModel.uuid = "PM003";
-		// 	// masterModel.patient_reg_no = "P12B12213";
-		// 	// masterModel.fname = "Shubham",
-		// 	// 	masterModel.lname = "Lunia",
-		// 	// 	masterModel.mob_no = "9832345333",
-		// 	// 	masterModel.age = "28";
-		// 	// masterModel.blood_grp = "B+ve";
-		// 	// masterModel.gender = "Male";
-		// 	// masterModel.updated_on = new Date;
-		// 	// masterModel.sync_pending = 0;
-		// 	// const serverDataStoreDataModelForMaster = new ServerDataStoreDataModel();
-		// 	// serverDataStoreDataModelForMaster.datastore = SYNC_STORE.PATIENT_MASTER;
-		// 	// serverDataStoreDataModelForMaster.data = masterModel;
+			const masterModel = new PatientMasterDatastoreModel();
+			masterModel.uuid = "PM003";
+			masterModel.patient_reg_no = "P12B12223";
+			masterModel.fname = "Shubhamshubham",
+				masterModel.lname = "Lunia",
+				masterModel.mob_no = "9832345333",
+				masterModel.age = "28";
+			masterModel.blood_grp = "B+ve";
+			masterModel.gender = "Male";
+			masterModel.updated_on = new Date;
+			masterModel.sync_pending = 0;
+			const serverDataStoreDataModelForMaster = new ServerDataStoreDataModel();
+			serverDataStoreDataModelForMaster.datastore = SYNC_STORE.PATIENT_MASTER;
+			serverDataStoreDataModelForMaster.data = masterModel;
 
-		// 	// patientMasterAdd.data = [serverDataStoreDataModelForMaster];
-		// 	// this.workerService.postMessageToServerDataProcessorWorker(patientMasterAdd);
+			patientMasterAdd.data = [serverDataStoreDataModelForMaster];
+			this.workerService.postMessageToServerDataProcessorWorker(patientMasterAdd);
 
-		// 	const patientAdmissionAdd = new ServerDataProcessorMessageModel();
-		// 	patientAdmissionAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+			const patientAdmissionAdd = new ServerDataProcessorMessageModel();
+			patientAdmissionAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
 
-		// 	const admissionModel = new PatientAdmissionDatastoreModel();
-		// 	admissionModel.uuid = "PA003";
-		// 	admissionModel.patient_uuid = "PM003";
-		// 	admissionModel.patient_reg_no = "P12B12213";
-		// 	admissionModel.bed_no = "2A/666";
-		// 	admissionModel.status = "1";
-		// 	admissionModel.sp_uuid = "SP001";
-		// 	admissionModel.dr_incharge = 1;
-		// 	admissionModel.admitted_on = new Date;
-		// 	admissionModel.discharged_on = new Date;
-		// 	admissionModel.updated_on = new Date;
-		// 	admissionModel.sync_pending = 0;
-		// 	const serverDataStoreDataModelForAdmission = new ServerDataStoreDataModel();
-		// 	serverDataStoreDataModelForAdmission.datastore = SYNC_STORE.PATIENT_ADMISSION;
-		// 	serverDataStoreDataModelForAdmission.data = admissionModel;
+			const admissionModel = new PatientAdmissionDatastoreModel();
+			admissionModel.uuid = "PA003";
+			admissionModel.patient_reg_no = "P12B12223";
+			admissionModel.patient_uuid = "PM003";
+			admissionModel.bed_no = "2A/666";
+			// admissionModel.uuid = "PA013";
+			// admissionModel.patient_uuid = "PM013";
+			// admissionModel.patient_reg_no = "P12B12223";
+			// admissionModel.bed_no = "2A/888";
+			admissionModel.status = "1";
+			admissionModel.sp_uuid = "SP001";
+			admissionModel.dr_incharge = 1;
+			admissionModel.admitted_on = new Date;
+			admissionModel.discharged_on = new Date;
+			admissionModel.updated_on = new Date;
+			admissionModel.sync_pending = 0;
+			const serverDataStoreDataModelForAdmission = new ServerDataStoreDataModel();
+			serverDataStoreDataModelForAdmission.datastore = SYNC_STORE.PATIENT_ADMISSION;
+			serverDataStoreDataModelForAdmission.data = admissionModel;
 
-		// 	patientAdmissionAdd.data = [serverDataStoreDataModelForAdmission];
-		// 	this.workerService.postMessageToServerDataProcessorWorker(patientAdmissionAdd);
-		// }, 15000);
+			patientAdmissionAdd.data = [serverDataStoreDataModelForAdmission];
+			this.workerService.postMessageToServerDataProcessorWorker(patientAdmissionAdd);
+		}, 15000);
 	}
 
 	bindList() {
 		console.log('bindList');
-		this.listItems = new ObservableArray<PatientListViewModel>();;
-		if (this.searchValue !== "") {
+		this.listItems = new ObservableArray<PatientListViewModel>();
+		if (this.searchValue != "") {
 			this.listSource.forEach(item => {
 				if (item.dbmodel.fname.toLowerCase().indexOf(this.searchValue) !== -1 || item.dbmodel.lname.toLowerCase().indexOf(this.searchValue) !== -1 || item.dbmodel.bed_no.toLowerCase().indexOf(this.searchValue) !== -1 || item.dbmodel.sp_name.toLowerCase().indexOf(this.searchValue) !== -1) {
 					this.listItems.push(item);
@@ -132,8 +136,9 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		} else {
 			this.listSource.forEach(item => {
 				this.listItems.push(item);
-			});
 
+			});
+			console.log('this.listItems', this.listItems);
 		}
 		// if condition check key
 		// search
@@ -161,39 +166,28 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	}
 
 	onDataReceived(items: PatientListViewModel[]) {
-		// check if this item exists in listSource by admission_uuid
 
-		// if(exits)
-		//{
-		// delete from listSource
-		//}
-
-
-		items.forEach(item => {
-			const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid)[0];
+		this.ngZone.run(() => {
+			// check if this item exists in listSource by admission_uuid
+			console.log('on data received in home');
+			items.forEach(item => {
+				const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
+				if (existingItems.length > 0) {
 					const lenght = this.listSource.length;
-			console.log('listsoure lenght', lenght);
-			const index = this.listSource.indexOf(existingItems);
-			// console.log(' index', index);
-
-			if (existingItems) {
-				// console.log('this.listSource[index].dbmodel', this.listSource[index].dbmodel);
-				this.listSource[index].dbmodel = item.dbmodel;
-				console.log('received item data', item.dbmodel);
-				// console.log('admissionuuid', existingItems);
-				// remove existingItems[0]
-			}
-			// this.bindList();
-			// this.listSource.push(item);
-
-
-
+					console.log('listsoure lenght', lenght);
+					const index = this.listSource.indexOf(existingItems[0]);
+					console.log(' index', index);
+					this.listSource[index] = item;
+					console.log('received item data', item);
+				}
+				else {
+					console.log('else condition new item add', item);
+					this.listSource.push(item);
+				}
+			});
+			this.bindList();
 		});
-
-		// add item to listSource
-
-		// if searchvalue= ""
-		// add to listItems
+		
 	}
 
 	public sBLoaded(args) {

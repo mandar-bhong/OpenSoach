@@ -25,7 +25,7 @@
 
     <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
 
-    <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping"  enableCollapsibleGroups="true" >
+    <RadListView #myListView [items]="_patientListItems" [groupingFunction]="_funcGrouping"  enableCollapsibleGroups="true" >
 
       <ng-template tkListItemTemplate let-item="item">
         <RL:Ripple rippleColor="#6E737B" (tap)="details(item)">
