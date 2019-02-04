@@ -6,39 +6,25 @@ import { WorkerService } from "../worker.service";
 
 @Injectable()
 export class PatientListService {
-    patientlist: PatientListViewModel[];
+    // patientlist: PatientListViewModel[];
     patientlistviewmodel: PatientListViewModel;
     val1: any;
     public patientMasterSubscription: Subscription;
     public patientAdmissionSubscription: Subscription;
     patientListChangedSubject = new Subject<PatientListViewModel[]>();
 
-    patientmaster = [];
-    patientadmission = [];
     constructor(private database: DatabaseService,
         private workerService: WorkerService) {
         this.patientMasterSubscription = this.workerService.patientMasterDataReceivedSubject.subscribe((uuid) => {
-            this.getPatientListItemByMasterid(uuid);
+                this.getPatientListDataById(uuid, 'patientlistbymasteruuid');
         });
 
         this.patientAdmissionSubscription = this.workerService.patientAdmissionDataReceivedSubject.subscribe((uuid) => {
             console.log('subscriber invoked in patient list', uuid);
-            this.getPatientListItemByAdmissionid(uuid);
+                this.getPatientListDataById(uuid, 'patientlistbyadmissionuuid');
         });
     }
 
-    public getPatientListItemByMasterid(uuid: string) {
-        setTimeout(() => {
-            return this.getPatientListDataMasterById(uuid);
-        }, 4000)
-
-    }
-
-    public getPatientListItemByAdmissionid(uuid: string) {
-        setTimeout(() => {
-            return this.getPatientListDataAdmissionById(uuid);
-        }, 4000)
-    }
 
     public getData(): any {
 
@@ -57,64 +43,29 @@ export class PatientListService {
 
     }
 
-    public getPatientListDataMasterById(uuid: string): any {
+    public getPatientListDataById(uuid, key): any {
+        const paramList = new Array<any>();
+        let patientlist: PatientListViewModel[] = [];
 
-        return new Promise((resolve, reject) => {
+        paramList.push(uuid);
+        this.database.selectByID(key, paramList).then(
+            (val) => {
+                console.log("patient list by master item", val);
+                val.forEach(item => {
+                    // console.log("val master", val);
+                    const patientMasterListItem = new PatientListViewModel();
+                    patientMasterListItem.dbmodel = item;
+                    patientlist.push(patientMasterListItem);
+                    console.log(' this.patientmaster patient list service', patientlist);
+                });
+                this.patientListChangedSubject.next(patientlist);
 
-            const paramList = new Array<any>();
+            },
+            (error) => {
 
-            paramList.push(uuid);
-            this.database.selectByID("patientlistbymasteruuid", paramList).then(
-                (val) => {
-                    console.log("patient list by master item", val);
+            }
+        );
 
-                    val.forEach(item => {
-                        // console.log("val master", val);
-                        const patientMasterListItem = new PatientListViewModel();
-                        patientMasterListItem.dbmodel = item;
-                        this.patientmaster.push(patientMasterListItem);
-                        console.log(' this.patientmaster patient list service', this.patientmaster);
-                    });
-                    this.patientListChangedSubject.next(this.patientmaster);
-                    resolve(val);
-                },
-                (error) => {
-                    reject(error);
-                }
-            );
-
-        });
 
     }
-    public getPatientListDataAdmissionById(uuid: string): any {
-
-
-        return new Promise((resolve, reject) => {
-            const paramList = new Array<any>();
-
-            paramList.push(uuid);
-            this.database.selectByID("patientlistbyuuid", paramList).then(
-                (val) => {
-                    val.forEach(item => {
-                        // console.log("val Admission", val);
-                        const patientAdmissionListItem = new PatientListViewModel();
-                        patientAdmissionListItem.dbmodel = item;
-                        // console.log(' patient admission patient list service', patientAdmissionListItem.dbmodel);
-                        this.patientadmission.push(patientAdmissionListItem);
-                        console.log('all data', this.patientadmission);
-                    });
-
-                    this.patientListChangedSubject.next(this.patientadmission);
-                    resolve(val);
-                },
-                (error) => {
-                    console.log('error', error);
-                    reject(error);
-                }
-            );
-
-        });
-
-    }
-
 }
