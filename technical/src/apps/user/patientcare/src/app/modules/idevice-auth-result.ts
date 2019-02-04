@@ -1,5 +1,5 @@
 export interface IDeviceAuthResult {
-    onDeviceAuthSuccess();
+    onDeviceAuthSuccess(userid: number);
     onDeviceAuthError(error: any);
     onSubmitDiscarded();
 }
