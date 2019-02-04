@@ -101,7 +101,8 @@ export class MedicineChartComponent implements OnInit {
 
     // << func for navigating previous page
     goBackPage() {
-        this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
+        this.routerExtensions.back();
+      //  this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
     }
     // >> func for navigating previous page
 
