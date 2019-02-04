@@ -16,6 +16,7 @@ import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { WorkerService } from '~/app/services/worker.service';
+import { PassDataService } from '~/app/services/pass-data-service';
 
 @Component({
     moduleId: module.id,
@@ -52,6 +53,7 @@ export class MonitorChartComponent implements OnInit {
 
     constructor(
         private routerExtensions: RouterExtensions,
+        private passDataService: PassDataService,
         private datePipe: DatePipe,
         public workerService: WorkerService,
         private chartService: ChartService) {
@@ -197,19 +199,15 @@ export class MonitorChartComponent implements OnInit {
         this.chartConfModel.startDate = this.chartConfModel.startDate + " " + currentTime;
 
         let confString = JSON.stringify(this.chartConfModel);
-
         // set db model
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
-        this.chartDbModel.admission_uuid = "PA001";
+        this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.MONITOR;
-
         // insert chart db model to sqlite db       ;
         this.createActions(this.chartDbModel, confString);
-
         // get chart data from sqlite db
-        this.chartService.getChartList()
-
+        this.chartService.getChartList();
         this.goBackPage();
 
     }

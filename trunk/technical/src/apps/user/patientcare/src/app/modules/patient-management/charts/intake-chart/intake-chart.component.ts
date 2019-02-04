@@ -13,6 +13,7 @@ import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-pr
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { WorkerService } from '~/app/services/worker.service';
+import { PassDataService } from '~/app/services/pass-data-service';
 
 @Component({
     moduleId: module.id,
@@ -47,6 +48,7 @@ export class IntakeChartComponent implements OnInit {
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
         public workerService: WorkerService,
+        private passDataService: PassDataService,
         private chartservice: ChartService) {
 
         this.formData = new IntakeChartModel();
@@ -166,7 +168,7 @@ export class IntakeChartComponent implements OnInit {
 
         // set db model
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
-        this.chartDbModel.admission_uuid = "PA001";
+        this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.INTAKE;
 

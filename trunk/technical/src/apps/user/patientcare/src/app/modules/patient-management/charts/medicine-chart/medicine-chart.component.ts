@@ -14,6 +14,7 @@ import { SERVER_WORKER_MSG_TYPE, SYNC_STORE, ConfigCodeType } from '~/app/app-co
 import { WorkerService } from '~/app/services/worker.service';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { PassDataService } from '~/app/services/pass-data-service';
 
 @Component({
     moduleId: module.id,
@@ -50,6 +51,7 @@ export class MedicineChartComponent implements OnInit {
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
         public workerService: WorkerService,
+        private passDataService: PassDataService,
         private chartservice: ChartService) {
 
         this.freqMorn = true;
@@ -102,7 +104,7 @@ export class MedicineChartComponent implements OnInit {
     // << func for navigating previous page
     goBackPage() {
         this.routerExtensions.back();
-      //  this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
+        //  this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
     }
     // >> func for navigating previous page
 
@@ -311,7 +313,7 @@ export class MedicineChartComponent implements OnInit {
 
         let confString = JSON.stringify(this.chartConfModel);
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
-        this.chartDbModel.admission_uuid = "PA001";
+        this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.MEDICINE
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
