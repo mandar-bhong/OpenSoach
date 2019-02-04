@@ -2,7 +2,7 @@ var Sqlite = require("nativescript-sqlite");
 
 let selectQueries = new Map([
     ["patientlist", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid"],
-    ["patientlistbyuuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where padmsn.uuid=?"],
+    ["patientlistbyadmissionuuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where padmsn.uuid=?"],
     ["patientlistbymasteruuid", "select fname,lname,bed_no,mob_no,status,attended,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid where patient.uuid=?"],
     ["chartlist", "select * from schedule_tbl"],
     ["chartInsert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf) values ( ?, ?, ?, ?)"],
@@ -19,10 +19,13 @@ let selectQueries = new Map([
     ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,sync_pending) values ( ?, ?, ?, ?,?)"],
     ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, sync_pending) values ( ?, ?, ?, ?, ?, ?)"],
     ["action_tbl_delete", "DELETE FROM action_tbl"],
-    ["patient_master_tbl_update", "update patient_master_tbl set  patient_uuid=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=? where uuid=?"],
+    ["patient_master_tbl_update", "update patient_master_tbl set  patient_reg_no=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=? where uuid=?"],
     ["patient_admission_tbl_update", "update patient_admission_tbl set patient_uuid=?, patient_reg_no=?, bed_no=?, status=?, sp_uuid=?, dr_incharge=?, admitted_on=?, discharged_on=?, updated_on=?, sync_pending=? where uuid=?"],
-    ["action_txn_tbl_insert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,updated_on,runtime_config_data,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?)"]
-   
+    ["action_txn_tbl_insert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,updated_on,runtime_config_data,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?)"],
+    ["monitorTxnList", "select schedule.conf,txn.schedule_uuid,txn_data,txn_date  from action_txn_tbl as txn left join schedule_tbl as schedule on txn.schedule_uuid = schedule.uuid where schedule.conf_type_code = 'Monitor'"],
+    ["patient_master_tbl_insert", "insert into patient_master_tbl (uuid,patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_pending) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["patient_admission_tbl_insert", "insert into patient_admission_tbl (uuid, patient_uuid, patient_reg_no, bed_no, status, sp_uuid, dr_incharge, admitted_on, discharged_on, updated_on, sync_pending) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["userList", "select * from user_account_tbl"],
 ]);
 
 let selectTableName = new Map([
@@ -35,6 +38,7 @@ let selectTableName = new Map([
     ["patient_medical_details_tbl", "patient_medical_details_tbl"],
     ["action_txn_tbl", "action_txn_tbl"],
     ["action_tbl", "action_tbl"],
+    ["user_account_tbl", "user_account_tbl"],
 ]);
 
 
@@ -153,7 +157,7 @@ export class DatabaseHelper {
         return new Promise((resolve, reject) => {
 
 
-             console.log("dataList in DataStoreInsertUpdate", dataList);
+            console.log("dataList in DataStoreInsertUpdate", dataList);
             var updateDatalist = dataList.slice(0);
             updateDatalist = updateDatalist.concat(updateDatalist.splice(0, 1));
 

@@ -32,6 +32,7 @@ import { ActionService } from "~/app/services/action/action.service";
 import { ShowCameraImageComponent } from "./reports/section-one/show-camera-image/show-camera-image.component";
 import { ShowUploadedImageComponent } from "./reports/section-one/show-uploaded-image/show-uploaded-image.component";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular"; 
+import { MonitorService } from "~/app/services/monitor/monitor.service";
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autoco
     providers:[
         DatePipe,
         ChartService,
-        ActionService
+        ActionService,
+        MonitorService
     ]
 })
 export class PatientMgntModule {
