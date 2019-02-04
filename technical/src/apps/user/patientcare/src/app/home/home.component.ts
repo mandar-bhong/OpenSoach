@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		// 	const masterModel = new PatientMasterDatastoreModel();
 		// 	masterModel.uuid = "PM003";
 		// 	masterModel.patient_reg_no = "P12B12223";
-		// 	masterModel.fname = "Shubhamshubham",
+		// 	masterModel.fname = "xyz",
 		// 		masterModel.lname = "Lunia",
 		// 		masterModel.mob_no = "9832345333",
 		// 		masterModel.age = "28";
@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		// 	// admissionModel.patient_reg_no = "P12B12223";
 		// 	// admissionModel.bed_no = "2A/888";
 		// 	admissionModel.status = "1";
-		// 	admissionModel.sp_uuid = "SP001";
+		// 	admissionModel.sp_uuid = "SP002";
 		// 	admissionModel.dr_incharge = 1;
 		// 	admissionModel.admitted_on = new Date;
 		// 	admissionModel.discharged_on = new Date;
@@ -174,20 +174,26 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 				const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
 				if (existingItems.length > 0) {
 					const lenght = this.listSource.length;
-					console.log('listsoure lenght', lenght);
+					// console.log('listsoure lenght', lenght);
 					const index = this.listSource.indexOf(existingItems[0]);
 					console.log(' index', index);
-					this.listSource[index] = item;
-					console.log('received item data', item);
+					this.listSource[index].dbmodel = item.dbmodel;
+					// console.log('received item data', item);
 				}
 				else {
-					console.log('else condition new item add', item);
+					// console.log('else condition new item add', item);
 					this.listSource.push(item);
+					if (this.searchValue == "")
+					{
+					this.listItems.push(item);
+					}
 				}
 			});
-			this.bindList();
+			if (this.searchValue != "") {
+				this.bindList();
+			}
 		});
-		
+
 	}
 
 	public sBLoaded(args) {
