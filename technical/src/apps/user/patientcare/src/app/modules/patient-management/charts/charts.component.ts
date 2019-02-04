@@ -13,7 +13,7 @@ import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-dat
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
-import { SYNC_STORE, SERVER_WORKER_MSG_TYPE } from '~/app/app-constants';
+import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-constants';
 
 @Component({
 	moduleId: module.id,
@@ -216,7 +216,7 @@ export class ChartsComponent implements OnInit {
 		serverDataStoreModel.data.uuid = 'cb86aeee-c21b-475e-ab68-1335f97c9b9b'
 		serverDataStoreModel.data.sync_pending = 1
 		serverDataStoreModel.data.admission_uuid = "11";
-		serverDataStoreModel.data.conf_type_code = 'Medicine';
+		serverDataStoreModel.data.conf_type_code = ConfigCodeType.MEDICINE
 		serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla ks","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
 		console.log('created data', serverDataStoreModel.data)
 		initModel.data = [serverDataStoreModel];

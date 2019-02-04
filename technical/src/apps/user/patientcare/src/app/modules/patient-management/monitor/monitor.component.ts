@@ -4,6 +4,7 @@ import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
 import { MonitorHelper } from '~/app/helpers/actions/monitor-helper';
 import { IntakeHelper } from '~/app/helpers/actions/intake-helper';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { ConfigCodeType } from '~/app/app-constants';
 
 @Component({
     moduleId: module.id,
@@ -92,7 +93,7 @@ export class MonitorComponent implements OnInit {
         const scheduleDatastoreModel = new ScheduleDatastoreModel();
         scheduleDatastoreModel.uuid = '12';
         scheduleDatastoreModel.admission_uuid = '2';
-        scheduleDatastoreModel.conf_type_code = "Medicine";
+        scheduleDatastoreModel.conf_type_code = ConfigCodeType.MEDICINE;
         scheduleDatastoreModel.conf = '';
         this.schedulardata.conf = new SchedularConfigData();
         this.schedulardata.conf.mornFreqInfo = new MornFreqInfo();
