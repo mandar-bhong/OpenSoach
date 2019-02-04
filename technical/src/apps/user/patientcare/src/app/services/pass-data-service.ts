@@ -31,6 +31,9 @@ export class PassDataService {
         this.patientName = this.selectedPatient.dbmodel.bed_no + ', ' + this.selectedPatient.dbmodel.fname + ' ' + this.selectedPatient.dbmodel.lname;
         return this.patientName;
     }
+    getAdmissionID() {
+        return this.patientListViewModel.dbmodel.admission_uuid;
+    }
     // fucntion for create actions
     createActions(actions: boolean) {
         this.createActionsSubject.next(actions);
