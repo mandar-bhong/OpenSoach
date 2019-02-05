@@ -11,7 +11,8 @@ export class PatientMasterDatastoreModel implements IDatastoreModel {
     gender: string;
     updated_on: Date;
     sync_pending: number;
+    sync_pending_time: Date;
     getModelValues(): any[] {
-        return [this.uuid, this.patient_reg_no, this.fname, this.lname, this.mob_no, this.age, this.blood_grp, this.gender, this.updated_on, this.sync_pending];
+        return [this.uuid, this.patient_reg_no, this.fname, this.lname, this.mob_no, this.age, this.blood_grp, this.gender, this.updated_on, this.sync_pending,this.sync_pending_time];
     }
 }
