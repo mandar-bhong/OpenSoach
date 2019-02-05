@@ -12,8 +12,10 @@ export class PatientAdmissionDatastoreModel implements IDatastoreModel {
     discharged_on: Date;
     updated_on: Date;
     sync_pending: number;
+    sync_pending_time: Date;
     getModelValues(): any[] {
         return [this.uuid, this.patient_uuid, this.patient_reg_no, this.bed_no, this.status, this.sp_uuid,
-        this.dr_incharge, this.admitted_on, this.discharged_on, this.updated_on, this.sync_pending];
+        this.dr_incharge, this.admitted_on, this.discharged_on, this.updated_on, this.sync_pending, this.sync_pending_time,
+        this.sync_pending_time];
     }
 }

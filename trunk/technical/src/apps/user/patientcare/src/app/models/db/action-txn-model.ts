@@ -11,9 +11,10 @@ export class ActionTxnDatastoreModel implements IDatastoreModel {
     runtime_config_data: string;
     updated_on: Date;
     sync_pending: number;
+    sync_pending_time: Date;
     getModelValues(): any[] {
          return [this.uuid, this.admission_uuid, this.schedule_uuid, this.txn_data, this.txn_date, this.txn_state, this.conf_type_code,
-        this.updated_on,this.runtime_config_data, this.sync_pending];        
+        this.updated_on,this.runtime_config_data, this.sync_pending,this.sync_pending_time];        
     }
 }
 
