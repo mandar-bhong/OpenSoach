@@ -29,7 +29,6 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                     console.log('intake invoked');
                     const intakehelper = new IntakeHelper();
                     actiondata = <ActionsData>intakehelper.createIntakeActions(schedulardata);
-
                     break;
                 case ConfigCodeType.MONITOR:
                     console.log('monitor invoked');
@@ -42,8 +41,7 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
             }
             try {
                 parsedConf.endDate = actiondata.enddate;
-                msg.enddate = actiondata.enddate;
-                msg.conf = JSON.stringify(parsedConf);
+                msg.end_date = actiondata.enddate;             
                 actiondata.actions.forEach(element => {
                     const actionsdbdata = new ActionDataStoreModel();
                     Object.assign(actionsdbdata, element);
