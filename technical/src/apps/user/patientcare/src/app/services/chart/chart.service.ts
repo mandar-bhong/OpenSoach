@@ -12,7 +12,7 @@ export class ChartService {
     public getChartList(): any {
         return new Promise((resolve, reject) => {
             this.database.selectAll("chartlist").then(
-                (val) => {              
+                (val) => {
                     resolve(val);
                 },
                 (error) => {
@@ -25,7 +25,10 @@ export class ChartService {
     }
     public getScheduleList(key: string): any {
         return new Promise((resolve, reject) => {
-            this.database.selectAll(key).then(
+            const paramList = new Array<any>();
+            paramList.push(new Date());
+            console.log('param list', paramList);
+            this.database.selectByID(key, paramList).then(
                 (val) => {
                     console.log("chart data", val);
                     resolve(val);

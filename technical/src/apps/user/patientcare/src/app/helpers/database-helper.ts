@@ -10,15 +10,15 @@ let selectQueries = new Map([
     ["actionList", "select * from action_tbl"],
     ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status) values ( ?, ?, ?, ?, ?, ?)"],
     ["chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
-    ["getScheduleListActive", "select * from schedule_tbl where enddate >= datetime('now');"],
-    ["getScheduleListComplated", "select * from schedule_tbl where enddate < datetime('now');"],
+    ["getScheduleListActive", "select * from schedule_tbl where end_date >= ?"],
+    ["getScheduleListComplated", "select * from schedule_tbl where end_date < ?"],
     ["servicePointList", "select * from service_point_tbl"],
     ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code, updated_on,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?, ?,?)"],
     ["syncList", "select * from sync_tbl"],
     ["actionTxnList", "select * from action_txn_tbl"],
     ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?)"],
     ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_on=?,sync_pending=? where uuid=?"],
-    ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,enddate,sync_pending,sync_pending_time) values ( ?, ?, ?, ?,?,?,?)"],
+    ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,end_date,sync_pending,sync_pending_time) values ( ?, ?, ?, ?,?,?,?)"],
     ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, sync_pending,sync_pending_time) values ( ?, ?, ?, ?, ?, ?, ?)"],
     ["action_tbl_delete", "DELETE FROM action_tbl"],
     ["patient_master_tbl_update", "update patient_master_tbl set  patient_reg_no=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=?, sync_pending_time=? where uuid=?"],
@@ -75,8 +75,7 @@ export class DatabaseHelper {
 
             if (selectQueries.has(key) == true) {
                 query = selectQueries.get(key);
-            };
-            console.log('query', query);
+            };          
             this.getdbConn()
                 .then(db => {
 
@@ -131,7 +130,7 @@ export class DatabaseHelper {
             var query: string;
             if (selectQueries.has(key) == true) {
                 query = selectQueries.get(key);
-            };
+            };          
             this.getdbConn()
                 .then(db => {
                     db.resultType(Sqlite.RESULTSASOBJECT);
