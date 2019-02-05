@@ -13,7 +13,7 @@ export class DatabaseSchemaService {
         "CREATE TABLE IF NOT EXISTS patient_admission_tbl (uuid TEXT, patient_uuid TEXT, patient_reg_no TEXT, bed_no TEXT, status INTEGER, attended DATETIME, sp_uuid INTEGER, dr_incharge INTEGER, admitted_on DATETIME, discharged_on DATETIME, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS patient_personal_details_tbl (patient_uuid TEXT, admission_uuid INTEGER, uuid TEXT, age TEXT, weight TEXT, other_details TEXT, updated_on DATETIME, sync_pending INTEGER , sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS patient_medical_details_tbl (patient_uuid TEXT, admission_uuid INTEGER, uuid TEXT, reason_for_admission TEXT, patient_medical_hist TEXT, treatment_recieved_before TEXT, family_hist TEXT, menstrual_hist TEXT, allergies TEXT, personal_hist TEXT, general_physical_exam TEXT, systematic_exam TEXT, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
-        "CREATE TABLE IF NOT EXISTS schedule_tbl (admission_uuid TEXT, uuid TEXT, conf_type_code TEXT, conf TEXT, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
+        "CREATE TABLE IF NOT EXISTS schedule_tbl (admission_uuid TEXT, uuid TEXT, conf_type_code TEXT, conf TEXT,enddate DATETIME, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS conf_tbl (uuid TEXT,conf_type_code TEXT, conf TEXT, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS action_tbl (uuid TEXT,admission_uuid TEXT, conf_type_code TEXT, schedule_uuid TEXT, exec_time INTEGER, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS action_txn_tbl (uuid TEXT,admission_uuid TEXT,schedule_uuid TEXT,txn_data TEXT,txn_date DATETIME, txn_state INTEGER, conf_type_code TEXT, runtime_config_data TEXT, updated_on DATETIME, sync_pending INTEGER, status INTEGER, sync_pending_time DATETIME)",
@@ -61,38 +61,38 @@ export class DatabaseSchemaService {
         "INSERT INTO patient_admission_tbl (uuid , patient_uuid , patient_reg_no , bed_no , status , attended, sp_uuid , dr_incharge , admitted_on , discharged_on , updated_on , sync_pending) VALUES ('PA012', 'PM012', 'P12B12213', '2B/232', '1', '2018-12-04 19:33:53', 'SP003', '1', '2018-12-04 14:37:53', '', '2018-12-04 14:37:53' , 0)",
 
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC001','Medicine' ,'{"name":"Sinarest","desc":"3 times a day after meal"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC001','Medicine' ,'{"name":"Sinarest","desc":"3 times a day after meal"}' ,'2019-02-07T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC002','Medicine' ,'{"name":"Aspirin","desc":"Incase of high body temperature"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC002','Medicine' ,'{"name":"Aspirin","desc":"Incase of high body temperature"}' ,'2019-02-07T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC003','Medicine' ,'{"name":"Zofran","desc":"Incase of continuos vomitting and nausea"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC003','Medicine' ,'{"name":"Zofran","desc":"Incase of continuos vomitting and nausea"}' ,'2019-02-01T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC004','Intake' ,'{"name":"Saline","desc":"200ml"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC004','Intake' ,'{"name":"Saline","desc":"200ml"}' ,'2017-01-02T06:00:00.000Z', '2019-02-03 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC005','Output' ,'{"name":"Output","desc":"200ml"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC005','Output' ,'{"name":"Output","desc":"200ml"}' ,'2019-02-04 19:37:53', '2019-02-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC006','Monitor' ,'{"name":"Temperature","desc":"Monitor every 2 hours"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC006','Monitor' ,'{"name":"Temperature","desc":"Monitor every 2 hours"}' ,'2019-01-04T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC007','Monitor' ,'{"name":"Blood pressure","desc":"Monitor every 3 hours"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC007','Monitor' ,'{"name":"Blood pressure","desc":"Monitor every 3 hours"}' ,'2019-03-07T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC008','Monitor' ,'{"name":"Blood pressure","desc":"Monitor every 3 hours"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC008','Monitor' ,'{"name":"Blood pressure","desc":"Monitor every 3 hours"}' ,'2019-02-07T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC009','Monitor' ,'{"name":"Pulse Rate","desc":"Monitor every 15 mins"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC009','Monitor' ,'{"name":"Pulse Rate","desc":"Monitor every 15 mins"}' ,'2019-02-07T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC010','Monitor' ,'{"name":"Respiration Rate","desc":"Monitor every 30 mins"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC010','Monitor' ,'{"name":"Respiration Rate","desc":"Monitor every 30 mins"}' ,'2019-02-07T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
-        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf , updated_on , sync_pending) 
-            VALUES ('PA001', 'PC011','Medicine' ,'{"name":"Acetaminophen","desc":"3 times a day after meal"}' , '2018-12-04 14:37:53' , 0)`,
+        `INSERT INTO schedule_tbl (admission_uuid, uuid , conf_type_code , conf ,enddate, updated_on , sync_pending) 
+            VALUES ('PA001', 'PC011','Medicine' ,'{"name":"Acetaminophen","desc":"3 times a day after meal"}' ,'2019-02-07T06:00:00.000Z', '2018-12-04 14:37:53' , 0)`,
 
         `INSERT INTO conf_tbl (uuid, conf_type_code , conf , updated_on , sync_pending) 
             VALUES ('C0001', 'Monitor' ,'{"tasks":[{"name":"Temperature"},{"name":"Blood Pressure"},{"name":"Pulse Rate"},{"name":"Respiration Rate"}]}' , '2018-12-04 14:37:53' , 0)`,

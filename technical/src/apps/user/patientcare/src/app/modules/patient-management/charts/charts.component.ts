@@ -14,6 +14,7 @@ import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-constants';
+import { Switch } from 'tns-core-modules/ui/switch/switch';
 
 @Component({
 	moduleId: module.id,
@@ -24,8 +25,8 @@ import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-co
 
 export class ChartsComponent implements OnInit {
 
-	private chartListItems = new ObservableArray<ChartListViewModel>();
-
+	chartListItems: ObservableArray<ChartListViewModel>;
+	//chartListItemsSource = new ObservableArray<ChartListViewModel>();
 	// >> seleced bottom button change color
 	monitorbuttonClicked: boolean = false;
 	intakebuttonClicked: boolean = true;
@@ -42,6 +43,8 @@ export class ChartsComponent implements OnInit {
 	public _funcGrouping: (item: ChartListViewModel) => ChartListViewModel;
 
 	dialogOpen = false;
+	completeorpending: string;
+	iscompleted: boolean;
 	constructor(private chartService: ChartService,
 		public workerservice: WorkerService,
 		private routerExtensions: RouterExtensions) {
@@ -55,12 +58,12 @@ export class ChartsComponent implements OnInit {
 
 	ngOnInit() {
 		console.log('on ng init executed');
-		this.getChartData();
+		this.getChartData('getScheduleListActive');
 		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
 			//	console.log('notified to schedule list page ', value);
 			this.pushAddedSchedule(value);
 		});
-
+		this.completeorpending = "Active Schedules";
 	}
 	showDialog() {
 		this.dialogOpen = true;
@@ -146,9 +149,10 @@ export class ChartsComponent implements OnInit {
 		return this.chartListItems;
 	}
 
-	public getChartData() {
+	public getChartData(key: string) {
 		console.log('getChartData')
-		this.chartService.getChartList().then(
+		this.chartListItems = new ObservableArray<ChartListViewModel>();
+		this.chartService.getScheduleList(key).then(
 			(val) => {
 				val.forEach(item => {
 					console.log(item);
@@ -156,8 +160,7 @@ export class ChartsComponent implements OnInit {
 					chartListItem.dbmodel = item;
 					chartListItem.dbmodel.conf = JSON.parse(item.conf);
 					this.chartListItems.push(chartListItem);
-				});
-				console.log('this.chartListItems', this.chartListItems);
+				});				
 				this.getGroupIndex();
 			},
 			(error) => {
@@ -228,4 +231,17 @@ export class ChartsComponent implements OnInit {
 
 	}
 
-}
+	public onListSorting(args) {
+		let firstSwitch = <Switch>args.object;
+		if (firstSwitch.checked) {
+			this.completeorpending = "Completed Schedules";
+			this.iscompleted = true;
+			this.getChartData('getScheduleListComplated');		
+		} else {
+			this.completeorpending = "Active Schedules";
+			this.iscompleted = false;
+			this.getChartData('getScheduleListActive');
+			
+		}
+	}
+} 

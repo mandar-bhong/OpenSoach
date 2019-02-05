@@ -207,7 +207,7 @@ export class MonitorChartComponent implements OnInit {
         // insert chart db model to sqlite db       ;
         this.createActions(this.chartDbModel, confString);
         // get chart data from sqlite db
-        this.chartService.getChartList();
+       // this.chartService.getChartList();
         this.goBackPage();
 
     }

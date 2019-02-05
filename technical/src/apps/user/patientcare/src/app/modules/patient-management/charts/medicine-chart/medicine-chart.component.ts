@@ -317,13 +317,9 @@ export class MedicineChartComponent implements OnInit {
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.MEDICINE
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
-
-
         // get chart data from sqlite db
-        this.chartservice.getChartList();
-
+         // this.chartservice.getChartList();
         this.goBackPage();
-
     }
     // >> func for inserting form data to sqlite db
 

@@ -12,6 +12,20 @@ export class ChartService {
     public getChartList(): any {
         return new Promise((resolve, reject) => {
             this.database.selectAll("chartlist").then(
+                (val) => {              
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+
+    }
+    public getScheduleList(key: string): any {
+        return new Promise((resolve, reject) => {
+            this.database.selectAll(key).then(
                 (val) => {
                     console.log("chart data", val);
                     resolve(val);
@@ -24,6 +38,7 @@ export class ChartService {
         });
 
     }
+
 
 
     public insertChartItem(data: ChartDBModel) {

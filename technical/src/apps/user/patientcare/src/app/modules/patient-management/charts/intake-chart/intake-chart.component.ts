@@ -175,7 +175,7 @@ export class IntakeChartComponent implements OnInit {
         // insert chart db model to sqlite db       
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString);
         // get chart data from sqlite db
-        this.chartservice.getChartList()
+      // this.chartservice.getChartList()
 
         this.goBackPage();
 

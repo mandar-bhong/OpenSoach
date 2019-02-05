@@ -1,14 +1,21 @@
-<GridLayout rows="*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
-
-    <GridLayout rows="*" columns="*,auto" height="100%" width="100%" class="content">
+<GridLayout rows="auto,*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
+    <GridLayout row="0" rows="auto auto" columns="* *" class="m-5">
+        <Label class="h3 m-15" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
+        <Switch class="m-15" checked="false" (checkedChange)="onListSorting($event)" row="0" col="1"></Switch>
+    </GridLayout>
+    <GridLayout row="1" rows="*" columns="*,auto" height="100%" width="100%" class="content">
         <RadListView #myListView [items]="_listItems" (loaded)="listLoaded()" [groupingFunction]="_funcGrouping"
             colSpan="2">
             <ng-template tkListItemTemplate let-item="item">
                 <GridLayout row="0" columns="70, *" rows="auto, auto " class="listItemStackLayout">
                     <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                         [text]="item.dbmodel.status">
-                        <StackLayout row="1" class="list-layout">
+                        <StackLayout row="1" class="list-layout" *ngIf="!iscompleted">
                             <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
+                            <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
+                        </StackLayout>
+                        <StackLayout row="1" class="list-layout" *ngIf="iscompleted">
+                            <Label row="0" col="0" text="&#xf021;" class="mdi list-text"></Label>
                             <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
                         </StackLayout>
 

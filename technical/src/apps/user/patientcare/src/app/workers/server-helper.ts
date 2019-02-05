@@ -571,7 +571,7 @@ export class ServerHelper {
             patientMedicalDetailsDatastoreModel.family_hist = item.family_hist;
             patientMedicalDetailsDatastoreModel.menstrual_hist = item.menstrual_hist;
             patientMedicalDetailsDatastoreModel.allergies = item.allergies;
-            patientMedicalDetailsDatastoreModel.personal_hist = item.personal_hist;
+            patientMedicalDetailsDatastoreModel.personal_history = item.personal_history;
             patientMedicalDetailsDatastoreModel.general_physical_exam = item.general_physical_exam;
             patientMedicalDetailsDatastoreModel.systematic_exam = item.systematic_exam;
             patientMedicalDetailsDatastoreModel.updated_on = item.updated_on;
