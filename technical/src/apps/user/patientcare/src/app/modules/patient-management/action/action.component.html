@@ -1,7 +1,7 @@
-<GridLayout rows="auto,*" columns="*" height="100%" width="100%">
+<GridLayout rows="auto,*" columns="*" height="100%" width="100%" *ngIf="login">
     <GridLayout row="0" *ngIf="saveViewOpen" columns="20,*,90, 30">
         <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
-        <Button col="2" text="Save" (tap)="save()" class="btn btn-primary"></Button>
+        <Button col="2" text="Save" (tap)="savemove()" class="btn btn-primary"></Button>
     </GridLayout>
     <GridLayout row="1" rows="*" columns="*,auto" height="100%" width="100%">
         <RadListView #myListView [items]="tempList" [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)"
@@ -72,17 +72,17 @@
                             <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
                         </GridLayout>
                     </GridLayout>
-                    <GridLayout row="1" col="0" columns="auto, auto" rows="auto" *ngIf="item.conf_type_code !== 'Medicine'">
+                    <GridLayout row="1" col="0" columns="auto, auto" rows="auto" >
                         <StackLayout class="cardeffect">
                             <GridLayout columns="*, auto" rows="auto, auto">
-                                <GridLayout col="0" columns="20,auto" rows="auto" style=" vertical-align: center; margin-top:3px;">
+                                <GridLayout col="0" columns="20,auto" rows="auto" style=" vertical-align: center; margin-top:3px;" >
                                     <StackLayout col="1" style="width:50%;">
                                         <TextField hint="Comment" [(ngModel)]="actiondata.comment" keyboardType="email"
                                             autocorrect="false" class="input input-border">
                                         </TextField>
                                     </StackLayout>
                                 </GridLayout>
-                                <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;">
+                                <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;" *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake'">
                                     <StackLayout col="1" style="width:50%;">
                                         <StackLayout class="input-field">
                                             <TextField hint="Value" keyboardType="number" autocorrect="false"
@@ -93,7 +93,7 @@
                             </GridLayout>
                         </StackLayout>
                     </GridLayout>
-                    <GridLayout row="3" col="0" *ngIf="item.conf_type_code !== 'Medicine'">
+                    <GridLayout row="3" col="0" >
                         <StackLayout class="hr-light m-10"></StackLayout>
                     </GridLayout>
                 </GridLayout>
@@ -123,4 +123,8 @@
             </RL:Ripple>
         </StackLayout>
     </GridLayout>
+</GridLayout>
+
+<GridLayout *ngIf="!login"  rows="*" columns="*" height="100%" width="100%" style="background-color:#396766; justify-content: center;align-items: center;">
+    <user_auth></user_auth>
 </GridLayout>

@@ -1,73 +1,73 @@
 import { Injectable, Version } from "@angular/core";
 import { DatabaseService } from "../../services/offline-store/database.service";
-import  { ActionDBModel, ActionTxnDBModel } from "~/app/models/ui/action-models";
+import { ActionDBModel, ActionTxnDBModel } from "~/app/models/ui/action-models";
 import { ActionDataStoreModel } from "~/app/models/db/action-datastore";
 
 @Injectable()
 export class ActionService {
 
     constructor(private database: DatabaseService) {
-        
+
     }
 
-    public getActionList() :any {
+    public getActionList(): any {
 
         return new Promise((resolve, reject) => {
 
             this.database.selectAll("actionList").then(
-                (val)=> {
+                (val) => {
                     // console.log("action data",val);                  
-                    resolve(val);          
+                    resolve(val);
                 },
-                (error)=>{
+                (error) => {
                     reject(error);
                 }
-            );      
+            );
 
         });
 
     }
 
-    public getActionTxnList() :any {
+    public getActionTxnList(): any {
 
         return new Promise((resolve, reject) => {
 
             this.database.selectAll("actionTxnList").then(
-                (val)=> {
-                    console.log("action data service",val);                  
-                    resolve(val);          
+                (val) => {
+                    console.log("action data service", val);
+                    resolve(val);
                 },
-                (error)=>{
+                (error) => {
                     reject(error);
                 }
-            );      
+            );
 
         });
 
     }
-    
+
 
     public insertActionItem(data: ActionDataStoreModel) {
 
         return new Promise((resolve, reject) => {
-        const listData = new Array<any>();
+            const listData = new Array<any>();
 
-        listData.push(data.uuid);
-        listData.push(data.admission_uuid);
-        listData.push(data.conf_type_code);
-        listData.push(data.schedule_uuid);
-        listData.push(data.exec_time);
-        listData.push(data.sync_pending);
+            listData.push(data.uuid);
+            listData.push(data.admission_uuid);
+            listData.push(data.conf_type_code);
+            listData.push(data.schedule_uuid);
+            listData.push(data.exec_time);
+            listData.push(data.sync_pending);
 
-        this.database.update("actionInsert",listData).then(
-        (val)=> {
-            // console.log("chart data",val);                  
-            resolve(val);          
-        },
-        (error)=>{
-            reject(error);
-        }
-        ); 
+            this.database.update("actionInsert", listData).then(
+                (val) => {
+                    // console.log("chart data",val);                  
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
 
         });
     }
@@ -76,29 +76,46 @@ export class ActionService {
 
         return new Promise((resolve, reject) => {
 
-        const listData = new Array<any>();
+            const listData = new Array<any>();
 
-        listData.push(data.uuid);
-        listData.push(data.admission_uuid);
-        listData.push(data.schedule_uuid);
-        listData.push(data.txn_data);
-        listData.push(data.txn_date);
-        listData.push(data.txn_state);
-        listData.push(data.conf_type_code);
-        listData.push(data.runtime_config_data);
-        listData.push(data.status);
+            listData.push(data.uuid);
+            listData.push(data.admission_uuid);
+            listData.push(data.schedule_uuid);
+            listData.push(data.txn_data);
+            listData.push(data.txn_date);
+            listData.push(data.txn_state);
+            listData.push(data.conf_type_code);
+            listData.push(data.runtime_config_data);
+            listData.push(data.status);
 
-        this.database.update("actionTxnInsert",listData).then(
-        (val)=> {
-            // console.log("chart data",val);                  
-            resolve(val);          
-        },
-        (error)=>{
-            reject(error);
-        }
-        ); 
+            this.database.update("actionTxnInsert", listData).then(
+                (val) => {
+                    // console.log("chart data",val);                  
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
 
         });
     }
 
+    public getUserAccountList(): any {
+
+        return new Promise((resolve, reject) => {
+
+            this.database.selectAll("userList").then(
+                (val) => {
+                    // console.log("User Account List", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+
+    }
 }

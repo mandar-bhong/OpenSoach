@@ -15,7 +15,7 @@ export class DatabaseSchemaService {
         "CREATE TABLE IF NOT EXISTS patient_medical_details_tbl (patient_uuid TEXT, admission_uuid INTEGER, uuid TEXT, reason_for_admission TEXT, patient_medical_hist TEXT, treatment_recieved_before TEXT, family_hist TEXT, menstrual_hist TEXT, allergies TEXT, personal_hist TEXT, general_physical_exam TEXT, systematic_exam TEXT, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS schedule_tbl (admission_uuid TEXT, uuid TEXT, conf_type_code TEXT, conf TEXT,enddate DATETIME, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS conf_tbl (uuid TEXT,conf_type_code TEXT, conf TEXT, updated_on DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
-        "CREATE TABLE IF NOT EXISTS action_tbl (uuid TEXT,admission_uuid TEXT, conf_type_code TEXT, schedule_uuid TEXT, exec_time INTEGER, sync_pending INTEGER, sync_pending_time DATETIME)",
+        "CREATE TABLE IF NOT EXISTS action_tbl (uuid TEXT,admission_uuid TEXT, conf_type_code TEXT, schedule_uuid TEXT, exec_time DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS action_txn_tbl (uuid TEXT,admission_uuid TEXT,schedule_uuid TEXT,txn_data TEXT,txn_date DATETIME, txn_state INTEGER, conf_type_code TEXT, runtime_config_data TEXT, updated_on DATETIME, sync_pending INTEGER, status INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS service_point_tbl (uuid TEXT, sp_name TEXT, short_desc TEXT, sp_state INTEGER, sp_state_since DATETIME, updated_on DATETIME, sync_pending INTEGER , sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS user_account_tbl (id TEXT, user_fname TEXT, user_lname TEXT, email TEXT, pin TEXT)"
@@ -102,28 +102,28 @@ export class DatabaseSchemaService {
         `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_pending ) values ('SP003', "General Ward 3","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
 
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  1548218525 ,0)`,
+            VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  '2018-12-04 10:12:53' ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A002', 'PA002' ,'Medicine' ,'PC001', 1548218525  ,0)`,
+            VALUES ('A002', 'PA002' ,'Medicine' ,'PC001', '2018-12-04 16:10:53'  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A003', 'PA003' ,'Medicine' ,'PC001',   1548240000  ,0)`,
+            VALUES ('A003', 'PA003' ,'Medicine' ,'PC001',   '2018-12-04 16:10:53'  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A004', 'PA004' ,'Medicine' ,'PC001', 1548240000 ,0)`,
+            VALUES ('A004', 'PA004' ,'Medicine' ,'PC001', '2018-12-04 17:00:53' ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A005', 'PA005' ,'Intake' ,'PC001',  1548243000  ,0)`,
+            VALUES ('A005', 'PA005' ,'Intake' ,'PC001',  '2018-12-04 17:00:53'  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A006', 'PA006' ,'Monitor' ,'PC001', 1548243000 ,0)`,
+            VALUES ('A006', 'PA006' ,'Monitor' ,'PC001', '2018-12-04 18:17:53' ,0)`,
 
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A007', 'PA007' ,'Output' ,'PC001',   1548243000  ,0)`,
+            VALUES ('A007', 'PA007' ,'Output' ,'PC001',   '2018-12-04 18:25:53'  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A008', 'PA008' ,'Medicine' ,'PC001', 1548243000 ,0)`,
+            VALUES ('A008', 'PA008' ,'Medicine' ,'PC001', '2018-12-04 19:10:53' ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A009', 'PA009' ,'Intake' ,'PC001',   1548241200  ,0)`,
+            VALUES ('A009', 'PA009' ,'Intake' ,'PC001',   '2018-12-04 16:30:53'  ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A010', 'PA010' ,'Monitor' ,'PC001', 1548241200 ,0)`,
+            VALUES ('A010', 'PA010' ,'Monitor' ,'PC001', '2018-12-04 16:30:53' ,0)`,
         `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-            VALUES ('A011', 'PA011' ,'Output' ,'PC001',  1548218525  ,0)`,
+            VALUES ('A011', 'PA011' ,'Output' ,'PC001',  '2018-12-04 10:12:53'  ,0)`,
 
 
 
@@ -196,6 +196,16 @@ export class DatabaseSchemaService {
             VALUES ('U004', 'Sumeet' ,'Karnde', 'sumeet.karnde@gmail.com', '4444')`,
         `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
             VALUES ('U005', 'Chandan' ,'Pal', 'chandan.pal@gmail.com', '5555')`,
+        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin ) 
+            VALUES ('U001', 'Mandar' ,'Bhong', 'Mayuri.Jain@gmail.com', '6666')`,
+        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+            VALUES ('U002', 'Pooja' ,'Lokare', 'Pooja.Lokare@gmail.com', '7777')`,
+        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+            VALUES ('U003', 'Mayuri' ,'Jain', 'Mayuri.Jain@gmail.com', '8888')`,
+        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+            VALUES ('U004', 'Shashank' ,'Atre', 'Shashank.Atre@gmail.com', '9999')`,
+        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+            VALUES ('U005', 'Tejal' ,'Deshmukh', 'Tejal.Deshmukh@gmail.com', '1010')`,
 
     ]
 

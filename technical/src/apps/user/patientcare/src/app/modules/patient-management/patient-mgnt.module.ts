@@ -33,6 +33,7 @@ import { ShowCameraImageComponent } from "./reports/section-one/show-camera-imag
 import { ShowUploadedImageComponent } from "./reports/section-one/show-uploaded-image/show-uploaded-image.component";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular"; 
 import { MonitorService } from "~/app/services/monitor/monitor.service";
+import { UserAuthComponent } from "./user_auth/user_auth.component";
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { MonitorService } from "~/app/services/monitor/monitor.service";
         SectionOneComponent,
         PatientActionBarComponent,
         ShowCameraImageComponent,
-        ShowUploadedImageComponent
+        ShowUploadedImageComponent,
+        UserAuthComponent
        
     ],
     schemas: [

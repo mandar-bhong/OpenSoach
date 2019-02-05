@@ -26,3 +26,9 @@ export class ActionDataDBRequest {
     comment: string;
     value: string;
 }
+export class UserAuthDBRequest{
+    user_fname: string;
+    user_lname: string;
+    email: string;
+    pin: number;
+}
