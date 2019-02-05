@@ -455,8 +455,9 @@ CREATE TABLE `spl_hpft_patient_conf_tbl` (
 	`uuid` VARCHAR(50) NOT NULL,
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
-	`conf_type_code` INT(10) UNSIGNED NOT NULL,
+	`conf_type_code` VARCHAR(50) NOT NULL,
 	`conf` JSON NOT NULL,
+	`end_date` DATETIME NOT NULL,
 	`client_updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -478,6 +479,7 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 	`uuid` VARCHAR(50) NOT NULL,
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
 	`patient_conf_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`txn_data` JSON NOT NULL,
 	`runtime_config_data` JSON NOT NULL,
 	`txn_date` DATETIME NOT NULL,
@@ -489,9 +491,14 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 	PRIMARY KEY (`id`),
 	INDEX `fk_actn_txn_cpm` (`cpm_id_fk`),
 	INDEX `fk_actn_txn_pconf` (`patient_conf_id_fk`),
+	INDEX `fk_actn_txn_admsn` (`admission_id_fk`),
+	CONSTRAINT `fk_actn_txn_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_actn_txn_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_actn_txn_pconf` FOREIGN KEY (`patient_conf_id_fk`) REFERENCES `spl_hpft_patient_conf_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name: actn_txn';
+
+
+
 
 
 
