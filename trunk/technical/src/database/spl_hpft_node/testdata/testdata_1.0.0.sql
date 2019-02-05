@@ -76,7 +76,7 @@ INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `updated_on`, `has_qry`, `
 	
 	('conf_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_conf_tbl where uuid = ?','select count(*) as count from spl_hpft_conf_tbl where updated_on > ?','select * from spl_hpft_conf_tbl where updated_on > ?','insert_qry','update_qry'),
 	
-	('patient_master_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_patient_master_tbl where uuid = ?','select count(*) as count from spl_hpft_patient_master_tbl where updated_on > ?','','insert into spl_hpft_patient_master_tbl 
+	('patient_master_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_patient_master_tbl where uuid = ?','select count(*) as count from spl_hpft_patient_master_tbl where updated_on > ?','select * from spl_hpft_patient_master_tbl where updated_on > ?','insert into spl_hpft_patient_master_tbl 
 (uuid,cpm_id_fk,patient_reg_no,fname,lname,mob_no,age,blood_grp,gender) 
 values 
 (:uuid,:cpm_id_fk,:patient_reg_no,:fname,:lname,:mob_no,:age,:blood_grp,:gender)','update spl_hpft_patient_master_tbl 
