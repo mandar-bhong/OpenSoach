@@ -40,8 +40,9 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                 default:
                     break;
             }
-            try {               
+            try {
                 parsedConf.endDate = actiondata.enddate;
+                msg.enddate = actiondata.enddate;
                 msg.conf = JSON.stringify(parsedConf);
                 actiondata.actions.forEach(element => {
                     const actionsdbdata = new ActionDataStoreModel();
