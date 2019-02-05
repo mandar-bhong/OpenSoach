@@ -130,6 +130,12 @@ TextField {
     margin-right: 0;
 }
 
+.btn-primary-blue {
+    background-color: #007BE6;
+    margin-left: 0;
+    margin-right: 0;
+    color: #ffffff;
+}
 .btn-danger {
     background-color: #d9534f;
     margin-left: 0;

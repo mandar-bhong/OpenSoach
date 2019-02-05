@@ -44,6 +44,7 @@ export class DataActionItem {
 	desc: string;
 	status: number;
 }
+
 @Component({
 	moduleId: module.id,
 	selector: 'action',
@@ -103,6 +104,11 @@ export class ActionComponent implements OnInit {
 	saveViewOpen = false;
 	exectime;
 
+	login = true;
+	listaccount = true;
+	removeAccount = false;
+
+	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
 
 	constructor(public page: Page,
 		private actionService: ActionService,
@@ -143,26 +149,20 @@ export class ActionComponent implements OnInit {
 		}); // end of subscriptions.
 		this.actionDbData = new ActionDataDBRequest();
 		this.actiondata = new ActionDataDBRequest();
+
+		// this.getUserAccountData();
 	}
 
 	public listLoaded() {
 		//return; 
-		console.log('list loaded');
+		// console.log('list loaded');
 
-		// this._dataItems = new ObservableArray(this.data);
-		// this.addMoreItemsFromSource(20);
 		setTimeout(() => {
-			//this.addMoreItemsFromSource(20);
 		}, 200);
 	}
 
 	public addMoreItemsFromSource(chunkSize: number) {
-		// console.log('items loaded pre dataitems', this.dataItems.length);
-		// console.log('items loaded pre data', this.data.length);
 		let newItems = this.tempList.slice(this.dataItems.length, this.dataItems.length + chunkSize);
-		// this.dataItems.push(newItems);
-		// console.log('items loaded post new items', newItems.length);
-		// console.log('items loaded post', this.dataItems.length);
 	}
 
 	public onLoadMoreItemsRequested(args: LoadOnDemandListViewEventData) {
@@ -273,19 +273,19 @@ export class ActionComponent implements OnInit {
 
 		const medicine = this.tempList.filter(a => a.conf_type_code === "Medicine");
 		const medicineCount = medicine.length;
-		console.log("medicineCount", medicineCount);
+		// console.log("medicineCount", medicineCount);
 
 		const monitor = this.tempList.filter(a => a.conf_type_code === "Monitor");
 		const monitorCount = monitor.length;
-		console.log("monitorCount", monitorCount);
+		// console.log("monitorCount", monitorCount);
 
 		const intake = this.tempList.filter(a => a.conf_type_code === "Intake");
 		const intakeCount = intake.length;
-		console.log("intakeCount", intakeCount);
+		// console.log("intakeCount", intakeCount);
 
 		const output = this.tempList.filter(a => a.conf_type_code === "Output");
 		const outputCount = output.length;
-		console.log("outputCount", outputCount);
+		// console.log("outputCount", outputCount);
 
 		this.intakeIndex = 0;
 		this.medicineIndex = intakeCount + 1;
@@ -293,9 +293,9 @@ export class ActionComponent implements OnInit {
 		this.outputIndex = intakeCount + medicineCount + monitorCount + 3;
 
 
-		console.log("medicine index", this.medicineIndex);
-		console.log("monitor index", this.monitorIndex);
-		console.log("output index", this.outputIndex);
+		// console.log("medicine index", this.medicineIndex);
+		// console.log("monitor index", this.monitorIndex);
+		// console.log("output index", this.outputIndex);
 
 	}
 	// << Calculate Grouping index value
@@ -304,10 +304,10 @@ export class ActionComponent implements OnInit {
 	// >> discard patient in list 
 	public onDeleteRow(event: ListViewEventData) {
 
-		console.log("Right swipe click");
+		// console.log("Right swipe click");
 		this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
-		console.log(this._dataItems);
-		console.log(this._dataItems.length);
+		// console.log(this._dataItems);
+		// console.log(this._dataItems.length);
 		// this.showAction();
 	}
 	// << discard patient in list 
@@ -383,7 +383,7 @@ export class ActionComponent implements OnInit {
 
 	// >> get action list by id
 	public getListDataById() {
-		console.log('this.actionnListItem', this.actionListItem);
+		// console.log('this.actionnListItem', this.actionListItem);
 		// this.tempList = new Array<DataActionItem>();
 		this.actionListItem.forEach(item => {
 			const actionListDataItem = new DataActionItem();
@@ -391,10 +391,11 @@ export class ActionComponent implements OnInit {
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
 
-			// const exectime = new Date(item.dbmodel.exec_time);
+			// const exectime = new Date(item.dbmodel.exec_time * 1000);
 			// console.log('exectime', exectime);
+
 			actionListDataItem.exec_time = item.dbmodel.exec_time;
-			console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
+			// console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
 
 
 			// date to timestramp convert
@@ -407,7 +408,7 @@ export class ActionComponent implements OnInit {
 			const liveh = todayhr * 60;
 			const todaym = thetodayDate.getMinutes();
 			const totaltime = liveh + todaym;
-			console.log('totaltime', totaltime);
+			// console.log('totaltime', totaltime);
 			// << today date
 
 			// >> today date live time decress time 15 min 
@@ -416,7 +417,7 @@ export class ActionComponent implements OnInit {
 			const liveh15dec = todayhr15dec * 60;
 			const todaym15dec = thetodayDate15dec.getMinutes() - 15;
 			const totaltime15dec = liveh15dec + todaym15dec;
-			console.log('time _today_15_dec', totaltime15dec);
+			// console.log('time _today_15_dec', totaltime15dec);
 			// << decress time 15 min 
 
 			// >> today date live time increass time 15 min 
@@ -425,34 +426,35 @@ export class ActionComponent implements OnInit {
 			const liveh15 = todayhr15 * 60;
 			const todaym15 = thetodayDate15.getMinutes() + 15;
 			const totaltime15 = liveh15 + todaym15;
-			console.log('time _today_15_inc', totaltime15);
+			// console.log('time _today_15_inc', totaltime15);
 			// << increass time 15 min 
 
 			// >> Db Date timestramp convert in date 
-			const theDate = new Date(item.dbmodel.exec_time * 1000);
+			// const theDate = new Date(item.dbmodel.exec_time * 1000);
+			const theDate = new Date(item.dbmodel.exec_time);
 			const hr = theDate.getHours();
 			const h = hr * 60;
 			const m = theDate.getMinutes();
 			const DBtotaltime = h + m;
-			console.log('DBtotaltime ', DBtotaltime);
+			// console.log('DBtotaltime ', DBtotaltime);
 			// << Db Date timestramp convert 
 
 
 			if (totaltime15dec > DBtotaltime) {
-				console.log('red');
+				// console.log('red');
 				actionListDataItem.status = 1;
 			} else if (totaltime15 > DBtotaltime && DBtotaltime > totaltime15dec) {
-				console.log('yellow');
+				// console.log('yellow');
 				actionListDataItem.status = 2;
 			} else if (DBtotaltime > totaltime15) {
-				console.log('green');
+				// console.log('green');
 				actionListDataItem.status = 3;
 			}
 
 			this.chartService.getChartByUUID(actionListDataItem.schedule_uuid).then(
 				(val) => {
 					val.forEach(item => {
-						console.log('val', val);
+						// console.log('val', val);
 						const conf = JSON.parse(item.conf);
 						actionListDataItem.name = conf.name;
 						actionListDataItem.desc = conf.desc;
@@ -480,12 +482,12 @@ export class ActionComponent implements OnInit {
 			this.actionDbData.comment = null;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
-			console.log('confString', this.confString1);
+			// console.log('confString', this.confString1);
 		} else {
 			this.actionDbData.comment = this.actiondata.comment;
 			this.actionDbData.value = this.actiondata.value;
 			this.confString = JSON.stringify(this.actionDbData);
-			console.log('confString', this.confString);
+			// console.log('confString', this.confString);
 		}
 
 		// set db model 
@@ -500,7 +502,7 @@ export class ActionComponent implements OnInit {
 		}
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
-		this.formData.txn_date = null;
+		this.formData.txn_date = new Date;
 		this.formData.txn_state = null;
 		this.formData.status = 1;
 
@@ -508,7 +510,7 @@ export class ActionComponent implements OnInit {
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
-		console.log('this.actionDbArray', this.actionDbArray);
+		// console.log('this.actionDbArray', this.actionDbArray);
 
 	}
 	// >> on discard one bye one item data
@@ -525,12 +527,12 @@ export class ActionComponent implements OnInit {
 			this.actionDbData.comment = null;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
-			console.log('confString', this.confString1);
+			// console.log('confString', this.confString1);
 		} else {
 			this.actionDbData.comment = this.actiondata.comment;
 			this.actionDbData.value = this.actiondata.value;
 			this.confString = JSON.stringify(this.actionDbData);
-			console.log('confString', this.confString);
+			// console.log('confString', this.confString);
 		}
 
 		// set db model 
@@ -545,7 +547,7 @@ export class ActionComponent implements OnInit {
 		}
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
-		this.formData.txn_date = null;
+		this.formData.txn_date = new Date;
 		this.formData.txn_state = null;
 		this.formData.status = 0;
 
@@ -553,10 +555,14 @@ export class ActionComponent implements OnInit {
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
-		console.log('this.actionDbArray', this.actionDbArray);
+		// console.log('this.actionDbArray', this.actionDbArray);
 
 	}
 	// all action done and discard save in action-trn-table
+	savemove() {
+		this.login = !this.login;
+
+	}
 	save() {
 		// array hold entries one by one save
 		this.actionformData = new ActionTxnDBModel();
@@ -613,6 +619,4 @@ export class ActionComponent implements OnInit {
 		}, 300);
 
 	}
-
-
 }

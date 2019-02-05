@@ -28,6 +28,8 @@ let selectQueries = new Map([
     ["patient_master_tbl_insert", "insert into patient_master_tbl (uuid,patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_pending,sync_pending_time) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["patient_admission_tbl_insert", "insert into patient_admission_tbl (uuid, patient_uuid, patient_reg_no, bed_no, status, sp_uuid, dr_incharge, admitted_on, discharged_on, updated_on, sync_pending,sync_pending_time) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["userList", "select * from user_account_tbl"],
+
+    ["user_account_tbl_insert", "insert into user_account_tbl (id, user_fname, user_lname, email, pin ) values ( ?, ?, ?, ?, ?)"],
 ]);
 
 let selectTableName = new Map([
