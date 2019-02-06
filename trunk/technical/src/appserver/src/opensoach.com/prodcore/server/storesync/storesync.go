@@ -30,9 +30,12 @@ func GetChanges(dbConn string, syncReq pcmodels.StoreSyncGetRequestModel) (error
 		return dbErr, nil
 	}
 
+	countData := *count
+
 	storeSyncGetResponseModel := &pcmodels.StoreSyncGetResponseModel{}
 	storeSyncGetResponseModel.Data = tableData
-	storeSyncGetResponseModel.Count = count
+	storeSyncGetResponseModel.Count = countData.Count
+	storeSyncGetResponseModel.UpdatedOn = count.MaxUpdatedOn
 	storeSyncGetResponseModel.StoreName = syncReq.StoreName
 
 	return nil, storeSyncGetResponseModel

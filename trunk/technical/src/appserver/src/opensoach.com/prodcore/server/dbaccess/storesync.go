@@ -36,19 +36,19 @@ func GetTableData(dbConn string, query string, updateon time.Time) (error, []map
 	return nil, data
 }
 
-func GetTableDataCount(dbConn string, query string, updateon time.Time) (error, int) {
+func GetTableDataCount(dbConn string, query string, updateon time.Time) (error, *models.SyncConfigTblInfoModel) {
 
 	selDBCtx := dbmgr.SelectContext{}
 	selDBCtx.DBConnection = dbConn
-	var count int
-	selDBCtx.Dest = &count
+	data := &models.SyncConfigTblInfoModel{}
+	selDBCtx.Dest = data
 	selDBCtx.Query = query
 	selDBCtx.QueryType = dbmgr.Query
 	selErr := selDBCtx.Get(updateon)
 	if selErr != nil {
-		return selErr, 0
+		return selErr, nil
 	}
-	return nil, count
+	return nil, data
 }
 
 func GetTableDataByUuid(dbConn string, query string, uuid string) (error, int) {
