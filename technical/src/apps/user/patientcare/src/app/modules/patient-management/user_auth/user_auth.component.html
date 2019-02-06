@@ -1,53 +1,76 @@
 <GridLayout rows="*" columns="*" height="100%" width="100%" style="background-color:#396766; justify-content: center;align-items: center;">
     <FlexboxLayout style="width: 74%;" *ngIf="pinview">
-        <CardView shadowOffsetWidth=1; height="45%" *ngIf="!listaccount">
-            <GridLayout row="0" rows="50,*, *,*" columns="*" class="form" style="padding: 10 20; background-color: #f0f0f0;"
-                *ngIf="hidecheckpin">
-                <GridLayout row="0">
-                    <Label class="signmainlabel" width="60" height="60" text="Sign In"></Label>
+        <CardView shadowOffsetWidth=1; height="50%" *ngIf="!listaccount">
+            <StackLayout class="form" [formGroup]="userAuthForm" *ngIf="hidecheckpin">
+                <GridLayout row="0" rows="50,*, *,*" columns="*" class="form" style="padding: 10 20; background-color: #f0f0f0;">
+                    <GridLayout row="0">
+                        <Label class="signmainlabel" width="60" height="60" text="Sign In"></Label>
+                    </GridLayout>
+                    <GridLayout row="1">
+                        <StackLayout>
+                            <TextField hint="Email Address" formControlName="email" keyboardType="email" autocorrect="false"
+                                autocapitalizationType="none" class="input input-border"></TextField>
+                            <!-- <StackLayout class="hr-light" [ngClass]="{invalid: emailIsValid === true}"></StackLayout> -->
+                            <StackLayout class="input-field">
+                                <StackLayout *ngIf="emailIsValid">
+                                    <Label text="*email is required " style="color:red"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </GridLayout>
+                    <GridLayout row="2">
+                        <StackLayout>
+                            <TextField hint="Password" formControlName="password" secure="true" class="input input-border"></TextField>
+                            <!-- <StackLayout class="hr-light" [ngClass]="{invalid: passwordIsValid === true}"></StackLayout> -->
+                            <StackLayout class="input-field">
+                                <StackLayout *ngIf="passwordIsValid">
+                                    <Label text="*password is required " style="color:red"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </GridLayout>
+                    <GridLayout row="3" rows="auto" columns="auto, *, auto">
+                        <Label row="0" col="0" text="Create Account" style="vertical-align: center; color: #00A6CE"
+                            (tap)="allreadyaccount()"></Label>
+                        <Button row="0" col="2" text="Next" class="btn btn-primary-blue" (tap)="userAuthAccount()"></Button>
+                    </GridLayout>
                 </GridLayout>
-                <GridLayout row="1">
-                    <StackLayout>
-                        <TextField hint="Email Address" [(ngModel)]="datamodel.email" keyboardType="email" autocorrect="false"
-                            autocapitalizationType="none" class="input input-border"></TextField>
-                    </StackLayout>
-                </GridLayout>
-                <GridLayout row="2">
-                    <StackLayout>
-                        <TextField hint="Password" secure="true" class="input input-border"></TextField>
-                    </StackLayout>
-                </GridLayout>
-                <GridLayout row="3" rows="auto" columns="auto, *, auto">
-                    <Label row="0" col="0" text="Create Account" style="vertical-align: center; color: #00A6CE" (tap)="allreadyaccount()"></Label>
-                    <Button row="0" col="2" [text]="'Next'" class="btn btn-primary-blue" (tap)="createAccount()"></Button>
-                </GridLayout>
-            </GridLayout>
+            </StackLayout>
 
-
-
-
-            <GridLayout row="0" rows="50,*, *,*, *" columns="*" class="form" style="padding: 10 20; background-color: #f0f0f0;"
-                *ngIf="newpinview">
-                <GridLayout row="0">
-                    <Label class="signmainlabel" width="60" height="60" text="Sign In"></Label>
+            <StackLayout class="form" [formGroup]="userAuthPinForm" *ngIf="newpinview">
+                <GridLayout row="0" rows="50,*, *,*" columns="*" class="form" style="padding: 10 20; background-color: #f0f0f0;">
+                    <GridLayout row="0">
+                        <Label class="signmainlabel" width="60" height="60" text="Sign In"></Label>
+                    </GridLayout>
+                    <GridLayout row="1">
+                        <StackLayout>
+                            <TextField hint="New Pin" formControlName="newpin" keyboardType="number" autocorrect="false"
+                                autocapitalizationType="none" class="input input-border"></TextField>
+                            <StackLayout class="input-field">
+                                <StackLayout *ngIf="newpinIsValid">
+                                    <Label text="*new pin is required " style="color:red"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </GridLayout>
+                    <GridLayout row="2">
+                        <StackLayout>
+                            <TextField hint="Re-enter Pin" formControlName="re_enterpin" secure="true" keyboardType="number"
+                                class="input input-border"></TextField>
+                            <StackLayout class="input-field">
+                                <StackLayout *ngIf="re_enterpinIsValid">
+                                    <Label text="*Re enter pin is required " style="color:red"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </GridLayout>
+                    <GridLayout row="3" rows="auto" columns="auto, *, auto">
+                        <Label row="0" col="0" text="Create Account" style="vertical-align: center; color: #00A6CE"
+                            (tap)="allreadyaccount()"></Label>
+                        <Button row="0" col="2" text="Login" class="btn btn-primary-blue" (tap)="userSign()"></Button>
+                    </GridLayout>
                 </GridLayout>
-
-                <GridLayout row="1">
-                    <StackLayout>
-                        <TextField hint="New Pin" secure="true" class="input input-border"></TextField>
-                    </StackLayout>
-                </GridLayout>
-                <GridLayout row="2">
-                    <StackLayout>
-                        <TextField hint="Re-enter Pin" secure="true" class="input input-border"></TextField>
-                    </StackLayout>
-                </GridLayout>
-                <GridLayout row="3" rows="auto" columns="auto, *, auto">
-                    <Label row="0" col="0" text="Create Account" style="vertical-align: center; color: #00A6CE" (tap)="allreadyaccount()"></Label>
-                    <Button row="0" col="2" [text]="'Login'" class="btn btn-primary-blue" (tap)="createAccount()"></Button>
-                </GridLayout>
-
-            </GridLayout>
+            </StackLayout>
         </CardView>
 
 
@@ -69,9 +92,11 @@
                             <GridLayout columns="*" rows="*" class="accountlistItem" (tap)="selectedUserData(item)">
                                 <GridLayout row="0" columns="*" rows="auto, auto ">
                                     <GridLayout rows="*" columns="*, 70" row="0" col="0">
-                                        <GridLayout col="0" columns="*" rows="auto" class="list-layout">
+                                        <GridLayout col="0" columns="*" rows="auto, auto" class="list-layout">
                                             <Label row="0" col="0" class="body align-centre" [text]="item.dbmodel.user_fname + ' ' + item.dbmodel.user_lname"
-                                                style="color: #396767;     font-size: 15px;"></Label>
+                                                style="color: #396767;"></Label>
+
+                                            <Label row="1" col="0" class="label-small align-centre" [text]="item.dbmodel.email"></Label>
                                         </GridLayout>
                                         <GridLayout row="0" col="1" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;">
                                             <StackLayout row="1" class="list-layout" *ngIf="removeAccount">
@@ -79,7 +104,9 @@
                                             </StackLayout>
                                         </GridLayout>
                                     </GridLayout>
-                                    <StackLayout row="1" col="1" class="hr-light m-10"></StackLayout>
+                                    <GridLayout rows="*" columns="*, 70" row="1" col="0">
+                                    </GridLayout>
+                                    <StackLayout row="2" col="1" class="hr-light m-10"></StackLayout>
                                 </GridLayout>
                             </GridLayout>
 
@@ -87,10 +114,10 @@
                     </RadListView>
                 </GridLayout>
                 <GridLayout row="2" rows="auto" columns="auto, *, auto" style="vertical-align: center;">
-                    <!-- <Label row="0" col="0 " [text]="listaccount ? 'Choose an account ' : 'Create account'" style="color: #00A6CE"
-                        (tap)="allreadyaccount()"></Label> -->
-                    <Label row="0" col="0 " *ngIf="!listaccount" text="Create account" style="color: #00A6CE" (tap)="allreadyaccount()"></Label>
-                    <Label row="0" col="0 " *ngIf="listaccount" text="Choose an account" style="color: #00A6CE" (tap)="allreadyaccount()"></Label>
+                    <Label row="0" col="0 " [text]="listaccount ? 'Create account' : 'Choose an account' " style="color: #00A6CE"
+                        (tap)="allreadyaccount()"></Label>
+                    <!-- <Label row="0" col="0 " *ngIf="!listaccount" text="Create account" style="color: #00A6CE" (tap)="allreadyaccount()"></Label>
+                    <Label row="0" col="0 " *ngIf="listaccount" text="Choose an account" style="color: #00A6CE" (tap)="allreadyaccount()"></Label> -->
                     <Label row="0" col="2" text="Remove an account" style="color: #00A6CE" (tap)="removeaccount()"></Label>
                     <Button *ngIf="!listaccount" row="0" col="2" [text]="'Login'" class="btn btn-primary-blue "></Button>
                 </GridLayout>
@@ -100,21 +127,29 @@
 
     <FlexboxLayout style="width: 74%;" *ngIf="!pinview">
         <CardView shadowOffsetWidth=1; height="40%">
-            <GridLayout row="0" rows="80,*,*" columns="*" class="form" style="padding: 10 20; background-color: #f0f0f0;">
-                <GridLayout row="0">
-                    <Label class="signmainlabel" width="60" height="60" text="Sign In"></Label>
+            <StackLayout class="form" [formGroup]="userPinCheckForm">
+                <GridLayout row="0" rows="80,*,*" columns="*" class="form" style="padding: 10 20; background-color: #f0f0f0;">
+                    <GridLayout row="0">
+                        <Label class="signmainlabel" width="60" height="60" text="Sign In"></Label>
+                    </GridLayout>
+                    <GridLayout row="1">
+                        <StackLayout>
+                            <TextField hint="Pin" formControlName="userpin" keyboardType="number"
+                                autocapitalizationType="none"  secure="true" class="input input-border"></TextField>
+                            <StackLayout class="input-field">
+                                <StackLayout *ngIf="userpinIsValid">
+                                    <Label text="*pin is required " style="color:red"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </GridLayout>
+                    <GridLayout row="2" rows="auto" columns="auto, *, auto">
+                        <!-- <Label row="0" col="0" text="Choose an account" style="vertical-align: center; color: #00A6CE"
+                            (tap)="allreadyaccount()"></Label> -->
+                        <Button row="0" col="2" [text]="'Login'" (tap)="onsubmitPin()" class="btn btn-primary-blue "></Button>
+                    </GridLayout>
                 </GridLayout>
-                <GridLayout row="1">
-                    <StackLayout>
-                        <TextField hint="PIN" keyboardType="email" autocorrect="false" secure="true"
-                            autocapitalizationType="none" class="input input-border" [(ngModel)]="pin"></TextField>
-                    </StackLayout>
-                </GridLayout>
-
-                <GridLayout row="2" rows="auto" columns="auto, *, auto">
-                    <Button row="0" col="2" [text]="'Login'" (tap)="onsubmitPin()" class="btn btn-primary-blue "></Button>
-                </GridLayout>
-            </GridLayout>
+            </StackLayout>
         </CardView>
     </FlexboxLayout>
 </GridLayout>
