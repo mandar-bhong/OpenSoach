@@ -28,6 +28,8 @@ import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { SYNC_STORE, SERVER_WORKER_MSG_TYPE } from '~/app/app-constants';
 import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
 import { WorkerService } from '~/app/services/worker.service';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { IDeviceAuthResult } from '../../idevice-auth-result';
 
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
@@ -52,7 +54,19 @@ export class DataActionItem {
 	styleUrls: ['./action.component.css']
 })
 
-export class ActionComponent implements OnInit {
+export class ActionComponent implements OnInit, IDeviceAuthResult {
+
+    onDeviceAuthSuccess(userid: number): void {
+		console.log('user auth id', userid);
+		this.save();		
+		throw new Error("Method not implemented.");
+    }
+    onDeviceAuthError(error: any): void {
+        throw new Error("Method not implemented.");
+    }
+    onSubmitDiscarded(): void {
+        throw new Error("Method not implemented.");
+    }
 
 	public actionListItem = new ObservableArray<ActionListViewModel>();
 	chartbuttonClicked: boolean = false;
@@ -104,7 +118,6 @@ export class ActionComponent implements OnInit {
 	saveViewOpen = false;
 	exectime;
 
-	login = true;
 	listaccount = true;
 	removeAccount = false;
 
@@ -114,7 +127,8 @@ export class ActionComponent implements OnInit {
 		private actionService: ActionService,
 		public workerService: WorkerService,
 		private passdataservice: PassDataService,
-		private chartService: ChartService) {
+		private chartService: ChartService,
+		private routerExtensions: RouterExtensions) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
 			return item.conf_type_code;
@@ -137,11 +151,6 @@ export class ActionComponent implements OnInit {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getActionData();
-		// for (let i = 1; i < 50; i++) {
-		// 	let newName = { ward: "3A/312", name: "Sumeet karande", mobile: "9878978980" };
-		// 	this.data.push(newName);
-		// }
-		// alert('action');
 
 		// subscription for create actions
 		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
@@ -559,30 +568,15 @@ export class ActionComponent implements OnInit {
 
 	}
 	// all action done and discard save in action-trn-table
-	savemove() {
-		this.login = !this.login;
-
+	savetoUserAuth() {
+		this.passdataservice.authResultReuested = this;
+		this.routerExtensions.navigate(['patientmgnt', 'user-auth'], { clearHistory: false });
 	}
 	save() {
 		// array hold entries one by one save
 		this.actionformData = new ActionTxnDBModel();
 		// insert Action db model to sqlite db
 		this.actionDbArray.forEach(item => {
-			// this.actionformData.uuid = item.uuid;
-			// this.actionformData.schedule_uuid = item.schedule_uuid;
-			// this.actionformData.conf_type_code = item.conf_type_code;
-			// this.actionformData.txn_data = item.txn_data;
-			// this.actionformData.txn_date = item.txn_date;
-			// this.actionformData.txn_state = item.txn_state;
-			// this.actionformData.conf_type_code = item.conf_type_code;
-			// this.actionformData.runtime_config_data = item.runtime_config_data;
-			// this.actionformData.status = item.status
-
-			// console.log('item.conf_type_code', item.conf_type_code);
-			// console.log('this.actionformData.schedule_uuid', this.actionformData.conf_type_code);
-			// console.log('actionformData', this.actionformData);
-
-
 			const actionModel = new ServerDataProcessorMessageModel();
 			const serverDataStoreModel = new ServerDataStoreDataModel<ActionTxnDatastoreModel>();
 			serverDataStoreModel.datastore = SYNC_STORE.ACTION_TXN;

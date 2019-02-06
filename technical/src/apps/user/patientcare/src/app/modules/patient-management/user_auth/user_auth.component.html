@@ -1,3 +1,4 @@
+<patient-action-bar [patientName]='patientName'></patient-action-bar>
 <GridLayout rows="*" columns="*" height="100%" width="100%" style="background-color:#396766; justify-content: center;align-items: center;">
     <FlexboxLayout style="width: 74%;" *ngIf="pinview">
         <CardView shadowOffsetWidth=1; height="50%" *ngIf="!listaccount">
@@ -135,7 +136,7 @@
                     <GridLayout row="1">
                         <StackLayout>
                             <TextField hint="Pin" formControlName="userpin" keyboardType="number"
-                                autocapitalizationType="none"  secure="true" class="input input-border"></TextField>
+                                autocapitalizationType="none" secure="true" class="input input-border"></TextField>
                             <StackLayout class="input-field">
                                 <StackLayout *ngIf="userpinIsValid">
                                     <Label text="*pin is required " style="color:red"></Label>
