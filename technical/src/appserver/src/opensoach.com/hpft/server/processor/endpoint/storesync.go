@@ -76,6 +76,11 @@ func ProcessApplyStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessin
 		return
 	}
 
+	// add cpmid in request data
+	for i := 0; i < len(reqModel.Data.([]map[string]interface{})); i++ {
+		reqModel.Data.([]map[string]interface{})[i]["cpm_id_fk"] = ctx.TokenInfo.CpmID
+	}
+
 	err, _ := pcstoresync.ApplyChangesNotify(ctx.InstanceDBConn, reqModel, devPacket, ctx.Token, *repo.Instance())
 
 	if err != nil {
