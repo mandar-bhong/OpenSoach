@@ -3,6 +3,7 @@ import { PatientListViewModel } from '~/app/models/ui/patient-view-models';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { Subject } from 'rxjs/internal/Subject';
 import { action } from 'tns-core-modules/ui/dialogs/dialogs';
+import { IDeviceAuthResult } from '../modules/idevice-auth-result';
 @Injectable()
 
 export class PassDataService {
@@ -13,6 +14,7 @@ export class PassDataService {
     uploadedImage: ImageAsset[] = [];
     patientName: string;
     createActionsSubject: Subject<boolean> = new Subject<boolean>();
+    authResultReuested: IDeviceAuthResult
     constructor() {
         //  this.patientListViewModel = new PatientListViewModel();
         console.log('service initiated');
