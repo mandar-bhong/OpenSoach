@@ -18,7 +18,7 @@ export class DatabaseSchemaService {
         "CREATE TABLE IF NOT EXISTS action_tbl (uuid TEXT,admission_uuid TEXT, conf_type_code TEXT, schedule_uuid TEXT, exec_time DATETIME, sync_pending INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS action_txn_tbl (uuid TEXT,admission_uuid TEXT,schedule_uuid TEXT,txn_data TEXT,txn_date DATETIME, txn_state INTEGER, conf_type_code TEXT, runtime_config_data TEXT, updated_on DATETIME, sync_pending INTEGER, status INTEGER, sync_pending_time DATETIME)",
         "CREATE TABLE IF NOT EXISTS service_point_tbl (uuid TEXT, sp_name TEXT, short_desc TEXT, sp_state INTEGER, sp_state_since DATETIME, updated_on DATETIME, sync_pending INTEGER , sync_pending_time DATETIME)",
-        "CREATE TABLE IF NOT EXISTS user_account_tbl (id TEXT, user_fname TEXT, user_lname TEXT, email TEXT, pin TEXT)"
+        "CREATE TABLE IF NOT EXISTS user_account_tbl (userid TEXT, user_fname TEXT, user_lname TEXT, email TEXT, pin TEXT)"
     ]
 
     seedData = [
@@ -186,25 +186,25 @@ export class DatabaseSchemaService {
         //     VALUES ('A002', 'PA001' ,'PC007','{"comment":"test","value":"70"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
 
 
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin ) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin ) 
             VALUES ('U001', 'Amol' ,'Patil', 'amol.patil@gmail.com', '1111')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U002', 'Sarjerao' ,'Patil', 'sarjerao@gmail.com', '2222')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U003', 'Sanjay' ,'Sawant', 'sanjay.sawant@gmail.com', '3333')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U004', 'Sumeet' ,'Karnde', 'sumeet.karnde@gmail.com', '4444')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U005', 'Chandan' ,'Pal', 'chandan.pal@gmail.com', '5555')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin ) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin ) 
             VALUES ('U001', 'Mandar' ,'Bhong', 'Mayuri.Jain@gmail.com', '6666')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U002', 'Pooja' ,'Lokare', 'Pooja.Lokare@gmail.com', '7777')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U003', 'Mayuri' ,'Jain', 'Mayuri.Jain@gmail.com', '8888')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U004', 'Shashank' ,'Atre', 'Shashank.Atre@gmail.com', '9999')`,
-        `INSERT INTO user_account_tbl (id, user_fname ,user_lname, email, pin) 
+        `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
             VALUES ('U005', 'Tejal' ,'Deshmukh', 'Tejal.Deshmukh@gmail.com', '1010')`,
 
     ]

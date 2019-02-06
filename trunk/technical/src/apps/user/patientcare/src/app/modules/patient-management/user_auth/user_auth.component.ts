@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActionListViewModel, UserAuthDBRequest, UserCreateFormRequest } from '~/app/models/ui/action-models';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
 import { ActionService } from '~/app/services/action/action.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { PassDataService } from '~/app/services/pass-data-service';
 
 @Component({
 	moduleId: module.id,
@@ -25,6 +27,8 @@ export class UserAuthComponent implements OnInit {
 	userPinCheckForm: FormGroup;
 	userpinIsValid: boolean;
 
+	// patientname: string;
+
 	login = true;
 	listaccount = true;
 	removeAccount = false;
@@ -34,26 +38,32 @@ export class UserAuthComponent implements OnInit {
 	hidecheckpin = true;
 	datamodel = new UserAuthDBRequest();
 
+	selecedItemsData: any;
+
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
-	constructor(private actionService: ActionService) {
+	constructor(private actionService: ActionService,
+		private routerExtensions: RouterExtensions,
+		private passdataservice: PassDataService) {
 		console.log('user auth');
 		this.datamodel = new UserAuthDBRequest();
 	}
 	get dataItems(): ObservableArray<ActionListViewModel> {
 		return this._dataItemsaccount;
 	}
+	@Input() patientName: string;
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
-		// this.layout = new ListViewLinearLayout();
-		// this.layout.scrollDirection = "Vertical";
 		this.createFormUserAuthControls();
 		this.createFormUserPinControls();
 		this.userPinCheckControls();
 		this.getUserAccountData();
 
 
+		this.patientName = this.passdataservice.getHeaderName();
+		// console.log('patient name',this.patientName)
 	}
+
 	createFormUserAuthControls(): void {
 		this.userAuthForm = new FormGroup({
 			email: new FormControl('', [Validators.required]),
@@ -85,7 +95,7 @@ export class UserAuthComponent implements OnInit {
 					const actionListItems = new ActionListViewModel();
 					actionListItems.dbmodel = item;
 					this._dataItemsaccount.push(actionListItems);
-					console.log('User Account List', item);
+					// console.log('User Account List', item);
 
 				});
 			},
@@ -97,6 +107,7 @@ export class UserAuthComponent implements OnInit {
 	selectedUserData(item) {
 		console.log('item', item);
 
+		this.selecedItemsData = item.dbmodel;
 		this.pincheck = item.dbmodel.pin;
 		this.pinview = !this.pinview;
 	}
@@ -110,9 +121,15 @@ export class UserAuthComponent implements OnInit {
 		formmodel.pin = this.userPinCheckForm.get('userpin').value;
 		if (formmodel.pin == this.pincheck) {
 			console.log('this.pin Right', formmodel.pin);
+			this.passdataservice.authResultReuested.onDeviceAuthSuccess(this.selecedItemsData.userid);
+
+			// this.routerExtensions.back();
+		
 		} else {
 			console.log('this.pin wrong', formmodel.pin);
 		}
+		console.log('on submit back');
+
 	}
 	userAuthAccount() {
 		this.emailIsValid = this.userAuthForm.controls['email'].hasError('required');

@@ -14,6 +14,7 @@ import { MonitorChartComponent } from "~/app/modules/patient-management/charts/m
 import { ReportsComponent } from "~/app/modules/patient-management/reports/reports.component";
 import { ShowCameraImageComponent } from "~/app/modules/patient-management/reports/section-one/show-camera-image/show-camera-image.component";
 import { ShowUploadedImageComponent } from "~/app/modules/patient-management/reports/section-one/show-uploaded-image/show-uploaded-image.component";
+import { UserAuthComponent } from "./user_auth/user_auth.component";
 
 
 const routes: Routes = [
@@ -55,6 +56,9 @@ const routes: Routes = [
     },
     { 
         path: "showuoploadedimage", component: ShowUploadedImageComponent
+    },
+    { 
+        path: "user-auth", component: UserAuthComponent
     }
 ];
 

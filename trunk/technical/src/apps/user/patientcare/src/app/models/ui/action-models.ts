@@ -27,6 +27,7 @@ export class ActionDataDBRequest {
     value: string;
 }
 export class UserAuthDBRequest{
+    userid: number;
     user_fname: string;
     user_lname: string;
     email: string;

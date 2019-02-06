@@ -1,7 +1,7 @@
-<GridLayout rows="auto,*" columns="*" height="100%" width="100%" *ngIf="login">
+<GridLayout rows="auto,*" columns="*" height="100%" width="100%">
     <GridLayout row="0" *ngIf="saveViewOpen" columns="20,*,90, 30">
         <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
-        <Button col="2" text="Save" (tap)="savemove()" class="btn btn-primary"></Button>
+        <Button col="2" text="Save" (tap)="savetoUserAuth()" class="btn btn-primary"></Button>
     </GridLayout>
     <GridLayout row="1" rows="*" columns="*,auto" height="100%" width="100%">
         <RadListView #myListView [items]="tempList" [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)"
@@ -125,6 +125,3 @@
     </GridLayout>
 </GridLayout>
 
-<GridLayout *ngIf="!login"  rows="*" columns="*" height="100%" width="100%" style="background-color:#396766; justify-content: center;align-items: center;">
-    <user_auth></user_auth>
-</GridLayout>
