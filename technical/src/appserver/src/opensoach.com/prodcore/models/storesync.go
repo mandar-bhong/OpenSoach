@@ -23,7 +23,7 @@ type StoreSyncGetRequestModel struct {
 }
 type StoreSyncGetResponseModel struct {
 	StoreSyncModel
-	UpdatedOn time.Time   `json:"updatedon"`
+	UpdatedOn *time.Time  `json:"updatedon"`
 	Count     int         `json:"count"`
 	Data      interface{} `json:"data"`
 }
