@@ -49,3 +49,8 @@ type SyncConfigModel struct {
 
 type StoreConfigModel struct {
 }
+
+type SyncConfigTblInfoModel struct {
+	Count        int       `db:"count" json:"count"`
+	MaxUpdatedOn time.Time `db:"max_updated_on" json:"updatedon"`
+}
