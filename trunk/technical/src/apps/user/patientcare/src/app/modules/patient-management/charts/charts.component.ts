@@ -206,8 +206,19 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		tempDbModel.conf = JSON.parse(schedulDataStoreModel.conf);
 		const chartListViewModel = new ChartListViewModel();
 		chartListViewModel.dbmodel = tempDbModel;
-		const end_date = chartListViewModel.dbmodel.end_date;
+		const end_date = new Date(chartListViewModel.dbmodel.end_date);
 		console.log('end_date', end_date);
+		const todaysdate = new Date();
+		// checking current mode of list view based on that decide wheater we have to add newly created scchedule in list or not.
+		if (this.iscompleted) {
+			if (todaysdate < end_date) {
+				return;
+			}
+		} else if (!this.iscompleted) {
+			if (todaysdate > end_date) {
+				return;
+			}
+		} // end
 		try {
 			const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === chartListViewModel.dbmodel.uuid)[0];
 			// ittem found in array 
