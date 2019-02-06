@@ -10,8 +10,8 @@ let selectQueries = new Map([
     ["actionList", "select * from action_tbl"],
     ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status) values ( ?, ?, ?, ?, ?, ?)"],
     ["chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
-    ["getScheduleListActive", "select * from schedule_tbl where end_date >= ?"],
-    ["getScheduleListComplated", "select * from schedule_tbl where end_date < ?"],
+    ["getScheduleListActive", "select * from schedule_tbl where end_date >=?"],
+    ["getScheduleListComplated", "select * from schedule_tbl where end_date <?"],
     ["servicePointList", "select * from service_point_tbl"],
     ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code, updated_on,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?, ?,?)"],
     ["syncList", "select * from sync_tbl"],
@@ -75,7 +75,7 @@ export class DatabaseHelper {
 
             if (selectQueries.has(key) == true) {
                 query = selectQueries.get(key);
-            };          
+            };
             this.getdbConn()
                 .then(db => {
 
@@ -130,7 +130,7 @@ export class DatabaseHelper {
             var query: string;
             if (selectQueries.has(key) == true) {
                 query = selectQueries.get(key);
-            };          
+            };
             this.getdbConn()
                 .then(db => {
                     db.resultType(Sqlite.RESULTSASOBJECT);
@@ -150,7 +150,7 @@ export class DatabaseHelper {
         return new Promise((resolve, reject) => {
 
 
-            console.log("dataList in DataStoreInsertUpdate", dataList);
+            // console.log("dataList in DataStoreInsertUpdate", dataList);
             var updateDatalist = dataList.slice(0);
             updateDatalist = updateDatalist.concat(updateDatalist.splice(0, 1));
 
@@ -227,7 +227,7 @@ export class DatabaseHelper {
             };
 
             getQuery = getQuery.replace("TABLENAME", tblname);
-            console.log("getQuery", getQuery);
+            //  console.log("getQuery", getQuery);
 
             this.getdbConn()
                 .then(db => {
@@ -239,7 +239,7 @@ export class DatabaseHelper {
                         if (err) {
                             reject(err);
                         } else {
-                            console.log("getSyncPendingDataStore data:", result);
+                            //  console.log("getSyncPendingDataStore data:", result);
                             resolve(result);
                         }
 
@@ -308,8 +308,8 @@ export class DatabaseHelper {
 
         return new Promise((resolve, reject) => {
 
-            console.log("updateTableSyncPending");
-            console.log("storename", storename);
+            //  console.log("updateTableSyncPending");
+            //   console.log("storename", storename);
 
             var tblname: string;
             var updateQuery = "update TABLENAME set sync_pending = 0 where sync_pending = 1";
@@ -319,14 +319,14 @@ export class DatabaseHelper {
             };
 
             updateQuery = updateQuery.replace("TABLENAME", tblname);
-            console.log("updateQuery", updateQuery);
+            //  console.log("updateQuery", updateQuery);
 
             this.getdbConn()
                 .then(db => {
 
                     db.execSQL(updateQuery, []).then(id => {
                         console.log("updateTableSyncPending");
-                        console.log("db result", id);
+                        //  console.log("db result", id);
                         resolve(id);
                     }, error => {
                         console.log("updateTableSyncPending");

@@ -15,6 +15,7 @@ import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-constants';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
+import { IDeviceAuthResult } from '../../idevice-auth-result';
 
 @Component({
 	moduleId: module.id,
@@ -23,7 +24,16 @@ import { Switch } from 'tns-core-modules/ui/switch/switch';
 	styleUrls: ['./charts.component.css']
 })
 
-export class ChartsComponent implements OnInit {
+export class ChartsComponent implements OnInit, IDeviceAuthResult {
+	onDeviceAuthSuccess(userid: number): void {
+		// save schedule using worker
+	}
+	onDeviceAuthError(error: any): void {
+		throw new Error("Method not implemented.");
+	}
+	onSubmitDiscarded(): void {
+		throw new Error("Method not implemented.");
+	}
 
 	chartListItems: ObservableArray<ChartListViewModel>;
 	//chartListItemsSource = new ObservableArray<ChartListViewModel>();
@@ -160,7 +170,7 @@ export class ChartsComponent implements OnInit {
 					chartListItem.dbmodel = item;
 					chartListItem.dbmodel.conf = JSON.parse(item.conf);
 					this.chartListItems.push(chartListItem);
-				});				
+				});
 				this.getGroupIndex();
 			},
 			(error) => {
@@ -196,6 +206,8 @@ export class ChartsComponent implements OnInit {
 		tempDbModel.conf = JSON.parse(schedulDataStoreModel.conf);
 		const chartListViewModel = new ChartListViewModel();
 		chartListViewModel.dbmodel = tempDbModel;
+		const end_date = chartListViewModel.dbmodel.end_date;
+		console.log('end_date', end_date);
 		try {
 			const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === chartListViewModel.dbmodel.uuid)[0];
 			// ittem found in array 
@@ -236,12 +248,15 @@ export class ChartsComponent implements OnInit {
 		if (firstSwitch.checked) {
 			this.completeorpending = "Completed Schedules";
 			this.iscompleted = true;
-			this.getChartData('getScheduleListComplated');		
+			this.getChartData('getScheduleListComplated');
 		} else {
 			this.completeorpending = "Active Schedules";
 			this.iscompleted = false;
 			this.getChartData('getScheduleListActive');
-			
+
 		}
 	}
+	// on click of button set current service name in passdata service for ref invocatios
+	// like authResultReuested=this or name of your component.
+
 } 
