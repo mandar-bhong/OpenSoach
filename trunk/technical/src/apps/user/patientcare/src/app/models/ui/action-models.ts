@@ -32,3 +32,9 @@ export class UserAuthDBRequest{
     email: string;
     pin: number;
 }
+export class UserCreateFormRequest{
+    email: string;
+    password: string;
+    newpin: string;
+    reenterpin: string
+}
