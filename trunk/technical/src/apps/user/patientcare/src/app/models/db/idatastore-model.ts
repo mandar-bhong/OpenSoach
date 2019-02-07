@@ -1,6 +1,6 @@
 export interface IDatastoreModel {
     uuid: string;
     sync_pending: number;
-    sync_pending_time: Date;
+    client_updated_at: Date;
     getModelValues(): any[]
 }

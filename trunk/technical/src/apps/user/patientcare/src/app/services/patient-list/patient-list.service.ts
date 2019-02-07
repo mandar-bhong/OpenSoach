@@ -16,11 +16,13 @@ export class PatientListService {
     constructor(private database: DatabaseService,
         private workerService: WorkerService) {
         this.patientMasterSubscription = this.workerService.patientMasterDataReceivedSubject.subscribe((uuid) => {
+            console.log('master list call');
                 this.getPatientListDataById(uuid, 'patientlistbymasteruuid');
         });
 
         this.patientAdmissionSubscription = this.workerService.patientAdmissionDataReceivedSubject.subscribe((uuid) => {
-            console.log('subscriber invoked in patient list', uuid);
+            // console.log('subscriber invoked in patient list', uuid);
+            console.log('admission list call');
                 this.getPatientListDataById(uuid, 'patientlistbyadmissionuuid');
         });
     }
@@ -50,13 +52,13 @@ export class PatientListService {
         paramList.push(uuid);
         this.database.selectByID(key, paramList).then(
             (val) => {
-                console.log("patient list by master item", val);
+                console.log("patient list item", val);
                 val.forEach(item => {
                     // console.log("val master", val);
                     const patientMasterListItem = new PatientListViewModel();
                     patientMasterListItem.dbmodel = item;
                     patientlist.push(patientMasterListItem);
-                    console.log(' this.patientmaster patient list service', patientlist);
+                    console.log('patient list service', patientlist);
                 });
                 this.patientListChangedSubject.next(patientlist);
 
