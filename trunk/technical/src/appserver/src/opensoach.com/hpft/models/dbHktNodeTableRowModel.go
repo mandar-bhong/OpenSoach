@@ -164,99 +164,106 @@ type DBSplNodeReportTemplateTableRowModel struct {
 
 type DBSplHpftPatientMasterTableRowModel struct {
 	pcmodels.StoreEntityModel
-	PatientId    int64     `db:"id" dbattr:"pri,auto"  json:"patientid"`
-	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
-	PatientRegNo string    `db:"patient_reg_no" json:"patientregno"`
-	Fname        string    `db:"fname" json:"fname"`
-	Lname        string    `db:"lname" json:"lname"`
-	MobNo        string    `db:"mob_no" json:"mobno"`
-	Age          string    `db:"age" json:"age"`
-	BloodGrp     string    `db:"blood_grp" json:"bloodgrp"`
-	Gender       int       `db:"gender" json:"gender"`
-	CreatedOn    time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
+	PatientId       int64      `db:"id" dbattr:"pri,auto"  json:"patientid"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientRegNo    string     `db:"patient_reg_no" json:"patientregno"`
+	Fname           string     `db:"fname" json:"fname"`
+	Lname           string     `db:"lname" json:"lname"`
+	MobNo           string     `db:"mob_no" json:"mobno"`
+	Age             string     `db:"age" json:"age"`
+	BloodGrp        string     `db:"blood_grp" json:"bloodgrp"`
+	Gender          int        `db:"gender" json:"gender"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftPatientAdmissionTableRowModel struct {
 	pcmodels.StoreEntityModel
-	AdmissionId  int64      `db:"id" dbattr:"pri,auto"  json:"admissionid"`
-	CpmId        int64      `db:"cpm_id_fk" json:"cpmid"`
-	PatientId    int64      `db:"patient_id_fk" json:"patientid"`
-	PatientRegNo string     `db:"patient_reg_no" json:"patientregno"`
-	BedNo        string     `db:"bed_no" json:"bedno"`
-	Status       int        `db:"status" json:"status"`
-	SpId         int64      `db:"sp_id_fk" json:"spid"`
-	DrIncharge   int64      `db:"dr_incharge" json:"drincharge"`
-	AdmittedOn   time.Time  `db:"admitted_on" json:"admittedon"`
-	DischargedOn *time.Time `db:"discharged_on" json:"dischargedon"`
-	CreatedOn    time.Time  `db:"created_on" json:"createdon"`
-	UpdatedOn    time.Time  `db:"updated_on" json:"updatedon"`
+	AdmissionId     int64      `db:"id" dbattr:"pri,auto"  json:"admissionid"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientId       int64      `db:"patient_id_fk" json:"patientid"`
+	PatientRegNo    string     `db:"patient_reg_no" json:"patientregno"`
+	BedNo           string     `db:"bed_no" json:"bedno"`
+	Status          int        `db:"status" json:"status"`
+	SpId            int64      `db:"sp_id_fk" json:"spid"`
+	DrIncharge      int64      `db:"dr_incharge" json:"drincharge"`
+	AdmittedOn      time.Time  `db:"admitted_on" json:"admittedon"`
+	DischargedOn    *time.Time `db:"discharged_on" json:"dischargedon"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftPatientPersonalDetailsRowModel struct {
 	pcmodels.StoreEntityModel
-	PersonalDetailsId int64     `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
-	CpmId             int64     `db:"cpm_id_fk" json:"cpmid"`
-	PatientId         int64     `db:"patient_id" json:"patientid"`
-	AdmissionId       int64     `db:"admission_id_fk" json:"admissionid"`
-	Age               string    `db:"age" json:"age"`
-	Weight            string    `db:"weight" json:"weight"`
-	OtherDetails      string    `db:"other_details" json:"otherdetails"`
-	CreatedOn         time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn         time.Time `db:"updated_on" json:"updatedon"`
+	PersonalDetailsId int64      `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
+	CpmId             int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientId         int64      `db:"patient_id" json:"patientid"`
+	AdmissionId       int64      `db:"admission_id_fk" json:"admissionid"`
+	Age               string     `db:"age" json:"age"`
+	Weight            string     `db:"weight" json:"weight"`
+	OtherDetails      string     `db:"other_details" json:"otherdetails"`
+	ClientUpdatedAt   *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn         time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn         time.Time  `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftPatientMedicalDetailsRowModel struct {
 	pcmodels.StoreEntityModel
-	MedicalDetailsId        int64     `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
-	CpmId                   int64     `db:"cpm_id_fk" json:"cpmid"`
-	PatientId               int64     `db:"patient_id" json:"patientid"`
-	AdmissionId             int64     `db:"admission_id_fk" json:"admissionid"`
-	ReasonForAdmission      string    `db:"reason_for_admission" json:"reasonforadmission"`
-	PatientMedicalHist      string    `db:"patient_medical_hist" json:"patientmedicalhist"`
-	TreatmentRecievedBefore string    `db:"treatment_recieved_before" json:"treatmentrecievedbefore"`
-	FamilyHist              string    `db:"family_hist" json:"familyhist"`
-	MenstrualHist           *string   `db:"menstrual_hist" json:"menstrualhist"`
-	Allergies               string    `db:"allergies" json:"allergies"`
-	PersonalHistory         string    `db:"personal_history" json:"personalhistory"`
-	GeneralPhysicalExam     string    `db:"general_physical_exam" json:"generalphysicalexam"`
-	SystematicExam          string    `db:"systematic_exam" json:"systematicexam"`
-	CreatedOn               time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn               time.Time `db:"updated_on" json:"updatedon"`
+	MedicalDetailsId        int64      `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	CpmId                   int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientId               int64      `db:"patient_id" json:"patientid"`
+	AdmissionId             int64      `db:"admission_id_fk" json:"admissionid"`
+	ReasonForAdmission      string     `db:"reason_for_admission" json:"reasonforadmission"`
+	PatientMedicalHist      string     `db:"patient_medical_hist" json:"patientmedicalhist"`
+	TreatmentRecievedBefore string     `db:"treatment_recieved_before" json:"treatmentrecievedbefore"`
+	FamilyHist              string     `db:"family_hist" json:"familyhist"`
+	MenstrualHist           *string    `db:"menstrual_hist" json:"menstrualhist"`
+	Allergies               string     `db:"allergies" json:"allergies"`
+	PersonalHistory         string     `db:"personal_history" json:"personalhistory"`
+	GeneralPhysicalExam     string     `db:"general_physical_exam" json:"generalphysicalexam"`
+	SystematicExam          string     `db:"systematic_exam" json:"systematicexam"`
+	ClientUpdatedAt         *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn               time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn               time.Time  `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftPatientConfTableRowModel struct {
 	pcmodels.StoreEntityModel
-	PatientConfId int64     `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
-	CpmId         int64     `db:"cpm_id_fk" json:"cpmid"`
-	AdmissionId   int64     `db:"admission_id_fk" json:"admissionid"`
-	ConfTypeCode  int64     `db:"conf_type_code" json:"conftypecode"`
-	Conf          string    `db:"conf" json:"conf"`
-	CreatedOn     time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn      time.Time `db:"updated_on" json:"updatedon"`
+	PatientConfId   int64      `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId     int64      `db:"admission_id_fk" json:"admissionid"`
+	ConfTypeCode    int64      `db:"conf_type_code" json:"conftypecode"`
+	Conf            string     `db:"conf" json:"conf"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftActionTxnTableRowModel struct {
 	pcmodels.StoreEntityModel
-	ActionTxnId       int64     `db:"id" dbattr:"pri,auto"  json:"actiontxnid"`
-	CpmId             int64     `db:"cpm_id_fk" json:"cpmid"`
-	PatientConfId     int64     `db:"patient_conf_id_fk" json:"patientconfid"`
-	TxnData           string    `db:"txn_data" json:"txndata"`
-	RuntimeConfigData string    `db:"runtime_config_data" json:"runtimeconfigdata"`
-	TxnDate           time.Time `db:"txn_date" json:"txndate"`
-	TxnState          int64     `db:"txn_state" json:"txnstate"`
-	ConfTypeCode      string    `db:"conf_type_code" json:"conftypecode"`
-	CreatedOn         time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn         time.Time `db:"updated_on" json:"updatedon"`
+	ActionTxnId       int64      `db:"id" dbattr:"pri,auto"  json:"actiontxnid"`
+	CpmId             int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientConfId     int64      `db:"patient_conf_id_fk" json:"patientconfid"`
+	TxnData           string     `db:"txn_data" json:"txndata"`
+	RuntimeConfigData string     `db:"runtime_config_data" json:"runtimeconfigdata"`
+	TxnDate           time.Time  `db:"txn_date" json:"txndate"`
+	TxnState          int64      `db:"txn_state" json:"txnstate"`
+	ConfTypeCode      string     `db:"conf_type_code" json:"conftypecode"`
+	ClientUpdatedAt   *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn         time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn         time.Time  `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftConfTableRowModel struct {
 	pcmodels.StoreEntityModel
-	ConfId       int64     `db:"id" dbattr:"pri,auto"  json:"confid"`
-	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
-	ConfTypeCode string    `db:"conf_type_code" json:"conftypecode"`
-	Conf         string    `db:"conf" json:"conf"`
-	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
-	CreatedOn    time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
+	ConfId          int64      `db:"id" dbattr:"pri,auto"  json:"confid"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	ConfTypeCode    string     `db:"conf_type_code" json:"conftypecode"`
+	Conf            string     `db:"conf" json:"conf"`
+	ShortDesc       *string    `db:"short_desc" json:"shortdesc"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
 }
