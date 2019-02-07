@@ -16,7 +16,7 @@ import { AppMessageDbSyncHandler } from "../workers/app-message-dbsync-handler.j
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model.js";
 import { SyncDb } from "../helpers/sync-db-helper.js";
 import { RequestManager } from "./request-manager.js";
-import { ServerWorkerContext } from "./server-worker-context.js";
+import { ServerWorkerContext, SYNC_TYPE } from "./server-worker-context.js";
 import { SyncStoreManager } from "./sync-store-manager.js";
 import { IDatastoreModel } from "../models/db/idatastore-model.js";
 import { DatabaseHelper } from "../helpers/database-helper.js";
@@ -24,15 +24,6 @@ import { DatabaseHelper } from "../helpers/database-helper.js";
 export class ServerHelper {
 
     public static sendToServerCallback: (msg: any) => void;
-
-    public static syncComplete: boolean;
-    public static maxLength: number;
-    public static count: number;
-    public static syncTbldDataItem: SyncDataModel;
-
-    public static data: any;
-
-    public static syncDataList = new Array<SyncDataModel>();
     static postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
     constructor() {
     }
@@ -50,9 +41,6 @@ export class ServerHelper {
                 // send auth cmd
                 // {"header":{"crc":"12","category":1,"commandid":1,"seqid":3},"payload":{"token":"Dev6AD88A481524BABF"}}
 
-                //TODO Send
-                // WorkerTasks.SendToServer(cmd);   
-
                 console.log("SERVER_SYNC_STATE.SEND_AUTH_CMD");
 
                 ServerWorkerContext.syncState = SERVER_SYNC_STATE.SEND_AUTH_CMD;
@@ -67,7 +55,32 @@ export class ServerHelper {
             case SERVER_SYNC_STATE.AUTHOURIZED:
                 // sync state authorized
 
+                console.log("SERVER_SYNC_STATE.AUTHOURIZED");
+
                 ServerWorkerContext.syncState = SERVER_SYNC_STATE.AUTHOURIZED;
+
+                // read syncstore
+                SyncStoreManager.ReadSyncStore().then(
+                    (val) => {
+                        console.log("reading sync store completed..")
+                        this.SwitchSyncState();
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+
+                ServerWorkerContext.isSyncInprogress = true;
+                ServerWorkerContext.syncType = SYNC_TYPE.FULL
+
+                break;
+
+            case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED:
+                // sync state differential sync
+
+                console.log("SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED");
+
+                ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED;
 
                 SyncStoreManager.ReadSyncStore().then(
                     (val) => {
@@ -79,6 +92,9 @@ export class ServerHelper {
                     }
                 );
 
+                ServerWorkerContext.isSyncInprogress = true;
+                ServerWorkerContext.syncType = SYNC_TYPE.DIFFERENTIAL
+
                 break;
 
 
@@ -87,32 +103,29 @@ export class ServerHelper {
                 // send apply sync cmd
                 // {"header":{"crc":"12","category":3,"commandid":51,"seqid":3},"payload":{"storename":"","storedata":[{"uuid":"PA001","bedno":"A0001"}]}}
                 // Read Sync store and getnext store
-                console.log("SERVER_SYNC_STATE.SYNC_TO_SERVER");
 
+                console.log("SERVER_SYNC_STATE.SYNC_TO_SERVER");
 
                 //get next store
                 var storename = SyncStoreManager.getNextStore(SERVER_SYNC_STATE.SYNC_TO_SERVER)
                 console.log("SYNC_TO_SERVER storename:", storename)
 
-                if (storename != "") {
-                    //get store data
-                    // const storedata = this.getStoreData(storename);
-                    // console.log("storedata:", storedata);
-                    // this.getData(storename).then()
-                    DatabaseHelper.getSyncPendingDataStore(storename)
-                        .then(
-                            (val) => {
-                                const syncCmd = this.ApplySyncCmd(storename, val);
-                                console.log("syncCmd", syncCmd);
-                                ServerHelper.sendToServerCallback(syncCmd);
-                            },
-                            (err) => {
-                                console.log("getSyncPendingDataStore err:", err);
-                            }
-                        )
-                    // const syncCmd = this.ApplySyncCmd(storename, storedata);
-                    // console.log("syncCmd", syncCmd);
-                    // ServerHelper.sendToServerCallback(syncCmd);
+                if (storename.currentStoreName != "") {
+                    if (storename.currentStoreName == "getNextStore") {
+                        this.SwitchSyncState();
+                    } else {
+                        DatabaseHelper.getSyncPendingDataStore(storename.currentStoreName)
+                            .then(
+                                (val) => {
+                                    const syncCmd = this.ApplySyncCmd(storename.currentStoreName, val);
+                                    console.log("apply syncCmd", syncCmd);
+                                    ServerHelper.sendToServerCallback(syncCmd);
+                                },
+                                (err) => {
+                                    console.log("getSyncPendingDataStore err:", err);
+                                }
+                            )
+                    }
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_TO_SERVER;
                     this.SwitchSyncState();
@@ -142,22 +155,34 @@ export class ServerHelper {
                 console.log("SYNC_from_SERVER storename:", storename)
 
 
-                if (storename != "") {
-                    const syncCmd = this.GetSyncCmd(storename);
+                if (storename.currentStoreName != "") {
 
-                    console.log("syncCmd", syncCmd);
+                    if (storename.currentStoreName == "getNextStore") {
+                        this.SwitchSyncState();
+                    } else {
+                        const syncCmd = this.GetSyncCmd(storename.currentStoreName, storename.lastSynched);
+                        console.log("get syncCmd", syncCmd);
+                        ServerHelper.sendToServerCallback(syncCmd);
+                    }
 
-                    ServerHelper.sendToServerCallback(syncCmd);
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_FROM_SERVER;
                     this.SwitchSyncState();
                 }
+
                 break;
 
             case SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED:
                 //sync from server completed
 
                 console.log("SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED");
+
+                if (ServerWorkerContext.syncType === SYNC_TYPE.DIFFERENTIAL) {
+                    console.log("Differential Sync Completed");
+                }
+
+                ServerWorkerContext.isSyncInprogress = false;
+                SyncStoreManager.updateSyncStore()
 
                 break;
         }
@@ -174,6 +199,14 @@ export class ServerHelper {
 
             case SERVER_SYNC_STATE.SEND_AUTH_CMD:
                 this.SyncProcess(SERVER_SYNC_STATE.AUTHOURIZED);
+                break;
+
+            case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE:
+                this.SyncProcess(SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED);
+                break;
+
+            case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED:
+                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
                 break;
 
             case SERVER_SYNC_STATE.AUTHOURIZED:
@@ -194,38 +227,6 @@ export class ServerHelper {
         }
     }
 
-    public static ReadSyncStore() {
-
-        return new Promise((resolve, reject) => {
-
-            console.log("ReadSyncStore..")
-
-            SyncDb.getSyncList().then(
-                (val) => {
-                    val.forEach(item => {
-                        let syncDataItem = new SyncDataModel();
-                        syncDataItem = item;
-                        this.syncDataList.push(syncDataItem);
-                    });
-
-                    this.syncDataList.sort((a, b) => { return a.sync_order - b.sync_order });
-
-                    this.syncComplete = false;
-                    this.maxLength = this.syncDataList.length;
-                    this.count = 0;
-
-                    resolve();
-
-                },
-                (error) => {
-                    console.log("getSyncList error:", error);
-                    reject(error);
-                }
-            )
-        });
-
-    }
-
     public static AuthCmd() {
         // {"header":{"crc":"12","category":1,"commandid":1,"seqid":3},"payload":{"token":"Dev6AD88A481524BABF"}}
 
@@ -233,10 +234,8 @@ export class ServerHelper {
         authcmd.header = new Header();
 
         authcmd.header.crc = '12';
-        authcmd.header.category = 1;
-        authcmd.header.commandid = 1;
-
-        // console.log("AppGlobalContext.Token", AppGlobalContext.Token);
+        authcmd.header.category = CMD_CATEGORY.CMD_CAT_DEV_REGISTRATION;
+        authcmd.header.commandid = CMD_ID.CMD_DEV_REGISTRATION;
 
         const tokenmodel = new tokenModel();
         // tokenmodel.token = AppGlobalContext.Token;
@@ -252,20 +251,25 @@ export class ServerHelper {
         return cmdstring;
     }
 
-    public static GetSyncCmd(strname: string) {
+    public static GetSyncCmd(strname: string, lastSynched: Date) {
         // {"header":{"crc":"12","category":3,"commandid":50,"seqid":3},"payload":{"storename":"","updatedon":"2018-10-30T00:00:00Z"}}
 
         const getSyncCmd = new CmdModel();
         getSyncCmd.header = new Header();
 
         getSyncCmd.header.crc = '12';
-        getSyncCmd.header.category = 3;
-        getSyncCmd.header.commandid = 50;
+        getSyncCmd.header.category = CMD_CATEGORY.CMD_CAT_SYNC;
+        getSyncCmd.header.commandid = CMD_ID.CMD_GET_STORE_SYNC;
 
         const getrequest = new GetSyncRequestModel();
         getrequest.storename = strname;
-        getrequest.updatedon = "2018-10-30T00:00:00Z";
-        // 2018-10-30T00:00:00Z
+
+        // for first time sync - last synched empty then send default date
+        if (lastSynched) {
+            getrequest.updatedon = lastSynched;
+        } else {
+            getrequest.updatedon = new Date("2018-10-30T00:00:00Z");
+        }
 
         getSyncCmd.payload = getrequest;
 
@@ -284,8 +288,8 @@ export class ServerHelper {
         applySyncCmd.header = new Header();
 
         applySyncCmd.header.crc = '12';
-        applySyncCmd.header.category = 3;
-        applySyncCmd.header.commandid = 51;
+        applySyncCmd.header.category = CMD_CATEGORY.CMD_CAT_SYNC;
+        applySyncCmd.header.commandid = CMD_ID.CMD_APPLY_STORE_SYNC;
 
         const applyReqModel = new ApplySyncRequestModel();
         applyReqModel.storename = storename;
@@ -319,57 +323,77 @@ export class ServerHelper {
         const requestCmd = RequestManager.getRequest(respDataModel.header.seqid);
         console.log("requestCmd", requestCmd);
 
-        switch (requestCmd.header.category, requestCmd.header.commandid) {
+        if (requestCmd) {
 
-            case CMD_CATEGORY.CMD_CAT_DEV_REGISTRATION && CMD_ID.CMD_DEV_REGISTRATION:
-                // auth request cmd
-                if (respDataModel.payload.ack == true) {
-                    this.SwitchSyncState();
-                }
+            //handle response to cmd send by device
+            switch (requestCmd.header.category, requestCmd.header.commandid) {
 
-                break;
-
-            case CMD_CATEGORY.CMD_CAT_SYNC && CMD_ID.CMD_GET_STORE_SYNC:
-                // get sync request cmd
-
-                this.SwitchSyncState();
-
-                if (respDataModel.payload.ack == true && respDataModel.payload.ackdata != null) {
-                    switch (respDataModel.payload.ackdata.storename) {
-
-                        case SYNC_STORE.SERVICE_POINT:
-                            this.handleServicePointResponse(respDataModel);
-                            break;
-                        case SYNC_STORE.CONF:
-                            this.handleConfResponse(respDataModel);
-                            break;
-                        case SYNC_STORE.PATIENT_MASTER:
-                            this.handlePatientMasterResponse(respDataModel);
-                            break;
-                        case SYNC_STORE.SCHEDULE:
-                            this.handleScheduleResponse(respDataModel);
-                            break;
-                        case SYNC_STORE.PATIENT_ADMISSION:
-                            this.handlePatientAdmissionResponse(respDataModel);
-                            break;
-                        case SYNC_STORE.PERSONAL_DETAILS:
-                            this.handlePersonalDetailsResponse(respDataModel);
-                            break;
-                        case SYNC_STORE.MEDICAL_DETAILS:
-                            this.handleMedicalDetailsResponse(respDataModel);
-                            break;
-                        case SYNC_STORE.ACTION_TXN:
-                            this.handleActionTxnResponse(respDataModel);
-                            break;
+                case CMD_CATEGORY.CMD_CAT_DEV_REGISTRATION && CMD_ID.CMD_DEV_REGISTRATION:
+                    // auth request cmd response
+                    if (respDataModel.payload.ack == true) {
+                        this.SwitchSyncState();
                     }
-                }
 
-                break;
+                    break;
 
-            case CMD_CATEGORY.CMD_CAT_SYNC && CMD_ID.CMD_APPLY_STORE_SYNC:
-                // apply sync request cmd
-                this.SwitchSyncState();
-                break;
+                case CMD_CATEGORY.CMD_CAT_SYNC && CMD_ID.CMD_GET_STORE_SYNC:
+                    // get sync request cmd response
+
+                    this.SwitchSyncState();
+
+                    if (respDataModel.payload.ack == true && respDataModel.payload.ackdata != null) {
+                        switch (respDataModel.payload.ackdata.storename) {
+
+                            case SYNC_STORE.SERVICE_POINT:
+                                this.handleServicePointResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.CONF:
+                                this.handleConfResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.PATIENT_MASTER:
+                                this.handlePatientMasterResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.SCHEDULE:
+                                this.handleScheduleResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.PATIENT_ADMISSION:
+                                this.handlePatientAdmissionResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.PERSONAL_DETAILS:
+                                this.handlePersonalDetailsResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.MEDICAL_DETAILS:
+                                this.handleMedicalDetailsResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.ACTION_TXN:
+                                this.handleActionTxnResponse(respDataModel);
+                                break;
+                        }
+                    }
+
+                    break;
+
+                case CMD_CATEGORY.CMD_CAT_SYNC && CMD_ID.CMD_APPLY_STORE_SYNC:
+                    // apply sync request cmd response
+                    // sync to server response - update individual tbl sync flag 
+                    SyncStoreManager.updateTblSyncPending(requestCmd.payload.storename, requestCmd.payload.storedata[0].sync_pending_time);
+
+                    this.SwitchSyncState();
+                    break;
+            }
+        } else {
+            //handle server notification
+            switch (respDataModel.header.category, respDataModel.header.commandid) {
+
+                case CMD_CATEGORY.CMD_CAT_SERVER_NOTIFICATION && CMD_ID.CMD_APPLY_STORE_SYNC:
+                    console.log("notification cat response:", respDataModel);
+
+                    SyncStoreManager.syncFromServerChanged(respDataModel.payload.storename)
+
+                    break;
+
+            }
+
         }
 
     }
@@ -390,15 +414,19 @@ export class ServerHelper {
             servicePointDatastoreModel.updated_on = item.updated_on;
             servicePointDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("sp store data:", servicePointDatastoreModel);
+            // console.log("sp store data:", servicePointDatastoreModel);
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.SERVICE_POINT;
             serverDataStoreDataModel.data = servicePointDatastoreModel;
 
-            console.log("sp server data store model", serverDataStoreDataModel);
+            // console.log("sp server data store model", serverDataStoreDataModel);
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
 
         }
 
@@ -418,13 +446,18 @@ export class ServerHelper {
             confDatastoreModel.updated_on = item.updated_on;
             confDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("conf store data:", confDatastoreModel);
+            // console.log("conf store data:", confDatastoreModel);
 
-            const serverDataStoreDataModel = new ServerDataStoreDataModel();
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.CONF;
             serverDataStoreDataModel.data = confDatastoreModel;
 
-            console.log("conf server data store model", serverDataStoreDataModel);
+            // console.log("conf server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -450,13 +483,18 @@ export class ServerHelper {
             patientMasterDatastoreModel.updated_on = item.updated_on;
             patientMasterDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("patient master store data:", patientMasterDatastoreModel);
+            // console.log("patient master store data:", patientMasterDatastoreModel);
 
-            const serverDataStoreDataModel = new ServerDataStoreDataModel();
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.PATIENT_MASTER;
             serverDataStoreDataModel.data = patientMasterDatastoreModel;
 
-            console.log("patient master server data store model", serverDataStoreDataModel);
+            // console.log("patient master server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -475,16 +513,21 @@ export class ServerHelper {
             scheduleDatastoreModel.admission_uuid = item.admission_uuid;
             scheduleDatastoreModel.conf_type_code = item.conf_type_code;
             scheduleDatastoreModel.conf = item.conf;
-           // scheduleDatastoreModel.updated_on = item.updated_on;
+            scheduleDatastoreModel.updated_on = item.updated_on;
             scheduleDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("schedule store data:", scheduleDatastoreModel);
+            // console.log("schedule store data:", scheduleDatastoreModel);
 
-            const serverDataStoreDataModel = new ServerDataStoreDataModel();
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.SCHEDULE;
             serverDataStoreDataModel.data = scheduleDatastoreModel;
 
-            console.log("schedule server data store model", serverDataStoreDataModel);
+            // console.log("schedule server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -500,7 +543,7 @@ export class ServerHelper {
             const item = <PatientAdmissionDatastoreModel>tblData[i];
 
             patientAdmissionDatastoreModel.uuid = item.uuid;
-            patientAdmissionDatastoreModel.patient_uuid = item.patient_reg_no;
+            patientAdmissionDatastoreModel.patient_uuid = item.patient_uuid;
             patientAdmissionDatastoreModel.patient_reg_no = item.patient_reg_no;
             patientAdmissionDatastoreModel.bed_no = item.bed_no;
             patientAdmissionDatastoreModel.status = item.status;
@@ -511,13 +554,18 @@ export class ServerHelper {
             patientAdmissionDatastoreModel.updated_on = item.updated_on;
             patientAdmissionDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("patient admsn store data:", patientAdmissionDatastoreModel);
+            // console.log("patient admsn store data:", patientAdmissionDatastoreModel);
 
-            const serverDataStoreDataModel = new ServerDataStoreDataModel();
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.PATIENT_ADMISSION;
             serverDataStoreDataModel.data = patientAdmissionDatastoreModel;
 
-            console.log("patient admsn server data store model", serverDataStoreDataModel);
+            // console.log("patient admsn server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -541,13 +589,18 @@ export class ServerHelper {
             patientPersonalDetailsDatastoreModel.updated_on = item.updated_on;
             patientPersonalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("personal details store data:", patientPersonalDetailsDatastoreModel);
+            // console.log("personal details store data:", patientPersonalDetailsDatastoreModel);
 
-            const serverDataStoreDataModel = new ServerDataStoreDataModel();
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.PERSONAL_DETAILS;
             serverDataStoreDataModel.data = patientPersonalDetailsDatastoreModel;
 
-            console.log("personal details server data store model", serverDataStoreDataModel);
+            // console.log("personal details server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -577,13 +630,18 @@ export class ServerHelper {
             patientMedicalDetailsDatastoreModel.updated_on = item.updated_on;
             patientMedicalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("medical details store data:", patientMedicalDetailsDatastoreModel);
+            // console.log("medical details store data:", patientMedicalDetailsDatastoreModel);
 
-            const serverDataStoreDataModel = new ServerDataStoreDataModel();
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.MEDICAL_DETAILS;
             serverDataStoreDataModel.data = patientMedicalDetailsDatastoreModel;
 
-            console.log("medical details server data store model", serverDataStoreDataModel);
+            // console.log("medical details server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -608,51 +666,20 @@ export class ServerHelper {
             actionTxnDatastoreModel.updated_on = item.updated_on;
             actionTxnDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
-            console.log("action txn store data:", actionTxnDatastoreModel);
+            // console.log("action txn store data:", actionTxnDatastoreModel);
 
-            const serverDataStoreDataModel = new ServerDataStoreDataModel();
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.ACTION_TXN;
             serverDataStoreDataModel.data = actionTxnDatastoreModel;
 
-            console.log("action txn server data store model", serverDataStoreDataModel);
+            // console.log("action txn server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
-
-    }
-
-    // public static getStoreData(storename: string) {
-    //     switch (storename) {
-    //         case SYNC_STORE.SERVICE_POINT:
-    //             return this.getData(storename);
-    //         case SYNC_STORE.CONF:
-    //             break;
-    //         case SYNC_STORE.PATIENT_MASTER:
-    //             break;
-    //         case SYNC_STORE.SCHEDULE:
-    //             break;
-    //         case SYNC_STORE.PATIENT_ADMISSION:
-    //             break;
-    //         case SYNC_STORE.PERSONAL_DETAILS:
-    //             break;
-    //         case SYNC_STORE.MEDICAL_DETAILS:
-    //             break;
-    //         case SYNC_STORE.ACTION_TXN:
-    //             break;
-    //     }
-    // }
-
-    public static getData(storename: string) {
-
-        DatabaseHelper.getSyncPendingDataStore(storename).then(
-            (val) => {
-                console.log("getData:", val);
-                this.data = val;
-                console.log("this.data", this.data);
-            },
-            (err) => {
-                console.log("getServicePointData err:", err);
-            }
-        );
 
     }
 

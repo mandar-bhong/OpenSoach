@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 
 	bindList() {
 		console.log('bindList');
-		this.listItems = new ObservableArray<PatientListViewModel>();
+		// this.listItems = new ObservableArray<PatientListViewModel>();
 		if (this.searchValue != "") {
 			this.listSource.forEach(item => {
 				if (item.dbmodel.fname.toLowerCase().indexOf(this.searchValue) !== -1 || item.dbmodel.lname.toLowerCase().indexOf(this.searchValue) !== -1 || item.dbmodel.bed_no.toLowerCase().indexOf(this.searchValue) !== -1 || item.dbmodel.sp_name.toLowerCase().indexOf(this.searchValue) !== -1) {

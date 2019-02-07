@@ -9,9 +9,9 @@ export class PatientPersonalDetailsDatastoreModel implements IDatastoreModel {
     other_details: string;
     updated_on: Date;
     sync_pending: number;
-    sync_pending_time: Date;
+    client_updated_at: Date;
     getModelValues(): any[] {
         return [this.uuid, this.patient_uuid, this.admission_uuid, this.age, this.weight, this.other_details,
-        this.updated_on, this.sync_pending,this.sync_pending_time];
+        this.updated_on, this.sync_pending,this.client_updated_at];
     }
 }

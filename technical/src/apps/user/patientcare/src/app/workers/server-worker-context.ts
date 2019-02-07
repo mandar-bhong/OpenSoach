@@ -9,8 +9,7 @@ export class ServerWorkerContext {
     // SYNC Engine Context
     public static isSyncInprogress: boolean;
     public static syncType: SYNC_TYPE;
-    //public static syncDirection: SYNC_DIRECTION;
-    public static syncState:SERVER_SYNC_STATE;
+    public static syncState: SERVER_SYNC_STATE;
 }
 
 export enum SYNC_TYPE {
@@ -19,8 +18,7 @@ export enum SYNC_TYPE {
     DIFFERENTIAL = 2
 }
 
-// export enum SYNC_DIRECTION {
-//     NONE = 0,
-//     TO_SERVER = 1,
-//     FROM_SERVER = 2
-// }
+export class CurrentStoreModel {
+    currentStoreName: string;
+    lastSynched: Date;
+}

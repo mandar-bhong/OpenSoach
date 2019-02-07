@@ -20,7 +20,6 @@ export interface AppMessageHandlerInterface {
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void): void
     saveToDataStore(): void;
     notifyUI(): void;
-    updateSyncPending(): void;
     notifySync(): void;
 }
 
@@ -81,8 +80,4 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
 
     }
 
-    updateSyncPending() {
-
-        // Update sync table for the this.dataModel.datastore 'sync_pending' to true and sync_pending_time to current time
-    }
 }

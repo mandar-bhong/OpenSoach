@@ -71,9 +71,11 @@ export class WorkerService {
 
             switch (item.datastore) {
                 case SYNC_STORE.PATIENT_MASTER:
+                console.log('master data call');
                     this.patientMasterDataReceivedSubject.next(item.data.uuid);
                     break;
                 case SYNC_STORE.PATIENT_ADMISSION:
+                console.log('admission data call');
                     this.patientAdmissionDataReceivedSubject.next(item.data.uuid);
                     // console.log('item.data.uuid', item.data.uuid);
                     break;

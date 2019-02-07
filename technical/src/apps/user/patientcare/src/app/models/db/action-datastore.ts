@@ -8,9 +8,9 @@ export class ActionDataStoreModel implements IDatastoreModel {
     schedule_uuid: string;
     exec_time: Date;
     sync_pending: number;
-    sync_pending_time: Date;
+    client_updated_at: Date;
     getModelValues(): any[] {
-        return [this.uuid, this.admission_uuid, this.conf_type_code, this.schedule_uuid, this.exec_time, this.sync_pending,this.sync_pending_time];
+        return [this.uuid, this.admission_uuid, this.conf_type_code, this.schedule_uuid, this.exec_time, this.sync_pending,this.client_updated_at];
     }
 }
 

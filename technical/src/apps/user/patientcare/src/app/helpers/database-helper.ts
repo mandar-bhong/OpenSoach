@@ -16,20 +16,29 @@ let selectQueries = new Map([
     ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code, updated_on,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?, ?,?)"],
     ["syncList", "select * from sync_tbl"],
     ["actionTxnList", "select * from action_txn_tbl"],
-    ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on,sync_pending) values ( ?, ?, ?, ?, ?, ?, ?)"],
-    ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_on=?,sync_pending=? where uuid=?"],
-    ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,end_date,sync_pending,sync_pending_time) values ( ?, ?, ?, ?,?,?,?)"],
-    ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, sync_pending,sync_pending_time) values ( ?, ?, ?, ?, ?, ?, ?)"],
+    ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on,sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_on=?,sync_pending=?, client_updated_at=? where uuid=?"],
+    ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,end_date,updated_on,sync_pending,client_updated_at) values ( ?, ?, ?, ?,?,?,?,?)"],
+    ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?)"],
     ["action_tbl_delete", "DELETE FROM action_tbl"],
-    ["patient_master_tbl_update", "update patient_master_tbl set  patient_reg_no=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=?, sync_pending_time=? where uuid=?"],
-    ["patient_admission_tbl_update", "update patient_admission_tbl set patient_uuid=?, patient_reg_no=?, bed_no=?, status=?, sp_uuid=?, dr_incharge=?, admitted_on=?, discharged_on=?, updated_on=?, sync_pending=?, sync_pending_time=? where uuid=?"],
-    ["action_txn_tbl_insert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,updated_on,runtime_config_data,sync_pending, sync_pending_time) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)"],
+    ["patient_master_tbl_update", "update patient_master_tbl set  patient_reg_no=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid=?"],
+    ["patient_admission_tbl_update", "update patient_admission_tbl set patient_uuid=?, patient_reg_no=?, bed_no=?, status=?, sp_uuid=?, dr_incharge=?, admitted_on=?, discharged_on=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid=?"],
+    ["action_txn_tbl_insert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code,updated_on,runtime_config_data,sync_pending, client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)"],
     ["monitorTxnList", "select schedule.conf,txn.schedule_uuid,txn_data,txn_date  from action_txn_tbl as txn left join schedule_tbl as schedule on txn.schedule_uuid = schedule.uuid where schedule.conf_type_code = 'Monitor'"],
-    ["patient_master_tbl_insert", "insert into patient_master_tbl (uuid,patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_pending,sync_pending_time) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
-    ["patient_admission_tbl_insert", "insert into patient_admission_tbl (uuid, patient_uuid, patient_reg_no, bed_no, status, sp_uuid, dr_incharge, admitted_on, discharged_on, updated_on, sync_pending,sync_pending_time) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["patient_master_tbl_insert", "insert into patient_master_tbl (uuid,patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["patient_admission_tbl_insert", "insert into patient_admission_tbl (uuid, patient_uuid, patient_reg_no, bed_no, status, sp_uuid, dr_incharge, admitted_on, discharged_on, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["userList", "select * from user_account_tbl"],
-
     ["user_account_tbl_insert", "insert into user_account_tbl (id, user_fname, user_lname, email, pin ) values ( ?, ?, ?, ?, ?)"],
+
+    ["conf_tbl_insert", "insert into conf_tbl (uuid,conf_type_code,conf,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?)"],
+    ["conf_tbl_update", "update conf_tbl set conf_type_code=?,conf=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
+    ["schedule_tbl_update", "update schedule_tbl set admission_uuid=?,conf_type_code=?,conf=?,end_date=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
+    ["patient_personal_details_tbl_insert", "insert into patient_personal_details_tbl (uuid,patient_uuid,admission_uuid,age,weight,other_details,updated_on,sync_pending,client_updated_at) values (?,?,?,?,?,?,?,?,?)"],
+    ["patient_personal_details_tbl_update", "update patient_personal_details_tbl set patient_uuid=?,admission_uuid=?,age=?,weight=?,other_details=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
+    ["patient_medical_details_tbl_insert", "insert into patient_medical_details_tbl (uuid,patient_uuid,admission_uuid,reason_for_admission,patient_medical_hist,treatment_recieved_before,family_hist,menstrual_hist,allergies,personal_history,general_physical_exam,systematic_exam,updated_on,sync_pending,client_updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"],
+    ["patient_medical_details_tbl_update", "update patient_medical_details_tbl set patient_uuid=?,admission_uuid=?,reason_for_admission=?,patient_medical_hist=?,treatment_recieved_before=?,family_hist=?,menstrual_hist=?,allergies=?,personal_history=?,general_physical_exam=?,systematic_exam=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid=?"],
+    ["action_txn_tbl_update", "update action_txn_tbl set admission_uuid=?,schedule_uuid=?,txn_data=?,txn_date=?,txn_state=?,conf_type_code=?,updated_on=?,runtime_config_data=?,sync_pending=?, client_updated_at=?"],
+
 ]);
 
 let selectTableName = new Map([
@@ -250,41 +259,33 @@ export class DatabaseHelper {
         });
     }
 
-
-    public static filterWithParam(key: string, paramList: Array<any>): any {
-        return new Promise((resolve, reject) => {
-            var query: string;
-            if (selectQueries.has(key) == true) {
-                query = selectQueries.get(key);
-            };
-            this.getdbConn()
-                .then(db => {
-                    db.resultType(Sqlite.RESULTSASOBJECT);
-                    db.all(query, paramList, function (err, result) {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(result);
-                        }
-                    });
-                });
-        });
-    }
-
-    public static updateSyncStoreSyncPending(storename: string, syncType: number): any {
+    public static updateSyncStoreSyncPending(storename: string, syncType: number, isSyncPending: number): any {
 
         return new Promise((resolve, reject) => {
 
             var paramList = [];
             var updateQuery = "";
             const currentTime = Date.now();
-            paramList.push(currentTime);
-            paramList.push(storename);
+            paramList.push(isSyncPending);
 
             if (syncType === 1) {
-                updateQuery = "update sync_tbl set sync_from_server_pending = 1,sync_from_server_pending_time = ? where store_name = ?";
+                if (isSyncPending == 1) {
+                    paramList.push(currentTime);
+                    paramList.push(storename);
+                    updateQuery = "update sync_tbl set sync_from_server_pending = ?,sync_from_server_pending_time = ? where store_name = ?";
+                } else {
+                    paramList.push(storename);
+                    updateQuery = "update sync_tbl set sync_from_server_pending = ? where store_name = ?";
+                }
             } else if (syncType === 2) {
-                updateQuery = "update sync_tbl set sync_to_server_pending = 1,sync_to_server_pending_time = ?  where store_name = ?";
+                if (isSyncPending == 1) {
+                    paramList.push(currentTime);
+                    paramList.push(storename);
+                    updateQuery = "update sync_tbl set sync_to_server_pending = ?,sync_to_server_pending_time = ?  where store_name = ?";
+                } else {
+                    paramList.push(storename);
+                    updateQuery = "update sync_tbl set sync_from_server_pending = ? where store_name = ?";
+                }
             }
 
             this.getdbConn()
@@ -304,15 +305,17 @@ export class DatabaseHelper {
         });
     }
 
-    public static updateTableSyncPending(storename: string): any {
+    public static updateTableSyncPending(storename: string, syncpendingtime: Date): any {
 
         return new Promise((resolve, reject) => {
 
             //  console.log("updateTableSyncPending");
             //   console.log("storename", storename);
 
+            var paramList = [];
+            paramList.push(syncpendingtime);
             var tblname: string;
-            var updateQuery = "update TABLENAME set sync_pending = 0 where sync_pending = 1";
+            var updateQuery = "update TABLENAME set sync_pending = 0 where sync_pending = 1 and client_updated_at = ?";
 
             if (selectTableName.has(storename) == true) {
                 tblname = selectTableName.get(storename);
@@ -324,13 +327,41 @@ export class DatabaseHelper {
             this.getdbConn()
                 .then(db => {
 
-                    db.execSQL(updateQuery, []).then(id => {
+                    db.execSQL(updateQuery, paramList).then(id => {
                         console.log("updateTableSyncPending");
-                        //  console.log("db result", id);
+                         console.log("affected rows", id);
                         resolve(id);
                     }, error => {
                         console.log("updateTableSyncPending");
                         console.log("db error", error);
+                        reject(error);
+                    });
+                });
+
+        });
+    }
+
+    public static updateSyncStoreLastSynched(storename: string, lastSynched: Date): any {
+
+        return new Promise((resolve, reject) => {
+
+            console.log("lastSynched:", lastSynched);
+
+            const updateQuery = "update sync_tbl set last_synced = ? where store_name = ?"
+            var paramList = [];
+            paramList.push(lastSynched);
+            paramList.push(storename);
+
+            this.getdbConn()
+                .then(db => {
+
+                    db.execSQL(updateQuery, paramList).then(id => {
+                        console.log("updateSyncStoreLastSynched");
+                        console.log("affected rows :", id);
+                        resolve(id);
+                    }, error => {
+                        console.log("updateSyncStoreLastSynched");
+                        console.log("db error:", error);
                         reject(error);
                     });
                 });
