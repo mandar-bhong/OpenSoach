@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	pcmodels "opensoach.com/prodcore/models"
+)
 
 type DBSearchFieldOperatorRequestFilterDataModel struct {
 	Fopcode  *string `db:"fopcode" json:"fopcode"`
@@ -8,7 +12,7 @@ type DBSearchFieldOperatorRequestFilterDataModel struct {
 	MobileNo *string `db:"mobile_no" json:"mobileno"`
 	EmailId  *string `db:"email_id" json:"emailid"`
 	CpmId    int64   `db:"cpm_id_fk" json:"cpmid"`
-	FopState *int     `db:"fop_state" json:"fopstate"`
+	FopState *int    `db:"fop_state" json:"fopstate"`
 }
 
 type DBSearchFieldOperatorResponseFilterDataModel struct {
@@ -121,4 +125,52 @@ type DBSearchFeedbackResponseFilterDataModel struct {
 	FeedbackId      int64   `db:"id" dbattr:"pri,auto"  json:"feedbackid"`
 	Feedback        int     `db:"feedback" json:"feedback"`
 	FeedbackComment *string `db:"feedback_comment" json:"feedbackcomment"`
+}
+
+type DBSearchPatientRequestFilterDataModel struct {
+	CpmId      int64      `db:"patient.cpm_id_fk" json:"cpmid"`
+	Fname      *string    `db:"fname" json:"fname"`
+	Lname      *string    `db:"lname" json:"lname"`
+	MobNo      *string    `db:"mob_no" json:"mobno"`
+	SpId       *int64     `db:"sp_id_fk" json:"spid"`
+	BedNo      *string    `db:"bed_no" json:"bedno"`
+	Status     *int       `db:"status" json:"status"`
+	AdmittedOn *time.Time `db:"admitted_on" json:"admittedon"`
+}
+
+type DBSearchPatientResponseFilterDataModel struct {
+	PatientId    int64      `db:"patient_id_fk" json:"patientid"`
+	AdmissionId  *int64     `db:"id" dbattr:"pri,auto"  json:"admissionid"`
+	CpmId        *int64     `db:"cpm_id_fk" json:"cpmid"`
+	Fname        string     `db:"fname" json:"fname"`
+	Lname        string     `db:"lname" json:"lname"`
+	MobNo        string     `db:"mob_no" json:"mobno"`
+	BedNo        *string    `db:"bed_no" json:"bedno"`
+	Status       *int       `db:"status" json:"status"`
+	SpId         *int64     `db:"sp_id_fk" json:"spid"`
+	DrIncharge   *int64     `db:"dr_incharge" json:"drincharge"`
+	AdmittedOn   *time.Time `db:"admitted_on" json:"admittedon"`
+	DischargedOn *time.Time `db:"discharged_on" json:"dischargedon"`
+}
+
+type DBSearchPatientMasterRequestFilterDataModel struct {
+	CpmId int64   `db:"cpm_id_fk" json:"cpmid"`
+	Fname *string `db:"fname" json:"fname"`
+	Lname *string `db:"lname" json:"lname"`
+	MobNo *string `db:"mob_no" json:"mobno"`
+}
+
+type DBSearchPatientMasterResponseFilterDataModel struct {
+	pcmodels.StoreEntityModel
+	PatientId    int64     `db:"id" dbattr:"pri,auto"  json:"patientid"`
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	PatientRegNo string    `db:"patient_reg_no" json:"patientregno"`
+	Fname        string    `db:"fname" json:"fname"`
+	Lname        string    `db:"lname" json:"lname"`
+	MobNo        string    `db:"mob_no" json:"mobno"`
+	Age          string    `db:"age" json:"age"`
+	BloodGrp     string    `db:"blood_grp" json:"bloodgrp"`
+	Gender       int       `db:"gender" json:"gender"`
+	CreatedOn    time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
 }
