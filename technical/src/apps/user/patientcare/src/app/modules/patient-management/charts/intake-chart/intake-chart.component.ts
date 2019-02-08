@@ -14,6 +14,7 @@ import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-dat
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { WorkerService } from '~/app/services/worker.service';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 
 @Component({
     moduleId: module.id,
@@ -43,10 +44,13 @@ export class IntakeChartComponent implements OnInit {
     SrtartdateIsValid: boolean;
     isNumberOfTimes: boolean;
     isspecificTime: boolean;
+    serverDataStoreDataModelArray: ServerDataStoreDataModel<ScheduleDatastoreModel>[] = [];
+    patientName: string;
     // end of proccess variables
 
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
+        private params: ModalDialogParams,
         public workerService: WorkerService,
         private passDataService: PassDataService,
         private chartservice: ChartService) {
@@ -61,10 +65,8 @@ export class IntakeChartComponent implements OnInit {
     }
 
     ngOnInit() {
-
         // creating form control
         this.createFormControls();
-
         this.frequencyItems = [];
         const freqItem1 = new SegmentedBarItem();
         freqItem1.title = "Every 'X' hours";
@@ -78,7 +80,8 @@ export class IntakeChartComponent implements OnInit {
 
     // << func for navigating previous page
     goBackPage() {
-        this.routerExtensions.back();
+        this.params.closeCallback([]);
+        // this.routerExtensions.back();
         //  this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
     }
     // >> func for navigating previous page
@@ -90,7 +93,6 @@ export class IntakeChartComponent implements OnInit {
     onFrequencySelectedIndexChange(args) {
         let segmetedBar = <SegmentedBar>args.object;
         this.freqSelectedIndex = segmetedBar.selectedIndex;
-
         if (this.freqSelectedIndex == 0) {
             this.intakeForm.controls['numberofTimes'].setValidators([Validators.required]);
             this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
@@ -172,12 +174,14 @@ export class IntakeChartComponent implements OnInit {
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.INTAKE;
 
+        //this.routerExtensions.navigateByUrl()
+        //  this.goBackPage();
         // insert chart db model to sqlite db       
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString);
         // get chart data from sqlite db
-      // this.chartservice.getChartList()
+        // this.chartservice.getChartList()
 
-        this.goBackPage();
+
 
     }
     // >> func for inserting form data to sqlite db
@@ -211,26 +215,26 @@ export class IntakeChartComponent implements OnInit {
 
     // fucntion for creating intake actions
     createActions(uuid, admission_uuid, conf_type_code, conf) {
-        const initModel = new ServerDataProcessorMessageModel();
+
         const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
         serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
         serverDataStoreModel.data = new ScheduleDatastoreModel();
         // serverDataStoreModel.data.uuid = '11'
         // serverDataStoreModel.data.sync_pending = 1
         // serverDataStoreModel.data.admission_uuid = "11";
-        // serverDataStoreModel.data.conf_type_code = 'Medicine';
+        // serverDataStoreModel.data.conf_type_code = conf_type_code;
         //  serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
-
-        // serverDataStoreModel.data.conf = JSON.stringify(formData);
         serverDataStoreModel.data.uuid = uuid
         serverDataStoreModel.data.sync_pending = 1
         serverDataStoreModel.data.admission_uuid = admission_uuid;
         serverDataStoreModel.data.conf_type_code = conf_type_code;
         serverDataStoreModel.data.conf = conf;
-        console.log('created data', serverDataStoreModel.data)
-        initModel.data = [serverDataStoreModel];
-        initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+        this.serverDataStoreDataModelArray.push(serverDataStoreModel);
+        // navigating data to schedule list page using subject
+        // this.chartservice.setScheduleContext([serverDataStoreModel]);
+        this.params.closeCallback([serverDataStoreModel]);
+
+
     }
     // en dof fucntion
 

@@ -122,9 +122,8 @@ export class UserAuthComponent implements OnInit {
 		if (formmodel.pin == this.pincheck) {
 			console.log('this.pin Right', formmodel.pin);
 			this.passdataservice.authResultReuested.onDeviceAuthSuccess(this.selecedItemsData.userid);
+			this.routerExtensions.back();
 
-			// this.routerExtensions.back();
-		
 		} else {
 			console.log('this.pin wrong', formmodel.pin);
 		}

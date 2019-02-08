@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { View, isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { ListViewLinearLayout, ListViewEventData, RadListView, ListViewItemSnapMode } from 'nativescript-ui-listview';
@@ -16,7 +16,11 @@ import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-pr
 import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-constants';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
 import { IDeviceAuthResult } from '../../idevice-auth-result';
-
+import { PassDataService } from '~/app/services/pass-data-service';
+import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
+import { IntakeChartComponent } from './intake-chart/intake-chart.component';
+import { MedicineChartComponent } from './medicine-chart/medicine-chart.component';
+import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -25,24 +29,18 @@ import { IDeviceAuthResult } from '../../idevice-auth-result';
 })
 
 export class ChartsComponent implements OnInit, IDeviceAuthResult {
-	onDeviceAuthSuccess(userid: number): void {
-		// save schedule using worker
-	}
-	onDeviceAuthError(error: any): void {
-		throw new Error("Method not implemented.");
-	}
-	onSubmitDiscarded(): void {
-		throw new Error("Method not implemented.");
-	}
 
 	chartListItems: ObservableArray<ChartListViewModel>;
+	ServerDataStoreDataModelArray: ServerDataStoreDataModel<ScheduleDatastoreModel>[] = [];
 	//chartListItemsSource = new ObservableArray<ChartListViewModel>();
 	// >> seleced bottom button change color
 	monitorbuttonClicked: boolean = false;
 	intakebuttonClicked: boolean = true;
 	medicinebuttonClicked: boolean = false;
 	outputbuttonClicked: boolean = false;
+	isSchedularDataReceived = false;
 	schedulecreationSubscription: Subscription;
+	scheduleDataContext: Subscription;
 	// >> finding grouping index then after click show in top
 	intakeIndex;
 	medicineIndex;
@@ -57,7 +55,10 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	iscompleted: boolean;
 	constructor(private chartService: ChartService,
 		public workerservice: WorkerService,
-		private routerExtensions: RouterExtensions) {
+		public passdataservice: PassDataService,
+		private routerExtensions: RouterExtensions,
+		private modalService: ModalDialogService,
+		private viewContainerRef: ViewContainerRef) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
 			return item.dbmodel.conf_type_code;
@@ -74,6 +75,15 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			this.pushAddedSchedule(value);
 		});
 		this.completeorpending = "Active Schedules";
+		this.scheduleDataContext = this.chartService.scheduleDataContext.subscribe((value) => {
+			console.log('schedule data created in schedule  entry', value);
+			// checking if schedulearrray  have any records.
+			if (value.length > 0) {
+				this.ServerDataStoreDataModelArray = value;
+				this.isSchedularDataReceived = true;
+				//	this.savetoUserAuth();
+			}
+		});
 	}
 	showDialog() {
 		this.dialogOpen = true;
@@ -83,10 +93,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.dialogOpen = false;
 	}
 
-	public listLoaded() {
-
-		console.log('list loaded');
-	}
 
 	// >> Grouping position change 
 	// >> Grouping intake scroll to top position change 
@@ -179,16 +185,18 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		);
 	}
 	monitorForm() {
-		this.dialogOpen = false;
-		this.routerExtensions.navigate(['patientmgnt', 'monitor-chart'], { clearHistory: false });
+		this.openModel(MonitorChartComponent);
+		//	this.dialogOpen = false;
+		//this.routerExtensions.navigate(['patientmgnt', 'monitor-chart'], { clearHistory: false });
 	}
 	medicineForm() {
-		this.dialogOpen = false;
-		this.routerExtensions.navigate(['patientmgnt', 'medicine-chart'], { clearHistory: false });
+		this.openModel(MedicineChartComponent);
+		//	this.dialogOpen = false;
+		//	this.routerExtensions.navigate(['patientmgnt', 'medicine-chart'], { clearHistory: false, });
 	}
 	intakeForm() {
-		this.dialogOpen = false;
-		this.routerExtensions.navigate(['patientmgnt', 'intake-chart'], { clearHistory: false });
+		this.openModel(IntakeChartComponent);
+		//this.routerExtensions.navigate(['patientmgnt', 'intake-chart'], { clearHistory: false });
 	}
 	ngOnDestroy(): void {
 		//Called once, before the instance is destroyed.
@@ -253,6 +261,12 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
 
 	}
+	public listLoaded() {
+		// console.log('this.isSchedularDataReceived', this.isSchedularDataReceived);
+		// if (this.isSchedularDataReceived) {
+		// 	this.savetoUserAuth();
+		// }
+	}
 
 	public onListSorting(args) {
 		let firstSwitch = <Switch>args.object;
@@ -269,5 +283,40 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	}
 	// on click of button set current service name in passdata service for ref invocatios
 	// like authResultReuested=this or name of your component.
+	savetoUserAuth() {
+		setTimeout(() => {
+			this.passdataservice.authResultReuested = this;
+			this.routerExtensions.navigate(['patientmgnt', 'user-auth'], { clearHistory: false });
+		}, 2000);
 
+	}
+	onDeviceAuthSuccess(userid: number): void {
+		console.log('chart componenent onDeviceAuthSuccess executed');
+		const initModel = new ServerDataProcessorMessageModel();
+		initModel.data = this.ServerDataStoreDataModelArray
+		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
+	}
+	onDeviceAuthError(error: any): void {
+		throw new Error("Method not implemented.");
+	}
+	onSubmitDiscarded(): void {
+		throw new Error("Method not implemented.");
+	}
+	openModel(componentName) {
+		let options: ModalDialogOptions = {
+			context: { promptMsg: "This is the prompt message!" },
+			fullscreen: true,
+			viewContainerRef: this.viewContainerRef
+		};
+		this.modalService.showModal(componentName, options).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
+			console.log('dialogResult', dialogResult);
+			this.ServerDataStoreDataModelArray = dialogResult;
+			if (this.ServerDataStoreDataModelArray.length > 0) {
+				this.savetoUserAuth();
+			}
+			this.dialogOpen = false;
+		});
+
+	}
 } 

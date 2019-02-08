@@ -1,4 +1,4 @@
-<ActionBar title="Intake Data Form" class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+<!-- <ActionBar title="Intake Data Form" class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
     <NavigationButton visibility="collapsed"></NavigationButton>
     <GridLayout columns="*" ios:padding="0 10" height="100%" width="100%">
         <StackLayout col="0">
@@ -9,106 +9,115 @@
             </GridLayout>
         </StackLayout>
     </GridLayout>
-</ActionBar>
-
-<ScrollView>
-    <StackLayout class="form" [formGroup]="intakeForm">
-        <StackLayout class="input-field">
-            <Label text="Intake Name"></Label>
-            <TextField class="input" formControlName="name"></TextField>
-            <StackLayout class="hr-light" [ngClass]="{invalid: intakeNameIsValid === true}"></StackLayout>
-            <StackLayout class="input-field">
-                <StackLayout *ngIf="intakeNameIsValid">
-                    <Label text="*intake name is required " style="color:red"></Label>
-                </StackLayout>
-            </StackLayout>
-        </StackLayout>
-
-        <StackLayout class="input-field">
-            <Label text="Quantity"></Label>
-            <TextField class="input" formControlName="quantity" hint="No. of units"></TextField>
-            <StackLayout class="hr-light" [ngClass]="{invalid: quantityIsValid === true}"></StackLayout>
-            <StackLayout class="input-field">
-                <StackLayout *ngIf="quantityIsValid">
-                    <Label text="*quantity name is required " style="color:red"></Label>
-                </StackLayout>
-            </StackLayout>
-        </StackLayout>
-
-        <StackLayout class="input-field">
-            <Label text="Frequency"></Label>
-            <SegmentedBar [items]="frequencyItems" formControlName="frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
-                class="segmented-bar" selectedIndex="0" class="m-5"></SegmentedBar>
-            <StackLayout></StackLayout>
-
-            <StackLayout *ngIf="freqSelectedIndex===0 ">
-                <StackLayout class="input-field">
-                    <Label col="0" row="0" text="Enter interval in minutes"></Label>
-                    <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
-                </StackLayout>
-                <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
-                <StackLayout *ngIf="intervalHrsIsValid">
-                    <Label text="*interval minutes is required " style="color:red"></Label>
-                </StackLayout>
-                <StackLayout class="input-field">
-                    <Label col="0" row="1" text="Enter no. of times"></Label>
-                    <TextField col="1" row="0" class="input" keyboardType="number" formControlName="numberofTimes"></TextField>
-                </StackLayout>
-                <StackLayout class="hr-light" [ngClass]="{invalid: isNumberOfTimes === true}"></StackLayout>
-                <StackLayout *ngIf="isNumberOfTimes">
-                    <Label text="*Number of times is required " style="color:red"></Label>
-                </StackLayout>
-
-                <StackLayout class="input-field">
-                    <Label text="Start Time"></Label>
-                    <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
-                </StackLayout>
-            </StackLayout>
-
-            <StackLayout *ngIf="freqSelectedIndex===1">
-                <StackLayout class="input-field">
-                    <Label text="Specific Time"></Label>
-                    <TimePicker verticalAlignment="center" class="m-15" formControlName="specificTime"></TimePicker>
-                    <button (tap)="addSpecificTime()" text="Add Time"></button>
-                </StackLayout>
-                <StackLayout class="input-field" *ngFor="let specificTime of specifictimes">
-                    <Label text="{{specificTime | date:' h:mm a' }}"></Label>
-                </StackLayout>
-                <StackLayout class="hr-light" [ngClass]="{invalid: isspecificTime === true && specifictimes.length ==0}"></StackLayout>
-                <StackLayout *ngIf="isspecificTime && specifictimes.length ==0">
-                    <Label text="*Time required " style="color:red"></Label>
-                </StackLayout>
-            </StackLayout>
-
-        </StackLayout>
-
-        <StackLayout class="input-field">
-            <Label text="Duration"></Label>
-            <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration"></TextField>
-            <StackLayout class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></StackLayout>
-            <StackLayout class="input-field">
-                <StackLayout *ngIf="durationIsValid">
-                    <Label text="*duration is required " style="color:red"></Label>
-                </StackLayout>
-            </StackLayout>
-        </StackLayout>
-
-        <StackLayout class="input-field">
-            <Label text="Start Date"></Label>
-            <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
-            <StackLayout class="hr-light" [ngClass]="{invalid: SrtartdateIsValid === true}"></StackLayout>
-            <StackLayout class="input-field">
-                <StackLayout *ngIf="SrtartdateIsValid">
-                    <Label text="*Start date is required " style="color:red"></Label>
-                </StackLayout>
-            </StackLayout>
-        </StackLayout>
-
-        <StackLayout class="input-field">
-            <Label text="Instruction"></Label>
-            <TextView formControlName="desc" hint="Enter instruction" editable="true" class="input input-border"></TextView>
-            <StackLayout class="hr-light"></StackLayout>
-        </StackLayout>
-
+</ActionBar> -->
+<GridLayout columns="*" ios:padding="0 10" height="100%" width="100%" rows="auto,*">
+    <StackLayout row="0">
+        <GridLayout columns="auto, *, auto" rows="auto">
+            <!-- <Label col="0" text="&#xf156;" class="homeicon mdi mdi" (tap)="goBackPage()"></Label> -->
+            <Label col="0" text="cancel" (tap)="goBackPage()"></Label>
+            <Label col="1" text="Intake Form" style="text-align:center"></Label>
+            <!-- <Label col="2" text="&#xf12c;" class="homeicon mdi mdi" (tap)="onSubmit()" style="margin-right: 1px"></Label> -->
+            <Label col="2" text="save" (tap)="onSubmit()" style="margin-right: 1px"></Label>
+        </GridLayout>
     </StackLayout>
-</ScrollView>
+    <ScrollView row="1">
+        <StackLayout class="form" [formGroup]="intakeForm">
+            <StackLayout class="input-field">
+                <Label text="Intake Name"></Label>
+                <TextField class="input" formControlName="name"></TextField>
+                <StackLayout class="hr-light" [ngClass]="{invalid: intakeNameIsValid === true}"></StackLayout>
+                <StackLayout class="input-field">
+                    <StackLayout *ngIf="intakeNameIsValid">
+                        <Label text="*intake name is required " style="color:red"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <Label text="Quantity"></Label>
+                <TextField class="input" formControlName="quantity" hint="No. of units"></TextField>
+                <StackLayout class="hr-light" [ngClass]="{invalid: quantityIsValid === true}"></StackLayout>
+                <StackLayout class="input-field">
+                    <StackLayout *ngIf="quantityIsValid">
+                        <Label text="*quantity name is required " style="color:red"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <Label text="Frequency"></Label>
+                <SegmentedBar [items]="frequencyItems" formControlName="frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
+                    class="segmented-bar" selectedIndex="0" class="m-5"></SegmentedBar>
+                <StackLayout></StackLayout>
+
+                <StackLayout *ngIf="freqSelectedIndex===0 ">
+                    <StackLayout class="input-field">
+                        <Label col="0" row="0" text="Enter interval in minutes"></Label>
+                        <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
+                    </StackLayout>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                    <StackLayout *ngIf="intervalHrsIsValid">
+                        <Label text="*interval minutes is required " style="color:red"></Label>
+                    </StackLayout>
+                    <StackLayout class="input-field">
+                        <Label col="0" row="1" text="Enter no. of times"></Label>
+                        <TextField col="1" row="0" class="input" keyboardType="number" formControlName="numberofTimes"></TextField>
+                    </StackLayout>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: isNumberOfTimes === true}"></StackLayout>
+                    <StackLayout *ngIf="isNumberOfTimes">
+                        <Label text="*Number of times is required " style="color:red"></Label>
+                    </StackLayout>
+
+                    <StackLayout class="input-field">
+                        <Label text="Start Time"></Label>
+                        <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
+                    </StackLayout>
+                </StackLayout>
+
+                <StackLayout *ngIf="freqSelectedIndex===1">
+                    <StackLayout class="input-field">
+                        <Label text="Specific Time"></Label>
+                        <TimePicker verticalAlignment="center" class="m-15" formControlName="specificTime"></TimePicker>
+                        <button (tap)="addSpecificTime()" text="Add Time"></button>
+                    </StackLayout>
+                    <StackLayout class="input-field" *ngFor="let specificTime of specifictimes">
+                        <Label text="{{specificTime | date:' h:mm a' }}"></Label>
+                    </StackLayout>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: isspecificTime === true && specifictimes.length ==0}"></StackLayout>
+                    <StackLayout *ngIf="isspecificTime && specifictimes.length ==0">
+                        <Label text="*Time required " style="color:red"></Label>
+                    </StackLayout>
+                </StackLayout>
+
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <Label text="Duration"></Label>
+                <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration"></TextField>
+                <StackLayout class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></StackLayout>
+                <StackLayout class="input-field">
+                    <StackLayout *ngIf="durationIsValid">
+                        <Label text="*duration is required " style="color:red"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <Label text="Start Date"></Label>
+                <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
+                <StackLayout class="hr-light" [ngClass]="{invalid: SrtartdateIsValid === true}"></StackLayout>
+                <StackLayout class="input-field">
+                    <StackLayout *ngIf="SrtartdateIsValid">
+                        <Label text="*Start date is required " style="color:red"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <Label text="Instruction"></Label>
+                <TextView formControlName="desc" hint="Enter instruction" editable="true" class="input input-border"></TextView>
+                <StackLayout class="hr-light"></StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</GridLayout>

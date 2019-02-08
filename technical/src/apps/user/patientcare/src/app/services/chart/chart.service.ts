@@ -1,10 +1,13 @@
 import { Injectable, Version } from "@angular/core";
 import { DatabaseService } from "../../services/offline-store/database.service";
 import { ChartDBModel } from "~/app/models/ui/chart-models";
+import { Subscription, Subject } from "rxjs";
+import { ServerDataStoreDataModel } from "~/app/models/api/server-data-store-data-model";
+import { ScheduleDatastoreModel } from "~/app/models/db/schedule-model";
 
 @Injectable()
 export class ChartService {
-
+    scheduleDataContext = new Subject<ServerDataStoreDataModel<ScheduleDatastoreModel>[]>();
     constructor(private database: DatabaseService) {
 
     }
@@ -106,5 +109,7 @@ export class ChartService {
         });
 
     }
-
-}
+    setScheduleContext(value) {
+        this.scheduleDataContext.next(value);
+    }
+}// end of init 
