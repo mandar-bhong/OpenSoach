@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	pcmodels "opensoach.com/prodcore/models"
+)
 
 type DBPatientMasterDataModel struct {
 	Uuid         string `db:"uuid" json:"uuid"`
@@ -15,12 +19,12 @@ type DBPatientMasterDataModel struct {
 
 type DBPatientMasterInsertRowModel struct {
 	DBPatientMasterDataModel
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	pcmodels.CPMIDEntityModel
 }
 
 type DBPatientUpdateRowModel struct {
-	PatientId    int64  `db:"id" dbattr:"pri,auto"  json:"patientid"`
-	CpmId        int64  `db:"cpm_id_fk" json:"cpmid"`
+	PatientId int64 `db:"id" dbattr:"pri,auto"  json:"patientid"`
+	pcmodels.CPMIDEntityModel
 	PatientRegNo string `db:"patient_reg_no" json:"patientregno"`
 	Fname        string `db:"fname" json:"fname"`
 	Lname        string `db:"lname" json:"lname"`
@@ -57,13 +61,13 @@ type DBAdmissionTblDataModel struct {
 
 type DBAdmissionTblInsertRowModel struct {
 	DBAdmissionTblDataModel
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	pcmodels.CPMIDEntityModel
 }
 
 type DBAdmissionTblUpdateRowModel struct {
-	AdmissionId  int64      `db:"id" dbattr:"pri,auto"  json:"admissionid"`
-	Uuid         string     `db:"uuid" json:"uuid"`
-	CpmId        int64      `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId int64  `db:"id" dbattr:"pri,auto"  json:"admissionid"`
+	Uuid        string `db:"uuid" json:"uuid"`
+	pcmodels.CPMIDEntityModel
 	PatientId    int64      `db:"patient_id_fk" json:"patientid"`
 	PatientRegNo string     `db:"patient_reg_no" json:"patientregno"`
 	BedNo        string     `db:"bed_no" json:"bedno"`
@@ -85,18 +89,18 @@ type DBPersonalDetailsDataModel struct {
 
 type DBPersonalDetailsInsertRowModel struct {
 	DBPersonalDetailsDataModel
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	pcmodels.CPMIDEntityModel
 }
 
 type DBPersonalDetailsUpdateRowModel struct {
-	PersonalDetailsId int64  `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
-	CpmId             int64  `db:"cpm_id_fk" json:"cpmid"`
-	PatientId         int64  `db:"patient_id" json:"patientid"`
-	AdmissionId       int64  `db:"admission_id_fk" json:"admissionid"`
-	Uuid              string `db:"uuid" json:"uuid"`
-	Age               string `db:"age" json:"age"`
-	Weight            string `db:"weight" json:"weight"`
-	OtherDetails      string `db:"other_details" json:"otherdetails"`
+	PersonalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
+	pcmodels.CPMIDEntityModel
+	PatientId    int64  `db:"patient_id" json:"patientid"`
+	AdmissionId  int64  `db:"admission_id_fk" json:"admissionid"`
+	Uuid         string `db:"uuid" json:"uuid"`
+	Age          string `db:"age" json:"age"`
+	Weight       string `db:"weight" json:"weight"`
+	OtherDetails string `db:"other_details" json:"otherdetails"`
 }
 
 type DBMedicalDetailsDataModel struct {
@@ -116,13 +120,13 @@ type DBMedicalDetailsDataModel struct {
 
 type DBMedicalDetailsInsertRowModel struct {
 	DBMedicalDetailsDataModel
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	pcmodels.CPMIDEntityModel
 }
 
 type DBMedicalDetailsUpdateRowModel struct {
-	MedicalDetailsId        int64   `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
-	Uuid                    string  `db:"uuid" json:"uuid"`
-	CpmId                   int64   `db:"cpm_id_fk" json:"cpmid"`
+	MedicalDetailsId int64  `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	Uuid             string `db:"uuid" json:"uuid"`
+	pcmodels.CPMIDEntityModel
 	PatientId               int64   `db:"patient_id" json:"patientid"`
 	AdmissionId             int64   `db:"admission_id_fk" json:"admissionid"`
 	ReasonForAdmission      string  `db:"reason_for_admission" json:"reasonforadmission"`
@@ -137,9 +141,9 @@ type DBMedicalDetailsUpdateRowModel struct {
 }
 
 type DBPatientConfUpdateRowModel struct {
-	PatientConfId int64   `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
-	CpmId         int64   `db:"cpm_id_fk" json:"cpmid"`
-	ConfTypeCode  string  `db:"conf_type_code" json:"conftypecode"`
-	Conf          string  `db:"conf" json:"conf"`
-	ShortDesc     *string `db:"short_desc" json:"shortdesc"`
+	PatientConfId int64 `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
+	pcmodels.CPMIDEntityModel
+	ConfTypeCode string  `db:"conf_type_code" json:"conftypecode"`
+	Conf         string  `db:"conf" json:"conf"`
+	ShortDesc    *string `db:"short_desc" json:"shortdesc"`
 }

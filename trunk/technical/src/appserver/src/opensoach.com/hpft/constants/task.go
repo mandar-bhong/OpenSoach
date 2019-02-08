@@ -18,3 +18,5 @@ const TASK_TYPE_FIELD_OPERATOR_ADDED string = "FieldOperator.Added"
 
 const TASK_TYPE_PATIENT_CONF string = "PatientConfig"
 const TASK_HKT_API_PATIENT_STATUS_UPDATED string = "HKT.API.Task.Device.Patient.Status.Updated"
+
+const TASK_HPFT_API_NOTIFY_DB_CHANGES string = "HPFT.API.Task.Device.Notify.DB.Changes"

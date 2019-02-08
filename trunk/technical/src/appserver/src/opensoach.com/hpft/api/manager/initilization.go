@@ -10,8 +10,10 @@ import (
 	"opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
+	"opensoach.com/core/manager/db"
 	taskque "opensoach.com/core/manager/taskqueue"
 	coremodels "opensoach.com/core/models"
+	lhelper "opensoach.com/hpft/api/helper"
 	repo "opensoach.com/hpft/api/repository"
 	"opensoach.com/hpft/api/webserver"
 	"opensoach.com/hpft/constants/dbquery"
@@ -105,6 +107,9 @@ func InitilizeModues(config *gmodels.ConfigSettings) error {
 		return initErr
 	}
 
+	//Attaching data change handler
+	db.DefaultPostDataChangeHandler = DataChange
+
 	return nil
 }
 
@@ -172,4 +177,8 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	}
 
 	return nil
+}
+
+func DataChange(tablename string, data interface{}) {
+	lhelper.HandleDatabaseDataChange(tablename, data)
 }
