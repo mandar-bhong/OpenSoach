@@ -8,6 +8,10 @@ type IStoreSync interface {
 	GetUuid() string
 }
 
+type IStoreCPM interface {
+	GetCPMId() int64
+}
+
 type StoreSyncModel struct {
 	StoreName string `json:"storename"`
 }
@@ -53,4 +57,8 @@ type StoreConfigModel struct {
 type SyncConfigTblInfoModel struct {
 	Count        int        `db:"count" json:"count"`
 	MaxUpdatedOn *time.Time `db:"max_updated_on" json:"updatedon"`
+}
+
+type CPMIDEntityModel struct {
+	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
 }

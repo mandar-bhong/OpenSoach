@@ -12,7 +12,7 @@ func NotifyCPMID(serviceCtx *pcservices.ServiceContext) error {
 	dtcollOnlineDevicesService := &pcservices.DtcollOnlineDevicesService{}
 	dtcollOnlineDevicesService.ServiceContext = serviceCtx
 
-	filterCPMIDService := &pcservices.FilterCPMIDService{}
+	filterCPMIDService := &pcservices.FilterTokenCPMIDService{}
 	filterCPMIDService.ServiceContext = serviceCtx
 
 	packetbldService := &pcservices.PacketbldService{}

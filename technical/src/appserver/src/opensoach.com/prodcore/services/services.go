@@ -23,6 +23,7 @@ type ServiceConfigModel struct {
 	InstDBConn      string //instance db connection - GetOperatorLocService
 	ID              int64  // for operator id - GetOperatorLocService
 	AckData         interface{}
+	CPMID           int64
 	// InputData       interface{}
 }
 
