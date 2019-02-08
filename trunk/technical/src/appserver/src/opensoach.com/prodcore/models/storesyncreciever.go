@@ -9,6 +9,10 @@ func (r StoreEntityModel) GetUuid() string {
 	return r.Uuid
 }
 
+func (r CPMIDEntityModel) GetCPMId() int64 {
+	return r.CpmId
+}
+
 func (r StoreSyncApplyRequestModel) GetDataItems() (error, []map[string]interface{}) {
 	s := reflect.ValueOf(r.Data)
 	if s.Kind() != reflect.Slice {
@@ -27,7 +31,7 @@ func (r StoreSyncApplyRequestModel) GetDataItems() (error, []map[string]interfac
 func (r StoreSyncApplyRequestModel) GetDataItemsIStoreSync() (error, []IStoreSync) {
 	s := reflect.ValueOf(r.Data)
 	if s.Kind() != reflect.Slice {
-		return errors.New("error : GetDataItems() given a non-slice type"), nil
+		return errors.New("error : GetDataItemsIStoreSync() given a non-slice type"), nil
 	}
 
 	m := make([]IStoreSync, s.Len())
