@@ -23,8 +23,6 @@ import { PlatformHelper } from "./helpers/platform-helper";
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    private socket: any;
-    public messages: Array<any>;
     public chatBox: string;
     private internetConnectionSubscription: Subscription;
     constructor(private databaseSchemaService: DatabaseSchemaService,
@@ -32,93 +30,28 @@ export class AppComponent implements OnInit, OnDestroy {
         private workerService: WorkerService,
         private routerExtensions: RouterExtensions,
         private httpClient: HttpClient) {
+
         // init PlatformHelper
         PlatformHelper.init();
-        this.databaseSchemaService.setOfflineDB();
-        // console.log('server', server);
-        // this.socket = new WS("ws://echo.websocket.org", []);
-        // console.log('socket created', this.socket);
-        this.messages = [];
-        this.chatBox = "";
+        this.databaseSchemaService.setOfflineDB().then(() => {
+            this.onDbCreate();
+        });
+    }
 
+    onDbCreate() {
         // Initialize the worker here
         this.workerService.initServerDataProcessorWorker();
-
-        // Get APP_MODE
-
-        // const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
-        // AppGlobalContext.AppMode = appMode;
-
-        // if (appMode == APP_MODE.NONE) {
-        //     // TODO Dummy code to set the application mode to Shared device
-        //     appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
-        //     AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
-        // }
-        // console.log("APP_MODE", appSettings.getNumber("APP_MODE"));
-
         this.checkIfLoggedIn();
     }
 
     ngOnInit() {
-
-        // TODO: Dummy code for testing 
         console.log('in app component init');
-
-        // const initModel = new ServerDataProcessorMessageModel();
-        // initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
-        // this.workerService.ServerDataProcessorWorker.postMessage(initModel);
-
-        // console.log('socketIO', this.socketIO);
-        // this.socketIO.connect();
-        // this.socket.on('open', socket => {
-        //     this.zone.run(() => {
-        //         this.messages.push("Welcome to the chat!");
-        //         console.log('messages', this.messages);
-        //         this.chatBox = "test message";
-        //         this.send();
-        //     });
-        // });
-        // this.socket.on('message', (socket, message) => {
-        //     this.zone.run(() => {
-        //         console.log("on message", message);
-        //         this.messages.push(message);
-        //         console.log('messages', this.messages);
-        //     });
-        // });
-        //this.socket.on('message', function (socket, message) { console.log("Got a message", message); });
-
-        // this.socket.on('close', (socket, code, reason) => {
-        //     this.zone.run(() => {
-        //         this.messages.push({ content: "You have been disconnected" });
-        //         console.log('messages', this.messages);
-        //     });
-        // });
-        // this.socket.on('error', (socket, error) => {
-        //     console.log("The socket had an error", error);
-        // });
-
-        // this.socket.open();
     }
 
     ngOnDestroy() {
-        //   this.socketIO.disconnect();
-        // this.socket.close();
-        // TODO: Send command to worker to disconnect the websocket before terminating server
         this.workerService.closeServerDataProcessorWorker();
 
         this.internetConnectionSubscription.unsubscribe();
-    }
-
-    public send() {
-        if (this.chatBox) {
-            this.socket.send(this.chatBox);
-            this.chatBox = "";
-        }
-    }
-
-    workerOnMessage(message: MessageEvent) {
-        console.log('worker message recieved', message);
-
     }
 
     checkIfLoggedIn() {
