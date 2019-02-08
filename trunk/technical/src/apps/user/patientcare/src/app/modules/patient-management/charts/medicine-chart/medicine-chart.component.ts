@@ -15,6 +15,7 @@ import { WorkerService } from '~/app/services/worker.service';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 
 @Component({
     moduleId: module.id,
@@ -51,6 +52,7 @@ export class MedicineChartComponent implements OnInit {
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
         public workerService: WorkerService,
+        private params: ModalDialogParams,
         private passDataService: PassDataService,
         private chartservice: ChartService) {
 
@@ -70,10 +72,8 @@ export class MedicineChartComponent implements OnInit {
 
         // creating form control
         this.createFormControls();
-
         this.foodInsItems = [];
         this.frequencyItems = [];
-
         // set food instruction segmented bar items
         const foodInsItem1 = new SegmentedBarItem();
         foodInsItem1.title = "Before Meal";
@@ -103,7 +103,7 @@ export class MedicineChartComponent implements OnInit {
 
     // << func for navigating previous page
     goBackPage() {
-        this.routerExtensions.back();
+        this.params.closeCallback([]);
         //  this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
     }
     // >> func for navigating previous page
@@ -184,23 +184,13 @@ export class MedicineChartComponent implements OnInit {
         const initModel = new ServerDataProcessorMessageModel();
         const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
         serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
-        serverDataStoreModel.data = new ScheduleDatastoreModel();
-        // serverDataStoreModel.data.uuid = '11'
-        // serverDataStoreModel.data.sync_pending = 1
-        // serverDataStoreModel.data.admission_uuid = "11";
-        // serverDataStoreModel.data.conf_type_code = 'Medicine';
-        //  serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
-
-        // serverDataStoreModel.data.conf = JSON.stringify(formData);
+        serverDataStoreModel.data = new ScheduleDatastoreModel();      
         serverDataStoreModel.data.uuid = uuid
         serverDataStoreModel.data.sync_pending = 1
         serverDataStoreModel.data.admission_uuid = admission_uuid;
         serverDataStoreModel.data.conf_type_code = conf_type_code;
         serverDataStoreModel.data.conf = conf;
-        console.log('created data', serverDataStoreModel.data)
-        initModel.data = [serverDataStoreModel];
-        initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+        this.params.closeCallback([serverDataStoreModel]);
     }
 
     // set frequency checkbox value
@@ -319,7 +309,7 @@ export class MedicineChartComponent implements OnInit {
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
         // get chart data from sqlite db
          // this.chartservice.getChartList();
-        this.goBackPage();
+        //  this.goBackPage();
     }
     // >> func for inserting form data to sqlite db
 

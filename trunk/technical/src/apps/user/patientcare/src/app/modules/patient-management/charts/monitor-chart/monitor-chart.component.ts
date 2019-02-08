@@ -17,6 +17,7 @@ import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-dat
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { WorkerService } from '~/app/services/worker.service';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 
 @Component({
     moduleId: module.id,
@@ -55,6 +56,7 @@ export class MonitorChartComponent implements OnInit {
         private routerExtensions: RouterExtensions,
         private passDataService: PassDataService,
         private datePipe: DatePipe,
+        private params: ModalDialogParams,
         public workerService: WorkerService,
         private chartService: ChartService) {
 
@@ -100,7 +102,7 @@ export class MonitorChartComponent implements OnInit {
 
     // << func for navigating previous page
     goBackPage() {
-        this.routerExtensions.back();
+        this.params.closeCallback([]);
         // this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
     }
     // >> func for navigating previous page
@@ -207,8 +209,8 @@ export class MonitorChartComponent implements OnInit {
         // insert chart db model to sqlite db       ;
         this.createActions(this.chartDbModel, confString);
         // get chart data from sqlite db
-       // this.chartService.getChartList();
-        this.goBackPage();
+        // this.chartService.getChartList();
+        //   this.goBackPage();
 
     }
     // >> func for inserting form data to sqlite db
@@ -278,10 +280,8 @@ export class MonitorChartComponent implements OnInit {
         serverDataStoreModel.data = monitormodel;
         serverDataStoreModel.data.sync_pending = 1
         serverDataStoreModel.data.conf = conf;
-        console.log('created data', serverDataStoreModel.data)
-        initModel.data = [serverDataStoreModel];
-        initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-        this.workerService.ServerDataProcessorWorker.postMessage(initModel);
+        this.params.closeCallback([serverDataStoreModel]);
+
     }
     // en dof fucntion
 
