@@ -11,9 +11,14 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+type DataChangeHandler func(tablename string, data interface{})
+
 var spnameparams map[string][]string
 var procQueryMap map[string]string
 var connectionDBEngine map[string]*sqlx.DB
+
+// TO DO DefaultPostDataChangeHandler provision for InsertTxContext/UpdateDeleteTxContext
+var DefaultPostDataChangeHandler DataChangeHandler
 
 func init() {
 	spnameparams = make(map[string][]string, 0)
@@ -119,6 +124,12 @@ func (spc *InsertContext) Insert() error {
 		}
 
 		spc.InsertID, _ = id.LastInsertId()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			DefaultPostDataChangeHandler(spc.TableName, spc.Args)
+		}
+
 		return err
 
 	case Query:
@@ -196,6 +207,12 @@ func (spc *UpdateDeleteContext) UpdateByFilter(args ...string) error {
 			return err
 		}
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			DefaultPostDataChangeHandler(spc.TableName, spc.Args)
+		}
+
 		return err
 
 	case Query:
@@ -446,8 +463,8 @@ func (spc *SelectContext) SelectById(arg int64) error {
 func (spc *SelectContext) SelectByFilter(filter interface{}, args ...string) error {
 	switch spc.QueryType {
 	case AutoQuery:
-		query := GetSelectByFilterDynamicQuery(spc.TableName, filter, args...)
-		values := GetFilterValues(spc.TableName, filter, args...)
+		query := GetSelectByFilterDynamicQuery(spc.TableName, spc.Dest, filter)
+		values := GetFilterValues(filter)
 
 		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
 
@@ -459,7 +476,7 @@ func (spc *SelectContext) SelectByFilter(filter interface{}, args ...string) err
 		return err
 
 	case Query:
-		values := GetFilterValues(spc.TableName, filter, args...)
+		values := GetFilterValues(filter)
 
 		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
 

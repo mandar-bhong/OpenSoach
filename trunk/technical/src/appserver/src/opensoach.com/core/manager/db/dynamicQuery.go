@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 
 	ghelper "opensoach.com/core/helper"
@@ -61,7 +62,6 @@ func GetInsertDynamicQuery(tablename string, insStruct interface{}) string {
 
 func GetUpdateDynamicQuery(tablename string, updateStruct interface{}) (error, string) {
 
-	t := reflect.TypeOf(updateStruct)
 	val := reflect.ValueOf(updateStruct)
 	modelName := reflect.Indirect(val).Type().Name()
 
@@ -76,8 +76,9 @@ func GetUpdateDynamicQuery(tablename string, updateStruct interface{}) (error, s
 
 		query = "UPDATE " + tablename + " SET "
 
-		for i := 0; i < t.NumField(); i++ {
-			field := t.Field(i)
+		modelFields := ghelper.GetModelFields(updateStruct)
+
+		for _, field := range modelFields {
 			tag := field.Tag.Get("db")
 			attrTagVal, _ := field.Tag.Lookup(MODEL_DB_ATTRIBUTE_TAG)
 			if strings.Contains(attrTagVal, MODEL_DB_PRIMARY_TAG) {
@@ -104,11 +105,11 @@ func GetUpdateDynamicQuery(tablename string, updateStruct interface{}) (error, s
 
 func GetUpdateByFilterDynamicQuery(tablename string, filter interface{}, args ...string) string {
 
-	t := reflect.TypeOf(filter)
 	query := "UPDATE " + tablename + " SET "
 
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
+	modelFields := ghelper.GetModelFields(filter)
+
+	for _, field := range modelFields {
 		tag := field.Tag.Get("db")
 		fieldName := field.Name
 		flag := 0
@@ -121,14 +122,12 @@ func GetUpdateByFilterDynamicQuery(tablename string, filter interface{}, args ..
 		if flag == 0 {
 			query = query + tag + " = :" + tag + ", "
 		}
-
 	}
 
 	query = strings.TrimRight(query, ", ")
 	query = query + " WHERE "
 
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
+	for _, field := range modelFields {
 		tag := field.Tag.Get("db")
 		fieldName := field.Name
 		for _, each := range args {
@@ -136,6 +135,7 @@ func GetUpdateByFilterDynamicQuery(tablename string, filter interface{}, args ..
 				query = query + tag + " = :" + tag + " AND "
 			}
 		}
+
 	}
 	query = strings.TrimRight(query, " AND ")
 	return query
@@ -238,12 +238,16 @@ func GetSelectByIdDynamicQuery(tablename string, destination interface{}) (error
 	return nil, query
 }
 
-func GetSelectByFilterDynamicQuery(tablename string, filter interface{}, args ...string) string {
-	t := reflect.TypeOf(filter)
+func GetSelectByFilterDynamicQuery(tablename string, dest interface{}, filter interface{}) string {
+
+	dval := reflect.ValueOf(dest)
+	dt := reflect.Indirect(dval).Type().Elem()
+	ft := reflect.TypeOf(filter)
+	fval := reflect.ValueOf(filter)
 	query := "SELECT "
 
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
+	for i := 0; i < dt.NumField(); i++ {
+		field := dt.Field(i)
 		tag := field.Tag.Get("db")
 		query = query + tag + ", "
 	}
@@ -251,30 +255,60 @@ func GetSelectByFilterDynamicQuery(tablename string, filter interface{}, args ..
 	query = strings.TrimRight(query, ", ")
 	query = query + " FROM " + tablename + " WHERE "
 
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
+	for i := 0; i < ft.NumField(); i++ {
+		field := ft.Field(i)
 		tag := field.Tag.Get("db")
-		for _, each := range args {
-			if field.Name == each {
-				query = query + tag + " =? " + " AND "
-			}
+
+		isValueIsNil := false
+
+		switch reflect.Indirect(fval).FieldByName(field.Name).Kind() {
+		case reflect.Ptr:
+			isValueIsNil = reflect.Indirect(fval).FieldByName(field.Name).IsNil()
 		}
+
+		if isValueIsNil == false {
+
+			query = query + tag + " =? " + " AND "
+
+		}
+
 	}
 
 	query = strings.TrimRight(query, " AND ")
+
 	return query
 }
 
-func GetFilterValues(tablename string, filterStruct interface{}, args ...string) []interface{} {
+func GetFilterValues(filterStruct interface{}) []interface{} {
+
 	var tagValues []interface{}
-	val := reflect.ValueOf(filterStruct)
 	t := reflect.TypeOf(filterStruct)
+
+	val := reflect.ValueOf(filterStruct)
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
-		for _, each := range args {
-			if field.Name == each {
-				value := reflect.Indirect(val).FieldByName(field.Name).Interface()
-				tagValues = append(tagValues, value)
+
+		isValueIsNil := false
+
+		switch reflect.Indirect(val).FieldByName(field.Name).Kind() {
+		case reflect.Ptr:
+			isValueIsNil = reflect.Indirect(val).FieldByName(field.Name).IsNil()
+		}
+
+		if isValueIsNil == false {
+
+			fieldElement := reflect.Indirect(val).FieldByName(field.Name).Interface()
+			valueElement := reflect.ValueOf(fieldElement)
+
+			if valueElement.Kind() == reflect.Ptr {
+				valueElement = valueElement.Elem()
+			}
+
+			switch valueElement.Kind() {
+			case reflect.Int, reflect.Int16, reflect.Int64, reflect.Int8:
+				tagValues = append(tagValues, strconv.FormatInt(valueElement.Int(), 10))
+			case reflect.String:
+				tagValues = append(tagValues, valueElement.String())
 			}
 		}
 	}
