@@ -13,11 +13,11 @@
                             [text]="item.dbmodel.status">
                             <StackLayout row="1" class="list-layout" *ngIf="!iscompleted">
                                 <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
-                                <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
+                                <!-- <Label row="1" col="0" text="3:30 PM" class="label-small"></Label> -->
                             </StackLayout>
                             <StackLayout row="1" class="list-layout" *ngIf="iscompleted">
-                                <Label row="0" col="0" text="&#xf021;" style="color: #f11010;" class="mdi list-text"></Label>
-                                <Label row="1" col="0" text="3:30 PM" style="color: #f11010;" class="label-small"></Label>
+                                <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
+                                <Label row="1" col="0" text="3:30 PM" style="color: green;" class="label-small"></Label>
                             </StackLayout>
 
                             <!-- todo clock color chnage condition code -->

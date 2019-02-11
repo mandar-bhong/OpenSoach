@@ -12,7 +12,10 @@
 </ActionBar> -->
 
 <GridLayout columns="*" ios:padding="0 10" height="100%" width="100%" rows="auto,*">
-    <StackLayout row="0">
+        <StackLayout row="1">
+        <patient-action-bar row="0" [patientName]='patientName'></patient-action-bar>
+        </StackLayout>
+    <StackLayout row="1">
         <GridLayout columns="auto, *, auto" rows="auto">
             <!-- <Label col="0" text="&#xf156;" class="homeicon mdi mdi" (tap)="goBackPage()"></Label>
             <Label col="1" text="Medicine Form" style="text-align:center"></Label>
@@ -23,7 +26,7 @@
             <Label col="2" text="Save" (tap)="onSubmit()" style="margin-right: 1px"></Label>
         </GridLayout>
     </StackLayout>
-    <ScrollView row="1">
+    <ScrollView row="2">
         <StackLayout class="form" [formGroup]="medicineForm">
             <StackLayout class="input-field">
                 <Label text="Medicine Name"></Label>

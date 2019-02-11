@@ -47,6 +47,7 @@ export class MedicineChartComponent implements OnInit {
     freqNight: boolean;
     numberOfTimesValid: boolean;
     startDateValid: boolean;
+    patientName: string;
     // end of proccess variables
 
     constructor(private routerExtensions: RouterExtensions,
@@ -69,7 +70,7 @@ export class MedicineChartComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        this.patientName = 'Raj Ghadage';
         // creating form control
         this.createFormControls();
         this.foodInsItems = [];
@@ -184,7 +185,7 @@ export class MedicineChartComponent implements OnInit {
         const initModel = new ServerDataProcessorMessageModel();
         const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
         serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
-        serverDataStoreModel.data = new ScheduleDatastoreModel();      
+        serverDataStoreModel.data = new ScheduleDatastoreModel();
         serverDataStoreModel.data.uuid = uuid
         serverDataStoreModel.data.sync_pending = 1
         serverDataStoreModel.data.admission_uuid = admission_uuid;
@@ -308,7 +309,7 @@ export class MedicineChartComponent implements OnInit {
         this.chartDbModel.conf_type_code = ConfigCodeType.MEDICINE
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
         // get chart data from sqlite db
-         // this.chartservice.getChartList();
+        // this.chartservice.getChartList();
         //  this.goBackPage();
     }
     // >> func for inserting form data to sqlite db
