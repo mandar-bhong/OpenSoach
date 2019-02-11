@@ -77,3 +77,4 @@ const API_DBINSTANCE_OSU_LIST = API_BASE_URL + "/osu/v1/dbinstance/list"
 const API_PRODUCT_OSU_LIST = API_BASE_URL + "/osu/v1/product/list"
 
 const API_ENDPOINT_DEVICE_AUTH = API_BASE_URL + "/v1/endpoint/deviceauthorization"
+const API_ENDPOINT_DEVICE_USER_AUTH = API_BASE_URL + "/v1/endpoint/userauthorization"
