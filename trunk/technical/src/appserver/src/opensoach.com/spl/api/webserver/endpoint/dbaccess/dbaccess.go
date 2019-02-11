@@ -48,3 +48,21 @@ func GetDeviceAuthInfo(dbConn string, devid int64, prodcode string) (error, *[]l
 	}
 	return nil, data
 }
+
+func GetDeviceUserAuthInfo(dbConn string, usrname string, password string, cpmid int64) (error, *[]lmodels.DBDeviceUserAuthInfoModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceUserAuthInfo")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBDeviceUserAuthInfoModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_DEVICE_USER_INFO
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+
+	selErr := selDBCtx.Select(usrname, password, cpmid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
