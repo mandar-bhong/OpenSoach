@@ -56,6 +56,7 @@ export class DataActionItem {
 })
 
 export class ActionComponent implements OnInit, IDeviceAuthResult {
+	dialogOpen = false;
 
 	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
@@ -126,7 +127,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
 
 	// switch active and complited
-	dialogOpen = false;
 	completeorpending: string;
 	iscompleted: boolean;
 	constructor(public page: Page,
@@ -636,6 +636,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		}, 300);
 
 	}
+	showDialog() {
+		this.dialogOpen = true;
+	}
+
 
 
 	public onListSorting(args) {
@@ -657,4 +661,5 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		}
 	}
+
 }
