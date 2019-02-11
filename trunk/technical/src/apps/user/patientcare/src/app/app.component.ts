@@ -168,12 +168,10 @@ export class AppComponent implements OnInit, OnDestroy {
         // navigate to patient listing page
 
         console.log('in initappStart');
-        // const initModel = new ServerDataProcessorMessageModel();
-        // initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
-        // this.workerService.postMessageToServerDataProcessorWorker(initModel);
+        const initModel = new ServerDataProcessorMessageModel();
+        initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
+        this.workerService.postMessageToServerDataProcessorWorker(initModel);
         this.routerExtensions.navigate(['home']);
-
-
     }
 
     buildUrl(url, parameters) {
