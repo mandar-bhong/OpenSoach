@@ -498,6 +498,28 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 )	ENGINE=InnoDB COMMENT='short name: actn_txn';
 
 
+--
+-- Table structure for table `spl_hpft_doctors_orders_tbl`
+--
+
+CREATE TABLE `spl_hpft_doctors_orders_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`doctor_id_fk` INT(10) UNSIGNED NOT NULL,
+	`doctors_orders` VARCHAR(1500) NOT NULL,
+	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `fk_doc_ordrs_cpm` (`cpm_id_fk`),
+	INDEX `fk_doc_ordrs_admsn` (`admission_id_fk`),
+	CONSTRAINT `fk_doc_ordrs_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_doc_ordrs_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : doc_ordrs';
+
 
 
 
