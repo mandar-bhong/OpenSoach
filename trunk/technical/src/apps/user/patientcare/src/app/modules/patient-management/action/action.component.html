@@ -1,9 +1,13 @@
-<GridLayout rows="auto,*" columns="*" height="100%" width="100%">
+<GridLayout rows="auto,auto,*" columns="*" height="100%" width="100%">
     <GridLayout row="0" *ngIf="saveViewOpen" columns="20,*,90, 30">
         <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
         <Button col="2" text="Save" (tap)="savetoUserAuth()" class="btn btn-primary"></Button>
     </GridLayout>
-    <GridLayout row="1" rows="*" columns="*,auto" height="100%" width="100%">
+    <GridLayout row="1" rows="auto auto" columns="* *" class="m-5">
+        <Label class="h3 m-15" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
+        <Switch class="m-15" checked="false" (checkedChange)="onListSorting($event)" row="0" col="1"></Switch>
+    </GridLayout>
+    <GridLayout row="2" rows="*" columns="*,auto" height="100%" width="100%">
         <RadListView #myListView [items]="tempList" [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)"
             (loaded)="listLoaded()" multipleSelection="false" selectionBehavior="Press" [groupingFunction]="_funcGrouping"
             colSpan="2" (itemSelected)="itemSelected($event)">
@@ -37,7 +41,7 @@
                 </StackLayout>
             </ng-template>
 
-            <ng-template tkTemplateKey="expanded" let-item="item">
+            <ng-template tkTemplateKey="expanded" let-item="item" >
                 <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout" [class]="'item ' + (item.selected ? 'item-selected' : '')"
                     [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
                     <GridLayout row="0" columns="70, *" rows="auto, auto" style="padding-bottom: 8%;">
@@ -53,7 +57,7 @@
                                 <Label row="0" col="0" class="body" [text]="item.name" style="color: #396767;"></Label>
                                 <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.desc" style="margin-left: 10px;"></Label>
                             </GridLayout>
-                            <GridLayout row="0" col="1" columns="auto,20, auto, 30" rows="auto" style="vertical-align: center; text-align:center;">
+                            <GridLayout row="0" col="1" columns="auto,20, auto, 30" rows="auto" style="vertical-align: center; text-align:center;" *ngIf="!viewexpand">
                                 <StackLayout row="0" col="0">
                                     <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5" height="37"
                                         width="37" (tap)="onSubmit(item)">
@@ -72,7 +76,7 @@
                             <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
                         </GridLayout>
                     </GridLayout>
-                    <GridLayout row="1" col="0" columns="auto, auto" rows="auto" >
+                    <GridLayout row="1" col="0" columns="auto, auto" rows="auto" *ngIf="!viewexpand">
                         <StackLayout class="cardeffect">
                             <GridLayout columns="*, auto" rows="auto, auto">
                                 <GridLayout col="0" columns="20,auto" rows="auto" style=" vertical-align: center; margin-top:3px;" >
@@ -93,7 +97,7 @@
                             </GridLayout>
                         </StackLayout>
                     </GridLayout>
-                    <GridLayout row="3" col="0" >
+                    <GridLayout row="3" col="0" *ngIf="!viewexpand" >
                         <StackLayout class="hr-light m-10"></StackLayout>
                     </GridLayout>
                 </GridLayout>
