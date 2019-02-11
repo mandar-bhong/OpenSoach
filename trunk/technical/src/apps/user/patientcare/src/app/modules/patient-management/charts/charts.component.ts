@@ -186,16 +186,17 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	}
 	monitorForm() {
 		this.openModel(MonitorChartComponent);
-		//	this.dialogOpen = false;
+			this.dialogOpen = false;
 		//this.routerExtensions.navigate(['patientmgnt', 'monitor-chart'], { clearHistory: false });
 	}
 	medicineForm() {
 		this.openModel(MedicineChartComponent);
-		//	this.dialogOpen = false;
+			this.dialogOpen = false;
 		//	this.routerExtensions.navigate(['patientmgnt', 'medicine-chart'], { clearHistory: false, });
 	}
 	intakeForm() {
 		this.openModel(IntakeChartComponent);
+		this.dialogOpen = false;
 		//this.routerExtensions.navigate(['patientmgnt', 'intake-chart'], { clearHistory: false });
 	}
 	ngOnDestroy(): void {
