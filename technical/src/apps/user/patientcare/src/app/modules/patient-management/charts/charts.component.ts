@@ -168,7 +168,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	public getChartData(key: string) {
 		console.log('getChartData')
 		this.chartListItems = new ObservableArray<ChartListViewModel>();
-		this.chartService.getScheduleList(key).then(
+		this.chartService.getScheduleList(key, this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				val.forEach(item => {
 					console.log(item);
