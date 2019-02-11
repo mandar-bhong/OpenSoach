@@ -10,8 +10,8 @@ let selectQueries = new Map([
     ["actionList", "select * from action_tbl"],
     ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status) values ( ?, ?, ?, ?, ?, ?)"],
     ["chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
-    ["getScheduleListActive", "select * from schedule_tbl where end_date >=?"],
-    ["getScheduleListComplated", "select * from schedule_tbl where end_date <?"],
+    ["getScheduleListActive", "select * from schedule_tbl where end_date >=? and admission_uuid=?"],
+    ["getScheduleListComplated", "select * from schedule_tbl where end_date <? and admission_uuid=?"],
     ["servicePointList", "select * from service_point_tbl"],
     ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,txn_date,txn_state,conf_type_code, updated_on,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?, ?,?)"],
     ["syncList", "select * from sync_tbl"],
@@ -123,7 +123,6 @@ export class DatabaseHelper {
 
             this.getdbConn()
                 .then(db => {
-
                     db.execSQL(query, dataList).then(id => {
                         // console.log("INSERT RESULT", id);
                         resolve(id);
