@@ -660,6 +660,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			this.getActionData('getActionListActive');
 
 		}
+	}// end of fucntions.
+
+	doctorsOrders() {
+		console.log('doctors order  tapped');
 	}
 
 }
