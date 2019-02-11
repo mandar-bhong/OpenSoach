@@ -20,6 +20,7 @@ import { ServerWorkerContext, SYNC_TYPE } from "./server-worker-context.js";
 import { SyncStoreManager } from "./sync-store-manager.js";
 import { IDatastoreModel } from "../models/db/idatastore-model.js";
 import { DatabaseHelper } from "../helpers/database-helper.js";
+import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model.js";
 
 export class ServerHelper {
 
@@ -368,6 +369,9 @@ export class ServerHelper {
                             case SYNC_STORE.ACTION_TXN:
                                 this.handleActionTxnResponse(respDataModel);
                                 break;
+                            case SYNC_STORE.DOCTORS_ORDERS:
+                                this.handleDoctorsOrdersResponse(respDataModel);
+                                break;
                         }
                     }
 
@@ -671,6 +675,40 @@ export class ServerHelper {
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.ACTION_TXN;
             serverDataStoreDataModel.data = actionTxnDatastoreModel;
+
+            // console.log("action txn server data store model", serverDataStoreDataModel);
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
+        }
+
+    }
+
+    public static handleDoctorsOrdersResponse(data: CmdModel) {
+        console.log("Doctors Orders tbl data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (var i = 0; i < tblData.length; i++) {
+            const doctorsOrdersDatastoreModel = new DoctorsOrdersDatastoreModel();
+            const item = <DoctorsOrdersDatastoreModel>tblData[i];
+
+            doctorsOrdersDatastoreModel.uuid = item.uuid;
+            doctorsOrdersDatastoreModel.admission_uuid = item.admission_uuid;
+            doctorsOrdersDatastoreModel.doctor_id = item.doctor_id;
+            doctorsOrdersDatastoreModel.doctors_orders = item.doctors_orders ;   
+            doctorsOrdersDatastoreModel.document_uuid = item.document_uuid;
+            doctorsOrdersDatastoreModel.updated_on = item.updated_on;
+            doctorsOrdersDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+            // console.log("action txn store data:", doctorsOrdersDatastoreModel);
+
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+            serverDataStoreDataModel.datastore = SYNC_STORE.ACTION_TXN;
+            serverDataStoreDataModel.data = doctorsOrdersDatastoreModel;
 
             // console.log("action txn server data store model", serverDataStoreDataModel);
 
