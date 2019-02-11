@@ -167,28 +167,28 @@ export class DatabaseSchemaService {
             `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_pending ) values ('SP003', "General Ward 3","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
 
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  '2018-12-04 10:12:53' ,0)`,
+            VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  '2018-12-04T04:42:53.000Z' ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A002', 'PA002' ,'Medicine' ,'PC001', '2018-12-04 16:10:53'  ,0)`,
+            VALUES ('A002', 'PA002' ,'Medicine' ,'PC001', '2018-12-04T10:40:53.000Z'  ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A003', 'PA003' ,'Medicine' ,'PC001',   '2018-12-04 16:10:53'  ,0)`,
+            VALUES ('A003', 'PA003' ,'Medicine' ,'PC001',   '2019-02-07T13:46:53.000Z'  ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A004', 'PA004' ,'Medicine' ,'PC001', '2018-12-04 17:00:53' ,0)`,
+            VALUES ('A004', 'PA004' ,'Medicine' ,'PC001', '2018-12-04T11:30:53.000Z' ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A005', 'PA005' ,'Intake' ,'PC001',  '2018-12-04 17:00:53'  ,0)`,
+            VALUES ('A005', 'PA005' ,'Intake' ,'PC001',  '2018-12-04T11:30:53.000Z'  ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A006', 'PA006' ,'Monitor' ,'PC001', '2018-12-04 18:17:53' ,0)`,
+            VALUES ('A006', 'PA006' ,'Monitor' ,'PC001', '2018-12-04T12:47:53.000Z' ,0)`,
 
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A007', 'PA007' ,'Output' ,'PC001',   '2018-12-04 18:25:53'  ,0)`,
+            VALUES ('A007', 'PA007' ,'Output' ,'PC001',   '2018-12-04T12:55:53.000Z'  ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A008', 'PA008' ,'Medicine' ,'PC001', '2018-12-04 19:10:53' ,0)`,
+            VALUES ('A008', 'PA008' ,'Medicine' ,'PC001', '2018-12-04T13:40:53.000Z' ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A009', 'PA009' ,'Intake' ,'PC001',   '2018-12-04 16:30:53'  ,0)`,
+            VALUES ('A009', 'PA009' ,'Intake' ,'PC001',   '2018-12-04T11:00:53.000Z'  ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A010', 'PA010' ,'Monitor' ,'PC001', '2018-12-04 16:30:53' ,0)`,
+            VALUES ('A010', 'PA010' ,'Monitor' ,'PC001', '2018-12-04T11:00:53.000Z' ,0)`,
             `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
-                VALUES ('A011', 'PA011' ,'Output' ,'PC001',  '2018-12-04 10:12:53'  ,0)`,
+            VALUES ('A011', 'PA011' ,'Output' ,'PC001',  '2018-12-04T04:42:53.000Z'  ,0)`,
 
 
 

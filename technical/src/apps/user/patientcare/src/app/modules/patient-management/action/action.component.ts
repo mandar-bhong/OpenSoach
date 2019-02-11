@@ -30,6 +30,7 @@ import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
 import { WorkerService } from '~/app/services/worker.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { IDeviceAuthResult } from '../../idevice-auth-result';
+import { Switch } from 'tns-core-modules/ui/switch/switch';
 
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
@@ -56,17 +57,17 @@ export class DataActionItem {
 
 export class ActionComponent implements OnInit, IDeviceAuthResult {
 
-    onDeviceAuthSuccess(userid: number): void {
+	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
-		this.save();		
+		this.save();
 		throw new Error("Method not implemented.");
-    }
-    onDeviceAuthError(error: any): void {
-        throw new Error("Method not implemented.");
-    }
-    onSubmitDiscarded(): void {
-        throw new Error("Method not implemented.");
-    }
+	}
+	onDeviceAuthError(error: any): void {
+		throw new Error("Method not implemented.");
+	}
+	onSubmitDiscarded(): void {
+		throw new Error("Method not implemented.");
+	}
 
 	public actionListItem = new ObservableArray<ActionListViewModel>();
 	chartbuttonClicked: boolean = false;
@@ -93,6 +94,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >> exapnd row
 	expanded: false;
+	viewexpand = false;
 
 	// >> finding grouping index then after click show in top
 	intakeIndex: any;
@@ -104,7 +106,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	private snackbar: SnackBar;
 
 	actionListItems = new ActionListViewModel();;
-	tempList = new Array<DataActionItem>();
+	tempList = new ObservableArray<DataActionItem>();
 
 	// >> details form field
 	// actionForm: FormGroup;
@@ -123,6 +125,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
 
+	// switch active and complited
+	dialogOpen = false;
+	completeorpending: string;
+	iscompleted: boolean;
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
@@ -150,8 +156,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
-		this.getActionData();
+		// this.getActionData();
 
+
+		this.getActionData('getActionListActive');
 		// subscription for create actions
 		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
 
@@ -372,16 +380,17 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	}
 
 	// >>get action list 
-	public getActionData() {
-		this.actionService.getActionList().then(
+	public getActionData(key: string) {
+		console.log('getActinData')
+		this.actionListItem = new ObservableArray<ActionListViewModel>();
+		this.actionService.getActionActiveList(key).then(
 			(val) => {
 				val.forEach(item => {
-					this.actionListItems = new ActionListViewModel();
-					this.actionListItems.dbmodel = item;
-					this.actionListItem.push(this.actionListItems);
-
+					console.log(item);
+					let actionListItem = new ActionListViewModel();
+					actionListItem.dbmodel = item;
+					this.actionListItem.push(actionListItem);
 				});
-				//	console.log("received action list", this.actionListItem);
 				this.getListDataById();
 			},
 			(error) => {
@@ -390,9 +399,16 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		);
 	}
 
+
+
+
+
+
+
 	// >> get action list by id
 	public getListDataById() {
 		// console.log('this.actionnListItem', this.actionListItem);
+		this.tempList = new ObservableArray<DataActionItem>();
 		// this.tempList = new Array<DataActionItem>();
 		this.actionListItem.forEach(item => {
 			const actionListDataItem = new DataActionItem();
@@ -404,6 +420,12 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			// console.log('exectime', exectime);
 
 			actionListDataItem.exec_time = item.dbmodel.exec_time;
+			const a = item.dbmodel.exec_time;
+			var test = new Date(a);
+			console.log('isodate date', test);
+			// const isodate = test.toISOString();
+			const isodate = test.toUTCString();
+			console.log('isodate', isodate);
 			// console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
 
 
@@ -422,6 +444,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 			// >> today date live time decress time 15 min 
 			const thetodayDate15dec = new Date();
+			console.log('thetodayDate15dec', thetodayDate15dec);
 			const todayhr15dec = thetodayDate15dec.getHours();
 			const liveh15dec = todayhr15dec * 60;
 			const todaym15dec = thetodayDate15dec.getMinutes() - 15;
@@ -612,5 +635,26 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			this.actionService.getActionTxnList();
 		}, 300);
 
+	}
+
+
+	public onListSorting(args) {
+		let firstSwitch = <Switch>args.object;
+		if (firstSwitch.checked) {
+			this.completeorpending = "Completed Action";
+			this.iscompleted = true;
+			this.viewexpand = true;
+			this.saveViewOpen = false;
+			this.getActionData('getActionListComplated');
+		} else {
+			this.completeorpending = "Active Action";
+			this.iscompleted = false;
+			this.viewexpand = false;
+			this.saveViewOpen = false;
+			// this.viewexpand = !this.viewexpand;
+
+			this.getActionData('getActionListActive');
+
+		}
 	}
 }

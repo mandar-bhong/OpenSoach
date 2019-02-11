@@ -39,6 +39,9 @@ let selectQueries = new Map([
     ["patient_medical_details_tbl_update", "update patient_medical_details_tbl set patient_uuid=?,admission_uuid=?,reason_for_admission=?,patient_medical_hist=?,treatment_recieved_before=?,family_hist=?,menstrual_hist=?,allergies=?,personal_history=?,general_physical_exam=?,systematic_exam=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid=?"],
     ["action_txn_tbl_update", "update action_txn_tbl set admission_uuid=?,schedule_uuid=?,txn_data=?,txn_date=?,txn_state=?,conf_type_code=?,updated_on=?,runtime_config_data=?,sync_pending=?, client_updated_at=?"],
 
+
+    ["getActionListActive", "select * from action_tbl where exec_time >=?"],
+    ["getActionListComplated", "select * from action_tbl where exec_time <?"],
 ]);
 
 let selectTableName = new Map([
