@@ -129,6 +129,11 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// switch active and complited
 	completeorpending: string;
 	iscompleted: boolean;
+
+	// filter buttton 
+	buttonClicked: boolean = true;
+	buttonCompleted: boolean = false;
+
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
@@ -167,7 +172,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actionDbData = new ActionDataDBRequest();
 		this.actiondata = new ActionDataDBRequest();
 
-		// this.getUserAccountData();
+		this.completeorpending = "Active Action";
 	}
 
 	public listLoaded() {
@@ -383,7 +388,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	public getActionData(key: string) {
 		console.log('getActinData')
 		this.actionListItem = new ObservableArray<ActionListViewModel>();
-		this.actionService.getActionActiveList(key).then(
+		this.actionService.getActionActiveList(key,this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				val.forEach(item => {
 					console.log(item);
@@ -394,7 +399,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				this.getListDataById();
 			},
 			(error) => {
-				console.log("getChartData error:", error);
+				console.log("getActinData error:", error);
 			}
 		);
 	}
@@ -422,10 +427,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			actionListDataItem.exec_time = item.dbmodel.exec_time;
 			const a = item.dbmodel.exec_time;
 			var test = new Date(a);
-			console.log('isodate date', test);
+			// console.log('isodate date', test);
 			// const isodate = test.toISOString();
 			const isodate = test.toUTCString();
-			console.log('isodate', isodate);
+			// console.log('isodate', isodate);
 			// console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
 
 
@@ -444,7 +449,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 			// >> today date live time decress time 15 min 
 			const thetodayDate15dec = new Date();
-			console.log('thetodayDate15dec', thetodayDate15dec);
+			// console.log('thetodayDate15dec', thetodayDate15dec);
 			const todayhr15dec = thetodayDate15dec.getHours();
 			const liveh15dec = todayhr15dec * 60;
 			const todaym15dec = thetodayDate15dec.getMinutes() - 15;
@@ -658,12 +663,27 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			// this.viewexpand = !this.viewexpand;
 
 			this.getActionData('getActionListActive');
-
 		}
 	}// end of fucntions.
 
 	doctorsOrders() {
 		console.log('doctors order  tapped');
 	}
-
+	public activeList(){
+		this.completeorpending = "Active Action";
+		this.iscompleted = false;
+		this.viewexpand = false;
+		this.saveViewOpen = false;
+		this.buttonCompleted = false;
+		this.getActionData('getActionListActive');
+	}
+	public compilitedList(){
+		this.completeorpending = "Completed Action";
+		this.iscompleted = true;
+		this.viewexpand = true;
+		this.saveViewOpen = false;
+		this.buttonClicked = false;
+		this.getActionData('getActionListComplated');
+		
+	}
 }

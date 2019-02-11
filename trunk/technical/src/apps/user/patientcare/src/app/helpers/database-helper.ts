@@ -8,7 +8,7 @@ let selectQueries = new Map([
     ["chartInsert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf) values ( ?, ?, ?, ?)"],
     ["monitorConfList", "select uuid,conf_type_code,conf from conf_tbl where conf_type_code = 'Monitor'"],
     ["actionList", "select * from action_tbl"],
-    ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status) values ( ?, ?, ?, ?, ?, ?)"],
+    ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,exec_time, status, client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?)"],
     ["chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
     ["getScheduleListActive", "select * from schedule_tbl where end_date >=? and admission_uuid=?"],
     ["getScheduleListComplated", "select * from schedule_tbl where end_date <? and admission_uuid=?"],
@@ -42,8 +42,8 @@ let selectQueries = new Map([
     ["doctors_orders_tbl_insert", "update doctors_orders_tbl set admission_uuid=?, doctor_id=?, doctors_orders=?, document_uuid=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid=? "],
 
 
-    ["getActionListActive", "select * from action_tbl where exec_time >=?"],
-    ["getActionListComplated", "select * from action_tbl where exec_time <?"],
+    ["getActionListActive", "select * from action_tbl where exec_time >=? and admission_uuid=?"],
+    ["getActionListComplated", "select * from action_tbl where exec_time <? and admission_uuid=?"],
 ]);
 
 let selectTableName = new Map([
