@@ -40,10 +40,14 @@
                         <GridLayout row="0" columns="70, *" rows="auto, auto ">
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                                 [text]="item.status">
-                                <StackLayout row="1" class="list-layout">
+                                <StackLayout row="1" class="list-layout" *ngIf="!iscompleted">
                                     <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                     <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
                                         [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
+                                </StackLayout>
+                                <StackLayout row="1" class="list-layout" *ngIf="iscompleted">
+                                    <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
+                                    <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small" style="color: green;"></Label>
                                 </StackLayout>
                             </GridLayout>
                             <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout" style="vertical-align: center;">

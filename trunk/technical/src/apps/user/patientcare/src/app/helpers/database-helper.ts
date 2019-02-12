@@ -27,8 +27,8 @@ let selectQueries = new Map([
     ["monitorTxnList", "select schedule.conf,txn.schedule_uuid,txn_data,txn_date  from action_txn_tbl as txn left join schedule_tbl as schedule on txn.schedule_uuid = schedule.uuid where schedule.conf_type_code = 'Monitor'"],
     ["patient_master_tbl_insert", "insert into patient_master_tbl (uuid,patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["patient_admission_tbl_insert", "insert into patient_admission_tbl (uuid, patient_uuid, patient_reg_no, bed_no, status, sp_uuid, dr_incharge, admitted_on, discharged_on, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
-    ["userList", "select * from user_account_tbl"],
-    ["user_account_tbl_insert", "insert into user_account_tbl (id, user_fname, user_lname, email, pin ) values ( ?, ?, ?, ?, ?)"],
+    ["userList", "select * from device_access_tbl"],
+    ["device_access_tbl", "insert into device_access_tbl (id, user_fname, user_lname, email, pin ) values ( ?, ?, ?, ?, ?)"],
 
     ["conf_tbl_insert", "insert into conf_tbl (uuid,conf_type_code,conf,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?)"],
     ["conf_tbl_update", "update conf_tbl set conf_type_code=?,conf=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
@@ -56,7 +56,7 @@ let selectTableName = new Map([
     ["patient_medical_details_tbl", "patient_medical_details_tbl"],
     ["action_txn_tbl", "action_txn_tbl"],
     ["action_tbl", "action_tbl"],
-    ["user_account_tbl", "user_account_tbl"],
+    ["device_access_tbl", "device_access_tbl"],
     ["doctors_orders_tbl", "doctors_orders_tbl"],
 ]);
 
