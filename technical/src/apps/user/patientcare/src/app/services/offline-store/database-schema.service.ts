@@ -247,25 +247,25 @@ export class DatabaseSchemaService {
             `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT023', 'PA001' ,'PC009','{"comment":"test6","value":"140"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
 
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin ) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin ) 
                 VALUES ('U001', 'Amol' ,'Patil', 'amol.patil@gmail.com', '1111')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U002', 'Sarjerao' ,'Patil', 'sarjerao@gmail.com', '2222')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U003', 'Sanjay' ,'Sawant', 'sanjay.sawant@gmail.com', '3333')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U004', 'Sumeet' ,'Karnde', 'sumeet.karnde@gmail.com', '4444')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U005', 'Chandan' ,'Pal', 'chandan.pal@gmail.com', '5555')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin ) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin ) 
                 VALUES ('U001', 'Mandar' ,'Bhong', 'Mayuri.Jain@gmail.com', '6666')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U002', 'Pooja' ,'Lokare', 'Pooja.Lokare@gmail.com', '7777')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U003', 'Mayuri' ,'Jain', 'Mayuri.Jain@gmail.com', '8888')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U004', 'Shashank' ,'Atre', 'Shashank.Atre@gmail.com', '9999')`,
-            `INSERT INTO user_account_tbl (userid, user_fname ,user_lname, email, pin) 
+            `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
                 VALUES ('U005', 'Tejal' ,'Deshmukh', 'Tejal.Deshmukh@gmail.com', '1010')`,
 
         ];
