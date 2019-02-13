@@ -72,6 +72,7 @@ CREATE TABLE `spl_node_sp_tbl` (
   `sp_state_since` DATETIME NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`sp_id_fk`),
   CONSTRAINT `fk_sp_spc` FOREIGN KEY (`spc_id_fk`) REFERENCES `spl_node_sp_category_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   KEY `fk_sp_cpm_idx` (`cpm_id_fk`),
@@ -330,12 +331,14 @@ CREATE TABLE `spl_hpft_patient_master_tbl` (
 	`fname` VARCHAR(25) NOT NULL,
 	`lname` VARCHAR(25) NOT NULL,
 	`mob_no` VARCHAR(15) NOT NULL,
+	`date_of_birth` DATE NULL DEFAULT NULL,
 	`age` VARCHAR(10) NOT NULL,
 	`blood_grp` VARCHAR(10) NOT NULL,
 	`gender` TINYINT(3) NOT NULL,
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_patient_cpm` (`cpm_id_fk`),
 	CONSTRAINT `fk_patient_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
@@ -361,6 +364,7 @@ CREATE TABLE `spl_hpft_patient_admission_tbl` (
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_padmsn_cpm` (`cpm_id_fk`),
 	INDEX `fk_padmsn_patient` (`patient_id_fk`),
@@ -382,11 +386,12 @@ CREATE TABLE `spl_hpft_patient_personal_details_tbl` (
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`uuid` VARCHAR(50) NOT NULL,
 	`age` VARCHAR(10) NOT NULL,
-	`weight` VARCHAR(10) NOT NULL,
 	`other_details` JSON NOT NULL,
+	` person accompanying` JSON NOT NULL,
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `admission_id_fk` (`admission_id_fk`),
 	INDEX `fk_ppd_cpm` (`cpm_id_fk`),
@@ -395,28 +400,30 @@ CREATE TABLE `spl_hpft_patient_personal_details_tbl` (
 )	ENGINE=InnoDB COMMENT='Short Name for Table: ppd';
 
 
+
 --
 -- Table structure for table `spl_hpft_patient_medical_details_tbl`
---
+-- 
 
 CREATE TABLE `spl_hpft_patient_medical_details_tbl` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
 	`patient_id` INT(10) UNSIGNED NOT NULL,
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
-	`uuid` VARCHAR(50) NOT NULL,
+	`present_complaints` JSON NOT NULL,
 	`reason_for_admission` VARCHAR(500) NOT NULL,
-	`patient_medical_hist` VARCHAR(500) NOT NULL,
-	`treatment_recieved_before` VARCHAR(500) NOT NULL,
-	`family_hist` VARCHAR(500) NOT NULL,
-	`menstrual_hist` VARCHAR(500) NULL DEFAULT NULL,
-	`allergies` VARCHAR(500) NOT NULL,
+	`history_present_illness` JSON NOT NULL,
+	`past_history` JSON NOT NULL,
+	`treatment_before_admission` JSON NOT NULL,
+	`investigation_before_admission` JSON NOT NULL,
+	`family_history` JSON NOT NULL,
+	`allergies` JSON NOT NULL,
 	`personal_history` JSON NOT NULL,
-	`general_physical_exam` JSON NOT NULL,
-	`systematic_exam` JSON NOT NULL,
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `admission_id_fk` (`admission_id_fk`),
 	INDEX `fk_pmd_cpm` (`cpm_id_fk`),
@@ -440,6 +447,7 @@ CREATE TABLE `spl_hpft_conf_tbl` (
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_conf_cpm` (`cpm_id_fk`),
 	CONSTRAINT `fk_conf_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
@@ -461,6 +469,7 @@ CREATE TABLE `spl_hpft_patient_conf_tbl` (
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_pconf_cpm` (`cpm_id_fk`),
 	INDEX `fk_pconf_padmsn` (`admission_id_fk`),
@@ -488,6 +497,7 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_actn_txn_cpm` (`cpm_id_fk`),
 	INDEX `fk_actn_txn_pconf` (`patient_conf_id_fk`),
@@ -510,6 +520,7 @@ CREATE TABLE `spl_hpft_doctors_orders_tbl` (
 	`doctor_id_fk` INT(10) UNSIGNED NOT NULL,
 	`doctors_orders` VARCHAR(1500) NOT NULL,
 	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	`updated_by` INT(10) UNSIGNED NOT NULL,
@@ -519,6 +530,45 @@ CREATE TABLE `spl_hpft_doctors_orders_tbl` (
 	CONSTRAINT `fk_doc_ordrs_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_doc_ordrs_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : doc_ordrs';
+
+
+--
+-- Table structure for table `spl_hpft_document_tbl`
+--
+
+CREATE TABLE `spl_hpft_document_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`name` VARCHAR(50) NOT NULL,
+	`doctype` VARCHAR(15) NOT NULL,
+	`location` VARCHAR(200) NOT NULL,
+	`location_type` TINYINT(3) NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+)	ENGINE=InnoDB COMMENT='short name : doc';
+
+
+--
+-- Table structure for table `spl_hpft_patient_document_tbl`
+--
+
+CREATE TABLE `spl_hpft_patient_document_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_pdoc_cpm` (`cpm_id_fk`),
+	INDEX `fk_pdoc_padmsn` (`admission_id_fk`),
+	INDEX `fk_pdoc_doc` (`document_id_fk`),
+	CONSTRAINT `fk_pdoc_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_pdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_pdoc_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : pdoc';
+
 
 
 

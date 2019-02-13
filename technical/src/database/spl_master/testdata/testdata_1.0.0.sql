@@ -55,6 +55,8 @@ INSERT INTO `spl_master_dev_details_tbl` (`dev_id_fk`, `make`, `technology`, `te
 
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (1,1);
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (3,1);
+INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (3,2);
+INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (3,3);
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (4,1);
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (4,2);
 INSERT INTO `spl_master_cpm_dev_mapping_tbl` (`cpm_id_fk`,`dev_id_fk`) VALUES (4,3);
@@ -69,6 +71,8 @@ INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_stat
 INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (4,4,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (5,4,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (6,4,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (7,3,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_servicepoint_tbl` (`id`,`cpm_id_fk` ,`sp_state`,`sp_state_since`) VALUES (8,3,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_cpm_sp_mapping_tbl`
@@ -92,6 +96,10 @@ INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (5,'cust@customer3.com','admin',2,null,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (6,'cust@customer4.com','admin',2,null,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (7,'cust@customer5.com','admin',2,null,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (8,'exdoc1@customer1.com','exdoc1',2,null,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (9,'exdoc2@customer1.com','exdoc2',2,null,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (10,'indoc1@customer1.com','indoc1',2,null,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (11,'nurse1@customer1.com','nurse1',2,null,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_usr_cpm_tbl`
@@ -102,6 +110,10 @@ INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (3,7,1,2,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (4,2,3,3,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (5,2,4,4,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (6,8,3,5,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (7,9,3,5,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (8,10,3,6,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (9,11,3,7,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_cust_prod_count_tbl`
@@ -124,4 +136,8 @@ INSERT INTO `spl_master_cust_details_tbl` (`cust_id_fk`, `poc1_name`, `poc1_emai
 
 INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (1, 'Rohit', 'Sharma', '9813123121', '9713131334');
 INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (2, 'Yuvraj', 'Patil', '9672123121', '9123131334');
+INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (8, 'Rohini', 'Desai', '8613412311', '8324223423');
+INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (9, 'Amit', 'Rathi', '9823231223', '8812323432');
+INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (10, 'Rohan', 'Shah', '7813423222', '9923322123');
+INSERT INTO `spl_master_usr_details_tbl` (`usr_id_fk`, `fname`, `lname`, `mobile_no`, `alternate_contact_no`) VALUES (11, 'Seema', 'Rao', '8822312545', '9878452146');
 
