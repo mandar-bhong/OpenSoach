@@ -7,14 +7,16 @@ import (
 )
 
 type DBPatientMasterDataModel struct {
-	Uuid         string `db:"uuid" json:"uuid"`
-	PatientRegNo string `db:"patient_reg_no" json:"patientregno"`
-	Fname        string `db:"fname" json:"fname"`
-	Lname        string `db:"lname" json:"lname"`
-	MobNo        string `db:"mob_no" json:"mobno"`
-	Age          string `db:"age" json:"age"`
-	BloodGrp     string `db:"blood_grp" json:"bloodgrp"`
-	Gender       int    `db:"gender" json:"gender"`
+	Uuid         string  `db:"uuid" json:"uuid"`
+	PatientRegNo string  `db:"patient_reg_no" json:"patientregno"`
+	Fname        string  `db:"fname" json:"fname"`
+	Lname        string  `db:"lname" json:"lname"`
+	MobNo        string  `db:"mob_no" json:"mobno"`
+	DateOfBirth  *string `db:"date_of_brith" json:"dateofbirth"`
+	Age          string  `db:"age" json:"age"`
+	BloodGrp     string  `db:"blood_grp" json:"bloodgrp"`
+	Gender       int     `db:"gender" json:"gender"`
+	UpdatedBy    int64   `db:"updated_by" json:"updated_by"`
 }
 
 type DBPatientMasterInsertRowModel struct {
@@ -32,11 +34,12 @@ type DBPatientUpdateRowModel struct {
 	Age          string `db:"age" json:"age"`
 	BloodGrp     string `db:"blood_grp" json:"bloodgrp"`
 	Gender       int    `db:"gender" json:"gender"`
+	UpdatedBy    int64  `db:"updated_by" json:"updated_by"`
 }
 
 type DBPatientUpdateStatusRowModel struct {
-	AdmissionId  int64     `db:"id" dbattr:"pri,auto"  json:"admissionid"`
-	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId int64 `db:"id" dbattr:"pri,auto"  json:"admissionid"`
+	pcmodels.CPMIDEntityModel
 	Status       int       `db:"status" json:"status"`
 	DischargedOn time.Time `db:"discharged_on" json:"dischargedon"`
 }
@@ -57,6 +60,7 @@ type DBAdmissionTblDataModel struct {
 	DrIncharge   int64      `db:"dr_incharge" json:"drincharge"`
 	AdmittedOn   time.Time  `db:"admitted_on" json:"admittedon"`
 	DischargedOn *time.Time `db:"discharged_on" json:"dischargedon"`
+	UpdatedBy    int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBAdmissionTblInsertRowModel struct {
@@ -76,6 +80,7 @@ type DBAdmissionTblUpdateRowModel struct {
 	DrIncharge   int64      `db:"dr_incharge" json:"drincharge"`
 	AdmittedOn   time.Time  `db:"admitted_on" json:"admittedon"`
 	DischargedOn *time.Time `db:"discharged_on" json:"dischargedon"`
+	UpdatedBy    int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBPersonalDetailsDataModel struct {

@@ -20,6 +20,7 @@ func (service PatientService) PatientAdd(req lmodels.APIPatientAddRequest) (isSu
 	dbRowModel := &hktmodels.DBPatientMasterInsertRowModel{}
 	dbRowModel.DBPatientMasterDataModel = req.DBPatientMasterDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, insertedId := dbaccess.Insert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -71,6 +72,7 @@ func (service PatientService) GetPatientAdmissionList(listReqData gmodels.APIDat
 func (service PatientService) PatientUpdate(reqData *hktmodels.DBPatientUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
@@ -184,6 +186,7 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 	dbRowModel := &hktmodels.DBAdmissionTblInsertRowModel{}
 	dbRowModel.DBAdmissionTblDataModel = req.DBAdmissionTblDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, insertedId := dbaccess.AdmissionTblInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -206,6 +209,7 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 func (service PatientService) AdmissionUpdate(reqData *hktmodels.DBAdmissionTblUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, affectedRow := dbaccess.AdmissionTblUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
