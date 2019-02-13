@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 
@@ -12,13 +12,13 @@ import { DoctorsOrdersDatastoreModel } from '~/app/models/db/doctors-orders-mode
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { TokenModel } from 'nativescript-ui-autocomplete';
+import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/angular/autocomplete-directives';
 @Component({
 	moduleId: module.id,
 	selector: 'doctor-orders',
 	templateUrl: './doctor-orders.component.html',
 	styleUrls: ['./doctor-orders.component.css']
 })
-
 export class DoctorOrdersComponent implements OnInit {
 	public imageTaken: ImageAsset;
 	public saveToGallery: boolean = true;
@@ -27,23 +27,20 @@ export class DoctorOrdersComponent implements OnInit {
 	public height: number = 300;
 	documentId: string;
 	doctorOrdersForm: FormGroup;
-	autocompleDoctors: ObservableArray<TokenModel> = new ObservableArray<TokenModel>([
-		new TokenModel("Laboratory Report", undefined),
-		new TokenModel("Radiology Report", undefined),
-		new TokenModel("Blood Test", undefined),
-		new TokenModel("Blood Glucose Test", undefined),
-		new TokenModel("Calcium Test", undefined),
-		new TokenModel("D-dimer Test", undefined),
-		new TokenModel("ESR Test", undefined),
-		new TokenModel("Floate Test", undefined),
-		new TokenModel("Full Blood Count", undefined),
-		new TokenModel("HbA1c", undefined),
-		new TokenModel("Vitamin B12 test", undefined),
-		new TokenModel("Calcium Test", undefined),
-	]);
+	private _items: ObservableArray<test>;
+	doctorName = new FormControl('', [Validators.required]);
+	private doctors: DoctorsList[] = [
+		{ name: "Amol Patil", id: '11' },
+		{ name: "Ganesh Patil", id: '12' },
+		{ name: "mahesh Patil", id: '13' },
+		{ name: "Sarjerao", id: '14' }]
+	isDescRequired = false;
+	isDrNameRequired = false;
 	constructor(private params: ModalDialogParams,
-		private passDataService: PassDataService) { }
-
+		private passDataService: PassDataService) {
+		this.initDataItems();
+	}
+	// @ViewChild('aut') Item: RadAutoCompleteTextViewComponent;
 	ngOnInit() {
 		this.createFormControls();
 
@@ -51,33 +48,38 @@ export class DoctorOrdersComponent implements OnInit {
 	// << func for creating form controls
 	createFormControls(): void {
 		this.doctorOrdersForm = new FormGroup({
-			desc: new FormControl(),
-			doctorName: new FormControl()
+			desc: new FormControl('', [Validators.required])
 		});
+		this.doctorOrdersForm.addControl('doctorName', this.doctorName);
 	}
 	// >> func for creating form controls
 	// will execute on submit
 	onSubmit() {
-		if (this.doctorOrdersForm.valid) {
-			const desc = this.doctorOrdersForm.controls['desc'].value
-			const doctorName = this.doctorOrdersForm.controls['doctorName'].value;
-			console.log('doctorName',doctorName,'desc      ',desc);	
-			
-			const serverDataStoreModel = new ServerDataStoreDataModel<DoctorsOrdersDatastoreModel>();
-			serverDataStoreModel.datastore = SYNC_STORE.DOCTORS_ORDERS;
-			serverDataStoreModel.data = new DoctorsOrdersDatastoreModel();
-			serverDataStoreModel.data.admission_uuid = this.passDataService.getAdmissionID();
-			serverDataStoreModel.data.client_updated_at = new Date();
-			serverDataStoreModel.data.doctor_id = doctorName;
-			serverDataStoreModel.data.doctors_orders = desc;
-			// to do call api of upload document and set received rec id here.
-			serverDataStoreModel.data.document_uuid = this.documentId;
-			serverDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
-			serverDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
-			this.params.closeCallback([serverDataStoreModel]);
-		}
+		console.log('this.doctorOrdersForm', this.doctorOrdersForm.status);
+		this.isDescRequired = this.doctorOrdersForm.controls['desc'].hasError('required');
+		this.isDrNameRequired = this.doctorOrdersForm.controls['doctorName'].hasError('required');
 
+		if (this.doctorOrdersForm.invalid) {
+			console.log("validation error");
+			return;
+		}
+		const desc = this.doctorOrdersForm.controls['desc'].value
+		const doctorName = this.doctorOrdersForm.controls['doctorName'].value;
+		console.log(this.autocomplete);
+		const serverDataStoreModel = new ServerDataStoreDataModel<DoctorsOrdersDatastoreModel>();
+		serverDataStoreModel.datastore = SYNC_STORE.DOCTORS_ORDERS;
+		serverDataStoreModel.data = new DoctorsOrdersDatastoreModel();
+		serverDataStoreModel.data.admission_uuid = this.passDataService.getAdmissionID();
+		serverDataStoreModel.data.client_updated_at = new Date();
+		serverDataStoreModel.data.doctor_id = doctorName;
+		serverDataStoreModel.data.doctors_orders = desc;
+		// to do call api of upload document and set received rec id here.
+		serverDataStoreModel.data.document_uuid = this.documentId;
+		serverDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
+		serverDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
+		this.params.closeCallback([serverDataStoreModel]);
 	}
+
 	//end of code block
 	onTakePhoto() {
 		this.onRequestPermissions();
@@ -109,4 +111,45 @@ export class DoctorOrdersComponent implements OnInit {
 		this.params.closeCallback([]);
 	}
 	//end of code block
+
+	@ViewChild("autocomplete") autocomplete: RadAutoCompleteTextViewComponent;
+
+	get dataItems(): ObservableArray<test> {
+		return this._items;
+	}
+
+	private initDataItems() {
+		this._items = new ObservableArray<test>();
+
+		for (let i = 0; i < this.doctors.length; i++) {
+			this._items.push(new test(this.doctors[i].name, undefined, this.doctors[i].id));
+		}
+	}
+	public onDidAutoComplete(args) {
+		console.log("DidAutoComplete with: " + args.text);
+		const doctorName = args.text
+		//  to do 
+		// if same doctors have same names then append email id before or after doctor name so it will easy to find id from doctor list.
+		//  fetching id from name bcz auto complete returns onley text.
+		if (doctorName != '') {
+			const item = this.doctors.filter(doctor => doctor.name === doctorName)[0]
+			if (item) {
+				this.doctorOrdersForm.controls['doctorName'].setValue(item.id);
+				this.doctorOrdersForm.controls['doctorName'].updateValueAndValidity();
+			}
+		}
+	}
+}
+
+export class test extends TokenModel {
+	//name: string;
+	id: string;
+	constructor(text: string, image: string, id: string) {
+		super(text, image);
+		this.id = id;
+	}
+}
+export class DoctorsList {
+	name: string;
+	id: string;
 }
