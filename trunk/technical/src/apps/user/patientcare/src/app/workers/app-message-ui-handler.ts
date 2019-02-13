@@ -12,9 +12,11 @@ export class AppMessageUIHandler extends AppMessageHandler {
 
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
         super.handleMessage(msg, postMessageFn);
-        this.saveToDataStore();
-        this.notifyUI();
-        this.notifySync();
-        SyncStoreManager.syncToServerChanged(msg.datastore);
+        this.saveToDataStore().then(() => {
+            this.notifyUI();
+            this.notifySync();
+            SyncStoreManager.syncToServerChanged(msg.datastore);
+        });
+
     }
 }

@@ -19,7 +19,7 @@ export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void): void
-    saveToDataStore(): void;
+    saveToDataStore(): Promise<{}>;
     notifyUI(): void;
     notifySync(): void;
 }
@@ -67,12 +67,18 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
     }
 
     saveToDataStore() {
-        console.log('save to datastore model', this.dataModel);
-        try {
-            DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues());
-        } catch (e) {
-            console.log(e.error);
-        }
+        return new Promise((resolve, reject) => {
+            console.log('save to datastore model');
+            try {
+                DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues())
+                    .then(() => { resolve() }).catch(e => {
+                        reject(e);
+                    });
+            } catch (e) {
+                console.log(e.error);
+                reject(e);
+            }
+        });
     }
 
     notifyUI() {

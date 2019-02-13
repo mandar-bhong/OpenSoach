@@ -11,7 +11,8 @@ export class AppMessageDbSyncHandler extends AppMessageHandler {
 
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
         super.handleMessage(msg, postMessageFn);
-        this.saveToDataStore();
-        this.notifyUI();
+        this.saveToDataStore().then(() => {
+            this.notifyUI();
+        });
     }
 }
