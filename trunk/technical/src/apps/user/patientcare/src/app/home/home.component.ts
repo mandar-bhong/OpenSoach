@@ -166,6 +166,11 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 
 		this.ngZone.run(() => {
 			// check if this item exists in listSource by admission_uuid
+			this._funcGrouping = (item: any) => {
+				if (item) {
+					return item.dbmodel.sp_name;
+				}
+			};
 			console.log('on data received in home');
 			items.forEach(item => {
 				const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
