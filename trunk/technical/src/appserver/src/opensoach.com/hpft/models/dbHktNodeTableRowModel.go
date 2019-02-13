@@ -170,12 +170,14 @@ type DBSplHpftPatientMasterTableRowModel struct {
 	Fname           string     `db:"fname" json:"fname"`
 	Lname           string     `db:"lname" json:"lname"`
 	MobNo           string     `db:"mob_no" json:"mobno"`
+	DateOfBirth     *string    `db:"date_of_brith" json:"dateofbirth"`
 	Age             string     `db:"age" json:"age"`
 	BloodGrp        string     `db:"blood_grp" json:"bloodgrp"`
 	Gender          int        `db:"gender" json:"gender"`
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy       int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftPatientAdmissionTableRowModel struct {
@@ -193,6 +195,7 @@ type DBSplHpftPatientAdmissionTableRowModel struct {
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy       int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftPatientPersonalDetailsRowModel struct {
@@ -207,6 +210,7 @@ type DBSplHpftPatientPersonalDetailsRowModel struct {
 	ClientUpdatedAt   *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn         time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn         time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy         int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftPatientMedicalDetailsRowModel struct {
@@ -227,6 +231,7 @@ type DBSplHpftPatientMedicalDetailsRowModel struct {
 	ClientUpdatedAt         *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn               time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn               time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy               int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftPatientConfTableRowModel struct {
@@ -239,6 +244,7 @@ type DBSplHpftPatientConfTableRowModel struct {
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy       int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftActionTxnTableRowModel struct {
@@ -254,6 +260,7 @@ type DBSplHpftActionTxnTableRowModel struct {
 	ClientUpdatedAt   *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn         time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn         time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy         int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftConfTableRowModel struct {
@@ -266,4 +273,16 @@ type DBSplHpftConfTableRowModel struct {
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy       int64      `db:"updated_by" json:"updated_by"`
+}
+
+type DBSplHpftDocumentTableRowModel struct {
+	pcmodels.StoreEntityModel
+	DocId        int64     `db:"id" dbattr:"pri,auto"  json:"docid"`
+	Name         string    `db:"name" json:""`
+	DocType      string    `db:"doctype" json:""`
+	Location     string    `db:"location" json:""`
+	LocationType string    `db:"location_type" json:""`
+	CreatedOn    time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
 }
