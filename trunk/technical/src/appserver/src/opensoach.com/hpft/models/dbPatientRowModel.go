@@ -34,6 +34,7 @@ type DBPatientUpdateRowModel struct {
 	Age          string `db:"age" json:"age"`
 	BloodGrp     string `db:"blood_grp" json:"bloodgrp"`
 	Gender       int    `db:"gender" json:"gender"`
+	UpdatedBy    int64  `db:"updated_by" json:"updated_by"`
 }
 
 type DBPatientUpdateStatusRowModel struct {
@@ -79,6 +80,7 @@ type DBAdmissionTblUpdateRowModel struct {
 	DrIncharge   int64      `db:"dr_incharge" json:"drincharge"`
 	AdmittedOn   time.Time  `db:"admitted_on" json:"admittedon"`
 	DischargedOn *time.Time `db:"discharged_on" json:"dischargedon"`
+	UpdatedBy    int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBPersonalDetailsDataModel struct {
