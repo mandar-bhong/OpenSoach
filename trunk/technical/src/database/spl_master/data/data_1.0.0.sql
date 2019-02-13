@@ -29,6 +29,9 @@ INSERT INTO `spl_master_user_role_tbl` (`id`,`urole_code`,`urole_name`) VALUES (
 INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (2,1,'ADMIN','Administrator');
 INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (3,2,'ADMIN','Administrator');
 INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (4,3,'ADMIN','Administrator');
+INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (5,2,'EX_DOC','External Doctor');
+INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (6,2,'IN_DOC','Internal Doctor');
+INSERT INTO `spl_master_user_role_tbl` (`id`,`prod_id_fk`,`urole_code`,`urole_name`) VALUES (7,2,'NURSE','Nurse');
 
 --
 -- Dumping data for table `spl_master_config`
