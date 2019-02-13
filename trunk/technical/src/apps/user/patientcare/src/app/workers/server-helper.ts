@@ -415,6 +415,7 @@ export class ServerHelper {
             servicePointDatastoreModel.short_desc = item.short_desc;
             servicePointDatastoreModel.sp_state = item.sp_state;
             servicePointDatastoreModel.sp_state_since = item.sp_state_since;
+            servicePointDatastoreModel.updated_by = item.updated_by;
             servicePointDatastoreModel.updated_on = item.updated_on;
             servicePointDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -447,6 +448,7 @@ export class ServerHelper {
             confDatastoreModel.uuid = item.uuid;
             confDatastoreModel.conf_type_code = item.conf_type_code;
             confDatastoreModel.conf = item.conf;
+            confDatastoreModel.updated_by = item.updated_by;
             confDatastoreModel.updated_on = item.updated_on;
             confDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -484,6 +486,7 @@ export class ServerHelper {
             patientMasterDatastoreModel.age = item.age;
             patientMasterDatastoreModel.blood_grp = item.blood_grp;
             patientMasterDatastoreModel.gender = item.gender;
+            patientMasterDatastoreModel.updated_by = item.updated_by;
             patientMasterDatastoreModel.updated_on = item.updated_on;
             patientMasterDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -517,6 +520,7 @@ export class ServerHelper {
             scheduleDatastoreModel.admission_uuid = item.admission_uuid;
             scheduleDatastoreModel.conf_type_code = item.conf_type_code;
             scheduleDatastoreModel.conf = item.conf;
+            scheduleDatastoreModel.updated_by = item.updated_by;
             scheduleDatastoreModel.updated_on = item.updated_on;
             scheduleDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -555,6 +559,7 @@ export class ServerHelper {
             patientAdmissionDatastoreModel.dr_incharge = item.dr_incharge;
             patientAdmissionDatastoreModel.admitted_on = item.admitted_on;
             patientAdmissionDatastoreModel.discharged_on = item.discharged_on;
+            patientAdmissionDatastoreModel.updated_by = item.updated_by;
             patientAdmissionDatastoreModel.updated_on = item.updated_on;
             patientAdmissionDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -588,8 +593,9 @@ export class ServerHelper {
             patientPersonalDetailsDatastoreModel.patient_uuid = item.patient_uuid;
             patientPersonalDetailsDatastoreModel.admission_uuid = item.admission_uuid;
             patientPersonalDetailsDatastoreModel.age = item.age;
-            patientPersonalDetailsDatastoreModel.weight = item.weight;
             patientPersonalDetailsDatastoreModel.other_details = item.other_details;
+            patientPersonalDetailsDatastoreModel.person_accompanying = item.person_accompanying;
+            patientPersonalDetailsDatastoreModel.updated_by = item.updated_by;
             patientPersonalDetailsDatastoreModel.updated_on = item.updated_on;
             patientPersonalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -622,15 +628,16 @@ export class ServerHelper {
             patientMedicalDetailsDatastoreModel.uuid = item.uuid;
             patientMedicalDetailsDatastoreModel.patient_uuid = item.patient_uuid;
             patientMedicalDetailsDatastoreModel.admission_uuid = item.admission_uuid;
+            patientMedicalDetailsDatastoreModel.present_complaints = item.present_complaints;
             patientMedicalDetailsDatastoreModel.reason_for_admission = item.reason_for_admission;
-            patientMedicalDetailsDatastoreModel.patient_medical_hist = item.patient_medical_hist;
-            patientMedicalDetailsDatastoreModel.treatment_recieved_before = item.treatment_recieved_before;
-            patientMedicalDetailsDatastoreModel.family_hist = item.family_hist;
-            patientMedicalDetailsDatastoreModel.menstrual_hist = item.menstrual_hist;
+            patientMedicalDetailsDatastoreModel.history_present_illness = item.history_present_illness;
+            patientMedicalDetailsDatastoreModel.past_history = item.past_history;
+            patientMedicalDetailsDatastoreModel.treatment_before_admission = item.treatment_before_admission;
+            patientMedicalDetailsDatastoreModel.investigation_before_admission = item.investigation_before_admission;
+            patientMedicalDetailsDatastoreModel.family_history = item.family_history;
             patientMedicalDetailsDatastoreModel.allergies = item.allergies;
             patientMedicalDetailsDatastoreModel.personal_history = item.personal_history;
-            patientMedicalDetailsDatastoreModel.general_physical_exam = item.general_physical_exam;
-            patientMedicalDetailsDatastoreModel.systematic_exam = item.systematic_exam;
+            patientMedicalDetailsDatastoreModel.updated_by = item.updated_by;
             patientMedicalDetailsDatastoreModel.updated_on = item.updated_on;
             patientMedicalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -667,6 +674,7 @@ export class ServerHelper {
             actionTxnDatastoreModel.txn_state = item.txn_state;
             actionTxnDatastoreModel.conf_type_code = item.conf_type_code;
             actionTxnDatastoreModel.runtime_config_data = item.runtime_config_data;
+            actionTxnDatastoreModel.updated_by = item.updated_by;
             actionTxnDatastoreModel.updated_on = item.updated_on;
             actionTxnDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
