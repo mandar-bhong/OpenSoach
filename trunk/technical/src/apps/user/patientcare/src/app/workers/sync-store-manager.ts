@@ -86,13 +86,11 @@ export class SyncStoreManager {
 
         if (this.readSyncComplete == false) {
             const currentstore = this.syncStore[this.count];
+            console.log("currentstore", currentstore);
 
             switch (syncState) {
 
                 case SERVER_SYNC_STATE.SYNC_TO_SERVER:
-
-                    console.log("currentstore", currentstore);
-
 
                     if (currentstore.sync_to_server_pending === SYNC_PENDING.TRUE
                         && (currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_SERVER || DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER)) {
