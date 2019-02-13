@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { SnackBar, SnackBarOptions } from 'nativescript-snackbar';
 import {
 	ListViewEventData,
@@ -31,6 +31,9 @@ import { WorkerService } from '~/app/services/worker.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { IDeviceAuthResult } from '../../idevice-auth-result';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
+import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/modal-dialog';
+import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
+
 
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
@@ -60,8 +63,13 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
-		this.save();
-		throw new Error("Method not implemented.");
+		console.log('chart componenent onDeviceAuthSuccess executed');
+		const initModel = new ServerDataProcessorMessageModel();
+		initModel.data = this.ServerDataStoreDataModelArray
+		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
+		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
+		//	this.save();
+		//	throw new Error("Method not implemented.");
 	}
 	onDeviceAuthError(error: any): void {
 		throw new Error("Method not implemented.");
@@ -71,6 +79,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	}
 
 	public actionListItem = new ObservableArray<ActionListViewModel>();
+	ServerDataStoreDataModelArray: ServerDataStoreDataModel<any>[] = [];
 	chartbuttonClicked: boolean = false;
 	public _dataItems: ObservableArray<any>;
 	private layout: ListViewLinearLayout;
@@ -137,7 +146,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
+		private modalService: ModalDialogService,
 		private passdataservice: PassDataService,
+		private workerservice: WorkerService,
+		private viewContainerRef: ViewContainerRef,
 		private chartService: ChartService,
 		private routerExtensions: RouterExtensions) {
 		//  list grouping
@@ -388,7 +400,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	public getActionData(key: string) {
 		console.log('getActinData')
 		this.actionListItem = new ObservableArray<ActionListViewModel>();
-		this.actionService.getActionActiveList(key,this.passdataservice.getAdmissionID()).then(
+		this.actionService.getActionActiveList(key, this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				val.forEach(item => {
 					console.log(item);
@@ -668,8 +680,31 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	doctorsOrders() {
 		console.log('doctors order  tapped');
+		this.openModel(DoctorOrdersComponent);
+		this.dialogOpen = false;
 	}
-	public activeList(){
+	// code block for opening component in modal.
+	openModel(componentName) {
+		let options: ModalDialogOptions = {
+			context: { promptMsg: "This is the prompt message!" },
+			fullscreen: true,
+			viewContainerRef: this.viewContainerRef
+		};
+		this.modalService.showModal(componentName, options).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
+			console.log('dialogResult', dialogResult);
+			this.ServerDataStoreDataModelArray = dialogResult;
+			if (this.ServerDataStoreDataModelArray.length > 0) {
+				setTimeout(() => {
+					this.savetoUserAuth();
+				}, 100);
+			}
+			
+		});
+
+	}//end of fucntion
+
+
+	public activeList() {
 		this.completeorpending = "Active Action";
 		this.iscompleted = false;
 		this.viewexpand = false;
@@ -677,13 +712,19 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.buttonCompleted = false;
 		this.getActionData('getActionListActive');
 	}
-	public compilitedList(){
+	public compilitedList() {
 		this.completeorpending = "Completed Action";
 		this.iscompleted = true;
 		this.viewexpand = true;
 		this.saveViewOpen = false;
 		this.buttonClicked = false;
 		this.getActionData('getActionListComplated');
-		
+
 	}
+
+
+	closeDialog() {
+		this.dialogOpen = false;
+	}
+
 }

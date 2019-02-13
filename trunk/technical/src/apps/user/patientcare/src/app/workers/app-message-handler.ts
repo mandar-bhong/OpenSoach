@@ -13,6 +13,7 @@ import { IntakeHelper } from "../helpers/actions/intake-helper.js";
 import { MonitorHelper } from "../helpers/actions/monitor-helper.js";
 import { ActionTxnDatastoreModel } from "../models/db/action-txn-model.js";
 import { ScheduleDatastoreMessageHandler } from "./schedule-datastore-message-handler.js";
+import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model.js";
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
@@ -55,13 +56,18 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
                 Object.assign(actionTxnDatastoreModel, this.dataModel.data)
                 this.dataModel.data = actionTxnDatastoreModel;
                 break;
+            case SYNC_STORE.DOCTORS_ORDERS:
+                const doctorsOrdersDatastoreModel = new DoctorsOrdersDatastoreModel();
+                Object.assign(doctorsOrdersDatastoreModel, this.dataModel.data);
+                this.dataModel.data = doctorsOrdersDatastoreModel;
+                break;
             default:
                 break;
         }
     }
 
     saveToDataStore() {
-        console.log('save to datastore model');
+        console.log('save to datastore model', this.dataModel);
         try {
             DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues());
         } catch (e) {

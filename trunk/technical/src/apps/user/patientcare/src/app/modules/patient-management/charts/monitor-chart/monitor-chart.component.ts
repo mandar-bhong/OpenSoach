@@ -279,6 +279,7 @@ export class MonitorChartComponent implements OnInit {
         serverDataStoreModel.data = new ScheduleDatastoreModel();
         serverDataStoreModel.data = monitormodel;
         serverDataStoreModel.data.sync_pending = 1
+        serverDataStoreModel.data.client_updated_at = new Date();
         serverDataStoreModel.data.conf = conf;
         this.params.closeCallback([serverDataStoreModel]);
 

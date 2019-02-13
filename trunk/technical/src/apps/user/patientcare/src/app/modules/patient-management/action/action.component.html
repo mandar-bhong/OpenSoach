@@ -165,7 +165,7 @@
             </StackLayout>
         </GridLayout>
     </GridLayout>
-    
+
     <AbsoluteLayout class="dialog-wrapper" style="justify-content: center; vertical-align: center;">
         <StackLayout class="dialog" width="100%">
             <Label class="h3" textWrap="true" text="Create Courses" style="padding-top:10%;"></Label>
@@ -197,7 +197,7 @@
                     <Label row="0" col="1" class="body" text="Output" style="color: #396767;" class="pop-list-layout"></Label>
                     <StackLayout row="1" col="1" class="hr-light m-10"></StackLayout>
                 </GridLayout>
-                <Button row="5" col="0" class="btn btn-outline" text="Cancel"></Button>
+                <Button row="5" col="0" class="btn btn-outline" (tap)="closeDialog();" text="Cancel"></Button>
             </GridLayout>
 
         </StackLayout>
