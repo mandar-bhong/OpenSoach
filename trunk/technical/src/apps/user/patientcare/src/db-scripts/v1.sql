@@ -20,5 +20,3 @@ INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('patient_medical_details_tbl', 7,3,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('action_txn_tbl', 8,3,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('doctors_orders_tbl', 9,3,0,'',0,'');
-INSERT INTO conf_tbl (uuid, conf_type_code , conf , updated_on , sync_pending) 
-VALUES ('C0001', 'Monitor' ,'{"tasks":[{"name":"Temperature"},{"name":"Blood Pressure"},{"name":"Pulse Rate"},{"name":"Respiration Rate"}]}' , '2018-12-04 14:37:53' , 0);
