@@ -14,7 +14,7 @@ export class PassDataService {
     uploadedImage: ImageAsset[] = [];
     patientName: string;
     createActionsSubject: Subject<boolean> = new Subject<boolean>();
-    authResultReuested: IDeviceAuthResult
+    authResultReuested: IDeviceAuthResult;
     constructor() {
         //  this.patientListViewModel = new PatientListViewModel();
         console.log('service initiated');

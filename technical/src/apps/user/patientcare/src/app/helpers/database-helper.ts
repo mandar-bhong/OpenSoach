@@ -334,7 +334,7 @@ export class DatabaseHelper {
 
                     db.execSQL(updateQuery, paramList).then(id => {
                         console.log("updateTableSyncPending");
-                         console.log("affected rows", id);
+                        console.log("affected rows", id);
                         resolve(id);
                     }, error => {
                         console.log("updateTableSyncPending");

@@ -31,10 +31,10 @@ import { Action } from "rxjs/internal/scheduler/Action";
 import { ActionService } from "~/app/services/action/action.service";
 import { ShowCameraImageComponent } from "./reports/section-one/show-camera-image/show-camera-image.component";
 import { ShowUploadedImageComponent } from "./reports/section-one/show-uploaded-image/show-uploaded-image.component";
-import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular"; 
+import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular";
 import { MonitorService } from "~/app/services/monitor/monitor.service";
 import { UserAuthComponent } from "./user_auth/user_auth.component";
-// import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
+import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
 
 
 @NgModule({
@@ -64,27 +64,31 @@ import { UserAuthComponent } from "./user_auth/user_auth.component";
         MonitorChartComponent,
         MedicalDetailsComponent,
         PatientInfoComponent,
-        ReportsComponent, 
+        ReportsComponent,
         SectionOneComponent,
         PatientActionBarComponent,
         ShowCameraImageComponent,
         ShowUploadedImageComponent,
         UserAuthComponent,
-        // DoctorOrdersComponent
-       
+        DoctorOrdersComponent
+
+
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
-    providers:[
+    providers: [
         DatePipe,
         ChartService,
         ActionService,
         MonitorService
+    ],
+    entryComponents: [
+        DoctorOrdersComponent
     ]
 })
 export class PatientMgntModule {
-    constructor(){
+    constructor() {
         console.log('PatientMgntModule muodule initiate');
     }
- }
+}

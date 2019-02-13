@@ -1,0 +1,59 @@
+<GridLayout columns="*" height="100%" width="100%" rows="*">
+    <GridLayout columns="*"  rows="auto,auto,*">
+        <GridLayout row="0" columns="auto, *, auto" rows="65" style="background-color: #396766; color: white; vertical-align: center;padding: 0px 10px;">
+            <Label col="0" text="&#xf156;" class="homeicon mdi mdi" (tap)="goBackPage()"></Label>
+            <Label col="1" text="Doctor Orders Form" style="text-align:center;  vertical-align: center;"></Label>
+            <Label col="2" text="&#xf12c;" class="homeicon mdi mdi" (tap)="onSubmit()" style="margin-right: 1px"></Label>
+        </GridLayout>
+        <!-- <ScrollView row="2"> -->
+        <GridLayout row="1">
+            <StackLayout class="form" [formGroup]="doctorOrdersForm">
+                <StackLayout class="input-field">
+                    <Label text="Order Description"></Label>
+                    <TextField class="input" formControlName="desc"></TextField>
+                </StackLayout>
+                <StackLayout class="hr-light"></StackLayout>
+                <StackLayout class="input-field">
+                    <Label text="Doctor Name"></Label>
+                    <TextField class="input" formControlName="doctorName"></TextField>
+                    <!-- <RadAutoCompleteTextView [items]="autocompleDoctors" suggestMode="Suggest" displayMode="Plain">
+                        <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
+                            <ng-template tkSuggestionItemTemplate let-item="item">
+                                <StackLayout orientation="vertical" padding="10">
+                                    <Label [text]="item.text"></Label>
+                                </StackLayout>
+                            </ng-template>
+                        </SuggestionView>
+                    </RadAutoCompleteTextView> -->
+
+                    <StackLayout class="hr-light"></StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </GridLayout>
+
+        <GridLayout row="2">
+            <FlexboxLayout flexDirection="column-reverse">
+                <Image [src]="imageTaken" flexGrow="3" class="p-15 img-rounded"></Image>
+            </FlexboxLayout>
+        </GridLayout>
+        <!-- </ScrollView> -->
+    </GridLayout>
+    <GridLayout columns="*">
+        <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
+            <StackLayout row="0">
+                <RL:Ripple rippleColor="#fff" style="margin-top: 20px;" (tap)="onTakePhoto()">
+                    <StackLayout class="float-btn-cat">
+                        <Label class="float-btn-cat-text fas" text="&#xf030;"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+            </StackLayout>
+            <StackLayout row="1">
+                <RL:Ripple rippleColor="#fff" style="margin-top: 10px;">
+                    <StackLayout class="float-btn-cat">
+                        <Label class="float-btn-cat-text fas" text="&#xf574;"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+            </StackLayout>
+        </StackLayout>
+    </GridLayout>
+</GridLayout>
