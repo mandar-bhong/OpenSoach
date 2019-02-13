@@ -66,3 +66,21 @@ func GetDeviceUserAuthInfo(dbConn string, usrname string, password string, cpmid
 	}
 	return nil, data
 }
+
+func GetDeviceUserListData(dbConn string, cpmid int64) (error, *[]lmodels.DBDeviceUserListDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceUserListData")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBDeviceUserListDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_DEVCIE_USER_LIST_DATA
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+
+	selErr := selDBCtx.Select(cpmid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

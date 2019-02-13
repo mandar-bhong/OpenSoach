@@ -11,3 +11,9 @@ const QUERY_GET_DEVICE_USER_INFO = `select usr.id,usr_name,fname,lname
 from spl_master_user_tbl usr
 left join spl_master_usr_details_tbl usrd on usr.id = usrd.usr_id_fk 
 inner join spl_master_usr_cpm_tbl ucpm on usr.id = ucpm.user_id_fk where usr.usr_name = ? and usr.usr_password = ? and ucpm.cpm_id_fk = ?`
+
+const QUERY_GET_DEVCIE_USER_LIST_DATA = `select usr.id as usr_id,usr.usr_name,urole.urole_name,usrd.fname,usrd.lname from spl_master_user_tbl usr
+left join spl_master_usr_details_tbl usrd on usr.id = usrd.usr_id_fk
+left join spl_master_usr_cpm_tbl ucpm on usr.id = ucpm.user_id_fk 
+left join spl_master_user_role_tbl urole on urole.id = ucpm.urole_id_fk
+where ucpm.cpm_id_fk = ?`
