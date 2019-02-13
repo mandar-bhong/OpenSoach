@@ -21,3 +21,5 @@ $WhereCondition$`
 
 const QUERY_SPL_MASTER_PATIENT_SELECT_BY_FILTER = `select id,patient_reg_no,fname,lname,mob_no,age,blood_grp,gender,created_on,updated_on from spl_hpft_patient_master_tbl
 $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
+
+const QUERY_PATIENT_ADMISSION_TABLE_SELECT_BY_ID = `select * from spl_hpft_patient_admission_tbl where id = ?`

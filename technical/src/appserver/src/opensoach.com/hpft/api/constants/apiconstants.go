@@ -82,7 +82,7 @@ const API_PATIENT_FILTER_INFO_MASTER = API_BASE_URL + "/v1/patient/filterinfo"
 const API_PATIENT_LIST_MASTER = API_BASE_URL + "/v1/patient/list/master"
 
 const API_PATIENT_ADMISSION_ADD = API_BASE_URL + "/v1/patient/admission/add"
-const API_PATIENT_ADMISSION_UPDATE = API_BASE_URL + "/v1/patientn/admission/update"
+const API_PATIENT_ADMISSION_UPDATE = API_BASE_URL + "/v1/patient/admission/update"
 const API_PATIENT_ADMISSION_INFO_MASTER = API_BASE_URL + "/v1/patient/admission/info"
 
 const API_PATIENT_PERSONAL_DETAILS_ADD = API_BASE_URL + "/v1/patient/personal/personaldetails/add"
