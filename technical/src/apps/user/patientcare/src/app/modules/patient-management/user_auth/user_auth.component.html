@@ -45,8 +45,8 @@
                     </GridLayout>
                     <GridLayout row="1">
                         <StackLayout>
-                            <TextField hint="New Pin" formControlName="newpin" keyboardType="number" autocorrect="false"
-                                autocapitalizationType="none" class="input input-border"></TextField>
+                            <TextField hint="New Pin" formControlName="newpin" secure="true" keyboardType="number"
+                                class="input input-border"></TextField>
                             <StackLayout class="input-field">
                                 <StackLayout *ngIf="newpinIsValid">
                                     <Label text="*new pin is required " style="color:red"></Label>

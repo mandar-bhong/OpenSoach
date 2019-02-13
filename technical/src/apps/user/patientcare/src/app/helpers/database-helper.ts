@@ -28,7 +28,7 @@ let selectQueries = new Map([
     ["patient_master_tbl_insert", "insert into patient_master_tbl (uuid,patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_by, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["patient_admission_tbl_insert", "insert into patient_admission_tbl (uuid, patient_uuid, patient_reg_no, bed_no, status, sp_uuid, dr_incharge, admitted_on, discharged_on, updated_by, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["userList", "select * from device_access_tbl"],
-    ["device_access_tbl", "insert into device_access_tbl (id, user_fname, user_lname, email, pin ) values ( ?, ?, ?, ?, ?)"],
+    ["device_access_tbl_insert", "insert into device_access_tbl (userid, user_fname, user_lname, email, pin ) values ( ?, ?, ?, ?, ?)"],
 
     ["conf_tbl_insert", "insert into conf_tbl (uuid,conf_type_code,conf, updated_by,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?)"],
     ["conf_tbl_update", "update conf_tbl set conf_type_code=?,conf=?, updated_by=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],

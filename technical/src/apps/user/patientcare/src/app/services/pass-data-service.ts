@@ -15,6 +15,8 @@ export class PassDataService {
     patientName: string;
     createActionsSubject: Subject<boolean> = new Subject<boolean>();
     authResultReuested: IDeviceAuthResult;
+
+    token: any;
     constructor() {
         //  this.patientListViewModel = new PatientListViewModel();
         console.log('service initiated');
