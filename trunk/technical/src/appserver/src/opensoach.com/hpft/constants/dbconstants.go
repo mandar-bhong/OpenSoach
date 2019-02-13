@@ -24,6 +24,8 @@ const DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL string = "spl_hpft_patient_medical
 const DB_SPL_HPFT_PATIENT_CONF_TBL string = "spl_hpft_patient_conf_tbl"
 const DB_SPL_HPFT_CONF_TBL string = "spl_hpft_conf_tbl"
 const DB_SPL_ACTION_TXN_TBL string = "spl_hpft_action_txn_tbl"
+const DB_SPL_HPFT_DOCUMENT_TBL string = "spl_hpft_document_tbl"
+const DB_SPL_HPFT_DOCTORS_OPRDERS_TBL string = "spl_hpft_doctors_orders_tbl"
 
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"
@@ -60,3 +62,4 @@ const SYNC_STORE_NAME_PATIENT_ADMISSION = "patient_master_tbl"
 const SYNC_STORE_NAME_PERSONAL_DETAILS = "patient_personal_details_tbl"
 const SYNC_STORE_NAME_MEDICAL_DETAILS = "patient_medical_details_tbl"
 const SYNC_STORE_NAME_ACTION_TXN = "action_txn_tbl"
+const SYNC_STORE_NAME_DOCTORS_ORDERS = "doctors_orders_tbl"

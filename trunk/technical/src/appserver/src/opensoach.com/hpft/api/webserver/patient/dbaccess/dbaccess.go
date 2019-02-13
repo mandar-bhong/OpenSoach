@@ -159,9 +159,8 @@ func GetAdmissionById(dbConn string, admissionId int64) (error, *[]hktmodels.DBS
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]hktmodels.DBSplHpftPatientAdmissionTableRowModel{}
 	selDBCtx.DBConnection = dbConn
-	// selDBCtx.Query = dbquery.QUERY_PATIENT_MASTER_TABLE_SELECT_BY_ID
-	selDBCtx.QueryType = dbmgr.AutoQuery
-	selDBCtx.TableName = constants.DB_SPL_HPFT_PATIENT_ADMISSION_TBL
+	selDBCtx.Query = dbquery.QUERY_PATIENT_ADMISSION_TABLE_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 	selErr := selDBCtx.SelectById(admissionId)
 	if selErr != nil {

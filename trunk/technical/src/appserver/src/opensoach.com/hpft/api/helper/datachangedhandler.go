@@ -19,6 +19,7 @@ var mapTblnameStorename = map[string]string{
 	constants.DB_SPL_HPFT_PATIENT_PERSONAL_DETAILS_TBL: constants.SYNC_STORE_NAME_PERSONAL_DETAILS,
 	constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL:  constants.SYNC_STORE_NAME_MEDICAL_DETAILS,
 	constants.DB_SPL_ACTION_TXN_TBL:                    constants.SYNC_STORE_NAME_ACTION_TXN,
+	constants.DB_SPL_HPFT_DOCTORS_OPRDERS_TBL:          constants.SYNC_STORE_NAME_DOCTORS_ORDERS,
 }
 
 func HandleDatabaseDataChange(tableName string, data interface{}) {
@@ -72,6 +73,13 @@ func HandleDatabaseDataChange(tableName string, data interface{}) {
 		sendNotifyTask(data, tableName)
 
 		break
+
+	case constants.DB_SPL_HPFT_DOCTORS_OPRDERS_TBL:
+
+		sendNotifyTask(data, tableName)
+
+		break
+
 	}
 
 }
