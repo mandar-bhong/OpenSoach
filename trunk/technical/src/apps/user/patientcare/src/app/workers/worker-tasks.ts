@@ -1,4 +1,3 @@
-import { Dummy } from "./dummy.js";
 import { SERVER_WORKER_MSG_TYPE, SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE, SERVER_SYNC_STATE } from "../app-constants.js";
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model.js";
 import { ServerWorkerContext } from "./server-worker-context.js";
@@ -15,7 +14,6 @@ export class WorkerTasks {
     public static Init(worker: Worker) {
         WorkerTasks.workerReference = worker;
         console.log("in WorkerTasks Init")
-        Dummy.sendToServerCallback = WorkerTasks.sendToServer;
         ServerWorkerContext.ContextVar1 = "Worker Initialized";
         console.log('ServerWorkerContext.ContextVar1', ServerWorkerContext.ContextVar1);
         ServerHelper.Init(WorkerTasks.postMessage);
@@ -54,9 +52,6 @@ export class WorkerTasks {
         WorkerTasks.socket.on('open', socket => {
             console.log('messages', "WebSocket opened");
             WorkerTasks.raiseSocketConnectionEvent(true);
-
-            // TODO: Dummy Code to trigger data send
-            // Dummy.DummyMethod();
 
             //on connect sync data
             ServerWorkerContext.syncState = SERVER_SYNC_STATE.NONE;
