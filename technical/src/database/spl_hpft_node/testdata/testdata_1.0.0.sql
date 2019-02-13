@@ -171,5 +171,15 @@ VALUES
 ('PA012', '3', 12, 'P12B12224', '2B/232', '1', '8', '8', '2018-12-04 19:33:53', 1);
 
 
+--
+-- Dumping data for table `spl_hpft_conf_tbl`
+--
+
+INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, `updated_by`) 
+VALUES 
+('C0001', '3', 'Monitor', '{"tasks":[{"name":"Temperature"},{"name":"Blood Pressure"},{"name":"Pulse Rate"},{"name":"Respiration Rate"}]}',1);
+
+
+
 
 
