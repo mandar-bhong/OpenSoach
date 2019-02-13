@@ -11,3 +11,11 @@ type DBDeviceUserAuthInfoModel struct {
 	FirstName string `db:"fname" json:"firstname"`
 	LastName  string `db:"lname" json:"lastname"`
 }
+
+type DBDeviceUserListDataModel struct {
+	UserId    int64  `json:"usr_id" db:"usr_id"`
+	UserName  string `json:"usr_name" db:"usr_name"`
+	UroleName string `json:"urole_name" db:"urole_name"`
+	FirsName  string `json:"fname" db:"fname"`
+	LastName  string `json:"lname" db:"lname"`
+}

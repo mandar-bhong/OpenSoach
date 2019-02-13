@@ -15,3 +15,7 @@ type APIDeviceUserAuthRequest struct {
 	Password    string `db:"usr_password" json:"password"`
 	DeviceToken string `json:"devicetoken"`
 }
+
+type APIDeviceUserListRequest struct {
+	DeviceToken string `json:"devicetoken"`
+}

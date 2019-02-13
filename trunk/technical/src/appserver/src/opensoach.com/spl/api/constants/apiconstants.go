@@ -78,3 +78,4 @@ const API_PRODUCT_OSU_LIST = API_BASE_URL + "/osu/v1/product/list"
 
 const API_ENDPOINT_DEVICE_AUTH = API_BASE_URL + "/v1/endpoint/deviceauthorization"
 const API_ENDPOINT_DEVICE_USER_AUTH = API_BASE_URL + "/v1/endpoint/userauthorization"
+const API_ENDPOINT_DEVICE_USER_LIST = API_BASE_URL + "/v1/endpoint/userlist"
