@@ -170,7 +170,7 @@ type DBSplHpftPatientMasterTableRowModel struct {
 	Fname           string     `db:"fname" json:"fname"`
 	Lname           string     `db:"lname" json:"lname"`
 	MobNo           string     `db:"mob_no" json:"mobno"`
-	DateOfBirth     *string    `db:"date_of_brith" json:"dateofbirth"`
+	DateOfBirth     *string    `db:"date_of_birth" json:"dateofbirth"`
 	Age             string     `db:"age" json:"age"`
 	BloodGrp        string     `db:"blood_grp" json:"bloodgrp"`
 	Gender          int        `db:"gender" json:"gender"`
