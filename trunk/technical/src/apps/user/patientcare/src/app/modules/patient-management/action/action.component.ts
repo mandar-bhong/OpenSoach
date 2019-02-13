@@ -416,12 +416,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		);
 	}
 
-
-
-
-
-
-
 	// >> get action list by id
 	public getListDataById() {
 		// console.log('this.actionnListItem', this.actionListItem);
