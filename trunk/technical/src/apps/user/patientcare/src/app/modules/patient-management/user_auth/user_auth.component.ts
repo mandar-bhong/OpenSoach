@@ -6,7 +6,25 @@ import { ActionService } from '~/app/services/action/action.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { HttpClient } from "@angular/common/http";
 
+export class UserData{
+	data: UserDetails;
+}
+export class UserDetails{
+	userid : string;
+	firstname: string;
+	lastname: string;
+	username: string;
+	pin: string;
+}
+export class UserDetailDBModel{
+	userid : string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	pin: string;
+}
 @Component({
 	moduleId: module.id,
 	selector: 'user_auth',
@@ -28,6 +46,7 @@ export class UserAuthComponent implements OnInit {
 	userpinIsValid: boolean;
 
 	// patientname: string;
+	getuserdetails = new UserDetails();
 
 	login = true;
 	listaccount = true;
@@ -43,7 +62,8 @@ export class UserAuthComponent implements OnInit {
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
 	constructor(private actionService: ActionService,
 		private routerExtensions: RouterExtensions,
-		private passdataservice: PassDataService) {
+		private passdataservice: PassDataService,
+		private httpClient: HttpClient) {
 		console.log('user auth');
 		this.datamodel = new UserAuthDBRequest();
 	}
@@ -140,11 +160,37 @@ export class UserAuthComponent implements OnInit {
 		const formmodel = new UserCreateFormRequest();
 		formmodel.email = this.userAuthForm.get('email').value;
 		formmodel.password = this.userAuthForm.get('password').value;
-		this.newpinview = true;
-		this.hidecheckpin = false;
+
 		// this.datamodel = new  UserAuthDBRequest();
 		console.log('this.datamodel.user_fname', formmodel.email = this.userAuthForm.get('email').value);
 		console.log('this.datamodel.user_lname', formmodel.password = this.userAuthForm.get('password').value);
+
+		console.log('token', this.passdataservice.token);
+
+		if (formmodel.email && formmodel.password) {
+			this.httpClient.post("http://172.105.232.148/api/v1/endpoint/userauthorization",
+				{
+					'username': formmodel.email,
+					'password': formmodel.password,
+					'devicetoken':  this.passdataservice.token,
+				})
+				.subscribe(
+					(res: UserData) => {
+						console.log("POST Request is successful ", res);
+						this.getuserdetails.firstname = res.data.firstname;
+						console.log('fname',this.getuserdetails.firstname);
+						this.getuserdetails.lastname = res.data.lastname;
+						this.getuserdetails.userid = res.data.userid;
+						this.getuserdetails.username = res.data.username;
+
+						this.newpinview = true;
+						this.hidecheckpin = false;
+					}, (error) => {
+						console.log(error);
+					}
+				);
+		}
+
 
 	}
 	userSign() {
@@ -155,7 +201,22 @@ export class UserAuthComponent implements OnInit {
 			return;
 		}
 		const formmodel = new UserCreateFormRequest();
-		formmodel.newpin = this.userAuthForm.get('newpin').value;
-		formmodel.reenterpin = this.userAuthForm.get('re_enterpin').value;
+		formmodel.newpin = this.userAuthPinForm.get('newpin').value;
+		formmodel.reenterpin = this.userAuthPinForm.get('re_enterpin').value;
+
+		if(formmodel.newpin === formmodel.reenterpin){
+			const saveuserdetails = new UserDetailDBModel();
+			saveuserdetails.userid = this.getuserdetails.userid;
+			saveuserdetails.first_name = this.getuserdetails.firstname;
+			saveuserdetails.last_name = this.getuserdetails.lastname;
+			saveuserdetails.email = this.getuserdetails.username;
+			saveuserdetails.pin = formmodel.reenterpin;
+			// save action done and discard in DB
+			const userid = Number(saveuserdetails.userid)
+			this.actionService.insertDeviceAccessItem(saveuserdetails);
+			this.passdataservice.authResultReuested.onDeviceAuthSuccess(userid);
+			this.routerExtensions.back();
+		}
+
 	}
 }

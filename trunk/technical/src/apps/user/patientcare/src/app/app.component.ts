@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 import * as application from 'application'
 import { RouterExtensions } from "nativescript-angular/router";
 import { PlatformHelper } from "./helpers/platform-helper";
+import { PassDataService } from "./services/pass-data-service";
 
 @Component({
     moduleId: module.id,
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private zone: NgZone,
         private workerService: WorkerService,
         private routerExtensions: RouterExtensions,
-        private httpClient: HttpClient) {
+        private httpClient: HttpClient,
+        private passDataService: PassDataService) {
 
         // init PlatformHelper
         PlatformHelper.init();
@@ -90,6 +92,9 @@ export class AppComponent implements OnInit, OnDestroy {
                             // setting context if token validated
                             AppGlobalContext.Token = token;
                             console.log("AppGlobalContext.Token", AppGlobalContext.Token);
+
+                            // pass device token for any one access
+                            this.passDataService.token = AppGlobalContext.Token;
                             AppGlobalContext.WebsocketUrl = appSettings.getString("WEB_SOCKET_URL");
                             console.log("AppGlobalContext.WebsocketUrl", AppGlobalContext.WebsocketUrl);
                             this.initAppStart();

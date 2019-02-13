@@ -1,12 +1,12 @@
 <GridLayout rows="*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
-    <GridLayout rows="auto,50,*" columns="*" height="100%" width="100%">
+    <GridLayout rows="auto,70,*" columns="*" height="100%" width="100%">
         <GridLayout row="0" *ngIf="saveViewOpen" columns="20,*,90, 30">
             <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
             <Button col="2" text="Save" (tap)="savetoUserAuth()" class="btn btn-primary"></Button>
         </GridLayout>
         <GridLayout row="1" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;">
                 <Label class="h3" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
-                <StackLayout col="1" orientation="horizontal" style="border: 1px solid black;outline-style: solid;outline-width: thin;">
+                <StackLayout col="1" orientation="horizontal" borderRadius borderWidth="1"  borderColor="black">
                     <RL:Ripple rippleColor="#fff" (tap)="activeList()" (tap)="buttonClicked = true">
                         <StackLayout>
                             <StackLayout textWrap="true" [class.tab-clicked]="buttonClicked" class="tab-layout">
