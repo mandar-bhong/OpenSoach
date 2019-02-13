@@ -14,8 +14,6 @@ export class WorkerTasks {
     public static Init(worker: Worker) {
         WorkerTasks.workerReference = worker;
         console.log("in WorkerTasks Init")
-        ServerWorkerContext.ContextVar1 = "Worker Initialized";
-        console.log('ServerWorkerContext.ContextVar1', ServerWorkerContext.ContextVar1);
         ServerHelper.Init(WorkerTasks.postMessage);
         ServerHelper.sendToServerCallback = WorkerTasks.sendToServer;
         PlatformHelper.init();
@@ -95,7 +93,6 @@ export class WorkerTasks {
         console.log("sendToServer", msg);
         console.log("sendToServer, socket", WorkerTasks.socket);
         WorkerTasks.socket.send(msg);
-        console.log('ServerWorkerContext.ContextVar1', ServerWorkerContext.ContextVar1);
     }
 
     public static postMessage(msg: ServerWorkerEventDataModel) {
