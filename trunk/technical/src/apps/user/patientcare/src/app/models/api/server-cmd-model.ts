@@ -21,5 +21,5 @@ export class ApplySyncRequestModel {
 }
 
 export class AuthTokenModel {
-    authtoken: string;
+    token: string;
 }

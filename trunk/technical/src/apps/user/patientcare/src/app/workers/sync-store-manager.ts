@@ -14,7 +14,7 @@ export class SyncStoreManager {
     static isDataConflict: boolean;
 
 
-    public static ReadSyncStore() {
+    public static readSyncStore() {
         // Read sync store and save in syncStore
 
         return new Promise((resolve, reject) => {
@@ -43,7 +43,7 @@ export class SyncStoreManager {
         });
     }
 
-    public static ReadUpdatedSyncStore() {
+    public static readUpdatedSyncStore() {
         // Read sync store and save in syncStore
 
         return new Promise((resolve, reject) => {
@@ -170,7 +170,7 @@ export class SyncStoreManager {
 
 
         // read sync table again
-        this.ReadUpdatedSyncStore().then(
+        this.readUpdatedSyncStore().then(
             (val) => {
                 console.log("reading updated sync store completed..");
 
@@ -229,7 +229,7 @@ export class SyncStoreManager {
                 if (this.isDataConflict == true) {
                     this.isDataConflict = false;
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
-                    ServerHelper.SwitchSyncState();
+                    ServerHelper.switchSyncState();
                 }
 
             },
@@ -249,7 +249,7 @@ export class SyncStoreManager {
 
         if (ServerWorkerContext.isSyncInprogress !== true) {
             ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
-            ServerHelper.SwitchSyncState();
+            ServerHelper.switchSyncState();
         }
 
     }
@@ -264,7 +264,7 @@ export class SyncStoreManager {
 
         if (ServerWorkerContext.isSyncInprogress !== true) {
             ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
-            ServerHelper.SwitchSyncState();
+            ServerHelper.switchSyncState();
         }
     }
 
