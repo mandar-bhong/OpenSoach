@@ -201,6 +201,22 @@ func PersonalDetailsUpdateByFilter(dbConn string, updtStruct *hktmodels.DBPerson
 	return nil, updateCtx.AffectedRows
 }
 
+func PersonalDetailsUpdatePersonAccompanying(dbConn string, updtStruct *hktmodels.DBPersonalDetailsUpdatePersonAccompanyingRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient PersonalDetailsUpdatePersonAccompanying")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_PERSONAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("PersonalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
 func GetPersonalDetailsById(dbConn string, personalDetailsId int64) (error, *[]hktmodels.DBSplHpftPatientPersonalDetailsRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPersonalDetailsById")
@@ -208,8 +224,8 @@ func GetPersonalDetailsById(dbConn string, personalDetailsId int64) (error, *[]h
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]hktmodels.DBSplHpftPatientPersonalDetailsRowModel{}
 	selDBCtx.DBConnection = dbConn
-	selDBCtx.QueryType = dbmgr.AutoQuery
-	selDBCtx.TableName = constants.DB_SPL_HPFT_PATIENT_PERSONAL_DETAILS_TBL
+	selDBCtx.Query = dbquery.QUERY_PATIENT_PERSONAL_DETAILS_TABLE_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 	selErr := selDBCtx.SelectById(personalDetailsId)
 	if selErr != nil {
@@ -243,7 +259,151 @@ func MedicalDetailsUpdateByFilter(dbConn string, updtStruct *hktmodels.DBMedical
 	updateCtx.Args = *updtStruct
 	updateCtx.QueryType = dbmgr.AutoQuery
 	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
-	updateErr := updateCtx.UpdateByFilter("PersonalDetailsId", "CpmId")
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdatePresentComplaints(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdatePresentComplaintsRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdatePresentComplaints")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdateReasonForAdmission(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdateReasonForAdmissionRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdateReasonForAdmission")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdateHistoryPresentIllness(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdateHistoryPresentIllnessRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdateHistoryPresentIllness")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdatePastHistory(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdatePastHistoryRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdatePastHistory")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdateTreatmentBeforeAdmission(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdateTreatmentBeforeAdmissionRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdateTreatmentBeforeAdmission")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdateInvestigationBeforeAdmission(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdateInvestigationBeforeAdmissionRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdateInvestigationBeforeAdmission")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdateFamilyHistory(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdateFamilyHistoryRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdateFamilyHistory")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdateAllergies(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdateAllergiesRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdateAllergies")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func MedicalDetailsUpdatePersonalHistory(dbConn string, updtStruct *hktmodels.DBMedicalDetailsUpdatePersonalHistoryRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient MedicalDetailsUpdatePersonalHistory")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("MedicalDetailsId", "CpmId")
 	if updateErr != nil {
 		return updateErr, 0
 	}
@@ -257,8 +417,8 @@ func GetMedicalDetailsById(dbConn string, medicalDetailsId int64) (error, *[]hkt
 	selDBCtx := dbmgr.SelectContext{}
 	data := &[]hktmodels.DBSplHpftPatientMedicalDetailsRowModel{}
 	selDBCtx.DBConnection = dbConn
-	selDBCtx.QueryType = dbmgr.AutoQuery
-	selDBCtx.TableName = constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL
+	selDBCtx.Query = dbquery.QUERY_PATIENT_MEDICAL_DETAILS_TABLE_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 	selErr := selDBCtx.SelectById(medicalDetailsId)
 	if selErr != nil {
@@ -428,5 +588,22 @@ func GetPatientMasterList(dbConn string, filterModel *hktmodels.DBSearchPatientM
 
 	data.RecordList = resdata
 
+	return nil, data
+}
+
+func GetAdmissionStatusById(dbConn string, admissionId int64) (error, *[]hktmodels.DBPatientAdmissionStatusInfoModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetAdmissionStatusById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBPatientAdmissionStatusInfoModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_PATIENT_ADMISSION_TABLE_STATUS_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.SelectById(admissionId)
+	if selErr != nil {
+		return selErr, nil
+	}
 	return nil, data
 }
