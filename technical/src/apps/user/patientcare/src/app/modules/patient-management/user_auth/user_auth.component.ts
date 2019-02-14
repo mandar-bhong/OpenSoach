@@ -12,14 +12,14 @@ export class UserData{
 	data: UserDetails;
 }
 export class UserDetails{
-	userid : string;
+	userid : number;
 	firstname: string;
 	lastname: string;
 	username: string;
 	pin: string;
 }
 export class UserDetailDBModel{
-	userid : string;
+	userid : number;
 	first_name: string;
 	last_name: string;
 	email: string;
@@ -212,7 +212,8 @@ export class UserAuthComponent implements OnInit {
 			saveuserdetails.email = this.getuserdetails.username;
 			saveuserdetails.pin = formmodel.reenterpin;
 			// save action done and discard in DB
-			const userid = Number(saveuserdetails.userid)
+			// const userid = Number(saveuserdetails.userid)
+			const userid = saveuserdetails.userid;
 			this.actionService.insertDeviceAccessItem(saveuserdetails);
 			this.passdataservice.authResultReuested.onDeviceAuthSuccess(userid);
 			this.routerExtensions.back();

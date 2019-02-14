@@ -248,25 +248,25 @@ export class DatabaseSchemaService {
                 VALUES ('AT023', 'PA001' ,'PC009','{"comment":"test6","value":"140"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
 
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin ) 
-                VALUES ('U001', 'Amol' ,'Patil', 'amol.patil@gmail.com', '1111')`,
+                VALUES (U001, 'Amol' ,'Patil', 'amol.patil@gmail.com', '1111')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U002', 'Sarjerao' ,'Patil', 'sarjerao@gmail.com', '2222')`,
+                VALUES (U002, 'Sarjerao' ,'Patil', 'sarjerao@gmail.com', '2222')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U003', 'Sanjay' ,'Sawant', 'sanjay.sawant@gmail.com', '3333')`,
+                VALUES (U003, 'Sanjay' ,'Sawant', 'sanjay.sawant@gmail.com', '3333')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U004', 'Sumeet' ,'Karnde', 'sumeet.karnde@gmail.com', '4444')`,
+                VALUES (U004, 'Sumeet' ,'Karnde', 'sumeet.karnde@gmail.com', '4444')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U005', 'Chandan' ,'Pal', 'chandan.pal@gmail.com', '5555')`,
+                VALUES (U005, 'Chandan' ,'Pal', 'chandan.pal@gmail.com', '5555')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin ) 
-                VALUES ('U001', 'Mandar' ,'Bhong', 'Mayuri.Jain@gmail.com', '6666')`,
+                VALUES (U001, 'Mandar' ,'Bhong', 'Mayuri.Jain@gmail.com', '6666')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U002', 'Pooja' ,'Lokare', 'Pooja.Lokare@gmail.com', '7777')`,
+                VALUES (U002, 'Pooja' ,'Lokare', 'Pooja.Lokare@gmail.com', '7777')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U003', 'Mayuri' ,'Jain', 'Mayuri.Jain@gmail.com', '8888')`,
+                VALUES (U003, 'Mayuri' ,'Jain', 'Mayuri.Jain@gmail.com', '8888')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U004', 'Shashank' ,'Atre', 'Shashank.Atre@gmail.com', '9999')`,
+                VALUES (U004, 'Shashank' ,'Atre', 'Shashank.Atre@gmail.com', '9999')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES ('U005', 'Tejal' ,'Deshmukh', 'Tejal.Deshmukh@gmail.com', '1010')`,
+                VALUES (U005 'Tejal' ,'Deshmukh', 'Tejal.Deshmukh@gmail.com', '1010')`,
 
         ];
         dummyData.forEach(query => {
