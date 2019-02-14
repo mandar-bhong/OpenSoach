@@ -14,7 +14,7 @@ export class WorkerTasks {
     public static Init(worker: Worker) {
         WorkerTasks.workerReference = worker;
         console.log("in WorkerTasks Init")
-        ServerHelper.Init(WorkerTasks.postMessage);
+        ServerHelper.init(WorkerTasks.postMessage);
         ServerHelper.sendToServerCallback = WorkerTasks.sendToServer;
         PlatformHelper.init();
     }
@@ -56,7 +56,7 @@ export class WorkerTasks {
 
             //on connect sync data
             ServerWorkerContext.syncState = SERVER_SYNC_STATE.NONE;
-            ServerHelper.SwitchSyncState();
+            ServerHelper.switchSyncState();
 
 
         });
@@ -64,7 +64,7 @@ export class WorkerTasks {
             // console.log("websocket message recieved", message);
 
             // process resp msg
-            ServerHelper.CmdProcessor(message);
+            ServerHelper.cmdProcessor(message);
 
         });
 

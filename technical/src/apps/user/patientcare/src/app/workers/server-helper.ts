@@ -29,12 +29,12 @@ export class ServerHelper {
     constructor() {
     }
 
-    public static Init(postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
+    public static init(postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
         ServerHelper.postMessageCallback = postMessageFn;
         console.log("in server helper init")
     }
 
-    public static SyncProcess(syncstate: SERVER_SYNC_STATE) {
+    public static syncProcess(syncstate: SERVER_SYNC_STATE) {
 
         ServerWorkerContext.syncState = syncstate;
 
@@ -46,7 +46,7 @@ export class ServerHelper {
 
                 console.log("SERVER_SYNC_STATE.SEND_AUTH_CMD");
 
-                const authcmd = this.AuthCmd();
+                const authcmd = this.authCmd();
                 console.log("authcmd:", authcmd);
 
                 ServerHelper.sendToServerCallback(authcmd);
@@ -59,13 +59,13 @@ export class ServerHelper {
                 console.log("SERVER_SYNC_STATE.READ_SYNC_STORE");
 
                 // read syncstore
-                SyncStoreManager.ReadSyncStore().then(
+                SyncStoreManager.readSyncStore().then(
                     (val) => {
                         console.log("reading sync store completed..")
                         ServerWorkerContext.isSyncInprogress = true;
                         ServerWorkerContext.syncType = SYNC_TYPE.FULL
                         ServerWorkerContext.syncState = SERVER_SYNC_STATE.READ_SYNC_STORE_COMPLETED;
-                        this.SwitchSyncState();
+                        this.switchSyncState();
                     },
                     (err) => {
                         console.log(err);
@@ -79,12 +79,12 @@ export class ServerHelper {
 
                 console.log("SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED");
 
-                SyncStoreManager.ReadSyncStore().then(
+                SyncStoreManager.readSyncStore().then(
                     (val) => {
                         console.log("reading sync store completed..")
                         ServerWorkerContext.isSyncInprogress = true;
                         ServerWorkerContext.syncType = SYNC_TYPE.DIFFERENTIAL
-                        this.SwitchSyncState();
+                        this.switchSyncState();
                     },
                     (err) => {
                         console.log(err);
@@ -108,12 +108,12 @@ export class ServerHelper {
 
                 if (storename.currentStoreName != "") {
                     if (storename.currentStoreName == "getNextStore") {
-                        this.SwitchSyncState();
+                        this.switchSyncState();
                     } else {
                         DatabaseHelper.getSyncPendingDataStore(storename.currentStoreName)
                             .then(
                                 (val) => {
-                                    const syncCmd = this.ApplySyncCmd(storename.currentStoreName, val);
+                                    const syncCmd = this.applySyncCmd(storename.currentStoreName, val);
                                     console.log("apply syncCmd", syncCmd);
                                     ServerHelper.sendToServerCallback(syncCmd);
                                 },
@@ -125,7 +125,7 @@ export class ServerHelper {
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED;
                     SyncStoreManager.readSyncComplete = false;
-                    this.SwitchSyncState();
+                    this.switchSyncState();
                 }
 
                 break;
@@ -145,16 +145,16 @@ export class ServerHelper {
                 if (storename.currentStoreName != "") {
 
                     if (storename.currentStoreName == "getNextStore") {
-                        this.SwitchSyncState();
+                        this.switchSyncState();
                     } else {
-                        const syncCmd = this.GetSyncCmd(storename.currentStoreName, storename.lastSynched);
+                        const syncCmd = this.getSyncCmd(storename.currentStoreName, storename.lastSynched);
                         console.log("get syncCmd", syncCmd);
                         ServerHelper.sendToServerCallback(syncCmd);
                     }
 
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED;
-                    this.SwitchSyncState();
+                    this.switchSyncState();
                 }
 
                 break;
@@ -175,51 +175,51 @@ export class ServerHelper {
         }
     }
 
-    public static SwitchSyncState() {
+    public static switchSyncState() {
 
         console.log("SyncState", ServerWorkerContext.syncState);
 
         switch (ServerWorkerContext.syncState) {
             case SERVER_SYNC_STATE.NONE:
-                this.SyncProcess(SERVER_SYNC_STATE.SEND_AUTH_CMD);
+                this.syncProcess(SERVER_SYNC_STATE.SEND_AUTH_CMD);
                 break;
 
             case SERVER_SYNC_STATE.SEND_AUTH_CMD_SUCCESS:
-                this.SyncProcess(SERVER_SYNC_STATE.READ_SYNC_STORE);
+                this.syncProcess(SERVER_SYNC_STATE.READ_SYNC_STORE);
                 break;
 
             case SERVER_SYNC_STATE.READ_SYNC_STORE_COMPLETED:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
+                this.syncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
                 break;
 
             case SERVER_SYNC_STATE.SYNC_TO_SERVER:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER)
+                this.syncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER)
                 break;
 
             case SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
+                this.syncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
                 break;
 
             case SERVER_SYNC_STATE.SYNC_FROM_SERVER:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
+                this.syncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
                 break;
 
             case SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED)
+                this.syncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED)
                 break;
 
 
             case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE:
-                this.SyncProcess(SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED);
+                this.syncProcess(SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED);
                 break;
 
             case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
+                this.syncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
                 break;
         }
     }
 
-    public static AuthCmd() {
+    public static authCmd() {
         // {"header":{"crc":"12","category":1,"commandid":1,"seqid":3},"payload":{"token":"Dev6AD88A481524BABF"}}
 
         const authcmd = new CmdModel();
@@ -229,7 +229,7 @@ export class ServerHelper {
         authcmd.header.commandid = CMD_ID.CMD_DEV_REGISTRATION;
 
         const authTokenModel = new AuthTokenModel();
-        authTokenModel.authtoken = ServerWorkerContext.authToken;
+        authTokenModel.token = ServerWorkerContext.authToken;
 
         authcmd.payload = authTokenModel;
 
@@ -241,7 +241,7 @@ export class ServerHelper {
         return cmdstring;
     }
 
-    public static GetSyncCmd(strname: string, lastSynched: Date) {
+    public static getSyncCmd(strname: string, lastSynched: Date) {
         // {"header":{"crc":"12","category":3,"commandid":50,"seqid":3},"payload":{"storename":"","updatedon":"2018-10-30T00:00:00Z"}}
 
         const getSyncCmd = new CmdModel();
@@ -270,7 +270,7 @@ export class ServerHelper {
         return cmdstring
     }
 
-    public static ApplySyncCmd(storename: any, storedata: any[]) {
+    public static applySyncCmd(storename: any, storedata: any[]) {
         // {"header":{"crc":"12","category":3,"commandid":51,"seqid":3},"payload":{"storename":"","storedata":[{"uuid":"PA001","bedno":"A0001"}]}}
 
         const applySyncCmd = new CmdModel();
@@ -294,7 +294,7 @@ export class ServerHelper {
 
     }
 
-    public static CmdProcessor(respMsg: any) {
+    public static cmdProcessor(respMsg: any) {
 
         // TODO: check if authorized if yes, set GlobalContext to Authorized
         // then call SwitchSyncState
@@ -318,7 +318,7 @@ export class ServerHelper {
                     // auth request cmd response
                     if (respDataModel.payload.ack == true) {
                         ServerWorkerContext.syncState = SERVER_SYNC_STATE.SEND_AUTH_CMD_SUCCESS;
-                        this.SwitchSyncState();
+                        this.switchSyncState();
                     } else {
                         // TODO : handle for failure
                     }
@@ -328,7 +328,7 @@ export class ServerHelper {
                 case CMD_CATEGORY.CMD_CAT_SYNC && CMD_ID.CMD_GET_STORE_SYNC:
                     // get sync request cmd response
 
-                    this.SwitchSyncState();
+                    this.switchSyncState();
 
                     if (respDataModel.payload.ack == true && respDataModel.payload.ackdata != null) {
                         switch (respDataModel.payload.ackdata.storename) {
@@ -370,7 +370,7 @@ export class ServerHelper {
                     // sync to server response - update individual tbl sync flag 
                     SyncStoreManager.updateTblSyncPending(requestCmd.payload.storename, requestCmd.payload.storedata[0].sync_pending_time);
 
-                    this.SwitchSyncState();
+                    this.switchSyncState();
                     break;
             }
         } else {
