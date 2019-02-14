@@ -1,9 +1,9 @@
 export class CmdModel {
-    header: Header;
+    header: CmdHeader;
     payload: any;
 }
 
-export class Header {
+export class CmdHeader {
     crc: string;
     category: number;
     commandid: number;
@@ -20,6 +20,6 @@ export class ApplySyncRequestModel {
     storedata: any[];
 }
 
-export class tokenModel {
-    token: string;
+export class AuthTokenModel {
+    authtoken: string;
 }

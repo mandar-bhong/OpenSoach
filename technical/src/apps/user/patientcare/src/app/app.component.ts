@@ -175,6 +175,9 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('in initappStart');
         const initModel = new ServerDataProcessorMessageModel();
         initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
+        initModel.data = {};
+        initModel.data.WebsocketUrl = AppGlobalContext.WebsocketUrl;
+        initModel.data.Token = AppGlobalContext.Token;
         this.workerService.postMessageToServerDataProcessorWorker(initModel);
         this.routerExtensions.navigate(['home']);
     }
