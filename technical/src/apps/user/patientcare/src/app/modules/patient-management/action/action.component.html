@@ -2,7 +2,7 @@
     <GridLayout rows="auto,70,*" columns="*" height="100%" width="100%">
         <GridLayout row="0" *ngIf="saveViewOpen" columns="20,*,90, 30">
             <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
-            <Button col="2" text="Save" (tap)="savetoUserAuth()" class="btn btn-primary"></Button>
+            <Button col="2" text="Save" (tap)="save()" class="btn btn-primary"></Button>
         </GridLayout>
         <GridLayout row="1" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;">
                 <Label class="h3" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
@@ -10,8 +10,7 @@
                     <RL:Ripple rippleColor="#fff" (tap)="activeList()" (tap)="buttonClicked = true">
                         <StackLayout>
                             <StackLayout textWrap="true" [class.tab-clicked]="buttonClicked" class="tab-layout">
-                                <!-- <Label text="{{(buttonClicked) ? '&#xf201;' : '&#xf201;'}}" [style.color]="buttonClicked ? '#FF8910' : '#ffffff'"
-                                    class="fas button-icon"></Label> -->
+                              
                                 <Label text="Active" class="button-text"></Label>
                             </StackLayout>
                         </StackLayout>
@@ -20,15 +19,14 @@
                     <RL:Ripple rippleColor="#fff" (tap)="compilitedList()" (tap)="buttonCompleted = true">
                         <StackLayout>
                             <StackLayout textWrap="true" [class.tab-clicked]="buttonCompleted" class="tab-layout">
-                                <!-- <Label text="{{(buttonClicked) ? '&#xf201;' : '&#xf201;'}}" [style.color]="buttonClicked ? '#FF8910' : '#ffffff'"
-                                                class="fas button-icon"></Label> -->
+                              
                                 <Label text="Completed" class="button-text"></Label>
                             </StackLayout>
                         </StackLayout>
         
                     </RL:Ripple>
                 </StackLayout>
-                <!-- <Switch class="m-15" checked="false" (checkedChange)="onListSorting($event)" row="0" col="1"></Switch> -->
+                
             </GridLayout>
             
         <GridLayout row="2" rows="*" columns="*,auto" height="100%" width="100%">

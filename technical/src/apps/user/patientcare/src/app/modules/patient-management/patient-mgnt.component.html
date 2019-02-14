@@ -2,12 +2,12 @@
 <!-- end  -->
 <StackLayout>
     <GridLayout rows="*,60">
-        <ScrollView row="0">
+        <GridLayout row="0">
             <monitor *ngIf="monitor"></monitor>
             <action *ngIf="action"></action>
             <charts *ngIf="chart"></charts>
             <reports *ngIf="report"></reports>
-        </ScrollView>
+        </GridLayout>
 
         <StackLayout row="1" orientation="horizontal" style="background-color:#396766; color:#ffffff;">
             <RL:Ripple rippleColor="#fff" width="25%" (tap)="monitorData()" (tap)="buttonClicked = true">

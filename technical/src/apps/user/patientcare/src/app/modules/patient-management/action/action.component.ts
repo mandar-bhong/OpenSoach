@@ -624,17 +624,13 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.txn_date = item.txn_date;
 			serverDataStoreModel.data.txn_state = Number(item.txn_state);
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
-
 			console.log('created data', serverDataStoreModel.data)
-			actionModel.data = [serverDataStoreModel];
-			actionModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-			this.workerService.ServerDataProcessorWorker.postMessage(actionModel);
-			// save action done and discard in DB
-			//	this.actionService.insertActionTxnItem(this.actionformData);
+			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);		
 		});
-
+		console.log('his.ServerDataStoreDataModelArray', this.ServerDataStoreDataModelArray);
+	    	this.savetoUserAuth();
 		// check data save entries added in action trn table 
-		this.gettrnlistdata();
+	    	this.gettrnlistdata();
 	}
 
 	// selected done and discard row change background color
@@ -643,7 +639,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	}
 	gettrnlistdata() {
 		setTimeout(() => {
-			this.actionService.getActionTxnList();
+			console.log(this.actionService.getActionTxnList());
 		}, 300);
 
 	}
@@ -692,7 +688,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 					this.savetoUserAuth();
 				}, 100);
 			}
-			
+
 		});
 
 	}//end of fucntion
