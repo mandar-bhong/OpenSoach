@@ -200,38 +200,38 @@ type DBSplHpftPatientAdmissionTableRowModel struct {
 
 type DBSplHpftPatientPersonalDetailsRowModel struct {
 	pcmodels.StoreEntityModel
-	PersonalDetailsId int64      `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
-	CpmId             int64      `db:"cpm_id_fk" json:"cpmid"`
-	PatientId         int64      `db:"patient_id" json:"patientid"`
-	AdmissionId       int64      `db:"admission_id_fk" json:"admissionid"`
-	Age               string     `db:"age" json:"age"`
-	Weight            string     `db:"weight" json:"weight"`
-	OtherDetails      string     `db:"other_details" json:"otherdetails"`
-	ClientUpdatedAt   *time.Time `db:"client_updated_at" json:"clientupdatedat"`
-	CreatedOn         time.Time  `db:"created_on" json:"createdon"`
-	UpdatedOn         time.Time  `db:"updated_on" json:"updatedon"`
-	UpdatedBy         int64      `db:"updated_by" json:"updated_by"`
+	PersonalDetailsId  int64      `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
+	CpmId              int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientId          int64      `db:"patient_id" json:"patientid"`
+	AdmissionId        int64      `db:"admission_id_fk" json:"admissionid"`
+	Age                string     `db:"age" json:"age"`
+	OtherDetails       *string    `db:"other_details" json:"otherdetails"`
+	PersonAccompanying *string    `db:"person_accompanying" json:"personaccompanying"`
+	ClientUpdatedAt    *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn          time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn          time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy          int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftPatientMedicalDetailsRowModel struct {
 	pcmodels.StoreEntityModel
-	MedicalDetailsId        int64      `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
-	CpmId                   int64      `db:"cpm_id_fk" json:"cpmid"`
-	PatientId               int64      `db:"patient_id" json:"patientid"`
-	AdmissionId             int64      `db:"admission_id_fk" json:"admissionid"`
-	ReasonForAdmission      string     `db:"reason_for_admission" json:"reasonforadmission"`
-	PatientMedicalHist      string     `db:"patient_medical_hist" json:"patientmedicalhist"`
-	TreatmentRecievedBefore string     `db:"treatment_recieved_before" json:"treatmentrecievedbefore"`
-	FamilyHist              string     `db:"family_hist" json:"familyhist"`
-	MenstrualHist           *string    `db:"menstrual_hist" json:"menstrualhist"`
-	Allergies               string     `db:"allergies" json:"allergies"`
-	PersonalHistory         string     `db:"personal_history" json:"personalhistory"`
-	GeneralPhysicalExam     string     `db:"general_physical_exam" json:"generalphysicalexam"`
-	SystematicExam          string     `db:"systematic_exam" json:"systematicexam"`
-	ClientUpdatedAt         *time.Time `db:"client_updated_at" json:"clientupdatedat"`
-	CreatedOn               time.Time  `db:"created_on" json:"createdon"`
-	UpdatedOn               time.Time  `db:"updated_on" json:"updatedon"`
-	UpdatedBy               int64      `db:"updated_by" json:"updated_by"`
+	MedicalDetailsId             int64      `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	CpmId                        int64      `db:"cpm_id_fk" json:"cpmid"`
+	PatientId                    int64      `db:"patient_id" json:"patientid"`
+	AdmissionId                  int64      `db:"admission_id_fk" json:"admissionid"`
+	PresentComplaints            *string    `db:"present_complaints" json:"presentcomplaints"`
+	ReasonForAdmission           *string    `db:"reason_for_admission" json:"reasonforadmission"`
+	HistoryPresentIllness        *string    `db:"history_present_illness" json:"historypresentillness"`
+	PastHistory                  *string    `db:"past_history" json:"pasthistory"`
+	TreatmentBeforeAdmission     *string    `db:"treatment_before_admission" json:"treatmentbeforeadmission"`
+	InvestigationBeforeAdmission *string    `db:"investigation_before_admission" json:"investigationbeforeadmission"`
+	FamilyHistory                *string    `db:"family_history" json:"familyhistory"`
+	Allergies                    *string    `db:"allergies" json:"allergies"`
+	PersonalHistory              *string    `db:"personal_history" json:"personalhistory"`
+	ClientUpdatedAt              *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn                    time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn                    time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy                    int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBSplHpftPatientConfTableRowModel struct {

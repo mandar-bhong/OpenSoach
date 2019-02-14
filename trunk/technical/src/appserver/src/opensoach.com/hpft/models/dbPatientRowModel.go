@@ -84,12 +84,13 @@ type DBAdmissionTblUpdateRowModel struct {
 }
 
 type DBPersonalDetailsDataModel struct {
-	PatientId    int64  `db:"patient_id" json:"patientid"`
-	AdmissionId  int64  `db:"admission_id_fk" json:"admissionid"`
-	Uuid         string `db:"uuid" json:"uuid"`
-	Age          string `db:"age" json:"age"`
-	Weight       string `db:"weight" json:"weight"`
-	OtherDetails string `db:"other_details" json:"otherdetails"`
+	PatientId          int64   `db:"patient_id" json:"patientid"`
+	AdmissionId        int64   `db:"admission_id_fk" json:"admissionid"`
+	Uuid               string  `db:"uuid" json:"uuid"`
+	Age                string  `db:"age" json:"age"`
+	OtherDetails       *string `db:"other_details" json:"otherdetails"`
+	PersonAccompanying *string `db:"person_accompanying" json:"personaccompanying"`
+	UpdatedBy          int64   `db:"updated_by" json:"updated_by"`
 }
 
 type DBPersonalDetailsInsertRowModel struct {
@@ -100,27 +101,30 @@ type DBPersonalDetailsInsertRowModel struct {
 type DBPersonalDetailsUpdateRowModel struct {
 	PersonalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
 	pcmodels.CPMIDEntityModel
-	PatientId    int64  `db:"patient_id" json:"patientid"`
-	AdmissionId  int64  `db:"admission_id_fk" json:"admissionid"`
-	Uuid         string `db:"uuid" json:"uuid"`
-	Age          string `db:"age" json:"age"`
-	Weight       string `db:"weight" json:"weight"`
-	OtherDetails string `db:"other_details" json:"otherdetails"`
+	DBPersonalDetailsDataModel
+}
+
+type DBPersonalDetailsUpdatePersonAccompanyingRowModel struct {
+	PersonalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
+	pcmodels.CPMIDEntityModel
+	PersonAccompanying string `db:"person_accompanying" json:"personaccompanying"`
+	UpdatedBy          int64  `db:"updated_by" json:"updated_by"`
 }
 
 type DBMedicalDetailsDataModel struct {
-	Uuid                    string  `db:"uuid" json:"uuid"`
-	PatientId               int64   `db:"patient_id" json:"patientid"`
-	AdmissionId             int64   `db:"admission_id_fk" json:"admissionid"`
-	ReasonForAdmission      string  `db:"reason_for_admission" json:"reasonforadmission"`
-	PatientMedicalHist      string  `db:"patient_medical_hist" json:"patientmedicalhist"`
-	TreatmentRecievedBefore string  `db:"treatment_recieved_before" json:"treatmentrecievedbefore"`
-	FamilyHist              string  `db:"family_hist" json:"familyhist"`
-	MenstrualHist           *string `db:"menstrual_hist" json:"menstrualhist"`
-	Allergies               string  `db:"allergies" json:"allergies"`
-	PersonalHistory         string  `db:"personal_history" json:"personalhistory"`
-	GeneralPhysicalExam     string  `db:"general_physical_exam" json:"generalphysicalexam"`
-	SystematicExam          string  `db:"systematic_exam" json:"systematicexam"`
+	Uuid                         string  `db:"uuid" json:"uuid"`
+	PatientId                    int64   `db:"patient_id" json:"patientid"`
+	AdmissionId                  int64   `db:"admission_id_fk" json:"admissionid"`
+	PresentComplaints            *string `db:"present_complaints" json:"presentcomplaints"`
+	ReasonForAdmission           *string `db:"reason_for_admission" json:"reasonforadmission"`
+	HistoryPresentIllness        *string `db:"history_present_illness" json:"historypresentillness"`
+	PastHistory                  *string `db:"past_history" json:"pasthistory"`
+	TreatmentBeforeAdmission     *string `db:"treatment_before_admission" json:"treatmentbeforeadmission"`
+	InvestigationBeforeAdmission *string `db:"investigation_before_admission" json:"investigationbeforeadmission"`
+	FamilyHistory                *string `db:"family_history" json:"familyhistory"`
+	Allergies                    *string `db:"allergies" json:"allergies"`
+	PersonalHistory              *string `db:"personal_history" json:"personalhistory"`
+	UpdatedBy                    int64   `db:"updated_by" json:"updated_by"`
 }
 
 type DBMedicalDetailsInsertRowModel struct {
@@ -129,20 +133,72 @@ type DBMedicalDetailsInsertRowModel struct {
 }
 
 type DBMedicalDetailsUpdateRowModel struct {
-	MedicalDetailsId int64  `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
-	Uuid             string `db:"uuid" json:"uuid"`
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
 	pcmodels.CPMIDEntityModel
-	PatientId               int64   `db:"patient_id" json:"patientid"`
-	AdmissionId             int64   `db:"admission_id_fk" json:"admissionid"`
-	ReasonForAdmission      string  `db:"reason_for_admission" json:"reasonforadmission"`
-	PatientMedicalHist      string  `db:"patient_medical_hist" json:"patientmedicalhist"`
-	TreatmentRecievedBefore string  `db:"treatment_recieved_before" json:"treatmentrecievedbefore"`
-	FamilyHist              string  `db:"family_hist" json:"familyhist"`
-	MenstrualHist           *string `db:"menstrual_hist" json:"menstrualhist"`
-	Allergies               string  `db:"allergies" json:"allergies"`
-	PersonalHistory         string  `db:"personal_history" json:"personalhistory"`
-	GeneralPhysicalExam     string  `db:"general_physical_exam" json:"generalphysicalexam"`
-	SystematicExam          string  `db:"systematic_exam" json:"systematicexam"`
+	DBMedicalDetailsDataModel
+}
+
+type DBMedicalDetailsUpdatePresentComplaintsRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	PresentComplaints string `db:"present_complaints" json:"presentcomplaints"`
+	UpdatedBy         int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdateReasonForAdmissionRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	ReasonForAdmission string `db:"reason_for_admission" json:"reasonforadmission"`
+	UpdatedBy          int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdateHistoryPresentIllnessRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	HistoryPresentIllness string `db:"history_present_illness" json:"historypresentillness"`
+	UpdatedBy             int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdatePastHistoryRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	PastHistory string `db:"past_history" json:"pasthistory"`
+	UpdatedBy   int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdateTreatmentBeforeAdmissionRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	TreatmentBeforeAdmission string `db:"treatment_before_admission" json:"treatmentbeforeadmission"`
+	UpdatedBy                int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdateInvestigationBeforeAdmissionRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	InvestigationBeforeAdmission string `db:"investigation_before_admission" json:"investigationbeforeadmission"`
+	UpdatedBy                    int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdateFamilyHistoryRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	FamilyHistory string `db:"family_history" json:"familyhistory"`
+	UpdatedBy     int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdateAllergiesRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	Allergies string `db:"allergies" json:"allergies"`
+	UpdatedBy int64  `db:"updated_by" json:"updated_by"`
+}
+
+type DBMedicalDetailsUpdatePersonalHistoryRowModel struct {
+	MedicalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"medicaldetialsid"`
+	pcmodels.CPMIDEntityModel
+	PersonalHistory *string `db:"personal_history" json:"personalhistory"`
+	UpdatedBy       int64   `db:"updated_by" json:"updated_by"`
 }
 
 type DBPatientConfUpdateRowModel struct {
@@ -151,4 +207,9 @@ type DBPatientConfUpdateRowModel struct {
 	ConfTypeCode string  `db:"conf_type_code" json:"conftypecode"`
 	Conf         string  `db:"conf" json:"conf"`
 	ShortDesc    *string `db:"short_desc" json:"shortdesc"`
+}
+
+type DBPatientAdmissionStatusInfoModel struct {
+	PatientId int64 `db:"patient_id_fk" json:"patientid"`
+	Status    int   `db:"status" json:"status"`
 }

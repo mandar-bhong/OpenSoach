@@ -23,3 +23,9 @@ const QUERY_SPL_MASTER_PATIENT_SELECT_BY_FILTER = `select id,patient_reg_no,fnam
 $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_PATIENT_ADMISSION_TABLE_SELECT_BY_ID = `select * from spl_hpft_patient_admission_tbl where id = ?`
+
+const QUERY_PATIENT_PERSONAL_DETAILS_TABLE_SELECT_BY_ID = `select * from spl_hpft_patient_personal_details_tbl where id = ?`
+
+const QUERY_PATIENT_MEDICAL_DETAILS_TABLE_SELECT_BY_ID = `select * from spl_hpft_patient_medical_details_tbl where id = ?`
+
+const QUERY_PATIENT_ADMISSION_TABLE_STATUS_SELECT_BY_ID = `select status,patient_id_fk from spl_hpft_patient_admission_tbl where patient_id_fk = ? order by admitted_on desc limit 1`

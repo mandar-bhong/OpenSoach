@@ -261,6 +261,7 @@ func (service PatientService) PersonalDetialsAdd(req lmodels.APIPersonalDetailsA
 	dbRowModel := &hktmodels.DBPersonalDetailsInsertRowModel{}
 	dbRowModel.DBPersonalDetailsDataModel = req.DBPersonalDetailsDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, insertedId := dbaccess.PersonalDetailsInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -283,6 +284,7 @@ func (service PatientService) PersonalDetialsAdd(req lmodels.APIPersonalDetailsA
 func (service PatientService) PersonalDetailsUpdate(reqData *hktmodels.DBPersonalDetailsUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, affectedRow := dbaccess.PersonalDetailsUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
@@ -302,6 +304,33 @@ func (service PatientService) PersonalDetailsUpdate(reqData *hktmodels.DBPersona
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient personal details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) PersonalDetailsUpdatePersonAccompanying(reqData *hktmodels.DBPersonalDetailsUpdatePersonAccompanyingRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.PersonalDetailsUpdatePersonAccompanying(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient personal details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient person accompanying details updated successfully.")
 
 	return true, nil
 }
@@ -334,6 +363,7 @@ func (service PatientService) MedicalDetialsAdd(req lmodels.APIMedicalDetailsAdd
 	dbRowModel := &hktmodels.DBMedicalDetailsInsertRowModel{}
 	dbRowModel.DBMedicalDetailsDataModel = req.DBMedicalDetailsDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, insertedId := dbaccess.MedicalDetailsInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -356,6 +386,7 @@ func (service PatientService) MedicalDetialsAdd(req lmodels.APIMedicalDetailsAdd
 func (service PatientService) MedicalDetailsUpdate(reqData *hktmodels.DBMedicalDetailsUpdateRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
 	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
@@ -375,6 +406,249 @@ func (service PatientService) MedicalDetailsUpdate(reqData *hktmodels.DBMedicalD
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient medical details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdatePresentComplaints(reqData *hktmodels.DBMedicalDetailsUpdatePresentComplaintsRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdatePresentComplaints(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient present complaints details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdateReasonForAdmission(reqData *hktmodels.DBMedicalDetailsUpdateReasonForAdmissionRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateReasonForAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient reason for admission details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdateHistoryPresentIllness(reqData *hktmodels.DBMedicalDetailsUpdateHistoryPresentIllnessRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateHistoryPresentIllness(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient history present illness details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdatePastHistory(reqData *hktmodels.DBMedicalDetailsUpdatePastHistoryRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdatePastHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient past history details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdateTreatmentBeforeAdmission(reqData *hktmodels.DBMedicalDetailsUpdateTreatmentBeforeAdmissionRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateTreatmentBeforeAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient treatment before admission details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdateInvestigationBeforeAdmission(reqData *hktmodels.DBMedicalDetailsUpdateInvestigationBeforeAdmissionRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateInvestigationBeforeAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient Investigation details before admission details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdateFamilyHistory(reqData *hktmodels.DBMedicalDetailsUpdateFamilyHistoryRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateFamilyHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient family history details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdateAllergies(reqData *hktmodels.DBMedicalDetailsUpdateAllergiesRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateAllergies(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient allegies details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) MedicalDetailsUpdatePersonalHistory(reqData *hktmodels.DBMedicalDetailsUpdatePersonalHistoryRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, affectedRow := dbaccess.MedicalDetailsUpdatePersonalHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient personal history details updated successfully.")
 
 	return true, nil
 }
@@ -497,4 +771,27 @@ func (service PatientService) GetPatientMasterList(listReqData gmodels.APIDataLi
 
 	return true, dataListResponse
 
+}
+
+func (service PatientService) GetAdmissionStatusById(admissionID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetAdmissionStatusById(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting admission info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *data
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission status info")
+	return true, dbRecord[0]
 }
