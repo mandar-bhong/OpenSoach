@@ -45,7 +45,7 @@ export class DataActionItem {
 	admission_uuid: string;
 	conf_type_code: string;
 	schedule_uuid: string;
-	exec_time: String;
+	exec_time: Date;
 	name: string;
 	desc: string;
 	status: number;
@@ -444,15 +444,31 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			// const todaydate = new Date().valueOf() / 1E3 | 0;
 			// console.log('timestramp', todaydate);
 
-			// >> today date live time
-			const thetodayDate = new Date();
-			const todayhr = thetodayDate.getHours();
-			const liveh = todayhr * 60;
-			const todaym = thetodayDate.getMinutes();
-			const totaltime = liveh + todaym;
-			// console.log('totaltime', totaltime);
-			// << today date
+			// >> will display list of actions to be performed in another 12 hours and after 1 hours
+			const recivedDateFormDB = new Date(item.dbmodel.exec_time);
+			// console.log('recivedDateFormDB', recivedDateFormDB);
+			const recivedDateDb = recivedDateFormDB.getMinutes();
+			recivedDateFormDB.setMinutes(recivedDateDb);
+			const reciveTimeDb = recivedDateFormDB.toLocaleString();
+			// console.log('reciveTimeDb', reciveTimeDb);
+			const Dbdate = new Date(reciveTimeDb);
 
+			const tempEndTime = new Date();
+			// console.log('current time', tempEndTime);
+			const next12Hours = tempEndTime.getMinutes() + 720;
+			tempEndTime.setMinutes(next12Hours);
+			const tempEnd = tempEndTime.toLocaleString();
+			// console.log('tempEnd', tempEnd);
+			const endTime = new Date(tempEnd);
+
+			const tempStartTime = new Date();
+			const after1Hours = tempStartTime.getMinutes() - 60;
+			tempStartTime.setMinutes(after1Hours);
+			const tempStart = tempStartTime.toLocaleString();
+			// console.log('tempStart', tempStart);
+			const startTime = new Date(tempStart);
+
+			// << before 12 hours logic
 			// >> today date live time decress time 15 min 
 			const thetodayDate15dec = new Date();
 			// console.log('thetodayDate15dec', thetodayDate15dec);
@@ -504,8 +520,13 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 					});
 				})
 
-			this.tempList.push(actionListDataItem);
-			// console.log('testItem array', this.tempList);
+
+			if (Dbdate >= startTime && Dbdate <= endTime) {
+				this.tempList.push(actionListDataItem);
+				console.log('testItem array', this.tempList);
+				// console.log('filter data', this.tempList.push(actionListDataItem));
+			}
+			
 		});
 		this.getCount();
 	}
@@ -625,12 +646,12 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.txn_state = Number(item.txn_state);
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
 			console.log('created data', serverDataStoreModel.data)
-			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);		
+			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
 		});
 		console.log('his.ServerDataStoreDataModelArray', this.ServerDataStoreDataModelArray);
-	    	this.savetoUserAuth();
+		this.savetoUserAuth();
 		// check data save entries added in action trn table 
-	    	this.gettrnlistdata();
+		this.gettrnlistdata();
 	}
 
 	// selected done and discard row change background color
