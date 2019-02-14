@@ -14,7 +14,6 @@ import { MonitorHelper } from "../helpers/actions/monitor-helper.js";
 import { ActionTxnDatastoreModel } from "../models/db/action-txn-model.js";
 import { ScheduleDatastoreMessageHandler } from "./schedule-datastore-message-handler.js";
 import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model.js";
-import { SyncStoreManager } from "./sync-store-manager.js";
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
@@ -90,6 +89,7 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
     }
 
     notifySync() {
-        SyncStoreManager.syncToServerChanged(this.dataModel.datastore);
+
     }
+
 }
