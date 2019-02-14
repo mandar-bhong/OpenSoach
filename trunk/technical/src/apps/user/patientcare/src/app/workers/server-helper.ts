@@ -1,6 +1,6 @@
 import { SyncDataModel } from "../models/ui/sync-models.js";
-import { CmdModel, tokenModel, Header, GetSyncRequestModel, ApplySyncRequestModel } from "../models/api/server-cmd-model.js";
-import { SERVER_SYNC_STATE, SYNC_STORE, SYNC_PENDING, CMD_CATEGORY, CMD_ID } from "../app-constants.js";
+import { CmdModel, AuthTokenModel, CmdHeader, GetSyncRequestModel, ApplySyncRequestModel } from "../models/api/server-cmd-model.js";
+import { SERVER_SYNC_STATE, SYNC_STORE, SYNC_PENDING, CMD_CATEGORY, CMD_ID, DB_SYNC_TYPE } from "../app-constants.js";
 import { AppGlobalContext } from "../app-global-context.js";
 import * as appSettings from "tns-core-modules/application-settings";
 import { ServicePointDatastoreModel } from "../models/db/service-point-models.js";
@@ -34,7 +34,9 @@ export class ServerHelper {
         console.log("in server helper init")
     }
 
-    public static SyncProcess(syncstate: number) {
+    public static SyncProcess(syncstate: SERVER_SYNC_STATE) {
+
+        ServerWorkerContext.syncState = syncstate;
 
         switch (syncstate) {
 
@@ -44,8 +46,6 @@ export class ServerHelper {
 
                 console.log("SERVER_SYNC_STATE.SEND_AUTH_CMD");
 
-                ServerWorkerContext.syncState = SERVER_SYNC_STATE.SEND_AUTH_CMD;
-
                 const authcmd = this.AuthCmd();
                 console.log("authcmd:", authcmd);
 
@@ -53,26 +53,24 @@ export class ServerHelper {
 
                 break;
 
-            case SERVER_SYNC_STATE.AUTHOURIZED:
-                // sync state authorized
+            case SERVER_SYNC_STATE.READ_SYNC_STORE:
+                // sync state READ_SYNC_STORE
 
-                console.log("SERVER_SYNC_STATE.AUTHOURIZED");
-
-                ServerWorkerContext.syncState = SERVER_SYNC_STATE.AUTHOURIZED;
+                console.log("SERVER_SYNC_STATE.READ_SYNC_STORE");
 
                 // read syncstore
                 SyncStoreManager.ReadSyncStore().then(
                     (val) => {
                         console.log("reading sync store completed..")
+                        ServerWorkerContext.isSyncInprogress = true;
+                        ServerWorkerContext.syncType = SYNC_TYPE.FULL
+                        ServerWorkerContext.syncState = SERVER_SYNC_STATE.READ_SYNC_STORE_COMPLETED;
                         this.SwitchSyncState();
                     },
                     (err) => {
                         console.log(err);
                     }
                 );
-
-                ServerWorkerContext.isSyncInprogress = true;
-                ServerWorkerContext.syncType = SYNC_TYPE.FULL
 
                 break;
 
@@ -81,20 +79,17 @@ export class ServerHelper {
 
                 console.log("SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED");
 
-                ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED;
-
                 SyncStoreManager.ReadSyncStore().then(
                     (val) => {
                         console.log("reading sync store completed..")
+                        ServerWorkerContext.isSyncInprogress = true;
+                        ServerWorkerContext.syncType = SYNC_TYPE.DIFFERENTIAL
                         this.SwitchSyncState();
                     },
                     (err) => {
                         console.log(err);
                     }
                 );
-
-                ServerWorkerContext.isSyncInprogress = true;
-                ServerWorkerContext.syncType = SYNC_TYPE.DIFFERENTIAL
 
                 break;
 
@@ -128,19 +123,10 @@ export class ServerHelper {
                             )
                     }
                 } else {
-                    ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_TO_SERVER;
+                    ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED;
+                    SyncStoreManager.readSyncComplete = false;
                     this.SwitchSyncState();
                 }
-
-                break;
-
-            case SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED:
-                //sync to server completed
-
-                console.log("SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED");
-                ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED;
-                SyncStoreManager.readSyncComplete = false;
-                this.SwitchSyncState();
 
                 break;
 
@@ -167,7 +153,7 @@ export class ServerHelper {
                     }
 
                 } else {
-                    ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_FROM_SERVER;
+                    ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED;
                     this.SwitchSyncState();
                 }
 
@@ -198,9 +184,30 @@ export class ServerHelper {
                 this.SyncProcess(SERVER_SYNC_STATE.SEND_AUTH_CMD);
                 break;
 
-            case SERVER_SYNC_STATE.SEND_AUTH_CMD:
-                this.SyncProcess(SERVER_SYNC_STATE.AUTHOURIZED);
+            case SERVER_SYNC_STATE.SEND_AUTH_CMD_SUCCESS:
+                this.SyncProcess(SERVER_SYNC_STATE.READ_SYNC_STORE);
                 break;
+
+            case SERVER_SYNC_STATE.READ_SYNC_STORE_COMPLETED:
+                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
+                break;
+
+            case SERVER_SYNC_STATE.SYNC_TO_SERVER:
+                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER)
+                break;
+
+            case SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED:
+                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
+                break;
+
+            case SERVER_SYNC_STATE.SYNC_FROM_SERVER:
+                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
+                break;
+
+            case SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED:
+                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED)
+                break;
+
 
             case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE:
                 this.SyncProcess(SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED);
@@ -209,22 +216,6 @@ export class ServerHelper {
             case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED:
                 this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
                 break;
-
-            case SERVER_SYNC_STATE.AUTHOURIZED:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER);
-                break;
-
-            case SERVER_SYNC_STATE.SYNC_TO_SERVER:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED)
-                break;
-
-            case SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
-                break;
-
-            case SERVER_SYNC_STATE.SYNC_FROM_SERVER:
-                this.SyncProcess(SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED)
-                break;
         }
     }
 
@@ -232,17 +223,15 @@ export class ServerHelper {
         // {"header":{"crc":"12","category":1,"commandid":1,"seqid":3},"payload":{"token":"Dev6AD88A481524BABF"}}
 
         const authcmd = new CmdModel();
-        authcmd.header = new Header();
+        authcmd.header = new CmdHeader();
 
-        authcmd.header.crc = '12';
         authcmd.header.category = CMD_CATEGORY.CMD_CAT_DEV_REGISTRATION;
         authcmd.header.commandid = CMD_ID.CMD_DEV_REGISTRATION;
 
-        const tokenmodel = new tokenModel();
-        // tokenmodel.token = AppGlobalContext.Token;
-        tokenmodel.token = appSettings.getString("AUTH_TOKEN");
+        const authTokenModel = new AuthTokenModel();
+        authTokenModel.authtoken = ServerWorkerContext.authToken;
 
-        authcmd.payload = tokenmodel;
+        authcmd.payload = authTokenModel;
 
         // set sequence number and map sequence no to request packet
         RequestManager.setSequencetNumber(authcmd);
@@ -256,9 +245,8 @@ export class ServerHelper {
         // {"header":{"crc":"12","category":3,"commandid":50,"seqid":3},"payload":{"storename":"","updatedon":"2018-10-30T00:00:00Z"}}
 
         const getSyncCmd = new CmdModel();
-        getSyncCmd.header = new Header();
+        getSyncCmd.header = new CmdHeader();
 
-        getSyncCmd.header.crc = '12';
         getSyncCmd.header.category = CMD_CATEGORY.CMD_CAT_SYNC;
         getSyncCmd.header.commandid = CMD_ID.CMD_GET_STORE_SYNC;
 
@@ -286,9 +274,8 @@ export class ServerHelper {
         // {"header":{"crc":"12","category":3,"commandid":51,"seqid":3},"payload":{"storename":"","storedata":[{"uuid":"PA001","bedno":"A0001"}]}}
 
         const applySyncCmd = new CmdModel();
-        applySyncCmd.header = new Header();
+        applySyncCmd.header = new CmdHeader();
 
-        applySyncCmd.header.crc = '12';
         applySyncCmd.header.category = CMD_CATEGORY.CMD_CAT_SYNC;
         applySyncCmd.header.commandid = CMD_ID.CMD_APPLY_STORE_SYNC;
 
@@ -316,9 +303,7 @@ export class ServerHelper {
 
         console.log("respMsg", respMsg);
 
-        let respDataModel = new CmdModel();
-        respDataModel.header = new Header();
-        respDataModel = JSON.parse(respMsg);
+        const respDataModel: CmdModel = JSON.parse(respMsg);
 
         // get request cmd packet
         const requestCmd = RequestManager.getRequest(respDataModel.header.seqid);
@@ -332,7 +317,10 @@ export class ServerHelper {
                 case CMD_CATEGORY.CMD_CAT_DEV_REGISTRATION && CMD_ID.CMD_DEV_REGISTRATION:
                     // auth request cmd response
                     if (respDataModel.payload.ack == true) {
+                        ServerWorkerContext.syncState = SERVER_SYNC_STATE.SEND_AUTH_CMD_SUCCESS;
                         this.SwitchSyncState();
+                    } else {
+                        // TODO : handle for failure
                     }
 
                     break;
@@ -707,7 +695,7 @@ export class ServerHelper {
             doctorsOrdersDatastoreModel.uuid = item.uuid;
             doctorsOrdersDatastoreModel.admission_uuid = item.admission_uuid;
             doctorsOrdersDatastoreModel.doctor_id = item.doctor_id;
-            doctorsOrdersDatastoreModel.doctors_orders = item.doctors_orders ;   
+            doctorsOrdersDatastoreModel.doctors_orders = item.doctors_orders;
             doctorsOrdersDatastoreModel.document_uuid = item.document_uuid;
             doctorsOrdersDatastoreModel.updated_by = item.updated_by;
             doctorsOrdersDatastoreModel.updated_on = item.updated_on;

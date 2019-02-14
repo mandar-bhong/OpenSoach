@@ -24,6 +24,9 @@ export class WorkerTasks {
         console.log(msg);
         switch (msg.msgtype) {
             case SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE:
+                // set server worker context
+                ServerWorkerContext.serverUrl = msg.data.WebsocketUrl;
+                ServerWorkerContext.authToken = msg.data.Token;
                 WorkerTasks.initWebSocket();
                 break;
             case SERVER_WORKER_MSG_TYPE.CONNECT_SERVER_INTERFACE:
@@ -44,7 +47,7 @@ export class WorkerTasks {
     }
 
     private static initWebSocket() {
-        WorkerTasks.socket = new WS("ws://172.105.232.148:8090/ws", []);
+        WorkerTasks.socket = new WS(ServerWorkerContext.serverUrl, []);
         console.log('socket created', WorkerTasks.socket);
         WorkerTasks.isSocketInitialized = true;
         WorkerTasks.socket.on('open', socket => {
