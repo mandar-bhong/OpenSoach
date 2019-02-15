@@ -25,7 +25,7 @@ import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
-import { SYNC_STORE, SERVER_WORKER_MSG_TYPE } from '~/app/app-constants';
+import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-constants';
 import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
 import { WorkerService } from '~/app/services/worker.service';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -43,14 +43,16 @@ declare var UIView, NSMutableArray, NSIndexPath;
 export class DataActionItem {
 	uuid: string;
 	admission_uuid: string;
-	conf_type_code: string;
+	conf_type_code: string;	
 	schedule_uuid: string;
 	exec_time: Date;
 	name: string;
 	desc: string;
 	status: number;
+	document_uuid: string;
+	doctors_orders: string;
+	doctor_id: number;
 }
-
 @Component({
 	moduleId: module.id,
 	selector: 'action',
@@ -60,7 +62,7 @@ export class DataActionItem {
 
 export class ActionComponent implements OnInit, IDeviceAuthResult {
 	dialogOpen = false;
-
+	conf_type_code_const = ConfigCodeType;
 	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
 		console.log('chart componenent onDeviceAuthSuccess executed');
@@ -77,7 +79,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	onSubmitDiscarded(): void {
 		throw new Error("Method not implemented.");
 	}
-
 	public actionListItem = new ObservableArray<ActionListViewModel>();
 	ServerDataStoreDataModelArray: ServerDataStoreDataModel<any>[] = [];
 	chartbuttonClicked: boolean = false;
@@ -101,11 +102,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >> grouping 
 	public _funcGrouping: (item: DataActionItem) => DataActionItem;
-
 	// >> exapnd row
 	expanded: false;
 	viewexpand = false;
-
 	// >> finding grouping index then after click show in top
 	intakeIndex: any;
 	medicineIndex: any;
@@ -129,20 +128,15 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	confString1;
 	saveViewOpen = false;
 	exectime;
-
 	listaccount = true;
 	removeAccount = false;
-
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
-
 	// switch active and complited
 	completeorpending: string;
 	iscompleted: boolean;
-
 	// filter buttton 
 	buttonClicked: boolean = true;
 	buttonCompleted: boolean = false;
-
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
@@ -161,12 +155,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.snackbar = new SnackBar();
 		this.actionDbData = new ActionDataDBRequest();
 	}
-
 	get dataItems(): ObservableArray<DataActionItem> {
 		return this._dataItems;
 	}
-
-
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
@@ -174,8 +165,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		// this.getActionData();
-
-
 		this.getActionData('getActionListActive');
 		// subscription for create actions
 		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
@@ -185,7 +174,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actiondata = new ActionDataDBRequest();
 
 		this.completeorpending = "Active Action";
-	}
+	}// end of ng init.
 
 	public listLoaded() {
 		//return; 
@@ -325,8 +314,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.medicineIndex = intakeCount + 1;
 		this.monitorIndex = intakeCount + medicineCount + 2;
 		this.outputIndex = intakeCount + medicineCount + monitorCount + 3;
-
-
 		// console.log("medicine index", this.medicineIndex);
 		// console.log("monitor index", this.monitorIndex);
 		// console.log("output index", this.outputIndex);
@@ -526,8 +513,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				console.log('testItem array', this.tempList);
 				// console.log('filter data', this.tempList.push(actionListDataItem));
 			}
-			
+
 		});
+		// get doctor orders.
+		this.getDoctorsOrders();
 		this.getCount();
 	}
 
@@ -733,9 +722,35 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	}
 
-
+	// code block for closing opened dialog
 	closeDialog() {
 		this.dialogOpen = false;
+	}// end 
+
+	public getDoctorsOrders() {
+		console.log('getDoctors Orders');
+		this.actionService.getDoctorsList('getdoctororders', this.passdataservice.getAdmissionID()).then(
+			(val) => {
+				console.log('doctor order received', this.tempList);
+				val.forEach(item => {
+					console.log('item', item);
+					let actionListItem = new DataActionItem();
+					actionListItem = item;
+					actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
+					this.tempList.push(actionListItem);
+					try {
+
+					} catch (e) {
+						console.log(e.error);
+					}
+
+				});
+
+			},
+			(error) => {
+				console.log("getActinData error:", error);
+			}
+		);
 	}
 
 }

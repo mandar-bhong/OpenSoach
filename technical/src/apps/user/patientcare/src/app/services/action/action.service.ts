@@ -155,7 +155,7 @@ export class ActionService {
 
             this.database.update("device_access_tbl_insert", listData).then(
                 (val) => {
-                    console.log("device access data",val);                  
+                    console.log("device access data", val);
                     resolve(val);
                 },
                 (error) => {
@@ -164,5 +164,19 @@ export class ActionService {
             );
 
         });
+    }// end of code block.
+    public getDoctorsList(key: string, admission_uuid: string): any {
+        return new Promise((resolve, reject) => {
+            const paramList = new Array<any>();
+            paramList.push(admission_uuid);
+            this.database.selectByID(key, paramList).then(
+                (val) => {
+                    resolve(val);
+                }, (error) => {
+                    reject(error);
+                }
+            );
+        });
     }
+
 }
