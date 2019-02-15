@@ -33,6 +33,7 @@ import { IDeviceAuthResult } from '../../idevice-auth-result';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
 import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/modal-dialog';
 import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
+import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 
 
 // expand row 
@@ -43,7 +44,7 @@ declare var UIView, NSMutableArray, NSIndexPath;
 export class DataActionItem {
 	uuid: string;
 	admission_uuid: string;
-	conf_type_code: string;	
+	conf_type_code: string;
 	schedule_uuid: string;
 	exec_time: Date;
 	name: string;
@@ -94,6 +95,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	medicinebuttonClicked: boolean = false;
 	outputbuttonClicked: boolean = false;
 	actionSubscription: Subscription;
+	doctorOrderSubscription: Subscription;
 	// >> search var declaration
 	// public myItems: ObservableArray<DataItem> = new ObservableArray<DataItem>();
 	// tempdata = new Array<DataItem>();
@@ -174,6 +176,12 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actiondata = new ActionDataDBRequest();
 
 		this.completeorpending = "Active Action";
+
+
+		// subscription for adding newly  created doctors orders in action list.
+		this.doctorOrderSubscription = this.workerService.doctorOrderSubject.subscribe((value) => {
+			this.pushDoctorOredrs(value);
+		});
 	}// end of ng init.
 
 	public listLoaded() {
@@ -380,6 +388,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	ngOnDestroy(): void {
 		//Called once, before the instance is destroyed.
 		if (this.actionSubscription) { this.actionSubscription.unsubscribe(); }
+		if (this.doctorOrderSubscription) { this.doctorOrderSubscription.unsubscribe(); }
 
 	}
 
@@ -737,13 +746,11 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 					let actionListItem = new DataActionItem();
 					actionListItem = item;
 					actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
-					this.tempList.push(actionListItem);
 					try {
-
+						this.tempList.push(actionListItem);
 					} catch (e) {
 						console.log(e.error);
 					}
-
 				});
 
 			},
@@ -751,6 +758,21 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				console.log("getActinData error:", error);
 			}
 		);
-	}
+	} // end of fucntion
+	pushDoctorOredrs(doctorsOrders: ServerDataStoreDataModel<IDatastoreModel>) {
+		let actionListItem = new DataActionItem();
+		Object.assign(actionListItem, doctorsOrders.data);
+		actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
+		console.log('pushDoctorOredrs executed actionListItem', actionListItem);
+		const item = this.tempList.filter(data => data.uuid == actionListItem.uuid)[0];
+		//  if record found in list  
+		if (item) {
+			const index = this.tempList.indexOf(item);
+			this.tempList[index] = item;
+		} else {
+			this.tempList.push(actionListItem);
+		}
+	} // end of code block.
+
 
 }

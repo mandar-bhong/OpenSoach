@@ -19,6 +19,7 @@ export class WorkerService {
     public patientAdmissionDataReceivedSubject: Subject<string> = new Subject<string>();
     public scheduleDataReceivedSubject = new Subject<ScheduleDatastoreModel>();
     actionsSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
+    doctorOrderSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
     public ServerConnectionSubject = new Subject<boolean>();
 
     // patientname: string;
@@ -96,7 +97,7 @@ export class WorkerService {
                     console.log('in worker service action store');
                     break;
                 case SYNC_STORE.DOCTORS_ORDERS:
-
+                    this.doctorOrderSubject.next(item);
                     break;
 
             }
