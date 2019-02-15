@@ -72,56 +72,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
-		console.log('init completed');
-
-		// setTimeout(() => {
-		// 	const patientMasterAdd = new ServerDataProcessorMessageModel();
-		// 	patientMasterAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-
-		// 	const masterModel = new PatientMasterDatastoreModel();
-		// 	masterModel.uuid = "PM003";
-		// 	masterModel.patient_reg_no = "P12B12223";
-		// 	masterModel.fname = "xyz",
-		// 		masterModel.lname = "Lunia",
-		// 		masterModel.mob_no = "9832345333",
-		// 		masterModel.age = "28";
-		// 	masterModel.blood_grp = "B+ve";
-		// 	masterModel.gender = "Male";
-		// 	masterModel.updated_on = new Date;
-		// 	masterModel.sync_pending = 0;
-		// 	const serverDataStoreDataModelForMaster = new ServerDataStoreDataModel();
-		// 	serverDataStoreDataModelForMaster.datastore = SYNC_STORE.PATIENT_MASTER;
-		// 	serverDataStoreDataModelForMaster.data = masterModel;
-
-		// 	patientMasterAdd.data = [serverDataStoreDataModelForMaster];
-		// 	this.workerService.postMessageToServerDataProcessorWorker(patientMasterAdd);
-
-		// 	const patientAdmissionAdd = new ServerDataProcessorMessageModel();
-		// 	patientAdmissionAdd.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-
-		// 	const admissionModel = new PatientAdmissionDatastoreModel();
-		// 	admissionModel.uuid = "PA003";
-		// 	admissionModel.patient_reg_no = "P12B12223";
-		// 	admissionModel.patient_uuid = "PM003";
-		// 	admissionModel.bed_no = "2A/666";
-		// 	// admissionModel.uuid = "PA013";
-		// 	// admissionModel.patient_uuid = "PM013";
-		// 	// admissionModel.patient_reg_no = "P12B12223";
-		// 	// admissionModel.bed_no = "2A/888";
-		// 	admissionModel.status = "1";
-		// 	admissionModel.sp_uuid = "SP002";
-		// 	admissionModel.dr_incharge = 1;
-		// 	admissionModel.admitted_on = new Date;
-		// 	admissionModel.discharged_on = new Date;
-		// 	admissionModel.updated_on = new Date;
-		// 	admissionModel.sync_pending = 0;
-		// 	const serverDataStoreDataModelForAdmission = new ServerDataStoreDataModel();
-		// 	serverDataStoreDataModelForAdmission.datastore = SYNC_STORE.PATIENT_ADMISSION;
-		// 	serverDataStoreDataModelForAdmission.data = admissionModel;
-
-		// 	patientAdmissionAdd.data = [serverDataStoreDataModelForAdmission];
-		// 	this.workerService.postMessageToServerDataProcessorWorker(patientAdmissionAdd);
-		// }, 15000);
+		console.log('init completed');		
 	}
 
 	bindList() {
