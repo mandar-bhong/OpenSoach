@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ListViewLinearLayout } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular';
@@ -7,18 +7,11 @@ import { Subscription } from 'rxjs';
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
 import { SearchBar } from 'tns-core-modules/ui/search-bar';
 import { layout } from 'tns-core-modules/utils/utils';
-import { Page } from 'ui/page';
 import { PatientListViewModel } from '~/app/models/ui/patient-view-models';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
 
-import { SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '../app-constants';
 import { DataListingInterface } from '../data-listing-interface';
-import { ServerDataProcessorMessageModel } from '../models/api/server-data-processor-message-model';
-import { ServerDataStoreDataModel } from '../models/api/server-data-store-data-model';
-import { PatientAdmissionDatastoreModel } from '../models/db/patient-admission-model';
-import { PatientMasterDatastoreModel } from '../models/db/patient-master-model';
-import { WorkerService } from '../services/worker.service';
 
 @Component({
 	selector: "Home",
@@ -27,7 +20,7 @@ import { WorkerService } from '../services/worker.service';
 	styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit, DataListingInterface<PatientListViewModel> {
+export class HomeComponent implements OnInit, DataListingInterface<PatientListViewModel>, OnDestroy {
 	listSource = new Array<PatientListViewModel>();
 	listItems = new ObservableArray<PatientListViewModel>();
 
@@ -45,9 +38,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 
 	constructor(private routerExtensions: RouterExtensions,
 		private patientListService: PatientListService,
-		private page: Page,
 		private passdataservice: PassDataService,
-		private workerService: WorkerService,
 		private ngZone: NgZone) {
 		console.log("home");
 		this._funcGrouping = (item: any) => {
@@ -61,18 +52,12 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		});
 	}
 
-
-	// get _patientListItems(): ObservableArray<PatientListViewModel> {
-	// 	return this.listItems;
-	// }
-
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
-		console.log('init completed');		
 	}
 
 	bindList() {
@@ -129,16 +114,15 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 					const lenght = this.listSource.length;
 					// console.log('listsoure lenght', lenght);
 					const index = this.listSource.indexOf(existingItems[0]);
-					console.log(' index', index);
+					// console.log(' index', index);
 					this.listSource[index].dbmodel = item.dbmodel;
 					// console.log('received item data', item);
 				}
 				else {
 					// console.log('else condition new item add', item);
 					this.listSource.push(item);
-					if (this.searchValue == "")
-					{
-					this.listItems.push(item);
+					if (this.searchValue == "") {
+						this.listItems.push(item);
 					}
 				}
 			});
@@ -156,7 +140,6 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		}
 	}
 
-
 	public onSubmit(args) {
 		let searchBar = <SearchBar>args.object;
 		console.log('searchBar', searchBar);
@@ -168,9 +151,10 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	public onClear(args) {
 		let searchBar = <SearchBar>args.object;
 		searchBar.text = "";
-		this.searchValue = "";
-		this.bindList();
-
+		if (this.searchValue != "") {
+			this.searchValue = "";
+			this.bindList();
+		}
 	}
 
 	details(listItem) {
@@ -179,6 +163,11 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
 	}
 
-
+	// clean up
+	ngOnDestroy(): void {
+		if (this.patientListChanged) {
+			this.patientListService.patientListChangedSubject.unsubscribe();
+		}
+	}
 
 }
