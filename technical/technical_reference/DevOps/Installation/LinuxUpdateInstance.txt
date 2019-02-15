@@ -1,0 +1,22 @@
+https://www.linux.com/blog/go-paperless-how-install-and-use-logicaldoc-document-management-linux
+
+yum update
+
+yum install wget
+
+
+# Install java jre
+yum install java-1.8.0-openjdk-devel
+
+# Install java jdk
+yum install java-1.8.0-openjdk
+
+# install MySQL or MariaDB
+wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm
+yum update
+yum install mysql-server
+systemctl start mysqld
+
+# Mysql installing with password
+#sudo mysql_secure_installation

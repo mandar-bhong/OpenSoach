@@ -1,0 +1,23 @@
+yum update
+
+# Docker Installation
+#Now run this command. It will add the official Docker repository, download the #latest version of Docker, and install it:
+
+curl -fsSL https://get.docker.com/ | sh
+
+# After installation has completed, start the Docker daemon:
+sudo systemctl start docker
+
+# Verify that it's running:
+sudo systemctl status docker
+
+
+#https://itnext.io/create-a-mysql-server-with-docker-55ea405f64b0
+# Installing mysql docker run -d -p 3306:3306 --name='mysql-server' --env="MYSQL_ROOT_PASSWORD=welcome" mysql
+
+# Run mysql from docker
+docker run -d -p 3306:3306 --name='mysql-server' --env="MYSQL_ROOT_PASSWORD=welcome" mysql
+
+
+#To cleanup unused containers and images, see 
+docker system prune
