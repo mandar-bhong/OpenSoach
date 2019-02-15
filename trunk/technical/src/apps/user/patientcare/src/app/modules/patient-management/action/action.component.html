@@ -38,18 +38,24 @@
                         <GridLayout row="0" columns="70, *" rows="auto, auto ">
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                                 [text]="item.status">
-                                <StackLayout row="1" class="list-layout" *ngIf="!iscompleted">
+                                <StackLayout row="1" class="list-layout" *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                     <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                     <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
                                         [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                 </StackLayout>
-                                <StackLayout row="1" class="list-layout" *ngIf="iscompleted">
+                                <StackLayout row="1" class="list-layout" *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                     <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
                                     <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small" style="color: green;"></Label>
                                 </StackLayout>
+                                <StackLayout row="1" class="list-layout" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
+                                    <Label row="0" col="0" text="&#xf90b;"  class="mdi list-text"></Label>
+                                  </StackLayout>
                             </GridLayout>
                             <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout" style="vertical-align: center;">
-                                <Label row="0" col="0" class="body" [text]="item.name" style="color: #396767;"></Label>
+                                
+                                <Label row="0" col="0" class="body" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.name" style="color: #396767;"></Label>
+                                <Label row="0" col="0" class="body" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" [text]="item.doctors_orders" style="color: #396767;"></Label>
+                               
                                 <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.desc" style="margin-left: 10px;"></Label>
                             </GridLayout>
                             <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
@@ -57,9 +63,7 @@
                             </GridLayout>
                         </GridLayout>
                     </GridLayout>
-
                 </ng-template>
-
                 <ng-template tkGroupTemplate let-category="category">
                     <StackLayout class="category-header">
                         <StackLayout style="background-color:#f6f6f6;" height="7"></StackLayout>
@@ -73,14 +77,16 @@
                         <GridLayout row="0" columns="70, *" rows="auto, auto" style="padding-bottom: 8%;">
                             <GridLayout col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;">
                                 <StackLayout row="1" class="list-layout">
-                                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
-                                    <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
+                                        <Label row="0" col="0" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" text="&#xf90b;" class="mdi list-text"></Label>
+                                    <Label row="0" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
+                                    <Label row="1" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.exec_time | date: 'shortTime'" class="label-small"
                                         [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                 </StackLayout>
                             </GridLayout>
                             <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout" style="vertical-align: center;">
                                 <GridLayout col="0" row="0" columns="*" rows="auto, auto">
-                                    <Label row="0" col="0" class="body" [text]="item.name" style="color: #396767;"></Label>
+                                        <Label row="0" col="0" class="body" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" [text]="item.doctors_orders" style="color: #396767;"></Label>
+                                    <Label row="0" col="0" class="body"  *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.name" style="color: #396767;"></Label>
                                     <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.desc" style="margin-left: 10px;"></Label>
                                 </GridLayout>
                                 <GridLayout row="0" col="1" columns="auto,20, auto, 30" rows="auto" style="vertical-align: center; text-align:center;"
@@ -113,7 +119,7 @@
                                             </TextField>
                                         </StackLayout>
                                     </GridLayout>
-                                    <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;" *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake'">
+                                    <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;" *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake' && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                         <StackLayout col="1" style="width:50%;">
                                             <StackLayout class="input-field">
                                                 <TextField hint="Value" keyboardType="number" autocorrect="false"

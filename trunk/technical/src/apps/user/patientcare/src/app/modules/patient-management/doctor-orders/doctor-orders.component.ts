@@ -27,7 +27,7 @@ export class DoctorOrdersComponent implements OnInit {
 	public height: number = 300;
 	documentId: string;
 	doctorOrdersForm: FormGroup;
-	private _items: ObservableArray<test>;
+	private _items: ObservableArray<DoctorInfo>;
 	doctorName = new FormControl('', [Validators.required]);
 	private doctors: DoctorsList[] = [
 		{ name: "Amol Patil", id: '11' },
@@ -114,15 +114,15 @@ export class DoctorOrdersComponent implements OnInit {
 
 	@ViewChild("autocomplete") autocomplete: RadAutoCompleteTextViewComponent;
 
-	get dataItems(): ObservableArray<test> {
+	get dataItems(): ObservableArray<DoctorInfo> {
 		return this._items;
 	}
 
 	private initDataItems() {
-		this._items = new ObservableArray<test>();
+		this._items = new ObservableArray<DoctorInfo>();
 
 		for (let i = 0; i < this.doctors.length; i++) {
-			this._items.push(new test(this.doctors[i].name, undefined, this.doctors[i].id));
+			this._items.push(new DoctorInfo(this.doctors[i].name, undefined, this.doctors[i].id));
 		}
 	}
 	public onDidAutoComplete(args) {
@@ -141,7 +141,7 @@ export class DoctorOrdersComponent implements OnInit {
 	}
 }
 
-export class test extends TokenModel {
+export class DoctorInfo extends TokenModel {
 	//name: string;
 	id: string;
 	constructor(text: string, image: string, id: string) {

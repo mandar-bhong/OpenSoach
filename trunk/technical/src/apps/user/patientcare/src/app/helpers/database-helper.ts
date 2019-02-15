@@ -40,7 +40,7 @@ let selectQueries = new Map([
     ["action_txn_tbl_update", "update action_txn_tbl set admission_uuid=?,schedule_uuid=?,txn_data=?,txn_date=?,txn_state=?,conf_type_code=?, updated_by=?,updated_on=?,runtime_config_data=?,sync_pending=?, client_updated_at=? where uuid=?"],
     ["doctors_orders_tbl_insert", "insert into doctors_orders_tbl (uuid, admission_uuid, doctor_id, doctors_orders, document_uuid, updated_by, updated_on, sync_pending, client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?) "],
     ["doctors_orders_tbl_update", "update doctors_orders_tbl set admission_uuid=?, doctor_id=?, doctors_orders=?, document_uuid=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid=? "],
-
+    ['getdoctororders', 'select * from doctors_orders_tbl where admission_uuid=? '],
 
     ["getActionListActive", "select * from action_tbl where exec_time >=? and admission_uuid=?"],
     ["getActionListComplated", "select * from action_tbl where exec_time <? and admission_uuid=?"],

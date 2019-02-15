@@ -79,5 +79,6 @@ export enum ConfigCodeType {
     MEDICINE = "Medicine",
     MONITOR = "Monitor",
     OUTPUT = "Output",
-    INTAKE = "Intake"
+    INTAKE = "Intake",
+    DOCTOR_ORDERS = 'Doctor-Orders'
 }
