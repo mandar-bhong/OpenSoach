@@ -1,0 +1,14 @@
+# https://hub.docker.com/r/icescrum/icescrum/ 
+
+#First time docker start
+docker run --name icescrum -v /opt/tools/icescrum:/root -p 81:8080 icescrum/icescrum
+
+#Start icescrum docker
+docker run  -p 81:8080 icescrum/icescrum
+
+#Start icescrum docker with external storage
+docker run  -p 81:8080 --net=is_net -v /opt/tools/icescrum:/root icescrum/icescrum
+
+
+#mysql setup
+https://hub.docker.com/r/icescrum/icescrum/
