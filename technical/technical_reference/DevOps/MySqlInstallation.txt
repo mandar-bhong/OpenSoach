@@ -9,3 +9,11 @@ log in to mysql
 
 mysql -u root -p
 >enter password welcome
+
+
+#mysql db reset password
+https://www.a2hosting.in/kb/developer-corner/mysql/reset-mysql-root-password
+
+# build server mysql 
+systemctl stop mariadb.service
+systemctl start mariadb.service
