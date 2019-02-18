@@ -13,7 +13,7 @@ import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-dat
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
-import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-constants';
+import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType, freuencyzero, freuencyone } from '~/app/app-constants';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
 import { IDeviceAuthResult } from '../../idevice-auth-result';
 import { PassDataService } from '~/app/services/pass-data-service';
@@ -51,8 +51,13 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	public _funcGrouping: (item: ChartListViewModel) => ChartListViewModel;
 
 	dialogOpen = false;
+	expanded = false;
+	configCodeType = ConfigCodeType;
 	completeorpending: string;
 	iscompleted: boolean;
+	freuencyZero = freuencyzero;
+	freuencyOne = freuencyone;
+
 	constructor(private chartService: ChartService,
 		public workerservice: WorkerService,
 		public passdataservice: PassDataService,
@@ -319,5 +324,33 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			this.dialogOpen = false;
 		});
 
+	}// end 
+
+
+	// >> expand row code start
+	templateSelector(item: any, index: number, items: any): string {
+		return item.expanded ? "expanded" : "default";
+
 	}
+
+	onItemTap(event: ListViewEventData) {
+		const listView = event.object,
+			rowIndex = event.index,
+			dataItem = event.view.bindingContext;
+
+		dataItem.expanded = !dataItem.expanded;
+		if (isIOS) {
+			// Uncomment the lines below to avoid default animation
+			// UIView.animateWithDurationAnimations(0, () => {
+			var indexPaths = NSMutableArray.new();
+			indexPaths.addObject(NSIndexPath.indexPathForRowInSection(rowIndex, event.groupIndex));
+			listView.ios.reloadItemsAtIndexPaths(indexPaths);
+			// });
+		}
+		if (isAndroid) {
+			listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
+
+		}
+	}
+	// << expand row code end
 } 

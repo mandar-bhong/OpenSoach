@@ -6,7 +6,7 @@
         </GridLayout>
         <GridLayout row="1" rows="*" columns="*,auto" height="100%" width="100%" class="content">
             <RadListView #myListView [items]="_listItems" (loaded)="listLoaded()" [groupingFunction]="_funcGrouping"
-                colSpan="2">
+                colSpan="2" (itemTap)="onItemTap($event)" [itemTemplateSelector]="templateSelector">
                 <ng-template tkListItemTemplate let-item="item">
                     <GridLayout row="0" columns="70, *" rows="auto, auto " class="listItemStackLayout">
                         <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
@@ -53,6 +53,145 @@
                         <StackLayout style="background-color:#f6f6f6;" height="7"></StackLayout>
                         <Label class="nameLabel" [text]="category"></Label>
                     </StackLayout>
+                </ng-template>
+                <!-- read onley expand view  starts from here -->
+                <ng-template tkTemplateKey="expanded" let-item="item">
+                    <GridLayout row="0" columns="70, *" rows="auto, auto,auto " class="listItemStackLayout">
+                        <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
+                            [text]="item.dbmodel.status">
+                            <StackLayout row="1" class="list-layout">
+                                <Label row="0" col="0" text="&#xf021;" class="mdi list-text"></Label>
+                                <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
+                            </StackLayout>
+                        </GridLayout>
+                        <StackLayout row="0" col="1" class="list-layout">
+                            <Label row="0" col="0" class="body" [text]="item.dbmodel.conf.name" style="color: #396767;"></Label>
+                        </StackLayout>
+
+                        <!-- medicine config  details view -->
+                        <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.MEDICINE">
+                            <!-- food frequency  -->
+                            <GridLayout row="0" col="0" columns="*,*" rows="auto">
+                                <Label row="0" col="0" class="body" text="Food Instruction" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.foodInst===freuencyZero"
+                                    text="Before Meal" style="margin-left: 10px;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.foodInst===freuencyOne"
+                                    text="After Meal" style="margin-left: 10px;"></Label>
+                            </GridLayout>
+                            <GridLayout row="1" col="0" columns="*,*" rows="auto" >
+                                <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===0"
+                                    text="X Times A Day" style="margin-left: 10px;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===1"
+                                    text="Every X Hours" style="margin-left: 10px;"></Label>
+                            </GridLayout>
+                            <GridLayout row="2" col="0" columns="*" rows="auto">
+                                <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyZero">
+                                    <Label row="0" col="0" class="body" text="Morning" style="color: #396767;"></Label>
+                                    <Label row="1" col="0" class="body" text="Afternoon" style="color: #396767;"></Label>
+                                    <Label row="2" col="0" class="body" text="Night" style="color: #396767;"></Label>
+
+
+                                    <Label row="0" col="1" class="body" [text]="item.dbmodel.conf.mornFreqInfo.mornFreqQuantity"
+                                        style="color: #396767;"></Label>
+                                    <Label row="1" col="1" class="body" [text]="item.dbmodel.conf.aftrnFreqInfo.aftrnFreqQuantity"
+                                        style="color: #396767;"></Label>
+                                    <Label row="2" col="1" class="body" [text]="item.dbmodel.conf.nightFreqInfo.nightFreqQuantity"
+                                        style="color: #396767;"></Label>
+                                </GridLayout>
+                                <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyOne">
+                                    <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
+                                    <Label row="1" col="0" class="body" text="No Of Times" style="color: #396767;"></Label>
+                                    <Label row="2" col="0" class="body" text="Start Time" style="color: #396767;"></Label>
+
+                                    <Label row="0" col="1" class="body" [text]="item.dbmodel.conf.intervalHrs" style="color: #396767;"></Label>
+                                    <Label row="1" col="1" class="body" [text]="item.dbmodel.conf.numberofTimes" style="color: #396767;"></Label>
+                                    <Label row="2" col="1" class="body" [text]="item.dbmodel.conf.startTime" style="color: #396767;"></Label>
+
+                                </GridLayout>
+
+                            </GridLayout>
+                        </GridLayout>
+                        <!-- intake config details view  -->
+                        <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.INTAKE">
+
+                            <GridLayout row="0" col="0" columns="*,*" rows="auto,auto">
+                                <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===freuencyZero"
+                                    text="Every X Hours" style="margin-left: 10px;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===freuencyOne"
+                                    text="Specific Time" style="margin-left: 10px;"></Label>
+                                <Label row="1" col="0" class="body" text="Quantity" style="color: #396767;"></Label>
+                                <Label row="1" col="1" class="label-small" textWrap="true" [text]="item.dbmodel.conf.quantity" style="margin-left: 10px;"></Label>
+                             </GridLayout>
+                            <GridLayout row="2" col="0" columns="*" rows="auto">
+                                <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyZero">
+                                    <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
+                                    <Label row="1" col="0" class="body" text="No Of Times" style="color: #396767;"></Label>
+                                    <Label row="2" col="0" class="body" text="Start Time" style="color: #396767;"></Label>
+
+                                    <Label row="0" col="1" class="body" [text]="item.dbmodel.conf.intervalHrs" style="color: #396767;"></Label>
+                                    <Label row="1" col="1" class="body" [text]="item.dbmodel.conf.numberofTimes" style="color: #396767;"></Label>
+                                    <Label row="2" col="1" class="body" [text]="item.dbmodel.conf.startTime" style="color: #396767;"></Label>
+
+                                </GridLayout>
+                                <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyOne">
+                                    <Label row="0" col="0" class="body" text="Specific Times" style="color: #396767;"></Label>
+                                    <Label row="0" col="1" class="body" [text]="item.dbmodel.conf.specificTimes" style="color: #396767;"></Label>
+                                </GridLayout>
+                            </GridLayout>
+                        </GridLayout>
+                         <!-- Monitor details view  -->
+                         <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.MONITOR">
+
+                            <GridLayout row="0" col="0" columns="*,*" rows="auto">
+                                <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===freuencyZero"
+                                    text="Every X Hours" style="margin-left: 10px;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===freuencyOne"
+                                    text="Specific Time" style="margin-left: 10px;"></Label>                              
+                             </GridLayout>
+                            <GridLayout row="2" col="0" columns="*" rows="auto">
+                                <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyZero">
+                                    <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
+                                    <Label row="1" col="0" class="body" text="No Of Times" style="color: #396767;"></Label>
+                                    <Label row="2" col="0" class="body" text="Start Time" style="color: #396767;"></Label>
+
+                                    <Label row="0" col="1" class="body" [text]="item.dbmodel.conf.intervalHrs" style="color: #396767;"></Label>
+                                    <Label row="1" col="1" class="body" [text]="item.dbmodel.conf.numberofTimes" style="color: #396767;"></Label>
+                                    <Label row="2" col="1" class="body" [text]="item.dbmodel.conf.startTime" style="color: #396767;"></Label>
+
+                                </GridLayout>
+                                <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyOne">
+                                    <Label row="0" col="0" class="body" text="Specific Times" style="color: #396767;"></Label>
+                                    <Label row="0" col="1" class="body" [text]="item.dbmodel.conf.specificTimes" style="color: #396767;"></Label>
+                                </GridLayout>
+                            </GridLayout>
+                        </GridLayout>
+                        <GridLayout row="2" col="1" columns="*" rows="auto,auto,auto">
+                            <!-- duration and start date of schedule   -->
+                            <GridLayout row="0" col="0" columns="*,*" rows="auto">
+                                <Label row="0" col="0" class="body" text="Start Date" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" [text]="item.dbmodel.conf.startDate | date: 'short'"
+                                    style="margin-left: 10px;"></Label>
+                            </GridLayout>
+                            <GridLayout row="1" col="0" columns="*,*" rows="auto">
+                                <Label row="0" col="0" class="body" text="Duration" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" [text]="item.dbmodel.conf.duration"
+                                    style="margin-left: 10px;"></Label>
+                            </GridLayout>
+                            <GridLayout row="2" col="0" columns="*,*,*" rows="auto">
+                                <Label row="0" col="0" class="body" text="Description" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true"colSpan="2" [text]="item.dbmodel.conf.desc"
+                                    style="margin-left: 10px;"></Label>
+                            </GridLayout>
+                        </GridLayout>
+                        <!-- <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
+                            <StackLayout row="0" col="0" class="hr-light m-10">
+
+                            </StackLayout>
+                        </GridLayout> -->
+                    </GridLayout>
                 </ng-template>
 
             </RadListView>
