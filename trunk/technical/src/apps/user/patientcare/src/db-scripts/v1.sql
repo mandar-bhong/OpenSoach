@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS service_point_tbl (uuid TEXT, sp_name TEXT, short_des
 CREATE TABLE IF NOT EXISTS device_access_tbl (userid INTEGER, user_fname TEXT, user_lname TEXT, email TEXT, pin TEXT);
 CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, doctor_id INTEGER, doctors_orders TEXT, document_uuid TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS usr_tbl (usr_id INTEGER, usr_name TEXT, urole_name Text, fname TEXT, lname TEXT );
+CREATE TABLE IF NOT EXISTS doc_temp_tbl (uuid TEXT, doc_path TEXT );
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('service_point_tbl', 1,1,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('conf_tbl', 2,1,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('patient_master_tbl', 3,3,0,'',0,'');
