@@ -4,6 +4,7 @@ import { ServerWorkerContext } from "./server-worker-context.js";
 import { AppMessageUIHandler } from "./app-message-ui-handler.js";
 import { ServerHelper } from "./server-helper.js";
 import { PlatformHelper } from "../helpers/platform-helper.js";
+import { CommandResponseProcessor } from "./command-response-processor.js";
 
 var WS = require('nativescript-websockets');
 
@@ -64,7 +65,7 @@ export class WorkerTasks {
             // console.log("websocket message recieved", message);
 
             // process resp msg
-            ServerHelper.cmdProcessor(message);
+            CommandResponseProcessor.cmdProcessor(message);
 
         });
 
