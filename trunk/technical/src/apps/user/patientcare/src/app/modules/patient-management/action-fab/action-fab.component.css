@@ -1,0 +1,17 @@
+.dialogOpen .content {
+    opacity: 0.1;
+}
+
+
+
+.dialog {
+    padding: 5 10;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.dialog Label {
+    margin: 0 15 15 15;
+    color: black;
+}
