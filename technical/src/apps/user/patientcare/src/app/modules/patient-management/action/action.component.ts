@@ -34,6 +34,7 @@ import { Switch } from 'tns-core-modules/ui/switch/switch';
 import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/modal-dialog';
 import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
+import { ActionFabComponent } from '../action-fab/action-fab.component';
 
 
 // expand row 
@@ -663,7 +664,21 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	}
 	showDialog() {
-		this.dialogOpen = true;
+		this.createDoctorModalView(ActionFabComponent,false).then((dialogResult: string) => {
+			if (dialogResult) {
+				switch (dialogResult) {
+					case 'DoctorOrdersComponent':						
+						setTimeout(() => {
+							this.openModal();
+						});
+						break;
+					default:
+						break;
+
+				}
+			}
+		});
+		//	this.dialogOpen = true;
 	}
 
 
@@ -687,31 +702,32 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		}
 	}// end of fucntions.
 
-	doctorsOrders() {
-		console.log('doctors order  tapped');
-		this.openModel(DoctorOrdersComponent);
-		this.dialogOpen = false;
-	}
 	// code block for opening component in modal.
-	openModel(componentName) {
-		let options: ModalDialogOptions = {
-			context: { promptMsg: "This is the prompt message!" },
-			fullscreen: true,
-			viewContainerRef: this.viewContainerRef
-		};
-		this.modalService.showModal(componentName, options).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
+	openModal() {
+		console.log('doctors order  tapped');
+		// this.dialogOpen = false;
+		this.createDoctorModalView(DoctorOrdersComponent,true).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
 			console.log('dialogResult', dialogResult);
-			this.ServerDataStoreDataModelArray = dialogResult;
-			if (this.ServerDataStoreDataModelArray.length > 0) {
-				setTimeout(() => {
-					this.savetoUserAuth();
-				}, 100);
+			if (dialogResult) {
+				this.ServerDataStoreDataModelArray = dialogResult;
+				if (this.ServerDataStoreDataModelArray.length > 0) {
+					setTimeout(() => {
+						this.savetoUserAuth();
+					});
+				}
 			}
-
 		});
 
 	}//end of fucntion
 
+	private createDoctorModalView(Component,isFullScreen): Promise<any> {
+		let options: ModalDialogOptions = {
+			context: { promptMsg: "This is the prompt message!" },
+			fullscreen: isFullScreen,
+			viewContainerRef: this.viewContainerRef
+		};
+		return this.modalService.showModal(Component, options);
+	}
 
 	public activeList() {
 		this.completeorpending = "Active Action";

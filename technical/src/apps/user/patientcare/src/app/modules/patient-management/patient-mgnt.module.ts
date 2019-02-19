@@ -35,6 +35,7 @@ import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autoco
 import { MonitorService } from "~/app/services/monitor/monitor.service";
 import { UserAuthComponent } from "./user_auth/user_auth.component";
 import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
+import { ActionFabComponent } from "./action-fab/action-fab.component";
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
         ShowCameraImageComponent,
         ShowUploadedImageComponent,
         UserAuthComponent,
-        DoctorOrdersComponent
+        DoctorOrdersComponent,
+        ActionFabComponent
 
 
     ],
@@ -84,7 +86,8 @@ import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
         MonitorService
     ],
     entryComponents: [
-        DoctorOrdersComponent
+        DoctorOrdersComponent,
+        ActionFabComponent
     ]
 })
 export class PatientMgntModule {
