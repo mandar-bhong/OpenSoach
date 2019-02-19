@@ -68,7 +68,7 @@
                 <ng-template tkTemplateKey="expanded" let-item="item">
                     <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout" [class]="'item ' + (item.selected ? 'item-selected' : '')"
                         [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
-                        <GridLayout row="0" columns="70, *" rows="auto, auto" style="padding-bottom: 8%;">
+                        <GridLayout row="0" columns="70, *" rows="auto, auto" >
                             <GridLayout col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;">
                                 <StackLayout row="1" class="list-layout"  *ngIf="!iscompleted">
                                         <Label row="0" col="0" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" text="&#xf90b;" class="mdi list-text"></Label>
@@ -80,7 +80,7 @@
                                         <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
                                         <!-- <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
                                             style="color: green;"></Label> -->
-                                    </StackLayout>
+                                </StackLayout>
                             </GridLayout>
                             <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout" style="vertical-align: center;">
                                 <GridLayout col="0" row="0" columns="*" rows="auto, auto">
@@ -108,29 +108,37 @@
                                 <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
                             </GridLayout>
                         </GridLayout>
-                        <GridLayout row="1" col="0" columns="auto, auto" rows="auto" *ngIf="!viewexpand">
+                        <GridLayout row="1" col="0" columns="auto, auto" rows="auto" >
                             <StackLayout class="cardeffect">
                                 <GridLayout columns="*, auto" rows="auto, auto">
                                     <GridLayout col="0" columns="20,auto" rows="auto" style=" vertical-align: center; margin-top:3px;">
-                                        <StackLayout col="1" style="width:50%;">
+                                        <StackLayout col="1" style="width:50%;" *ngIf="!viewexpand">
                                             <TextField hint="Comment" [(ngModel)]="actiondata.comment" keyboardType="email"
                                                 autocorrect="false" class="input input-border">
                                             </TextField>
                                         </StackLayout>
+                                        <GridLayout col="1" columns="auto, *" style="width:100%;" *ngIf="viewexpand" style="padding: 5">
+                                            <Label col="0"class="label-small" textWrap="true" text="Comment :-" style="margin-left: 10px;"></Label>
+                                            <Label col="0"class="label-small" textWrap="true" [text]="item.comment" style="margin-left: 10px;"></Label>
+                                        </GridLayout>
                                     </GridLayout>
                                     <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;" *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake' && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                         <StackLayout col="1" style="width:50%;">
-                                            <StackLayout class="input-field">
+                                            <StackLayout class="input-field"*ngIf="!viewexpand">
                                                 <TextField hint="Value" keyboardType="number" autocorrect="false"
                                                     autocapitalizationType="none" [(ngModel)]="actiondata.value" class="input input-border"></TextField>
                                             </StackLayout>
                                         </StackLayout>
+                                        <GridLayout col="1" columns="auto, *" style="width:100%;" *ngIf="viewexpand">
+                                            <Label col="0"class="label-small" textWrap="true" text="Value :-" style="margin-left: 10px;"></Label>
+                                            <Label col="0"class="label-small" textWrap="true" [text]="item.value" style="margin-left: 10px;"></Label>
+                                        </GridLayout>
                                     </GridLayout>
                                 </GridLayout>
                             </StackLayout>
                         </GridLayout>
 
-                        <GridLayout row="3" col="0" *ngIf="!viewexpand">
+                        <GridLayout row="3" col="0">
                             <StackLayout class="hr-light m-10"></StackLayout>
                         </GridLayout>
                     </GridLayout>
