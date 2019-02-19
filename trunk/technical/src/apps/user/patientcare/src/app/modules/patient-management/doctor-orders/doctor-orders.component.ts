@@ -82,7 +82,16 @@ export class DoctorOrdersComponent implements OnInit {
 
 	//end of code block
 	onTakePhoto() {
-		this.onRequestPermissions();
+
+		requestPermissions().then(
+			() => this.capturePicture(),
+			() => console.log('Permission Rejected')
+		);
+	}
+	onRequestPermissions() {
+		requestPermissions();
+	}
+	capturePicture() {
 		let options = {
 			width: this.width,
 			height: this.height,
@@ -102,9 +111,6 @@ export class DoctorOrdersComponent implements OnInit {
 			}).catch(err => {
 				console.log(err.message);
 			});
-	}
-	onRequestPermissions() {
-		requestPermissions();
 	}
 	// will executed on back forms back buttons
 	goBackPage() {
