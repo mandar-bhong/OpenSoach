@@ -36,6 +36,7 @@ import { MonitorService } from "~/app/services/monitor/monitor.service";
 import { UserAuthComponent } from "./user_auth/user_auth.component";
 import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
 import { ActionFabComponent } from "./action-fab/action-fab.component";
+import { SchedularFabComponent } from "./schedular-fab/schedular-fab.component";
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { ActionFabComponent } from "./action-fab/action-fab.component";
         ShowUploadedImageComponent,
         UserAuthComponent,
         DoctorOrdersComponent,
-        ActionFabComponent
+        ActionFabComponent,
+        SchedularFabComponent
 
 
     ],
@@ -87,7 +89,11 @@ import { ActionFabComponent } from "./action-fab/action-fab.component";
     ],
     entryComponents: [
         DoctorOrdersComponent,
-        ActionFabComponent
+        ActionFabComponent,
+        SchedularFabComponent,
+        IntakeChartComponent,
+        MedicineChartComponent,
+        MonitorChartComponent
     ]
 })
 export class PatientMgntModule {
