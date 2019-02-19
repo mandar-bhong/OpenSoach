@@ -21,6 +21,7 @@ import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/mod
 import { IntakeChartComponent } from './intake-chart/intake-chart.component';
 import { MedicineChartComponent } from './medicine-chart/medicine-chart.component';
 import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
+import { SchedularFabComponent } from '../schedular-fab/schedular-fab.component';
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -90,8 +91,16 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			}
 		});
 	}
+	// code for showing fab button dialog.
 	showDialog() {
-		this.dialogOpen = true;
+		this.createModalView(SchedularFabComponent, false).then((dialogResult) => {
+			if (dialogResult) {
+				setTimeout(() => {
+					this.openModel(dialogResult);
+				});
+			}
+		});
+		//	this.dialogOpen = true;
 	}
 
 	closeDialog() {
@@ -309,24 +318,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	onSubmitDiscarded(): void {
 		throw new Error("Method not implemented.");
 	}
-	openModel(componentName) {
-		let options: ModalDialogOptions = {
-			context: { promptMsg: "This is the prompt message!" },
-			fullscreen: true,
-			viewContainerRef: this.viewContainerRef
-		};
-		this.modalService.showModal(componentName, options).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
-			console.log('dialogResult', dialogResult);
-			this.ServerDataStoreDataModelArray = dialogResult;
-			if (this.ServerDataStoreDataModelArray.length > 0) {
-				this.savetoUserAuth();
-			}
-			this.dialogOpen = false;
-		});
-
-	}// end 
-
-
 	// >> expand row code start
 	templateSelector(item: any, index: number, items: any): string {
 		return item.expanded ? "expanded" : "default";
@@ -353,4 +344,27 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		}
 	}
 	// << expand row code end
+	private createModalView(Component, isFullScreen): Promise<any> {
+		let options: ModalDialogOptions = {
+			context: { promptMsg: "This is the prompt message!" },
+			fullscreen: isFullScreen,
+			viewContainerRef: this.viewContainerRef
+		};
+		return this.modalService.showModal(Component, options);
+	}
+
+	openModel(componentName) {
+		this.createModalView(componentName, true).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
+			console.log('dialogResult', dialogResult);
+			this.ServerDataStoreDataModelArray = dialogResult;
+			if (this.ServerDataStoreDataModelArray.length > 0) {
+				setTimeout(() => {
+					this.savetoUserAuth();
+				});
+			}
+			this.dialogOpen = false;
+		});
+
+	}// end 
+
 } 
