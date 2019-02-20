@@ -13,6 +13,7 @@ type ProductInfoModel struct {
 }
 
 type DeviceTokenModel struct {
-	DevID int64 `json:"devid"`
-	CpmID int64 `json:"cpmid"`
+	DevID   int64            `json:"devid"`
+	CpmID   int64            `json:"cpmid"`
+	Product ProductInfoModel `json:productinfo`
 }

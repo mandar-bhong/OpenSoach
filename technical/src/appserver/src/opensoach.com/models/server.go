@@ -1,7 +1,19 @@
 package models
 
+type IDBConnection interface {
+	GetNodeDBConnection() string
+	GetCPMID() int64
+}
+
 type ExecutionContext struct {
 	SessionInfo             UserSessionInfo
+	SelectedCustomerProduct int64
+	RequestJSON             string
+	SessionToken            string
+}
+
+type DeviceExecutionContext struct {
+	DeviceSessionInfo       DeviceTokenModel
 	SelectedCustomerProduct int64
 	RequestJSON             string
 	SessionToken            string
