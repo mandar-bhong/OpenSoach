@@ -42,3 +42,7 @@ func GenerateDeviceToken() string {
 func GenerateTaskToken() string {
 	return GenerateToken(8, "TaskToken")
 }
+
+func GenerateUUID() string {
+	return GenerateToken(16, "DB")
+}
