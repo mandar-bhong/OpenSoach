@@ -607,3 +607,37 @@ func GetAdmissionStatusById(dbConn string, admissionId int64) (error, *[]hktmode
 	}
 	return nil, data
 }
+
+func GetPersonalDetailsByAdmissionId(dbConn string, admissionId int64) (error, *[]hktmodels.DBSplHpftPatientPersonalDetailsRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetAdmissionDetailsById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHpftPatientPersonalDetailsRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_PATIENT_PERSONAL_DETAILS_BY_ADMISSION_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.SelectById(admissionId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetMedicalDetailsDetailsByAdmissionId(dbConn string, admissionId int64) (error, *[]hktmodels.DBSplHpftPatientMedicalDetailsRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetAdmissionDetailsById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHpftPatientMedicalDetailsRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_PATIENT_MEDICAL_DETAILS_BY_ADMISSION_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.SelectById(admissionId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

@@ -279,10 +279,13 @@ type DBSplHpftConfTableRowModel struct {
 type DBSplHpftDocumentTableRowModel struct {
 	pcmodels.StoreEntityModel
 	DocId        int64     `db:"id" dbattr:"pri,auto"  json:"docid"`
-	Name         string    `db:"name" json:""`
-	DocType      string    `db:"doctype" json:""`
-	Location     string    `db:"location" json:""`
-	LocationType string    `db:"location_type" json:""`
+	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	Name         string    `db:"name" json:"name"`
+	DocType      string    `db:"doctype" json:"doctype"`
+	Location     string    `db:"location" json:"location"`
+	LocationType int       `db:"location_type" json:"location_type"`
+	Persisted    int       `db:"persisted" json:"persisted"`
+	Updated_by   int64     `db:"updated_by" json:"updatedby"`
 	CreatedOn    time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
 }

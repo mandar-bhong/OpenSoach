@@ -1,6 +1,8 @@
 package patient
 
 import (
+	"fmt"
+
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hpft/api/models"
@@ -198,8 +200,34 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 		return false, errModel
 	}
 
-	addResponse := gmodels.APIRecordAddResponse{}
-	addResponse.RecordID = insertedId
+	addResponse := lmodels.APIAdmissionAddResponse{}
+	addResponse.AdmissionId = insertedId
+
+	// insert personal details
+	personalDetailsAddRequest := lmodels.APIPersonalDetailsAddRequest{}
+	personalDetailsAddRequest.PatientId = req.PatientId
+	personalDetailsAddRequest.AdmissionId = insertedId
+	personalDetailsAddRequest.Uuid = ghelper.GenerateUUID()
+
+	isSuccess, personalDetailsAddResponse := service.PersonalDetialsAdd(personalDetailsAddRequest)
+	if isSuccess == false {
+
+	}
+	addResponse.PersonalDetailsId = personalDetailsAddResponse.(gmodels.APIRecordAddResponse).RecordID
+	fmt.Println("addResponse.PersonalDetailsId ", addResponse.PersonalDetailsId)
+
+	// insert medical details
+	medicalDetailsAddRequest := lmodels.APIMedicalDetailsAddRequest{}
+	medicalDetailsAddRequest.PatientId = req.PatientId
+	medicalDetailsAddRequest.AdmissionId = insertedId
+	medicalDetailsAddRequest.Uuid = ghelper.GenerateUUID()
+
+	isSuccess, medicalDetailsAddResponse := service.MedicalDetialsAdd(medicalDetailsAddRequest)
+	if isSuccess == false {
+
+	}
+	addResponse.MedicalDetailsId = medicalDetailsAddResponse.(gmodels.APIRecordAddResponse).RecordID
+	fmt.Println("addResponse.MedicalDetailsId", addResponse.MedicalDetailsId)
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient admission info added succesfully")
 
@@ -794,4 +822,36 @@ func (service PatientService) GetAdmissionStatusById(admissionID int64) (bool, i
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission status info")
 	return true, dbRecord[0]
+}
+
+func (service PatientService) SelectAdmissionDetailsById(admissionID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetPersonalDetailsByAdmissionId(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting personal details info by admissionid.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	personalDetailsData := *data
+
+	dbErr, dbdata := dbaccess.GetMedicalDetailsDetailsByAdmissionId(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting medical details info by admissionid.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	medicalDetailsData := *dbdata
+
+	admissionDetailsResponse := lmodels.APIAdmissionDetailsResponse{}
+	admissionDetailsResponse.PersonalDetails = personalDetailsData[0]
+	admissionDetailsResponse.MedicalDetails = medicalDetailsData[0]
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission details info")
+	return true, admissionDetailsResponse
 }

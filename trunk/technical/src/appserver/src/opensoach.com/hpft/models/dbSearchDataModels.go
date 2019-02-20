@@ -128,18 +128,20 @@ type DBSearchFeedbackResponseFilterDataModel struct {
 }
 
 type DBSearchPatientRequestFilterDataModel struct {
-	CpmId      int64      `db:"patient.cpm_id_fk" json:"cpmid"`
-	Fname      *string    `db:"fname" json:"fname"`
-	Lname      *string    `db:"lname" json:"lname"`
-	MobNo      *string    `db:"mob_no" json:"mobno"`
-	SpId       *int64     `db:"sp_id_fk" json:"spid"`
-	BedNo      *string    `db:"bed_no" json:"bedno"`
-	Status     *int       `db:"status" json:"status"`
-	AdmittedOn *time.Time `db:"admitted_on" json:"admittedon"`
+	CpmId        int64      `db:"patient.cpm_id_fk" json:"cpmid"`
+	Fname        *string    `db:"fname" json:"fname"`
+	Lname        *string    `db:"lname" json:"lname"`
+	PatientRegNo *string    `db:"patient_reg_no" json:"patientregno"`
+	MobNo        *string    `db:"mob_no" json:"mobno"`
+	SpId         *int64     `db:"sp_id_fk" json:"spid"`
+	BedNo        *string    `db:"bed_no" json:"bedno"`
+	Status       *int       `db:"status" json:"status"`
+	AdmittedOn   *time.Time `db:"admitted_on" json:"admittedon"`
 }
 
 type DBSearchPatientResponseFilterDataModel struct {
 	PatientId    int64      `db:"patient_id_fk" json:"patientid"`
+	PatientRegNo string     `db:"patient_reg_no" json:"patientregno"`
 	AdmissionId  *int64     `db:"id" dbattr:"pri,auto"  json:"admissionid"`
 	CpmId        *int64     `db:"cpm_id_fk" json:"cpmid"`
 	Fname        string     `db:"fname" json:"fname"`
