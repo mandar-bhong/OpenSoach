@@ -1,6 +1,8 @@
 package document
 
 import (
+	"encoding/json"
+
 	"github.com/gin-gonic/gin"
 	"opensoach.com/core/logger"
 	"opensoach.com/hpft/api/constants"
@@ -75,6 +77,27 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	case constants.API_DEVICE_DOCUMENT_DOWNLOAD:
 
 		req := lmodels.APIDocumentDownloadRequest{}
+
+		jsonData := pContext.Query("params")
+
+		if jsonData == "" {
+			errorData := gmodels.APIResponseError{}
+			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			return false, errorData
+		}
+
+		jsonDecodeErr := json.Unmarshal([]byte(jsonData), &req)
+
+		if jsonDecodeErr != nil {
+			errorData := gmodels.APIResponseError{}
+			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			return false, errorData
+		}
+
+		val := pContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+		if val == "" {
+			pContext.Request.Header[gmodels.SESSION_CLIENT_HEADER_KEY] = []string{req.DeviceAuthToken}
+		}
 
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceExecutionReqData(repo.Instance().Context, pContext, &req)
 

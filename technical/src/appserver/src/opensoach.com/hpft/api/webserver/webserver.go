@@ -83,7 +83,8 @@ func enableCrossDomain(c *gin.Engine) {
 
 func AuthorizationFilter(reqURL string) (isAuthorizationRequred bool) {
 	switch reqURL {
-	case constants.API_SPL_PROD_BASE_URL:
+	case constants.API_SPL_PROD_BASE_URL,
+		constants.API_DEVICE_DOCUMENT_DOWNLOAD:
 		return false
 	}
 	return true
