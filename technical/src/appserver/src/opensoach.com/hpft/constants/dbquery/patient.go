@@ -8,7 +8,7 @@ left join spl_hpft_patient_admission_tbl padmsn on patient.id = padmsn.patient_i
 $WhereCondition$`
 
 const QUERY_SPL_PATIENT_SELECT_BY_FILTER = `
-select patient.id as patient_id_fk, padmsn.id,padmsn.cpm_id_fk,fname,lname,mob_no,bed_no,status,sp_id_fk,dr_incharge,admitted_on,discharged_on 
+select patient.id as patient_id_fk, padmsn.id, padmsn.patient_reg_no,padmsn.cpm_id_fk,fname,lname,mob_no,bed_no,status,sp_id_fk,dr_incharge,admitted_on,discharged_on 
 from spl_hpft_patient_master_tbl patient
 left join spl_hpft_patient_admission_tbl padmsn on patient.id = padmsn.patient_id_fk
 $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
@@ -29,3 +29,7 @@ const QUERY_PATIENT_PERSONAL_DETAILS_TABLE_SELECT_BY_ID = `select * from spl_hpf
 const QUERY_PATIENT_MEDICAL_DETAILS_TABLE_SELECT_BY_ID = `select * from spl_hpft_patient_medical_details_tbl where id = ?`
 
 const QUERY_PATIENT_ADMISSION_TABLE_STATUS_SELECT_BY_ID = `select status,patient_id_fk from spl_hpft_patient_admission_tbl where patient_id_fk = ? order by admitted_on desc limit 1`
+
+const QUERY_GET_PATIENT_PERSONAL_DETAILS_BY_ADMISSION_ID = `select * from spl_hpft_patient_personal_details_tbl where admission_id_fk = ?`
+
+const QUERY_GET_PATIENT_MEDICAL_DETAILS_BY_ADMISSION_ID = `select * from spl_hpft_patient_medical_details_tbl where admission_id_fk = ?`

@@ -43,6 +43,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_PATIENT_CONFIG_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_PATIENT_LIST_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_PATIENT_ADMISSION_INFO_STATUS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_ADMISSION_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -558,6 +559,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = PatientService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetAdmissionStatusById(recReq.RecId)
+
+		break
+
+	case constants.API_PATIENT_ADMISSION_INFO_DETAILS:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.SelectAdmissionDetailsById(recReq.RecId)
 
 		break
 

@@ -6,12 +6,13 @@ import (
 
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
-	"github.com/itsjamie/gin-cors"
+	cors "github.com/itsjamie/gin-cors"
 	"opensoach.com/hpft/api/constants"
 	repo "opensoach.com/hpft/api/repository"
 	complaint "opensoach.com/hpft/api/webserver/complaint"
 	"opensoach.com/hpft/api/webserver/dashboard"
 	device "opensoach.com/hpft/api/webserver/device"
+	document "opensoach.com/hpft/api/webserver/document"
 	feedback "opensoach.com/hpft/api/webserver/feedback"
 	fieldoperator "opensoach.com/hpft/api/webserver/fieldoperator"
 	master "opensoach.com/hpft/api/webserver/master"
@@ -55,6 +56,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	dashboard.Init(webConfig)
 	feedback.Init(webConfig)
 	patient.Init(webConfig)
+	document.Init(webConfig)
 
 	var webServerStartErr error
 

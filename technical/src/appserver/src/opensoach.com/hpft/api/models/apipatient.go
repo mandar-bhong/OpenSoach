@@ -19,3 +19,14 @@ type APIPersonalDetailsAddRequest struct {
 type APIMedicalDetailsAddRequest struct {
 	hktmodels.DBMedicalDetailsDataModel
 }
+
+type APIAdmissionAddResponse struct {
+	AdmissionId       int64 `json:"admissionid"`
+	PersonalDetailsId int64 `json:"personaldetailsid"`
+	MedicalDetailsId  int64 `json:"medicaldetailsid"`
+}
+
+type APIAdmissionDetailsResponse struct {
+	PersonalDetails hktmodels.DBSplHpftPatientPersonalDetailsRowModel `json:"personaldetails"`
+	MedicalDetails  hktmodels.DBSplHpftPatientMedicalDetailsRowModel  `json:"medicaldetails"`
+}
