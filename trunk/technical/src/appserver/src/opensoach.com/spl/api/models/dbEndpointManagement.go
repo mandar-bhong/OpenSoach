@@ -1,8 +1,9 @@
 package models
 
 type DBDeviceAuthInfoModel struct {
-	CpmID         int64  `db:"id" json:"cpmid"`
-	ServerAddress string `db:"server_address" json:"serveraddress"`
+	CpmID            int64  `db:"id" json:"cpmid"`
+	ServerAddress    string `db:"server_address" json:"serveraddress"`
+	ConnectionString string `db:"connection_string" json:"connectionstring"`
 }
 
 type DBDeviceUserAuthInfoModel struct {
