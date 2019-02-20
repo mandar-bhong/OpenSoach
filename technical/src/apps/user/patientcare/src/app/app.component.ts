@@ -4,7 +4,7 @@ import { server } from './environments/environment';
 import { WorkerService } from "./services/worker.service";
 import { Subscription } from "rxjs";
 import { ServerDataProcessorMessageModel } from "./models/api/server-data-processor-message-model";
-import { SERVER_WORKER_MSG_TYPE } from "~/app/app-constants";
+import { SERVER_WORKER_MSG_TYPE, API_SPL_BASE_URL } from "~/app/app-constants";
 var WS = require('nativescript-websockets');
 import * as appSettings from "tns-core-modules/application-settings";
 import { APP_MODE } from "./app-constants";
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 // http get method
 
                 this.httpClient.get(
-                    this.buildUrl("http://172.105.232.148/api/v1/validateauthtoken",
+                    this.buildUrl(API_SPL_BASE_URL + "/v1/validateauthtoken",
                         {
                             token: token,
                         })
@@ -137,7 +137,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         console.log("SerialNo:", SerialNo);
 
-        this.httpClient.post("http://172.105.232.148/api/v1/endpoint/deviceauthorization",
+        this.httpClient.post(API_SPL_BASE_URL + "/v1/endpoint/deviceauthorization",
             {
                 'serialno': SerialNo,
                 'prodcode': 'SPL_HPFT'
