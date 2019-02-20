@@ -82,3 +82,6 @@ export enum ConfigCodeType {
     INTAKE = "Intake",
     DOCTOR_ORDERS = 'Doctor-Orders'
 }
+
+export const API_SPL_BASE_URL="http://172.105.232.148/api";
+export const API_APP_BASE_URL="http://172.105.232.148:91/api";
