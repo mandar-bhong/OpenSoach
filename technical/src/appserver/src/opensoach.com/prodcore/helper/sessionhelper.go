@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	gcore "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
+
 	//gcache "opensoach.com/core/manager/cache"
 	gmodels "opensoach.com/models"
 )
@@ -61,6 +62,36 @@ func SessionUpdate(osContext *gcore.Context, ginContext *gin.Context) bool {
 }
 
 func SessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
+	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+	return osContext.Master.Cache.Remove(token)
+}
+
+func DeviceSessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmodels.DeviceTokenModel) {
+
+	deviceInfo := &gmodels.DeviceTokenModel{}
+	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+
+	isSuccess, jsonData := osContext.Master.Cache.Get(token)
+
+	if !isSuccess {
+		return false, nil
+	}
+
+	isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, deviceInfo)
+
+	if !isJsonConvSuccess {
+		return false, nil
+	}
+
+	return true, deviceInfo
+}
+
+func DeviceSessionUpdate(osContext *gcore.Context, ginContext *gin.Context) bool {
+	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+	return osContext.Master.Cache.Update(token, time.Minute*time.Duration(sessionTimeOutMin))
+}
+
+func DeviceSessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
 	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
 	return osContext.Master.Cache.Remove(token)
 }

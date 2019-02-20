@@ -8,7 +8,7 @@ import (
 	pcservices "opensoach.com/prodcore/services"
 )
 
-var SUB_MODULE_NAME = "ProdCore.StoreSync"
+var SUB_MODULE_NAME = "ProdCore.Server.StoreSync"
 
 func GetChanges(dbConn string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
 
