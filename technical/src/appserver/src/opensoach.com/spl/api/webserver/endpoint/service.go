@@ -69,6 +69,9 @@ func (EndpointService) DeviceAuth(req lmodels.APIDeviceAuthRequest) (bool, inter
 	deviceTokenModel.CpmID = deviceAuthRecordItem.CpmID
 	deviceTokenModel.DevID = deviceRecordItem.DevId
 
+	deviceTokenModel.Product = gmodels.ProductInfoModel{}
+	deviceTokenModel.Product.NodeDbConn = deviceAuthRecordItem.ConnectionString
+
 	isSuccess, token := lhelper.CacheMapDeviceInfo(repo.Instance().Context, &deviceTokenModel)
 	if isSuccess == false {
 		errModel := gmodels.APIResponseError{}

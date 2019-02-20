@@ -111,7 +111,6 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 		userSessionContext.Product = gmodels.ProductInfoModel{}
 		userSessionContext.Product.CustProdID = authRecordItem.CpmId
 		userSessionContext.Product.NodeDbConn = authRecordItem.Connectionstring
-		userSessionContext.Product.CustProdID = authRecordItem.CpmId
 
 		isSuccess, token := lhelper.SessionCreate(repo.Instance().Context, &userSessionContext)
 		if isSuccess == false {
