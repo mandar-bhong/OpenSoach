@@ -21,3 +21,20 @@ docker run -d -p 3306:3306 --name='mysql-server' --env="MYSQL_ROOT_PASSWORD=welc
 
 #To cleanup unused containers and images, see 
 docker system prune
+
+
+# List docker images
+docker image ls
+
+# remove docker image 
+docker image rmi <image-id>
+
+if image is in use then remove firest container with following command
+
+docker container rm <container-id>
+
+# list container 
+docker container -a
+
+#login to container
+docker exec -i -t taiga-front   /bin/bash
