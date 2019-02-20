@@ -538,15 +538,21 @@ CREATE TABLE `spl_hpft_doctors_orders_tbl` (
 
 CREATE TABLE `spl_hpft_document_tbl` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`cpm_id_fk` INT(11) UNSIGNED NOT NULL,
 	`uuid` VARCHAR(50) NOT NULL,
 	`name` VARCHAR(50) NOT NULL,
 	`doctype` VARCHAR(15) NOT NULL,
-	`location` VARCHAR(200) NOT NULL,
-	`location_type` TINYINT(3) NOT NULL,
+	`location` VARCHAR(200) NULL DEFAULT NULL,
+	`location_type` TINYINT(3) NULL DEFAULT NULL,
+	`persisted` TINYINT(3) NOT NULL COMMENT '0- not persisted, 1 - persisted',
+	`updated_by` INT(11) UNSIGNED NOT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `fk_doc_cpm` (`cpm_id_fk`),
+	CONSTRAINT `doc_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : doc';
+
 
 
 --
