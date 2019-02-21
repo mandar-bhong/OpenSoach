@@ -1,0 +1,98 @@
+<mat-card style="max-width:500px">
+    <form [formGroup]="editableForm" (ngSubmit)="save()">
+      <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+      <mat-card-content>
+        <!-- <h5>First Contact </h5> -->
+        <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width" id="point-selection ">
+            <input matInput placeholder="Person Name" formControlName="personname" [(ngModel)]="dataModel.testdata.name"  maxlength="25" required>
+            <!-- <mat-error *ngIf="editableForm.controls['name'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0" >
+          <span class="viewlabel">Person Name</span>
+          <label class="viewtext">{{ name }}</label>
+        </div>
+        
+        <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width" id="person-age ">
+            <input matInput placeholder="Age" formControlName="personage"  maxlength="25">
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Age</span>
+          <label class="viewtext">{{ dataModel.age }}</label>
+        </div>
+
+        <div class="form-group form-primary" *ngIf="formMode === 1">
+          <mat-form-field>
+            <mat-select placeholder="Gender" [(ngModel)]="dataModel.gender" formControlName="genderControl"
+              required>
+              <mat-option *ngFor="let gend of personGender" [value]="gend.value">
+                {{gend.text | translate }}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="editableForm.controls['genderControl'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
+          <span class="viewlabel">Gender</span>
+          <label class="viewtext">{{ getgender(gender) | translate }}</label>
+        </div>
+
+
+        <!-- <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width" id="personal-address">
+            <textarea matInput placeholder="Address" rows="3" formControlName="personaladdress"  maxlength="25"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Address</span>
+          <label class="viewtext">{{ dataModel.fname }}</label>
+        </div> -->
+
+        <!-- <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width" id="reletion-patient ">
+            <input matInput placeholder="Relationship To The Patient" formControlName="reletionpatients"  maxlength="25">
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Relationship To The Patient</span>
+          <label class="viewtext">{{ dataModel.fname }}</label>
+        </div> -->
+
+        <div class="form-group form-primary" *ngIf="formMode === 1">
+          <mat-form-field id="telephone">
+            <span matPrefix>+91 &nbsp;</span>
+            <input type="tel" matInput placeholder="Telephone" [(ngModel)]="dataModel.contact" formControlName="mobilenoControl" maxlength="10">
+    
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
+          <span class="viewlabel">Telephone</span>
+          <label class="viewtext">{{ contact }}</label>
+        </div>
+
+        <!-- <div class="form-group form-primary" *ngIf="formMode === 1">
+          <mat-form-field id="telephone">
+            <span matPrefix>+91 &nbsp;</span>
+            <input type="tel" matInput placeholder="Alternate Contact" formControlName="alternateContactControl"
+              maxlength="10">
+            <mat-error *ngIf="editableForm.controls['alternateContactControl'].hasError('pattern')">
+              {{ 'ErrorNumberPattern' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Alternate Contact</span>
+          <label class="viewtext">{{ dataModel.alternatecontactno }}</label>
+        </div> -->
+
+        <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+      </mat-card-content>
+    </form>
+  </mat-card>
