@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <div class="row">
+        <div class="col-10">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <i class="fa fa-user" style="font-size:24px;color:#446666">
+              </i>
+            </div>
+            <mat-card-title>Patient Registration</mat-card-title>
+          </mat-card-header>
+        </div>
+        <div class="col-2 text-right">
+          <button type="button" class="backButton" mat-icon-button (click)="close()" matTooltip="Back">
+           <mat-icon aria-label="Back">arrow_back</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-divider [inset]="true"></mat-divider>
+        </div>
+      </div>
+      <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4"
+        style="margin: 15px; padding: 10px;" [selectedIndex]="selectedIndex">
+
+        <mat-tab label="Personal" style="margin-left:10px;">
+          <ng-template matTabContent>
+            <div style="margin: 20px; padding: 10px;">
+              <div class="row">
+                <div class="col-md-5">
+                  <app-patients-personal-detail></app-patients-personal-detail>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5" *ngIf="disableTab">
+                  <app-patient-person-accompanies></app-patient-person-accompanies>
+                </div>
+                <div class="col-md-1"></div>
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab label="Admission" style="margin-left:10px">
+          <ng-template matTabContent>
+            <div style="margin: 20px; padding: 10px;">
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <app-patient-admission></app-patient-admission>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab label="Medical" style="margin-left:10px">
+          <ng-template matTabContent>
+            <div style="margin: 20px; padding: 10px;">
+              <div class="row">
+                <div class="col-md-12 col-12" *ngIf="disableTab">
+                  <app-patient-medical></app-patient-medical>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab label="Reports">
+          <ng-template matTabContent>
+            <div style="margin: 20px; padding: 10px;">
+              <div class="row">
+                <div class="col-md-12 col-12" *ngIf="disableTab">
+                  <app-patient-report></app-patient-report>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card>
+  </div>
+</div>
