@@ -181,8 +181,7 @@ export class SyncStoreManager {
                     switch (prevStore.sync_type) {
 
                         case DB_SYNC_TYPE.SYNC_TO_SERVER:
-                            if ((prevStore.sync_to_server_pending === SYNC_PENDING.TRUE) && (updatedStore.sync_to_server_pending === SYNC_PENDING.TRUE)
-                                && (prevStore.sync_to_server_pending_time == updatedStore.sync_to_server_pending_time)) {
+                            if ((prevStore.sync_to_server_pending === SYNC_PENDING.TRUE) && (prevStore.sync_to_server_pending_time == updatedStore.sync_to_server_pending_time)) {
                                 DatabaseHelper.updateSyncStoreSyncPending(prevStore.store_name, DB_SYNC_TYPE.SYNC_TO_SERVER, SYNC_PENDING.FALSE);
                             } else if (prevStore.sync_to_server_pending_time !== updatedStore.sync_to_server_pending_time) {
                                 this.isDataConflict = true;
@@ -191,8 +190,7 @@ export class SyncStoreManager {
                             break;
 
                         case DB_SYNC_TYPE.SYNC_FROM_SERVER:
-                            if ((prevStore.sync_from_server_pending === SYNC_PENDING.TRUE) && (updatedStore.sync_from_server_pending === SYNC_PENDING.TRUE)
-                                && (prevStore.sync_from_server_pending_time == updatedStore.sync_from_server_pending_time)) {
+                            if ((prevStore.sync_from_server_pending === SYNC_PENDING.TRUE) && (prevStore.sync_from_server_pending_time == updatedStore.sync_from_server_pending_time)) {
                                 DatabaseHelper.updateSyncStoreSyncPending(prevStore.store_name, DB_SYNC_TYPE.SYNC_FROM_SERVER, SYNC_PENDING.FALSE);
                             } else if (prevStore.sync_from_server_pending_time !== updatedStore.sync_from_server_pending_time) {
                                 this.isDataConflict = true;
@@ -204,15 +202,13 @@ export class SyncStoreManager {
 
                         case DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER:
 
-                            if ((prevStore.sync_to_server_pending === SYNC_PENDING.TRUE) && (updatedStore.sync_to_server_pending === SYNC_PENDING.TRUE)
-                                && (prevStore.sync_to_server_pending_time == updatedStore.sync_to_server_pending_time)) {
+                            if ((prevStore.sync_to_server_pending === SYNC_PENDING.TRUE) && (prevStore.sync_to_server_pending_time == updatedStore.sync_to_server_pending_time)) {
                                 DatabaseHelper.updateSyncStoreSyncPending(prevStore.store_name, DB_SYNC_TYPE.SYNC_TO_SERVER, SYNC_PENDING.FALSE);
                             } else if (prevStore.sync_to_server_pending_time !== updatedStore.sync_to_server_pending_time) {
                                 this.isDataConflict = true;
                             }
 
-                            if ((prevStore.sync_from_server_pending === SYNC_PENDING.TRUE) && (updatedStore.sync_from_server_pending === SYNC_PENDING.TRUE)
-                                && (prevStore.sync_from_server_pending_time == updatedStore.sync_from_server_pending_time)) {
+                            if ((prevStore.sync_from_server_pending === SYNC_PENDING.TRUE) && (prevStore.sync_from_server_pending_time == updatedStore.sync_from_server_pending_time)) {
                                 DatabaseHelper.updateSyncStoreSyncPending(prevStore.store_name, DB_SYNC_TYPE.SYNC_FROM_SERVER, SYNC_PENDING.FALSE);
                             } else if (prevStore.sync_from_server_pending_time !== updatedStore.sync_from_server_pending_time) {
                                 this.isDataConflict = true;
