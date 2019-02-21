@@ -108,7 +108,7 @@ export class SyncStoreManager {
 
                         case SYNC_TYPE.FULL:
 
-                            if (currentstore.sync_type === DB_SYNC_TYPE.SYNC_FROM_SERVER || DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER) {
+                            if (currentstore.sync_type === DB_SYNC_TYPE.SYNC_FROM_SERVER || currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER) {
                                 this.currentStore.currentStoreName = currentstore.store_name;
                                 this.currentStore.lastSynched = currentstore.last_synced;
                             } else {
@@ -120,7 +120,7 @@ export class SyncStoreManager {
                         case SYNC_TYPE.DIFFERENTIAL:
 
                             if (currentstore.sync_from_server_pending === SYNC_PENDING.TRUE
-                                && (currentstore.sync_type === DB_SYNC_TYPE.SYNC_FROM_SERVER || DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER)) {
+                                && (currentstore.sync_type === DB_SYNC_TYPE.SYNC_FROM_SERVER || currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER)) {
                                 this.currentStore.currentStoreName = currentstore.store_name;
                                 this.currentStore.lastSynched = currentstore.last_synced;
                             } else {
