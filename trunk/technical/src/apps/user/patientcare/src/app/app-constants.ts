@@ -31,6 +31,11 @@ export enum SYNC_STORE {
     ACTION_TXN = 'action_txn_tbl',
     ACTION = 'action_tbl',
     DOCTORS_ORDERS = 'doctors_orders_tbl',
+    DOCUMENT = 'document_tbl',
+    TREATMENT = 'treatment_tbl',
+    TREATMENT_DOC = 'treatment_doc_tbl',
+    PATHOLOGY_RECORD = 'pathology_record_tbl',
+    PATHOLOGY_RECORD_DOC = 'pathology_record_doc_tbl',
 }
 
 export enum DB_SYNC_TYPE {

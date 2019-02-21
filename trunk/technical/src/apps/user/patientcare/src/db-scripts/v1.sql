@@ -9,9 +9,19 @@ CREATE TABLE IF NOT EXISTS action_tbl (uuid TEXT,admission_uuid TEXT, conf_type_
 CREATE TABLE IF NOT EXISTS action_txn_tbl (uuid TEXT,admission_uuid TEXT,schedule_uuid TEXT,txn_data TEXT,txn_date DATETIME, txn_state INTEGER, conf_type_code TEXT, runtime_config_data TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER, status INTEGER, client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS service_point_tbl (uuid TEXT, sp_name TEXT, short_desc TEXT, sp_state INTEGER, sp_state_since DATETIME, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS device_access_tbl (userid INTEGER, user_fname TEXT, user_lname TEXT, email TEXT, pin TEXT);
+<<<<<<< .mine
+CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, doctor_id INTEGER, doctors_orders TEXT, document_uuid TEXT, document_name TEXT, doctype TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
+||||||| .r1736
+CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, doctor_id INTEGER, doctors_orders TEXT, document_uuid TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
+=======
 CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, doctor_id INTEGER, doctors_orders TEXT, document_uuid TEXT,document_name Text, doctype Text, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
+>>>>>>> .r1753
 CREATE TABLE IF NOT EXISTS usr_tbl (usr_id INTEGER, usr_name TEXT, urole_name Text, fname TEXT, lname TEXT );
 CREATE TABLE IF NOT EXISTS document_tbl (uuid TEXT, doc_path TEXT, doc_name TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER, client_updated_at DATETIME );
+CREATE TABLE IF NOT EXISTS treatment_tbl (uuid TEXT, admission_uuid TEXT, treatment_done TEXT, details TEXT, post_observation TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
+CREATE TABLE IF NOT EXISTS treatment_doc_tbl (treatment_uuid TEXT, document_uuid TEXT);
+CREATE TABLE IF NOT EXISTS pathology_record_tbl (uuid TEXT, admission_uuid TEXT, test_performed TEXT, test_result TEXT, comments TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
+CREATE TABLE IF NOT EXISTS pathology_record_doc_tbl (pathology_record_uuid TEXT,document_uuid TEXT);
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('document_tbl', 100,2,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('service_point_tbl', 200,1,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('conf_tbl', 201,1,0,'',0,'');
@@ -22,3 +32,7 @@ INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,
 INSERT INTO sync_tbl (store_name, sync_order, sync_type,sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('schedule_tbl', 304,3,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('action_txn_tbl', 305,3,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('doctors_orders_tbl', 306,3,0,'',0,'');
+INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('treatment_tbl', 307,1,0,'',0,'');
+INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('treatment_doc_tbl', 308,1,0,'',0,'');
+INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('pathology_record_tbl', 309,1,0,'',0,'');
+INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('pathology_record_doc_tbl', 310,1,0,'',0,'');
