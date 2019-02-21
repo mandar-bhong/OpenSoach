@@ -610,6 +610,8 @@ CREATE TABLE `spl_hpft_treatment_tbl` (
 CREATE TABLE `spl_hpft_treatment_doc_tbl` (
 	`treatment_id_fk` INT(10) UNSIGNED NOT NULL,
 	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`treatment_id_fk`, `document_id_fk`),
 	INDEX `fk_tdoc_doc` (`document_id_fk`),
 	CONSTRAINT `fk_tdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
@@ -646,18 +648,11 @@ CREATE TABLE `spl_hpft_pathology_record_tbl` (
 -- Table structure for table `spl_hpft_pathology_tbl`
 --
 
-CREATE TABLE `spl_hpft_pathology_tbl` (
-	`pathology_id_fk` INT(10) UNSIGNED NOT NULL,
-	`document_id_fk` INT(10) UNSIGNED NOT NULL,
-	PRIMARY KEY (`pathology_id_fk`),
-	INDEX `fk_precdoc_doc` (`document_id_fk`),
-	CONSTRAINT `fk_precdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_precdoc_prec` FOREIGN KEY (`pathology_id_fk`) REFERENCES `spl_hpft_pathology_record_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
-)	ENGINE=InnoDB COMMENT='short name : precdoc';
-
 CREATE TABLE `spl_hpft_pathology_record_doc_tbl` (
 	`pathology_id_fk` INT(10) UNSIGNED NOT NULL,
 	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`pathology_id_fk`, `document_id_fk`),
 	INDEX `precdoc_doc` (`document_id_fk`),
 	CONSTRAINT `precdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
