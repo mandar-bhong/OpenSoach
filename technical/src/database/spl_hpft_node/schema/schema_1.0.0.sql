@@ -541,11 +541,12 @@ CREATE TABLE `spl_hpft_document_tbl` (
 	`cpm_id_fk` INT(11) UNSIGNED NOT NULL,
 	`uuid` VARCHAR(50) NOT NULL,
 	`name` VARCHAR(50) NULL DEFAULT NULL,
-	`doctype` VARCHAR(15) NULL DEFAULT NULL,
+	`doctype` VARCHAR(50) NULL DEFAULT NULL,
 	`location` VARCHAR(200) NULL DEFAULT NULL,
 	`location_type` TINYINT(3) NULL DEFAULT NULL,
 	`persisted` TINYINT(3) NOT NULL COMMENT '0- not persisted, 1 - persisted',
 	`updated_by` INT(11) UNSIGNED NOT NULL,
+	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
@@ -574,6 +575,97 @@ CREATE TABLE `spl_hpft_patient_document_tbl` (
 	CONSTRAINT `fk_pdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_pdoc_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : pdoc';
+
+
+--
+-- Table structure for table `spl_hpft_treatment_tbl`
+--
+
+
+CREATE TABLE `spl_hpft_treatment_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`treatment_done` VARCHAR(1000) NOT NULL,
+	`details` VARCHAR(1000) NULL DEFAULT NULL,
+	`post_observation` VARCHAR(1000) NULL DEFAULT NULL,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
+	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
+	`created_on` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_trtmnt_cpm` (`cpm_id_fk`),
+	INDEX `fk_trtmnt_padmsn` (`admission_id_fk`),
+	CONSTRAINT `fk_trtmnt_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_trtmnt_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : trtmnt';
+
+
+
+--
+-- Table structure for table `spl_hpft_treatment_doc_tbl`
+--
+
+CREATE TABLE `spl_hpft_treatment_doc_tbl` (
+	`treatment_id_fk` INT(10) UNSIGNED NOT NULL,
+	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	PRIMARY KEY (`treatment_id_fk`, `document_id_fk`),
+	INDEX `fk_tdoc_doc` (`document_id_fk`),
+	CONSTRAINT `fk_tdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_tdoc_trtmnt` FOREIGN KEY (`treatment_id_fk`) REFERENCES `spl_hpft_treatment_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : tdoc';
+
+
+
+--
+-- Table structure for table `spl_hpft_pathology_tbl`
+--
+
+CREATE TABLE `spl_hpft_pathology_record_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`test_performed` VARCHAR(5000) NOT NULL,
+	`test_result` VARCHAR(5000) NULL DEFAULT NULL,
+	`comments` VARCHAR(1000) NULL DEFAULT NULL,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
+	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_prec_cpm` (`cpm_id_fk`),
+	INDEX `fk_prec_padmsn` (`admission_id_fk`),
+	CONSTRAINT `fk_prec_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_prec_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : prec';
+
+
+--
+-- Table structure for table `spl_hpft_pathology_tbl`
+--
+
+CREATE TABLE `spl_hpft_pathology_tbl` (
+	`pathology_id_fk` INT(10) UNSIGNED NOT NULL,
+	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	PRIMARY KEY (`pathology_id_fk`),
+	INDEX `fk_precdoc_doc` (`document_id_fk`),
+	CONSTRAINT `fk_precdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_precdoc_prec` FOREIGN KEY (`pathology_id_fk`) REFERENCES `spl_hpft_pathology_record_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : precdoc';
+
+CREATE TABLE `spl_hpft_pathology_record_doc_tbl` (
+	`pathology_id_fk` INT(10) UNSIGNED NOT NULL,
+	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	PRIMARY KEY (`pathology_id_fk`, `document_id_fk`),
+	INDEX `precdoc_doc` (`document_id_fk`),
+	CONSTRAINT `precdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `precdoc_prec` FOREIGN KEY (`pathology_id_fk`) REFERENCES `spl_hpft_pathology_record_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : precdoc';
+
+
+
 
 
 
