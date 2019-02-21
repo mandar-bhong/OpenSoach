@@ -128,6 +128,20 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Patient File',
         linkiconcss: 'fa fa-users'
     },
+    {
+        url: '/patients/patient_search',
+        linktitle: 'Add',
+        pagetitle: 'Add',
+        linkiconcss: 'fa fa-users'
+    },
+    {
+        url: '/patients/patient_admission',
+        linktitle: 'Admission Detail',
+        pagetitle: 'Admission Detail',
+        linkiconcss: 'fa fa-users'
+    },
+  
+    
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
@@ -165,4 +179,10 @@ export enum PATIENT_STATE {
     HOSPITALIZE = 1,
     DISCHARGED = 2
 }
+export enum PERSON_GENDER{
+    NOT_SELECTED = 0,
+    MALE = 1,
+    FEMALE = 2
+}
+
 

@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
 import { ServicepointConfigureListResponse } from '../../../../../prod-shared/models/api/service-configuration-models';
 import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { EditRecordBase } from '../../../../../shared/views/edit-record-base';
-import { MedicalDetailAddRequest, PatientDataAddRequest, PatientDetailAddRequest } from '../../../models/api/patient-models';
-import { PatientDataModel } from '../../../models/ui/patient-models';
+import { EditRecordBase, FORM_MODE, EDITABLE_RECORD_STATE } from '../../../../../shared/views/edit-record-base';
+import { PatientAddRequest, PatientUpdateRequest } from '../../../models/api/patient-models';
+import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-patient-add',
@@ -18,12 +18,19 @@ import { PatientService } from '../../../services/patient.service';
   styleUrls: ['./patient-add.component.css']
 })
 export class PatientAddComponent extends EditRecordBase implements OnInit, OnDestroy {
-  dataModel = new PatientDataModel();
+  @Input()
+  editRecordBase: EditRecordBase;
+  @Output()
+  editClick = new EventEmitter<null>();
+  dataModel = new PatientAddModal();
   routeSubscription: Subscription;
   patientStates: EnumDataSourceItem<number>[];
   splist: ServicepointListResponse[] = [];
   spconfigures: ServicepointConfigureListResponse[] = [];
-  savebutton = false;
+  disabled: boolean = true;
+  personGender: EnumDataSourceItem<number>[];
+  skipbutton: boolean;
+
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -33,71 +40,131 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
   ) {
     super();
     this.iconCss = 'fa fa-user';
-    this.pageTitle = 'Patient Details';
+    this.pageTitle = 'Patient Registration';
+    this.isEditable = false;
   }
 
   ngOnInit() {
-    this.getServicepointList();
-    this.getServicepointConfigureList();
-    this.isEditable = false;
-    this.patientStates = this.patientService.getPatientStates();
-    this.dataModel.patientdetails = new PatientDetailAddRequest();
-    this.dataModel.medicaldetails = new MedicalDetailAddRequest();
+    this.createControls();
+    this.personGender = this.patientService.getPersonGender();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.dataModel.patientid = Number(params['id']);
-        // this.getPatientDetails();
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        this.setFormMode(FORM_MODE.EDITABLE);
+        this.skipbutton = true;
+        this.getPatientUpdates();
+      } else {
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.EDITABLE);
+        this.dataModel.fname = this.patientService.fname;
+        this.dataModel.lname = this.patientService.lname;
       }
-      this.subTitle = this.translatePipe.transform('OPERATOR_ADD_MODE_TITLE');
       this.callbackUrl = params['callbackurl'];
     });
   }
-  getPatientDetails() {
-    this.patientService.getPatientDetails({ recid: this.dataModel.patientid }).subscribe(payloadResponse => {
+
+  //For update Response
+  getPatientUpdates() {
+    this.patientService.getPatientUpdates({ recid: this.dataModel.patientid }).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
-          this.dataModel.copyFrom(payloadResponse.data);
-          this.subTitle = this.dataModel.patientdetails.patientname;
+          this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        } else {
+          this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
         }
       }
     });
   }
-  getServicepointList() {
-    this.patientService.getServicepointList().subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.splist = payloadResponse.data;
-      }
+
+  createControls(): void {
+    this.editableForm = new FormGroup({
+      fnameControl: new FormControl('', [Validators.required]),
+      lnameControl: new FormControl('', [Validators.required]),
+      mobnoControl: new FormControl(''),
+      ageControl: new FormControl(''),
+      bloodgrpControl: new FormControl(''),
+      genderControl: new FormControl('', [Validators.required]),
     });
   }
-  getServicepointConfigureList() {
-    this.patientService.getServicepointConfigureList().subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.spconfigures = payloadResponse.data;
-      }
-    });
-  }
+
+  //Sending data for person add
   save() {
-    const patientDataAddRequest = new PatientDataAddRequest();
-    this.dataModel.status = 1;
-    this.dataModel.patientdetails.admissiondate = new Date();
-    this.dataModel.copyTo(patientDataAddRequest);
-    this.patientService.addPatient(patientDataAddRequest).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.appNotificationService.success();
-        this.closeForm();
-      }
-    });
+    if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
+    //for redirect on admission table first
+    this.patientService.selcetdIndex = 1;
+
+    if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
+      this.add();
+    }
+    else if (this.dataModel.patientid != null) {
+      this.update();
+    }
   }
-  // selectedTabChange(value: any) {
-  //   console.log('selected mat tab', value);
-  //   if (value && value.index === 2) {
-  //     this.savebutton = true;
-  //   } else {
-  //     this.savebutton = false;
-  //   }
-  // }
+
+  add() {
+    const patientAddRequest = new PatientAddRequest();
+    this.dataModel.uuid = "2443";
+    this.dataModel.patientregno = "3323";
+    this.dataModel.copyTo(patientAddRequest);
+    this.patientService.addPatientData(patientAddRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.patientid = payloadResponse.data.recid;
+        // setting received patient id in service for further use
+        if (payloadResponse.data.recid && payloadResponse.data.recid != null) {
+          this.patientService.patientid = payloadResponse.data.recid;
+        }
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.VIEW);
+        this.appNotificationService.success();
+      }
+      this.inProgress = false;
+    });
+    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: this.patientService.patientid, callbackurl: 'patients' }, skipLocationChange: true });
+  }
+
+  update() {
+    const patientUpdateRequest = new PatientUpdateRequest();
+    this.dataModel.patientregno = "7654";
+    this.dataModel.CopyToUpdate(patientUpdateRequest);
+    this.patientService.updatePatientDetails(patientUpdateRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.patientid = payloadResponse.data;
+        this.appNotificationService.success(this.translatePipe.transform('SUCCESS_USERS_DETAILS_SAVED'));
+        //setting received patient id in service for further use
+        if (payloadResponse.data && payloadResponse.data != null) {
+          this.patientService.patientid = payloadResponse.data;
+        }
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.VIEW);
+      }
+      this.inProgress = false;
+    });
+    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: this.dataModel.patientid, callbackurl: 'patients' }, skipLocationChange: true });
+  }
+
+  close() {
+    this.router.navigate(['patients', 'patient_search'], { queryParams: { callbackurl: 'patients' }, skipLocationChange: true });
+  }
+
   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
+  }
+
+  skipForm(id: number) {
+    //setting patient id for further use
+    this.patientService.patientid = id;
+    this.patientService.selcetdIndex = 1;
+    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, callbackurl: 'patients' }, skipLocationChange: true });
+  }
+
+  //gender value
+  getgender(value: number) {
+    if (this.personGender && value) {
+      return this.personGender.find(a => a.value === value).text;
+    }
   }
 
   ngOnDestroy() {

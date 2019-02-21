@@ -28,6 +28,12 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'AppNotificationWarning',
     en: 'Warning'
   },
+  //Patient Details Begin
+  {
+    key: 'PATIENT_INFO_DETAILS_NOT_AVAILABLE',
+    en: 'Patient profile details are not available.'
+  },
+    //Patient Details End
   // Server Error Codes
   {
     key: 'SERVER_SYSTEM_ERROR',
@@ -443,5 +449,22 @@ export const TRANSLATIONS: TranslationValue[] = [
   // },
 
   // validation errer end
+
+  
+  /* Person GENDER BEGIN */
+  {
+    key: 'PERSON_GENDER_0',
+    en: 'NOT_SELECTED'
+  },
+  {
+    key: 'PERSON_GENDER_1',
+    en: 'MALE'
+  },
+  {
+    key: 'PERSON_GENDER_2',
+    en: 'FEMALE'
+  },
+
+  /* Person GENDER END */
 ];
 

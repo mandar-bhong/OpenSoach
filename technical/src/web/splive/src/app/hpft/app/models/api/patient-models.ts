@@ -1,3 +1,5 @@
+import { Time } from "@angular/common";
+
 export class PatientDataAddRequest {
     patientdetails: string;
     medicaldetails: string;
@@ -62,4 +64,211 @@ export class PatientTxnRequest {
     // startdate: Date;
     // enddate: Date;
     servinid: number;
+}
+
+export class PersonDataAddRequest {
+    reportname: string;
+    age: number;
+    persondate: Date;
+    patientregistrationno: string;
+    ward: number;
+    bedno: number;
+    admissiondate: Date;
+    dischargedate: Date;
+    bloodgroup: string;
+    weight: number;
+    drinst: string;
+    gender: string;
+}
+
+//Chandan......
+// patient master add
+export class PatientAddRequest
+{
+    uuid: string;
+    patientregno: string;
+    fname: string;
+    lname: string;
+    mobno: string;
+    age: string;
+    bloodgrp: string;
+    gender: string;
+}
+
+//Master List Display
+export class PatientRequestFilterDataModel
+{
+    cpmid : number;
+    fname : string;
+    lname : string;
+    mobno : string;
+    spid : number;
+    bedno :string;
+    status : number;
+    admittedon : Date;
+}
+
+// patient master add
+export class AdmissionAddRequest
+{
+    uuid: string;
+    patientid: number;
+    patientregno: string;
+    bedno: string;
+    status: number;
+    spid: number;
+    drincharge: number;
+    admittedon: Date;
+    dischargedon: Date;
+}
+
+
+//Patient List for Search the list first
+export class PatientFilterRequest
+{
+    fname: string;
+    lname: string;
+    mobno: string;
+    spid: number;
+    bedno: string;
+    status: number;
+    patientregno: string;
+    admittedon: Date;
+}
+
+
+//Patient List Response for display first list
+export class PatientDetaListResponse
+{
+    patientid: number;
+    admissionid: number;
+    cpmid: number;
+    fname: string;
+    lname: string;
+    mobno: string;
+    bedno: string;
+    status: number;
+    spid: number;
+    patientregno: string;
+    drincharge: number;
+    admittedon: Date;
+    dischargedon: Date;
+}
+
+
+//for search  in add patient
+export class PatientSearchRequestFilter
+{
+
+    fname: string;
+    lname: string;
+    mobno: string;
+}
+
+//patient list for add patient
+export class PatientSearchResponseFilter
+{
+    patientid: number;
+    cpmid: number;
+    patientregno: string;
+    fname: string;
+    lname: string;
+    mobno: string;
+    age: string;
+    bloodgrp: string;
+    gender: string;
+    createdon: Date;
+    updatedon: Date;
+}
+
+//Patient Update Request
+export class PatientUpdateRequest
+{
+    patientid: number;
+    patientregno: string;
+    fname: string;
+    lname: string;
+    mobno: string;
+    age: string;
+    bloodgrp: string;
+    gender: string;
+}
+
+//Patient Update Response
+export class PatientUpdateResponse
+{
+    patientid: number;
+    cpmid: number;
+    patientregno: string;
+    fname: string;
+    lname: string;
+    mobno: string;
+    age: string;
+    bloodgrp: string;
+    gender: string;
+    createdon: Date;
+    updatedon: Date;
+}
+
+//update admission request
+export class AdmissionUpdateRequest
+{
+    admissionid: number;
+    uuid: string;
+    patientid: number;
+    patientregno: string;
+    bedno: string;
+    status: number;
+    spid: number;
+    drincharge: number;
+    admittedon: Date;
+    dischargedon: Date;
+}
+
+// Admission Info Response
+export class  AdmissionUpdateResponse
+{
+    admissionid: number;
+    cpmid: number;
+    patientid: number;
+    patientregno: string;
+    bedno: string;
+    status: number;
+    spid: number;
+    drincharge: number;
+    admittedon: Date;
+    dischargedon: Date;
+    createdon: Date;
+    updatedon: Date;
+}
+
+//Status Api for patient to show where patient is hospitalized or not
+export class PatientStatus
+{
+    admissionid: number;
+    status: number;
+}
+
+// Patient Details here!!!
+export class PatientPersonDetail
+{
+    gender:number;
+    name:string;
+    contact: string;
+}
+export class JSONBaseDataModel<T> {
+    version:number;
+    data:T;
+}
+export class PersonDetailResponse
+{
+    personaccompanying: string;
+    age: number;
+}
+
+
+export class AdmissionAddResponseModel {
+    admissionid: number;
+    personaldetailsid: number;
+    medicaldetailsid: number;
 }

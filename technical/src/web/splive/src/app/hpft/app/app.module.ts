@@ -17,6 +17,7 @@ import { ProdComplaintService } from './services/complaint/prod-complaint.servic
 import { DashboardService } from './services/dashboard.service';
 import { ReportService } from './services/report.service';
 import { PatientService } from './services/patient.service';
+import { PatientAddService } from './services/patient-add.service';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { PatientService } from './services/patient.service';
     ProdComplaintService,
     ReportService,
     PatientService,
+    PatientAddService, 
   ],
 
   bootstrap: [AppComponent]

@@ -12,6 +12,18 @@ import { AppCommonModule } from '../../../../shared/app-common.module';
 import { PatientChartComponent } from './patient-chart/patient-chart.component';
 import { PatientDayWiseComponent } from './patient-day-wise/patient-day-wise.component';
 
+import { PatientsPersonalDetailComponent } from './patients-personal-detail/patients-personal-detail.component';
+import { PatientPersonAccompaniesComponent } from './patient-person-accompanies/patient-person-accompanies.component';
+
+import { PatientSearchComponent } from './patient-list/patient-search/patient-search.component';
+import { PatientCheckListComponent } from './patient-check-list/patient-check-list.component';
+import { PatientCheckSearchComponent } from './patient-check-search/patient-check-search.component';
+import { PatientAdmissionComponent } from './patient-admission/patient-admission.component';
+import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { PatientMedicalComponent } from './patient-medical/patient-medical.component';
+import { PatientReportComponent } from './patient-report/patient-report.component';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +34,19 @@ import { PatientDayWiseComponent } from './patient-day-wise/patient-day-wise.com
     ReactiveFormsModule,
     AppCommonModule
   ],
-  declarations: [PatientListComponent, PatientAddComponent, PatientViewComponent, PatientChartComponent, PatientDayWiseComponent]
+  declarations: [PatientListComponent, 
+    PatientAddComponent, 
+    PatientViewComponent, 
+    PatientChartComponent, 
+    PatientDayWiseComponent, 
+    PatientDetailsComponent,
+    PatientsPersonalDetailComponent, 
+    PatientPersonAccompaniesComponent,
+     PatientAdmissionComponent, 
+     PatientMedicalComponent, 
+     PatientReportComponent, 
+     PatientSearchComponent, 
+     PatientCheckListComponent, 
+     PatientCheckSearchComponent]
 })
 export class PatientsModule { }
