@@ -47,6 +47,12 @@ let selectQueries = new Map([
     ["document_tbl_insert", "insert into document_tbl (uuid,doc_path,doc_name, updated_by,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?)"],
     ["document_tbl_delete", "delete from document_tbl where uuid=?"],
     ["documentget", "select * from document_tbl"],
+    ["treatment_tbl_insert","treatment_tbl into (uuid, admission_uuid, treatment_done, details, post_observation, updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?)"],
+    ["treatment_tbl_update","treatment_tbl set admission_uuid=?, treatment_done=?, details=?, post_observation=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid = "],
+    ["treatment_doc_tbl_insert","insert into treatment_doc_tbl (treatment_uuid,document_uuid) valuers (?,?)"],
+    ["pathology_record_tbl_insert","insert into pathology_record_tbl (uuid, admission_uuid, test_performed, test_result, comments,updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?)"],
+    ["pathology_record_tbl_update","update pathology_record_doc_tbl set admission_uuid=?, test_performed=?, test_result=?, comments=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid =?"],
+    ["pathology_record_doc_tbl_insert","pathology_record_doc_tbl (pathology_record_uuid,document_uuid) values (?,?)"],
 ]);
 
 let selectTableName = new Map([
@@ -62,6 +68,10 @@ let selectTableName = new Map([
     ["device_access_tbl", "device_access_tbl"],
     ["doctors_orders_tbl", "doctors_orders_tbl"],
     ["document_tbl", "document_tbl"],
+    ["treatment_tbl", "treatment_tbl"],
+    ["treatment_doc_tbl", "treatment_doc_tbl"],
+    ["pathology_record_tbl", "pathology_record_tbl"],
+    ["pathology_record_doc_tbl", "pathology_record_doc_tbl"],
 ]);
 
 

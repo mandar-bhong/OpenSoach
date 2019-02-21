@@ -17,9 +17,13 @@ import { PatientPersonalDetailsDatastoreModel } from "../models/db/patient-perso
 import { PatientMedicalDetailsDatastoreModel } from "../models/db/patient-medical-details-model.js";
 import { ActionTxnDatastoreModel } from "../models/db/action-txn-model.js";
 import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model.js";
+import { TreatmentDatastoreModel } from "../models/db/treatment-model.js";
+import { TreatmentDocDatastoreModel } from "../models/db/treatment-doc-model.js";
+import { PathologyRecordDatastoreModel } from "../models/db/pathology-record-model.js";
+import { PathologyRecordDocDatastoreModel } from "../models/db/pathology-record-doc-model.js";
 
-export class CommandResponseProcessor{
-    
+export class CommandResponseProcessor {
+
     public static cmdProcessor(respMsg: any) {
 
         // TODO: check if authorized if yes, set GlobalContext to Authorized
@@ -85,6 +89,19 @@ export class CommandResponseProcessor{
                                 break;
                             case SYNC_STORE.DOCTORS_ORDERS:
                                 this.handleDoctorsOrdersResponse(respDataModel);
+                                break;
+
+                            case SYNC_STORE.TREATMENT:
+                                this.handleTreatmentResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.TREATMENT_DOC:
+                                this.handleTreatmentDocResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.PATHOLOGY_RECORD:
+                                this.handlePathologyRecordOrdersResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.PATHOLOGY_RECORD_DOC:
+                                this.handlePathologyRecordDocResponse(respDataModel);
                                 break;
                         }
                     }
@@ -432,10 +449,124 @@ export class CommandResponseProcessor{
             // console.log("action txn store data:", doctorsOrdersDatastoreModel);
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
-            serverDataStoreDataModel.datastore = SYNC_STORE.ACTION_TXN;
+            serverDataStoreDataModel.datastore = SYNC_STORE.DOCTORS_ORDERS;
             serverDataStoreDataModel.data = doctorsOrdersDatastoreModel;
 
-            // console.log("action txn server data store model", serverDataStoreDataModel);
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
+        }
+
+    }
+
+    public static handleTreatmentResponse(data: CmdModel) {
+        console.log("Treatment tbl data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (var i = 0; i < tblData.length; i++) {
+            const treatmentDatastoreModel = new TreatmentDatastoreModel();
+            const item = <TreatmentDatastoreModel>tblData[i];
+
+            treatmentDatastoreModel.uuid = item.uuid;
+            treatmentDatastoreModel.admission_uuid = item.admission_uuid;
+            treatmentDatastoreModel.treatment_done = item.treatment_done;
+            treatmentDatastoreModel.details = item.details;
+            treatmentDatastoreModel.post_observation = item.post_observation;
+            treatmentDatastoreModel.updated_by = item.updated_by;
+            treatmentDatastoreModel.updated_on = item.updated_on;
+            treatmentDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+            serverDataStoreDataModel.datastore = SYNC_STORE.TREATMENT;
+            serverDataStoreDataModel.data = treatmentDatastoreModel;
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
+        }
+
+    }
+
+    public static handleTreatmentDocResponse(data: CmdModel) {
+        console.log("Treatment doc tbl data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (var i = 0; i < tblData.length; i++) {
+            const treatmentDocDatastoreModel = new TreatmentDocDatastoreModel();
+            const item = <TreatmentDocDatastoreModel>tblData[i];
+
+            treatmentDocDatastoreModel.uuid = item.uuid;
+            treatmentDocDatastoreModel.treatment_uuid = item.treatment_uuid;
+            treatmentDocDatastoreModel.document_uuid = item.document_uuid;
+            treatmentDocDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+            serverDataStoreDataModel.datastore = SYNC_STORE.TREATMENT_DOC;
+            serverDataStoreDataModel.data = treatmentDocDatastoreModel;
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
+        }
+
+    }
+
+    public static handlePathologyRecordOrdersResponse(data: CmdModel) {
+        console.log("Pathology record tbl data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (var i = 0; i < tblData.length; i++) {
+            const pathologyRecordDatastoreModel = new PathologyRecordDatastoreModel();
+            const item = <PathologyRecordDatastoreModel>tblData[i];
+
+            pathologyRecordDatastoreModel.uuid = item.uuid;
+            pathologyRecordDatastoreModel.admission_uuid = item.admission_uuid;
+            pathologyRecordDatastoreModel.test_performed = item.test_performed;
+            pathologyRecordDatastoreModel.test_result = item.test_result;
+            pathologyRecordDatastoreModel.comments = item.comments;    
+            pathologyRecordDatastoreModel.updated_by = item.updated_by;
+            pathologyRecordDatastoreModel.updated_on = item.updated_on;
+            pathologyRecordDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+            serverDataStoreDataModel.datastore = SYNC_STORE.PATHOLOGY_RECORD;
+            serverDataStoreDataModel.data = pathologyRecordDatastoreModel;
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
+        }
+
+    }
+
+    public static handlePathologyRecordDocResponse(data: CmdModel) {
+        console.log("Pathology record doc tbl data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (var i = 0; i < tblData.length; i++) {
+            const pathologyRecordDocDatastoreModel = new PathologyRecordDocDatastoreModel();
+            const item = <PathologyRecordDocDatastoreModel>tblData[i];
+
+            pathologyRecordDocDatastoreModel.uuid = item.uuid;
+            pathologyRecordDocDatastoreModel.pathology_record_uuid = item.pathology_record_uuid;
+            pathologyRecordDocDatastoreModel.document_uuid = item.document_uuid;
+            pathologyRecordDocDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+            serverDataStoreDataModel.datastore = SYNC_STORE.PATHOLOGY_RECORD_DOC;
+            serverDataStoreDataModel.data = pathologyRecordDocDatastoreModel;
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
