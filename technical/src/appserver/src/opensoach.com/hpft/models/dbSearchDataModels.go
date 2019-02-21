@@ -131,7 +131,7 @@ type DBSearchPatientRequestFilterDataModel struct {
 	CpmId        int64      `db:"patient.cpm_id_fk" json:"cpmid"`
 	Fname        *string    `db:"fname" json:"fname"`
 	Lname        *string    `db:"lname" json:"lname"`
-	PatientRegNo *string    `db:"patient_reg_no" json:"patientregno"`
+	PatientRegNo *string    `db:"padmsn.patient_reg_no" json:"patientregno"`
 	MobNo        *string    `db:"mob_no" json:"mobno"`
 	SpId         *int64     `db:"sp_id_fk" json:"spid"`
 	BedNo        *string    `db:"bed_no" json:"bedno"`
