@@ -25,7 +25,7 @@ export class PatientListComponent implements OnInit {
     item.icon = 'add_circle';
     item.title = 'Patient';
     item.navigate = true;
-    item.url = 'patients/add';
+    item.url = 'patients/patient_search';
     item.data = { queryParams: { callbackurl: 'patients' }, skipLocationChange: true };
     floatingMenu.items.push(item);
     this.floatingButtonMenuService.setFloatingMenu(floatingMenu);

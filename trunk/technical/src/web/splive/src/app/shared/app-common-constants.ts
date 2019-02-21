@@ -33,6 +33,13 @@ export enum USER_GENDER {
     MALE = 1,
     FEMALE = 2
 }
+
+export enum PERSON_GENDER{
+    NOT_SELECTED = 0,
+    MALE = 1,
+    FEMALE = 2
+}
+
 export enum DEVICE_STATE {
     NOT_SET = 0,
     ACTIVE = 1,
@@ -90,4 +97,10 @@ export const APP_SHARED_LOCAL_STORAGE_KEYS: string[] = [
     APP_SHARED_DATA_STORE_KEYS.USER_ROLE
 ];
 
+export enum STATUS_STATE {
+    NOT_SET = 0,
+    ACTIVE = 1,
+    INACTIVE = 2,
+    SUSPENDED = 3
+}
 
