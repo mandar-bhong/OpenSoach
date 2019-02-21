@@ -101,7 +101,6 @@ func (service PatientService) PatientUpdate(reqData *hktmodels.DBPatientUpdateRo
 func (service PatientService) UpdateStatus(reqData *hktmodels.DBPatientUpdateStatusRowModel) (isSuccess bool, successErrorData interface{}) {
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
-	reqData.DischargedOn = ghelper.GetCurrentTime()
 
 	dbErr, affectedRow := dbaccess.UpdatePatientStatus(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
