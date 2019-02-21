@@ -14,6 +14,7 @@ import { MonitorHelper } from "../helpers/actions/monitor-helper.js";
 import { ActionTxnDatastoreModel } from "../models/db/action-txn-model.js";
 import { ScheduleDatastoreMessageHandler } from "./schedule-datastore-message-handler.js";
 import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model.js";
+import { DocumentUploadDatastore } from "../models/db/document-upload-datastore.js";
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
@@ -60,6 +61,11 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
                 const doctorsOrdersDatastoreModel = new DoctorsOrdersDatastoreModel();
                 Object.assign(doctorsOrdersDatastoreModel, this.dataModel.data);
                 this.dataModel.data = doctorsOrdersDatastoreModel;
+                break;
+                case SYNC_STORE.DOCUMENT_UPLOAD:
+                const docUploadDatastoreModel = new DocumentUploadDatastore();
+                Object.assign(docUploadDatastoreModel, this.dataModel.data);
+                this.dataModel.data = docUploadDatastoreModel;
                 break;
             default:
                 break;
