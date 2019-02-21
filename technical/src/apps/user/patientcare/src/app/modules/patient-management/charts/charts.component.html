@@ -219,16 +219,21 @@
                             <Label class="float-btn-cat-text fas" (tap)="selectOutput()" text="&#xf46c;" [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                         </StackLayout>
                     </RL:Ripple>
+                    <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                        <StackLayout class="float-btn-cat" (tap)="fabbuttonClicked = true" [class.button-clicked]="fabbuttonClicked">
+                            <Label class="float-btn-cat-text fas" (tap)="showDialog()" text="&#xf067;" [style.color]="fabbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                        </StackLayout>
+                    </RL:Ripple>
                 </StackLayout>
             </StackLayout>
-
+<!-- 
             <StackLayout row="0" col="1" column="*" row="auto" horizontalAlignment="right" class="rightsecond">
                 <RL:Ripple rippleColor="#fff" (tap)="showDialog()">
                     <StackLayout class="float-btn">
                         <Label class="float-btn-text" text="+"></Label>
                     </StackLayout>
                 </RL:Ripple>
-            </StackLayout>
+            </StackLayout> -->
 
         </GridLayout>
     </GridLayout>
