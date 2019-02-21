@@ -423,6 +423,8 @@ export class CommandResponseProcessor{
             doctorsOrdersDatastoreModel.doctor_id = item.doctor_id;
             doctorsOrdersDatastoreModel.doctors_orders = item.doctors_orders;
             doctorsOrdersDatastoreModel.document_uuid = item.document_uuid;
+            doctorsOrdersDatastoreModel.document_name = item.document_name;
+            doctorsOrdersDatastoreModel.doctype = item.doctype;
             doctorsOrdersDatastoreModel.updated_by = item.updated_by;
             doctorsOrdersDatastoreModel.updated_on = item.updated_on;
             doctorsOrdersDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
