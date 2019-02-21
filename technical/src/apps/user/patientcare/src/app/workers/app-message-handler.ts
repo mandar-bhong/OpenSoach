@@ -62,7 +62,7 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
                 Object.assign(doctorsOrdersDatastoreModel, this.dataModel.data);
                 this.dataModel.data = doctorsOrdersDatastoreModel;
                 break;
-                case SYNC_STORE.DOCUMENT_UPLOAD:
+                case SYNC_STORE.DOCUMENT:
                 const docUploadDatastoreModel = new DocumentUploadDatastore();
                 Object.assign(docUploadDatastoreModel, this.dataModel.data);
                 this.dataModel.data = docUploadDatastoreModel;

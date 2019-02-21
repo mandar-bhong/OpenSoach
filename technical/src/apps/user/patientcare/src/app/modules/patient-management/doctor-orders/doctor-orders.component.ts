@@ -86,7 +86,7 @@ export class DoctorOrdersComponent implements OnInit {
 		// create document datastore 
 
 		const serverDocumentDataStoreModel = new ServerDataStoreDataModel<DocumentUploadDatastore>();
-		serverDocumentDataStoreModel.datastore = SYNC_STORE.DOCUMENT_UPLOAD;
+		serverDocumentDataStoreModel.datastore = SYNC_STORE.DOCUMENT;
 		serverDocumentDataStoreModel.data = new DocumentUploadDatastore();
 		serverDocumentDataStoreModel.data.client_updated_at = new Date();
 		serverDocumentDataStoreModel.data.doc_path = this.docPath;
