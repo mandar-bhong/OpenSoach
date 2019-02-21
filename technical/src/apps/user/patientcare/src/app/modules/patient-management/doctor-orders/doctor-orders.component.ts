@@ -14,6 +14,7 @@ import { ObservableArray } from 'tns-core-modules/data/observable-array/observab
 import { TokenModel } from 'nativescript-ui-autocomplete';
 import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/angular/autocomplete-directives';
 import * as imagepicker from "nativescript-imagepicker";
+import { DocumentUploadDatastore } from '~/app/models/db/document-upload-datastore';
 @Component({
 	moduleId: module.id,
 	selector: 'doctor-orders',
@@ -27,7 +28,7 @@ export class DoctorOrdersComponent implements OnInit {
 	public keepAspectRatio: boolean = true;
 	public width: number = 300;
 	public height: number = 300;
-	documentId: string;
+	docPath: string;
 	thumbSize: number = 80;
 	previewSize: number = 300;
 	doctorOrdersForm: FormGroup;
@@ -79,10 +80,25 @@ export class DoctorOrdersComponent implements OnInit {
 		serverDataStoreModel.data.doctor_id = doctorName;
 		serverDataStoreModel.data.doctors_orders = desc;
 		// to do call api of upload document and set received rec id here.
-		serverDataStoreModel.data.document_uuid = this.documentId;
 		serverDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
 		serverDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
-		this.params.closeCallback([serverDataStoreModel]);
+
+		// create document datastore 
+
+		const serverDocumentDataStoreModel = new ServerDataStoreDataModel<DocumentUploadDatastore>();
+		serverDocumentDataStoreModel.datastore = SYNC_STORE.DOCUMENT_UPLOAD;
+		serverDocumentDataStoreModel.data = new DocumentUploadDatastore();
+		serverDocumentDataStoreModel.data.client_updated_at = new Date();
+		serverDocumentDataStoreModel.data.doc_path = this.docPath;
+		serverDocumentDataStoreModel.data.doc_name = 'test';
+		serverDocumentDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
+		serverDocumentDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
+		serverDataStoreModel.data.document_uuid = serverDocumentDataStoreModel.data.uuid;
+		const TempDataStore = new Array();
+		TempDataStore.push(serverDataStoreModel);
+		TempDataStore.push(serverDocumentDataStoreModel);
+		this.params.closeCallback(TempDataStore);
+
 	}
 
 	//end of code block
@@ -108,9 +124,9 @@ export class DoctorOrdersComponent implements OnInit {
 				console.log("Size: " + imageAsset.options.width + "x" + imageAsset.options.height);
 				console.log('picked image', this.imageTaken);
 				if (application.android) {
-					this.documentId = this.imageTaken.android;
+					this.docPath = this.imageTaken.android;
 				} else if (application.ios) {
-					this.documentId = this.imageTaken.ios;
+					this.docPath = this.imageTaken.ios;
 				}
 			}).catch(err => {
 				console.log(err.message);
@@ -167,7 +183,7 @@ export class DoctorOrdersComponent implements OnInit {
 				that.imageSrc = null;
 				return context.present();
 			})
-			.then((selection) => {			
+			.then((selection) => {
 				that.imageSrc = that.isSingleMode && selection.length > 0 ? selection[0] : null;
 				// set the images to be loaded from the assets with optimal sizes (optimize memory usage)
 				selection.forEach(function (element) {
@@ -178,16 +194,14 @@ export class DoctorOrdersComponent implements OnInit {
 				console.log('select image  from galary');
 				console.log(that.imageTaken);
 				if (application.android) {
-					that.documentId = this.imageTaken.android;
+					that.docPath = this.imageTaken.android;
 				} else if (application.ios) {
-					that.documentId = this.imageTaken.ios;
+					that.docPath = this.imageTaken.ios;
 				}
 			}).catch(function (e) {
 				console.log(e);
 			});
 	} // end of select image 
-
-
 } // end of class 
 
 export class DoctorInfo extends TokenModel {

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS action_tbl (uuid TEXT,admission_uuid TEXT, conf_type_
 CREATE TABLE IF NOT EXISTS action_txn_tbl (uuid TEXT,admission_uuid TEXT,schedule_uuid TEXT,txn_data TEXT,txn_date DATETIME, txn_state INTEGER, conf_type_code TEXT, runtime_config_data TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER, status INTEGER, client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS service_point_tbl (uuid TEXT, sp_name TEXT, short_desc TEXT, sp_state INTEGER, sp_state_since DATETIME, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS device_access_tbl (userid INTEGER, user_fname TEXT, user_lname TEXT, email TEXT, pin TEXT);
-CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, doctor_id INTEGER, doctors_orders TEXT, document_uuid TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
+CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, doctor_id INTEGER, doctors_orders TEXT, document_uuid TEXT,document_name Text, doctype Text, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS usr_tbl (usr_id INTEGER, usr_name TEXT, urole_name Text, fname TEXT, lname TEXT );
 CREATE TABLE IF NOT EXISTS document_tbl (uuid TEXT, doc_path TEXT, doc_name TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER, client_updated_at DATETIME );
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('document_tbl', 100,2,0,'',0,'');
