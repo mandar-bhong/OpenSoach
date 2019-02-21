@@ -58,6 +58,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	iscompleted: boolean;
 	freuencyZero = freuencyzero;
 	freuencyOne = freuencyone;
+	fabbuttonClicked = false;
 
 	constructor(private chartService: ChartService,
 		public workerservice: WorkerService,
@@ -93,6 +94,11 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	}
 	// code for showing fab button dialog.
 	showDialog() {
+		this.fabbuttonClicked = true;
+		this.monitorbuttonClicked = false;
+		this.intakebuttonClicked = false;
+		this.medicinebuttonClicked = false;
+		this.outputbuttonClicked = false;
 		this.createModalView(SchedularFabComponent, false).then((dialogResult) => {
 			if (dialogResult) {
 				setTimeout(() => {
@@ -117,6 +123,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = true;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
+		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping intake scroll to top position change 
 
@@ -128,6 +135,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
+		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping monitor scroll to top position change 
 
@@ -139,6 +147,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = true;
 		this.outputbuttonClicked = false;
+		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping medicine scroll to top position change 
 
@@ -150,6 +159,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = true;
+		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping medicine scroll to top position change
 

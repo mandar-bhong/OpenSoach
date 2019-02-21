@@ -65,6 +65,7 @@ export class DataActionItem {
 export class ActionComponent implements OnInit, IDeviceAuthResult {
 	dialogOpen = false;
 	conf_type_code_const = ConfigCodeType;
+	fabbuttonClicked = false;
 	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
 		console.log('chart componenent onDeviceAuthSuccess executed');
@@ -94,6 +95,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	monitorbuttonClicked: boolean = false;
 	intakebuttonClicked: boolean = true;
 	medicinebuttonClicked: boolean = false;
+	doctorOrderButtonClicked = false;
 	outputbuttonClicked: boolean = false;
 	actionSubscription: Subscription;
 	doctorOrderSubscription: Subscription;
@@ -113,6 +115,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	medicineIndex: any;
 	monitorIndex: any;
 	outputIndex: any;
+	doctorOrderIndex: any;
 
 	// >>  bottom snackbar msg
 	private snackbar: SnackBar;
@@ -247,28 +250,28 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >> Grouping intake scroll to top position change 
 	public selectIntake() {
-
 		const listView = this.listViewComponent.listView;
 		listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = true;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
+		this.doctorOrderButtonClicked = false;
+		this.fabbuttonClicked = false;
 		console.log("Clicked select intake", this.intakeIndex);
-
 	}
 	// <<  Grouping intake scroll to top position change 
 
 	// >>  Grouping monitor scroll to top position change 
 	public selectMonitor() {
-
 		const listView = this.listViewComponent.listView;
 		listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
 		this.monitorbuttonClicked = true;
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
-
+		this.doctorOrderButtonClicked = false;
+		this.fabbuttonClicked = false;
 		console.log("Clicked select monitor", this.monitorIndex);
 
 	}
@@ -276,13 +279,14 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >>  Grouping medicine scroll to top position change 
 	public selectMedicine() {
-
 		const listView = this.listViewComponent.listView;
 		listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = true;
 		this.outputbuttonClicked = false;
+		this.doctorOrderButtonClicked = false;
+		this.fabbuttonClicked = false;
 		console.log("Clicked select medicine", this.medicineIndex);
 	}
 	// <<  Grouping medicine scroll to top position change 
@@ -296,7 +300,20 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = true;
+		this.doctorOrderButtonClicked = false;
+		this.fabbuttonClicked = false;
 		console.log("Clicked select output", this.outputIndex);
+	}
+	selectDoctorOrder() {
+		console.log();
+		const listView = this.listViewComponent.listView;
+		listView.scrollToIndex(this.doctorOrderIndex, false, ListViewItemSnapMode.Start);
+		this.monitorbuttonClicked = false;
+		this.intakebuttonClicked = false;
+		this.medicinebuttonClicked = false;
+		this.outputbuttonClicked = false;
+		this.doctorOrderButtonClicked = true;
+		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping medicine scroll to top position change
 
@@ -317,15 +334,20 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		const output = this.tempList.filter(a => a.conf_type_code === "Output");
 		const outputCount = output.length;
-		// console.log("outputCount", outputCount);
+		const DOrder = this.tempList.filter(a => a.conf_type_code === ConfigCodeType.DOCTOR_ORDERS);
+		const DOrderCount = DOrder.length;
+		console.log("DOrderCount", DOrderCount);
 
-		this.intakeIndex = 0;
-		this.medicineIndex = intakeCount + 1;
-		this.monitorIndex = intakeCount + medicineCount + 2;
-		this.outputIndex = intakeCount + medicineCount + monitorCount + 3;
-		// console.log("medicine index", this.medicineIndex);
-		// console.log("monitor index", this.monitorIndex);
-		// console.log("output index", this.outputIndex);
+
+		this.doctorOrderIndex = 0;
+		this.intakeIndex = DOrderCount + 1;
+		this.medicineIndex = DOrderCount + intakeCount + 1;
+		this.monitorIndex = DOrderCount + intakeCount + medicineCount + 1;
+		this.outputIndex = DOrderCount + intakeCount + medicineCount + monitorCount + 1;
+		console.log("medicine index", this.medicineIndex);
+		console.log("monitor index", this.monitorIndex);
+		console.log("output index", this.outputIndex);
+		console.log("DR OR index", this.doctorOrderIndex);
 
 	}
 	// << Calculate Grouping index value
@@ -527,7 +549,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		});
 		// get doctor orders.
 		this.getDoctorsOrders();
-		this.getCount();
+
 	}
 
 
@@ -664,10 +686,16 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	}
 	showDialog() {
-		this.createDoctorModalView(ActionFabComponent,false).then((dialogResult: string) => {
+		this.fabbuttonClicked = true;
+		this.monitorbuttonClicked = false;
+		this.intakebuttonClicked = false;
+		this.medicinebuttonClicked = false;
+		this.outputbuttonClicked = false;
+		this.doctorOrderButtonClicked = false;
+		this.createDoctorModalView(ActionFabComponent, false).then((dialogResult: string) => {
 			if (dialogResult) {
 				switch (dialogResult) {
-					case 'DoctorOrdersComponent':						
+					case 'DoctorOrdersComponent':
 						setTimeout(() => {
 							this.openModal();
 						});
@@ -706,7 +734,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	openModal() {
 		console.log('doctors order  tapped');
 		// this.dialogOpen = false;
-		this.createDoctorModalView(DoctorOrdersComponent,true).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
+		this.createDoctorModalView(DoctorOrdersComponent, true).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
 			console.log('dialogResult', dialogResult);
 			if (dialogResult) {
 				this.ServerDataStoreDataModelArray = dialogResult;
@@ -720,7 +748,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	}//end of fucntion
 
-	private createDoctorModalView(Component,isFullScreen): Promise<any> {
+	private createDoctorModalView(Component, isFullScreen): Promise<any> {
 		let options: ModalDialogOptions = {
 			context: { promptMsg: "This is the prompt message!" },
 			fullscreen: isFullScreen,
@@ -768,12 +796,13 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 						console.log(e.error);
 					}
 				});
-
+				this.getCount();
 			},
 			(error) => {
 				console.log("getActinData error:", error);
 			}
 		);
+
 	} // end of fucntion
 	pushDoctorOredrs(doctorsOrders: ServerDataStoreDataModel<IDatastoreModel>) {
 		let actionListItem = new DataActionItem();
@@ -788,6 +817,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		} else {
 			this.tempList.push(actionListItem);
 		}
+		this.getCount();
 	} // end of code block.
 
 
