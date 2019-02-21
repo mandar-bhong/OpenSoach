@@ -13,6 +13,7 @@ import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { TokenModel } from 'nativescript-ui-autocomplete';
 import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/angular/autocomplete-directives';
+import * as imagepicker from "nativescript-imagepicker";
 @Component({
 	moduleId: module.id,
 	selector: 'doctor-orders',
@@ -21,11 +22,14 @@ import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/a
 })
 export class DoctorOrdersComponent implements OnInit {
 	public imageTaken: ImageAsset;
+	imageSrc: any;
 	public saveToGallery: boolean = true;
 	public keepAspectRatio: boolean = true;
 	public width: number = 300;
 	public height: number = 300;
 	documentId: string;
+	thumbSize: number = 80;
+	previewSize: number = 300;
 	doctorOrdersForm: FormGroup;
 	private _items: ObservableArray<DoctorInfo>;
 	doctorName = new FormControl('', [Validators.required]);
@@ -36,6 +40,7 @@ export class DoctorOrdersComponent implements OnInit {
 		{ name: "Sarjerao", id: '14' }]
 	isDescRequired = false;
 	isDrNameRequired = false;
+	isSingleMode: boolean;
 	constructor(private params: ModalDialogParams,
 		private passDataService: PassDataService) {
 		this.initDataItems();
@@ -82,7 +87,6 @@ export class DoctorOrdersComponent implements OnInit {
 
 	//end of code block
 	onTakePhoto() {
-
 		requestPermissions().then(
 			() => this.capturePicture(),
 			() => console.log('Permission Rejected')
@@ -145,7 +149,46 @@ export class DoctorOrdersComponent implements OnInit {
 			}
 		}
 	}
-}
+	//  fucntion for selectiong image from gallery.
+	public onSelectSingleTap() {
+		this.isSingleMode = true;
+		let context = imagepicker.create({
+			mode: "single"
+		});
+		// code block for start selection.
+		this.startSelection(context);
+	}
+	private startSelection(context) {
+		let that = this;
+		context
+			.authorize()
+			.then(() => {
+				that.imageTaken = null
+				that.imageSrc = null;
+				return context.present();
+			})
+			.then((selection) => {			
+				that.imageSrc = that.isSingleMode && selection.length > 0 ? selection[0] : null;
+				// set the images to be loaded from the assets with optimal sizes (optimize memory usage)
+				selection.forEach(function (element) {
+					element.options.width = that.isSingleMode ? that.previewSize : that.thumbSize;
+					element.options.height = that.isSingleMode ? that.previewSize : that.thumbSize;
+				});
+				that.imageTaken = selection[0];
+				console.log('select image  from galary');
+				console.log(that.imageTaken);
+				if (application.android) {
+					that.documentId = this.imageTaken.android;
+				} else if (application.ios) {
+					that.documentId = this.imageTaken.ios;
+				}
+			}).catch(function (e) {
+				console.log(e);
+			});
+	} // end of select image 
+
+
+} // end of class 
 
 export class DoctorInfo extends TokenModel {
 	//name: string;
