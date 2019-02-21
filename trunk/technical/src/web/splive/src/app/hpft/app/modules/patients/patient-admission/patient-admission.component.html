@@ -1,0 +1,93 @@
+<mat-card style="max-width:500px">
+  <form [formGroup]="editableForm" (ngSubmit)="save()">
+    <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+    <mat-card-content>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Patient Registration No." formControlName="patientregnoControls"
+            [(ngModel)]="dataModel.patientregno" maxlength="25" required>
+            <mat-error *ngIf="editableForm.controls['patientregnoControls'].hasError('required')">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Patient Registration No.</span>
+        <label class="viewtext">{{ dataModel.patientregno }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field  class="full-width">
+            <mat-select placeholder="Ward" formControlName="patientwardControls" [(ngModel)]="dataModel.spid" required>
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let sp of splist" [value]="sp.spid">
+                    {{sp.spname}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="editableForm.controls['patientwardControls'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Ward Number</span>
+        <label class="viewtext">{{ getSPName(dataModel.spid)}}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Bed Number" formControlName="bednumberControls" [(ngModel)]="dataModel.bedno"
+            maxlength="25">
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Bed Number</span>
+        <label class="viewtext">{{ dataModel.bedno }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <mat-select placeholder="Doctor Incharge" name="doctorincharge" formControlName="doctorinchargeControls"
+            [(ngModel)]="dataModel.drincharge" required>
+            <mat-option [value]="1">Doctor 1</mat-option>
+            <mat-option [value]="2">Doctor 2</mat-option>
+            <mat-option [value]="3">Doctor 3</mat-option>
+            <mat-option [value]="4">Doctor 4</mat-option>
+            <mat-option [value]="5">Doctor 5</mat-option>
+            <mat-option [value]="6">Doctor 6</mat-option>
+          </mat-select>
+          <mat-error *ngIf="editableForm.controls['doctorinchargeControls'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Doctor Incharge</span>
+        <label class="viewtext">{{ dataModel.drincharge }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Patient Admit Date" [matDatepicker]="startdatepicker"
+             [(ngModel)]="dataModel.admittedon" formControlName="admittedDateControls">
+          <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #startdatepicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Date</span>
+        <label class="viewtext"> {{dataModel.admittedon | date:'mediumDate'}}</label>
+      </div>
+
+      <!-- <mat-form-field>
+          <input matInput [matDatepicker]="startdatepicker" placeholder="Choose a start date" [(ngModel)]="dataModel.startdate" [disabled]="dataModel.selecteddateoption==='0'">
+          <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #startdatepicker></mat-datepicker>
+        </mat-form-field> -->
+
+      <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()">
+      </app-editable-form-footer-toolbar>
+    </mat-card-content>
+  </form>
+</mat-card>
