@@ -9,4 +9,5 @@ export class PatientListDBModel{
     patient_uuid: string;
     admission_uuid: string;
     sp_name: string;
+    person_accompanying: string;
 }
