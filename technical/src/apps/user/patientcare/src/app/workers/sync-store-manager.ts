@@ -93,7 +93,7 @@ export class SyncStoreManager {
                 case SERVER_SYNC_STATE.SYNC_TO_SERVER:
 
                     if (currentstore.sync_to_server_pending === SYNC_PENDING.TRUE
-                        && (currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_SERVER || DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER)) {
+                        && (currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_SERVER || currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER)) {
                         this.currentStore.currentStoreName = currentstore.store_name;
                         console.log("sync to server,current store name :", this.currentStore)
                     } else {
