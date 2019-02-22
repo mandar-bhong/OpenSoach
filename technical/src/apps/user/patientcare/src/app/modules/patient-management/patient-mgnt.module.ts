@@ -37,6 +37,7 @@ import { UserAuthComponent } from "./user_auth/user_auth.component";
 import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
 import { ActionFabComponent } from "./action-fab/action-fab.component";
 import { SchedularFabComponent } from "./schedular-fab/schedular-fab.component";
+import { TreatmentReportsComponent } from "./reports/treatment-reports/treatment-reports.component";
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { SchedularFabComponent } from "./schedular-fab/schedular-fab.component";
         UserAuthComponent,
         DoctorOrdersComponent,
         ActionFabComponent,
-        SchedularFabComponent
+        SchedularFabComponent,
+        TreatmentReportsComponent
 
 
     ],
