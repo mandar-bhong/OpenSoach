@@ -13,10 +13,13 @@ import { PassDataService } from '~/app/services/pass-data-service';
 import * as imagepicker from "nativescript-imagepicker";
 import { Page } from 'tns-core-modules/ui/page/page';
 import * as utils from "tns-core-modules/utils/utils";
+import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 
 export class DataItem {
 	public name: string;
 	public description: string;
+	result: string;
+	time: string;
 
 }
 @Component({
@@ -57,24 +60,24 @@ export class SectionOneComponent implements OnInit {
 
 	public initDataItems() {
 		const tempdata = new Array<DataItem>();
-		this.tempdata.push({ name: "Laboratory Report", description: "Morning and evening before meal" });
-		this.tempdata.push({ name: "Radiology Report", description: "Incase of high body temperature" });
-		this.tempdata.push({ name: "Blood Test", description: "Incase of continuos vomitting and nausea" });
-		this.tempdata.push({ name: "Blood Glucose Test", description: "Blood glucose tests are also sometimes called blood sugar tests." });
-		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones." });
-		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. " });
-		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. " });
-		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells" });
-		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness" });
-		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes." });
-		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells" });
-		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones." });
-		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. " });
-		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. " });
-		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells" });
-		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness" });
-		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes." });
-		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells" });
+		this.tempdata.push({ name: "Laboratory Report", description: "Morning and evening before meal", time:"12:00am", result:"test result" });
+		this.tempdata.push({ name: "Radiology Report", description: "Incase of high body temperature", time:"01:00am",  result:"test result" });
+		this.tempdata.push({ name: "Blood Test", description: "Incase of continuos vomitting and nausea", time:"02:00am", result:"test result" });
+		this.tempdata.push({ name: "Blood Glucose Test", description: "Blood glucose tests are also sometimes called blood sugar tests.", time:"03:00am",  result:"test result" });
+		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones.", time:"04:00am",  result:"test result" });
+		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. ", time:"05:00am",  result:"test result" });
+		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. ", time:"06:00am", result:"test result" });
+		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells", time:"07:00am", result:"test result" });
+		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness", time:"08:00am", result:"test result" });
+		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes.", time:"09:00am", result:"test result" });
+		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells", time:"10:00am", result:"test result"});
+		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones.", time:"11:00am", result:"test result" });
+		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. ", time:"12:00pm",result:"test result" });
+		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. ", time:"12:00am", result:"test result" });
+		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells", time:"12:00am", result:"test result" });
+		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness", time:"12:00am", result:"test result" });
+		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes.", time:"12:00am", result:"test result" });
+		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells" , time:"12:00am", result:"test result"});
 
 
 		this._dataItems = new ObservableArray(this.tempdata);
@@ -149,4 +152,30 @@ export class SectionOneComponent implements OnInit {
 	public openPDFFile() {
 		utils.openUrl("https://www.princexml.com/samples/flyer/flyer.pdf");
 	}
+	// >> expand row code start
+	templateSelector(item: any, index: number, items: any): string {
+		return item.expanded ? "expanded" : "default";
+
+	}
+
+	onItemTap(event: ListViewEventData) {
+		const listView = event.object,
+			rowIndex = event.index,
+			dataItem = event.view.bindingContext;
+
+		dataItem.expanded = !dataItem.expanded;
+		if (isIOS) {
+			// Uncomment the lines below to avoid default animation
+			// UIView.animateWithDurationAnimations(0, () => {
+			var indexPaths = NSMutableArray.new();
+			indexPaths.addObject(NSIndexPath.indexPathForRowInSection(rowIndex, event.groupIndex));
+			listView.ios.reloadItemsAtIndexPaths(indexPaths);
+			// });
+		}
+		if (isAndroid) {
+			listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
+
+		}
+	}
+	// << expand row code end
 }

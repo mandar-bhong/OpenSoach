@@ -1,11 +1,11 @@
 <GridLayout rows="*" columns="*" height="100%" width="100%" style="background-color: #396766; color: white; vertical-align: center">
-    <TabView androidTabsPosition="top" tabBackgroundColor="#396766" selectedTabTextColor="White" androidSelectedTabHighlightColor="#FF8910"
-        height="100%">
-        <StackLayout *tabItem="{title: 'Section  1'}">
-         <section-one></section-one>
+    <TabView androidTabsPosition="top" tabBackgroundColor="#396766" selectedTabTextColor="White"
+        androidSelectedTabHighlightColor="#FF8910" height="100%">
+        <StackLayout *tabItem="{title: 'Pathology'}">
+            <section-one></section-one>
         </StackLayout>
-        <StackLayout *tabItem="{title: 'Section  2'}">
-            <Label text="Label in Tab 2"></Label>
+        <StackLayout *tabItem="{title: 'Treatment'}">
+            <treatment-reports></treatment-reports>
         </StackLayout>
     </TabView>
 </GridLayout>
