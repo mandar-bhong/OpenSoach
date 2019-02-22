@@ -13,6 +13,13 @@ import { PatientListService } from '~/app/services/patient-list/patient-list.ser
 
 import { DataListingInterface } from '../data-listing-interface';
 
+export class PersonAccompanyingModel {
+	contact: string;
+}
+export class JSONBaseDataModel<T> {
+    version:number;
+    data:T;
+}
 @Component({
 	selector: "Home",
 	moduleId: module.id,
@@ -36,6 +43,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	patientListChanged: Subscription;
 	patientListItemMaster = new PatientListViewModel();
 
+	jsonField;
 	constructor(private routerExtensions: RouterExtensions,
 		private patientListService: PatientListService,
 		private passdataservice: PassDataService,
@@ -58,6 +66,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
+		this.jsonField = new JSONBaseDataModel<PersonAccompanyingModel[]>();
 	}
 
 	bindList() {
@@ -74,7 +83,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 				this.listItems.push(item);
 
 			});
-			console.log('this.listItems', this.listItems);
+			// console.log('this.listItems', this.listItems);
 		}
 	}
 
@@ -83,11 +92,21 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 			(val) => {
 				this.isBusy = false;
 				val.forEach(item => {
-					// console.log("val", val);
+					// console.log("home getData", val);
 					const patientListItem = new PatientListViewModel();
 					patientListItem.dbmodel = item;
-					this.listSource.push(patientListItem);
 
+					this.jsonField = new JSONBaseDataModel<PersonAccompanyingModel[]>();
+					this.jsonField.data = [];
+					Object.assign(this.jsonField, JSON.parse(patientListItem.dbmodel.person_accompanying));
+					if (this.jsonField.data.length > 0) {
+						// console.log('JSON', this.jsonField);
+						const testdata = this.jsonField.data[0].contact;
+						// console.log('testdata', testdata);
+						patientListItem.contact = testdata;
+					}
+					this.listSource.push(patientListItem);
+					// console.log('patientListItem', this.listSource);
 				});
 				this.bindList();
 			},
@@ -107,7 +126,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 					return item.dbmodel.sp_name;
 				}
 			};
-			console.log('on data received in home');
+			// console.log('on data received in home');
 			items.forEach(item => {
 				const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
 				if (existingItems.length > 0) {
@@ -116,10 +135,8 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 					const index = this.listSource.indexOf(existingItems[0]);
 					// console.log(' index', index);
 					this.listSource[index].dbmodel = item.dbmodel;
-					// console.log('received item data', item);
 				}
 				else {
-					// console.log('else condition new item add', item);
 					this.listSource.push(item);
 					if (this.searchValue == "") {
 						this.listItems.push(item);
