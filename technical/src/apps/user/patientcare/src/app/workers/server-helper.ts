@@ -46,7 +46,8 @@ export class ServerHelper {
                     (val) => {
                         console.log("reading sync store completed..")
                         ServerWorkerContext.isSyncInprogress = true;
-                        ServerWorkerContext.syncType = SYNC_TYPE.FULL
+                        ServerWorkerContext.syncType = SYNC_TYPE.FULL;
+                        SyncStoreManager.getFilteredStoreList();
                         ServerWorkerContext.syncState = SERVER_SYNC_STATE.READ_SYNC_STORE_COMPLETED;
                         this.switchSyncState();
                     },
@@ -66,7 +67,9 @@ export class ServerHelper {
                     (val) => {
                         console.log("reading sync store completed..")
                         ServerWorkerContext.isSyncInprogress = true;
-                        ServerWorkerContext.syncType = SYNC_TYPE.DIFFERENTIAL
+                        ServerWorkerContext.syncType = SYNC_TYPE.DIFFERENTIAL;
+                        SyncStoreManager.getFilteredStoreList();
+                        ServerWorkerContext.syncState = SERVER_SYNC_STATE.READ_SYNC_STORE_COMPLETED;
                         this.switchSyncState();
                     },
                     (err) => {
@@ -90,9 +93,6 @@ export class ServerHelper {
                 console.log("SYNC_TO_SERVER storename:", storename)
 
                 if (storename.currentStoreName != "") {
-                    if (storename.currentStoreName == "getNextStore") {
-                        this.switchSyncState();
-                    } else {
                         DatabaseHelper.getSyncPendingDataStore(storename.currentStoreName)
                             .then(
                                 (val) => {
@@ -104,10 +104,8 @@ export class ServerHelper {
                                     console.log("getSyncPendingDataStore err:", err);
                                 }
                             )
-                    }
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED;
-                    SyncStoreManager.readSyncComplete = false;
                     this.switchSyncState();
                 }
 
@@ -126,14 +124,9 @@ export class ServerHelper {
 
 
                 if (storename.currentStoreName != "") {
-
-                    if (storename.currentStoreName == "getNextStore") {
-                        this.switchSyncState();
-                    } else {
                         const syncCmd = CommandRequestGenerator.getSyncCmd(storename.currentStoreName, storename.lastSynched);
                         console.log("get syncCmd", syncCmd);
                         ServerHelper.sendToServerCallback(syncCmd);
-                    }
 
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED;

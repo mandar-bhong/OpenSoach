@@ -37,7 +37,7 @@ export class CommandResponseProcessor {
 
         // get request cmd packet
         const requestCmd = RequestManager.getRequest(respDataModel.header.seqid);
-        console.log("requestCmd", requestCmd);
+        console.log("requestCmd", JSON.stringify(requestCmd));
 
         if (requestCmd) {
 
@@ -134,7 +134,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleServicePointResponse(data: CmdModel) {
-        console.log("Service Point tbl data", data);
+        // console.log("Service Point tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -169,7 +169,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleConfResponse(data: CmdModel) {
-        console.log("Conf tbl data", data);
+        // console.log("Conf tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -201,7 +201,7 @@ export class CommandResponseProcessor {
     }
 
     public static handlePatientMasterResponse(data: CmdModel) {
-        console.log("Patient master tbl data", data);
+        // console.log("Patient master tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -239,7 +239,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleScheduleResponse(data: CmdModel) {
-        console.log("Patient schedule tbl data", data);
+        // console.log("Patient schedule tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -273,7 +273,7 @@ export class CommandResponseProcessor {
     }
 
     public static handlePatientAdmissionResponse(data: CmdModel) {
-        console.log("Patient Admsn tbl data", data);
+        // console.log("Patient Admsn tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -312,7 +312,7 @@ export class CommandResponseProcessor {
     }
 
     public static handlePersonalDetailsResponse(data: CmdModel) {
-        console.log("Personal details tbl data", data);
+        // console.log("Personal details tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -348,7 +348,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleMedicalDetailsResponse(data: CmdModel) {
-        console.log("Medical details tbl data", data);
+        // console.log("Medical details tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -390,7 +390,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleActionTxnResponse(data: CmdModel) {
-        console.log("Action Txn tbl data", data);
+        // console.log("Action Txn tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -427,7 +427,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleDoctorsOrdersResponse(data: CmdModel) {
-        console.log("Doctors Orders tbl data", data);
+        // console.log("Doctors Orders tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -462,7 +462,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleTreatmentResponse(data: CmdModel) {
-        console.log("Treatment tbl data", data);
+        // console.log("Treatment tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -493,7 +493,7 @@ export class CommandResponseProcessor {
     }
 
     public static handleTreatmentDocResponse(data: CmdModel) {
-        console.log("Treatment doc tbl data", data);
+        // console.log("Treatment doc tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -520,7 +520,7 @@ export class CommandResponseProcessor {
     }
 
     public static handlePathologyRecordOrdersResponse(data: CmdModel) {
-        console.log("Pathology record tbl data", data);
+        // console.log("Pathology record tbl data", data);
 
         const tblData = data.payload.ackdata.data
 
@@ -551,7 +551,7 @@ export class CommandResponseProcessor {
     }
 
     public static handlePathologyRecordDocResponse(data: CmdModel) {
-        console.log("Pathology record doc tbl data", data);
+        // console.log("Pathology record doc tbl data", data);
 
         const tblData = data.payload.ackdata.data
 

@@ -95,7 +95,6 @@ export class WorkerTasks {
 
     public static sendToServer(msg: any): void {
         console.log("sendToServer", msg);
-        console.log("sendToServer, socket", WorkerTasks.socket);
         WorkerTasks.socket.send(msg);
     }
 

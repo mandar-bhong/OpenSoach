@@ -8,10 +8,12 @@ import { ServerHelper } from "./server-helper.js";
 export class SyncStoreManager {
     static syncStore: SyncDataModel[]; // list of sync tables
     static updatedSyncStore: SyncDataModel[];
-    static count: number;
     static currentStore = new CurrentStoreModel();
-    static readSyncComplete: boolean;
     static isDataConflict: boolean;
+
+    static firststore = true;
+    static syncToServerStoreList: CurrentStoreModel[];
+    static syncFromServerStoreList: CurrentStoreModel[];
 
 
     public static readSyncStore() {
@@ -30,10 +32,7 @@ export class SyncStoreManager {
                     });
                     //store ordered by sync order
                     this.syncStore.sort((a, b) => { return a.sync_order - b.sync_order });
-                    this.count = 0;
-                    this.readSyncComplete = false;
                     resolve();
-
                 },
                 (error) => {
                     console.log("getSyncList error:", error);
@@ -58,7 +57,6 @@ export class SyncStoreManager {
                         this.updatedSyncStore.push(syncDataItem);
                     });
                     resolve();
-
                 },
                 (error) => {
                     console.log("getSyncList error:", error);
@@ -66,6 +64,91 @@ export class SyncStoreManager {
                 }
             );
         });
+    }
+
+
+    public static getFilteredStoreList() {
+
+        console.log("in getFilteredStoreList..")
+
+        this.syncToServerStoreList = [];
+        this.syncFromServerStoreList = [];
+
+        this.syncStore.forEach(item => {
+
+            switch (item.sync_type) {
+
+                case DB_SYNC_TYPE.SYNC_TO_SERVER:
+
+                    if (item.sync_to_server_pending === SYNC_PENDING.TRUE) {
+                        let currentStoreModel = new CurrentStoreModel()
+                        currentStoreModel.currentStoreName = item.store_name;
+                        this.syncToServerStoreList.push(currentStoreModel);
+                    }
+
+                    break;
+
+                case DB_SYNC_TYPE.SYNC_FROM_SERVER:
+
+                    switch (ServerWorkerContext.syncType) {
+
+                        case SYNC_TYPE.FULL:
+
+                            let currentStoreModel = new CurrentStoreModel()
+                            currentStoreModel.currentStoreName = item.store_name;
+                            currentStoreModel.lastSynched = item.last_synced;
+                            this.syncFromServerStoreList.push(currentStoreModel);
+
+                            break;
+
+                        case SYNC_TYPE.DIFFERENTIAL:
+
+                            if (item.sync_to_server_pending === SYNC_PENDING.TRUE) {
+                                let currentStoreModel = new CurrentStoreModel()
+                                currentStoreModel.currentStoreName = item.store_name;
+                                currentStoreModel.lastSynched = item.last_synced;
+                                this.syncFromServerStoreList.push(currentStoreModel);
+                            }
+
+                            break;
+                    }
+
+                    break;
+
+                case DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER:
+
+                    if (item.sync_to_server_pending === SYNC_PENDING.TRUE) {
+                        let currentStoreModel = new CurrentStoreModel()
+                        currentStoreModel.currentStoreName = item.store_name;
+                        this.syncToServerStoreList.push(currentStoreModel);
+                    }
+
+                    switch (ServerWorkerContext.syncType) {
+
+                        case SYNC_TYPE.FULL:
+
+                            let currentStoreModel = new CurrentStoreModel()
+                            currentStoreModel.currentStoreName = item.store_name;
+                            currentStoreModel.lastSynched = item.last_synced;
+                            this.syncFromServerStoreList.push(currentStoreModel);
+
+                            break;
+
+                        case SYNC_TYPE.DIFFERENTIAL:
+
+                            if (item.sync_to_server_pending === SYNC_PENDING.TRUE) {
+                                let currentStoreModel = new CurrentStoreModel()
+                                currentStoreModel.currentStoreName = item.store_name;
+                                currentStoreModel.lastSynched = item.last_synced;
+                                this.syncFromServerStoreList.push(currentStoreModel);
+                            }
+
+                            break;
+                    }
+                    break;
+            }
+        });
+
     }
 
     public static getNextStore(syncState: number): CurrentStoreModel {
@@ -81,74 +164,52 @@ export class SyncStoreManager {
         // get the store ordered by sync order and sync_from_server_pending is true
         // whose sync type is syncFromServer or supporting both and is after currentstore
 
-        console.log("count:", this.count);
-        console.log("readSyncComplete:", this.readSyncComplete);
+        switch (syncState) {
 
-        if (this.readSyncComplete == false) {
-            const currentstore = this.syncStore[this.count];
-            console.log("currentstore", currentstore);
+            case SERVER_SYNC_STATE.SYNC_TO_SERVER:
 
-            switch (syncState) {
-
-                case SERVER_SYNC_STATE.SYNC_TO_SERVER:
-
-                    if (currentstore.sync_to_server_pending === SYNC_PENDING.TRUE
-                        && (currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_SERVER || currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER)) {
-                        this.currentStore.currentStoreName = currentstore.store_name;
-                        console.log("sync to server,current store name :", this.currentStore)
+                if (this.syncToServerStoreList.length == 0) {
+                    this.currentStore.currentStoreName = "";
+                    this.firststore = true;
+                } else {
+                    if (this.firststore == true) {
+                        this.currentStore = this.syncToServerStoreList[0];
+                        this.firststore = false;
                     } else {
-                        this.currentStore.currentStoreName = "getNextStore";
+                        const index = this.syncToServerStoreList.indexOf(this.currentStore);
+                        if (index >= 0 && index < this.syncToServerStoreList.length - 1) {
+                            this.currentStore = this.syncToServerStoreList[index + 1]
+                        } else {
+                            this.currentStore.currentStoreName = "";
+                            this.firststore = true;
+                        }
                     }
+                }
 
-                    break;
+                break;
 
-                case SERVER_SYNC_STATE.SYNC_FROM_SERVER:
+            case SERVER_SYNC_STATE.SYNC_FROM_SERVER:
 
-                    switch (ServerWorkerContext.syncType) {
-
-                        case SYNC_TYPE.FULL:
-
-                            if (currentstore.sync_type === DB_SYNC_TYPE.SYNC_FROM_SERVER || currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER) {
-                                this.currentStore.currentStoreName = currentstore.store_name;
-                                this.currentStore.lastSynched = currentstore.last_synced;
-                            } else {
-                                this.currentStore.currentStoreName = "getNextStore";
-                            }
-
-                            break;
-
-                        case SYNC_TYPE.DIFFERENTIAL:
-
-                            if (currentstore.sync_from_server_pending === SYNC_PENDING.TRUE
-                                && (currentstore.sync_type === DB_SYNC_TYPE.SYNC_FROM_SERVER || currentstore.sync_type === DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER)) {
-                                this.currentStore.currentStoreName = currentstore.store_name;
-                                this.currentStore.lastSynched = currentstore.last_synced;
-                            } else {
-                                this.currentStore.currentStoreName = "getNextStore";
-                            }
-
-                            break;
+                if (this.syncFromServerStoreList.length == 0) {
+                    this.currentStore.currentStoreName = "";
+                    this.firststore = true;
+                } else {
+                    if (this.firststore == true) {
+                        this.currentStore = this.syncFromServerStoreList[0];
+                        this.firststore = false;
+                    } else {
+                        const index = this.syncFromServerStoreList.indexOf(this.currentStore);
+                        if (index >= 0 && index < this.syncFromServerStoreList.length - 1) {
+                            this.currentStore = this.syncFromServerStoreList[index + 1]
+                        } else {
+                            this.currentStore.currentStoreName = "";
+                            this.firststore = true;
+                        }
                     }
+                }
 
-                    break;
-            }
-
-
-            if (this.count < this.syncStore.length - 1) {
-                this.count = this.count + 1;
-            } else {                
-                console.log("read sync completed setting complete flag");
-                this.count = 0;
-                this.readSyncComplete = true;
-            }
-
-        } else {
-            console.log("sync complete set current store empty")
-            this.currentStore.currentStoreName = "";
+                break;
         }
-
-
-        console.log("this.currentStore", this.currentStore);
 
         return this.currentStore;
 
@@ -196,8 +257,6 @@ export class SyncStoreManager {
                                 this.isDataConflict = true;
                             }
 
-                            // DatabaseHelper.updateSyncStoreLastSynched(prevStore.store_name);
-
                             break;
 
                         case DB_SYNC_TYPE.SYNC_TO_AND_FROM_SERVER:
@@ -213,8 +272,6 @@ export class SyncStoreManager {
                             } else if (prevStore.sync_from_server_pending_time !== updatedStore.sync_from_server_pending_time) {
                                 this.isDataConflict = true;
                             }
-
-                            // DatabaseHelper.updateSyncStoreLastSynched(prevStore.store_name);
 
                             break;
 
