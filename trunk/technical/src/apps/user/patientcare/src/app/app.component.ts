@@ -1,21 +1,16 @@
 import { Component, OnInit, OnDestroy, NgZone } from "@angular/core";
 import { DatabaseSchemaService } from "./services/offline-store/database-schema.service";
-import { server } from './environments/environment';
 import { WorkerService } from "./services/worker.service";
 import { Subscription } from "rxjs";
 import { ServerDataProcessorMessageModel } from "./models/api/server-data-processor-message-model";
 import { SERVER_WORKER_MSG_TYPE, API_SPL_BASE_URL } from "~/app/app-constants";
-var WS = require('nativescript-websockets');
 import * as appSettings from "tns-core-modules/application-settings";
 import { APP_MODE } from "./app-constants";
 import { AppGlobalContext } from "./app-global-context";
-import * as utils from "tns-core-modules/utils/utils";
-import { HttpClient } from "@angular/common/http";
-import { Router } from "@angular/router";
-import * as application from 'application'
 import { RouterExtensions } from "nativescript-angular/router";
 import { PlatformHelper } from "./helpers/platform-helper";
 import { PassDataService } from "./services/pass-data-service";
+import { ServerApiInterfaceService } from "./services/server-api-interface.service";
 
 @Component({
     moduleId: module.id,
@@ -30,8 +25,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private zone: NgZone,
         private workerService: WorkerService,
         private routerExtensions: RouterExtensions,
-        private httpClient: HttpClient,
-        private passDataService: PassDataService) {
+        private passDataService: PassDataService,
+        private serverApiInterfaceService: ServerApiInterfaceService) {
 
         // init PlatformHelper
         PlatformHelper.init();
@@ -74,36 +69,25 @@ export class AppComponent implements OnInit, OnDestroy {
             this.checkIfDeviceIsRegistered();
         } else {
             if (appMode == APP_MODE.SHARED_DEVICE && token != null) {
+                this.serverApiInterfaceService.get(API_SPL_BASE_URL + "/v1/validateauthtoken",
+                    {
+                        token: token
+                    })
+                    .then((result) => {
+                        console.log("token validate success");
+                        // setting context if token validated
+                        AppGlobalContext.Token = token;
+                        console.log("AppGlobalContext.Token", AppGlobalContext.Token);
 
-
-                // http get method
-
-                this.httpClient.get(
-                    this.buildUrl(API_SPL_BASE_URL + "/v1/validateauthtoken",
-                        {
-                            token: token,
-                        })
-                )
-                    .subscribe((result) => {
-                        console.log("result", result);
-                        var res = <any>result;
-                        if (res.issuccess === true) {
-                            console.log("token validate success");
-                            // setting context if token validated
-                            AppGlobalContext.Token = token;
-                            console.log("AppGlobalContext.Token", AppGlobalContext.Token);
-
-                            // pass device token for any one access
-                            this.passDataService.token = AppGlobalContext.Token;
-                            AppGlobalContext.WebsocketUrl = appSettings.getString("WEB_SOCKET_URL");
-                            console.log("AppGlobalContext.WebsocketUrl", AppGlobalContext.WebsocketUrl);
-                            this.initAppStart();
-                        } else {
-                            console.log("token validate fail");
+                        // pass device token for any one access
+                        AppGlobalContext.WebsocketUrl = appSettings.getString("WEB_SOCKET_URL");
+                        console.log("AppGlobalContext.WebsocketUrl", AppGlobalContext.WebsocketUrl);
+                        this.initAppStart();
+                    }, (error) => {
+                        if (!error.handled) {
+                            console.error('token validate error', error);
                             this.checkIfDeviceIsRegistered();
                         }
-                    }, (error) => {
-                        console.log(error);
                     });
             }
 
@@ -137,35 +121,34 @@ export class AppComponent implements OnInit, OnDestroy {
 
         console.log("SerialNo:", SerialNo);
 
-        this.httpClient.post(API_SPL_BASE_URL + "/v1/endpoint/deviceauthorization",
+        this.serverApiInterfaceService.post(API_SPL_BASE_URL + "/v1/endpoint/deviceauthorization",
             {
                 'serialno': SerialNo,
                 'prodcode': 'SPL_HPFT'
             })
-            .subscribe(
+            .then(
                 res => {
                     console.log("POST Request is successful ", res);
                     this.handleDevAuthResponse(res);
                 }, (error) => {
-                    console.log(error);
+                    if (!error.handled) {
+                        console.error('deviceauthorization in error', error);
+                        this.routerExtensions.navigate(['login']);
+                    }
                 }
             );
 
     }
 
     handleDevAuthResponse(resData) {
-        if (resData.issuccess == true) {
-            appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
-            AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
-            appSettings.setString("AUTH_TOKEN", resData.data.token);
-            appSettings.setString("WEB_SOCKET_URL", resData.data.locationurl);
-            AppGlobalContext.Token = resData.data.token;
-            AppGlobalContext.WebsocketUrl = resData.data.locationurl;
-            console.log("AppGlobalContext.Token", AppGlobalContext.Token);
-            this.initAppStart();
-        } else {
-            this.routerExtensions.navigate(['login']);
-        }
+        appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
+        AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
+        appSettings.setString("AUTH_TOKEN", resData.token);
+        appSettings.setString("WEB_SOCKET_URL", resData.locationurl);
+        AppGlobalContext.Token = resData.token;
+        AppGlobalContext.WebsocketUrl = resData.locationurl;
+        console.log("AppGlobalContext.Token", AppGlobalContext.Token);
+        this.initAppStart();
     }
 
     initAppStart() {

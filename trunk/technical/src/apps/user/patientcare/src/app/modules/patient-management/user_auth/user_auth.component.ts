@@ -6,20 +6,19 @@ import { ActionService } from '~/app/services/action/action.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { PassDataService } from '~/app/services/pass-data-service';
-import { HttpClient } from "@angular/common/http";
+import { ServerApiInterfaceService } from '~/app/services/server-api-interface.service';
+import { API_SPL_BASE_URL } from '~/app/app-constants';
+import { AppGlobalContext } from '~/app/app-global-context';
 
-export class UserData{
-	data: UserDetails;
-}
-export class UserDetails{
-	userid : number;
+export class UserDetails {
+	userid: number;
 	firstname: string;
 	lastname: string;
 	username: string;
 	pin: string;
 }
-export class UserDetailDBModel{
-	userid : number;
+export class UserDetailDBModel {
+	userid: number;
 	first_name: string;
 	last_name: string;
 	email: string;
@@ -63,7 +62,7 @@ export class UserAuthComponent implements OnInit {
 	constructor(private actionService: ActionService,
 		private routerExtensions: RouterExtensions,
 		private passdataservice: PassDataService,
-		private httpClient: HttpClient) {
+		private serverApiInterfaceService: ServerApiInterfaceService) {
 		console.log('user auth');
 		this.datamodel = new UserAuthDBRequest();
 	}
@@ -165,23 +164,19 @@ export class UserAuthComponent implements OnInit {
 		console.log('this.datamodel.user_fname', formmodel.email = this.userAuthForm.get('email').value);
 		console.log('this.datamodel.user_lname', formmodel.password = this.userAuthForm.get('password').value);
 
-		console.log('token', this.passdataservice.token);
+		console.log('token', AppGlobalContext.Token);
 
 		if (formmodel.email && formmodel.password) {
-			this.httpClient.post("http://172.105.232.148/api/v1/endpoint/userauthorization",
+			this.serverApiInterfaceService.post<UserDetails>(API_SPL_BASE_URL + "/v1/endpoint/userauthorization",
 				{
 					'username': formmodel.email,
 					'password': formmodel.password,
-					'devicetoken':  this.passdataservice.token,
+					'devicetoken': AppGlobalContext.Token,
 				})
-				.subscribe(
-					(res: UserData) => {
+				.then(
+					(res) => {
 						console.log("POST Request is successful ", res);
-						this.getuserdetails.firstname = res.data.firstname;
-						console.log('fname',this.getuserdetails.firstname);
-						this.getuserdetails.lastname = res.data.lastname;
-						this.getuserdetails.userid = res.data.userid;
-						this.getuserdetails.username = res.data.username;
+						this.getuserdetails = res;
 
 						this.newpinview = true;
 						this.hidecheckpin = false;
@@ -204,7 +199,7 @@ export class UserAuthComponent implements OnInit {
 		formmodel.newpin = this.userAuthPinForm.get('newpin').value;
 		formmodel.reenterpin = this.userAuthPinForm.get('re_enterpin').value;
 
-		if(formmodel.newpin === formmodel.reenterpin){
+		if (formmodel.newpin === formmodel.reenterpin) {
 			const saveuserdetails = new UserDetailDBModel();
 			saveuserdetails.userid = this.getuserdetails.userid;
 			saveuserdetails.first_name = this.getuserdetails.firstname;
