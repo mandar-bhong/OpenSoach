@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { DatabaseService } from "../services/offline-store/database.service";
 import { Page } from "ui/page";
@@ -15,8 +14,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 export class LoginComponent implements OnInit {
 	input: any;
 	isLoggingIn = true;
-	constructor(private httpClient: HttpClient,
-		private routerExtensions: RouterExtensions, 
+	constructor(private routerExtensions: RouterExtensions,
 		private databaseService: DatabaseService,
 		private page: Page) {
 		// Use the component constructor to inject providers.
@@ -52,6 +50,8 @@ export class LoginComponent implements OnInit {
 				});
 			});
 		this.routerExtensions.navigate(['home'], { clearHistory: true });
+
+		//TODO: user ServerAPIInterfaceService
 		// this.router.navigate(['/list'], { skipLocationChange: true });
 		// if (this.input.username && this.input.password) {
 		//     this.httpClient.post("http://172.105.232.148/api/v1/login",

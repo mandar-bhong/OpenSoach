@@ -1,6 +1,5 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
-import { HttpClientModule } from '@angular/common/http';
 
 import { DetailsComponent } from "./details/details.component";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
@@ -44,7 +43,6 @@ import { TreatmentReportsComponent } from "./reports/treatment-reports/treatment
     imports: [
         NativeScriptCommonModule,
         PatientMgntRoutingModule,
-        HttpClientModule,
         NativeScriptUIListViewModule,
         NativeScriptUIChartModule,
         NativeScriptFormsModule,
