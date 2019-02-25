@@ -11,6 +11,9 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { PlatformHelper } from "./helpers/platform-helper";
 import { PassDataService } from "./services/pass-data-service";
 import { ServerApiInterfaceService } from "./services/server-api-interface.service";
+//TODO: DONT Remove websocket require, if this line is removed. the worker doesnt get access to nativescript-websockets.
+// this is a temporary fix and need to be handled through webpack config.
+var WS = require('nativescript-websockets');
 
 @Component({
     moduleId: module.id,
