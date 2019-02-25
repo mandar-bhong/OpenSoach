@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS service_point_tbl (uuid TEXT, sp_name TEXT, short_des
 CREATE TABLE IF NOT EXISTS device_access_tbl (userid INTEGER, user_fname TEXT, user_lname TEXT, email TEXT, pin TEXT);
 CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, doctor_id INTEGER, doctors_orders TEXT, document_uuid TEXT,document_name Text, doctype Text, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS usr_tbl (usr_id INTEGER, usr_name TEXT, urole_name Text, fname TEXT, lname TEXT );
-CREATE TABLE IF NOT EXISTS document_tbl (uuid TEXT, doc_path TEXT, doc_name TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER, client_updated_at DATETIME );
+CREATE TABLE IF NOT EXISTS document_tbl (uuid TEXT, doc_path TEXT, doc_name TEXT, doc_type TEXT, datastore TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER, client_updated_at DATETIME );
 CREATE TABLE IF NOT EXISTS treatment_tbl (uuid TEXT, admission_uuid TEXT, treatment_done TEXT, details TEXT, post_observation TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);
 CREATE TABLE IF NOT EXISTS treatment_doc_tbl (treatment_uuid TEXT, document_uuid TEXT);
 CREATE TABLE IF NOT EXISTS pathology_record_tbl (uuid TEXT, admission_uuid TEXT, test_performed TEXT, test_result TEXT, comments TEXT, updated_by INTEGER, updated_on DATETIME, sync_pending INTEGER , client_updated_at DATETIME);

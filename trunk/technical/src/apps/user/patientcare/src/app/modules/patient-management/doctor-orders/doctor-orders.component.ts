@@ -15,6 +15,7 @@ import { TokenModel } from 'nativescript-ui-autocomplete';
 import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/angular/autocomplete-directives';
 import * as imagepicker from "nativescript-imagepicker";
 import { DocumentUploadDatastore } from '~/app/models/db/document-upload-datastore';
+var mime = require('mime-types')
 @Component({
 	moduleId: module.id,
 	selector: 'doctor-orders',
@@ -91,6 +92,8 @@ export class DoctorOrdersComponent implements OnInit {
 		serverDocumentDataStoreModel.data.client_updated_at = new Date();
 		serverDocumentDataStoreModel.data.doc_path = this.docPath;
 		serverDocumentDataStoreModel.data.doc_name = 'test';
+		serverDocumentDataStoreModel.data.doc_type = mime.lookup('xlsx');
+		serverDocumentDataStoreModel.data.datastore = SYNC_STORE.DOCTORS_ORDERS;
 		serverDocumentDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
 		serverDocumentDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
 		serverDataStoreModel.data.document_uuid = serverDocumentDataStoreModel.data.uuid;

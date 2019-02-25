@@ -44,7 +44,7 @@ let selectQueries = new Map([
 
     ["getActionListActive", "select * from action_tbl where exec_time >=? and admission_uuid=?"],
     ["getActionListComplated", "select * from action_tbl where exec_time <? and admission_uuid=?"],
-    ["document_tbl_insert", "insert into document_tbl (uuid,doc_path,doc_name, updated_by,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?)"],
+    ["document_tbl_insert", "insert into document_tbl (uuid,doc_path,doc_name,doc_type,datastore,updated_by,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["document_tbl_delete", "delete from document_tbl where uuid=?"],
     ["documentget", "select * from document_tbl"],
     ["treatment_tbl_insert","treatment_tbl into (uuid, admission_uuid, treatment_done, details, post_observation, updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?)"],
