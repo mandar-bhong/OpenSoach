@@ -38,3 +38,21 @@ func NotifyCPMID(serviceCtx *pcservices.ServiceContext) error {
 	return nil
 
 }
+
+func NotifyAck(serviceCtx *pcservices.ServiceContext) error {
+
+	packetbldAckSourceService := &pcservices.PacketbldAckSourceService{}
+	packetbldAckSourceService.ServiceContext = serviceCtx
+
+	senderService := &pcservices.SenderService{}
+	senderService.ServiceContext = serviceCtx
+
+	packetbldAckSourceService.NextHandler = senderService
+
+	err := packetbldAckSourceService.Handle(serviceCtx)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
