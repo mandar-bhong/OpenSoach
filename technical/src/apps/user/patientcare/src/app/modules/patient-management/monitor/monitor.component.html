@@ -1,216 +1,197 @@
-<GridLayout rows="*" columns="*" height="100%" width="100%" style="background-color:#396766;">
-    <ScrollView orientation="vertical">
-        <GridLayout rows="auto, auto, auto, auto" columns="*">
+<GridLayout rows="50,*" columns="*" height="100%" width="100%">
+    <GridLayout row="0" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;background-color:#ffffff;">
+        <Label class="h3" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
+        <StackLayout col="1" orientation="horizontal" borderRadius borderWidth="1" borderColor="black">
+            <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="filter24hr()" (tap)="buttonClicked = true">
+                <StackLayout textWrap="true" [class.tab-clicked]="buttonClicked" class="tab-layout">
+                    <Label text="24 hr" class="button-text" style="padding:3"></Label>
+                </StackLayout>
+            </RL:Ripple>
 
-            <StackLayout row="0" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                <Label row="0" class="body" textWrap="true" text="TEMPERATURE" style="color:#396766;"></Label>
-                <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                <GridLayout rows="*" row="2" style="margin:2px 0px;">
+            <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="filter3day()" (tap)="buttonCompleted = true">
+                <StackLayout textWrap="true" [class.tab-clicked]="buttonCompleted" class="tab-layout">
+                    <Label text="3 day" class="button-text" style="padding:3"></Label>
+                </StackLayout>
+            </RL:Ripple>
+        </StackLayout>
+    </GridLayout>
+    <GridLayout row="1" rows="*" columns="*" height="100%" width="100%" style="background-color:#396766;">
+        <ScrollView orientation="vertical">
+            <GridLayout rows="auto, auto, auto, auto" columns="*">
+                <StackLayout row="0" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
+                    <Label row="0" class="body" textWrap="true" text="TEMPERATURE" style="color:#396766;"></Label>
+                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+                    <GridLayout rows="*" row="2" style="margin:2px 0px;">
 
-                    <RadCartesianChart row="0" id="PanZoomChart">
-                        <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate"
-                            labelSize="10" lineThickness="3"></CategoricalAxis>
-                        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                        <RadCartesianChart tkExampleTitle tkToggleNavButton>
+                            <DateTimeContinuousAxis tkCartesianHorizontalAxis minimum="{{uiStartDate}}" maximum="{{uiEndDate}}" dateFormat="hh:mm" labelFitMode="Rotate"
+                                labelRotationAngle="1.2" MajorStepUnit="{{majorStepUnit}}" MajorStep="{{majorUnit}}"></DateTimeContinuousAxis>
+                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
 
-                        <LineSeries tkCartesianSeries [items]="categoricalSourcehigh" strokeColor="RadCartesianChart"
-                            valueProperty="Amount1" categoryProperty="Country" seriesName="high">
-                        </LineSeries>
-
-                        <LineSeries tkCartesianSeries [items]="tempListItems" categoryProperty="Comment" valueProperty="Value"
-                            seriesName="main"></LineSeries>
-
-                        <LineSeries tkCartesianSeries [items]="categoricalSourcelow" valueProperty="Amount1"
-                            strokeColor="RadCartesianChart" categoryProperty="Country" seriesName="low"></LineSeries>
-
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="high">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
-
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="main">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
-
-                        <RadCartesianChart.horizontalAxis>
-                            <chart:CategoricalAxis allowPan="true" allowZoom="true" />
-                        </RadCartesianChart.horizontalAxis>
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="low">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
-                    </RadCartesianChart>
-
-                </GridLayout>
-            </StackLayout>
-
-            <StackLayout row="1" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                <Label row="0" class="body" textWrap="true" text="BLOOD PRESSURE" style="color:#396766;"></Label>
-                <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                <GridLayout row="2" rows="*">
-                    <RadCartesianChart row="0">
-                        <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate"
-                            labelSize="10" lineThickness="3"></CategoricalAxis>
-                        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-
-                        <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcehigh" valueProperty="Amount1"
-                            categoryProperty="Country" seriesName="high">
-                        </LineSeries>
-
-                        <LineSeries tkCartesianSeries [items]="bloodpresListItems" categoryProperty="Comment"
-                            valueProperty="Value" seriesName="main"></LineSeries>
-
-                        <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcelow" valueProperty="Amount1"
-                            categoryProperty="Country" seriesName="low"></LineSeries>
+                            <LineSeries tkCartesianSeries [items]="tempListItems" categoryProperty="Comment"
+                                valueProperty="Value"></LineSeries>
+                        </RadCartesianChart>
 
 
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="high">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
+                    </GridLayout>
+                </StackLayout>
 
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="main">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
+                <StackLayout row="1" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
+                    <Label row="0" class="body" textWrap="true" text="BLOOD PRESSURE" style="color:#396766;"></Label>
+                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+                    <GridLayout row="2" rows="*">
+                        <RadCartesianChart row="0">
+                            <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate"
+                                labelSize="10" lineThickness="3"></CategoricalAxis>
+                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
 
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="low">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
+                            <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcehigh" valueProperty="Amount1"
+                                categoryProperty="Country" seriesName="high">
+                            </LineSeries>
 
-                    </RadCartesianChart>
-                </GridLayout>
-            </StackLayout>
+                            <LineSeries tkCartesianSeries [items]="bloodpresListItems" categoryProperty="Comment"
+                                valueProperty="Value" seriesName="main"></LineSeries>
+
+                            <LineSeries tkCartesianSeries [items]="bloodSourcecategoricalSourcelow" valueProperty="Amount1"
+                                categoryProperty="Country" seriesName="low"></LineSeries>
+
+
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="high">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="main">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="low">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+                        </RadCartesianChart>
+                    </GridLayout>
+                </StackLayout>
 
 
 
 
-            <StackLayout row="2" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                <Label row="0" class="body" textWrap="true" text="RESPIRATION RATE" style="color:#396766;"></Label>
-                <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                <GridLayout row="2" rows="*">
-                    <RadCartesianChart row="0">
-                        <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate"
-                            labelSize="10" lineThickness="3"></CategoricalAxis>
-                        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                <StackLayout row="2" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
+                    <Label row="0" class="body" textWrap="true" text="RESPIRATION RATE" style="color:#396766;"></Label>
+                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+                    <GridLayout row="2" rows="*">
+                        <RadCartesianChart row="0">
+                            <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate"
+                                labelSize="10" lineThickness="3"></CategoricalAxis>
+                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
 
-                        <LineSeries tkCartesianSeries [items]="respirationcategoricalSourcehigh" valueProperty="Amount1"
-                            categoryProperty="Country" seriesName="high">
-                        </LineSeries>
+                            <LineSeries tkCartesianSeries [items]="respirationcategoricalSourcehigh" valueProperty="Amount1"
+                                categoryProperty="Country" seriesName="high">
+                            </LineSeries>
 
-                        <LineSeries tkCartesianSeries [items]="respirationListItems" categoryProperty="MonitorUiModel"
-                            categoryProperty="Comment" valueProperty="Value" seriesName="main"></LineSeries>
+                            <LineSeries tkCartesianSeries [items]="respirationListItems" categoryProperty="MonitorUiModel"
+                                categoryProperty="Comment" valueProperty="Value" seriesName="main"></LineSeries>
 
-                        <LineSeries tkCartesianSeries [items]="respirationcategoricalSourcelow" valueProperty="Amount1"
-                            categoryProperty="Country" seriesName="low"></LineSeries>
-
-
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="high">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
-
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="main">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
-
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="low">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
-
-                    </RadCartesianChart>
-                </GridLayout>
-            </StackLayout>
-
-            <StackLayout row="3" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                <Label row="0" class="body" textWrap="true" text="PULSE RATE" style="color:#396766;"></Label>
-                <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                <GridLayout row="2" rows="*">
-                    <RadCartesianChart row="0">
-                        <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate"
-                            labelSize="10" lineThickness="3"></CategoricalAxis>
-                        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-
-                        <LineSeries tkCartesianSeries [items]="pulsecategoricalSourcehigh" valueProperty="Amount1"
-                            categoryProperty="Country" seriesName="high">
-                        </LineSeries>
-
-                        <LineSeries tkCartesianSeries [items]="pulseListItems" categoryProperty="MonitorUiModel"
-                            categoryProperty="Comment" valueProperty="Value" seriesName="main"></LineSeries>
-
-                        <LineSeries tkCartesianSeries [items]="pulsecategoricalSourcelow" valueProperty="Amount1"
-                            categoryProperty="Country" seriesName="low"></LineSeries>
+                            <LineSeries tkCartesianSeries [items]="respirationcategoricalSourcelow" valueProperty="Amount1"
+                                categoryProperty="Country" seriesName="low"></LineSeries>
 
 
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="high">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="high">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
 
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="main">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="main">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
 
-                        <RadCartesianChart.palettes>
-                            <Palette tkCartesianPalette seriesName="low">
-                                <Palette.entries>
-                                    <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
-                                    </PaletteEntry>
-                                </Palette.entries>
-                            </Palette>
-                        </RadCartesianChart.palettes>
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="low">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
 
-                    </RadCartesianChart>
-                </GridLayout>
-            </StackLayout>
-        </GridLayout>
-    </ScrollView>
+                        </RadCartesianChart>
+                    </GridLayout>
+                </StackLayout>
+
+                <StackLayout row="3" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
+                    <Label row="0" class="body" textWrap="true" text="PULSE RATE" style="color:#396766;"></Label>
+                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+                    <GridLayout row="2" rows="*">
+                        <RadCartesianChart row="0">
+                            <CategoricalAxis tkCartesianHorizontalAxis horizontalLocation="Right" labelFitMode="Rotate"
+                                labelSize="10" lineThickness="3"></CategoricalAxis>
+                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+
+                            <LineSeries tkCartesianSeries [items]="pulsecategoricalSourcehigh" valueProperty="Amount1"
+                                categoryProperty="Country" seriesName="high">
+                            </LineSeries>
+
+                            <LineSeries tkCartesianSeries [items]="pulseListItems" categoryProperty="MonitorUiModel"
+                                categoryProperty="Comment" valueProperty="Value" seriesName="main"></LineSeries>
+
+                            <LineSeries tkCartesianSeries [items]="pulsecategoricalSourcelow" valueProperty="Amount1"
+                                categoryProperty="Country" seriesName="low"></LineSeries>
+
+
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="high">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="main">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#00a6ce" strokeWidth="3">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="low">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="lightgray" strokeWidth="2">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+                        </RadCartesianChart>
+                    </GridLayout>
+                </StackLayout>
+            </GridLayout>
+        </ScrollView>
+    </GridLayout>
 </GridLayout>
