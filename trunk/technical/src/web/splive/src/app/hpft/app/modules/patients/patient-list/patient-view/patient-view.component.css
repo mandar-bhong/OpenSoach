@@ -2,12 +2,7 @@
     margin-left:5px;
 }
 
-/* mat-header-cell {
-    display:flex;
-    justify-content:flex-end;
-   }
-
-   mat-cell {
-    display:flex;
-    justify-content:flex-end;
-   } */
+::ng-deep .cdk-overlay-container {
+        position: fixed !important;
+        z-index: 100000 !important; /* set value you need */
+    }

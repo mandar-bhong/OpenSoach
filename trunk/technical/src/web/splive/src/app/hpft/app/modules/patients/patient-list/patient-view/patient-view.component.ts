@@ -1,6 +1,8 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
+import { AmazingTimePickerService } from 'amazing-time-picker';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 
@@ -10,9 +12,12 @@ import { PayloadResponse } from '../../../../../../shared/models/api/payload-mod
 import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { PatientListDataModel } from '../../../../../app/models/ui/patient-models';
-import { PatientDetaListResponse, PatientFilterRequest, StatusChangeRequest } from '../../../../models/api/patient-models';
+import {
+  AdmissionStatusRequest,
+  PatientDetaListResponse,
+  PatientFilterRequest,
+} from '../../../../models/api/patient-models';
 import { PatientService } from '../../../../services/patient.service';
-
 
 @Component({
   selector: 'app-patient-view',
@@ -26,7 +31,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   { text: 'Emergency Contact Number', value: 'mobno' },
   { text: 'Ward', value: 'spid' },
   { text: 'Bed/Room Number', value: 'bedno' },
-    // {text: 'Status',value:'status'}
+  { text: 'Status', value: 'status' }
 
   ];
   @ViewChild(MatPaginator)
@@ -42,14 +47,24 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   showEditForm = false;
   selectedPatient: PatientListDataModel;
   splist: ServicepointListResponse[] = [];
+  dataModel = new PatientListDataModel();
+  editableForm: FormGroup;
+  selectedStartTime: string;
 
   constructor(public patientService: PatientService,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe) { }
+    private amazingtimepicker: AmazingTimePickerService,
+    private ngzone: NgZone,
+    private translatePipe: TranslatePipe) {
+  }
 
   ngOnInit() {
     this.getServicepointList();
+    this.createControls();
+    this.dataModel.dischargedon = new Date();
+    const dt = new Date();
+    this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = 1;
     this.paginator.pageSize = 10;
@@ -61,6 +76,13 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     });
   }
 
+  createControls(): void {
+    this.editableForm = new FormGroup({
+      dischargedDateControls: new FormControl('', [Validators.required]),
+      dischargedTimeControls: new FormControl(''),
+    });
+  }
+
   // Accept data from ward ie. list of ward
   getServicepointList() {
     this.patientService.getServicepointList().subscribe(payloadResponse => {
@@ -69,26 +91,47 @@ export class PatientViewComponent implements OnInit, OnDestroy {
         this.setDataListing();
       }
     });
-
   }
 
   setSelectedPatient(patient: PatientListDataModel) {
     this.selectedPatient = patient;
   }
 
+  // Changing status , patient is dicharge or not
   changestatus() {
-    const statusChangeRequest = new StatusChangeRequest();
-    statusChangeRequest.status = 2;
-    statusChangeRequest.patientid = this.selectedPatient.patientid;
-    // statusChangeRequest.discharge = new Date();
-    this.patientService.updateStatus(statusChangeRequest).subscribe(payloadResponse => {
+    const admissionStatusRequest = new AdmissionStatusRequest();
+    admissionStatusRequest.status = 2;
+    const date = this.dataModel.dischargedon;
+    const datetime = date + this.selectedStartTime.toString();
+    admissionStatusRequest.admissionid = this.selectedPatient.admissionid;
+    admissionStatusRequest.dischargedon = this.dataModel.dischargedon;
+    this.patientService.updateAdmissionStatus(admissionStatusRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
         this.selectedPatient.status = 2;
+        this.dataModel.dischargedon = new Date();
+        const dt = new Date();
+        this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
+
       }
+
     });
 
   }
+
+  // For Time selection
+  openStartTime() {
+    const amazingTimePicker = this.amazingtimepicker.open({
+      time: this.selectedStartTime,
+      theme: 'material-orange',
+    });
+    this.selectedStartTime = this.dataModel.dischargedon.toLocaleTimeString();
+    amazingTimePicker.afterClose().subscribe(time => {
+      this.selectedStartTime = time;
+    });
+
+  }
+
   setDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.refreshTable.subscribe(() => this.paginator.pageIndex = 0);
@@ -157,6 +200,12 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     if (this.splist && value) {
       return this.splist.find(a => a.spid === value).spname;
     }
+  }
+
+  cancelStatus() {
+    this.dataModel.dischargedon = new Date();
+    const dt = new Date();
+    this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
   }
 
 }

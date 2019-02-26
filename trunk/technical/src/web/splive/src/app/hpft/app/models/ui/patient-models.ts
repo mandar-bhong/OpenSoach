@@ -16,7 +16,18 @@ import {
     AdmissionUpdateResponse,
     JSONBaseDataModel,
     PatientPersonDetail,
-    PersonDetailResponse
+    PersonDetailResponse,
+    AdmissionStatusRequest,
+    MedicalDetailsRequest,
+    PresentComplaints,
+    ReasonForAdmission,
+    HistoryPresentIllness,
+    PastHistory,
+    TreatmentBeforeAdmission,
+    InvestigationBeforeAdmission,
+    FamilyHistory,
+    Allergies,
+    PersonalHistory
 } from '../api/patient-models';
 import { NumberCardModule } from '@swimlane/ngx-charts';
 import { JSONBaseModel } from './json-base-model';
@@ -160,6 +171,7 @@ export class AdmissionAddModel {
         this.updatedon = admissionUpdateResponse.updatedon;
     }
 
+
 }
 
 export class PatientFilterModel {
@@ -206,6 +218,11 @@ export class PatientListDataModel {
         this.spid = patientDetaListResponse.spid;
         this.drincharge = patientDetaListResponse.drincharge;
         this.dischargedon = patientDetaListResponse.dischargedon;
+    }
+    copyToStatus(admissionStatusRequest: AdmissionStatusRequest) {
+        admissionStatusRequest.admissionid = this.admissionid;
+        admissionStatusRequest.status = this.status;
+        admissionStatusRequest.dischargedon = this.dischargedon;
     }
 }
 
@@ -262,5 +279,34 @@ export class PatientPersonAccompanying {
         this.testdata = new JSONBaseDataModel<PatientPersonDetail[]>();
         Object.assign(this.testdata, JSON.parse(personDetailResponse.personaccompanying));
         console.log('data', this);
+    }
+}
+
+export class MedicalDetailsModel {
+    uuid: string;
+    patientid: number;
+    admissionid: number;
+    presentcomplaints: PresentComplaints;
+    reasonforadmission: ReasonForAdmission;
+    historypresentillness: HistoryPresentIllness;
+    pasthistory: PastHistory;
+    treatmentbeforeadmission: TreatmentBeforeAdmission;
+    investigationbeforeadmission: InvestigationBeforeAdmission;
+    familyhistory: FamilyHistory;
+    allergies: Allergies;
+    personalhistory: PersonalHistory;
+    copyToAdd(medicalDetailsRequest: MedicalDetailsRequest) {
+        medicalDetailsRequest.uuid = this.uuid;
+        medicalDetailsRequest.patientid = this.patientid;
+        medicalDetailsRequest.admissionid = this.admissionid;
+        medicalDetailsRequest.presentcomplaints = JSON.stringify(this.presentcomplaints);
+        medicalDetailsRequest.reasonforadmission = JSON.stringify(this.reasonforadmission);
+        medicalDetailsRequest.historypresentillness = JSON.stringify(this.historypresentillness);
+        medicalDetailsRequest.pasthistory = JSON.stringify(this.pasthistory);
+        medicalDetailsRequest.treatmentbeforeadmission = JSON.stringify(this.treatmentbeforeadmission);
+        medicalDetailsRequest.investigationbeforeadmission = JSON.stringify(this.investigationbeforeadmission);
+        medicalDetailsRequest.familyhistory = JSON.stringify(this.familyhistory);
+        medicalDetailsRequest.allergies = JSON.stringify(this.allergies);
+        medicalDetailsRequest.personalhistory = JSON.stringify(this.personalhistory);
     }
 }

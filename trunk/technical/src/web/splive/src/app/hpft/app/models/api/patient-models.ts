@@ -83,8 +83,7 @@ export class PersonDataAddRequest {
 
 //Chandan......
 // patient master add
-export class PatientAddRequest
-{
+export class PatientAddRequest {
     uuid: string;
     patientregno: string;
     fname: string;
@@ -96,21 +95,19 @@ export class PatientAddRequest
 }
 
 //Master List Display
-export class PatientRequestFilterDataModel
-{
-    cpmid : number;
-    fname : string;
-    lname : string;
-    mobno : string;
-    spid : number;
-    bedno :string;
-    status : number;
-    admittedon : Date;
+export class PatientRequestFilterDataModel {
+    cpmid: number;
+    fname: string;
+    lname: string;
+    mobno: string;
+    spid: number;
+    bedno: string;
+    status: number;
+    admittedon: Date;
 }
 
 // patient master add
-export class AdmissionAddRequest
-{
+export class AdmissionAddRequest {
     uuid: string;
     patientid: number;
     patientregno: string;
@@ -124,8 +121,7 @@ export class AdmissionAddRequest
 
 
 //Patient List for Search the list first
-export class PatientFilterRequest
-{
+export class PatientFilterRequest {
     fname: string;
     lname: string;
     mobno: string;
@@ -138,8 +134,7 @@ export class PatientFilterRequest
 
 
 //Patient List Response for display first list
-export class PatientDetaListResponse
-{
+export class PatientDetaListResponse {
     patientid: number;
     admissionid: number;
     cpmid: number;
@@ -157,8 +152,7 @@ export class PatientDetaListResponse
 
 
 //for search  in add patient
-export class PatientSearchRequestFilter
-{
+export class PatientSearchRequestFilter {
 
     fname: string;
     lname: string;
@@ -166,8 +160,7 @@ export class PatientSearchRequestFilter
 }
 
 //patient list for add patient
-export class PatientSearchResponseFilter
-{
+export class PatientSearchResponseFilter {
     patientid: number;
     cpmid: number;
     patientregno: string;
@@ -182,8 +175,7 @@ export class PatientSearchResponseFilter
 }
 
 //Patient Update Request
-export class PatientUpdateRequest
-{
+export class PatientUpdateRequest {
     patientid: number;
     patientregno: string;
     fname: string;
@@ -195,8 +187,7 @@ export class PatientUpdateRequest
 }
 
 //Patient Update Response
-export class PatientUpdateResponse
-{
+export class PatientUpdateResponse {
     patientid: number;
     cpmid: number;
     patientregno: string;
@@ -211,8 +202,7 @@ export class PatientUpdateResponse
 }
 
 //update admission request
-export class AdmissionUpdateRequest
-{
+export class AdmissionUpdateRequest {
     admissionid: number;
     uuid: string;
     patientid: number;
@@ -226,8 +216,7 @@ export class AdmissionUpdateRequest
 }
 
 // Admission Info Response
-export class  AdmissionUpdateResponse
-{
+export class AdmissionUpdateResponse {
     admissionid: number;
     cpmid: number;
     patientid: number;
@@ -243,32 +232,97 @@ export class  AdmissionUpdateResponse
 }
 
 //Status Api for patient to show where patient is hospitalized or not
-export class PatientStatus
-{
+export class PatientStatus {
     admissionid: number;
     status: number;
 }
 
+//Define for gloablly
+export class JSONBaseDataModel<T> {
+    version: number;
+    data: T;
+}
 // Patient Details here!!!
-export class PatientPersonDetail
-{
-    gender:number;
-    name:string;
+export class PatientPersonDetail {
+    gender: number;
+    name: string;
     contact: string;
 }
-export class JSONBaseDataModel<T> {
-    version:number;
-    data:T;
-}
-export class PersonDetailResponse
-{
+
+export class PersonDetailResponse {
     personaccompanying: string;
     age: number;
 }
 
-
+//
 export class AdmissionAddResponseModel {
     admissionid: number;
     personaldetailsid: number;
     medicaldetailsid: number;
+}
+
+//status patient discharge
+export class AdmissionStatusRequest {
+    admissionid: number;
+    status: number;
+    dischargedon: Date;
+}
+
+
+export class PresentComplaints {
+    text: string;
+    date: string;
+}
+export class ReasonForAdmission {
+    text: string;
+    date: string;
+}
+export class HistoryPresentIllness {
+    text: string;
+    date: string;
+}
+
+export class PastHistory {
+    text: string;
+    date: string;
+}
+
+export class TreatmentBeforeAdmission {
+    text: string;
+    date: string;
+}
+
+export class InvestigationBeforeAdmission {
+    text: string;
+    date: string;
+}
+
+export class FamilyHistory {
+    text: string;
+    date: string;
+}
+
+export class Allergies {
+    text: string;
+    date: string;
+}
+
+export class PersonalHistory {
+    text: string;
+    date: string;
+}
+
+export class MedicalDetailsRequest {
+    uuid: string;
+    patientid: number;
+    admissionid: number;
+    presentcomplaints: string;
+    reasonforadmission: string;
+    historypresentillness: string;
+    pasthistory: string;
+    treatmentbeforeadmission: string;
+    investigationbeforeadmission: string;
+    familyhistory: string;
+    allergies: string;
+    personalhistory: string;
 }

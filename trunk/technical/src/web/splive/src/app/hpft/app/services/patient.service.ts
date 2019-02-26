@@ -27,16 +27,20 @@ import {
     PersonDetailResponse,
     StatusChangeRequest,
     AdmissionAddResponseModel,
+    AdmissionStatusRequest,
+    MedicalDetailsRequest,
 } from '../models/api/patient-models';
 
 
 @Injectable()
 export class PatientService extends ListingService<PatientFilterRequest, PatientDetaListResponse> {
     patientid: number;
+    admissionid:number;
     selcetdIndex: number;
     disableTab: boolean;
     fname: string;
     lname: string;
+    admittedon:Date;
     drincharge: number;
     admissionIdReceived = new Subject<number>();
 
@@ -116,6 +120,21 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/update/status',
             statusChangeRequest, implicitErrorHandling);
     }
+
+    //Update patient status on discharge
+    updateAdmissionStatus(admissionStatusRequest: AdmissionStatusRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/update/status',
+    admissionStatusRequest, implicitErrorHandling);
+}
+
+    //Post method for patient medical
+    medicalAddPatient(medicalDetailsRequest: MedicalDetailsRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<AdmissionAddResponseModel>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/add',
+        medicalDetailsRequest, implicitErrorHandling);
+    }
+
     getPatientStates(): EnumDataSourceItem<number>[] {
         return EnumNumberDatasource.getDataSource('PATIENT_STATE_', PATIENT_STATE);
     }
