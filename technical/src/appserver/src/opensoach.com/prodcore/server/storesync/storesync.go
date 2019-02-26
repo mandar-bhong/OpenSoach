@@ -91,18 +91,25 @@ func ApplyChangesNotify(dbConn string, syncReq pcmodels.StoreSyncApplyRequestMod
 	deviceCommandAck := gmodels.DeviceCommandAck{}
 	deviceCommandAck.Ack = true
 
+	serviceCtx := &pcservices.ServiceContext{}
+	serviceCtx.Repo = repo
+	serviceCtx.ServiceConfig.SourcePacket = devPacket
+	serviceCtx.ServiceConfig.SourceToken = Token
+
 	err, resp := ApplyChanges(dbConn, syncReq)
 	if err != nil {
 		logger.Context().WithField("Sync Req", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to apply sync changes.", err)
 		deviceCommandAck.Ack = false
+
+		serviceCtx.ServiceConfig.AckData = deviceCommandAck
+		notifyErr := NotifyAck(serviceCtx)
+		if notifyErr != nil {
+			logger.Context().WithField("Service Context", serviceCtx).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to notify apply sync changes.", notifyErr)
+		}
+		return err, resp
 	} else {
 		storeSyncModel := pcmodels.StoreSyncModel{}
 		storeSyncModel.StoreName = syncReq.StoreName
-
-		serviceCtx := &pcservices.ServiceContext{}
-		serviceCtx.Repo = repo
-		serviceCtx.ServiceConfig.SourcePacket = devPacket
-		serviceCtx.ServiceConfig.SourceToken = Token
 		serviceCtx.ServiceConfig.AckData = deviceCommandAck
 		serviceCtx.ServiceConfig.DestinationData = storeSyncModel
 
