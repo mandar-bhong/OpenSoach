@@ -542,6 +542,7 @@ CREATE TABLE `spl_hpft_document_tbl` (
 	`uuid` VARCHAR(50) NOT NULL,
 	`name` VARCHAR(50) NULL DEFAULT NULL,
 	`doctype` VARCHAR(50) NULL DEFAULT NULL,
+	`store_name` VARCHAR(50) NULL DEFAULT NULL,
 	`location` VARCHAR(200) NULL DEFAULT NULL,
 	`location_type` TINYINT(3) NULL DEFAULT NULL,
 	`persisted` TINYINT(3) NOT NULL COMMENT '0- not persisted, 1 - persisted',
