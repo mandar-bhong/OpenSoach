@@ -43,12 +43,12 @@
           </ng-container>
 
           <ng-container matColumnDef="patientregno">
-              <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Patient Reg No.</mat-header-cell>
-              <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
-                <span class="mat-cell-responsive-label">Patient Reg No.</span>
-                <span class="ellipsis mat-cell-text">{{row.patientregno}}</span>
-              </mat-cell>
-            </ng-container>
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Patient Reg No.</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+              <span class="mat-cell-responsive-label">Patient Reg No.</span>
+              <span class="ellipsis mat-cell-text">{{row.patientregno}}</span>
+            </mat-cell>
+          </ng-container>
 
           <ng-container matColumnDef="mobno">
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Emergency Contact</mat-header-cell>
@@ -111,29 +111,60 @@
     </mat-card>
 
     <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Status</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-            Do you wish to change the status to Discharged ?
-          </div>
-          <div class="modal-footer">
-            <div class="row">
-              <div class="col text-right" style="margin-top: 15px;">
-                <button matSuffix type="button" color="primary" mat-raised-button style="margin-right:10px"
-                  data-dismiss="modal">No</button>
-                <button matSuffix type="button" color="primary" mat-raised-button (click)="changestatus()"
-                  data-dismiss="modal">Yes</button>
+      <form [formGroup]="editableForm">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Status</h4>
+              <button type="button" class="close" (click)="cancelStatus()" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <label>
+                Do you wish to change the status to Discharged ?
+              </label>
+              <br>
+              <br>
+              <br>
+
+              <div class="form-group form-primary" mat-dialog-content>
+                <div>
+                  <mat-form-field class="full-width">
+                    <input matInput placeholder="Patient Discharged Date" [matDatepicker]="startdatepicker"
+                      [(ngModel)]="dataModel.dischargedon" formControlName="dischargedDateControls">
+                    <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startdatepicker touchUi="true"></mat-datepicker>
+                    <mat-error *ngIf="editableForm.controls['dischargedDateControls'].hasError('required')">
+                      {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field>
+                    <input matInput type="time" placeholder="Choose Time" [(ngModel)]="selectedStartTime" value="{{selectedStartTime}}" formControlName="dischargedTimeControls">
+                    <button color="accent" type="button" matSuffix mat-icon-button aria-label="Choose"
+                      (click)="openStartTime()">
+                      <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    </button>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
-          </div>
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col text-right" style="margin-top: 15px;">
+                  <button matSuffix type="button" color="primary" mat-raised-button style="margin-right:10px"
+                    data-dismiss="modal" (click)="cancelStatus()">No</button>
+                  <button matSuffix type="button" color="primary" mat-raised-button (click)="changestatus()"
+                    data-dismiss="modal">Yes</button>
+                </div>
+              </div>
+            </div>
 
+          </div>
         </div>
-      </div>
+      </form>
     </div>
+
   </div>
 </div>

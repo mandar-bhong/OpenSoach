@@ -22,6 +22,7 @@ import { PatientAdmissionComponent } from './patient-admission/patient-admission
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { PatientMedicalComponent } from './patient-medical/patient-medical.component';
 import { PatientReportComponent } from './patient-report/patient-report.component';
+import { AmazingTimePickerModule, AmazingTimePickerService } from 'amazing-time-picker';
 
 
 @NgModule({
@@ -32,21 +33,27 @@ import { PatientReportComponent } from './patient-report/patient-report.componen
     ProdCommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AppCommonModule
+    AppCommonModule,
+    AmazingTimePickerModule
   ],
-  declarations: [PatientListComponent, 
-    PatientAddComponent, 
-    PatientViewComponent, 
-    PatientChartComponent, 
-    PatientDayWiseComponent, 
+  declarations: [PatientListComponent,
+    PatientAddComponent,
+    PatientViewComponent,
+    PatientChartComponent,
+    PatientDayWiseComponent,
     PatientDetailsComponent,
-    PatientsPersonalDetailComponent, 
+    PatientsPersonalDetailComponent,
     PatientPersonAccompaniesComponent,
-     PatientAdmissionComponent, 
-     PatientMedicalComponent, 
-     PatientReportComponent, 
-     PatientSearchComponent, 
-     PatientCheckListComponent, 
-     PatientCheckSearchComponent]
+    PatientAdmissionComponent,
+    PatientMedicalComponent,
+    PatientReportComponent,
+    PatientSearchComponent,
+    PatientCheckListComponent,
+    PatientCheckSearchComponent],
+
+
+  providers: [
+    AmazingTimePickerService
+  ]
 })
 export class PatientsModule { }
