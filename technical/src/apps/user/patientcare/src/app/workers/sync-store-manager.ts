@@ -103,7 +103,7 @@ export class SyncStoreManager {
 
                         case SYNC_TYPE.DIFFERENTIAL:
 
-                            if (item.sync_to_server_pending === SYNC_PENDING.TRUE) {
+                            if (item.sync_from_server_pending === SYNC_PENDING.TRUE) {
                                 let currentStoreModel = new CurrentStoreModel()
                                 currentStoreModel.currentStoreName = item.store_name;
                                 currentStoreModel.lastSynched = item.last_synced;
@@ -136,7 +136,7 @@ export class SyncStoreManager {
 
                         case SYNC_TYPE.DIFFERENTIAL:
 
-                            if (item.sync_to_server_pending === SYNC_PENDING.TRUE) {
+                            if (item.sync_from_server_pending === SYNC_PENDING.TRUE) {
                                 let currentStoreModel = new CurrentStoreModel()
                                 currentStoreModel.currentStoreName = item.store_name;
                                 currentStoreModel.lastSynched = item.last_synced;
@@ -299,12 +299,12 @@ export class SyncStoreManager {
         // trigger differential sync, sync_to_server
 
         DatabaseHelper.updateSyncStoreSyncPending(datastore, DB_SYNC_TYPE.SYNC_FROM_SERVER, SYNC_PENDING.TRUE)
-
-        if (ServerWorkerContext.isSyncInprogress !== true) {
-            ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
-            ServerHelper.switchSyncState();
-        }
-
+            .then(() => {
+                if (ServerWorkerContext.isSyncInprogress !== true) {
+                    ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
+                    ServerHelper.switchSyncState();
+                }
+            });
     }
 
     public static syncToServerChanged(datastore: SYNC_STORE) {
@@ -313,12 +313,13 @@ export class SyncStoreManager {
         // if sync not in progress
         // trigger differential sync, sync_from_server
 
-        DatabaseHelper.updateSyncStoreSyncPending(datastore, DB_SYNC_TYPE.SYNC_TO_SERVER, SYNC_PENDING.TRUE);
-
-        if (ServerWorkerContext.isSyncInprogress !== true) {
-            ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
-            ServerHelper.switchSyncState();
-        }
+        DatabaseHelper.updateSyncStoreSyncPending(datastore, DB_SYNC_TYPE.SYNC_TO_SERVER, SYNC_PENDING.TRUE)
+            .then(() => {
+                if (ServerWorkerContext.isSyncInprogress !== true) {
+                    ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
+                    ServerHelper.switchSyncState();
+                }
+            });
     }
 
     // update individual tbl sync pending
