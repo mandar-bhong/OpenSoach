@@ -11,3 +11,9 @@
     margin-top: 85%;
     margin-left: 80%;
 }
+.tab-clicked {
+    background-color: #00a6ce;
+    padding: 5px;
+    text-align: center;
+    vertical-align: center;
+}

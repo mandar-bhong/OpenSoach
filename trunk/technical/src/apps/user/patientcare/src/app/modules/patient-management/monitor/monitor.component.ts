@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { Schedulardata } from '~/app/models/ui/chart-models';
 import { MonitorService } from '~/app/services/monitor/monitor.service';
+import { ActionService } from '~/app/services/action/action.service';
 
 export class MonitorUiModel {
-    Comment: string;
+    Comment: number;
     Value: number;
 }
 @Component({
@@ -29,6 +30,24 @@ export class MonitorComponent implements OnInit {
     pulseListItems = new ObservableArray<MonitorUiModel>();
 
     schedulardata: Schedulardata;
+    // filter var
+    startDateTime: any;
+    endDateTime: any;
+
+    uiStartDate: any;
+    uiEndDate: any;
+
+    majorStepUnit: any;
+    majorUnit: any;
+    // switch active and complited
+    completeorpending: string;
+    iscompleted: boolean;
+    // filter buttton 
+    buttonClicked: boolean = true;
+    buttonCompleted: boolean = false;
+
+
+
     categoricalSourcehigh: { Country: string, Amount1: number }[] = [
         { Country: "test1", Amount1: 99.5 },
         { Country: "test2", Amount1: 99.5 },
@@ -87,7 +106,7 @@ export class MonitorComponent implements OnInit {
         { Country: "test6", Amount1: 95 },
     ];
 
-    
+
     pulsecategoricalSourcehigh: { Country: string, Amount1: number }[] = [
         { Country: "test1", Amount1: 135 },
         { Country: "test2", Amount1: 135 },
@@ -106,16 +125,90 @@ export class MonitorComponent implements OnInit {
         { Country: "test5", Amount1: 95 },
         { Country: "test6", Amount1: 95 },
     ];
-    constructor(private monitorService: MonitorService) {
-
+    constructor(private monitorService: MonitorService,
+        private act: ActionService) {
     }
 
     ngOnInit() {
-        this.temperature();
+
         this.bloodpressure();
         this.respiration();
         this.pulse();
+        this.filter24hr();
+        // this.gettestdata();
+    }
+    public filter24hr() {
+        this.completeorpending = "24 hr";
+        this.iscompleted = false;
+        this.buttonCompleted = false;
+        this.majorStepUnit = "Hour";
+        this.majorUnit = 4;
 
+        const newDate = new Date();
+        const isodate = newDate.toISOString();
+        console.log('isodate', isodate);
+        const startDate = new Date(isodate);
+        // console.log('startDate', startDate);
+        const after24Hours = startDate.getMinutes() - 1440;
+        startDate.setMinutes(after24Hours);
+        const tempStart = startDate.toLocaleString();
+        this.startDateTime = new Date(tempStart);
+        console.log('startTimeTime', this.startDateTime);
+
+        var curr_date = startDate.getDate();
+        var curr_month = startDate.getMonth() + 1;
+        var curr_year = startDate.getFullYear();
+        const uiStartDate = curr_date + "/" + curr_month + "/" + curr_year;
+        this.uiStartDate = uiStartDate;
+        console.log('uiStartDate', this.uiStartDate);
+
+
+        this.endDateTime = new Date(isodate);
+        console.log('endDateTime', this.endDateTime);
+        var end_curr_date = this.endDateTime.getDate();
+        var end_curr_month = this.endDateTime.getMonth() + 1;
+        var end_curr_year = this.endDateTime.getFullYear();
+        const uiEndDate = end_curr_date + "/" + end_curr_month + "/" + end_curr_year;
+        this.uiEndDate = uiEndDate;
+        console.log('uiEndDate', this.uiEndDate);
+  
+        this.tempListItems = new ObservableArray<MonitorUiModel>();
+        this.temperature();
+
+    }
+    public filter3day() {
+        this.completeorpending = "3 days";
+        this.iscompleted = true;
+        this.majorStepUnit = "Hour";
+        this.majorUnit = 8;
+        this.buttonClicked = false;
+
+        const newDate = new Date();
+        const isodate = newDate.toISOString();
+        // console.log('isodate', isodate); 
+        const startDate = new Date(isodate);
+        // console.log('startDate', startDate);
+        const after24Hours = startDate.getMinutes() - 4320;
+        startDate.setMinutes(after24Hours);
+        const tempStart = startDate.toLocaleString();
+        this.startDateTime = new Date(tempStart);
+        console.log('3 day startTimeTime', this.startDateTime);
+
+        var curr_date = startDate.getDate();
+        var curr_month = startDate.getMonth() + 1;
+        var curr_year = startDate.getFullYear();
+        const uiStartDate = curr_date + "/" + curr_month + "/" + curr_year;
+        this.uiStartDate = uiStartDate;
+
+        this.endDateTime = new Date(isodate);
+        var end_curr_date = this.endDateTime.getDate();
+        var end_curr_month = this.endDateTime.getMonth() + 1;
+        var end_curr_year = this.endDateTime.getFullYear();
+        const uiEndDate = end_curr_date + "/" + end_curr_month + "/" + end_curr_year;
+        this.uiEndDate = uiEndDate;
+        console.log('3 day endDateTime', this.endDateTime);
+        this.tempListItems = new ObservableArray<MonitorUiModel>();
+        this.temperature();
     }
     temperature() {
         this.monitorService.getTempActionTxn().then(
@@ -124,14 +217,18 @@ export class MonitorComponent implements OnInit {
                     let temperatureListItem = new MonitorUiModel();
                     // temperatureListItem = item;
                     const testdata = JSON.parse(item.txn_data);
-                    temperatureListItem.Comment = testdata.comment;
                     temperatureListItem.Value = Number(testdata.value);
-                    // console.log('temperatureListItem.comment', temperatureListItem.comment);
-                    // console.log('temperatureListItem.value', temperatureListItem.value);
-                    this.tempListItems.push(temperatureListItem);
-                    // console.log('TempListItems', this.tempListItems);
+
+                    const getDBDate = new Date(item.txn_date);
+                    temperatureListItem.Comment = getDBDate.getTime();
+                    console.log('getDBDate', getDBDate);
+                    if (getDBDate >= this.startDateTime && getDBDate <= this.endDateTime) {
+                        this.tempListItems.push(temperatureListItem);                        
+                    }
+                   
+
                 });
-                // console.log('TempListItems outside', this.tempListItems);
+                console.log('filter data TempListItems', this.tempListItems);
             },
             (error) => {
                 console.log("getChartData error:", error);
@@ -199,4 +296,7 @@ export class MonitorComponent implements OnInit {
             }
         );
     }
+    // gettestdata() {
+    //     this.act.getActionTxnList();
+    // }
 }

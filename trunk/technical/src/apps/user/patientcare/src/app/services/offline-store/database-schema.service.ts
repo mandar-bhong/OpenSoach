@@ -21,7 +21,7 @@ export class DatabaseSchemaService {
         return new Promise<any>((resolve, reject) => {
 
             // Uncomment following line for deleting database in DEBUG_MODE, never to be comitted in SVN.
-           //  this.database.deleteDatabaseInDebugMode();
+            //  this.database.deleteDatabaseInDebugMode();
 
             this.database.getdbConnection()
                 .then(db => {
@@ -73,7 +73,7 @@ export class DatabaseSchemaService {
         console.log('set db version', this.DATABASE_VERSION);
 
         // Uncomment following line for creating dummy data in DEBUG_MODE, never to be comitted in SVN.
-         this.createDummyData();
+        this.createDummyData();
     }
 
     readFile(filePath: string): Promise<string[]> {
@@ -190,22 +190,20 @@ export class DatabaseSchemaService {
             // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
             // VALUES ('A011', 'PA011' ,'Output' ,'PC001',  '2018-12-04T04:42:53.000Z'  ,0)`,
 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            VALUES ('AT001', 'PA001' ,'PC006','{"comment":"test1","value":"98"}' ,'2019-02-25T12:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            VALUES ('AT002', 'PA001' ,'PC006','{"comment":"test2","value":"98.3 "}' ,'2019-02-25T15:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            VALUES ('AT003', 'PA001' ,'PC006','{"comment":"test3","value":"99"}' ,'2019-02-26T14:50:50.582Z','1', 'Monitor' ,'','',1, 0)`,
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            VALUES ('AT004', 'PA001' ,'PC006','{"comment":"test4","value":"101"}' ,'2019-02-26T17:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            VALUES ('AT005', 'PA001' ,'PC006','{"comment":"test5","value":"97"}' ,'2019-02-24T12:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            VALUES ('AT006', 'PA001' ,'PC006','{"comment":"test6","value":"100"}' ,'2019-02-23T13:58:50.582Z','1', 'Monitor' ,'','',1, 0)`,
 
-
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
-                VALUES ('AT001', 'PA001' ,'PC006','{"comment":"test1","value":"98"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
-                VALUES ('AT002', 'PA001' ,'PC006','{"comment":"test2","value":"98.3 "}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
-                VALUES ('AT003', 'PA001' ,'PC006','{"comment":"test3","value":"99"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
-                VALUES ('AT004', 'PA001' ,'PC006','{"comment":"test4","value":"101"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
-                VALUES ('AT005', 'PA001' ,'PC006','{"comment":"test5","value":"97"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
-                VALUES ('AT006', 'PA001' ,'PC006','{"comment":"test6","value":"100"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
-
-
+            
             `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT006', 'PA001' ,'PC008','{"comment":"test1","value":"100"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
             `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
@@ -248,25 +246,25 @@ export class DatabaseSchemaService {
                 VALUES ('AT023', 'PA001' ,'PC009','{"comment":"test6","value":"140"}' ,'2018-12-04 09:17:53','1', 'Monitor' ,'','',1, 0)`,
 
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin ) 
-                VALUES (U001, 'Amol' ,'Patil', 'amol.patil@gmail.com', '1111')`,
+                VALUES (001, 'Amol' ,'Patil', 'amol.patil@gmail.com', '1111')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U002, 'Sarjerao' ,'Patil', 'sarjerao@gmail.com', '2222')`,
+                VALUES (002, 'Sarjerao' ,'Patil', 'sarjerao@gmail.com', '2222')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U003, 'Sanjay' ,'Sawant', 'sanjay.sawant@gmail.com', '3333')`,
+                VALUES (003, 'Sanjay' ,'Sawant', 'sanjay.sawant@gmail.com', '3333')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U004, 'Sumeet' ,'Karnde', 'sumeet.karnde@gmail.com', '4444')`,
+                VALUES (004, 'Sumeet' ,'Karnde', 'sumeet.karnde@gmail.com', '4444')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U005, 'Chandan' ,'Pal', 'chandan.pal@gmail.com', '5555')`,
+                VALUES (005, 'Chandan' ,'Pal', 'chandan.pal@gmail.com', '5555')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin ) 
-                VALUES (U001, 'Mandar' ,'Bhong', 'Mayuri.Jain@gmail.com', '6666')`,
+                VALUES (006, 'Mandar' ,'Bhong', 'Mayuri.Jain@gmail.com', '6666')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U002, 'Pooja' ,'Lokare', 'Pooja.Lokare@gmail.com', '7777')`,
+                VALUES (007, 'Pooja' ,'Lokare', 'Pooja.Lokare@gmail.com', '7777')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U003, 'Mayuri' ,'Jain', 'Mayuri.Jain@gmail.com', '8888')`,
+                VALUES (008, 'Mayuri' ,'Jain', 'Mayuri.Jain@gmail.com', '8888')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U004, 'Shashank' ,'Atre', 'Shashank.Atre@gmail.com', '9999')`,
+                VALUES (009, 'Shashank' ,'Atre', 'Shashank.Atre@gmail.com', '9999')`,
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin) 
-                VALUES (U005 'Tejal' ,'Deshmukh', 'Tejal.Deshmukh@gmail.com', '1010')`,
+                VALUES (010, 'Tejal' ,'Deshmukh', 'Tejal.Deshmukh@gmail.com', '1010')`,
 
         ];
         dummyData.forEach(query => {
