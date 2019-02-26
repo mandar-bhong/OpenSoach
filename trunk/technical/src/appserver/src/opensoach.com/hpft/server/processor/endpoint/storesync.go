@@ -73,6 +73,17 @@ func ProcessApplyStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessin
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting store struct", convErr)
 		packetProcessingResult.IsSuccess = false
 		deviceCommandAck.Ack = false
+
+		serviceCtx := &pcservices.ServiceContext{}
+		serviceCtx.Repo = *repo.Instance()
+		serviceCtx.ServiceConfig.SourcePacket = devPacket
+		serviceCtx.ServiceConfig.SourceToken = ctx.Token
+		serviceCtx.ServiceConfig.AckData = deviceCommandAck
+		notifyErr := pcstoresync.NotifyAck(serviceCtx)
+		if notifyErr != nil {
+			logger.Context().WithField("Service Context", serviceCtx).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to notify apply sync changes.", notifyErr)
+		}
+
 		return
 	}
 
