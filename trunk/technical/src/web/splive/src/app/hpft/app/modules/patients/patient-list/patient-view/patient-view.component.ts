@@ -55,7 +55,6 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private appNotificationService: AppNotificationService,
     private amazingtimepicker: AmazingTimePickerService,
-    private ngzone: NgZone,
     private translatePipe: TranslatePipe) {
   }
 
