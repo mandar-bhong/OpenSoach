@@ -69,6 +69,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
 		console.log('chart componenent onDeviceAuthSuccess executed');
+		this.ServerDataStoreDataModelArray.forEach(element => {
+			element.data.updated_by = userid;
+		});
 		const initModel = new ServerDataProcessorMessageModel();
 		initModel.data = this.ServerDataStoreDataModelArray
 		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
