@@ -65,7 +65,6 @@ export class DataActionItem {
 export class ActionComponent implements OnInit, IDeviceAuthResult {
 	dialogOpen = false;
 	conf_type_code_const = ConfigCodeType;
-	fabbuttonClicked = false;
 	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
 		console.log('chart componenent onDeviceAuthSuccess executed');
@@ -260,7 +259,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = false;
-		this.fabbuttonClicked = false;
 		console.log("Clicked select intake", this.intakeIndex);
 	}
 	// <<  Grouping intake scroll to top position change 
@@ -274,7 +272,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = false;
-		this.fabbuttonClicked = false;
 		console.log("Clicked select monitor", this.monitorIndex);
 
 	}
@@ -289,7 +286,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.medicinebuttonClicked = true;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = false;
-		this.fabbuttonClicked = false;
 		console.log("Clicked select medicine", this.medicineIndex);
 	}
 	// <<  Grouping medicine scroll to top position change 
@@ -304,7 +300,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = true;
 		this.doctorOrderButtonClicked = false;
-		this.fabbuttonClicked = false;
 		console.log("Clicked select output", this.outputIndex);
 	}
 	selectDoctorOrder() {
@@ -316,7 +311,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = true;
-		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping medicine scroll to top position change
 
@@ -689,12 +683,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	}
 	showDialog() {
-		this.fabbuttonClicked = true;
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = false;
-		this.doctorOrderButtonClicked = false;
 		this.createDoctorModalView(ActionFabComponent, false).then((dialogResult: string) => {
 			if (dialogResult) {
 				switch (dialogResult) {
@@ -775,6 +763,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.saveViewOpen = false;
 		this.buttonClicked = false;
 		this.getActionData('getActionListComplated');
+		// this.getActionData('getActionListActive');
 
 	}
 

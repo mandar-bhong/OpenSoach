@@ -1,8 +1,25 @@
 <GridLayout rows="*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
-    <GridLayout rows="auto,*" columns="*" height="100%" width="100%">
-        <GridLayout row="0" rows="auto auto" columns="* *" class="m-5">
+    <GridLayout rows="65,*" columns="*" height="100%" width="100%">
+        <!-- <GridLayout row="0" rows="auto auto" columns="* *" class="m-5">
             <Label class="h3 m-15" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
             <Switch class="m-15" checked="false" (checkedChange)="onListSorting($event)" row="0" col="1"></Switch>
+        </GridLayout> -->
+        <GridLayout row="0" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;">
+            <Label class="h3" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
+            <StackLayout col="1" orientation="horizontal" borderRadius borderWidth="1" borderColor="black">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="activeList()" (tap)="buttonClicked = true">
+                    <StackLayout textWrap="true" [class.tab-clicked]="buttonClicked" class="tab-layout">
+                        <Label text="Active" class="button-text" style="padding-top:3"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()" (tap)="buttonCompleted = true">
+                    <StackLayout textWrap="true" [class.tab-clicked]="buttonCompleted" class="tab-layout">
+                        <Label text="Completed" class="button-text" style="padding-top:3"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+            </StackLayout>
+
         </GridLayout>
         <GridLayout row="1" rows="*" columns="*,auto" height="100%" width="100%" class="content">
             <RadListView #myListView [items]="_listItems" (loaded)="listLoaded()" [groupingFunction]="_funcGrouping"
@@ -78,7 +95,7 @@
                                 <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.foodInst===freuencyOne"
                                     text="After Meal" style="margin-left: 10px;"></Label>
                             </GridLayout>
-                            <GridLayout row="1" col="0" columns="*,*" rows="auto" >
+                            <GridLayout row="1" col="0" columns="*,*" rows="auto">
                                 <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===0"
                                     text="X Times A Day" style="margin-left: 10px;"></Label>
@@ -122,8 +139,9 @@
                                 <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===freuencyOne"
                                     text="Specific Time" style="margin-left: 10px;"></Label>
                                 <Label row="1" col="0" class="body" text="Quantity" style="color: #396767;"></Label>
-                                <Label row="1" col="1" class="label-small" textWrap="true" [text]="item.dbmodel.conf.quantity" style="margin-left: 10px;"></Label>
-                             </GridLayout>
+                                <Label row="1" col="1" class="label-small" textWrap="true" [text]="item.dbmodel.conf.quantity"
+                                    style="margin-left: 10px;"></Label>
+                            </GridLayout>
                             <GridLayout row="2" col="0" columns="*" rows="auto">
                                 <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyZero">
                                     <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
@@ -141,16 +159,16 @@
                                 </GridLayout>
                             </GridLayout>
                         </GridLayout>
-                         <!-- Monitor details view  -->
-                         <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.MONITOR">
+                        <!-- Monitor details view  -->
+                        <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.MONITOR">
 
                             <GridLayout row="0" col="0" columns="*,*" rows="auto">
                                 <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===freuencyZero"
                                     text="Every X Hours" style="margin-left: 10px;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.dbmodel.conf.frequency===freuencyOne"
-                                    text="Specific Time" style="margin-left: 10px;"></Label>                              
-                             </GridLayout>
+                                    text="Specific Time" style="margin-left: 10px;"></Label>
+                            </GridLayout>
                             <GridLayout row="2" col="0" columns="*" rows="auto">
                                 <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.dbmodel.conf.frequency===freuencyZero">
                                     <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
@@ -182,15 +200,11 @@
                             </GridLayout>
                             <GridLayout row="2" col="0" columns="*,*,*" rows="auto">
                                 <Label row="0" col="0" class="body" text="Description" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true"colSpan="2" [text]="item.dbmodel.conf.desc"
+                                <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" [text]="item.dbmodel.conf.desc"
                                     style="margin-left: 10px;"></Label>
                             </GridLayout>
                         </GridLayout>
-                        <!-- <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
-                            <StackLayout row="0" col="0" class="hr-light m-10">
 
-                            </StackLayout>
-                        </GridLayout> -->
                     </GridLayout>
                 </ng-template>
 
@@ -219,14 +233,14 @@
                             <Label class="float-btn-cat-text fas" (tap)="selectOutput()" text="&#xf46c;" [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                         </StackLayout>
                     </RL:Ripple>
-                    <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-                        <StackLayout class="float-btn-cat" (tap)="fabbuttonClicked = true" [class.button-clicked]="fabbuttonClicked">
-                            <Label class="float-btn-cat-text fas" (tap)="showDialog()" text="&#xf067;" [style.color]="fabbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    <RL:Ripple rippleColor="#fff" style="margin-top: 40;" (tap)="showDialog()">
+                        <StackLayout row="1" class="float-btn">
+                            <Label class="float-btn-text fas" text="&#xf067;" style="color: white;"></Label>
                         </StackLayout>
                     </RL:Ripple>
                 </StackLayout>
             </StackLayout>
-<!-- 
+            <!-- 
             <StackLayout row="0" col="1" column="*" row="auto" horizontalAlignment="right" class="rightsecond">
                 <RL:Ripple rippleColor="#fff" (tap)="showDialog()">
                     <StackLayout class="float-btn">
