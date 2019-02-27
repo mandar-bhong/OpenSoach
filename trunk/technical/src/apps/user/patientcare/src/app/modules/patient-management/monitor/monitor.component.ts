@@ -8,6 +8,18 @@ export class MonitorUiModel {
     Comment: number;
     Value: number;
 }
+export class BloodUiHighModel {
+    Comment: number;
+    Value: number;
+}
+export class BloodUiLowModel {
+    Comment: number;
+    Value: BloodMonitorModel;
+}
+export class BloodMonitorModel {
+    high: string;
+    low: string
+}
 @Component({
     moduleId: module.id,
     selector: 'monitor',
@@ -25,7 +37,8 @@ export class MonitorComponent implements OnInit {
     // 	{ Country: "04:00 AM", Amount: 100 }
     // ];
     tempListItems = new ObservableArray<MonitorUiModel>();
-    bloodpresListItems = new ObservableArray<MonitorUiModel>();
+    bloodpresHighListItems = new ObservableArray<BloodUiHighModel>();
+    bloodpresLowListItems = new ObservableArray<BloodUiHighModel>();
     respirationListItems = new ObservableArray<MonitorUiModel>();
     pulseListItems = new ObservableArray<MonitorUiModel>();
 
@@ -125,8 +138,13 @@ export class MonitorComponent implements OnInit {
         { Country: "test5", Amount1: 95 },
         { Country: "test6", Amount1: 95 },
     ];
+    dialogOpen = false;
+    tempUIChart = false;
+    respirationUIChart = false;
+    pulseUIChart = false;
     constructor(private monitorService: MonitorService,
         private act: ActionService) {
+            
     }
 
     ngOnInit() {
@@ -134,7 +152,8 @@ export class MonitorComponent implements OnInit {
         this.bloodpressure();
         this.respiration();
         this.pulse();
-        this.filter24hr();
+        this.temperature();
+        // this.filter24hr();
         // this.gettestdata();
     }
     public filter24hr() {
@@ -171,7 +190,7 @@ export class MonitorComponent implements OnInit {
         const uiEndDate = end_curr_date + "/" + end_curr_month + "/" + end_curr_year;
         this.uiEndDate = uiEndDate;
         console.log('uiEndDate', this.uiEndDate);
-  
+
         this.tempListItems = new ObservableArray<MonitorUiModel>();
         this.temperature();
 
@@ -211,6 +230,7 @@ export class MonitorComponent implements OnInit {
         this.temperature();
     }
     temperature() {
+        this.majorStepUnit = "Day";
         this.monitorService.getTempActionTxn().then(
             (val) => {
                 val.forEach(item => {
@@ -220,15 +240,18 @@ export class MonitorComponent implements OnInit {
                     temperatureListItem.Value = Number(testdata.value);
 
                     const getDBDate = new Date(item.txn_date);
+                    // const asc_date =
                     temperatureListItem.Comment = getDBDate.getTime();
-                    console.log('getDBDate', getDBDate);
-                    if (getDBDate >= this.startDateTime && getDBDate <= this.endDateTime) {
-                        this.tempListItems.push(temperatureListItem);                        
-                    }
-                   
+                    // console.log('getDBDate', getDBDate);
+                    // filter data condition 24 hr and last 3 days
+                    // if (getDBDate >= this.startDateTime && getDBDate <= this.endDateTime) {
+
+                    // }
+                    this.tempListItems.push(temperatureListItem);
+                    // this.tempListItems.filter(a => a.Va)
 
                 });
-                console.log('filter data TempListItems', this.tempListItems);
+                // console.log('filter data TempListItems', this.tempListItems);
             },
             (error) => {
                 console.log("getChartData error:", error);
@@ -237,15 +260,28 @@ export class MonitorComponent implements OnInit {
     }
 
     bloodpressure() {
+        this.bloodpresHighListItems = new ObservableArray<BloodUiHighModel>();
+        this.bloodpresLowListItems = new ObservableArray<BloodUiHighModel>();
+        this.majorStepUnit = "Day";
         this.monitorService.getBloodPreActionTxn().then(
             (val) => {
                 val.forEach(item => {
-                    // console.log('item homme bloodpressure', item);
-                    let bloodpresListItem = new MonitorUiModel();
+                    console.log('component bloodpressure', item);
+                    let bloodpresHighListItem = new BloodUiHighModel();
                     const testdata = JSON.parse(item.txn_data);
-                    bloodpresListItem.Comment = testdata.comment;
-                    bloodpresListItem.Value = Number(testdata.value);
-                    this.bloodpresListItems.push(bloodpresListItem);
+                    const getDBDate = new Date(item.txn_date);
+                    bloodpresHighListItem.Comment = getDBDate.getTime();               
+                    bloodpresHighListItem.Value = Number(testdata.value.high);
+                    console.log('testdata', testdata);
+                    console.log('value high',bloodpresHighListItem.Value);
+
+                    let bloodpresLowListItem = new BloodUiHighModel();
+                    bloodpresLowListItem.Comment = getDBDate.getTime();  
+                    bloodpresLowListItem.Value = Number(testdata.value.low);
+                    console.log('value low',bloodpresHighListItem.Value);
+
+                    this.bloodpresHighListItems.push(bloodpresHighListItem);
+                    this.bloodpresLowListItems.push(bloodpresLowListItem);
                     // console.log('TempListItems', this.tempListItems);
                 });
                 // console.log('bloodpressure outside', this.bloodpresListItems);
@@ -258,13 +294,15 @@ export class MonitorComponent implements OnInit {
 
 
     respiration() {
+        this.majorStepUnit = "Day";
         this.monitorService.getRespirationActionTxn().then(
             (val) => {
                 val.forEach(item => {
                     // console.log('item homme', item);
                     let respirationListItem = new MonitorUiModel();
                     const testdata = JSON.parse(item.txn_data);
-                    respirationListItem.Comment = testdata.comment;
+                    const getDBDate = new Date(item.txn_date);
+                    respirationListItem.Comment = getDBDate.getTime();
                     respirationListItem.Value = Number(testdata.value);
                     this.respirationListItems.push(respirationListItem);
                     // console.log('respirationListItems', this.respirationListItems);
@@ -278,13 +316,15 @@ export class MonitorComponent implements OnInit {
     }
 
     pulse() {
+        this.majorStepUnit = "Day";
         this.monitorService.getPulseActionTxn().then(
             (val) => {
                 val.forEach(item => {
                     // console.log('item homme', item);
                     let pulseListItem = new MonitorUiModel();
                     const testdata = JSON.parse(item.txn_data);
-                    pulseListItem.Comment = testdata.comment;
+                    const getDBDate = new Date(item.txn_date);
+                    pulseListItem.Comment = getDBDate.getTime();
                     pulseListItem.Value = Number(testdata.value);
                     this.pulseListItems.push(pulseListItem);
                     // console.log('pulseListItems', this.pulseListItems);
@@ -299,4 +339,37 @@ export class MonitorComponent implements OnInit {
     // gettestdata() {
     //     this.act.getActionTxnList();
     // }
+    showDialog() {
+        this.dialogOpen = true;
+        this.tempUIChart = true;
+    }
+
+    closeDialog() {
+        this.dialogOpen = false;
+        this.tempUIChart = false;
+    }
+    showrespDialog() {
+        this.dialogOpen = true;
+        this.tempUIChart = false;
+        this.respirationUIChart = true;
+    }
+
+    closerespDialog() {
+        this.dialogOpen = false;
+        this.tempUIChart = false;
+        this.respirationUIChart = false;
+    }
+    showPuleDialog() {
+        this.dialogOpen = true;
+        this.tempUIChart = false;
+        this.respirationUIChart = false;
+        this.pulseUIChart = true;
+    }
+
+    closePuleDialog() {
+        this.dialogOpen = false;
+        this.tempUIChart = false;
+        this.respirationUIChart = false;
+        this.pulseUIChart = false;
+    }
 }
