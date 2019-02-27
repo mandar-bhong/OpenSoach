@@ -657,6 +657,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 			serverDataStoreModel.data.uuid = item.uuid;
 			serverDataStoreModel.data.sync_pending = 1
+			serverDataStoreModel.data.admission_uuid = item.admission_uuid;
 			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
