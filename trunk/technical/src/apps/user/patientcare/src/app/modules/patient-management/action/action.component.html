@@ -22,7 +22,7 @@
 
         </GridLayout>
 
-        <GridLayout row="2" rows="*" columns="*,auto" height="100%" width="100%">
+        <GridLayout row="2" rows="*,auto" columns="*,auto" height="100%" width="100%">
             <RadListView #myListView [items]="tempList" [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)"
                 (loaded)="listLoaded()" multipleSelection="false" selectionBehavior="Press" [groupingFunction]="_funcGrouping"
                 colSpan="2" (itemSelected)="itemSelected($event)">
@@ -42,14 +42,16 @@
                                         style="color: green;"></Label> -->
                                 </StackLayout>
                                 <StackLayout row="1" class="list-layout" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
-                                    <Label row="0" col="0" text="&#xf90b;"  class="mdi list-text"></Label>
-                                  </StackLayout>
+                                    <Label row="0" col="0" text="&#xf90b;" class="mdi list-text"></Label>
+                                </StackLayout>
                             </GridLayout>
                             <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout" style="vertical-align: center;">
-                                
-                                <Label row="0" col="0" class="body" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.name" style="color: #396767;"></Label>
-                                <Label row="0" col="0" class="body" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" [text]="item.doctors_orders" style="color: #396767;"></Label>
-                               
+
+                                <Label row="0" col="0" class="body" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
+                                    [text]="item.name" style="color: #396767;"></Label>
+                                <Label row="0" col="0" class="body" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                    [text]="item.doctors_orders" style="color: #396767;"></Label>
+
                                 <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.desc" style="margin-left: 10px;"></Label>
                             </GridLayout>
                             <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
@@ -70,22 +72,26 @@
                         [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
                         <GridLayout row="0" columns="70, *" rows="auto, auto" style="padding-bottom: 8%;">
                             <GridLayout col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;">
-                                <StackLayout row="1" class="list-layout"  *ngIf="!iscompleted">
-                                        <Label row="0" col="0" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" text="&#xf90b;" class="mdi list-text"></Label>
-                                    <Label row="0" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
-                                    <Label row="1" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.exec_time | date: 'shortTime'" class="label-small"
-                                        [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
+                                <StackLayout row="1" class="list-layout" *ngIf="!iscompleted">
+                                    <Label row="0" col="0" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                        text="&#xf90b;" class="mdi list-text"></Label>
+                                    <Label row="0" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
+                                        text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
+                                    <Label row="1" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
+                                        [text]="item.exec_time | date: 'shortTime'" class="label-small" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                 </StackLayout>
                                 <StackLayout row="1" class="list-layout" *ngIf="iscompleted">
-                                        <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
-                                        <!-- <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
+                                    <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
+                                    <!-- <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
                                             style="color: green;"></Label> -->
-                                    </StackLayout>
+                                </StackLayout>
                             </GridLayout>
                             <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout" style="vertical-align: center;">
                                 <GridLayout col="0" row="0" columns="*" rows="auto, auto">
-                                        <Label row="0" col="0" class="body" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" [text]="item.doctors_orders" style="color: #396767;"></Label>
-                                    <Label row="0" col="0" class="body"  *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.name" style="color: #396767;"></Label>
+                                    <Label row="0" col="0" class="body" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                        [text]="item.doctors_orders" style="color: #396767;"></Label>
+                                    <Label row="0" col="0" class="body" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
+                                        [text]="item.name" style="color: #396767;"></Label>
                                     <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.desc" style="margin-left: 10px;"></Label>
                                 </GridLayout>
                                 <GridLayout row="0" col="1" columns="auto,20, auto, 30" rows="auto" style="vertical-align: center; text-align:center;"
@@ -137,13 +143,13 @@
                 </ng-template>
             </RadListView>
 
-            <StackLayout row="0" col="1" horizontalAlignment="right" class="right">
-                    <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-                            <StackLayout class="float-btn-cat" (tap)="doctorOrderButtonClicked = true" [class.button-clicked]="doctorOrderButtonClicked">
-                                <Label class="float-btn-cat-text fas" (tap)="selectDoctorOrder()" text="&#xf0f0;" [style.color]="doctorOrderButtonClicked ? '#FF8910' : '#FFFFFF'"></Label>
-                            </StackLayout>
-                        </RL:Ripple>
-                <RL:Ripple rippleColor="#fff" style="margin-top: 20px;">
+            <StackLayout row="0" col="1" horizontalAlignment="right" class="right" VerticalAlignment="center">
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <StackLayout class="float-btn-cat" (tap)="doctorOrderButtonClicked = true" [class.button-clicked]="doctorOrderButtonClicked">
+                        <Label class="float-btn-cat-text fas" (tap)="selectDoctorOrder()" text="&#xf0f0;" [style.color]="doctorOrderButtonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
                     <StackLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
                         <Label class="float-btn-cat-text fas" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </StackLayout>
@@ -163,22 +169,18 @@
                         <Label class="float-btn-cat-text fas" (tap)="selectOutput()" text="&#xf46c;" [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </StackLayout>
                 </RL:Ripple>
-                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
-                    <StackLayout class="float-btn-cat" (tap)="fabbuttonClicked = true" [class.button-clicked]="fabbuttonClicked">
-                        <Label class="float-btn-cat-text fas" (tap)="showDialog()" text="&#xf067;" [style.color]="fabbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
-                    </StackLayout>
-                </RL:Ripple>
+                <StackLayout horizontalAlignment="right" class="rightsecond" VerticalAlignment="bottom">
+                    <RL:Ripple rippleColor="#fff" style="margin-top: 40;" (tap)="showDialog()">
+                        <StackLayout row="1" class="float-btn">
+                            <Label class="float-btn-text fas" text="&#xf067;" style="color: white;"></Label>
+                        </StackLayout>
+                    </RL:Ripple>
+                </StackLayout>
             </StackLayout>
-            <!-- <StackLayout row="1" col="1" column="*" row="auto" horizontalAlignment="right" class="rightsecond">
-                <RL:Ripple rippleColor="#fff" (tap)="showDialog()">
-                    <StackLayout class="float-btn">
-                        <Label class="float-btn-text" text="+"></Label>
-                    </StackLayout>
-                </RL:Ripple>
-            </StackLayout> -->
+
         </GridLayout>
     </GridLayout>
 
-  
+
 
 </GridLayout>

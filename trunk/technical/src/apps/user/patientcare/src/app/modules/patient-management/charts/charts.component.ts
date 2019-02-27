@@ -58,8 +58,9 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	iscompleted: boolean;
 	freuencyZero = freuencyzero;
 	freuencyOne = freuencyone;
-	fabbuttonClicked = false;
 
+	buttonClicked: boolean = true;
+	buttonCompleted: boolean = false;
 	constructor(private chartService: ChartService,
 		public workerservice: WorkerService,
 		public passdataservice: PassDataService,
@@ -94,11 +95,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	}
 	// code for showing fab button dialog.
 	showDialog() {
-		this.fabbuttonClicked = true;
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = false;
 		this.createModalView(SchedularFabComponent, false).then((dialogResult) => {
 			if (dialogResult) {
 				setTimeout(() => {
@@ -123,7 +119,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = true;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
-		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping intake scroll to top position change 
 
@@ -135,7 +130,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
-		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping monitor scroll to top position change 
 
@@ -147,7 +141,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = true;
 		this.outputbuttonClicked = false;
-		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping medicine scroll to top position change 
 
@@ -159,7 +152,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = true;
-		this.fabbuttonClicked = false;
 	}
 	// <<  Grouping medicine scroll to top position change
 
@@ -292,20 +284,33 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		// 	this.savetoUserAuth();
 		// }
 	}
-
-	public onListSorting(args) {
-		let firstSwitch = <Switch>args.object;
-		if (firstSwitch.checked) {
-			this.completeorpending = "Completed Schedules";
-			this.iscompleted = true;
-			this.getChartData('getScheduleListComplated');
-		} else {
-			this.completeorpending = "Active Schedules";
-			this.iscompleted = false;
-			this.getChartData('getScheduleListActive');
-
-		}
+	public activeList() {
+		this.completeorpending = "Active Schedules";
+		this.iscompleted = false;
+		this.buttonCompleted = false;
+		this.getChartData('getScheduleListActive');
 	}
+	public compilitedList() {
+		this.iscompleted = true;
+		this.buttonClicked = false;
+		this.completeorpending = "Completed Schedules";
+		this.getChartData('getScheduleListComplated');
+
+	}
+
+	// public onListSorting(args) {
+	// 	let firstSwitch = <Switch>args.object;
+	// 	if (firstSwitch.checked) {
+	// 		this.completeorpending = "Completed Schedules";
+	// 		this.iscompleted = true;
+	// 		this.getChartData('getScheduleListComplated');
+	// 	} else {
+	// 		this.completeorpending = "Active Schedules";
+	// 		this.iscompleted = false;
+	// 		this.getChartData('getScheduleListActive');
+
+	// 	}
+	// }
 	// on click of button set current service name in passdata service for ref invocatios
 	// like authResultReuested=this or name of your component.
 	savetoUserAuth() {
