@@ -1,0 +1,19 @@
+.icon-bar {
+    width: 39px;
+    background-color: white;
+  }
+  
+  .icon-bar a {
+    display: block;
+    text-align: center;
+    padding: 2px;
+    transition: all 0.3s ease;
+    color: #396767;
+    font-size: 21px;
+  }
+  
+  .icon-bar a:hover {
+    background-color: #37A5CD;
+    color: white;
+  }
+  
