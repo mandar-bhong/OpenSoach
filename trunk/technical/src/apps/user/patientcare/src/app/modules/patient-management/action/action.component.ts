@@ -145,6 +145,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// filter buttton 
 	buttonClicked: boolean = true;
 	buttonCompleted: boolean = false;
+
+	// done and discard label
+	// doneItem = true;
+	// doneItemlabel = false;
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
@@ -561,7 +565,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		// >> check condition medicine data not add comment and value entries
 		if (item.conf_type_code === 'Medicine') {
-			this.actionDbData.comment = null;
+			this.actionDbData.comment = this.actiondata.comment;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
 			// console.log('confString', this.confString1);
@@ -587,6 +591,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.formData.txn_date = new Date;
 		this.formData.txn_state = null;
 		this.formData.status = 1;
+		this.formData.admission_uuid = item.admission_uuid;
 
 		// console.log('this.actionformData', this.formData);
 
@@ -632,6 +637,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.formData.txn_date = new Date;
 		this.formData.txn_state = null;
 		this.formData.status = 0;
+		this.formData.admission_uuid = item.admission_uuid;
 
 		// console.log('this.actionformData', this.formData);
 
@@ -650,6 +656,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actionformData = new ActionTxnDBModel();
 		// insert Action db model to sqlite db
 		this.actionDbArray.forEach(item => {
+			console.log('item', item);
 			const actionModel = new ServerDataProcessorMessageModel();
 			const serverDataStoreModel = new ServerDataStoreDataModel<ActionTxnDatastoreModel>();
 			serverDataStoreModel.datastore = SYNC_STORE.ACTION_TXN;
@@ -661,6 +668,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
+			console.log('item.txn_data;',item.txn_data);
 			serverDataStoreModel.data.txn_date = item.txn_date;
 			serverDataStoreModel.data.txn_state = Number(item.txn_state);
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
@@ -677,6 +685,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// selected done and discard row change background color
 	itemSelected(item) {
 		item.selected = true;
+		// this.doneItem = !this.doneItem;
+		// this.doneItemlabel = true;
 	}
 	gettrnlistdata() {
 		setTimeout(() => {
