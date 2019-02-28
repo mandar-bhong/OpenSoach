@@ -111,7 +111,7 @@ export class CommandResponseProcessor {
                 case CMD_CATEGORY.CMD_CAT_SYNC && CMD_ID.CMD_APPLY_STORE_SYNC:
                     // apply sync request cmd response
                     // sync to server response - update individual tbl sync flag 
-                    SyncStoreManager.updateTblSyncPending(requestCmd.payload.storename, requestCmd.payload.storedata[0].sync_pending_time);
+                    SyncStoreManager.updateTblSyncPending(requestCmd.payload.storename, requestCmd.payload.storedata[0].client_updated_at);
 
                     ServerHelper.switchSyncState();
                     break;

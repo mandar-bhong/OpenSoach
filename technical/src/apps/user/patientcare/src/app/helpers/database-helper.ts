@@ -303,7 +303,7 @@ export class DatabaseHelper {
                     updateQuery = "update sync_tbl set sync_to_server_pending = ?,sync_to_server_pending_time = ?  where store_name = ?";
                 } else {
                     paramList.push(storename);
-                    updateQuery = "update sync_tbl set sync_from_server_pending = ? where store_name = ?";
+                    updateQuery = "update sync_tbl set sync_to_server_pending = ? where store_name = ?";
                 }
             }
 
