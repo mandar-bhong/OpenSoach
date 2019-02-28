@@ -23,6 +23,7 @@ import { PatientDetailsComponent } from './patient-details/patient-details.compo
 import { PatientMedicalComponent } from './patient-medical/patient-medical.component';
 import { PatientReportComponent } from './patient-report/patient-report.component';
 import { AmazingTimePickerModule, AmazingTimePickerService } from 'amazing-time-picker';
+import { MedicalContainerComponent } from './medical-container/medical-container.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { AmazingTimePickerModule, AmazingTimePickerService } from 'amazing-time-
     PatientReportComponent,
     PatientSearchComponent,
     PatientCheckListComponent,
-    PatientCheckSearchComponent],
+    PatientCheckSearchComponent,
+    MedicalContainerComponent],
 
 
   providers: [
