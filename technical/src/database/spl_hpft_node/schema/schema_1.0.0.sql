@@ -490,7 +490,7 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 	`patient_conf_id_fk` INT(10) UNSIGNED NOT NULL,
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`txn_data` JSON NOT NULL,
-	`runtime_config_data` JSON NOT NULL,
+	`runtime_config_data` JSON NULL DEFAULT NULL,
 	`txn_date` DATETIME NOT NULL,
 	`txn_state` INT(11) NOT NULL,
 	`conf_type_code` VARCHAR(25) NOT NULL,
