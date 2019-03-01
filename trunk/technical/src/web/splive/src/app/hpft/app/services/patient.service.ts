@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { ServicepointConfigureListResponse } from '../../../prod-shared/models/api/service-configuration-models';
 import { ServicepointListResponse } from '../../../prod-shared/models/api/servicepoint-models';
 import { EnvironmentProvider } from '../../../shared/environment-provider';
-import {  RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
+import { RecordIDRequest, RecordIDResponse } from '../../../shared/models/api/common-models';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { EnumDataSourceItem } from '../../../shared/models/ui/enum-datasource-item';
@@ -29,18 +29,28 @@ import {
     AdmissionAddResponseModel,
     AdmissionStatusRequest,
     MedicalDetailsRequest,
+    MedicalDetailsResponse,
+    PresentComplaint,
+    ReasonForAdmission,
+    HistoryPresentIllness,
+    PastHistory,
+    TreatmentBeforeAdmission,
+    InvestigationBeforeAdmission,
+    FamilyHistory,
+    Allergies,
+    PersonalHistory,
 } from '../models/api/patient-models';
 
 
 @Injectable()
 export class PatientService extends ListingService<PatientFilterRequest, PatientDetaListResponse> {
     patientid: number;
-    admissionid:number;
+    admissionid: number;
     selcetdIndex: number;
     disableTab: boolean;
     fname: string;
     lname: string;
-    admittedon:Date;
+    admittedon: Date;
     drincharge: number;
     admissionIdReceived = new Subject<number>();
 
@@ -123,16 +133,72 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
 
     //Update patient status on discharge
     updateAdmissionStatus(admissionStatusRequest: AdmissionStatusRequest, implicitErrorHandling = true):
-    Observable<PayloadResponse<null>> {
-    return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/update/status',
-    admissionStatusRequest, implicitErrorHandling);
-}
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/update/status',
+            admissionStatusRequest, implicitErrorHandling);
+    }
 
-    //Post method for patient medical
-    medicalAddPatient(medicalDetailsRequest: MedicalDetailsRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<AdmissionAddResponseModel>> {
-        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/add',
-        medicalDetailsRequest, implicitErrorHandling);
+    //Post method for patient medical Complaint
+    medicalAddPatientComplaint(medicalDetailsRequest: PresentComplaint, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/presentcomplaints',
+            medicalDetailsRequest, implicitErrorHandling);
+    }
+
+    //Post method for patient medical Reason For Admission
+    medicalAddPatientReasonForAdmission(reasonForAdmission: ReasonForAdmission, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/reasonforadmission',
+            reasonForAdmission, implicitErrorHandling);
+    }
+
+    //Post method for patient medical History Present Illness
+    medicalAddPatientHistoryPresentIllness(historyPresentIllness: HistoryPresentIllness, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/historypresentillness',
+            historyPresentIllness, implicitErrorHandling);
+    }
+
+    //Post method for patient medical Past History
+    medicalAddPatientPastHistory(pastHistory: PastHistory, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/pasthistory',
+            pastHistory, implicitErrorHandling);
+    }
+
+    //Post method for patient medical Treatment Before Admission
+    medicalAddPatientTreatmentBeforeAdmission(treatmentBeforeAdmission: TreatmentBeforeAdmission, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/treatmentbeforeadmission',
+            treatmentBeforeAdmission, implicitErrorHandling);
+    }
+
+    //Post method for patient medical Investigation Before Admission
+    medicalAddPatientInvestigationBeforeAdmission(investigationBeforeAdmission: InvestigationBeforeAdmission, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/investigationbeforeadmission',
+            investigationBeforeAdmission, implicitErrorHandling);
+    }
+
+    //Post method for patient medical Family History
+    medicalAddPatientFamilyHistory(familyHistory: FamilyHistory, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/familyhistory',
+            familyHistory, implicitErrorHandling);
+    }
+
+    //Post method for patient medical Allergies
+    medicalAddPatientAllergies(allergiess: Allergies, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/allergies',
+            allergiess, implicitErrorHandling);
+    }
+
+    //Post method for patient medical Personal History
+    medicalAddPatientPersonalHistory(personalHistory: PersonalHistory, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/personalhistory',
+            personalHistory, implicitErrorHandling);
     }
 
     getPatientStates(): EnumDataSourceItem<number>[] {
@@ -171,6 +237,13 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     getPatientPersonDetail(request: RecordIDRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<PersonDetailResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/personaldetails/info',
+            request, implicitErrorHandling);
+    }
+
+    //Update Patient Response
+    getPatientMedicalDetail(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<MedicalDetailsResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/info',
             request, implicitErrorHandling);
     }
 }

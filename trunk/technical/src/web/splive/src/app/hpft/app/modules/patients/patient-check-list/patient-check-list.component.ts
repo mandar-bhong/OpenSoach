@@ -112,10 +112,11 @@ export class PatientCheckListComponent implements OnInit, OnDestroy {
     this.sort.sortChange.next(this.sort);
   }
 
-  viewDetails(id: number) {
+  viewDetails(id: number, addid:number) {
     //setting patient id for further use
     this.patientService.patientid = id;
-    this.router.navigate(['patients', 'add'], { queryParams: { id: id, callbackurl: 'patients' }, skipLocationChange: true });
+    this.patientService.admissionid = addid;
+    this.router.navigate(['patients', 'add'], { queryParams: { id: id,addid: addid, callbackurl: 'patients' }, skipLocationChange: true });
   }
 
   ngOnDestroy(): void {

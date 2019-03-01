@@ -268,48 +268,10 @@ export class AdmissionStatusRequest {
     dischargedon: Date;
 }
 
-
-export class PresentComplaints {
+//Medical data start from here
+export class JSONInnerData {
     text: string;
-    date: string;
-}
-export class ReasonForAdmission {
-    text: string;
-    date: string;
-}
-export class HistoryPresentIllness {
-    text: string;
-    date: string;
-}
-
-export class PastHistory {
-    text: string;
-    date: string;
-}
-
-export class TreatmentBeforeAdmission {
-    text: string;
-    date: string;
-}
-
-export class InvestigationBeforeAdmission {
-    text: string;
-    date: string;
-}
-
-export class FamilyHistory {
-    text: string;
-    date: string;
-}
-
-export class Allergies {
-    text: string;
-    date: string;
-}
-
-export class PersonalHistory {
-    text: string;
-    date: string;
+    date: Date;
 }
 
 export class MedicalDetailsRequest {
@@ -324,5 +286,106 @@ export class MedicalDetailsRequest {
     investigationbeforeadmission: string;
     familyhistory: string;
     allergies: string;
+    personalhistory: string;
+    medicaldetialsid: number;
+}
+
+export class MedicalDetailsResponse {
+    uuid: string;
+    patientid: number;
+    admissionid: number;
+    presentcomplaints: string;
+    reasonforadmission: string;
+    historypresentillness: string;
+    pasthistory: string;
+    treatmentbeforeadmission: string;
+    investigationbeforeadmission: string;
+    familyhistory: string;
+    allergies: string;
+    personalhistory: string;
+    medicaldetialsid: number;
+}
+export class MedicalDetailsResponseJSON {
+
+    presentcomplaints: JSONBaseDataModel<JSONInnerData>;
+    reasonforadmission: JSONBaseDataModel<JSONInnerData>;
+    historypresentillness: JSONBaseDataModel<JSONInnerData>;
+    pasthistory: JSONBaseDataModel<JSONInnerData>;
+    treatmentbeforeadmission: JSONBaseDataModel<JSONInnerData>;
+    investigationbeforeadmission: JSONBaseDataModel<JSONInnerData>;
+    familyhistory: JSONBaseDataModel<JSONInnerData>;
+    allergies: JSONBaseDataModel<JSONInnerData>;
+    personalhistory: JSONBaseDataModel<JSONInnerData>;
+}
+
+export class PresentComplaint {
+    medicaldetialsid: number;
+    presentcomplaints: string;
+}
+
+export class ReasonForAdmission {
+
+    medicaldetialsid: number;
+    reasonforadmission: string;
+}
+
+export class HistoryPresentIllness {
+    medicaldetialsid: number;
+    historypresentillness: string;
+}
+
+export class PastHistory {
+    medicaldetialsid: number;
+    pasthistory: string;
+}
+
+export class TreatmentBeforeAdmission {
+    medicaldetialsid: number;
+    treatmentbeforeadmission: string;
+}
+
+export class InvestigationBeforeAdmission {
+    medicaldetialsid: number;
+    investigationbeforeadmission: string;
+}
+
+export class FamilyHistory {
+    medicaldetialsid: number;
+    familyhistory: string;
+}
+
+export class Allergies {
+    medicaldetialsid: number;
+    allergies: string;
+}
+
+//Medical Personal history start from here
+export class PersonalHistoryInfo {
+  constant(constant: any): string {
+    throw new Error("Method not implemented.");
+  }
+  decreasing: any;
+  increasing(increasing: any): string {
+    throw new Error("Method not implemented.");
+  }
+    weight: string;
+    weighttendency:WaightTendencyInfo;
+    alcohalquality:string;
+    alcohalcomment: string;
+    smokingquality: string;
+    smokingcomment: string;
+    other: string;
+    date: Date;
+}
+
+//Medical data start from here
+export class WaightTendencyInfo {
+    increasing: string;
+    decreasing: string;
+    constant: string;
+}
+
+export class PersonalHistory {
+    medicaldetialsid: number;
     personalhistory: string;
 }
