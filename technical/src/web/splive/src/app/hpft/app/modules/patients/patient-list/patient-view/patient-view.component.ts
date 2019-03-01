@@ -63,7 +63,11 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.createControls();
     this.dataModel.dischargedon = new Date();
     const dt = new Date();
-    this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
+    const datetime = dt.getHours() + ":" + dt.getMinutes();
+    this.selectedStartTime = this.minutesToTimeString(dt.getMinutes());
+    
+    console.log("Time is reciving",this.selectedStartTime);
+    // this.minutesToTimeString();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = 1;
     this.paginator.pageSize = 10;
@@ -110,8 +114,10 @@ export class PatientViewComponent implements OnInit, OnDestroy {
         this.selectedPatient.status = 2;
         this.dataModel.dischargedon = new Date();
         const dt = new Date();
-        this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
-
+        const datetime = dt.getHours() + ":" + dt.getMinutes();
+        // this.selectedStartTime = dt.minutesToTimeString();
+        this.selectedStartTime = this.minutesToTimeString(Number(datetime));
+        console.log("Time is reciving changemodel",this.selectedStartTime);
       }
 
     });
@@ -205,6 +211,16 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.dataModel.dischargedon = new Date();
     const dt = new Date();
     this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
+  }
+
+  minutesToTimeString(time: number) {
+    if (time || time === 0) {
+      const hours = Math.floor(time / 60);
+      const hourstr = hours < 10 ? '0' + hours : hours;
+      const minutes = time % 60;
+      const minutestr = minutes < 10 ? '0' + minutes : minutes;
+      return hourstr + ':' + minutestr;
+    }
   }
 
 }

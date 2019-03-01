@@ -1,3 +1,6 @@
 input::placeholder {
     font-style: italic;
 }
+.mat-input-underline.mat-form-field-underline {
+  background: transparent;
+}

@@ -1,73 +1,266 @@
-<!-- 
-<div class="row">
-  <div class="col">
-    <mat-card>
-      <form [formGroup]="editableForm" (ngSubmit)="search()">
-        <div class="row">
-          <div class="col-10">
+<mat-card>
+    <div class="row">
+        <div class="col-10">
             <mat-card-header>
-              <mat-card-title>Present Complains</mat-card-title>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>Complaint</mat-card-title>
             </mat-card-header>
-          </div>
-          <div class="col-2 text-right">
-          </div>
         </div>
-        <div class="row">
-          <div class="col">
+    </div>
+    <div class="row">
+        <div class="col">
             <mat-divider [inset]="true"></mat-divider>
-          </div>
         </div>
-        <div style="margin: 20px; padding: 10px;">
-          <div class="row">
-            <div class="col-md-8">
-              <mat-form-field class="example-full-width">
-                <textarea matInput ref-textarea [(ngModel)]="textValue" rows="4"> </textarea>
-              </mat-form-field>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-              <button mat-icon-button (click)="logText(textarea.value)" matTooltip="Save">
-                <i class="fa fa-check" style="font-size:30px;color:#3b3c53"></i>
-              </button>
-            </div>
-          </div>
-          <div class="row">
-              <pre>{{log}}</pre>
-          </div>
-        </div>
-
+    </div>
+    <div style="margin: 20px; padding: 10px;">
         <div class="row">
-          <div class="col-10">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.presentComplaintsData.data"
+                            placeHolderText="Write your complaint" (onItemAdd)='onAddedComplaint($event)'>
+                        </app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+
+<mat-card>
+    <div class="row">
+        <div class="col-10">
             <mat-card-header>
-              <mat-card-title>Reasone For Admission</mat-card-title>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>Reason For Admission</mat-card-title>
             </mat-card-header>
-          </div>
-          <div class="col-2 text-right">
-          </div>
         </div>
-        <div class="row">
-          <div class="col">
+    </div>
+    <div class="row">
+        <div class="col">
             <mat-divider [inset]="true"></mat-divider>
-          </div>
         </div>
-        <div style="margin: 20px; padding: 10px;">
-          <div class="row">
-            <div class="col-md-8">
-              <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Write reason for admission here!" formControlName="presentcomplains" rows="3" maxlength="25"> </textarea>
-              </mat-form-field>
+    </div>
+    <div style="margin: 20px; padding: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.reasonForAdmissionData.data"
+                            placeHolderText="Write your reason for admission." (onItemAdd)='onAddedAdmission($event)'>
+                        </app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
             </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-3">
-              <button mat-icon-button type="submit" matTooltip="Save">
-                <i class="fa fa-check" style="font-size:30px;color:#3b3c53"></i>
-              </button>
-            </div>
-          </div>
         </div>
+    </div>
+</mat-card>
 
+<mat-card>
+    <div class="row">
+        <div class="col-10">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>History Of Present Illness</mat-card-title>
+            </mat-card-header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-divider [inset]="true"></mat-divider>
+        </div>
+    </div>
+    <div style="margin: 20px; padding: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.historyPresentIllnessData.data"
+                            placeHolderText="Write your history of present illness."
+                            (onItemAdd)='onAddedHistoryPresentIllness($event)'>
+                        </app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</mat-card>
 
-      </form>
-    </mat-card>
-  </div>
+<mat-card>
+    <div class="row">
+        <div class="col-10">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>Past History About Health</mat-card-title>
+            </mat-card-header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-divider [inset]="true"></mat-divider>
+        </div>
+    </div>
+    <div style="margin: 20px; padding: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.pastHistoryData.data"
+                            placeHolderText="Write your past history about health."
+                            (onItemAdd)='onAddedPastHistory($event)'></app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+<mat-card>
+    <div class="row">
+        <div class="col-10">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>Treatment Before Admission</mat-card-title>
+            </mat-card-header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-divider [inset]="true"></mat-divider>
+        </div>
+    </div>
+    <div style="margin: 20px; padding: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.treatmentBeforeAdmissionData.data"
+                            placeHolderText="If you take any treatment before admission then write here."
+                            (onItemAdd)='onAddedTreatmentBeforeAdmission($event)'>
+                        </app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+<mat-card>
+    <div class="row">
+        <div class="col-10">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>Investigation Before Admission</mat-card-title>
+            </mat-card-header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-divider [inset]="true"></mat-divider>
+        </div>
+    </div>
+    <div style="margin: 20px; padding: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.investigationBeforeAdmissionData.data"
+                            placeHolderText="If you take any investigation before admission then write here."
+                            (onItemAdd)='onAddedInvestigationBeforeAdmission($event)'>
+                        </app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+<mat-card>
+    <div class="row">
+        <div class="col-10">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>Family History</mat-card-title>
+            </mat-card-header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-divider [inset]="true"></mat-divider>
+        </div>
+    </div>
+    <div style="margin: 20px; padding: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.familyHistoryData.data"
+                            placeHolderText="Write about your family history."
+                            (onItemAdd)='onAddedFamilyHistory($event)'>
+                        </app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+<mat-card>
+    <div class="row">
+        <div class="col-10">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <i class="fa fa-address-card-o" style="font-size:24px;color:#446666">
+                    </i>
+                </div>
+                <mat-card-title>Allergies</mat-card-title>
+            </mat-card-header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-divider [inset]="true"></mat-divider>
+        </div>
+    </div>
+    <div style="margin: 20px; padding: 10px;">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card-content>
+                    <div *ngIf="isResponsereceived">
+                        <app-multiple-comment-input [itemList]="dataModel.allergiesData.data"
+                            placeHolderText="Write about your allergies." (onItemAdd)='onAddedAllergies($event)'>
+                        </app-multiple-comment-input>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+<!-- <div *ngIf="isResponsereceived">
+    <app-medical-personal-history [itemPersonList]="dataModel.personalHistoryData.data"
+        (onItemAdd)='onAddedPersonHistory($event)'>
+    </app-medical-personal-history>
 </div> -->
