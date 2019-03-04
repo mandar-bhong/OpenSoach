@@ -14,6 +14,8 @@ import { ServerApiInterfaceService } from "./services/server-api-interface.servi
 //TODO: DONT Remove websocket require, if this line is removed. the worker doesnt get access to nativescript-websockets.
 // this is a temporary fix and need to be handled through webpack config.
 var WS = require('nativescript-websockets');
+import * as trace from 'trace';
+import { TraceCustomCategory } from "./helpers/trace-helper";
 
 @Component({
     moduleId: module.id,
@@ -84,11 +86,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
                         // pass device token for any one access
                         AppGlobalContext.WebsocketUrl = appSettings.getString("WEB_SOCKET_URL");
-                        console.log("AppGlobalContext.WebsocketUrl", AppGlobalContext.WebsocketUrl);
+                        trace.write(`AppGlobalContext.WebsocketUrl: ${AppGlobalContext.WebsocketUrl}`, TraceCustomCategory.APP_START, trace.messageType.info);
                         this.initAppStart();
                     }, (error) => {
                         if (!error.handled) {
-                            console.error('token validate error', error);
+                            trace.write(`token validate error: ${error}`, trace.categories.Error, trace.messageType.error);
                             this.checkIfDeviceIsRegistered();
                         }
                     });
