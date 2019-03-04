@@ -11,3 +11,9 @@ import { CardView } from 'nativescript-cardview';
 platformNativeScriptDynamic().bootstrapModule(AppModule);
 registerElement("Ripple", () => require("nativescript-ripple").Ripple);
 registerElement('CardView', () => CardView);
+import * as app from 'application';
+import { TraceHelper } from "./app/helpers/trace-helper";
+
+app.on(app.launchEvent, (args: app.ApplicationEventData) => {
+    TraceHelper.configure();
+});
