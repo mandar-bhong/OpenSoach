@@ -67,7 +67,7 @@ func GetUserAuthInfoCategoryCustomer(dbConn string, prodcode string, userid int6
 	return nil, data
 }
 
-func GetUserLoginInfo(dbConn string, userid int64) (error, *lmodels.DBUserInfoMinDataModel) {
+func GetUserLoginInfo(dbConn string, cpmid int64, userid int64) (error, *lmodels.DBUserInfoMinDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserLoginInfo")
 
@@ -77,7 +77,7 @@ func GetUserLoginInfo(dbConn string, userid int64) (error, *lmodels.DBUserInfoMi
 	selDBCtx.Query = dbquery.QUERY_GET_USER_LOGIN_INFO
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Get(userid)
+	selErr := selDBCtx.Get(cpmid,userid)
 	if selErr != nil {
 		return selErr, &lmodels.DBUserInfoMinDataModel{}
 	}
