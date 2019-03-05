@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-11">
+    <mat-form-field class="example-full-width">
+      <textarea matInput ref-textarea placeholder="{{placeHolderText}}" rows="2" [(ngModel)]="contextValue"> </textarea>
+    </mat-form-field>
+  </div>
+  <div class="col-md-1 margin-top">
+    <button mat-icon-button matTooltip="Add" (click)="itemAdd()">
+      <i class="fa fa-check" aria-hidden="true" style="font-size:26px;color:#2189a3"></i>
+    </button>
+  </div>
+</div>
+<div class="row" *ngFor="let item of itemList">
+  <div class="text-alignment">
+    <label for="ItemList">{{item.text}}</label>
+  </div>
+</div>

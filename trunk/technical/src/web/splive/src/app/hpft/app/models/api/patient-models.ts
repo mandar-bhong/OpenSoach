@@ -361,18 +361,12 @@ export class Allergies {
 
 //Medical Personal history start from here
 export class PersonalHistoryInfo {
-  constant(constant: any): string {
-    throw new Error("Method not implemented.");
-  }
-  decreasing: any;
-  increasing(increasing: any): string {
-    throw new Error("Method not implemented.");
-  }
+    medicaldetialsid: number;
     weight: string;
-    weighttendency:WaightTendencyInfo;
-    alcohalquality:string;
+    weighttendency: string;
+    alcohalquantity: string;
     alcohalcomment: string;
-    smokingquality: string;
+    smokingquantity: string;
     smokingcomment: string;
     other: string;
     date: Date;
@@ -380,9 +374,7 @@ export class PersonalHistoryInfo {
 
 //Medical data start from here
 export class WaightTendencyInfo {
-    increasing: string;
-    decreasing: string;
-    constant: string;
+    tendency: number;
 }
 
 export class PersonalHistory {

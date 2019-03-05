@@ -12,16 +12,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './patient-medical.component.html',
   styleUrls: ['./patient-medical.component.css']
 })
-export class PatientMedicalComponent implements OnInit{
-
+export class PatientMedicalComponent implements OnInit, OnDestroy {
 
   dataModel = new MedicalDetailsModel();
   routeSubscription: Subscription;
-  prsentComplaint: string;
   isResponsereceived = false;
-  text: any;
-  date: any;
-  weight: any;
   medicaldetialsid: number;
   constructor(private patientService: PatientService,
     private route: ActivatedRoute,
@@ -31,6 +26,7 @@ export class PatientMedicalComponent implements OnInit{
   }
 
   ngOnInit() {
+
     this.dataModel.presentComplaintsData = new JSONBaseDataModel<JSONInnerData[]>();
     this.dataModel.presentComplaintsData.data = [];
 
@@ -49,48 +45,37 @@ export class PatientMedicalComponent implements OnInit{
     this.dataModel.investigationBeforeAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
     this.dataModel.investigationBeforeAdmissionData.data = [];
 
-    this.dataModel.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
-    this.dataModel.allergiesData.data = [];
-
     this.dataModel.familyHistoryData = new JSONBaseDataModel<JSONInnerData[]>();
     this.dataModel.familyHistoryData.data = [];
+
+
+    this.dataModel.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
+    this.dataModel.allergiesData.data = [];
 
     this.dataModel.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo[]>();
     this.dataModel.personalHistoryData.data = [];
 
-   this.routeSubscription = this.route.queryParams.subscribe(params => {
+    this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['addid']) {
         this.dataModel.admissionid = Number(params['addid']);
         this.getPatientMedicalDetail();
       }
-    }); 
+    });
   }
 
   //Getting data from database
-
   getPatientMedicalDetail() {
     this.patientService.getPatientMedicalDetail({ recid: this.dataModel.admissionid }).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.isResponsereceived = true;
         if (payloadResponse.data) {
-          console.log('payloadResponse.data', payloadResponse.data);
           this.medicaldetialsid = payloadResponse.data.medicaldetialsid;
           this.dataModel.copyFrom(payloadResponse.data);
-          console.log('presentComplaintsData', this.dataModel.presentComplaintsData.data);
         }
       } else {
         this.isResponsereceived = true;
       }
     });
-  }
-
-  // code blcok getting value from text area.
-  prsentComplaintSave() {
-    console.clear();
-    if (this.prsentComplaint) {
-      console.log('prsentComplaint', this.prsentComplaint);
-    }
-    this.prsentComplaint = null;
   }
   ngOnDestroy() {
     if (this.routeSubscription) {
@@ -98,6 +83,7 @@ export class PatientMedicalComponent implements OnInit{
     }
   }
   // reveived events which is generated from child component
+  // Save function for Present Complaints.
   onAddedComplaint(outputValue: string) {
     // to do write code for saving received value.
     this.dataModel.presentComplaintsData.data.push({ text: outputValue, date: new Date() });
@@ -111,8 +97,8 @@ export class PatientMedicalComponent implements OnInit{
     });
 
   }
+  // Save function for Reason For Admission.
   onAddedAdmission(outputValue: string) {
-    // to do write code for saving received value.
     this.dataModel.reasonForAdmissionData.data.push({ text: outputValue, date: new Date() });
     const reasonForAdmission = new ReasonForAdmission();
     reasonForAdmission.medicaldetialsid = this.medicaldetialsid;
@@ -202,13 +188,15 @@ export class PatientMedicalComponent implements OnInit{
     });
   }
 
+  // Save function for Person History.
   onAddedPersonHistory(outputValue: string) {
     const personalHistory = new PersonalHistory();
     personalHistory.medicaldetialsid = this.medicaldetialsid;
-    personalHistory.personalhistory = JSON.stringify(this.dataModel.personalHistoryData);
+    personalHistory.personalhistory = JSON.stringify(outputValue);
     this.patientService.medicalAddPatientPersonalHistory(personalHistory).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
+        this.getPatientMedicalDetail();
       }
     });
   }
