@@ -116,7 +116,7 @@ export class AppStartupService {
                 }, (error) => {
                     if (!error.handled) {
                         console.error('deviceauthorization in error', error);
-                        this.routerExtensions.navigate(['login']);
+                        this.routerExtensions.navigate(['login'], { clearHistory: true });
                         this.isStartupInprogress = false;
                     }
                 }
@@ -146,7 +146,7 @@ export class AppStartupService {
         initModel.data.WebsocketUrl = AppGlobalContext.WebsocketUrl;
         initModel.data.Token = AppGlobalContext.Token;
         this.workerService.postMessageToServerDataProcessorWorker(initModel);
-        this.routerExtensions.navigate(['home']);
+        this.routerExtensions.navigate(['home'], { clearHistory: true });
         this.isStartupInprogress = false;
     }
 }
