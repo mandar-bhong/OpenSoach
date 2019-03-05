@@ -14,6 +14,7 @@ type DBUserInfoMinDataModel struct {
 	UserName  *string `db:"usr_name" json:"usrname"`
 	FirstName *string `db:"fname" json:"fname"`
 	LastName  *string `db:"lname" json:"lname"`
+	CPMRoleCode *string `db:"urole_code" json:"cpmrole"`
 }
 
 type DBCustomerLoginInfoDataModel struct {

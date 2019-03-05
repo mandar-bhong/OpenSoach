@@ -141,8 +141,9 @@ func (AuthService) Auth(username, password, prodcode string) (bool, interface{})
 func (service AuthService) GetUserLoginDetails() (bool, interface{}) {
 
 	userId := service.ExeCtx.SessionInfo.UserID
+	cpmid := service.ExeCtx.SessionInfo.Product.CustProdID
 
-	dbErr, userLoginInfo := dbaccess.GetUserLoginInfo(repo.Instance().Context.Master.DBConn, userId)
+	dbErr, userLoginInfo := dbaccess.GetUserLoginInfo(repo.Instance().Context.Master.DBConn, cpmid, userId)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user login details.", dbErr)
 
