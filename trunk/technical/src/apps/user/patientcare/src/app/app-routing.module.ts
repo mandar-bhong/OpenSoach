@@ -2,12 +2,13 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { PreloadAllModules } from "@angular/router";
+import { StartupComponent } from "./startup-page/startup.component";
 
 const routes: Routes = [
-    // { path: "", redirectTo: "/home", pathMatch: "full" },
-    // {
-    //     path: "", redirectTo: "/login", pathMatch: "full"
-    // },
+    { path: "", redirectTo: "/startup", pathMatch: "full" },
+    {
+        path: "startup", component: StartupComponent
+    },
     {
         path: "login", loadChildren: "~/app/login/login.module#LoginModule"
     },

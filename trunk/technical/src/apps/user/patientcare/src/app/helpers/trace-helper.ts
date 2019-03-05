@@ -8,6 +8,9 @@ export enum TraceCustomCategory {
 }
 
 export class TraceHelper {
+    constructor(){
+        console.log('in TraceHelper constructor');
+    }
     static configure() {
         trace.setCategories(trace.categories.concat(
             trace.categories.Error,

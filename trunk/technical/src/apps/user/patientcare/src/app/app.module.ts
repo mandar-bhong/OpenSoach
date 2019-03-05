@@ -15,7 +15,8 @@ import { PassDataService } from "~/app/services/pass-data-service";
 import { ServerConnectivityStatusService } from "~/app/services/connectivity/server-connectivity.service";
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 import { ServerApiInterfaceService } from "./services/server-api-interface.service";
-
+import { AppStartupService } from "./services/app-startup.service";
+import { StartupComponent } from "./startup-page/startup.component";
 @NgModule({
     bootstrap: [
         AppComponent
@@ -28,7 +29,8 @@ import { ServerApiInterfaceService } from "./services/server-api-interface.servi
         NativeScriptHttpClientModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        StartupComponent
            ],
     schemas: [
         NO_ERRORS_SCHEMA
@@ -41,7 +43,8 @@ import { ServerApiInterfaceService } from "./services/server-api-interface.servi
         WorkerService,
         PatientListService,
         ServerConnectivityStatusService,
-        ServerApiInterfaceService
+        ServerApiInterfaceService,
+        AppStartupService
     ],
     exports:[
         // NetworkStatusComponent
