@@ -16,7 +16,7 @@ export class ActionTxnDBModel {
     schedule_uuid: string;
     txn_data: string;
     txn_date: Date;
-    txn_state: string;
+    txn_state: number;
     conf_type_code: string;
     runtime_config_data: string;
     status: number;

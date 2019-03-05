@@ -15,6 +15,7 @@ export class PassDataService {
     patientName: string;
     createActionsSubject: Subject<boolean> = new Subject<boolean>();
     authResultReuested: IDeviceAuthResult;    
+    backalert = [];
     constructor() {
         //  this.patientListViewModel = new PatientListViewModel();
         console.log('service initiated');
@@ -22,7 +23,7 @@ export class PassDataService {
     setPatientData(data) {
         this.patientListViewModel = new PatientListViewModel();
         this.patientListViewModel = data;
-        console.log('patientdata set');
+        // console.log('patientdata set');
         console.log(this.patientListViewModel);
     }
     getpatientData() {

@@ -55,6 +55,10 @@ export class DataActionItem {
 	doctors_orders: string;
 	doctor_id: number;
 }
+export class BloodPressureValueModel {
+	high: string;
+	low: string
+}
 @Component({
 	moduleId: module.id,
 	selector: 'action',
@@ -139,6 +143,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	listaccount = true;
 	removeAccount = false;
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
+	// blood pressure high and low value model
+	bloodPressureValueModel = new BloodPressureValueModel()
+	bloddname: any;
 	// switch active and complited
 	completeorpending: string;
 	iscompleted: boolean;
@@ -146,9 +153,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	buttonClicked: boolean = true;
 	buttonCompleted: boolean = false;
 
-	// done and discard label
-	// doneItem = true;
-	// doneItemlabel = false;
+	valuejson: string;
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
@@ -423,11 +428,12 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actionService.getActionActiveList(key, this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				val.forEach(item => {
-					console.log(item);
+					// console.log(item);
 					let actionListItem = new ActionListViewModel();
 					actionListItem.dbmodel = item;
 					this.actionListItem.push(actionListItem);
 				});
+				// console.log('this.actionListItem', this.actionListItem);
 				this.getListDataById();
 			},
 			(error) => {
@@ -456,47 +462,36 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			// console.log('isodate date', test);
 			// const isodate = test.toISOString();
 			const isodate = test.toUTCString();
-			// console.log('isodate', isodate);
-			// console.log('actionListDataItem.exec_time', actionListDataItem.exec_time);
-
-
 			// date to timestramp convert
 			// const todaydate = new Date().valueOf() / 1E3 | 0;
 			// console.log('timestramp', todaydate);
 
 			// >> will display list of actions to be performed in another 12 hours and after 1 hours
 			const recivedDateFormDB = new Date(item.dbmodel.exec_time);
-			// console.log('recivedDateFormDB', recivedDateFormDB);
 			const recivedDateDb = recivedDateFormDB.getMinutes();
 			recivedDateFormDB.setMinutes(recivedDateDb);
 			const reciveTimeDb = recivedDateFormDB.toLocaleString();
-			// console.log('reciveTimeDb', reciveTimeDb);
 			const Dbdate = new Date(reciveTimeDb);
 
 			const tempEndTime = new Date();
-			// console.log('current time', tempEndTime);
 			const next12Hours = tempEndTime.getMinutes() + 720;
 			tempEndTime.setMinutes(next12Hours);
 			const tempEnd = tempEndTime.toLocaleString();
-			// console.log('tempEnd', tempEnd);
 			const endTime = new Date(tempEnd);
 
 			const tempStartTime = new Date();
 			const after1Hours = tempStartTime.getMinutes() - 60;
 			tempStartTime.setMinutes(after1Hours);
 			const tempStart = tempStartTime.toLocaleString();
-			// console.log('tempStart', tempStart);
 			const startTime = new Date(tempStart);
 
 			// << before 12 hours logic
 			// >> today date live time decress time 15 min 
 			const thetodayDate15dec = new Date();
-			// console.log('thetodayDate15dec', thetodayDate15dec);
 			const todayhr15dec = thetodayDate15dec.getHours();
 			const liveh15dec = todayhr15dec * 60;
 			const todaym15dec = thetodayDate15dec.getMinutes() - 15;
 			const totaltime15dec = liveh15dec + todaym15dec;
-			// console.log('time _today_15_dec', totaltime15dec);
 			// << decress time 15 min 
 
 			// >> today date live time increass time 15 min 
@@ -505,7 +500,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			const liveh15 = todayhr15 * 60;
 			const todaym15 = thetodayDate15.getMinutes() + 15;
 			const totaltime15 = liveh15 + todaym15;
-			// console.log('time _today_15_inc', totaltime15);
 			// << increass time 15 min 
 
 			// >> Db Date timestramp convert in date 
@@ -515,18 +509,14 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			const h = hr * 60;
 			const m = theDate.getMinutes();
 			const DBtotaltime = h + m;
-			// console.log('DBtotaltime ', DBtotaltime);
 			// << Db Date timestramp convert 
 
 
 			if (totaltime15dec > DBtotaltime) {
-				// console.log('red');
 				actionListDataItem.status = 1;
 			} else if (totaltime15 > DBtotaltime && DBtotaltime > totaltime15dec) {
-				// console.log('yellow');
 				actionListDataItem.status = 2;
 			} else if (DBtotaltime > totaltime15) {
-				// console.log('green');
 				actionListDataItem.status = 3;
 			}
 
@@ -536,17 +526,17 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 						// console.log('val', val);
 						const conf = JSON.parse(item.conf);
 						actionListDataItem.name = conf.name;
+						this.valuejson = actionListDataItem.name;
 						actionListDataItem.desc = conf.desc;
 					});
 				})
 
 
 			if (Dbdate >= startTime && Dbdate <= endTime) {
+				console.log('endTime', endTime);
+				console.log('Dbdate', Dbdate);
 				this.tempList.push(actionListDataItem);
-				console.log('testItem array', this.tempList);
-				// console.log('filter data', this.tempList.push(actionListDataItem));
 			}
-
 		});
 		// get doctor orders.
 		this.getDoctorsOrders();
@@ -556,13 +546,14 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >> on submit one bye one item data
 	onSubmit(item) {
-		console.log(item);
+		console.log('on sumbit', item);
 		//set action conf model
 
 		this.itemSelected(item);
 		this.saveViewOpen = true;
 		this.formData = new ActionTxnDBModel();
-
+		// const value = this.actiondata.value;
+		// console.log('value', this.actiondata.value);
 		// >> check condition medicine data not add comment and value entries
 		if (item.conf_type_code === 'Medicine') {
 			this.actionDbData.comment = this.actiondata.comment;
@@ -570,9 +561,22 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			this.confString1 = JSON.stringify(this.actionDbData);
 			// console.log('confString', this.confString1);
 		} else {
-			this.actionDbData.comment = this.actiondata.comment;
-			this.actionDbData.value = this.actiondata.value;
+			if (item.name === 'Blood Pressure') {
+				console.log('if  condition');
+				const bloodPressureValueModel = new BloodPressureValueModel()
+				bloodPressureValueModel.high = this.bloodPressureValueModel.high;
+				bloodPressureValueModel.low = this.bloodPressureValueModel.low;
+				this.actionDbData.value = JSON.stringify(bloodPressureValueModel);
+				this.actionDbData.comment = this.actiondata.comment;
+			} else {
+				console.log('else condition');
+				this.actionDbData.value = this.actiondata.value;
+				this.actionDbData.comment = this.actiondata.comment;
+			}
 			this.confString = JSON.stringify(this.actionDbData);
+
+
+			// this.confString = JSON.stringify(this.actionDbData);
 			// console.log('confString', this.confString);
 		}
 
@@ -589,7 +593,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
 		this.formData.txn_date = new Date;
-		this.formData.txn_state = null;
+		this.formData.txn_state = 1;
 		this.formData.status = 1;
 		this.formData.admission_uuid = item.admission_uuid;
 
@@ -597,7 +601,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
-		// console.log('this.actionDbArray', this.actionDbArray);
+		console.log('this.actionDbArray', this.actionDbArray);
+
+		this.passdataservice.backalert = this.actionDbArray;
 
 	}
 	// >> on discard one bye one item data
@@ -635,7 +641,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
 		this.formData.txn_date = new Date;
-		this.formData.txn_state = null;
+		this.formData.txn_state = 2;
 		this.formData.status = 0;
 		this.formData.admission_uuid = item.admission_uuid;
 
@@ -644,6 +650,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
 		// console.log('this.actionDbArray', this.actionDbArray);
+		this.passdataservice.backalert = this.actionDbArray;
 
 	}
 	// all action done and discard save in action-trn-table
@@ -668,7 +675,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
-			console.log('item.txn_data;',item.txn_data);
+			console.log('item.txn_data;', item.txn_data);
 			serverDataStoreModel.data.txn_date = item.txn_date;
 			serverDataStoreModel.data.txn_state = Number(item.txn_state);
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
@@ -685,8 +692,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// selected done and discard row change background color
 	itemSelected(item) {
 		item.selected = true;
-		// this.doneItem = !this.doneItem;
-		// this.doneItemlabel = true;
+
 	}
 	gettrnlistdata() {
 		setTimeout(() => {
@@ -785,10 +791,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	}// end 
 
 	public getDoctorsOrders() {
-		console.log('getDoctors Orders');
+		// console.log('getDoctors Orders');
 		this.actionService.getDoctorsList('getdoctororders', this.passdataservice.getAdmissionID()).then(
 			(val) => {
-				console.log('doctor order received', this.tempList);
+				// console.log('doctor order received', this.tempList);
 				val.forEach(item => {
 					console.log('item', item);
 					let actionListItem = new DataActionItem();

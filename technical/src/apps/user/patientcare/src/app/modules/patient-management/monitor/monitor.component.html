@@ -22,12 +22,189 @@
         <ScrollView orientation="vertical">
             <GridLayout rows="auto, auto, auto, auto" columns="*">
                 <StackLayout row="0" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                    <!-- <StackLayout row="0" columns="*,50"> -->
-                    <Label row="0" horizontalAlignment="left" verticalAlignment="center" col="0" class="body" textWrap="true"
-                        text="TEMPERATURE" style="color:#396766;vertical-align: center;"></Label>
-                    <Label row="0" horizontalAlignment="right" verticalAlignment="center" text="&#xf293;" class="mdi"
-                        (tap)="showDialog()" style="color:#00a6ce;"></Label>
-                    <!-- </StackLayout> -->
+                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
+                        <Label row="0" col="0" text="Pulse Rate (bpm)" class="body" style="color:#396766;vertical-align: center;"></Label>
+                        <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()" style="color:#00a6ce;"></Label>
+                    </GridLayout>
+
+                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+                    <GridLayout row="2" rows="*">
+                        <StackLayout>
+                            <chart:RadCartesianChart id="cartesianChart">
+                                <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
+                                    majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
+                                </DateTimeContinuousAxis>
+                                <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+
+                                <LinearAxis tkCartesianVerticalAxis id="vAxis"></LinearAxis>
+                                <ChartGridLineAnnotation tkCartesianAnnotations axisId="vAxis" hidden="false" value="100"
+                                    zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
+                                <ChartGridLineAnnotation tkCartesianAnnotations axisId="vAxis" hidden="false" value="60"
+                                    zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
+
+                                <LineSeries tkCartesianSeries seriesName="PulseRateLineSeries" [items]="pulseListItems"
+                                    categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                                </LineSeries>
+                                <BubbleSeries tkCartesianSeries seriesName="PulseRateBubbleSeries" [items]="pulseListItems"
+                                    bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+
+                                <RadCartesianChart.palettes>
+                                    <Palette tkCartesianPalette seriesName="PulseRateLineSeries">
+                                        <Palette.entries>
+                                            <PaletteEntry tkCartesianPaletteEntry strokeColor="#2ecc40" strokeWidth="5"
+                                                fillColor="#2ecc40">
+                                            </PaletteEntry>
+                                        </Palette.entries>
+                                    </Palette>
+                                    <Palette tkCartesianPalette seriesName="PulseRateBubbleSeries">
+                                        <Palette.entries>
+                                            <PaletteEntry tkCartesianPaletteEntry strokeColor="#2ecc40" strokeWidth="5"
+                                                fillColor="#2ecc40">
+                                            </PaletteEntry>
+                                        </Palette.entries>
+                                    </Palette>
+                                </RadCartesianChart.palettes>
+
+                            </chart:RadCartesianChart>
+                        </StackLayout>
+                    </GridLayout>
+                </StackLayout>
+
+
+                <StackLayout row="1" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
+                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
+                        <Label row="0" col="0" text="Blood Pressure (mmHg)" class="body" style="color:#396766;vertical-align: center;"></Label>
+                        <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()" style="color:#00a6ce;"></Label>
+                    </GridLayout>
+                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+                    <GridLayout row="2" rows="*">
+                        <chart:RadCartesianChart id="cartesianChart">
+                            <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
+                                majorStep="Day" plotMode="BetweenTicks">
+                            </DateTimeContinuousAxis>
+                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+
+                            <LinearAxis tkCartesianVerticalAxis id="vAxis"></LinearAxis>
+                            <!-- <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="190"
+                                zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
+                            <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="70"
+                                zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation> -->
+
+                            <!-- <RadCartesianChart.annotations>
+                                <ChartPlotBandAnnotation axisId="vAxis" hidden="false" value="10" zPosition="BelowSeries"
+                                    minValue="80" maxValue="90" fillColor="#AC74E880" strokeColor="#AC74E880" />
+                            </RadCartesianChart.annotations> -->
+
+                            <!-- 
+                            <ChartPlotBandAnnotation axisId="hAxis" hidden="false" zPosition="BelowSeries" minValue="80"
+                                maxValue="90" fillColor="#AC74E880" strokeColor="#AC74E880" /> -->
+
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureSystolicLineSeries" [items]="bloodpresHighListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                            </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureSystolicBubbleSeries" [items]="bloodpresHighListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="BloodPressureSystolicLineSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="BloodPressureSystolicBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureDiastolicLineSeries" [items]="bloodpresLowListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                            </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries" [items]="bloodpresLowListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="BloodPressureDiastolicLineSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="BloodPressureDiastolicBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+
+
+                        </chart:RadCartesianChart>
+
+                    </GridLayout>
+                </StackLayout>
+
+
+                <StackLayout row="2" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
+                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
+                        <Label row="0" col="0" text="Respiratory Rate (/min)" class="body" style="color:#396766;vertical-align: center;"></Label>
+                        <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()" style="color:#00a6ce;"></Label>
+                    </GridLayout>
+
+                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+                    <GridLayout row="2" rows="*">
+                        <StackLayout>
+                            <chart:RadCartesianChart id="cartesianChart">
+                                <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
+                                    majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
+                                </DateTimeContinuousAxis>
+                                <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+
+                                <LinearAxis tkCartesianVerticalAxis id="hAxis"></LinearAxis>
+                                <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="140"
+                                    zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
+                                <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="70"
+                                    zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
+
+                                <LineSeries tkCartesianSeries seriesName="RespirationRateLineSeries" [items]="respirationListItems"
+                                    categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                                </LineSeries>
+                                <BubbleSeries tkCartesianSeries seriesName="RespirationRateBubbleSeries" [items]="respirationListItems"
+                                    bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                                <RadCartesianChart.palettes>
+                                    <Palette tkCartesianPalette seriesName="RespirationRateLineSeries">
+                                        <Palette.entries>
+                                            <Palette.entries>
+                                                <PaletteEntry tkCartesianPaletteEntry strokeColor="#ff851b" fillColor="#ff851b"
+                                                    strokeWidth="5">
+                                                </PaletteEntry>
+                                            </Palette.entries>
+                                        </Palette.entries>
+                                    </Palette>
+                                    <Palette tkCartesianPalette seriesName="RespirationRateBubbleSeries">
+                                        <Palette.entries>
+                                            <PaletteEntry tkCartesianPaletteEntry strokeColor="#ff851b" fillColor="#ff851b"
+                                                strokeWidth="5">
+                                            </PaletteEntry>
+                                        </Palette.entries>
+                                    </Palette>
+                                </RadCartesianChart.palettes>
+                            </chart:RadCartesianChart>
+                        </StackLayout>
+                    </GridLayout>
+                </StackLayout>
+                <StackLayout row="3" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
+
+                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
+                        <Label row="0" col="0" text="Temperature (°F)" class="body" style="color:#396766;vertical-align: center;"></Label>
+                        <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()" style="color:#00a6ce;"></Label>
+                    </GridLayout>
 
                     <StackLayout row="1" class="hr-light m-10"></StackLayout>
                     <StackLayout rows="*" row="2" style="margin:2px 0px;">
@@ -37,210 +214,212 @@
                                 majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
                             </DateTimeContinuousAxis>
                             <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-                            
+
                             <LinearAxis tkCartesianVerticalAxis id="hAxis"></LinearAxis>
                             <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="98"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
+                                zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
                             <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="96"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
-                            <LineSeries tkCartesianSeries [items]="tempListItems" categoryProperty="Comment"
-                                valueProperty="Value" showLabels="true">
-                                <chart:LineSeries.labelStyle>
-                                    <chart:PointLabelStyle margin="10" fontStyle="Bold" fillColor="#60B3FC" textSize="10"
-                                        textColor="White" />
-                                </chart:LineSeries.labelStyle>
+                                zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
+
+
+                            <LineSeries tkCartesianSeries seriesName="TemperatureLineSeries" [items]="tempListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="false">
                             </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="TemperatureBubbleSeries" [items]="tempListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="TemperatureLineSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#0075D9" strokeWidth="5"
+                                            fillColor="#0075D9">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="TemperatureBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#0075D9" strokeWidth="5"
+                                            fillColor="#0075D9">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+
+                            </RadCartesianChart.palettes>
                         </chart:RadCartesianChart>
                     </StackLayout>
                 </StackLayout>
 
-                <StackLayout row="1" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                    <Label row="0" class="body" textWrap="true" text="BLOOD PRESSURE" style="color:#396766;"></Label>
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                    <GridLayout row="2" rows="*">
-
-
-                        <chart:RadCartesianChart id="cartesianChart">
-                            <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
-                                majorStep="Day" plotMode="BetweenTicks">
-                            </DateTimeContinuousAxis>
-                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-
-                            <LinearAxis tkCartesianVerticalAxis id="hAxis"></LinearAxis>
-                            <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="190"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
-                            <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="70"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
-                            <LineSeries tkCartesianSeries [items]="bloodpresHighListItems" categoryProperty="Comment"
-                                valueProperty="Value" showLabels="true">
-                                <chart:LineSeries.labelStyle>
-                                    <chart:PointLabelStyle margin="10" fontStyle="Bold" fillColor="#60B3FC" textSize="10"
-                                        textColor="White" />
-                                </chart:LineSeries.labelStyle>
-                            </LineSeries>
-
-                            <LineSeries tkCartesianSeries [items]="bloodpresLowListItems" categoryProperty="Comment"
-                                valueProperty="Value" showLabels="true">
-                                <chart:LineSeries.labelStyle>
-                                    <chart:PointLabelStyle margin="10" fontStyle="Bold" fillColor="60B3FC" textSize="10"
-                                        textColor="White" />
-                                </chart:LineSeries.labelStyle>
-                            </LineSeries>
-                        </chart:RadCartesianChart>
-
-                    </GridLayout>
-                </StackLayout>
-
-
-
-
-                <StackLayout row="2" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                    <!-- <Label row="0" class="body" textWrap="true" text="RESPIRATION RATE" style="color:#396766;"></Label>
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout> -->
-                    <Label row="0" horizontalAlignment="left" verticalAlignment="center" col="0" class="body" textWrap="true"
-                        text="RESPIRATION RATE" style="color:#396766;vertical-align: center;"></Label>
-                    <Label row="0" horizontalAlignment="right" verticalAlignment="center" text="&#xf293;" class="mdi"
-                        (tap)="showrespDialog()" style="color:#00a6ce;"></Label>
-
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                    <GridLayout row="2" rows="*">
-                        <chart:RadCartesianChart id="cartesianChart">
-                            <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
-                                majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
-                            </DateTimeContinuousAxis>
-                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-
-                            <LinearAxis tkCartesianVerticalAxis id="hAxis"></LinearAxis>
-                            <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="140"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
-                            <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="70"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
-                            <LineSeries tkCartesianSeries [items]="respirationListItems" categoryProperty="Comment"
-                                valueProperty="Value" showLabels="true">
-                                <chart:LineSeries.labelStyle>
-                                    <chart:PointLabelStyle margin="10" fontStyle="Bold" fillColor="#60B3FC" textSize="10"
-                                        textColor="White" />
-                                </chart:LineSeries.labelStyle>
-                            </LineSeries>
-                        </chart:RadCartesianChart>
-                    </GridLayout>
-                </StackLayout>
-
-                <StackLayout row="3" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                    <!-- <Label row="0" class="body" textWrap="true" text="PULSE RATE" style="color:#396766;"></Label>
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout> -->
-
-                    <Label row="0" horizontalAlignment="left" verticalAlignment="center" col="0" class="body" textWrap="true"
-                        text="PULSE RATE" style="color:#396766;vertical-align: center;"></Label>
-                    <Label row="0" horizontalAlignment="right" verticalAlignment="center" text="&#xf293;" class="mdi"
-                        (tap)="showPuleDialog()" style="color:#00a6ce;"></Label>
-
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                    <GridLayout row="2" rows="*">
-                        <chart:RadCartesianChart id="cartesianChart">
-                            <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
-                                majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
-                            </DateTimeContinuousAxis>
-                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-
-                            <LinearAxis tkCartesianVerticalAxis id="hAxis"></LinearAxis>
-                            <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="100"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
-                            <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="60"
-                                zPosition="AboveSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
-
-                            <LineSeries tkCartesianSeries [items]="pulseListItems" categoryProperty="Comment"
-                                valueProperty="Value" showLabels="true">
-                                <chart:LineSeries.labelStyle>
-                                    <chart:PointLabelStyle margin="10" fontStyle="Bold" fillColor="#60B3FC" textSize="10"
-                                        textColor="White" />
-                                </chart:LineSeries.labelStyle>
-                            </LineSeries>
-                        </chart:RadCartesianChart>
-                    </GridLayout>
-                </StackLayout>
             </GridLayout>
         </ScrollView>
         <AbsoluteLayout class="dialog-wrapper">
             <StackLayout class="dialog" height="100%" width="100%">
-                <StackLayout *ngIf="tempUIChart">
-                    <GridLayout rows="auto,auto" columns="*, auto">
-                        <StackLayout row="0" col="0">
-                            <Label class="body" textWrap="true" text="TEMPERATURE" style="color:#396766;vertical-align: center;"></Label>
-                        </StackLayout>
-                        <StackLayout row="0" col="1">
-                            <Label text="&#xf294;" class="mdi" (tap)="closeDialog()" style="color:#00a6ce;"></Label>
-                        </StackLayout>
+
+                <GridLayout rows="auto,auto,auto,*" columns="*">
+                    <GridLayout row=0 rows="auto,auto" columns="auto,*,auto, auto,auto">
+                        <Label row="0" col="0" text="Vital Parameters" class="body"></Label>
+                        <Label row="0" col="2" text="Show Labels" (tap)="toggleLabels()"></Label>
+                        <Label row="0" col="3" [text]="isLoggingIn ?  '&#xf06e;'  : '&#xf070;'" class="fas" (tap)="toggleLabels()"
+                            style="color: #396766;"></Label>
+                        <Label row="0" col="4" text="&#xf294;" class="mdi" (tap)="closeDialog()" style="color:#00a6ce;"></Label>
+
                     </GridLayout>
                     <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                    <chart:RadCartesianChart id="cartesianChart">
-                        <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh a" labelFitMode="Rotate"
-                            majorStep="Day" plotMode="BetweenTicks" allowZoom="true" allowPan="true">
-                        </DateTimeContinuousAxis>
-                        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-                        <LineSeries tkCartesianSeries [items]="tempListItems" categoryProperty="Comment" valueProperty="Value"
-                            showLabels="true">
-                            <LineSeries.labelStyle>
-                                <PointLabelStyle margin="10" fontStyle="Bold" fillColor="#60B3FC" textSize="8"
-                                    textColor="White" />
-                            </LineSeries.labelStyle>
-                        </LineSeries>
-                    </chart:RadCartesianChart>
-                </StackLayout>
-
-
-
-                <StackLayout *ngIf="respirationUIChart">
-                    <GridLayout rows="auto,auto" columns="*, auto">
-                        <StackLayout row="0" col="0">
-                            <Label class="body" textWrap="true" text="RESPIRATION RATE" style="color:#396766;vertical-align: center;"></Label>
-                        </StackLayout>
-                        <StackLayout row="0" col="1">
-                            <Label text="&#xf294;" class="mdi" (tap)="closerespDialog()" style="color:#00a6ce;"></Label>
-                        </StackLayout>
+                    <GridLayout row="2" rows="auto,auto" columns="*,*">
+                        <GridLayout row="0" col="0" columns="auto,auto" style="padding: 8">
+                            <StackLayout col="0" style="width:17;height:17;background-color:#2ecc40" (tap)="toggleSeries(0)"></StackLayout>
+                            <Label row="0" col="1" text="Pulse Rate (bpm)" (tap)="toggleSeries(0)"></Label>
+                        </GridLayout>
+                        <GridLayout row="0" col="1" rows="auto" columns="auto, auto" style="padding: 8;">
+                            <StackLayout row="0" col="0" style="width:17;height:17;background-color:#bb0a1e" (tap)="toggleSeries(1)"></StackLayout>
+                            <Label row="0" col="1" text="Blood Pressure (mmHg)" (tap)="toggleSeries(1)" style=" vertical-align: center;"></Label>
+                        </GridLayout>
+                        <GridLayout row="1" col="0" rows="auto" columns="auto,auto" style="padding: 8">
+                            <StackLayout row="0" col="0" style="width:17;height:17;background-color: #ff851b" (tap)="toggleSeries(2)"></StackLayout>
+                            <Label row="0" col="1" text="Respiratory Rate (/min)" (tap)="toggleSeries(2)"></Label>
+                        </GridLayout>
+                        <GridLayout row="1" col="1" rows="auto" columns="auto, auto" style="padding: 8">
+                            <StackLayout row="0" col="0" style="width:17;height:17;background-color:#0075D9" (tap)="toggleSeries(3)"></StackLayout>
+                            <Label row="0" col="1" text="Temperature (°F)" (tap)="toggleSeries(3)"></Label>
+                        </GridLayout>
                     </GridLayout>
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                    <chart:RadCartesianChart id="cartesianChart">
-                        <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh a" labelFitMode="Rotate"
-                            majorStep="Day" plotMode="BetweenTicks" allowZoom="true" allowPan="true">
-                        </DateTimeContinuousAxis>
-                        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-                        <LineSeries tkCartesianSeries [items]="respirationListItems" categoryProperty="Comment"
-                            valueProperty="Value" showLabels="true">
-                            <LineSeries.labelStyle>
-                                <PointLabelStyle margin="10" fontStyle="Bold" fillColor="#60B3FC" textSize="8"
-                                    textColor="White" />
-                            </LineSeries.labelStyle>
-                        </LineSeries>
-                    </chart:RadCartesianChart>
-                </StackLayout>
+                    <GridLayout rows="*" row="3">
+                        <RadCartesianChart id="consolidatedChart" seriesSelectionMode="None" #consolidatedChart>
 
+                            <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh a" labelFitMode="Rotate"
+                                majorStep="Day" plotMode="BetweenTicks" allowZoom="true" allowPan="true">
+                            </DateTimeContinuousAxis>
+                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                            <!-- Line Series Start-->
+                            <LineSeries tkCartesianSeries seriesName="PulseRateLineSeries" [items]="pulseListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#2ecc40"
+                                    textSize="8" textColor="White"></PointLabelStyle>
+                            </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="PulseRateBubbleSeries" [items]="pulseListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
 
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureSystolicLineSeries" [items]="bloodpresHighListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#bb0a1e"
+                                    textSize="8" textColor="White"></PointLabelStyle>
+                            </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureSystolicBubbleSeries" [items]="bloodpresHighListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
 
-                <StackLayout *ngIf="pulseUIChart">
-                    <GridLayout rows="auto,auto" columns="*, auto">
-                        <StackLayout row="0" col="0">
-                            <Label class="body" textWrap="true" text="RESPIRATION RATE" style="color:#396766;vertical-align: center;"></Label>
-                        </StackLayout>
-                        <StackLayout row="0" col="1">
-                            <Label text="&#xf294;" class="mdi" (tap)="closePuleDialog()" style="color:#00a6ce;"></Label>
-                        </StackLayout>
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureDiastolicLineSeries" [items]="bloodpresLowListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#bb0a1e"
+                                    textSize="8" textColor="White"></PointLabelStyle>
+                            </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries" [items]="bloodpresLowListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <!-- <RangeBarSeries tkCartesianSeries seriesName="BloodPressureSeries" [items]="bloodPressureSource" showLabels="{{showLabels}}" categoryProperty="timeStamp" lowPropertyName="Diastolic"
+                                highPropertyName="Systolic" minBarSize="10"></RangeBarSeries> -->
+                            <!-- <OhlcSeries tkCartesianSeries seriesName="BloodPressureSeries" [items]="bloodPressureSource" showLabels="{{showLabels}}" categoryProperty="timeStamp"
+                                        openPropertyName="Diastolic" highPropertyName="Systolic"
+                                        lowPropertyName="Diastolic" closePropertyName="Systolic"></OhlcSeries> -->
+
+                            <LineSeries tkCartesianSeries seriesName="RespirationRateLineSeries" [items]="respirationListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#ff851b"
+                                    textSize="8" textColor="White"></PointLabelStyle>
+                            </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="RespirationRateBubbleSeries" [items]="respirationListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+
+                            <LineSeries tkCartesianSeries seriesName="TemperatureLineSeries" [items]="tempListItems"
+                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#0075D9"
+                                    textSize="8" textColor="White"></PointLabelStyle>
+                            </LineSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="TemperatureBubbleSeries" [items]="tempListItems"
+                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <!-- Line Series End-->
+
+                            <RadCartesianChart.palettes>
+                                <Palette tkCartesianPalette seriesName="PulseRateLineSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#2ecc40" strokeWidth="5"
+                                            fillColor="#2ecc40">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="PulseRateBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#2ecc40" strokeWidth="5"
+                                            fillColor="#2ecc40">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="TemperatureLineSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#0075D9" strokeWidth="5"
+                                            fillColor="#0075D9">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="TemperatureBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#0075D9" strokeWidth="5"
+                                            fillColor="#0075D9">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="BloodPressureSystolicLineSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="BloodPressureSystolicBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="BloodPressureDiastolicLineSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="BloodPressureDiastolicBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                                <!-- <Palette tkCartesianPalette seriesName="BloodPressureSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#bb0a1e" fillColor="#bb0a1e" strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette> -->
+                                <Palette tkCartesianPalette seriesName="RespirationRateLineSeries">
+                                    <Palette.entries>
+                                        <Palette.entries>
+                                            <PaletteEntry tkCartesianPaletteEntry strokeColor="#ff851b" fillColor="#ff851b"
+                                                strokeWidth="5">
+                                            </PaletteEntry>
+                                        </Palette.entries>
+                                    </Palette.entries>
+                                </Palette>
+                                <Palette tkCartesianPalette seriesName="RespirationRateBubbleSeries">
+                                    <Palette.entries>
+                                        <PaletteEntry tkCartesianPaletteEntry strokeColor="#ff851b" fillColor="#ff851b"
+                                            strokeWidth="5">
+                                        </PaletteEntry>
+                                    </Palette.entries>
+                                </Palette>
+                            </RadCartesianChart.palettes>
+                            <Trackball tkCartesianTrackball snapMode="AllClosestPoints" showIntersectionPoints="true"
+                                (trackBallContentRequested)="onTrackBallContentRequested($event)"></Trackball>
+                        </RadCartesianChart>
                     </GridLayout>
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                    <chart:RadCartesianChart id="cartesianChart">
-                        <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh a" labelFitMode="Rotate"
-                            majorStep="Day" plotMode="BetweenTicks" allowZoom="true" allowPan="true">
-                        </DateTimeContinuousAxis>
-                        <LinearAxis tkCartesianVerticalAxis></LinearAxis>
-                        <LineSeries tkCartesianSeries [items]="pulseListItems" categoryProperty="Comment" valueProperty="Value"
-                            showLabels="true">
-                            <LineSeries.labelStyle>
-                                <PointLabelStyle margin="10" fontStyle="Bold" fillColor="#60B3FC" textSize="8"
-                                    textColor="White" />
-                            </LineSeries.labelStyle>
-                        </LineSeries>
-                    </chart:RadCartesianChart>
-                </StackLayout>
+                </GridLayout>
             </StackLayout>
         </AbsoluteLayout>
     </GridLayout>

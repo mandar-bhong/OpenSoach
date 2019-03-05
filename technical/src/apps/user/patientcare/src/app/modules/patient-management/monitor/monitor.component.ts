@@ -3,14 +3,17 @@ import { ObservableArray } from 'tns-core-modules/data/observable-array/observab
 import { Schedulardata } from '~/app/models/ui/chart-models';
 import { MonitorService } from '~/app/services/monitor/monitor.service';
 import { ActionService } from '~/app/services/action/action.service';
+import { TrackballCustomContentData } from 'nativescript-ui-chart';
 
 export class MonitorUiModel {
     Comment: number;
     Value: number;
+    Impact: number;
 }
 export class BloodUiHighModel {
     Comment: number;
     Value: number;
+    Impact: number;
 }
 export class BloodUiLowModel {
     Comment: number;
@@ -61,90 +64,23 @@ export class MonitorComponent implements OnInit {
 
 
 
-    categoricalSourcehigh: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 99.5 },
-        { Country: "test2", Amount1: 99.5 },
-        { Country: "test3", Amount1: 99.5 },
-        { Country: "test4", Amount1: 99.5 },
-        { Country: "test5", Amount1: 99.5 },
-        { Country: "test6", Amount1: 99.5 },
-
-    ];
-    categoricalSourcelow: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 97.7 },
-        { Country: "test2", Amount1: 97.7 },
-        { Country: "test3", Amount1: 97.7 },
-        { Country: "test4", Amount1: 97.7 },
-        { Country: "test5", Amount1: 97.7 },
-        { Country: "test6", Amount1: 97.7 },
-
-    ];
-
-    bloodSourcecategoricalSourcehigh: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 140 },
-        { Country: "test2", Amount1: 140 },
-        { Country: "test3", Amount1: 140 },
-        { Country: "test4", Amount1: 140 },
-        { Country: "test5", Amount1: 140 },
-        { Country: "test6", Amount1: 140 },
-
-
-    ];
-    bloodSourcecategoricalSourcelow: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 90 },
-        { Country: "test2", Amount1: 90 },
-        { Country: "test3", Amount1: 90 },
-        { Country: "test4", Amount1: 90 },
-        { Country: "test5", Amount1: 89 },
-        { Country: "test6", Amount1: 89 },
-    ];
-
-
-    respirationcategoricalSourcehigh: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 135 },
-        { Country: "test2", Amount1: 135 },
-        { Country: "test3", Amount1: 135 },
-        { Country: "test4", Amount1: 135 },
-        { Country: "test5", Amount1: 135 },
-        { Country: "test6", Amount1: 135 },
-
-
-    ];
-    respirationcategoricalSourcelow: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 95 },
-        { Country: "test2", Amount1: 95 },
-        { Country: "test3", Amount1: 95 },
-        { Country: "test4", Amount1: 95 },
-        { Country: "test5", Amount1: 95 },
-        { Country: "test6", Amount1: 95 },
-    ];
-
-
-    pulsecategoricalSourcehigh: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 135 },
-        { Country: "test2", Amount1: 135 },
-        { Country: "test3", Amount1: 135 },
-        { Country: "test4", Amount1: 135 },
-        { Country: "test5", Amount1: 135 },
-        { Country: "test6", Amount1: 135 },
-
-
-    ];
-    pulsecategoricalSourcelow: { Country: string, Amount1: number }[] = [
-        { Country: "test1", Amount1: 95 },
-        { Country: "test2", Amount1: 95 },
-        { Country: "test3", Amount1: 95 },
-        { Country: "test4", Amount1: 95 },
-        { Country: "test5", Amount1: 95 },
-        { Country: "test6", Amount1: 95 },
-    ];
+    
     dialogOpen = false;
     tempUIChart = false;
     respirationUIChart = false;
     pulseUIChart = false;
+
+    showLabels = false;
+    // pulse rate, blood pressure, respiration rate, temperature
+    seriesVisiblity = [true, true, true, true];
+    isLoggingIn = true;
     constructor(private monitorService: MonitorService,
         private act: ActionService) {
-            
+            // this.pulseListItems = new ObservableArray<MonitorUiModel>();
+            // this.pulseRateSource.forEach(item => {
+            //     this.pulseRateSeriesBinding.push(item);
+            // });
+
     }
 
     ngOnInit() {
@@ -242,6 +178,7 @@ export class MonitorComponent implements OnInit {
                     const getDBDate = new Date(item.txn_date);
                     // const asc_date =
                     temperatureListItem.Comment = getDBDate.getTime();
+                    temperatureListItem.Impact = 1;
                     // console.log('getDBDate', getDBDate);
                     // filter data condition 24 hr and last 3 days
                     // if (getDBDate >= this.startDateTime && getDBDate <= this.endDateTime) {
@@ -266,19 +203,18 @@ export class MonitorComponent implements OnInit {
         this.monitorService.getBloodPreActionTxn().then(
             (val) => {
                 val.forEach(item => {
-                    console.log('component bloodpressure', item);
+                    // console.log('component bloodpressure', item);
                     let bloodpresHighListItem = new BloodUiHighModel();
                     const testdata = JSON.parse(item.txn_data);
                     const getDBDate = new Date(item.txn_date);
-                    bloodpresHighListItem.Comment = getDBDate.getTime();               
+                    bloodpresHighListItem.Comment = getDBDate.getTime();
                     bloodpresHighListItem.Value = Number(testdata.value.high);
-                    console.log('testdata', testdata);
-                    console.log('value high',bloodpresHighListItem.Value);
+                    bloodpresHighListItem.Impact = 1;
 
                     let bloodpresLowListItem = new BloodUiHighModel();
-                    bloodpresLowListItem.Comment = getDBDate.getTime();  
+                    bloodpresLowListItem.Comment = getDBDate.getTime();
                     bloodpresLowListItem.Value = Number(testdata.value.low);
-                    console.log('value low',bloodpresHighListItem.Value);
+                    bloodpresLowListItem.Impact = 1;
 
                     this.bloodpresHighListItems.push(bloodpresHighListItem);
                     this.bloodpresLowListItems.push(bloodpresLowListItem);
@@ -304,6 +240,7 @@ export class MonitorComponent implements OnInit {
                     const getDBDate = new Date(item.txn_date);
                     respirationListItem.Comment = getDBDate.getTime();
                     respirationListItem.Value = Number(testdata.value);
+                    respirationListItem.Impact = 1;
                     this.respirationListItems.push(respirationListItem);
                     // console.log('respirationListItems', this.respirationListItems);
                 });
@@ -326,6 +263,7 @@ export class MonitorComponent implements OnInit {
                     const getDBDate = new Date(item.txn_date);
                     pulseListItem.Comment = getDBDate.getTime();
                     pulseListItem.Value = Number(testdata.value);
+                    pulseListItem.Impact = 1;
                     this.pulseListItems.push(pulseListItem);
                     // console.log('pulseListItems', this.pulseListItems);
                 });
@@ -371,5 +309,31 @@ export class MonitorComponent implements OnInit {
         this.tempUIChart = false;
         this.respirationUIChart = false;
         this.pulseUIChart = false;
+    }
+    onTrackBallContentRequested(args: TrackballCustomContentData) {
+        let selectedItem = args.pointData;
+
+        switch (args.seriesIndex) {
+            case 0: args.content = "Pulse Rate"; break;
+            case 1: args.content = String(selectedItem.Amount); break;
+            case 2: args.content = "Blood Pressure (Systolic)"; break;
+            case 3: args.content = String(selectedItem.Systolic); break;
+            case 4: args.content = "Blood Pressure (Diastolic)"; break;
+            case 5: args.content = String(selectedItem.Diastolic); break;
+            case 6: args.content = "Respiratory Rate"; break;
+            case 7: args.content = String(selectedItem.Amount); break;
+            case 8: args.content = "Temperature"; break;
+            case 9: args.content = String(selectedItem.Amount); break;
+            default: args.content = " "; break;
+        }
+    }
+
+    toggleLabels() {
+        this.showLabels = !this.showLabels;
+        this.isLoggingIn = !this.isLoggingIn;
+    }
+
+    toggleSeries(index: number) {
+        this.seriesVisiblity[index] = !this.seriesVisiblity[index];
     }
 }
