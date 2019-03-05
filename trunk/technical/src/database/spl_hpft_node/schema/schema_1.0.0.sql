@@ -529,7 +529,7 @@ CREATE TABLE `spl_hpft_doctors_orders_tbl` (
 	INDEX `fk_doc_ordrs_admsn` (`admission_id_fk`),
 	INDEX `fk_doc_ordrs_doc` (`document_id_fk`),
 	CONSTRAINT `fk_doc_ordrs_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_doc_ordrs_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT `fk_doc_ordrs_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_doc_ordrs_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : doc_ordrs';
 
