@@ -98,7 +98,7 @@ type APITopFeedbacksRequest struct {
 }
 
 type APIDashboardPatientFilterModel struct { //Parameter mapping is done from client side
-	CpmId int64 `db:"cpm_id_fk"`
+	CpmId int64 `db:"patient.cpm_id_fk"`
 	SPId  *int  `db:"sp_id_fk"  json:"spid"`
 }
 
