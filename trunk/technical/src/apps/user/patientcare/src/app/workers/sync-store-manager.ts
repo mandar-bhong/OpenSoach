@@ -301,6 +301,7 @@ export class SyncStoreManager {
         DatabaseHelper.updateSyncStoreSyncPending(datastore, DB_SYNC_TYPE.SYNC_FROM_SERVER, SYNC_PENDING.TRUE)
             .then(() => {
                 if (ServerWorkerContext.isSyncInprogress !== true) {
+                    ServerWorkerContext.isSyncInprogress = true;
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
                     ServerHelper.switchSyncState();
                 }
@@ -316,6 +317,7 @@ export class SyncStoreManager {
         DatabaseHelper.updateSyncStoreSyncPending(datastore, DB_SYNC_TYPE.SYNC_TO_SERVER, SYNC_PENDING.TRUE)
             .then(() => {
                 if (ServerWorkerContext.isSyncInprogress !== true) {
+                    ServerWorkerContext.isSyncInprogress = true;
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
                     ServerHelper.switchSyncState();
                 }

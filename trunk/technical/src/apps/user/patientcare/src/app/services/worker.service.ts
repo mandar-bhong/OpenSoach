@@ -10,6 +10,7 @@ import { ServerDataStoreDataModel } from "../models/api/server-data-store-data-m
 import { IDatastoreModel } from "../models/db/idatastore-model";
 import { ScheduleDatastoreModel } from "../models/db/schedule-model";
 import { PassDataService } from "./pass-data-service";
+import { DocumentHelper } from "../helpers/document_helper";
 
 @Injectable()
 export class WorkerService {
@@ -58,6 +59,9 @@ export class WorkerService {
                 break;
             case SERVER_WORKER_EVENT_MSG_TYPE.SERVER_DISCONNECTED:
                 this.ServerConnectionSubject.next(false);
+                break;
+            case SERVER_WORKER_EVENT_MSG_TYPE.UPLOAD_DOCUMENT:
+                DocumentHelper.uploadDocument(message.data,this);
                 break;
         }
     }

@@ -4,6 +4,7 @@ import { ServerWorkerContext, SYNC_TYPE } from "./server-worker-context.js";
 import { SyncStoreManager } from "./sync-store-manager.js";
 import { DatabaseHelper } from "../helpers/database-helper.js";
 import { CommandRequestGenerator } from "./command-request-generator.js";
+import { DocumentSyncHelper } from "./document-sync-helper.js";
 
 export class ServerHelper {
 
@@ -93,17 +94,17 @@ export class ServerHelper {
                 console.log("SYNC_TO_SERVER storename:", storename)
 
                 if (storename.currentStoreName != "") {
-                        DatabaseHelper.getSyncPendingDataStore(storename.currentStoreName)
-                            .then(
-                                (val) => {
-                                    const syncCmd = CommandRequestGenerator.applySyncCmd(storename.currentStoreName, val);
-                                    console.log("apply syncCmd", syncCmd);
-                                    ServerHelper.sendToServerCallback(syncCmd);
-                                },
-                                (err) => {
-                                    console.log("getSyncPendingDataStore err:", err);
-                                }
-                            )
+                    DatabaseHelper.getSyncPendingDataStore(storename.currentStoreName)
+                        .then(
+                            (val) => {
+                                const syncCmd = CommandRequestGenerator.applySyncCmd(storename.currentStoreName, val);
+                                console.log("apply syncCmd", syncCmd);
+                                ServerHelper.sendToServerCallback(syncCmd);
+                            },
+                            (err) => {
+                                console.log("getSyncPendingDataStore err:", err);
+                            }
+                        )
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_TO_SERVER_COMPLETED;
                     this.switchSyncState();
@@ -124,9 +125,9 @@ export class ServerHelper {
 
 
                 if (storename.currentStoreName != "") {
-                        const syncCmd = CommandRequestGenerator.getSyncCmd(storename.currentStoreName, storename.lastSynched);
-                        console.log("get syncCmd", syncCmd);
-                        ServerHelper.sendToServerCallback(syncCmd);
+                    const syncCmd = CommandRequestGenerator.getSyncCmd(storename.currentStoreName, storename.lastSynched);
+                    console.log("get syncCmd", syncCmd);
+                    ServerHelper.sendToServerCallback(syncCmd);
 
                 } else {
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED;
@@ -139,6 +140,8 @@ export class ServerHelper {
                 //sync from server completed
 
                 console.log("SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED");
+
+                DocumentSyncHelper.sync();
 
                 if (ServerWorkerContext.syncType === SYNC_TYPE.DIFFERENTIAL) {
                     console.log("Differential Sync Completed");
