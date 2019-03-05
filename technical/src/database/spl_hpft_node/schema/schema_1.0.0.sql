@@ -519,7 +519,7 @@ CREATE TABLE `spl_hpft_doctors_orders_tbl` (
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`doctor_id_fk` INT(10) UNSIGNED NOT NULL,
 	`doctors_orders` VARCHAR(1500) NOT NULL,
-	`document_id_fk` INT(10) UNSIGNED NOT NULL,
+	`document_id_fk` INT(10) UNSIGNED NULL DEFAULT NULL,
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -527,9 +527,12 @@ CREATE TABLE `spl_hpft_doctors_orders_tbl` (
 	PRIMARY KEY (`id`),
 	INDEX `fk_doc_ordrs_cpm` (`cpm_id_fk`),
 	INDEX `fk_doc_ordrs_admsn` (`admission_id_fk`),
+	INDEX `fk_doc_ordrs_doc` (`document_id_fk`),
 	CONSTRAINT `fk_doc_ordrs_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_doc_ordrs_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT `fk_doc_ordrs_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : doc_ordrs';
+
 
 
 --
