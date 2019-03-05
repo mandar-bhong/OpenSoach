@@ -358,10 +358,8 @@ export class MedicalDetailsModel {
 
         this.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo[]>();
         const tempPersonalHistory = JSON.parse(medicalDetailsResponse.personalhistory);
-        this.allergiesData.data = [];
-        this.personalHistoryData.data = tempPersonalHistory.data;
+        this.personalHistoryData.data = [];
+        this.personalHistoryData.data = tempPersonalHistory;
         this.personalHistoryData.version = tempPersonalHistory.version;
-
-        console.log("data", this);
     }
 }

@@ -15,17 +15,15 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.presentComplaintsData.data"
-                            placeHolderText="Write your complaint" (onItemAdd)='onAddedComplaint($event)'>
-                        </app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.presentComplaintsData.data"
+                        placeHolderText="Write your complaint" (onItemAdd)='onAddedComplaint($event)'>
+                    </app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
@@ -48,17 +46,15 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.reasonForAdmissionData.data"
-                            placeHolderText="Write your reason for admission." (onItemAdd)='onAddedAdmission($event)'>
-                        </app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.reasonForAdmissionData.data"
+                        placeHolderText="Write your reason for admission." (onItemAdd)='onAddedAdmission($event)'>
+                    </app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
@@ -80,18 +76,16 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.historyPresentIllnessData.data"
-                            placeHolderText="Write your history of present illness."
-                            (onItemAdd)='onAddedHistoryPresentIllness($event)'>
-                        </app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.historyPresentIllnessData.data"
+                        placeHolderText="Write your history of present illness."
+                        (onItemAdd)='onAddedHistoryPresentIllness($event)'>
+                    </app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
@@ -113,17 +107,15 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.pastHistoryData.data"
-                            placeHolderText="Write your past history about health."
-                            (onItemAdd)='onAddedPastHistory($event)'></app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.pastHistoryData.data"
+                        placeHolderText="Write your past history about health."
+                        (onItemAdd)='onAddedPastHistory($event)'></app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
@@ -145,18 +137,16 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.treatmentBeforeAdmissionData.data"
-                            placeHolderText="If you take any treatment before admission then write here."
-                            (onItemAdd)='onAddedTreatmentBeforeAdmission($event)'>
-                        </app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.treatmentBeforeAdmissionData.data"
+                        placeHolderText="If you take any treatment before admission then write here."
+                        (onItemAdd)='onAddedTreatmentBeforeAdmission($event)'>
+                    </app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
@@ -178,18 +168,16 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.investigationBeforeAdmissionData.data"
-                            placeHolderText="If you take any investigation before admission then write here."
-                            (onItemAdd)='onAddedInvestigationBeforeAdmission($event)'>
-                        </app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.investigationBeforeAdmissionData.data"
+                        placeHolderText="If you take any investigation before admission then write here."
+                        (onItemAdd)='onAddedInvestigationBeforeAdmission($event)'>
+                    </app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
@@ -211,18 +199,15 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.familyHistoryData.data"
-                            placeHolderText="Write about your family history."
-                            (onItemAdd)='onAddedFamilyHistory($event)'>
-                        </app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.familyHistoryData.data"
+                        placeHolderText="Write about your family history." (onItemAdd)='onAddedFamilyHistory($event)'>
+                    </app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
@@ -244,23 +229,21 @@
             <mat-divider [inset]="true"></mat-divider>
         </div>
     </div>
-    <div style="margin: 20px; padding: 10px;">
-        <div class="row">
-            <div class="col-md-12">
-                <mat-card-content>
-                    <div *ngIf="isResponsereceived">
-                        <app-multiple-comment-input [itemList]="dataModel.allergiesData.data"
-                            placeHolderText="Write about your allergies." (onItemAdd)='onAddedAllergies($event)'>
-                        </app-multiple-comment-input>
-                    </div>
-                </mat-card-content>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card-content>
+                <div *ngIf="isResponsereceived">
+                    <app-multiple-comment-input [itemList]="dataModel.allergiesData.data"
+                        placeHolderText="Write about your allergies." (onItemAdd)='onAddedAllergies($event)'>
+                    </app-multiple-comment-input>
+                </div>
+            </mat-card-content>
         </div>
     </div>
 </mat-card>
 
-<!-- <div *ngIf="isResponsereceived">
+<div *ngIf="isResponsereceived">
     <app-medical-personal-history [itemPersonList]="dataModel.personalHistoryData.data"
-        (onItemAdd)='onAddedPersonHistory($event)'>
+        (onItemAddPerson)='onAddedPersonHistory($event)'>
     </app-medical-personal-history>
-</div> -->
+</div>

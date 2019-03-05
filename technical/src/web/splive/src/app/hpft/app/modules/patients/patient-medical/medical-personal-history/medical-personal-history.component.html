@@ -1,0 +1,139 @@
+<mat-card style="max-width:1000px">
+  <form [formGroup]="editableForm" (ngSubmit)="itemAdd()">
+    <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+    <mat-card-content>
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <div class="row">
+          <div class="col-md-3 margin-top">
+            <label>Weight</label>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Weight" formControlName="weightControls" [(ngModel)]="weight">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Weight</span>
+        <label class="viewtext">{{ itemPersonList.weight }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <div class="row">
+          <div class="col-md-3 margin-top">
+            <label>Weight Tendency</label>
+          </div>
+          <div class="col-md-8 margin-top">
+            <mat-radio-group [(ngModel)]="tendency" formControlName="tendencyControls">
+              <mat-radio-button value="Increasing">Increasing</mat-radio-button>
+              <mat-radio-button value="Decreasing">Decreasing</mat-radio-button>
+              <mat-radio-button value="Constant">Constant</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Weight Tendency</span>
+        <label class="viewtext">{{itemPersonList.weighttendency }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <div class="row">
+          <div class="col-md-3 margin-top">
+            <label>Alcohol</label>
+          </div>
+          <div class="col-md-3 margin-top">
+            <mat-checkbox [(ngModel)]="alcoholcheck"  [ngModelOptions]="{standalone: true}"></mat-checkbox>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width" *ngIf="alcoholcheck">
+              <input matInput formControlName="alcohalquantityControls"  placeholder="Quantity"
+                [(ngModel)]="alcohalquantity"> 
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Alcohol</span>
+        <label class="viewtext">{{ itemPersonList.alcohalquantity }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <div class="row">
+          <div class="col-md-3 margin-top">
+          </div>
+          <div class="col-md-8 ">
+            <mat-form-field class="full-width">
+              <textarea matInput ref-textarea placeholder="Comment" md-maxlength="200" [(ngModel)]="alcohalcomment"
+                formControlName="alcohalcommentControls"> </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Comment</span>
+        <label class="viewtext">{{ itemPersonList.alcohalcomment }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <div class="row">
+          <div class="col-md-3 margin-top">
+            <label>Smoking</label>
+          </div>
+          <div class="col-md-3 margin-top">
+            <mat-checkbox [(ngModel)]="smokCheck"  [ngModelOptions]="{standalone: true}"></mat-checkbox>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width" *ngIf="smokCheck">
+              <input matInput placeholder="Quantity" [(ngModel)]="smokingquantity"
+                formControlName="smokingquantityControls">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Smoking</span>
+        <label class="viewtext">{{ itemPersonList.smokingquantity }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <div class="row">
+          <div class="col-md-3 margin-top">
+          </div>
+          <div class="col-md-8">
+            <mat-form-field class="full-width">
+              <textarea matInput ref-textarea placeholder="Comment" rows="2" [(ngModel)]="smokingcomment"
+                formControlName="smokingcommentControls"> </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Comment</span>
+        <label class="viewtext">{{ itemPersonList.smokingcomment }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <div class="row">
+          <div class="col-md-3 margin-top">
+            Other
+          </div>
+          <div class="col-md-8">
+            <mat-form-field class="full-width">
+              <textarea matInput ref-textarea placeholder="Comment" md-maxlength="200" [(ngModel)]="other"
+                formControlName="otherControls"> </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Other Comment</span>
+        <label class="viewtext">{{itemPersonList.other}}</label>
+      </div>
+
+      <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()">
+      </app-editable-form-footer-toolbar>
+    </mat-card-content>
+  </form>
+</mat-card>
