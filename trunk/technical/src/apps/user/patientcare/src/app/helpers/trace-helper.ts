@@ -1,10 +1,11 @@
 import * as trace from 'trace';
-import { TraceConsoleWriter } from './trace-writer-console';
+import { TraceConsoleWriter } from './trace-writer-console.js';
 
 export enum TraceCustomCategory {
     APP_START = "APP_START",
     SYNC = "SYNC",
-    DATABASE = "DATABASE"
+    DATABASE = "DATABASE",
+    WORKER="WORKER"
 }
 
 export class TraceHelper {
