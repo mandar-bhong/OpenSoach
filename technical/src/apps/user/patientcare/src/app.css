@@ -253,3 +253,9 @@ Label.mod-light {
     font-family: 'Open Sans';
     font-size: 12%;
 }
+.startup-indicator {
+    color: #FF8912;
+    vertical-align: center;
+    height: 20%;
+    width: 20%;
+}
