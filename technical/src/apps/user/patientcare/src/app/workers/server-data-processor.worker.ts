@@ -1,7 +1,10 @@
 import "globals";
 import { WorkerTasks } from "./worker-tasks.js";
-
+import * as trace from 'trace';
+import { TraceCustomCategory, TraceHelper } from "../helpers/trace-helper.js";
 const context: Worker = self as any;
+
+TraceHelper.configure();
 
 context.onmessage = msg => {
     console.log("Inside TS worker...");
@@ -9,5 +12,4 @@ context.onmessage = msg => {
 };
 
 WorkerTasks.Init(context);
-
-console.log('worker started');
+trace.write('worker started', TraceCustomCategory.WORKER, trace.messageType.log);
