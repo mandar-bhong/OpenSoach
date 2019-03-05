@@ -108,6 +108,20 @@
                                             <Label text="&#xf00d;" class="fas" style="color:red"></Label>
                                         </RL:Ripple>
                                     </StackLayout>
+
+
+                                    <!-- <StackLayout row="0" col="0"  *ngIf="doneItemlabel === false">
+                                        <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5" height="37"
+                                            width="37" (tap)="onSubmit(item)">
+                                            <Label text="Done" class="body" style="color: green"></Label>
+                                        </RL:Ripple>
+                                    </StackLayout>
+                                    <StackLayout row="0" col="2"  *ngIf="doneItem">
+                                        <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5" height="37"
+                                            width="37" (tap)="onDiscard(item)">
+                                            <Label text="Discard" class="Body" style="color:red"></Label>
+                                        </RL:Ripple>
+                                    </StackLayout> -->
                                 </GridLayout>
                             </GridLayout>
                             <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
@@ -126,9 +140,19 @@
                                     </GridLayout>
                                     <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;" *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake' && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                         <StackLayout col="1" style="width:50%;">
-                                            <StackLayout class="input-field">
+                                            <StackLayout class="input-field" *ngIf="item.name !== 'Blood Pressure'">
                                                 <TextField hint="Value" keyboardType="number" autocorrect="false"
                                                     autocapitalizationType="none" [(ngModel)]="actiondata.value" class="input input-border"></TextField>
+                                            </StackLayout>
+                                            <StackLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
+                                                <TextField hint="High" keyboardType="number" autocorrect="false"
+                                                    autocapitalizationType="none" [(ngModel)]="bloodPressureValueModel.high"
+                                                    class="input input-border"></TextField>
+                                            </StackLayout>
+                                            <StackLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
+                                                <TextField hint="low" keyboardType="number" autocorrect="false"
+                                                    autocapitalizationType="none" [(ngModel)]="bloodPressureValueModel.low"
+                                                    class="input input-border"></TextField>
                                             </StackLayout>
                                         </StackLayout>
                                     </GridLayout>
@@ -170,7 +194,7 @@
                     </StackLayout>
                 </RL:Ripple>
                 <StackLayout horizontalAlignment="right" class="rightsecond" VerticalAlignment="bottom">
-                    <RL:Ripple rippleColor="#fff" style="margin-top: 40;" (tap)="showDialog()">
+                    <RL:Ripple rippleColor="#fff" style="margin-top: 35;" (tap)="showDialog()">
                         <StackLayout row="1" class="float-btn">
                             <Label class="float-btn-text fas" text="&#xf067;" style="color: white;"></Label>
                         </StackLayout>

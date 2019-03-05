@@ -175,7 +175,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	}
 
 	details(listItem) {
-		console.log(listItem);
+		// console.log(listItem);
 		this.passdataservice.setPatientData(listItem);
 		this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
 	}

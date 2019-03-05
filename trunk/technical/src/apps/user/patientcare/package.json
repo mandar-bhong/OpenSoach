@@ -26,6 +26,8 @@
     "nativescript-background-http": "^3.4.0",
     "nativescript-camera": "^4.1.1",
     "nativescript-cardview": "^3.1.1",
+    "nativescript-cfalert-dialog": "^1.0.14",
+    "nativescript-fancyalert": "^3.0.6",
     "nativescript-imagepicker": "^6.0.4",
     "nativescript-local-notifications": "^3.1.0",
     "nativescript-ripple": "^2.1.0",
