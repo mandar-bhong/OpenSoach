@@ -5,6 +5,7 @@ import { AppMessageUIHandler } from "./app-message-ui-handler.js";
 import { ServerHelper } from "./server-helper.js";
 import { PlatformHelper } from "../helpers/platform-helper.js";
 import { CommandResponseProcessor } from "./command-response-processor.js";
+import { DocumentSyncHelper } from "./document-sync-helper.js";
 
 var WS = require('nativescript-websockets');
 
@@ -43,6 +44,10 @@ export class WorkerTasks {
                     const appMessageUIHandler = new AppMessageUIHandler();
                     appMessageUIHandler.handleMessage(element, WorkerTasks.postMessage);
                 });
+                break;
+            case SERVER_WORKER_MSG_TYPE.UPLOAD_DOCUMENT_COMPLETED:
+                // call delete document sync
+                DocumentSyncHelper.deleteDocFromLocalStore(msg.data)
                 break;
         }
     }
@@ -101,4 +106,5 @@ export class WorkerTasks {
     public static postMessage(msg: ServerWorkerEventDataModel) {
         WorkerTasks.workerReference.postMessage(msg);
     }
+
 }

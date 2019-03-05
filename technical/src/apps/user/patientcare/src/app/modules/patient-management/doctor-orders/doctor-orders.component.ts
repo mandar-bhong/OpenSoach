@@ -98,8 +98,8 @@ export class DoctorOrdersComponent implements OnInit {
 		serverDocumentDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
 		serverDataStoreModel.data.document_uuid = serverDocumentDataStoreModel.data.uuid;
 		const TempDataStore = new Array();
-		TempDataStore.push(serverDataStoreModel);
 		TempDataStore.push(serverDocumentDataStoreModel);
+		TempDataStore.push(serverDataStoreModel);		
 		this.params.closeCallback(TempDataStore);
 
 	}

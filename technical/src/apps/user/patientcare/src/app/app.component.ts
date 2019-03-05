@@ -3,6 +3,7 @@ import { WorkerService } from "./services/worker.service";
 //TODO: DONT Remove websocket require, if this line is removed. the worker doesnt get access to nativescript-websockets.
 // this is a temporary fix and need to be handled through webpack config.
 var WS = require('nativescript-websockets');
+var bghttp = require("nativescript-background-http");
 import * as trace from 'trace';
 import { TraceCustomCategory } from "./helpers/trace-helper";
 import { AppStartupService } from "./services/app-startup.service";

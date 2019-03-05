@@ -52,7 +52,8 @@ let selectQueries = new Map([
     ["treatment_doc_tbl_insert","insert into treatment_doc_tbl (treatment_uuid,document_uuid) valuers (?,?)"],
     ["pathology_record_tbl_insert","insert into pathology_record_tbl (uuid, admission_uuid, test_performed, test_result, comments,updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?)"],
     ["pathology_record_tbl_update","update pathology_record_doc_tbl set admission_uuid=?, test_performed=?, test_result=?, comments=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid =?"],
-    ["pathology_record_doc_tbl_insert","pathology_record_doc_tbl (pathology_record_uuid,document_uuid) values (?,?)"],
+    ["pathology_record_doc_tbl_insert","insert pathology_record_doc_tbl (pathology_record_uuid,document_uuid) values (?,?)"],
+    ["documentlist","select * from document_tbl"],
 ]);
 
 let selectTableName = new Map([
