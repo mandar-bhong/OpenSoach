@@ -26,10 +26,16 @@ import { AmazingTimePickerModule, AmazingTimePickerService } from 'amazing-time-
 // import { Mul } from './patient-medical/app-multiple-comment-input/app-multiple-comment-input.component';
 import { MultipleCommentInputComponent } from './patient-medical/multiple-comment-input/multiple-comment-input.component';
 import { MedicalPersonalHistoryComponent } from './patient-medical/medical-personal-history/medical-personal-history.component';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MedicalContainerComponent } from './medical-container/medical-container.component';
-
+import { ScheduleDetailsComponent } from './schedule-details/schedule-details.component';
+import { DoctorOrdersComponent } from './doctor-orders/doctor-orders.component';
+import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { ViewMedicineTransactionComponent } from './transaction-details/view-medicine-transaction/view-medicine-transaction.component';
+import { ViewIntakeTransactionComponent } from './transaction-details/view-intake-transaction/view-intake-transaction.component';
+import { ViewMonitorTransactionComponent } from './transaction-details/view-monitor-transaction/view-monitor-transaction.component';
+import { ViewOutputTransactionComponent } from './transaction-details/view-output-transaction/view-output-transaction.component';
 
 
 @NgModule({
@@ -59,11 +65,14 @@ import { MedicalContainerComponent } from './medical-container/medical-container
     PatientSearchComponent,
     PatientCheckListComponent,
     PatientCheckSearchComponent,
-    MultipleCommentInputComponent,
-    MedicalPersonalHistoryComponent,
-    PatientCheckSearchComponent,
-    PatientCheckSearchComponent,
-    MedicalContainerComponent],
+    MedicalContainerComponent,
+    ScheduleDetailsComponent,
+    DoctorOrdersComponent,
+    TransactionDetailsComponent,
+    ViewMedicineTransactionComponent,
+    ViewIntakeTransactionComponent,
+    ViewMonitorTransactionComponent,
+    ViewOutputTransactionComponent],
   providers: [
     AmazingTimePickerService,
     MatRadioModule,

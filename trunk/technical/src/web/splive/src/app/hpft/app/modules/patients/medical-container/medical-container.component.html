@@ -1,17 +1,30 @@
-<div class="row">
+<div>
+  <div class="row">
     <div class="col-sm-1 col-md-1 col-lg-1">
-        <div class="icon-bar">
-            <a  href="javascript:valid(0);" matTooltip="Details" matTooltipPosition="after"><i class="fa fa-list-ul"  ></i></a> 
-            <a href="javascript:valid(0);" matTooltip="Schedules" matTooltipPosition="after"><i class="fa fa-list-ul" ></i></a> 
-            <a href="javascript:valid(0);" matTooltip="Transactions" matTooltipPosition="after"><i class="fa fa-list-ul"  ></i></a> 
-            <a href="javascript:valid(0);" matTooltip="Treatment Reports" matTooltipPosition="after"><i class="fa fa-list-ul"  ></i></a>
-            <a href="javascript:valid(0);" matTooltip="Pathology Reports" matTooltipPosition="after"><i class="fa fa-list-ul"  ></i></a> 
-            <a href="javascript:valid(0);" matTooltip="Doctor Orders" matTooltipPosition="after"><i class="fa fa-list-ul"  ></i></a> 
-          </div>
+      <div class="icon-bar">
+        <a href="javascript:void(0);" [ngClass]="selectedView==='details' ? 'active' : ''" (click)="selectedViewClick('details');"
+          matTooltip="Details" matTooltipPosition="after"><i class="fa fa-list-ul"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='schedules' ? 'active' : ''" matTooltip="Schedules"
+          (click)="selectedViewClick('schedules');" matTooltipPosition="after"><span class="mdi mdi-clock-outline"></span></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='transactions' ? 'active' : ''" matTooltip="Transactions"
+          (click)="selectedViewClick('transactions');" matTooltipPosition="after"><i class="mdi mdi-check-all"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='doctororders' ? 'active' : ''" matTooltip="Doctor Orders"
+          (click)="selectedViewClick('doctororders');" matTooltipPosition="after"><i class="fa fa-user-md"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='treatmentreports' ? 'active' : ''" matTooltip="Treatment Reports"
+          (click)="selectedViewClick('treatmentreports');" matTooltipPosition="after"><i class="fa fa-list-ul"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='pathologyreports' ? 'active' : ''" matTooltip="Pathology Reports"
+          (click)="selectedViewClick('pathologyreports');" matTooltipPosition="after"><i class="fa fa-list-ul"></i></a>
+
+      </div>
     </div>
     <div class="col-sm-11 col-md-11 col-lg-11">
       <p>
-          <app-patient-medical></app-patient-medical>
+        <app-patient-medical *ngIf="selectedView==='details'"></app-patient-medical>
+        <app-transactions-details *ngIf="selectedView==='transactions'"></app-transactions-details>
+        <app-schedule-details *ngIf="selectedView==='schedules'"></app-schedule-details>
+        <app-doctor-orders *ngIf="selectedView==='doctororders'"></app-doctor-orders> 
       </p>
+    </div>
   </div>
+
 </div>

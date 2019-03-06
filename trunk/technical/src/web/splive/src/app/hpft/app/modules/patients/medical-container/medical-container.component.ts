@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-medical-container',
   templateUrl: './medical-container.component.html',
   styleUrls: ['./medical-container.component.css']
 })
 export class MedicalContainerComponent implements OnInit {
-
-  constructor() { }
-
+  selectedView: string;
+  constructor() {
+    this.selectedView = 'details';
+   }
   ngOnInit() {
+   
   }
-
+  selectedViewClick(value: string) {
+    console.log('value', value);
+    this.selectedView = value;
+  }
 }
