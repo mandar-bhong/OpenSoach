@@ -40,6 +40,10 @@ import {
     Allergies,
     PersonalHistory,
 } from '../models/api/patient-models';
+import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
+import { ActionTransactionResponse } from 'app/models/api/transaction-details-response';
+import { ScheduleFilter } from 'app/models/api/schedule-request';
+import { ScheduleDataResponse } from 'app/models/api/schedule-response';
 
 
 @Injectable()
@@ -240,6 +244,24 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         Observable<PayloadResponse<PersonDetailResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/personaldetails/info',
             request, implicitErrorHandling);
+    }
+    // service function for getting transaction details.
+    getActionTransaction(dataListRequest: DataListRequest<TransactionDetailsFilter>, implicitErrorHandling = true):
+        Observable<PayloadResponse<DataListResponse<ActionTransactionResponse<string>[]>>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/actiontxn',
+            dataListRequest, implicitErrorHandling);
+    }
+    // service function for getting schedule details.
+    getScheduleData(dataListRequest: DataListRequest<ScheduleFilter>, implicitErrorHandling = true):
+        Observable<PayloadResponse<DataListResponse<ScheduleDataResponse<string>[]>>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/config/info',
+            dataListRequest, implicitErrorHandling);
+    }
+    // service function for getting schedule details.
+    getScheduleDataById(dataListRequest: ScheduleFilter, implicitErrorHandling = true):
+        Observable<PayloadResponse<DataListResponse<ScheduleDataResponse<string>[]>>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/config/info',
+            dataListRequest, implicitErrorHandling);
     }
 
     //Update Patient Response

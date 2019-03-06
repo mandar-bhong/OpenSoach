@@ -13,7 +13,16 @@
   }
   
   .icon-bar a:hover {
-    background-color: #37A5CD;
+    background-color: #17a2b8;
     color: white;
   }
-  
+  .active{
+    background-color: #37A5CD;
+    color: white !important;
+  }
+  .active > .mdi{
+    color: white !important;
+  } 
+  .icon-bar a:hover > .mdi{
+    color: white !important;
+  } 

@@ -1,0 +1,36 @@
+<!-- <mat-accordion>
+  <div *ngFor="let item of actionTransactionProcessedData" id="{{item.transactionkey}}">
+    <label class="lbl-padding">{{item.transactionkey}}</label>
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngFor="let transactiontem of item.transactiondata">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="flex-grow:0 !important">
+          <i class="mdi mdi-clock-outline"></i>
+        </mat-panel-title>
+        <mat-panel-description>
+          <span style="flex-grow:0.5 !important"> {{transactiontem.actionname}} </span>
+          <span> {{transactiontem.txndate | date:'dd-MMM-yy, h:mm a' }} </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="iner-body">
+        <div class="row">
+          <label>By: {{transactiontem.firstname +" "+transactiontem.lastname }}</label>
+        </div>
+        <div class="row" *ngIf="checkEmptyObjects(transactiontem)">
+          <div class="col-md-4 col-lg-4 col-sm-4" style="padding-left: 0px !important;">
+            <label>Comment: {{transactiontem.txndata.comment }}</label>
+          </div>
+          <div class="col-md-4 col-lg-4 col-sm-4" style="padding-left: 0px !important;" *ngIf="transactiontem.txndata.value!==null">
+            <label>Value: {{transactiontem.txndata.value }}</label>
+          </div>
+        </div>
+        <button style="margin-top:-4%;" class="pull-right" mat-icon-button><span class="mdi mdi-eye"></span></button>
+      </div>
+    </mat-expansion-panel>
+  
+  </div>
+</mat-accordion> 
+ <button (click)="gotoTop();">test</button> -->
+<app-view-medicine-transaction></app-view-medicine-transaction>
+<app-view-intake-transaction></app-view-intake-transaction>
+<app-view-monitor-transaction></app-view-monitor-transaction>
+<app-view-output-transaction></app-view-output-transaction>

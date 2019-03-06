@@ -27,7 +27,6 @@ import { AppNotificationService } from '../../../../../shared/services/notificat
   styleUrls: ['./patient-medical.component.css']
 })
 export class PatientMedicalComponent implements OnInit, OnDestroy {
-
   dataModel = new MedicalDetailsModel();
   routeSubscription: Subscription;
   isResponsereceived = false;
