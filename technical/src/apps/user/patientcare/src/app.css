@@ -259,3 +259,7 @@ Label.mod-light {
     height: 20%;
     width: 20%;
 }
+.pageHeaderTitle {
+    color: #396766;
+    font-size: 18;
+}

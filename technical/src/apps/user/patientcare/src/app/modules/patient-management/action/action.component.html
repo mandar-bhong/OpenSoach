@@ -1,18 +1,18 @@
 <GridLayout rows="*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
-    <GridLayout rows="auto,70,*" columns="*" height="100%" width="100%">
+    <GridLayout rows="auto,auto,*" columns="*" height="100%" width="100%">
         <GridLayout row="0" *ngIf="saveViewOpen" columns="20,*,90, 30">
             <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
             <Button col="2" text="Save" (tap)="save()" class="btn btn-primary"></Button>
         </GridLayout>
-        <GridLayout row="1" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;">
-            <Label class="h3" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
-            <StackLayout col="1" orientation="horizontal" borderRadius borderWidth="1" borderColor="black">
+        <GridLayout row="1" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;padding-top: 2;padding-bottom: 2">
+            <Label class="pageHeaderTitle" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
+            <StackLayout col="1" orientation="horizontal">
                 <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="activeList()" (tap)="buttonClicked = true">
                     <StackLayout textWrap="true" [class.tab-clicked]="buttonClicked" class="tab-layout">
                         <Label text="Active" class="button-text" style="padding-top:3"></Label>
                     </StackLayout>
                 </RL:Ripple>
-
+                <Label text="|"  class="tab-layout-separator"></Label>
                 <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()" (tap)="buttonCompleted = true">
                     <StackLayout textWrap="true" [class.tab-clicked]="buttonCompleted" class="tab-layout">
                         <Label text="Completed" class="button-text" style="padding-top:3"></Label>
