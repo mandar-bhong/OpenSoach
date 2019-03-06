@@ -73,7 +73,7 @@ export class DatabaseSchemaService {
         console.log('set db version', this.DATABASE_VERSION);
 
         // Uncomment following line for creating dummy data in DEBUG_MODE, never to be comitted in SVN.
-         this.createDummyData();
+        //  this.createDummyData();
     }
 
     readFile(filePath: string): Promise<string[]> {
