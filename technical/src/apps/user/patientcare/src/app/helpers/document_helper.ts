@@ -30,7 +30,8 @@ export class DocumentHelper {
                     headers: {
                         "Content-Type": "multipart/form-data",
                         "Authorization": AppGlobalContext.Token
-                    }
+                    },
+                    androidDisplayNotificationProgress: false
                 };
 
                 // console.log("params,request:", params, request);
