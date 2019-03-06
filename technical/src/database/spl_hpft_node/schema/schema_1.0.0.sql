@@ -509,39 +509,6 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 
 
 --
--- Table structure for table `spl_hpft_doctors_orders_tbl`
---
-
-CREATE TABLE `spl_hpft_doctors_orders_tbl` (
-	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`uuid` VARCHAR(50) NOT NULL,
-	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
-	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
-	`doctor_id_fk` INT(10) UNSIGNED NOT NULL,
-	`doctors_orders` VARCHAR(1500) NOT NULL,
-	`comment` VARCHAR(5000) NULL DEFAULT NULL,
-	`ack_by` INT(10) UNSIGNED NULL DEFAULT NULL,
-	`ack_time` TIMESTAMP NULL DEFAULT NULL,
-	`status` TINYINT(4) NULL DEFAULT NULL COMMENT '0 :new, 1 :acked, default :0',
-	`order_created_time` TIMESTAMP NULL DEFAULT NULL,
-	`order_type` VARCHAR(50) NULL DEFAULT NULL,
-	`document_id_fk` INT(10) UNSIGNED NULL DEFAULT NULL,
-	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
-	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	`updated_by` INT(10) UNSIGNED NOT NULL,
-	PRIMARY KEY (`id`),
-	INDEX `fk_doc_ordrs_cpm` (`cpm_id_fk`),
-	INDEX `fk_doc_ordrs_admsn` (`admission_id_fk`),
-	INDEX `fk_doc_ordrs_doc` (`document_id_fk`),
-	CONSTRAINT `fk_doc_ordrs_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_doc_ordrs_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
-	CONSTRAINT `fk_doc_ordrs_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
-)	ENGINE=InnoDB COMMENT='short name : doc_ordrs';
-
-
-
---
 -- Table structure for table `spl_hpft_document_tbl`
 --
 
@@ -585,6 +552,38 @@ CREATE TABLE `spl_hpft_patient_document_tbl` (
 	CONSTRAINT `fk_pdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_pdoc_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : pdoc';
+
+
+--
+-- Table structure for table `spl_hpft_doctors_orders_tbl`
+--
+
+CREATE TABLE `spl_hpft_doctors_orders_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`doctor_id_fk` INT(10) UNSIGNED NOT NULL,
+	`doctors_orders` VARCHAR(1500) NOT NULL,
+	`comment` VARCHAR(5000) NULL DEFAULT NULL,
+	`ack_by` INT(10) UNSIGNED NULL DEFAULT NULL,
+	`ack_time` TIMESTAMP NULL DEFAULT NULL,
+	`status` TINYINT(4) NULL DEFAULT NULL COMMENT '0 :new, 1 :acked, default :0',
+	`order_created_time` TIMESTAMP NULL DEFAULT NULL,
+	`order_type` VARCHAR(50) NULL DEFAULT NULL,
+	`document_id_fk` INT(10) UNSIGNED NULL DEFAULT NULL,
+	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) UNSIGNED NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `fk_doc_ordrs_cpm` (`cpm_id_fk`),
+	INDEX `fk_doc_ordrs_admsn` (`admission_id_fk`),
+	INDEX `fk_doc_ordrs_doc` (`document_id_fk`),
+	CONSTRAINT `fk_doc_ordrs_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_doc_ordrs_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_doc_ordrs_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : doc_ordrs';
 
 
 --
