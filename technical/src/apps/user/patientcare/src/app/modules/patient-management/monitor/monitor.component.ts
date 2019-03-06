@@ -5,23 +5,12 @@ import { MonitorService } from '~/app/services/monitor/monitor.service';
 import { ActionService } from '~/app/services/action/action.service';
 import { TrackballCustomContentData } from 'nativescript-ui-chart';
 
-export class MonitorUiModel {
-    Comment: number;
-    Value: number;
+export class MonitorChartUiModel {
+    timeStamp: number;
+    Amount: number;
+    Systolic: number;
+    Diastolic: number;
     Impact: number;
-}
-export class BloodUiHighModel {
-    Comment: number;
-    Value: number;
-    Impact: number;
-}
-export class BloodUiLowModel {
-    Comment: number;
-    Value: BloodMonitorModel;
-}
-export class BloodMonitorModel {
-    high: string;
-    low: string
 }
 @Component({
     moduleId: module.id,
@@ -31,19 +20,11 @@ export class BloodMonitorModel {
 })
 
 export class MonitorComponent implements OnInit {
-    // categoricalSource: { Country: string, Amount: any }[] = [
-    // 	{ Country: "08:00 AM", Amount: 98 },
-    // 	{ Country: "12:00 AM", Amount: 98.3 },
-    // 	{ Country: "04:00 PM", Amount: 99 },
-    // 	{ Country: "08:00 PM", Amount: 101 },
-    // 	{ Country: "12:00 PM", Amount: 97 },
-    // 	{ Country: "04:00 AM", Amount: 100 }
-    // ];
-    tempListItems = new ObservableArray<MonitorUiModel>();
-    bloodpresHighListItems = new ObservableArray<BloodUiHighModel>();
-    bloodpresLowListItems = new ObservableArray<BloodUiHighModel>();
-    respirationListItems = new ObservableArray<MonitorUiModel>();
-    pulseListItems = new ObservableArray<MonitorUiModel>();
+
+    tempListItems = new ObservableArray<MonitorChartUiModel>();
+    bloodpresListItems = new ObservableArray<MonitorChartUiModel>();
+    respirationListItems = new ObservableArray<MonitorChartUiModel>();
+    pulseListItems = new ObservableArray<MonitorChartUiModel>();
 
     schedulardata: Schedulardata;
     // filter var
@@ -76,11 +57,6 @@ export class MonitorComponent implements OnInit {
     isLoggingIn = true;
     constructor(private monitorService: MonitorService,
         private act: ActionService) {
-            // this.pulseListItems = new ObservableArray<MonitorUiModel>();
-            // this.pulseRateSource.forEach(item => {
-            //     this.pulseRateSeriesBinding.push(item);
-            // });
-
     }
 
     ngOnInit() {
@@ -127,7 +103,7 @@ export class MonitorComponent implements OnInit {
         this.uiEndDate = uiEndDate;
         console.log('uiEndDate', this.uiEndDate);
 
-        this.tempListItems = new ObservableArray<MonitorUiModel>();
+        this.tempListItems = new ObservableArray<MonitorChartUiModel>();
         this.temperature();
 
     }
@@ -162,7 +138,7 @@ export class MonitorComponent implements OnInit {
         const uiEndDate = end_curr_date + "/" + end_curr_month + "/" + end_curr_year;
         this.uiEndDate = uiEndDate;
         console.log('3 day endDateTime', this.endDateTime);
-        this.tempListItems = new ObservableArray<MonitorUiModel>();
+        this.tempListItems = new ObservableArray<MonitorChartUiModel>();
         this.temperature();
     }
     temperature() {
@@ -170,14 +146,14 @@ export class MonitorComponent implements OnInit {
         this.monitorService.getTempActionTxn().then(
             (val) => {
                 val.forEach(item => {
-                    let temperatureListItem = new MonitorUiModel();
+                    let temperatureListItem = new MonitorChartUiModel();
                     // temperatureListItem = item;
                     const testdata = JSON.parse(item.txn_data);
-                    temperatureListItem.Value = Number(testdata.value);
+                    temperatureListItem.Amount = Number(testdata.value);
 
                     const getDBDate = new Date(item.txn_date);
                     // const asc_date =
-                    temperatureListItem.Comment = getDBDate.getTime();
+                    temperatureListItem.timeStamp = getDBDate.getTime();
                     temperatureListItem.Impact = 1;
                     // console.log('getDBDate', getDBDate);
                     // filter data condition 24 hr and last 3 days
@@ -197,30 +173,26 @@ export class MonitorComponent implements OnInit {
     }
 
     bloodpressure() {
-        this.bloodpresHighListItems = new ObservableArray<BloodUiHighModel>();
-        this.bloodpresLowListItems = new ObservableArray<BloodUiHighModel>();
-        this.majorStepUnit = "Day";
+        this.bloodpresListItems = new ObservableArray<MonitorChartUiModel>();
+         this.majorStepUnit = "Day";
         this.monitorService.getBloodPreActionTxn().then(
             (val) => {
                 val.forEach(item => {
                     // console.log('component bloodpressure', item);
-                    let bloodpresHighListItem = new BloodUiHighModel();
+                    let bloodpresHighListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
                     const getDBDate = new Date(item.txn_date);
-                    bloodpresHighListItem.Comment = getDBDate.getTime();
-                    bloodpresHighListItem.Value = Number(testdata.value.high);
+                    bloodpresHighListItem.timeStamp = getDBDate.getTime();
+                    bloodpresHighListItem.Systolic = Number(testdata.value.high);
                     bloodpresHighListItem.Impact = 1;
 
-                    let bloodpresLowListItem = new BloodUiHighModel();
-                    bloodpresLowListItem.Comment = getDBDate.getTime();
-                    bloodpresLowListItem.Value = Number(testdata.value.low);
-                    bloodpresLowListItem.Impact = 1;
+                    bloodpresHighListItem.timeStamp = getDBDate.getTime();
+                    bloodpresHighListItem.Diastolic = Number(testdata.value.low);
+                    bloodpresHighListItem.Impact = 1;
 
-                    this.bloodpresHighListItems.push(bloodpresHighListItem);
-                    this.bloodpresLowListItems.push(bloodpresLowListItem);
+                    this.bloodpresListItems.push(bloodpresHighListItem);
                     // console.log('TempListItems', this.tempListItems);
                 });
-                // console.log('bloodpressure outside', this.bloodpresListItems);
             },
             (error) => {
                 console.log("getChartData error:", error);
@@ -235,11 +207,11 @@ export class MonitorComponent implements OnInit {
             (val) => {
                 val.forEach(item => {
                     // console.log('item homme', item);
-                    let respirationListItem = new MonitorUiModel();
+                    let respirationListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
                     const getDBDate = new Date(item.txn_date);
-                    respirationListItem.Comment = getDBDate.getTime();
-                    respirationListItem.Value = Number(testdata.value);
+                    respirationListItem.timeStamp = getDBDate.getTime();
+                    respirationListItem.Amount = Number(testdata.value);
                     respirationListItem.Impact = 1;
                     this.respirationListItems.push(respirationListItem);
                     // console.log('respirationListItems', this.respirationListItems);
@@ -258,11 +230,11 @@ export class MonitorComponent implements OnInit {
             (val) => {
                 val.forEach(item => {
                     // console.log('item homme', item);
-                    let pulseListItem = new MonitorUiModel();
+                    let pulseListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
                     const getDBDate = new Date(item.txn_date);
-                    pulseListItem.Comment = getDBDate.getTime();
-                    pulseListItem.Value = Number(testdata.value);
+                    pulseListItem.timeStamp = getDBDate.getTime();
+                    pulseListItem.Amount = Number(testdata.value);
                     pulseListItem.Impact = 1;
                     this.pulseListItems.push(pulseListItem);
                     // console.log('pulseListItems', this.pulseListItems);
