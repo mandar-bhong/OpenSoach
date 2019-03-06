@@ -53,19 +53,19 @@ export class PatientActionBarComponent implements OnInit {
 		const options: DialogOptions = {
 			dialogStyle: CFAlertStyle.NOTIFICATION,
 			title: "Unsaved Changes!",
-			message: "Do you wish to Disactive changes?",
+			message: "Do you wish to discard changes?",
 			backgroundBlur: true,
 			onDismiss: () => console.log("showAlert dismissed"),
 			buttons: [
 				{
 					text: "Yes",
-					buttonStyle: CFAlertActionStyle.POSITIVE,
+					buttonStyle: CFAlertActionStyle.NEGATIVE,
 					buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
 					onClick: onSelection
 				},
 				{
 					text: "No, Thanks.",
-					buttonStyle: CFAlertActionStyle.NEGATIVE,
+					buttonStyle: CFAlertActionStyle.POSITIVE,
 					buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
 					onClick: onSelection1
 				}]
