@@ -31,7 +31,8 @@ export class DocumentHelper {
                         "Content-Type": "multipart/form-data",
                         "Authorization": AppGlobalContext.Token
                     },
-                    androidDisplayNotificationProgress: false
+                    // stops file upload notification
+                    // androidDisplayNotificationProgress: false
                 };
 
                 // console.log("params,request:", params, request);
