@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
-import { ProdServicepointService } from '../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
@@ -88,9 +87,12 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
           this.dataModel.admissionid = payloadResponse.data.admissionid;
           this.patientService.setAdmissionId(payloadResponse.data.admissionid);
           this.appNotificationService.success();
+          this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
+          this.patientService.admissionid = payloadResponse.data.admissionid;
+          console.log('get id', this.patientService.medicaldetialsid);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
-          
+
         }
         this.inProgress = false;
       });
@@ -102,6 +104,8 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       this.dataModel.copyToUpdate(admissionUpdateRequest);
       this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
+          // this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
+          // console.log('get id',  this.patientService.medicaldetialsid);
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
@@ -116,7 +120,7 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFromUpdateResponse(payloadResponse.data);
-        } 
+        }
       }
     });
   }

@@ -12,7 +12,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class MedicalPersonalHistoryComponent extends EditRecordBase implements OnInit, OnDestroy {
 
-  @Input() itemPersonList: any;
+  @Input() itemPersonList: PersonalHistoryInfo;
 
   @Input() placeHolderTextPerson: string;
   @Input() headerTextPerson: string;
@@ -35,10 +35,12 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     this.iconCss = 'fa fa-user';
     this.pageTitle = 'Personal History';
   }
+ 
   ngOnInit() {
     this.createControls();
     this.tendency = 'Increasing';
     this.showBackButton = false;
+   setTimeout(()=>{
     if (Object.keys(this.itemPersonList).length > 0) {
       // update mode
       this.getData();
@@ -49,6 +51,7 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
       this.recordState = EDITABLE_RECORD_STATE.ADD;
       this.setFormMode(FORM_MODE.EDITABLE);
     }
+   });
   }
   getData() {
     this.weight = this.itemPersonList.weight;
@@ -61,9 +64,8 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     if (this.alcohalquantity != null) {
       this.alcoholcheck = true;
     }
-    if(this.smokingquantity != null)
-    {
-      this.smokCheck =true;
+    if (this.smokingquantity != null) {
+      this.smokCheck = true;
     }
   }
   itemAdd() {
@@ -99,4 +101,5 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
       this.routeSubscription.unsubscribe();
     }
   }
+  
 }

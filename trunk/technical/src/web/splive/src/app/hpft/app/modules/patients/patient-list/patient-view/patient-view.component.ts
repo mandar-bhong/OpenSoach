@@ -65,8 +65,8 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     const dt = new Date();
     const datetime = dt.getHours() + ":" + dt.getMinutes();
     this.selectedStartTime = this.minutesToTimeString(dt.getMinutes());
-    
-    console.log("Time is reciving",this.selectedStartTime);
+
+    console.log("Time is reciving", this.selectedStartTime);
     // this.minutesToTimeString();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = 1;
@@ -117,7 +117,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
         const datetime = dt.getHours() + ":" + dt.getMinutes();
         // this.selectedStartTime = dt.minutesToTimeString();
         this.selectedStartTime = this.minutesToTimeString(Number(datetime));
-        console.log("Time is reciving changemodel",this.selectedStartTime);
+        console.log("Time is reciving changemodel", this.selectedStartTime);
       }
 
     });
@@ -178,6 +178,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   viewDetails(id: number, addid: number) {
     //setting patient id for further use
     this.patientService.patientid = id;
+    this.patientService.admissionid = addid;
     this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, addid: addid, callbackurl: 'patients' }, skipLocationChange: true });
   }
 
