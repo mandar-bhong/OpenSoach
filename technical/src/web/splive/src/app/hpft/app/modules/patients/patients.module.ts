@@ -72,6 +72,8 @@ import { ViewOutputTransactionComponent } from './transaction-details/view-outpu
     ViewMedicineTransactionComponent,
     ViewIntakeTransactionComponent,
     ViewMonitorTransactionComponent,
+    MultipleCommentInputComponent,
+    MedicalPersonalHistoryComponent,
     ViewOutputTransactionComponent],
   providers: [
     AmazingTimePickerService,
