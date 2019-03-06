@@ -168,15 +168,23 @@
 .pop-btn-icon {
     font-size: 23;
 }
-.tab-layout{
+.tab-layout {
     padding: 5px;
-    text-align: center; 
+    text-align: center;
     vertical-align: center;
 
 }
+
 .tab-clicked {
-    background-color: #00a6ce;
+    color: #FF8912;
     padding: 5px;
-    text-align: center; 
+    text-align: center;
+    vertical-align: center;
+    font-weight: bold;
+}
+
+.tab-layout-separator {
+    padding: 5px;
+    text-align: center;
     vertical-align: center;
 }
