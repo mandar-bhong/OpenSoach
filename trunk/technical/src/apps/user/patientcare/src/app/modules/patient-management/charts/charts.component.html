@@ -1,22 +1,18 @@
 <GridLayout rows="*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
-    <GridLayout rows="65,*" columns="*" height="100%" width="100%">
+    <GridLayout rows="auto,*" columns="*" height="100%" width="100%">
         <!-- <GridLayout row="0" rows="auto auto" columns="* *" class="m-5">
             <Label class="h3 m-15" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
             <Switch class="m-15" checked="false" (checkedChange)="onListSorting($event)" row="0" col="1"></Switch>
         </GridLayout> -->
-        <GridLayout row="0" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;">
-            <Label class="h3" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
-            <StackLayout col="1" orientation="horizontal" borderRadius borderWidth="1" borderColor="black">
+        <GridLayout row="0" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;padding-top: 2;padding-bottom: 2">
+            <Label class="pageHeaderTitle" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
+            <StackLayout col="1" orientation="horizontal">
                 <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="activeList()" (tap)="buttonClicked = true">
-                    <StackLayout textWrap="true" [class.tab-clicked]="buttonClicked" class="tab-layout">
-                        <Label text="Active" class="button-text" style="padding-top:3"></Label>
-                    </StackLayout>
+                    <Label text="Active" [class.tab-clicked]="buttonClicked" class="tab-layout"></Label>
                 </RL:Ripple>
-
+                <Label text="|" class="tab-layout-separator"></Label>
                 <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()" (tap)="buttonCompleted = true">
-                    <StackLayout textWrap="true" [class.tab-clicked]="buttonCompleted" class="tab-layout">
-                        <Label text="Completed" class="button-text" style="padding-top:3"></Label>
-                    </StackLayout>
+                    <Label text="Completed" [class.tab-clicked]="buttonCompleted" class="tab-layout"></Label>
                 </RL:Ripple>
             </StackLayout>
 
