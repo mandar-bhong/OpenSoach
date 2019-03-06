@@ -34,7 +34,7 @@
                                 <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
                                     majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
                                 </DateTimeContinuousAxis>
-                                <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                                <!-- <LinearAxis tkCartesianVerticalAxis></LinearAxis> -->
 
                                 <LinearAxis tkCartesianVerticalAxis id="vAxis"></LinearAxis>
                                 <ChartGridLineAnnotation tkCartesianAnnotations axisId="vAxis" hidden="false" value="100"
@@ -43,10 +43,10 @@
                                     zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
 
                                 <LineSeries tkCartesianSeries seriesName="PulseRateLineSeries" [items]="pulseListItems"
-                                    categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                                    categoryProperty="timeStamp" valueProperty="Amount" showLabels="false">
                                 </LineSeries>
                                 <BubbleSeries tkCartesianSeries seriesName="PulseRateBubbleSeries" [items]="pulseListItems"
-                                    bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                                    bubbleScale="5" categoryProperty="timeStamp" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
 
                                 <RadCartesianChart.palettes>
                                     <Palette tkCartesianPalette seriesName="PulseRateLineSeries">
@@ -82,7 +82,7 @@
                             <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
                                 majorStep="Day" plotMode="BetweenTicks">
                             </DateTimeContinuousAxis>
-                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                            <!-- <LinearAxis tkCartesianVerticalAxis></LinearAxis> -->
 
                             <LinearAxis tkCartesianVerticalAxis id="vAxis"></LinearAxis>
                             <!-- <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="190"
@@ -99,11 +99,11 @@
                             <ChartPlotBandAnnotation axisId="hAxis" hidden="false" zPosition="BelowSeries" minValue="80"
                                 maxValue="90" fillColor="#AC74E880" strokeColor="#AC74E880" /> -->
 
-                            <LineSeries tkCartesianSeries seriesName="BloodPressureSystolicLineSeries" [items]="bloodpresHighListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureSystolicLineSeries" [items]="bloodpresListItems"
+                                categoryProperty="timeStamp" valueProperty="Systolic" showLabels="false">
                             </LineSeries>
-                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureSystolicBubbleSeries" [items]="bloodpresHighListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureSystolicBubbleSeries" [items]="bloodpresListItems"
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Systolic" bubbleSizeProperty="Impact"></BubbleSeries>
                             <RadCartesianChart.palettes>
                                 <Palette tkCartesianPalette seriesName="BloodPressureSystolicLineSeries">
                                     <Palette.entries>
@@ -122,11 +122,11 @@
                             </RadCartesianChart.palettes>
 
 
-                            <LineSeries tkCartesianSeries seriesName="BloodPressureDiastolicLineSeries" [items]="bloodpresLowListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureDiastolicLineSeries" [items]="bloodpresListItems"
+                                categoryProperty="timeStamp" valueProperty="Diastolic" showLabels="false">
                             </LineSeries>
-                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries" [items]="bloodpresLowListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries" [items]="bloodpresListItems"
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Diastolic" bubbleSizeProperty="Impact"></BubbleSeries>
                             <RadCartesianChart.palettes>
                                 <Palette tkCartesianPalette seriesName="BloodPressureDiastolicLineSeries">
                                     <Palette.entries>
@@ -164,7 +164,7 @@
                                 <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
                                     majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
                                 </DateTimeContinuousAxis>
-                                <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                                <!-- <LinearAxis tkCartesianVerticalAxis></LinearAxis> -->
 
                                 <LinearAxis tkCartesianVerticalAxis id="hAxis"></LinearAxis>
                                 <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="140"
@@ -173,10 +173,10 @@
                                     zPosition="BelowSeries" strokeWidth="1" strokeColor="lightgray"></ChartGridLineAnnotation>
 
                                 <LineSeries tkCartesianSeries seriesName="RespirationRateLineSeries" [items]="respirationListItems"
-                                    categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                                    categoryProperty="timeStamp" valueProperty="Amount" showLabels="false">
                                 </LineSeries>
                                 <BubbleSeries tkCartesianSeries seriesName="RespirationRateBubbleSeries" [items]="respirationListItems"
-                                    bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                                    bubbleScale="5" categoryProperty="timeStamp" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
                                 <RadCartesianChart.palettes>
                                     <Palette tkCartesianPalette seriesName="RespirationRateLineSeries">
                                         <Palette.entries>
@@ -213,7 +213,7 @@
                             <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
                                 majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
                             </DateTimeContinuousAxis>
-                            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                            <!-- <LinearAxis tkCartesianVerticalAxis></LinearAxis> -->
 
                             <LinearAxis tkCartesianVerticalAxis id="hAxis"></LinearAxis>
                             <ChartGridLineAnnotation tkCartesianAnnotations axisId="hAxis" hidden="false" value="98"
@@ -223,10 +223,10 @@
 
 
                             <LineSeries tkCartesianSeries seriesName="TemperatureLineSeries" [items]="tempListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="false">
+                                categoryProperty="timeStamp" valueProperty="Amount" showLabels="false">
                             </LineSeries>
                             <BubbleSeries tkCartesianSeries seriesName="TemperatureBubbleSeries" [items]="tempListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
                             <RadCartesianChart.palettes>
                                 <Palette tkCartesianPalette seriesName="TemperatureLineSeries">
                                     <Palette.entries>
@@ -290,28 +290,28 @@
                             <LinearAxis tkCartesianVerticalAxis></LinearAxis>
                             <!-- Line Series Start-->
                             <LineSeries tkCartesianSeries seriesName="PulseRateLineSeries" [items]="pulseListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                categoryProperty="timeStamp" valueProperty="Amount" showLabels="{{showLabels}}">
                                 <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#2ecc40"
                                     textSize="8" textColor="White"></PointLabelStyle>
                             </LineSeries>
                             <BubbleSeries tkCartesianSeries seriesName="PulseRateBubbleSeries" [items]="pulseListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
 
-                            <LineSeries tkCartesianSeries seriesName="BloodPressureSystolicLineSeries" [items]="bloodpresHighListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureSystolicLineSeries" [items]="bloodpresListItems"
+                                categoryProperty="timeStamp" valueProperty="Systolic" showLabels="{{showLabels}}">
                                 <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#bb0a1e"
                                     textSize="8" textColor="White"></PointLabelStyle>
                             </LineSeries>
-                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureSystolicBubbleSeries" [items]="bloodpresHighListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureSystolicBubbleSeries" [items]="bloodpresListItems"
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Systolic" bubbleSizeProperty="Impact"></BubbleSeries>
 
-                            <LineSeries tkCartesianSeries seriesName="BloodPressureDiastolicLineSeries" [items]="bloodpresLowListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                            <LineSeries tkCartesianSeries seriesName="BloodPressureDiastolicLineSeries" [items]="bloodpresListItems"
+                                categoryProperty="timeStamp" valueProperty="Diastolic" showLabels="{{showLabels}}">
                                 <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#bb0a1e"
                                     textSize="8" textColor="White"></PointLabelStyle>
                             </LineSeries>
-                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries" [items]="bloodpresLowListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries" [items]="bloodpresListItems"
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Diastolic" bubbleSizeProperty="Impact"></BubbleSeries>
                             <!-- <RangeBarSeries tkCartesianSeries seriesName="BloodPressureSeries" [items]="bloodPressureSource" showLabels="{{showLabels}}" categoryProperty="timeStamp" lowPropertyName="Diastolic"
                                 highPropertyName="Systolic" minBarSize="10"></RangeBarSeries> -->
                             <!-- <OhlcSeries tkCartesianSeries seriesName="BloodPressureSeries" [items]="bloodPressureSource" showLabels="{{showLabels}}" categoryProperty="timeStamp"
@@ -319,20 +319,20 @@
                                         lowPropertyName="Diastolic" closePropertyName="Systolic"></OhlcSeries> -->
 
                             <LineSeries tkCartesianSeries seriesName="RespirationRateLineSeries" [items]="respirationListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                categoryProperty="timeStamp" valueProperty="Amount" showLabels="{{showLabels}}">
                                 <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#ff851b"
                                     textSize="8" textColor="White"></PointLabelStyle>
                             </LineSeries>
                             <BubbleSeries tkCartesianSeries seriesName="RespirationRateBubbleSeries" [items]="respirationListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
 
                             <LineSeries tkCartesianSeries seriesName="TemperatureLineSeries" [items]="tempListItems"
-                                categoryProperty="Comment" valueProperty="Value" showLabels="{{showLabels}}">
+                                categoryProperty="timeStamp" valueProperty="Amount" showLabels="{{showLabels}}">
                                 <PointLabelStyle tkLineLabelStyle margin="10" fontStyle="Bold" fillColor="#0075D9"
                                     textSize="8" textColor="White"></PointLabelStyle>
                             </LineSeries>
                             <BubbleSeries tkCartesianSeries seriesName="TemperatureBubbleSeries" [items]="tempListItems"
-                                bubbleScale="5" categoryProperty="Comment" valueProperty="Value" bubbleSizeProperty="Impact"></BubbleSeries>
+                                bubbleScale="5" categoryProperty="timeStamp" valueProperty="Amount" bubbleSizeProperty="Impact"></BubbleSeries>
                             <!-- Line Series End-->
 
                             <RadCartesianChart.palettes>
