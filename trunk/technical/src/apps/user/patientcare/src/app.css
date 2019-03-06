@@ -261,5 +261,6 @@ Label.mod-light {
 }
 .pageHeaderTitle {
     color: #396766;
-    font-size: 18;
+    font-size: 16;
+    font-weight: bold;
 }
