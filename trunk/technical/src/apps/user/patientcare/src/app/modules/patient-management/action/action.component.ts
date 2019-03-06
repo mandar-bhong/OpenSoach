@@ -190,7 +190,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actionDbData = new ActionDataDBRequest();
 		this.actiondata = new ActionDataDBRequest();
 
-		this.completeorpending = "Active Action";
+		this.completeorpending = "Active Actions";
 
 
 		// subscription for adding newly  created doctors orders in action list.
@@ -723,13 +723,13 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	public onListSorting(args) {
 		let firstSwitch = <Switch>args.object;
 		if (firstSwitch.checked) {
-			this.completeorpending = "Completed Action";
+			this.completeorpending = "Completed Actions";
 			this.iscompleted = true;
 			this.viewexpand = true;
 			this.saveViewOpen = false;
 			this.getActionData('getActionListComplated');
 		} else {
-			this.completeorpending = "Active Action";
+			this.completeorpending = "Active Actions";
 			this.iscompleted = false;
 			this.viewexpand = false;
 			this.saveViewOpen = false;
@@ -767,7 +767,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	}
 
 	public activeList() {
-		this.completeorpending = "Active Action";
+		this.completeorpending = "Active Actions";
 		this.iscompleted = false;
 		this.viewexpand = false;
 		this.saveViewOpen = false;
@@ -775,7 +775,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.getActionData('getActionListActive');
 	}
 	public compilitedList() {
-		this.completeorpending = "Completed Action";
+		this.completeorpending = "Completed Actions";
 		this.iscompleted = true;
 		this.viewexpand = true;
 		this.saveViewOpen = false;
