@@ -242,16 +242,58 @@ export class JSONBaseDataModel<T> {
     version: number;
     data: T;
 }
+
 // Patient Details here!!!
 export class PatientPersonDetail {
-    gender: number;
     name: string;
+    gender: number;
+    personaddress: string;
+    relationshipwithpatient: string;
     contact: string;
+    alternatecontact: string;
 }
 
 export class PersonDetailResponse {
+    personaldetailsid: number;
     personaccompanying: string;
     age: number;
+}
+
+//
+export class PatientPersonAccompanyingDetail {
+    name: string;
+    gender: number;
+    personaddress: string;
+    relationshipwithpatient: string;
+    contact: string;
+    alternatecontact: string;
+}
+
+export class PersonAccompanyingInfo {
+    personaldetailsid: number;
+    personaccompanying: string;
+    age: number;
+}
+
+// Personal detail request
+export class PersonalDetailsRequest {
+    personaldetailsid: number;
+    patientid: number;
+    admissionid: number;
+    uuid: string;
+    age: string;
+    otherdetails: string;
+    personaccompanying: string;
+}
+// Personal detail response
+export class PersonalDetailsResponse {
+    personaldetailsid: number;
+    patientid: number;
+    admissionid: number;
+    uuid: string;
+    age: string;
+    otherdetails: string;
+    personaccompanying: string;
 }
 
 //

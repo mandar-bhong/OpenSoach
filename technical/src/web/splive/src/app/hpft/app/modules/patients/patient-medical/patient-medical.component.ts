@@ -1,11 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { JSONBaseDataModel, MedicalDetailsRequest, PresentComplaint, JSONInnerData, ReasonForAdmission, HistoryPresentIllness, PastHistory, TreatmentBeforeAdmission, InvestigationBeforeAdmission, FamilyHistory, Allergies, PersonalHistory, PersonalHistoryInfo } from 'app/models/api/patient-models';
-import { PatientService } from 'app/services/patient.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import {
+  Allergies,
+  FamilyHistory,
+  HistoryPresentIllness,
+  InvestigationBeforeAdmission,
+  JSONBaseDataModel,
+  JSONInnerData,
+  PastHistory,
+  PersonalHistory,
+  PersonalHistoryInfo,
+  PresentComplaint,
+  ReasonForAdmission,
+  TreatmentBeforeAdmission,
+} from 'app/models/api/patient-models';
 import { MedicalDetailsModel } from 'app/models/ui/patient-models';
+import { PatientService } from 'app/services/patient.service';
 import { Subscription } from 'rxjs';
+
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 
 @Component({
   selector: 'app-patient-medical',
@@ -52,20 +66,35 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
     this.dataModel.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
     this.dataModel.allergiesData.data = [];
 
-    this.dataModel.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo[]>();
-    this.dataModel.personalHistoryData.data = [];
+    this.dataModel.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
+    this.dataModel.personalHistoryData.data = new PersonalHistoryInfo();
 
-    this.routeSubscription = this.route.queryParams.subscribe(params => {
-      if (params['addid']) {
-        this.dataModel.admissionid = Number(params['addid']);
-        this.getPatientMedicalDetail();
+    if (this.patientService.admissionid) {
+      this.getPatientMedicalId();
+    }
+
+  }
+
+  //Getting data from database
+  getPatientMedicalId() {
+    this.patientService.getPatientMedicalID({ recid: this.patientService.admissionid }).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.isResponsereceived = true;
+        if (payloadResponse.data) {
+          this.medicaldetialsid = payloadResponse.data.medicaldetails.medicaldetialsid;
+          if (this.medicaldetialsid) {
+            this.getPatientMedical();
+          }
+        }
+      } else {
+        this.isResponsereceived = true;
       }
     });
   }
 
   //Getting data from database
-  getPatientMedicalDetail() {
-    this.patientService.getPatientMedicalDetail({ recid: this.dataModel.admissionid }).subscribe(payloadResponse => {
+  getPatientMedical() {
+    this.patientService.getPatientMedicalDetail({ recid: this.medicaldetialsid }).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.isResponsereceived = true;
         if (payloadResponse.data) {
@@ -77,6 +106,9 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
+
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
@@ -84,8 +116,10 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
   }
   // reveived events which is generated from child component
   // Save function for Present Complaints.
+
   onAddedComplaint(outputValue: string) {
     // to do write code for saving received value.
+    this.dataModel.medicaldetialsid = this.patientService.medicaldetialsid;
     this.dataModel.presentComplaintsData.data.push({ text: outputValue, date: new Date() });
     const presentComplaint = new PresentComplaint();
     presentComplaint.medicaldetialsid = this.medicaldetialsid;
@@ -196,7 +230,7 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
     this.patientService.medicalAddPatientPersonalHistory(personalHistory).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
-        this.getPatientMedicalDetail();
+        this.getPatientMedicalId();
       }
     });
   }

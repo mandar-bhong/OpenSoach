@@ -53,6 +53,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     admittedon: Date;
     drincharge: number;
     admissionIdReceived = new Subject<number>();
+    medicaldetialsid: number;
 
     constructor(private serverApiInterfaceService: ServerApiInterfaceService) {
         super();
@@ -124,6 +125,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/admission/update',
             admissionUpdateRequest, implicitErrorHandling);
     }
+
     //Update status
     updateStatus(statusChangeRequest: StatusChangeRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<null>> {
@@ -246,4 +248,11 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/info',
             request, implicitErrorHandling);
     }
+
+       //Update Patient Response
+       getPatientMedicalID(request: RecordIDRequest, implicitErrorHandling = true):
+       Observable<PayloadResponse<any>> {
+       return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/admission/info/details',
+           request, implicitErrorHandling);
+     }
 }
