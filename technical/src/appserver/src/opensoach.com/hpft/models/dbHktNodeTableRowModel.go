@@ -170,7 +170,7 @@ type DBSplHpftPatientMasterTableRowModel struct {
 	Fname           string     `db:"fname" json:"fname"`
 	Lname           string     `db:"lname" json:"lname"`
 	MobNo           string     `db:"mob_no" json:"mobno"`
-	DateOfBirth     *string    `db:"date_of_birth" json:"dateofbirth"`
+	DateOfBirth     *time.Time `db:"date_of_birth" json:"dateofbirth"`
 	Age             string     `db:"age" json:"age"`
 	BloodGrp        string     `db:"blood_grp" json:"bloodgrp"`
 	Gender          int        `db:"gender" json:"gender"`
@@ -239,8 +239,9 @@ type DBSplHpftPatientConfTableRowModel struct {
 	PatientConfId   int64      `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
 	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
 	AdmissionId     int64      `db:"admission_id_fk" json:"admissionid"`
-	ConfTypeCode    int64      `db:"conf_type_code" json:"conftypecode"`
+	ConfTypeCode    string     `db:"conf_type_code" json:"conftypecode"`
 	Conf            string     `db:"conf" json:"conf"`
+	EndDate         time.Time  `db:"end_date" json:"enddate"`
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
@@ -252,6 +253,7 @@ type DBSplHpftActionTxnTableRowModel struct {
 	ActionTxnId       int64      `db:"id" dbattr:"pri,auto"  json:"actiontxnid"`
 	CpmId             int64      `db:"cpm_id_fk" json:"cpmid"`
 	PatientConfId     int64      `db:"patient_conf_id_fk" json:"patientconfid"`
+	AdmissionId       int64      `db:"admission_id_fk" json:"admissionid"`
 	TxnData           string     `db:"txn_data" json:"txndata"`
 	RuntimeConfigData string     `db:"runtime_config_data" json:"runtimeconfigdata"`
 	TxnDate           time.Time  `db:"txn_date" json:"txndate"`
@@ -278,14 +280,78 @@ type DBSplHpftConfTableRowModel struct {
 
 type DBSplHpftDocumentTableRowModel struct {
 	pcmodels.StoreEntityModel
-	DocId        int64     `db:"id" dbattr:"pri,auto"  json:"docid"`
-	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
-	Name         string    `db:"name" json:"name"`
-	DocType      string    `db:"doctype" json:"doctype"`
-	Location     string    `db:"location" json:"location"`
-	LocationType int       `db:"location_type" json:"location_type"`
-	Persisted    int       `db:"persisted" json:"persisted"`
-	Updated_by   int64     `db:"updated_by" json:"updatedby"`
-	CreatedOn    time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
+	DocId           int64      `db:"id" dbattr:"pri,auto"  json:"docid"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	Name            *string    `db:"name" json:"name"`
+	DocType         *string    `db:"doctype" json:"doctype"`
+	StoreName       *string    `db:"store_name" json:"storename"`
+	Location        *string    `db:"location" json:"location"`
+	LocationType    *int       `db:"location_type" json:"location_type"`
+	Persisted       int        `db:"persisted" json:"persisted"`
+	Updated_by      int64      `db:"updated_by" json:"updatedby"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftDoctorsOrdersTableRowModel struct {
+	pcmodels.StoreEntityModel
+	DoctorsOrdersId  int64      `db:"id" dbattr:"pri,auto"  json:"id"`
+	CpmId            int64      `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId      int64      `db:"admission_id_fk" json:"admissionid"`
+	DoctorId         int64      `db:"doctor_id_fk" json:"doctorid"`
+	DoctorsOrders    string     `db:"doctors_orders" json:"doctorsorders"`
+	Comment          *string    `db:"comment" json:"comment"`
+	AckBy            *int64     `db:"ack_by" json:"ackby"`
+	AckTime          *time.Time `db:"ack_time" json:"acktime"`
+	Status           *int       `db:"status" json:"status"`
+	OrderCreatedTime *time.Time `db:"order_created_time" json:"ordercreatedtime"`
+	OrderType        *string    `db:"order_type" json:"ordertype"`
+	DocumentId       *int64     `db:"document_id_fk" json:"documentid"`
+	ClientUpdatedAt  *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn        time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn        time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy        int64      `db:"updated_by" json:"updatedby"`
+}
+
+type DBSplHpftPathologyRecordDocTableRowModel struct {
+	PathologyId int64     `db:"pathology_id_fk" dbattr:"pri"  json:"pathologyid"`
+	DocumentId  int64     `db:"document_id_fk" dbattr:"pri"  json:"documentid"`
+	CreatedOn   time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn   time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftPathologyRecordTableRowModel struct {
+	pcmodels.StoreEntityModel
+	PathologyId     int64      `db:"id" dbattr:"pri,auto"  json:"pathologyid"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId     int64      `db:"admission_id_fk" json:"admissionid"`
+	TestPerformed   string     `db:"test_performed" json:"testperformed"`
+	TestResult      *string    `db:"test_result" json:"testresult"`
+	Comments        *string    `db:"comments" json:"comments"`
+	UpdatedBy       int64      `db:"updated_by" json:"updatedby"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftTreatmentDocTableRowModel struct {
+	TreatmentId int64     `db:"treatment_id_fk" dbattr:"pri"  json:"treatmentid"`
+	DocumentId  int64     `db:"document_id_fk" dbattr:"pri"  json:"documentid"`
+	CreatedOn   time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn   time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftTreatmentTableRowModel struct {
+	pcmodels.StoreEntityModel
+	TreatmentId     int64      `db:"id" dbattr:"pri,auto"  json:"treatmentid"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId     int64      `db:"admission_id_fk" json:"admissionid"`
+	TreatmentDone   string     `db:"treatment_done" json:"treatmentdone"`
+	Details         *string    `db:"details" json:"details"`
+	PostObservation *string    `db:"post_observation" json:"postobservation"`
+	UpdatedBy       int64      `db:"updated_by" json:"updatedby"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       *time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn       *time.Time `db:"updated_on" json:"updatedon"`
 }

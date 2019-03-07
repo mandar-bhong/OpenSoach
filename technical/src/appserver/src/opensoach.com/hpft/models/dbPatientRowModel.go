@@ -7,16 +7,16 @@ import (
 )
 
 type DBPatientMasterDataModel struct {
-	Uuid         string  `db:"uuid" json:"uuid"`
-	PatientRegNo string  `db:"patient_reg_no" json:"patientregno"`
-	Fname        string  `db:"fname" json:"fname"`
-	Lname        string  `db:"lname" json:"lname"`
-	MobNo        string  `db:"mob_no" json:"mobno"`
-	DateOfBirth  *string `db:"date_of_birth" json:"dateofbirth"`
-	Age          string  `db:"age" json:"age"`
-	BloodGrp     string  `db:"blood_grp" json:"bloodgrp"`
-	Gender       int     `db:"gender" json:"gender"`
-	UpdatedBy    int64   `db:"updated_by" json:"updated_by"`
+	Uuid         string     `db:"uuid" json:"uuid"`
+	PatientRegNo string     `db:"patient_reg_no" json:"patientregno"`
+	Fname        string     `db:"fname" json:"fname"`
+	Lname        string     `db:"lname" json:"lname"`
+	MobNo        string     `db:"mob_no" json:"mobno"`
+	DateOfBirth  *time.Time `db:"date_of_birth" json:"dateofbirth"`
+	Age          string     `db:"age" json:"age"`
+	BloodGrp     string     `db:"blood_grp" json:"bloodgrp"`
+	Gender       int        `db:"gender" json:"gender"`
+	UpdatedBy    int64      `db:"updated_by" json:"updated_by"`
 }
 
 type DBPatientMasterInsertRowModel struct {
@@ -212,4 +212,52 @@ type DBPatientConfUpdateRowModel struct {
 type DBPatientAdmissionStatusInfoModel struct {
 	PatientId int64 `db:"patient_id_fk" json:"patientid"`
 	Status    int   `db:"status" json:"status"`
+}
+
+type PatientUserInfo struct {
+	Firstname string `db:"fname" json:"firstname"`
+	LastName  string `db:"lname" json:"lastname"`
+}
+
+type DBPatientTreatmentDataModel struct {
+	Uuid            string  `db:"uuid" json:"uuid"`
+	AdmissionId     int64   `db:"admission_id_fk" json:"admissionid"`
+	TreatmentDone   string  `db:"treatment_done" json:"treatmentdone"`
+	Details         *string `db:"details" json:"details"`
+	PostObservation *string `db:"post_observation" json:"postobservation"`
+	UpdatedBy       int64   `db:"updated_by" json:"updatedby"`
+}
+
+type DBPatientTreatmentInsertRowModel struct {
+	DBPatientTreatmentDataModel
+	pcmodels.CPMIDEntityModel
+}
+
+type DBPatientTreatmentDocInsertRowModel struct {
+	TreatmentId int64 `db:"treatment_id_fk" dbattr:"pri"  json:"treatmentid"`
+	DocumentId  int64 `db:"document_id_fk" dbattr:"pri"  json:"documentid"`
+}
+
+type DBPatientPathologyRecordDataModel struct {
+	Uuid          string  `db:"uuid" json:"uuid"`
+	AdmissionId   int64   `db:"admission_id_fk" json:"admissionid"`
+	TestPerformed string  `db:"test_performed" json:"testperformed"`
+	TestResult    *string `db:"test_result" json:"testresult"`
+	Comments      *string `db:"comments" json:"comments"`
+	UpdatedBy     int64   `db:"updated_by" json:"updatedby"`
+}
+
+type DBPatientPathologyRecordInsertRowModel struct {
+	DBPatientPathologyRecordDataModel
+	pcmodels.CPMIDEntityModel
+}
+
+type DBPatientPathologyRecordDocInsertRowModel struct {
+	PathologyId int64 `db:"pathology_id_fk" dbattr:"pri"  json:"pathologyid"`
+	DocumentId  int64 `db:"document_id_fk" dbattr:"pri"  json:"documentid"`
+}
+
+type DBDocumentTblInfoModel struct {
+	DocumentUUID string `db:"uuid" json:"documentuuid"`
+	DocumentName string `db:"name" json:"documentname"`
 }

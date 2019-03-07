@@ -80,6 +80,7 @@ const API_PATIENT_UPDATE_STATUS = API_BASE_URL + "/v1/patient/update/status"
 const API_PATIENT_INFO_MASTER = API_BASE_URL + "/v1/patient/info"
 const API_PATIENT_FILTER_INFO_MASTER = API_BASE_URL + "/v1/patient/filterinfo"
 const API_PATIENT_LIST_MASTER = API_BASE_URL + "/v1/patient/list/master"
+const API_PATIENT_INFO_MASTER_DETAILS = API_BASE_URL + "/v1/patient/info/details"
 
 const API_PATIENT_ADMISSION_ADD = API_BASE_URL + "/v1/patient/admission/add"
 const API_PATIENT_ADMISSION_UPDATE = API_BASE_URL + "/v1/patient/admission/update"
@@ -106,11 +107,23 @@ const API_PATIENT_MEDICAL_DETAILS_UPDATE_FAMILY_HISTORY = API_BASE_URL + "/v1/pa
 const API_PATIENT_MEDICAL_DETAILS_UPDATE_ALLERGIES = API_BASE_URL + "/v1/patient/medicaldetails/update/allergies"
 const API_PATIENT_MEDICAL_DETAILS_UPDATE_PERSONAL_HISTORY = API_BASE_URL + "/v1/patient/medicaldetails/update/personalhistory"
 
-const API_PATIENT_CONFIG_LIST = API_BASE_URL + "/v1/patient/config/list"
+const API_PATIENT_ACTION_TXN_LIST = API_BASE_URL + "/v1/patient/list/actiontxn"
+const API_PATIENT_DOCTORS_ORDERS_LIST = API_BASE_URL + "/v1/patient/list/doctororders"
+const API_PATIENT_TREATMENT_LIST = API_BASE_URL + "/v1/patient/list/treatment"
+const API_PATIENT_PATHOLOGY_RECORD_LIST = API_BASE_URL + "/v1/patient/list/pathologyrecord"
+
+const API_PATIENT_CONFIG_LIST = API_BASE_URL + "/v1/patient/list/patientconf"
 const API_PATIENT_CONFIG_INFO = API_BASE_URL + "/v1/patient/config/info"
 const API_PATIENT_CONFIG_UPDATE = API_BASE_URL + "/v1/patient/config/update"
+
+const API_PATIENT_DOCTORS_ORDERS_INFO = API_BASE_URL + "/v1/patient/info/doctorsorders"
+const API_PATIENT_PATHOLOGY_RECORDS_INFO = API_BASE_URL + "/v1/patient/info/pathologyrecords"
+const API_PATIENT_TREATMENT_INFO = API_BASE_URL + "/v1/patient/info/treatment"
 
 const API_DOCUMENT_DOWNLOAD = API_BASE_URL + "/v1/document/download"
 const API_DOCUMENT_UPLOAD = API_BASE_URL + "/v1/document/upload"
 const API_DEVICE_DOCUMENT_UPLOAD = API_BASE_URL + "/v1/document/upload/ep"
 const API_DEVICE_DOCUMENT_DOWNLOAD = API_BASE_URL + "/v1/document/download/ep"
+
+const API_PATIENT_TREATMENT_ADD = API_BASE_URL + "/v1/patient/treatment/add"
+const API_PATIENT_PATHOLOGY_RECORD_ADD = API_BASE_URL + "/v1/patient/pathologyrecord/add"

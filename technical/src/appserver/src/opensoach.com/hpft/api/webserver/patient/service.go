@@ -1,12 +1,13 @@
 package patient
 
 import (
-	"fmt"
-
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
+	dbmgr "opensoach.com/core/manager/db"
 	lmodels "opensoach.com/hpft/api/models"
+	repo "opensoach.com/hpft/api/repository"
 	"opensoach.com/hpft/api/webserver/patient/dbaccess"
+	"opensoach.com/hpft/constants"
 	hktmodels "opensoach.com/hpft/models"
 	gmodels "opensoach.com/models"
 )
@@ -202,18 +203,36 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 	addResponse := lmodels.APIAdmissionAddResponse{}
 	addResponse.AdmissionId = insertedId
 
+	//get patient master data
+	dbErr, data := dbaccess.GetPatientById(service.ExeCtx.SessionInfo.Product.NodeDbConn, req.PatientId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *data
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
 	// insert personal details
 	personalDetailsAddRequest := lmodels.APIPersonalDetailsAddRequest{}
 	personalDetailsAddRequest.PatientId = req.PatientId
 	personalDetailsAddRequest.AdmissionId = insertedId
+	personalDetailsAddRequest.Age = dbRecord[0].Age
 	personalDetailsAddRequest.Uuid = ghelper.GenerateUUID()
 
 	isSuccess, personalDetailsAddResponse := service.PersonalDetialsAdd(personalDetailsAddRequest)
 	if isSuccess == false {
-
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding personal details info.", dbErr)
 	}
 	addResponse.PersonalDetailsId = personalDetailsAddResponse.(gmodels.APIRecordAddResponse).RecordID
-	fmt.Println("addResponse.PersonalDetailsId ", addResponse.PersonalDetailsId)
 
 	// insert medical details
 	medicalDetailsAddRequest := lmodels.APIMedicalDetailsAddRequest{}
@@ -223,10 +242,10 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 
 	isSuccess, medicalDetailsAddResponse := service.MedicalDetialsAdd(medicalDetailsAddRequest)
 	if isSuccess == false {
-
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding medical details info.", dbErr)
 	}
+
 	addResponse.MedicalDetailsId = medicalDetailsAddResponse.(gmodels.APIRecordAddResponse).RecordID
-	fmt.Println("addResponse.MedicalDetailsId", addResponse.MedicalDetailsId)
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient admission info added succesfully")
 
@@ -703,23 +722,33 @@ func (service PatientService) SelectMedicalDetailsById(medicalDetailsID int64) (
 	return true, dbRecord[0]
 }
 
-func (service PatientService) SelectAllPatientConf(patientID int64) (bool, interface{}) {
+func (service PatientService) GetPatientConfigList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
-	cpmID := service.ExeCtx.SessionInfo.Product.CustProdID
+	dataListResponse := gmodels.APIDataListResponse{}
 
-	dbErr, data := dbaccess.GetPatientConfList(service.ExeCtx.SessionInfo.Product.NodeDbConn, cpmID)
+	filterModel := listReqData.Filter.(*hktmodels.DBSearchPatientConfRequestFilterDataModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	CurrentPage := listReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
+
+	dbErr, listData := dbaccess.GetPatientConfList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient conf list.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient config list.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
 
-	dbRecord := *data
+	dbListDataRecord := *listData
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient conf list")
-	return true, dbRecord
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient config list data.")
+
+	return true, dataListResponse
+
 }
 
 func (service PatientService) SelectPatientConfById(confID int64) (bool, interface{}) {
@@ -853,4 +882,516 @@ func (service PatientService) SelectAdmissionDetailsById(admissionID int64) (boo
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission details info")
 	return true, admissionDetailsResponse
+}
+
+func (service PatientService) GetPatientActionTxnList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
+
+	dataListResponse := gmodels.APIDataListResponse{}
+
+	filterModel := listReqData.Filter.(*hktmodels.DBSearchPatientActionTxnRequestFilterDataModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	CurrentPage := listReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
+
+	dbErr, listData := dbaccess.GetPatientActionTxnList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient action txn list.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbListDataRecord := *listData
+	dbListDataRecord.RecordList = *dbListDataRecord.RecordList.(*[]hktmodels.DBSearchPatientActionTxnResponseFilterDataModel)
+
+	for i, each := range dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientActionTxnResponseFilterDataModel) {
+		dbErr, userdata := dbaccess.GetUserInfoById(repo.Instance().Context.Master.DBConn, each.UpdatedBy)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient info by id.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		userRecord := *userdata
+
+		dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientActionTxnResponseFilterDataModel)[i].FirstName = userRecord[0].Firstname
+		dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientActionTxnResponseFilterDataModel)[i].LastName = userRecord[0].LastName
+	}
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient action txn list data.")
+
+	return true, dataListResponse
+
+}
+
+func (service PatientService) SelectPatientDoctorsOrdersById(doctorsordersID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetPatientDoctorsOrdersById(service.ExeCtx.SessionInfo.Product.NodeDbConn, doctorsordersID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient doctord orders info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *data
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient doctor orders info.")
+	return true, dbRecord[0]
+}
+
+func (service PatientService) SelectPatientPathologyRecordsById(pathologyrecordID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetPatientPathologyRecordsById(service.ExeCtx.SessionInfo.Product.NodeDbConn, pathologyrecordID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient pathology record info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *data
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient pathology record info.")
+	return true, dbRecord[0]
+}
+
+func (service PatientService) SelectPatientTreatmentById(pathologyrecordID int64) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetPatientTreatmentById(service.ExeCtx.SessionInfo.Product.NodeDbConn, pathologyrecordID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient treatment info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *data
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient treatment info.")
+	return true, dbRecord[0]
+}
+
+func (service PatientService) GetPatientDoctorOrdersList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
+
+	dataListResponse := gmodels.APIDataListResponse{}
+
+	filterModel := listReqData.Filter.(*hktmodels.DBSearchPatientDoctorOrdersRequestFilterDataModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	CurrentPage := listReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
+
+	dbErr, listData := dbaccess.GetPatientDoctorsOrdersList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient doctor orders list.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbListDataRecord := *listData
+	dbListDataRecord.RecordList = *dbListDataRecord.RecordList.(*[]hktmodels.DBSearchPatientDoctorOrdersResponseFilterDataModel)
+
+	for i, each := range dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientDoctorOrdersResponseFilterDataModel) {
+
+		dbErr, userdata := dbaccess.GetUserInfoById(repo.Instance().Context.Master.DBConn, each.DoctorId)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting doctor info by id.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		userRecord := *userdata
+
+		dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientDoctorOrdersResponseFilterDataModel)[i].DoctorFirstName = &userRecord[0].Firstname
+		dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientDoctorOrdersResponseFilterDataModel)[i].DoctorLastName = &userRecord[0].LastName
+
+	}
+
+	for i, each := range dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientDoctorOrdersResponseFilterDataModel) {
+		if each.AckBy != nil {
+			dbErr, userdata := dbaccess.GetUserInfoById(repo.Instance().Context.Master.DBConn, *each.AckBy)
+			if dbErr != nil {
+				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting ack by info by id.", dbErr)
+
+				errModel := gmodels.APIResponseError{}
+				errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+				return false, errModel
+			}
+
+			userRecord := *userdata
+
+			dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientDoctorOrdersResponseFilterDataModel)[i].AckByFirstName = &userRecord[0].Firstname
+			dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientDoctorOrdersResponseFilterDataModel)[i].AckByLastName = &userRecord[0].LastName
+		}
+	}
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient doctor orders list data.")
+
+	return true, dataListResponse
+
+}
+
+func (service PatientService) GetPatientTreatmentList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
+
+	dataListResponse := gmodels.APIDataListResponse{}
+
+	filterModel := listReqData.Filter.(*hktmodels.DBSearchPatientTreatmentRequestFilterDataModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	CurrentPage := listReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
+
+	dbErr, listData := dbaccess.GetPatientTreatmentsList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient treatment data list.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbListDataRecord := *listData
+	dbListDataRecord.RecordList = *dbListDataRecord.RecordList.(*[]hktmodels.DBSearchPatientTreatmentResponseFilterDataModel)
+
+	for i, each := range dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientTreatmentResponseFilterDataModel) {
+
+		dbErr, data := dbaccess.GetPatientTreatmentDocumentsById(service.ExeCtx.SessionInfo.Product.NodeDbConn, each.TreatmentId)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting treatment documents by id.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		dbRecord := *data
+
+		for j := 0; j < len(dbRecord); j++ {
+			dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientTreatmentResponseFilterDataModel)[i].DocumentList = append(dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientTreatmentResponseFilterDataModel)[i].DocumentList, dbRecord[j])
+		}
+
+	}
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient treatment list data.")
+
+	return true, dataListResponse
+
+}
+
+func (service PatientService) GetPatientPathologyRecordsList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
+
+	dataListResponse := gmodels.APIDataListResponse{}
+
+	filterModel := listReqData.Filter.(*hktmodels.DBSearchPatientPathologyRecordRequestFilterDataModel)
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	CurrentPage := listReqData.CurrentPage
+	startingRecord := ((CurrentPage - 1) * listReqData.Limit)
+
+	dbErr, listData := dbaccess.GetPatientPathologyRecordList(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, listReqData, startingRecord)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient pathology records list.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbListDataRecord := *listData
+	dbListDataRecord.RecordList = *dbListDataRecord.RecordList.(*[]hktmodels.DBSearchPatientPathologyRecordResponseFilterDataModel)
+
+	for i, each := range dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientPathologyRecordResponseFilterDataModel) {
+
+		dbErr, data := dbaccess.GetPatientPathologyRecordsDocumentsById(service.ExeCtx.SessionInfo.Product.NodeDbConn, each.PathologyId)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting treatment documents by id.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		dbRecord := *data
+
+		for j := 0; j < len(dbRecord); j++ {
+			dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientPathologyRecordResponseFilterDataModel)[i].DocumentList = append(dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientPathologyRecordResponseFilterDataModel)[i].DocumentList, dbRecord[j])
+		}
+
+	}
+
+	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
+	dataListResponse.Records = dbListDataRecord.RecordList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient pathology records list data.")
+
+	return true, dataListResponse
+
+}
+
+func (service PatientService) SelectPatientInfoByAdmissionId(req lmodels.APIPatientInfoRequest) (bool, interface{}) {
+
+	dbErr, data := dbaccess.GetPatientById(service.ExeCtx.SessionInfo.Product.NodeDbConn, req.PatientId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *data
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	if req.AdmissionId != nil {
+
+		dbErr, personaldetailsdata := dbaccess.GetPersonalDetailsByAdmissionId(service.ExeCtx.SessionInfo.Product.NodeDbConn, *req.AdmissionId)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient info by id.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		personaldetailsdbRecord := *personaldetailsdata
+
+		if len(personaldetailsdbRecord) > 0 {
+			dbRecord[0].Age = personaldetailsdbRecord[0].Age
+		}
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient info")
+	return true, dbRecord[0]
+}
+
+func (service PatientService) PatientTreatmentAdd(req lmodels.APIPatientTreatmentAddRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbRowModel := &hktmodels.DBPatientTreatmentInsertRowModel{}
+	dbRowModel.DBPatientTreatmentDataModel = req.DBPatientTreatmentDataModel
+	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbTxErr, tx := dbaccess.GetDBTransaction(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+
+	if dbTxErr != nil {
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Transaction Error.", dbTxErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, insertedId := dbaccess.SplHpftTreatmentTblInsert(tx, dbRowModel)
+	if dbErr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding patient treatment data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	// insert treatment doc tbl data
+
+	if len(req.DocumentUUIDList) != 0 {
+
+		for _, documentUUID := range req.DocumentUUIDList {
+
+			dbErr, docdata := dbaccess.GetDocumentDataByDocumentUUID(service.ExeCtx.SessionInfo.Product.NodeDbConn, documentUUID)
+			if dbErr != nil {
+				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient info by uuid.", dbErr)
+
+				errModel := gmodels.APIResponseError{}
+				errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+				return false, errModel
+			}
+
+			docdbRecord := *docdata
+
+			dBPatientTreatmentDocInsertRowModel := &hktmodels.DBPatientTreatmentDocInsertRowModel{}
+			dBPatientTreatmentDocInsertRowModel.TreatmentId = insertedId
+			dBPatientTreatmentDocInsertRowModel.DocumentId = docdbRecord[0].DocId
+
+			dbErr, _ = dbaccess.SplHpftTreatmentDocTblInsert(tx, dBPatientTreatmentDocInsertRowModel)
+			if dbErr != nil {
+
+				txErr := tx.Rollback()
+
+				if txErr != nil {
+					logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+				}
+
+				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding patient treatment doc data.", dbErr)
+
+				errModel := gmodels.APIResponseError{}
+				errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+				return false, errModel
+			}
+		}
+
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	// handler for - notify db changes
+	if dbmgr.DefaultPostDataChangeHandler != nil {
+		dbmgr.DefaultPostDataChangeHandler(constants.DB_SPL_HPFT_TREATMENT_TBL, dbRowModel)
+	}
+
+	addResponse := gmodels.APIRecordAddResponse{}
+	addResponse.RecordID = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient treament data added succesfully")
+
+	return true, addResponse
+}
+
+func (service PatientService) PatientPathologyRecordAdd(req lmodels.APIPatientPathologyRecordAddRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbRowModel := &hktmodels.DBPatientPathologyRecordInsertRowModel{}
+	dbRowModel.DBPatientPathologyRecordDataModel = req.DBPatientPathologyRecordDataModel
+	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbTxErr, tx := dbaccess.GetDBTransaction(service.ExeCtx.SessionInfo.Product.NodeDbConn)
+
+	if dbTxErr != nil {
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Transaction Error.", dbTxErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, insertedId := dbaccess.SplHpftPathologyRecordTblInsert(tx, dbRowModel)
+	if dbErr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding patient pathology record data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	// insert pathology record doc tbl data
+
+	if len(req.DocumentUUIDList) != 0 {
+
+		for _, documentUUID := range req.DocumentUUIDList {
+
+			dbErr, docdata := dbaccess.GetDocumentDataByDocumentUUID(service.ExeCtx.SessionInfo.Product.NodeDbConn, documentUUID)
+			if dbErr != nil {
+				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient info by id.", dbErr)
+
+				errModel := gmodels.APIResponseError{}
+				errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+				return false, errModel
+			}
+
+			docdbRecord := *docdata
+
+			dBPatientPathologyRecordDocInsertRowModel := &hktmodels.DBPatientPathologyRecordDocInsertRowModel{}
+			dBPatientPathologyRecordDocInsertRowModel.PathologyId = insertedId
+			dBPatientPathologyRecordDocInsertRowModel.DocumentId = docdbRecord[0].DocId
+
+			dbErr, _ = dbaccess.SplHpftPathologyRecordDocTblInsert(tx, dBPatientPathologyRecordDocInsertRowModel)
+			if dbErr != nil {
+
+				txErr := tx.Rollback()
+
+				if txErr != nil {
+					logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+				}
+
+				logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding patient pathology record doc tbl data.", dbErr)
+
+				errModel := gmodels.APIResponseError{}
+				errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+				return false, errModel
+			}
+		}
+
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	// handler for - notify db changes
+	if dbmgr.DefaultPostDataChangeHandler != nil {
+		dbmgr.DefaultPostDataChangeHandler(constants.DB_SPL_HPFT_PATHOLOGY_RECORD_TBL, dbRowModel)
+	}
+
+	addResponse := gmodels.APIRecordAddResponse{}
+	addResponse.RecordID = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient pathology record data added succesfully")
+
+	return true, addResponse
 }

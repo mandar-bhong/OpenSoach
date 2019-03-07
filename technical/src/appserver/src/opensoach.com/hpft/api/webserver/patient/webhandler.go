@@ -44,6 +44,16 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_PATIENT_LIST_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_PATIENT_ADMISSION_INFO_STATUS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_PATIENT_ADMISSION_INFO_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_ACTION_TXN_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_DOCTORS_ORDERS_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_PATHOLOGY_RECORDS_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_TREATMENT_INFO, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_DOCTORS_ORDERS_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_TREATMENT_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_PATHOLOGY_RECORD_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_PATIENT_INFO_MASTER_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_PATIENT_TREATMENT_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_PATIENT_PATHOLOGY_RECORD_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -478,9 +488,10 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 	case constants.API_PATIENT_CONFIG_LIST:
 
-		recReq := gmodels.APIRecordIdRequest{}
+		listReq := gmodels.APIDataListRequest{}
+		listReq.Filter = &hktmodels.DBSearchPatientConfRequestFilterDataModel{}
 
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &listReq)
 
 		if isPrepareExeSuccess == false {
 			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
@@ -489,7 +500,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = PatientService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
-		}.SelectAllPatientConf(recReq.RecId)
+		}.GetPatientConfigList(listReq)
 
 		break
 
@@ -576,6 +587,178 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = PatientService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.SelectAdmissionDetailsById(recReq.RecId)
+
+		break
+
+	case constants.API_PATIENT_ACTION_TXN_LIST:
+
+		listReq := gmodels.APIDataListRequest{}
+		listReq.Filter = &hktmodels.DBSearchPatientActionTxnRequestFilterDataModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &listReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetPatientActionTxnList(listReq)
+
+		break
+
+	case constants.API_PATIENT_DOCTORS_ORDERS_INFO:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.SelectPatientDoctorsOrdersById(recReq.RecId)
+
+		break
+
+	case constants.API_PATIENT_PATHOLOGY_RECORDS_INFO:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.SelectPatientPathologyRecordsById(recReq.RecId)
+
+		break
+
+	case constants.API_PATIENT_TREATMENT_INFO:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.SelectPatientTreatmentById(recReq.RecId)
+
+		break
+
+	case constants.API_PATIENT_DOCTORS_ORDERS_LIST:
+
+		listReq := gmodels.APIDataListRequest{}
+		listReq.Filter = &hktmodels.DBSearchPatientDoctorOrdersRequestFilterDataModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &listReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetPatientDoctorOrdersList(listReq)
+
+		break
+
+	case constants.API_PATIENT_TREATMENT_LIST:
+
+		listReq := gmodels.APIDataListRequest{}
+		listReq.Filter = &hktmodels.DBSearchPatientTreatmentRequestFilterDataModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &listReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetPatientTreatmentList(listReq)
+
+		break
+
+	case constants.API_PATIENT_PATHOLOGY_RECORD_LIST:
+
+		listReq := gmodels.APIDataListRequest{}
+		listReq.Filter = &hktmodels.DBSearchPatientPathologyRecordRequestFilterDataModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &listReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetPatientPathologyRecordsList(listReq)
+
+		break
+
+	case constants.API_PATIENT_INFO_MASTER_DETAILS:
+
+		recReq := lmodels.APIPatientInfoRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.SelectPatientInfoByAdmissionId(recReq)
+
+		break
+
+	case constants.API_PATIENT_TREATMENT_ADD:
+
+		addReq := lmodels.APIPatientTreatmentAddRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &addReq)
+
+		if isPrepareExeSuccess == false {
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.PatientTreatmentAdd(addReq)
+
+		break
+
+	case constants.API_PATIENT_PATHOLOGY_RECORD_ADD:
+
+		addReq := lmodels.APIPatientPathologyRecordAddRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &addReq)
+
+		if isPrepareExeSuccess == false {
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.PatientPathologyRecordAdd(addReq)
 
 		break
 
