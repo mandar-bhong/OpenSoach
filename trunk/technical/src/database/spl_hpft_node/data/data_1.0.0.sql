@@ -68,6 +68,13 @@ values
 	
 	('pathology_record_doc_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_pathology_record_doc_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_pathology_record_doc_tbl where updated_on > ?','select (select uuid as pathology_record_uuid from spl_hpft_pathology_record_tbl where id = :pathology_id_fk limit 1),(select uuid as document_uuid from spl_hpft_document_tbl where id = :document_id_fk limit 1),created_on,updated_on from spl_hpft_treatment_doc_tbl where updated_on > ?','insert_qry','update_qry');
 	
+
+--
+-- Dumping data for table `spl_node_cpm_tbl`
+--
+
+INSERT INTO `spl_node_cpm_tbl` (`cpm_id_fk`) VALUES ('3');
+	
 	
 --
 -- Dumping data for table `spl_hpft_conf_tbl`

@@ -1,11 +1,4 @@
 --
--- Dumping data for table `spl_node_cpm_tbl`
---
-
-INSERT INTO `spl_node_cpm_tbl` (`cpm_id_fk`) VALUES ('3');
-
-
---
 -- Dumping data for table `spl_node_dev_tbl`
 --
 
