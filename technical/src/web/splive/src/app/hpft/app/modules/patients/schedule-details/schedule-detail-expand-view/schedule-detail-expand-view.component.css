@@ -1,0 +1,7 @@
+/* .new_line {
+  display: block !important;
+} */
+
+#answers label {
+  display: block !important;
+}

@@ -7,3 +7,36 @@ export class ScheduleDataResponse<T> {
     conf: T;
     enddate: string;
 }
+export class SchedularConfigData {
+    name: string;
+    quantity: number;
+    foodInst: number;
+    frequency: number;
+    mornFreqInfo: MornFreqInfo;
+    aftrnFreqInfo: AftrnFreqInfo;
+    nightFreqInfo: NightFreqInfo
+    intervalHrs: number;
+    startDate: string;
+    duration: number;
+    startTime: string;
+    desc: string;
+    endTime: string;
+    specificTime: string;
+    specificTimes: Array<any>;
+    numberofTimes: number;
+    endDate: Date
+}
+export class MornFreqInfo {
+    freqMorn: boolean;
+    mornFreqQuantity: number;
+}
+
+export class AftrnFreqInfo {
+    freqAftrn: boolean;
+    aftrnFreqQuantity: number;
+}
+
+export class NightFreqInfo {
+    freqNight: boolean;
+    nightFreqQuantity: number;
+}

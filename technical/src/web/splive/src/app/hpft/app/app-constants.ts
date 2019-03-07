@@ -140,8 +140,8 @@ export const APP_ROUTES: RoutingModel[] = [
         pagetitle: 'Admission Detail',
         linkiconcss: 'fa fa-users'
     },
-  
-    
+
+
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
@@ -149,7 +149,7 @@ export const SIDE_MENU_LINKS: SideMenuModel[] = [
     { url: '/devices', level: 0, routingModel: null },
     { url: '/servicepoints', level: 0, routingModel: null },
     // { url: '/charts', level: 0, routingModel: null },
-     { url: '/patients', level: 0, routingModel: null },
+    { url: '/patients', level: 0, routingModel: null },
     // { url: '/foperators', level: 0, routingModel: null },
     // { url: '/complaints', level: 0, routingModel: null },
     // { url: '/reports', level: 0, routingModel: null },
@@ -179,10 +179,18 @@ export enum PATIENT_STATE {
     HOSPITALIZE = 1,
     DISCHARGED = 2
 }
-export enum PERSON_GENDER{
+export enum PERSON_GENDER {
     NOT_SELECTED = 0,
     MALE = 1,
     FEMALE = 2
 }
-
+export enum ConfigCodeType {
+    MEDICINE = "Medicine",
+    MONITOR = "Monitor",
+    OUTPUT = "Output",
+    INTAKE = "Intake",
+    DOCTOR_ORDERS = 'Doctor-Orders'
+}
+export const FREQUENCY_ZERO = 0
+export const FREQUENCY_ONE = 1;
 

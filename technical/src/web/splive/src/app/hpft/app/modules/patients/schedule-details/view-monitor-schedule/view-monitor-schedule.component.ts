@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Input } from '@angular/core';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { merge, Observable } from 'rxjs';
 import { startWith, switchMap, map } from 'rxjs/operators';
@@ -11,11 +11,15 @@ import { PatientService } from 'app/services/patient.service';
 import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse, ActionTransactionDataValue } from 'app/models/api/transaction-details-response';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ScheduleDataResponse } from 'app/models/api/schedule-response';
+import { ScheduleFilter } from 'app/models/api/schedule-request';
+import { ComplaintsModule } from 'app/modules/complaints/complaints.module';
+
 
 @Component({
-  selector: 'app-view-monitor-transaction',
-  templateUrl: './view-monitor-transaction.component.html',
-  styleUrls: ['./view-monitor-transaction.component.css','../transaction-details.component.css'],
+  selector: 'app-view-monitor-schedule',
+  templateUrl: './view-monitor-schedule.component.html',
+  styleUrls: ['./view-monitor-schedule.component.css', '../../transaction-details/transaction-details.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
@@ -24,9 +28,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ]),
   ],
 })
-export class ViewMonitorTransactionComponent implements OnInit {
-
-
+export class ViewMonitorScheduleComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
   @ViewChild(MatSort)
@@ -37,25 +39,30 @@ export class ViewMonitorTransactionComponent implements OnInit {
   isLoadingResults: boolean;
   patientFilterRequest: PatientFilterRequest;
   expandedElement: ActionTransactionResponse<string> | null;
-  transactionResponse: ActionTransactionResponse<ActionTransactionDataValue>[] = []
+  scheduleResponse: ScheduleDataResponse<any>[] = [];
+  dataListRequest: DataListRequest<TransactionDetailsFilter>;
   isViewSchedule = false;
   constructor(
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
     private patientService: PatientService) { }
-  displayedColumns = ['actionname', 'txndate', 'by', 'view'];
+  displayedColumns = ['name', 'startdate', 'enddate', 'view'];
   sortByColumns = [
-    { text: 'Name', value: 'actionname' },
-    { text: 'Performed On', value: 'txndate' }
-    ];
+    { text: 'Name', value: 'name' },
+    { text: 'Start', value: 'startDate' },
+    { text: 'End', value: 'enddate' }
+  ];
   // columnsToDisplay = ['fname', 'date'];
   ngOnInit() {
+    console.log('getDataListing executed');
     this.paginator.pageSize = 10;
-    this.sort.direction = 'asc';
     this.paginator.pageIndex = 1;
-    this.sort.active = 'txndate';
+    this.sort.direction = 'asc';
+    this.sort.active = 'enddate';
     this.sort.direction = 'asc';
     this.getDataListing();
+
+
   }
   getDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -75,20 +82,19 @@ export class ViewMonitorTransactionComponent implements OnInit {
         payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
             this.filteredrecords = payloadResponse.data.filteredrecords;
-            this.transactionResponse = [];
+            this.scheduleResponse = [];
             payloadResponse.data.records.forEach((item: any) => {
-              const ActionTransactionData = new ActionTransactionResponse<ActionTransactionDataValue>();
+              const ActionTransactionData = new ScheduleDataResponse<any>();
               Object.assign(ActionTransactionData, item);
               console.log('item', item.txndata);
-              const txnJsonData = JSON.parse(item.txndata);
-              ActionTransactionData.txndata = txnJsonData;
-              this.transactionResponse.push(ActionTransactionData);
+              const confData = JSON.parse(item.conf);
+              ActionTransactionData.conf = confData;
+              this.scheduleResponse.push(ActionTransactionData);
             });
-
-            this.dataSource = new MatTableDataSource<ActionTransactionResponse<ActionTransactionDataValue>>(this.transactionResponse);
-
+            console.log(' this.scheduleResponse', this.scheduleResponse);
+            this.dataSource = new MatTableDataSource<ScheduleDataResponse<any>>(this.scheduleResponse);
             if (this.filteredrecords === 0) {
-            //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+           //   this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];
@@ -98,37 +104,21 @@ export class ViewMonitorTransactionComponent implements OnInit {
   }
 
 
-  getDataList(): Observable<PayloadResponse<DataListResponse<ActionTransactionResponse<string>[]>>> {
-    const dataListRequest = new DataListRequest<TransactionDetailsFilter>();
+  getDataList(): Observable<PayloadResponse<DataListResponse<ScheduleDataResponse<string>[]>>> {
+    const dataListRequest = new DataListRequest<ScheduleFilter>();
     dataListRequest.orderdirection = this.sort.direction;
-    dataListRequest.limit = this.paginator.pageSize
-    dataListRequest.page= this.paginator.pageIndex ;
+    dataListRequest.limit = this.paginator.pageSize;
+    dataListRequest.page = this.paginator.pageIndex;
     dataListRequest.orderby = this.sort.active
-    dataListRequest.filter = new TransactionDetailsFilter();
-    dataListRequest.filter.conftypecode = 'Monitor';
+    dataListRequest.page = this.paginator.pageIndex;
+    dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = 1;
-    return this.patientService.getActionTransaction(dataListRequest);
+    dataListRequest.filter.conftypecode = 'Monitor';
+
+    return this.patientService.getScheduleData(dataListRequest);
   }
 
-  // code block cehcking obejct is emppty.
-  checkEmptyObjects(object): boolean {
-    if (Object.keys(object).length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }// end of fucntion 
-
-  // code bloxk for view schedule detsils  of particular action 
-  viewSchedule(element) {
-    console.log('view schedule clickd');
-    this.isViewSchedule = true;
-  }
-
-  setOpenCloseSchedule() {
-    console.log('view setOpenCloseSchedule clickd');
-    this.isViewSchedule = false;
-  }
+ 
   sortByChanged() {
     this.sort.sortChange.next(this.sort);
   }
@@ -141,4 +131,9 @@ export class ViewMonitorTransactionComponent implements OnInit {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
+
 }
+
+
+
+

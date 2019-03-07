@@ -15,7 +15,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 @Component({
   selector: 'app-view-medicine-transaction',
   templateUrl: './view-medicine-transaction.component.html',
-  styleUrls: ['./view-medicine-transaction.component.css'],
+  styleUrls: ['./view-medicine-transaction.component.css','../transaction-details.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
@@ -88,7 +88,7 @@ export class ViewMedicineTransactionComponent implements OnInit {
             this.dataSource = new MatTableDataSource<ActionTransactionResponse<ActionTransactionDataValue>>(this.transactionResponse);
 
             if (this.filteredrecords === 0) {
-              this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+             // this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];

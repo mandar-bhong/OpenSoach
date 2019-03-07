@@ -254,7 +254,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     // service function for getting schedule details.
     getScheduleData(dataListRequest: DataListRequest<ScheduleFilter>, implicitErrorHandling = true):
         Observable<PayloadResponse<DataListResponse<ScheduleDataResponse<string>[]>>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/config/info',
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/patientconf',
             dataListRequest, implicitErrorHandling);
     }
     // service function for getting schedule details.
