@@ -150,9 +150,9 @@ export const SIDE_MENU_LINKS: SideMenuModel[] = [
     { url: '/servicepoints', level: 0, routingModel: null },
     // { url: '/charts', level: 0, routingModel: null },
      { url: '/patients', level: 0, routingModel: null },
-    { url: '/foperators', level: 0, routingModel: null },
+    // { url: '/foperators', level: 0, routingModel: null },
     // { url: '/complaints', level: 0, routingModel: null },
-    { url: '/reports', level: 0, routingModel: null },
+    // { url: '/reports', level: 0, routingModel: null },
     { url: '/users', level: 0, routingModel: null }
 ];
 
