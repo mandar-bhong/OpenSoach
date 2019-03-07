@@ -83,3 +83,32 @@ INSERT INTO `spl_node_cpm_tbl` (`cpm_id_fk`) VALUES ('3');
 INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, `updated_by`) 
 VALUES 
 ('C0001', '3', 'Monitor', '{"tasks":[{"name":"Temperature"},{"name":"Blood Pressure"},{"name":"Pulse Rate"},{"name":"Respiration Rate"}]}',1);
+
+
+
+INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, `updated_by`) 
+VALUES 
+('22072dfe99c04ba6', '3', 'VITAL_PARAMETERS', '[
+{"name":"TEMP","displayname":"Temperature",  
+"fields":[{"name":"Temperature","type":"Number", "unitdisplay":"°F", "range":{"low":"96","high":"98"}}]},
+{"name":"BLOOD_PRESSURE","displayname":"Blood Pressure", 
+"fields":[{"name":"Systolic","type":"Number", "unitdisplay":"mmHg", "range":{"low":"120","high":"140"}}, 
+{"name":"Diastolic","type":"Number", "unitdisplay":"mmHg", "range":{"low":"70","high":"90"}}]},
+{"name":"PLUSE_RATE", "displayname":"Pulse Rate", "fields":[{"name":"Pulse Rate", "unitdisplay":"bpm", "range":{"low":"60","high":"100"}}]},
+{"name":"RESP_RATE", "displayname":"Respiration Rate", "fields":[{"name":"Respiration Rate", "unitdisplay":"bpm", "range":{"low":"60","high":"100"}}]}]',1);
+
+INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, `updated_by`) 
+VALUES 
+('e9db1c9f0ac44b97', '3', 'MEDICINE_TYPE', '["Tablet", "Capsules", "Syrup", "Injection", "Ointment", "Eye Drop", "Drop","Puff"]',1);
+
+INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, `updated_by`) 
+VALUES 
+('cc47eb5cbd4d4a1a', '3', 'INPUT_TYPE', '["Oral", "LV"]',1);
+
+INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, `updated_by`) 
+VALUES 
+('f9d1d51e56e64455', '3', 'OUTPUT_TYPE', '["Urine", "Gastric", "Stool"]',1);
+
+
+
+
