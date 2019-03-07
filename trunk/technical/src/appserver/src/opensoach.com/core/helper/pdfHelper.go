@@ -3,8 +3,11 @@ package helper
 import (
 	"bytes"
 	"fmt"
+	"html/template"
+	"log"
 	"time"
 
+	wkhtmltopdf "github.com/SebastiaanKlippert/go-wkhtmltopdf"
 	"github.com/jung-kurt/gofpdf"
 	gmodels "opensoach.com/models"
 )
@@ -217,4 +220,60 @@ func table(pdf *gofpdf.Fpdf, tbl [][]string, colsAlign []string, colsWidth []flo
 
 func savePDF(pdf *gofpdf.Fpdf) error {
 	return pdf.OutputFileAndClose("report.pdf")
+}
+
+func CreateHTMLToPDF(model *gmodels.HTMLPDFDataModel) error {
+
+	t, err := template.ParseFiles(model.TemplatePath)
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+
+	var tpl bytes.Buffer
+	if err := t.Execute(&tpl, model.TemplateData); err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+
+	// Create new PDF generator
+	pdfg, err := wkhtmltopdf.NewPDFGenerator()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Set global options
+	pdfg.Dpi.Set(300)
+	pdfg.Orientation.Set(wkhtmltopdf.OrientationPortrait)
+	pdfg.Grayscale.Set(false)
+
+	readBuf := tpl.Bytes()
+
+	page := wkhtmltopdf.NewPageReader(bytes.NewReader(readBuf))
+
+	// Set options for this page
+	page.FooterRight.Set("[page]")
+	page.FooterFontSize.Set(12)
+	page.Zoom.Set(0.70)
+
+	// Add to document
+	pdfg.AddPage(page)
+
+	// Create PDF document in internal buffer
+	err = pdfg.Create()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if model.PDFOutputPath != "" {
+		// Write buffer contents to file on disk
+		err = pdfg.WriteFile(model.PDFOutputPath)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		model.PDFBuffer = pdfg.Buffer()
+	}
+
+	return nil
 }
