@@ -36,6 +36,11 @@ import { ViewMedicineTransactionComponent } from './transaction-details/view-med
 import { ViewIntakeTransactionComponent } from './transaction-details/view-intake-transaction/view-intake-transaction.component';
 import { ViewMonitorTransactionComponent } from './transaction-details/view-monitor-transaction/view-monitor-transaction.component';
 import { ViewOutputTransactionComponent } from './transaction-details/view-output-transaction/view-output-transaction.component';
+import { ViewIntakeScheduleComponent } from './schedule-details/view-intake-schedule/view-intake-schedule.component';
+import { ViewMedicineScheduleComponent } from './schedule-details/view-medicine-schedule/view-medicine-schedule.component';
+import { ViewMonitorScheduleComponent } from './schedule-details/view-monitor-schedule/view-monitor-schedule.component';
+import { ViewOutputScheduleComponent } from './schedule-details/view-output-schedule/view-output-schedule.component';
+import { ScheduleDetailExpandViewComponent } from './schedule-details/schedule-detail-expand-view/schedule-detail-expand-view.component';
 
 
 @NgModule({
@@ -74,7 +79,12 @@ import { ViewOutputTransactionComponent } from './transaction-details/view-outpu
     ViewMonitorTransactionComponent,
     MultipleCommentInputComponent,
     MedicalPersonalHistoryComponent,
-    ViewOutputTransactionComponent],
+    ViewOutputTransactionComponent,
+    ViewIntakeScheduleComponent,
+    ViewMedicineScheduleComponent,
+    ViewMonitorScheduleComponent,
+    ViewOutputScheduleComponent,
+    ScheduleDetailExpandViewComponent],
   providers: [
     AmazingTimePickerService,
     MatRadioModule,

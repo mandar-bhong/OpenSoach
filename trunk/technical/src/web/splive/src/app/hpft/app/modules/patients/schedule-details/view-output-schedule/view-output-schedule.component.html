@@ -1,0 +1,85 @@
+<div style="width:100% !important">
+    <label class="lbl_heading_list">Output</label>  
+  </div>
+  
+  <div class="row" style="width:100%;">
+        <div class="mobile-sort">
+            <h4>Sort</h4>
+            <table class="example-full-width" cellspacing="0">
+              <tr id="layout-set">
+                <td>
+                  <mat-form-field>
+                    <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby" (selectionChange)="sortByChanged()">
+                      <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                        {{col.text}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <div (click)="sortDirectionAsc()"> Ascending
+                    <i class="fa fa-long-arrow-up"></i>
+                  </div>
+                </td>
+                <td>
+                  <div (click)="sortDirectionDesc()"> Descending
+                    <i class="fa fa-long-arrow-down"></i>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+      <mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortDisableClear>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+          [class.example-expanded-row]="expandedElement === row" (click)="expandedElement = expandedElement === row ? null : row;"
+          style="cursor: pointer !important;"></mat-row>
+        <mat-row style="min-height: 0px !important" *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></mat-row>
+  
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 40%;"> Name</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="flex:0 0 40%;">
+            <span class="mat-cell-responsive-label">Name</span>
+            <span class="ellipsis mat-cell-text">{{row.conf.name}}</span>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="startdate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Start</mat-header-cell>
+          <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+            <span class="mat-cell-responsive-label">Start</span>
+            <span class="ellipsis mat-cell-text">{{row.conf.startDate | date:'dd-MMM-yy, h:mm a'}}</span>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="enddate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">End</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+              <span class="mat-cell-responsive-label">End</span>
+              <span class="ellipsis mat-cell-text">{{row.enddate | date:'dd-MMM-yy, h:mm a'}}</span>
+            </mat-cell>
+          </ng-container>
+        <ng-container matColumnDef="view">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span class="mat-cell-responsive-label">view</span>
+            <span class="ellipsis mat-cell-text"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></span>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="expandedDetail">
+          <mat-cell class="detail_back" *matCellDef="let element" colspan="2">
+         
+            <div class="row" style="width:100%" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="col iner-body">
+                    <div class="row" *ngIf="element == expandedElement">
+                      <app-schedule-detail-expand-view style="width:100%" [schedule]="element"></app-schedule-detail-expand-view>              
+                    </div>
+                  </div>
+          
+            </div> 
+          </mat-cell>
+        </ng-container>
+      </mat-table>
+      <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </div>
+   
+  
