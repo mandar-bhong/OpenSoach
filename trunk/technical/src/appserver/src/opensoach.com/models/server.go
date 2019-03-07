@@ -1,5 +1,7 @@
 package models
 
+import "bytes"
+
 type IDBConnection interface {
 	GetNodeDBConnection() string
 	GetCPMID() int64
@@ -61,4 +63,11 @@ type PdfDataModel struct {
 	StartDate  string
 	EndDate    string
 	PdfData    []PdfDataItem
+}
+
+type HTMLPDFDataModel struct {
+	TemplatePath  string
+	TemplateData  interface{}
+	PDFBuffer     *bytes.Buffer
+	PDFOutputPath string
 }
