@@ -129,12 +129,12 @@ VALUES
   '{"data": [{"date": "2019-03-07T08:52:36.474Z", "text": "allergies"}]}',
  	'{"data":{"weight":{"weight":40,"weight_tendency":"Increasing"},"alcohol":{"applicable":true,"quantity":"30 ml","remarks":"drinks sometimes"},"smoking":{"applicable":false,"quantity":null,"remarks":null},"others":null}}',
   	'2'),
- ('PMD002', '3', '1', '1', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD003', '3', '1', '1', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD004', '3', '1', '1', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD005', '3', '1', '1', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD006', '3', '1', '1', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD007', '3', '1', '1', null, null, null, null, null, null, null, null, null, '2');
+ ('PMD002', '3', '2', '2', null, null, null, null, null, null, null, null, null, '2'),
+ ('PMD003', '3', '3', '3', null, null, null, null, null, null, null, null, null, '2'),
+ ('PMD004', '3', '4', '4', null, null, null, null, null, null, null, null, null, '2'),
+ ('PMD005', '3', '5', '5', null, null, null, null, null, null, null, null, null, '2'),
+ ('PMD006', '3', '6', '6', null, null, null, null, null, null, null, null, null, '2'),
+ ('PMD007', '3', '7', '7', null, null, null, null, null, null, null, null, null, '2');
 
 
 
