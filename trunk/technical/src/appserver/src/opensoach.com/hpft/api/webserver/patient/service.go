@@ -2,6 +2,7 @@ package patient
 
 import (
 	"fmt"
+	"path/filepath"
 
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
@@ -1110,9 +1111,14 @@ func (service PatientService) GetPatientTreatmentList(listReqData gmodels.APIDat
 	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
 	dataListResponse.Records = dbListDataRecord.RecordList
 
+	// pdf create test data
+	currDir := ghelper.GetExeFolder()
+	inpath := filepath.Join(currDir, "test.html")
+	outPath := filepath.Join(currDir, "new.pdf")
+
 	pdfmodel := gmodels.HTMLPDFDataModel{}
-	pdfmodel.TemplatePath = "test.html"
-	pdfmodel.PDFOutputPath = "new.pdf"
+	pdfmodel.TemplatePath = inpath
+	pdfmodel.PDFOutputPath = outPath
 	pdfmodel.TemplateData = dbListDataRecord.RecordList.([]hktmodels.DBSearchPatientTreatmentResponseFilterDataModel)
 	pdfErr := ghelper.CreateHTMLToPDF(&pdfmodel)
 	if pdfErr != nil {
