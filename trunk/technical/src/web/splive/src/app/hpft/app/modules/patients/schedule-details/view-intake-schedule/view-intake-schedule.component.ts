@@ -94,7 +94,7 @@ export class ViewIntakeScheduleComponent implements OnInit {
             console.log(' this.scheduleResponse', this.scheduleResponse);
             this.dataSource = new MatTableDataSource<ScheduleDataResponse<any>>(this.scheduleResponse);
             if (this.filteredrecords === 0) {
-            //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+              //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];
@@ -112,7 +112,7 @@ export class ViewIntakeScheduleComponent implements OnInit {
     dataListRequest.orderby = this.sort.active
     dataListRequest.page = this.paginator.pageIndex;
     dataListRequest.filter = new ScheduleFilter();
-    dataListRequest.filter.admissionid = 1;
+    dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.filter.conftypecode = 'Intake';
 
     return this.patientService.getScheduleData(dataListRequest);
@@ -130,6 +130,7 @@ export class ViewIntakeScheduleComponent implements OnInit {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
+  
 
 }
 

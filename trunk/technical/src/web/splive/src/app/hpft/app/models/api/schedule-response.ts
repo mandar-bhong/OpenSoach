@@ -6,6 +6,7 @@ export class ScheduleDataResponse<T> {
     conftypecode: string;
     conf: T;
     enddate: string;
+    status: number;
 }
 export class SchedularConfigData {
     name: string;
@@ -25,6 +26,7 @@ export class SchedularConfigData {
     specificTimes: Array<any>;
     numberofTimes: number;
     endDate: Date
+    splinstruction: string;   
 }
 export class MornFreqInfo {
     freqMorn: boolean;

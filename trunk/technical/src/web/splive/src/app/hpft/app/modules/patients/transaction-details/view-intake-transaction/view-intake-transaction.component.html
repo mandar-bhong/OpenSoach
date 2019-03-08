@@ -75,6 +75,7 @@
                 <label *ngIf="element.txndata.value!==null">Value: {{element.txndata.value }}</label>
               </div>
               <div class="col-md-4 col-lg-4 col-sm-4">
+                  <label *ngIf="element.status!=null">Status: {{element.status }}</label>
                 <div class="pull-right">
                   <button (click)="viewSchedule(element)" class="btn btn-default btn-xs" style="font-size: 11px;line-height: 1;">View
                     Schedule</button>
@@ -82,8 +83,7 @@
               </div>
             </div>
             <div class="row" *ngIf="isViewSchedule && element == expandedElement">
-              <p>Inprogress</p>
-                <!-- <app-schedule-details style="width: 100%;" [patientconfid]="element.patientconfid"></app-schedule-details> -->
+               <app-specific-schedule-details-expand-view style="width: 100%;" [patientconfid]="element.patientconfid"></app-specific-schedule-details-expand-view>
             </div>
           </div>
         </div>

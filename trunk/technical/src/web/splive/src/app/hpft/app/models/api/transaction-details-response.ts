@@ -8,6 +8,7 @@ export class ActionTransactionResponse<T>{
     firstname: string;
     lastname: string;
     conftypecode: string;
+    status: string;
 }
 
 export class TransactionInput {

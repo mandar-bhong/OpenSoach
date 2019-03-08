@@ -41,6 +41,7 @@ import { ViewMedicineScheduleComponent } from './schedule-details/view-medicine-
 import { ViewMonitorScheduleComponent } from './schedule-details/view-monitor-schedule/view-monitor-schedule.component';
 import { ViewOutputScheduleComponent } from './schedule-details/view-output-schedule/view-output-schedule.component';
 import { ScheduleDetailExpandViewComponent } from './schedule-details/schedule-detail-expand-view/schedule-detail-expand-view.component';
+import { SpecificScheduleDetailsExpandViewComponent } from './schedule-details/specific-schedule-details-expand-view/specific-schedule-details-expand-view.component';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { ScheduleDetailExpandViewComponent } from './schedule-details/schedule-d
     ViewMedicineScheduleComponent,
     ViewMonitorScheduleComponent,
     ViewOutputScheduleComponent,
-    ScheduleDetailExpandViewComponent],
+    ScheduleDetailExpandViewComponent,
+    SpecificScheduleDetailsExpandViewComponent],
   providers: [
     AmazingTimePickerService,
     MatRadioModule,
