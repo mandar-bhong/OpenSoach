@@ -2,7 +2,6 @@ package models
 
 import (
 	"mime/multipart"
-	"time"
 
 	gmodels "opensoach.com/models"
 )
@@ -19,17 +18,13 @@ type DocumentStoreInsertRowModel struct {
 }
 
 type DocumentStoreRowModel struct {
-	Uuid         string    `db:"uuid"`
-	DocId        int64     `db:"id" dbattr:"pri,auto"`
-	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
-	Name         string    `db:"name"`
-	DocType      string    `db:"doctype"`
-	Location     string    `db:"location"`
-	LocationType int       `db:"location_type"`
-	Persisted    int       `db:"persisted" json:"persisted"`
-	Updated_by   int64     `db:"updated_by" json:"updatedby"`
-	CreatedOn    time.Time `db:"created_on"`
-	UpdatedOn    time.Time `db:"updated_on"`
+	Uuid         string `db:"uuid"`
+	DocId        int64  `db:"id" dbattr:"pri,auto"`
+	Name         string `db:"name"`
+	DocType      string `db:"doctype"`
+	Location     string `db:"location"`
+	LocationType int    `db:"location_type"`
+	Persisted    int    `db:"persisted" json:"persisted"`
 }
 
 type DocumentStoreUpdateRowModel struct {
