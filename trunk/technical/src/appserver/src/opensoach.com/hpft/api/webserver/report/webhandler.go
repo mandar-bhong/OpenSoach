@@ -14,6 +14,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_REPORT_GENERATE, func(c *gin.Context) { lhelper.FileDownloadHandler(c, requestHandler) })
 	router.GET(constants.API_REPORT_VIEW, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_REPORT_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_REPORT_PATIENT, func(c *gin.Context) { lhelper.FileDownloadHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -70,6 +71,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = ReportService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.ReportShortList()
+
+		break
+
+	case constants.API_REPORT_PATIENT:
+
+		recReq := gmodels.APIRecordIdRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = ReportService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.PatientAdmissionReport(recReq.RecId)
 
 		break
 

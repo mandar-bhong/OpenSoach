@@ -31,6 +31,27 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		req := lmodels.APIDocumentDownloadRequest{}
 
+		jsonData := pContext.Query("params")
+
+		if jsonData == "" {
+			errorData := gmodels.APIResponseError{}
+			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			return false, errorData
+		}
+
+		jsonDecodeErr := json.Unmarshal([]byte(jsonData), &req)
+
+		if jsonDecodeErr != nil {
+			errorData := gmodels.APIResponseError{}
+			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			return false, errorData
+		}
+
+		val := pContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+		if val == "" {
+			pContext.Request.Header[gmodels.SESSION_CLIENT_HEADER_KEY] = []string{req.DeviceAuthToken}
+		}
+
 		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
 
 		if isPrepareExeSuccess == false {
