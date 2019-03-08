@@ -189,6 +189,7 @@ export class PatientUpdateRequest {
 //Patient Update Response
 export class PatientUpdateResponse {
     patientid: number;
+    admissionid: number;
     cpmid: number;
     patientregno: string;
     fname: string;
@@ -260,8 +261,10 @@ export class PersonDetailResponse {
 }
 
 //
-export class PatientPersonAccompanyingDetail {
+export class PersonAccompanyingInfo {
+
     name: string;
+    pesrsonage: string;
     gender: number;
     personaddress: string;
     relationshipwithpatient: string;
@@ -269,14 +272,27 @@ export class PatientPersonAccompanyingDetail {
     alternatecontact: string;
 }
 
-export class PersonAccompanyingInfo {
+export class PatientPersonAccompanyingDetail {
+    uuid: string;
+    patientid: number;
+    admissionid: number;
     personaldetailsid: number;
     personaccompanying: string;
-    age: number;
+    age: string;
 }
 
 // Personal detail request
 export class PersonalDetailsRequest {
+    personaldetailsid: number;
+    patientid: number;
+    admissionid: number;
+    uuid: string;
+    age: string;
+    otherdetails: string;
+    personaccompanying: string;
+}
+// Personal detail request
+export class PersonalDetailsUpdateRequest {
     personaldetailsid: number;
     patientid: number;
     admissionid: number;
@@ -422,4 +438,46 @@ export class WaightTendencyInfo {
 export class PersonalHistory {
     medicaldetialsid: number;
     personalhistory: string;
+}
+
+
+
+//Pethology start from here
+export class PathologyResponse<T>{
+    pathologyid: number;
+    admissionid: number;
+    testperformed: string;
+    txndata: T;
+}
+export class PathologyFilterRequest
+{
+    admissionid: number;
+}
+export class ActionPathologyDataValue {
+    comments: string;
+    testresult: string;
+    value: string;
+}
+
+//Treatment start from here
+export class TreatmentResponse<T>{
+    treatmentid: number;
+    admissionid: number;
+    treatmentdone: string;
+    txndata: T;
+}
+export class TreatmentFilterRequest
+{
+    admissionid: number;
+}
+export class ActionTreatmentDataValue {
+    treatmentid: number;
+    details: string;
+    postobservation: string;
+    documentuuidlist: string;
+    value: string;
+}
+export class DocumentTblInfoModel {
+    documentuuid: string;
+    documentname: string;
 }
