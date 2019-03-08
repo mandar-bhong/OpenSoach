@@ -58,12 +58,14 @@ const DB_PATIENT_STATUS_ADMITTED = 1
 const DB_PATIENT_STATUS_DISCHARGED = 2
 
 //sync tbl storename constants
-const SYNC_STORE_NAME_SERVICE_POINT = "service_point_tbl"
-const SYNC_STORE_NAME_CONF = "conf_tbl"
-const SYNC_STORE_NAME_PATIENT_MASTER = "patient_master_tbl"
-const SYNC_STORE_NAME_PATIENT_CONF = "schedule_tbl"
-const SYNC_STORE_NAME_PATIENT_ADMISSION = "patient_admission_tbl"
-const SYNC_STORE_NAME_PERSONAL_DETAILS = "patient_personal_details_tbl"
-const SYNC_STORE_NAME_MEDICAL_DETAILS = "patient_medical_details_tbl"
-const SYNC_STORE_NAME_ACTION_TXN = "action_txn_tbl"
-const SYNC_STORE_NAME_DOCTORS_ORDERS = "doctors_orders_tbl"
+const SYNC_STORE_SERVICE_POINT = "service_point_tbl"
+const SYNC_STORE_CONF = "conf_tbl"
+const SYNC_STORE_PATIENT_MASTER = "patient_master_tbl"
+const SYNC_STORE_PATIENT_CONF = "schedule_tbl"
+const SYNC_STORE_PATIENT_ADMISSION = "patient_admission_tbl"
+const SYNC_STORE_PERSONAL_DETAILS = "patient_personal_details_tbl"
+const SYNC_STORE_MEDICAL_DETAILS = "patient_medical_details_tbl"
+const SYNC_STORE_ACTION_TXN = "action_txn_tbl"
+const SYNC_STORE_DOCTORS_ORDERS = "doctors_orders_tbl"
+const SYNC_STORE_TREATMENT = "treatment_tbl"
+const SYNC_STORE_PATHOLOGY = "pathology_record_tbl"
