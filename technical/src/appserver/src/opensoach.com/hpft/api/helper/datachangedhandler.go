@@ -11,15 +11,17 @@ import (
 )
 
 var mapTblnameStorename = map[string]string{
-	constants.DB_TABLE_SPL_NODE_SP_TBL:                 constants.SYNC_STORE_NAME_SERVICE_POINT,
-	constants.DB_SPL_HPFT_CONF_TBL:                     constants.SYNC_STORE_NAME_CONF,
-	constants.DB_SPL_HPFT_PATIENT_MASTER_TBL:           constants.SYNC_STORE_NAME_PATIENT_MASTER,
-	constants.DB_SPL_HPFT_PATIENT_CONF_TBL:             constants.SYNC_STORE_NAME_PATIENT_CONF,
-	constants.DB_SPL_HPFT_PATIENT_ADMISSION_TBL:        constants.SYNC_STORE_NAME_PATIENT_ADMISSION,
-	constants.DB_SPL_HPFT_PATIENT_PERSONAL_DETAILS_TBL: constants.SYNC_STORE_NAME_PERSONAL_DETAILS,
-	constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL:  constants.SYNC_STORE_NAME_MEDICAL_DETAILS,
-	constants.DB_SPL_ACTION_TXN_TBL:                    constants.SYNC_STORE_NAME_ACTION_TXN,
-	constants.DB_SPL_HPFT_DOCTORS_OPRDERS_TBL:          constants.SYNC_STORE_NAME_DOCTORS_ORDERS,
+	constants.DB_TABLE_SPL_NODE_SP_TBL:                 constants.SYNC_STORE_SERVICE_POINT,
+	constants.DB_SPL_HPFT_CONF_TBL:                     constants.SYNC_STORE_CONF,
+	constants.DB_SPL_HPFT_PATIENT_MASTER_TBL:           constants.SYNC_STORE_PATIENT_MASTER,
+	constants.DB_SPL_HPFT_PATIENT_CONF_TBL:             constants.SYNC_STORE_PATIENT_CONF,
+	constants.DB_SPL_HPFT_PATIENT_ADMISSION_TBL:        constants.SYNC_STORE_PATIENT_ADMISSION,
+	constants.DB_SPL_HPFT_PATIENT_PERSONAL_DETAILS_TBL: constants.SYNC_STORE_PERSONAL_DETAILS,
+	constants.DB_SPL_HPFT_PATIENT_MEDICAL_DETAILS_TBL:  constants.SYNC_STORE_MEDICAL_DETAILS,
+	constants.DB_SPL_ACTION_TXN_TBL:                    constants.SYNC_STORE_ACTION_TXN,
+	constants.DB_SPL_HPFT_DOCTORS_OPRDERS_TBL:          constants.SYNC_STORE_DOCTORS_ORDERS,
+	constants.DB_SPL_HPFT_TREATMENT_TBL:                constants.SYNC_STORE_TREATMENT,
+	constants.DB_SPL_HPFT_PATHOLOGY_RECORD_TBL:         constants.SYNC_STORE_PATHOLOGY,
 }
 
 func HandleDatabaseDataChange(tableName string, data interface{}) {
@@ -75,6 +77,18 @@ func HandleDatabaseDataChange(tableName string, data interface{}) {
 		break
 
 	case constants.DB_SPL_HPFT_DOCTORS_OPRDERS_TBL:
+
+		sendNotifyTask(data, tableName)
+
+		break
+
+	case constants.DB_SPL_HPFT_TREATMENT_TBL:
+
+		sendNotifyTask(data, tableName)
+
+		break
+
+	case constants.DB_SPL_HPFT_PATHOLOGY_RECORD_TBL:
 
 		sendNotifyTask(data, tableName)
 
