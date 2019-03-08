@@ -4,6 +4,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
+	patientdbaccess "opensoach.com/hpft/api/webserver/patient/dbaccess"
 	"opensoach.com/hpft/constants"
 	"opensoach.com/hpft/constants/dbquery"
 	hktmodels "opensoach.com/hpft/models"
@@ -116,4 +117,14 @@ func GetReportInfoByCode(dbConn string, reportcode string) (error, *[]hktmodels.
 		return selErr, nil
 	}
 	return nil, data
+}
+
+func GetPatientAdmissionReportData(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftPatientAdmissionTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientAdmissionReportData")
+
+	err, data := patientdbaccess.GetAdmissionById(dbConn, admissionid)
+
+	return err, data
+
 }

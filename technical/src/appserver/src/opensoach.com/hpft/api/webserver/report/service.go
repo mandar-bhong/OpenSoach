@@ -1,6 +1,8 @@
 package report
 
 import (
+	"fmt"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -149,5 +151,39 @@ func (service ReportService) ReportShortList() (bool, interface{}) {
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched report short data list.")
 
 	return true, listData
+
+}
+
+func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, interface{}) {
+
+	dbErr, listData := dbaccess.GetPatientAdmissionReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecordList := *listData
+
+	//pdf create
+	currDir := ghelper.GetExeFolder()
+	inpath := filepath.Join(currDir, "patient_report.html")
+	// outPath := filepath.Join(currDir, "new.pdf")
+
+	pdfmodel := gmodels.HTMLPDFDataModel{}
+	pdfmodel.TemplatePath = inpath
+	// pdfmodel.PDFOutputPath = outPath
+	pdfmodel.TemplateData = dbRecordList[0]
+	pdfErr := ghelper.CreateHTMLToPDF(&pdfmodel)
+	if pdfErr != nil {
+		fmt.Println("pdf create err:", pdfErr)
+		return false, nil
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission report.")
+
+	return true, pdfmodel.PDFBuffer.Bytes()
 
 }
