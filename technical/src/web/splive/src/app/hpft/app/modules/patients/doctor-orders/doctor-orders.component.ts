@@ -16,6 +16,8 @@ import { ActionTransactionResponse, ActionTransactionDataValue } from 'app/model
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
 import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
+import { FileDownloadRequest } from 'app/models/api/file-download-request';
+import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
 
 @Component({
   selector: 'app-doctor-orders',
@@ -46,6 +48,7 @@ export class DoctorOrdersComponent implements OnInit {
   isViewSchedule = false;
   constructor(
     private appNotificationService: AppNotificationService,
+    private appLocalStorage: AppLocalStorage,
     private translatePipe: TranslatePipe,
     private patientService: PatientService) { }
   displayedColumns = ['ordertype', 'ordercreatedtime', 'by', 'view'];
@@ -136,4 +139,14 @@ export class DoctorOrdersComponent implements OnInit {
     this.sort.sortChange.next(this.sort);
   }
 
+  downloadFille(id, filename) {
+    const fileDownloadRequest = new FileDownloadRequest();
+    fileDownloadRequest.token = this.appLocalStorage.getObject('AUTH_TOKEN');
+    fileDownloadRequest.uuid = id;
+    this.patientService.downloadFile(fileDownloadRequest).subscribe((filePayloadResponse) => {
+      if (filePayloadResponse) {
+        this.patientService.saveFile(filePayloadResponse, filename);
+      }
+    });
+  }
 }

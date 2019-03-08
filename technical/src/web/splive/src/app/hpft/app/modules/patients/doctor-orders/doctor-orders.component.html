@@ -71,8 +71,8 @@
                 <label>Doctor Orders</label>
               </div>
               <div class="col-md-8 col-lg-8 col-sm-8">
-                  <div class="row">
-                <label>{{element.doctorsorders}}</label>
+                <div class="row">
+                  <label>{{element.doctorsorders}}</label>
                 </div>
               </div>
             </div>
@@ -102,8 +102,8 @@
                 <label>Document Name</label>
               </div>
               <div class="col-md-8 col-lg-8 col-sm-8">
-                  <div class="row">
-                <label>{{element.name}}</label>
+                <div class="row">
+                  <label  style="cursor: pointer !important;" matTooltip="Download" (click)="downloadFille(element.documentuuid,element.name)">{{element.name}}</label>
                 </div>
               </div>
             </div>
@@ -112,8 +112,8 @@
                 <label>Status</label>
               </div>
               <div class="col-md-8 col-lg-8 col-sm-8">
-                  <div class="row">
-                <label>{{element.status}}</label>
+                <div class="row">
+                  <label>{{element.status}}</label>
                 </div>
               </div>
             </div>

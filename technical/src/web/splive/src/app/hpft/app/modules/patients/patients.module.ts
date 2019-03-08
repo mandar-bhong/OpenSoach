@@ -42,6 +42,7 @@ import { ViewMonitorScheduleComponent } from './schedule-details/view-monitor-sc
 import { ViewOutputScheduleComponent } from './schedule-details/view-output-schedule/view-output-schedule.component';
 import { ScheduleDetailExpandViewComponent } from './schedule-details/schedule-detail-expand-view/schedule-detail-expand-view.component';
 import { SpecificScheduleDetailsExpandViewComponent } from './schedule-details/specific-schedule-details-expand-view/specific-schedule-details-expand-view.component';
+import { AppLocalStorage } from '../../../../shared/services/app-data-store/app-data-store';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { SpecificScheduleDetailsExpandViewComponent } from './schedule-details/s
   providers: [
     AmazingTimePickerService,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AppLocalStorage
   ]
 })
 export class PatientsModule { }
