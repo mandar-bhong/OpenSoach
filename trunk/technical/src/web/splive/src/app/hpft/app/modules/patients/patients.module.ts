@@ -41,6 +41,9 @@ import { ViewMedicineScheduleComponent } from './schedule-details/view-medicine-
 import { ViewMonitorScheduleComponent } from './schedule-details/view-monitor-schedule/view-monitor-schedule.component';
 import { ViewOutputScheduleComponent } from './schedule-details/view-output-schedule/view-output-schedule.component';
 import { ScheduleDetailExpandViewComponent } from './schedule-details/schedule-detail-expand-view/schedule-detail-expand-view.component';
+
+import { PathologyReportComponent } from './pathology-report/pathology-report.component';
+import { TreatmentReportComponent } from './treatment-report/treatment-report.component';
 import { SpecificScheduleDetailsExpandViewComponent } from './schedule-details/specific-schedule-details-expand-view/specific-schedule-details-expand-view.component';
 import { AppLocalStorage } from '../../../../shared/services/app-data-store/app-data-store';
 
@@ -86,6 +89,9 @@ import { AppLocalStorage } from '../../../../shared/services/app-data-store/app-
     ViewMedicineScheduleComponent,
     ViewMonitorScheduleComponent,
     ViewOutputScheduleComponent,
+    ScheduleDetailExpandViewComponent,
+    PathologyReportComponent,
+    TreatmentReportComponent,
     ScheduleDetailExpandViewComponent,
     SpecificScheduleDetailsExpandViewComponent],
   providers: [

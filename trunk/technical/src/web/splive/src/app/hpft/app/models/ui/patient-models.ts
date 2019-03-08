@@ -24,6 +24,12 @@ import {
     PersonalHistoryInfo,
     PatientPersonAccompanyingDetail,
     PersonalDetailsRequest,
+    PersonAccompanyingInfo,
+    PersonalDetailsResponse,
+    PersonalDetailsUpdateRequest,
+    PathologyResponse,
+    DocumentTblInfoModel,
+    ActionTreatmentDataValue,
 } from '../api/patient-models';
 import { NumberCardModule } from '@swimlane/ngx-charts';
 import { JSONBaseModel } from './json-base-model';
@@ -100,6 +106,7 @@ export class PatientAddModal {
         patientUpdateRequest.gender = this.gender;
     }
     CopyFromUpdateResponse(patientUpdateResponse: PatientUpdateResponse) {
+        this.admissionid = patientUpdateResponse.admissionid;
         this.patientid = patientUpdateResponse.patientid;
         this.cpmid = patientUpdateResponse.cpmid;
         this.patientregno = patientUpdateResponse.patientregno;
@@ -259,45 +266,30 @@ export class PatientCheckListDataModal {
         this.updatedon = patientSearchResponseFilter.updatedon;
     }
 }
-export class PatientPersonAccompanying {
-    patientid: number;
-    admissionid: number;
-    personaldetailsid: number;
-    // personaccompanying: JSONBaseDataModel;
-    testdata: JSONBaseDataModel<PatientPersonDetail[]>;
-    // data:JSONBaseDataModel;
-    age: number;
-    copyFrom(personDetailResponse: PersonDetailResponse) {
-        // this.gender = personAccompanying.gender;
-        // this.name = personAccompanying.name;
-        this.age = personDetailResponse.age;
-        // this.data = new JSONBaseDataModel();
-        // Object.assign(this.testdata, JSON.parse(personAccompanying.personaccompanying));
-        this.testdata = new JSONBaseDataModel<PatientPersonDetail[]>();
-        Object.assign(this.testdata, JSON.parse(personDetailResponse.personaccompanying));
-        console.log('data', this);
-    }
-}
 
-export class PatientPersonalDetails{
+export class PatientPersonalDetails {
     personaldetailsid: number;
     patientid: number;
     admissionid: number;
     uuid: string;
     age: string;
     otherdetails: string;
-    personAccompanyingData: JSONBaseDataModel<PatientPersonAccompanyingDetail>;
-    copyToAddPerson(personalDetailsRequest:PersonalDetailsRequest)
-    {
+    personAccompanyingData: JSONBaseDataModel<PersonAccompanyingInfo>;
+    copyToAddPerson(personalDetailsRequest: PersonalDetailsRequest) {
+        personalDetailsRequest.personaldetailsid = this.personaldetailsid;
         personalDetailsRequest.uuid = this.uuid;
         personalDetailsRequest.patientid = this.patientid;
         personalDetailsRequest.admissionid = this.admissionid;
+        personalDetailsRequest.age = this.age;
         personalDetailsRequest.personaccompanying = JSON.stringify(this.personAccompanyingData);
     }
-    // copyFromPerson()
-    // {
-
-    // }
+    copyFromPerson(personalDetailsResponse: PersonalDetailsResponse) {
+        personalDetailsResponse.age = this.age;
+        this.personAccompanyingData = new JSONBaseDataModel<PersonAccompanyingInfo>();
+        const tempPersonAccompanying = JSON.parse(personalDetailsResponse.personaccompanying);
+        this.personAccompanyingData.data = tempPersonAccompanying || null;
+        this.personAccompanyingData.version = tempPersonAccompanying.version;
+    }
 
 }
 
@@ -342,7 +334,7 @@ export class MedicalDetailsModel {
         this.reasonForAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
         const tempReasonForAdmission = JSON.parse(medicalDetailsResponse.reasonforadmission);
         this.reasonForAdmissionData.data = [];
-        this.reasonForAdmissionData.data = tempReasonForAdmission.data || [] ;
+        this.reasonForAdmissionData.data = tempReasonForAdmission.data || [];
         this.reasonForAdmissionData.version = tempReasonForAdmission.version;
 
         this.historyPresentIllnessData = new JSONBaseDataModel<JSONInnerData[]>();
@@ -378,12 +370,34 @@ export class MedicalDetailsModel {
         this.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
         const tempAllergies = JSON.parse(medicalDetailsResponse.allergies);
         this.allergiesData.data = [];
-        this.allergiesData.data = tempAllergies.data;
+        this.allergiesData.data = tempAllergies.data || [];
         this.allergiesData.version = tempAllergies.version;
 
         this.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
         const tempPersonalHistory = JSON.parse(medicalDetailsResponse.personalhistory);
         this.personalHistoryData.data = tempPersonalHistory || null;
         this.personalHistoryData.version = tempPersonalHistory.version;
+    }
+}
+
+export class PathologyModel {
+    pathologyid: number;
+    admissionid: number;
+    testperformed: string;
+    testresult: string;
+    comments: string;
+    documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
+}
+
+export class TreatmentModel {
+    treatmentid: number;
+    admissionid: number;
+    treatmentdone: string;
+    documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
+    copyFrom(actionTreatmentDataValue: ActionTreatmentDataValue) {
+        this.documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
+        const tempDocumentList = JSON.parse(actionTreatmentDataValue.documentuuidlist);
+        this.documentData.data = tempDocumentList || null;
+        this.documentData.version = tempDocumentList.version;
     }
 }
