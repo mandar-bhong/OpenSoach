@@ -4,7 +4,7 @@ import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	"opensoach.com/hpft/constants"
-	"opensoach.com/hpft/constants/dbquery"
+	"opensoach.com/prodcore/constants/dbquery"
 	pcmodels "opensoach.com/prodcore/models"
 )
 
