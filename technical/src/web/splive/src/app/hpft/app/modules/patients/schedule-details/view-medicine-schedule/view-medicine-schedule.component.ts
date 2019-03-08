@@ -112,7 +112,7 @@ export class ViewMedicineScheduleComponent implements OnInit {
     dataListRequest.orderby = this.sort.active
     dataListRequest.page = this.paginator.pageIndex;
     dataListRequest.filter = new ScheduleFilter();
-    dataListRequest.filter.admissionid = 1;
+    dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.filter.conftypecode = 'Medicine';
 
     return this.patientService.getScheduleData(dataListRequest);

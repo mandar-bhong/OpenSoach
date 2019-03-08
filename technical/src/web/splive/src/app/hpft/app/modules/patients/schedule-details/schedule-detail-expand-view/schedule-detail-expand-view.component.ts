@@ -37,6 +37,19 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
     } else {
       return rminutes + " minute";
     }
-
   }
+  // code block for check status
+  checkStatus(status: number, enddate: string) {
+    if (status == 0) {
+      const enddt = new Date(enddate);
+      const currentdt = new Date();
+      if (enddt.getTime() > currentdt.getTime()) {
+        return 'Active';
+      } else {
+        return 'Completed';
+      }
+    } else {
+      return 'Cancelled';
+    }
+  }// end of code block
 }

@@ -32,7 +32,7 @@ export class TransactionDetailsComponent implements OnInit {
     dataListRequest.limit = 100;
     dataListRequest.orderby = 'patientconfid';
     dataListRequest.filter = new TransactionDetailsFilter();
-    dataListRequest.filter.admissionid = 1;
+    dataListRequest.filter.admissionid =this.patientService.admissionid;
 
     this.patientService.getActionTransaction(dataListRequest).subscribe((transactionPayloadResponse) => {
       if (transactionPayloadResponse.issuccess) {

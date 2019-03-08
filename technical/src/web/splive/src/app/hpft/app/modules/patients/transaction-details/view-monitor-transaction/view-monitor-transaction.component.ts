@@ -106,7 +106,7 @@ export class ViewMonitorTransactionComponent implements OnInit {
     dataListRequest.orderby = this.sort.active
     dataListRequest.filter = new TransactionDetailsFilter();
     dataListRequest.filter.conftypecode = 'Monitor';
-    dataListRequest.filter.admissionid = 1;
+    dataListRequest.filter.admissionid = this.patientService.admissionid;
     return this.patientService.getActionTransaction(dataListRequest);
   }
 

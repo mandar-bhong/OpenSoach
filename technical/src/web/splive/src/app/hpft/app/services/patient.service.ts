@@ -44,6 +44,8 @@ import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse } from 'app/models/api/transaction-details-response';
 import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { ScheduleDataResponse } from 'app/models/api/schedule-response';
+import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
+import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
 
 
 @Injectable()
@@ -259,7 +261,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     }
     // service function for getting schedule details.
     getScheduleDataById(dataListRequest: ScheduleFilter, implicitErrorHandling = true):
-        Observable<PayloadResponse<DataListResponse<ScheduleDataResponse<string>[]>>> {
+        Observable<PayloadResponse<ScheduleDataResponse<string>>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/config/info',
             dataListRequest, implicitErrorHandling);
     }
@@ -271,10 +273,16 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
             request, implicitErrorHandling);
     }
 
-       //Update Patient Response
-       getPatientMedicalID(request: RecordIDRequest, implicitErrorHandling = true):
-       Observable<PayloadResponse<any>> {
-       return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/admission/info/details',
-           request, implicitErrorHandling);
-     }
+    //Update Patient Response
+    getPatientMedicalID(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/admission/info/details',
+            request, implicitErrorHandling);
+    }
+    // service function for getting doctor order details
+    getDoctorOrderDetails(dataListRequest: DataListRequest<DoctorOrderRequest>, implicitErrorHandling = true):
+        Observable<PayloadResponse<DataListResponse<DoctorOrderResponse>>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/doctororders',
+            dataListRequest, implicitErrorHandling);
+    }
 }

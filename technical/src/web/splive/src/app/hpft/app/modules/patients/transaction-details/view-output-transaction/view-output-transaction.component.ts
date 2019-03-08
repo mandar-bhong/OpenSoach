@@ -105,7 +105,7 @@ export class ViewOutputTransactionComponent implements OnInit {
     dataListRequest.page= this.paginator.pageIndex ;
     dataListRequest.filter = new TransactionDetailsFilter();
     dataListRequest.filter.conftypecode = 'Output';
-    dataListRequest.filter.admissionid = 1;
+    dataListRequest.filter.admissionid =this.patientService.admissionid;
     return this.patientService.getActionTransaction(dataListRequest);
   }
 
