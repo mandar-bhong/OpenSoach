@@ -46,6 +46,8 @@ import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { ScheduleDataResponse } from 'app/models/api/schedule-response';
 import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
 import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
+import { SaveFileService } from '../../../shared/services/save-file.service';
+import { FileDownloadRequest } from 'app/models/api/file-download-request';
 
 
 @Injectable()
@@ -61,7 +63,8 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     admissionIdReceived = new Subject<number>();
     medicaldetialsid: number;
 
-    constructor(private serverApiInterfaceService: ServerApiInterfaceService) {
+    constructor(private serverApiInterfaceService: ServerApiInterfaceService,
+        private saveFileService: SaveFileService) {
         super();
     }
 
@@ -284,5 +287,15 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         Observable<PayloadResponse<DataListResponse<DoctorOrderResponse>>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/doctororders',
             dataListRequest, implicitErrorHandling);
+    }
+    // service fucntion for downloading file
+    downloadFile(request: FileDownloadRequest, implicitErrorHandling = true):
+        Observable<Blob> {
+        return this.serverApiInterfaceService.downloadFile(EnvironmentProvider.appbaseurl + '/api/v1/document/download',
+            request, implicitErrorHandling);
+    }
+
+    saveFile(data: Blob, filename: string) {
+        this.saveFileService.saveFile(data, filename);
     }
 }
