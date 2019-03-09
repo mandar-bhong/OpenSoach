@@ -262,39 +262,34 @@
                         <Label row="0" col="0" text="Vital Parameters" class="body pageHeaderTitle" style="vertical-align: center;color: #396767;"></Label>
                         <Label row="0" col="2" [text]="isLoggingIn ?  '&#xf06e;'  : '&#xf070;'" class="fas" (tap)="toggleLabels()"
                             style="color: #396766;margin-left: 10;"></Label>
-                        <Label row="0" col="3" text="Labels" (tap)="toggleLabels()"></Label>
+                        <Label row="0" col="3" text="Labels" (tap)="toggleLabels()" ></Label>
                         <Label row="0" col="4" text="&#xf294;" class="mdi" (tap)="closeDialog()" style="color:#00a6ce;"></Label>
                     </GridLayout>
                     <StackLayout row="1" class="hr-light "></StackLayout>
                     <GridLayout row="2" rows="auto,auto" columns="*,*">
-                        <GridLayout row="0" col="0" columns="*" rows="auto,auto" style="padding: 5;vertical-align: center;">
-                            <GridLayout row="0" col="0" columns="auto,auto" style="vertical-align: center;padding: 0 5;">
+                        <GridLayout row="0" col="0" columns="*" rows="auto,auto" style="padding: 5 0;vertical-align: center;">
+                            <GridLayout row="0" col="0" columns="15,*" style="vertical-align: center;padding: 0 5;">
                                 <Label col="0" style="width:17;height:17;background-color:#2ecc40" (tap)="toggleSeries(0)"></Label>
-                                <Label col="1" text="Pulse Rate (bpm)" (tap)="toggleSeries(0)"></Label>
+                                <Label col="1" text="Pulse Rate (bpm)" (tap)="toggleSeries(0)" style=" font-size: 13;"></Label>
                             </GridLayout>
-                            <GridLayout row="1" col="0" rows="auto" columns="auto,auto" style="padding: 0 5;vertical-align: center;">
+                            <GridLayout row="1" col="0" rows="auto" columns="15,*" style="padding: 0 5;vertical-align: center;">
                                 <Label row="0" col="0" style="width:17;height:17;background-color: #ff851b" (tap)="toggleSeries(2)"></Label>
-                                <Label col="1" text="Respiratory Rate (/min)" (tap)="toggleSeries(2)"></Label>
+                                <Label col="1" text="Respiratory Rate (/min)" (tap)="toggleSeries(2)" style=" font-size: 13;"></Label>
                             </GridLayout>
                         </GridLayout>
 
-                        <GridLayout row="0" col="1" columns="*" rows="auto,auto" style="padding: 5;vertical-align: center;">
+                        <GridLayout row="0" col="1" columns="*" rows="auto,auto" style="padding: 5 0;vertical-align: center;">
 
-                            <GridLayout row="0" col="0" rows="auto" columns="auto, auto" style="padding: 0 5;">
+                            <GridLayout row="0" col="0" rows="auto" columns="15, *" style="padding: 0 5;">
                                 <Label row="0" col="0" style="width:17;height:17;background-color:#bb0a1e" (tap)="toggleSeries(1)"></Label>
-                                <Label row="0" col="1" text="Blood Pressure (mmHg)" (tap)="toggleSeries(1)" ></Label>
+                                <Label row="0" col="1" text="Blood Pressure (mmHg)" (tap)="toggleSeries(1)" style=" font-size: 13;"></Label>
                             </GridLayout>
 
-                            <GridLayout row="1" col="0" rows="auto" columns="auto, auto" style="padding: 0 5;">
+                            <GridLayout row="1" col="0" rows="auto" columns="15, *" style="padding: 0 5;">
                                 <Label row="0" col="0" style="width:17;height:17;background-color:#0075D9" (tap)="toggleSeries(3)"></Label>
-                                <Label row="0" col="1" text="Temperature (°F)" (tap)="toggleSeries(3)" ></Label>
+                                <Label row="0" col="1" text="Temperature (°F)" (tap)="toggleSeries(3)" style=" font-size: 13;"></Label>
                             </GridLayout>
                         </GridLayout>
-
-
-
-
-
 
                     </GridLayout>
                     <GridLayout rows="*" row="3">

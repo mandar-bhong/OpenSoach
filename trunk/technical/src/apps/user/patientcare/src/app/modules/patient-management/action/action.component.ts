@@ -197,6 +197,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.doctorOrderSubscription = this.workerService.doctorOrderSubject.subscribe((value) => {
 			this.pushDoctorOredrs(value);
 		});
+		this.passdataservice.backalert = false;
 	}// end of ng init.
 
 	public listLoaded() {
@@ -548,7 +549,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	onSubmit(item) {
 		console.log('on sumbit', item);
 		//set action conf model
-
+this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
 		this.formData = new ActionTxnDBModel();
@@ -603,7 +604,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actionDbArray.push(this.formData);
 		console.log('this.actionDbArray', this.actionDbArray);
 
-		this.passdataservice.backalert = this.actionDbArray;
+
 
 	}
 	// >> on discard one bye one item data
@@ -611,6 +612,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		console.log(item);
 		//set action conf model
 
+		this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
 		this.formData = new ActionTxnDBModel();
@@ -650,7 +652,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
 		// console.log('this.actionDbArray', this.actionDbArray);
-		this.passdataservice.backalert = this.actionDbArray;
+
 
 	}
 	// all action done and discard save in action-trn-table

@@ -2,14 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { PassDataService } from '~/app/services/pass-data-service';
-import { alert } from "tns-core-modules/ui/dialogs";
-import {
-	CFAlertDialog,
-	DialogOptions,
-	CFAlertActionAlignment,
-	CFAlertActionStyle,
-	CFAlertStyle
-} from "nativescript-cfalert-dialog";
+
 @Component({
 	moduleId: module.id,
 	selector: 'patient-action-bar',
@@ -20,10 +13,8 @@ import {
 export class PatientActionBarComponent implements OnInit {
 	//  process variable 
 	patientname: string;
-	private cfalertDialog: CFAlertDialog;
 	constructor(private routerExtensions: RouterExtensions,
 		private passDataService: PassDataService) {
-		this.cfalertDialog = new CFAlertDialog();
 	}
 	@Input() patientName: string;
 	ngOnInit() {
@@ -31,45 +22,31 @@ export class PatientActionBarComponent implements OnInit {
 	}
 
 	goBackPage() {
-		if (this.passDataService.backalert.length) {
-			this.showNotification();
+		const test =  true;
+		console.log('this.passDataService.backalert', this.passDataService.backalert);
+		if (this.passDataService.backalert === test) {
+			console.log(this.passDataService.showNotification());
+			
 		} else {
 			this.routerExtensions.back();
 		}
+		this.passDataService.backalert = false;
 
-		console.log('this.passDataService.backalert.length', this.passDataService.backalert.length);
 	}
 
 	patientdetail() {
+
 		this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: false });
+		// const test =  true;
+		// console.log('this.passDataService.backalert', this.passDataService.backalert);
+		// if (this.passDataService.backalert === test) {
+		// 	this.passDataService.showNotification();
+		// 	this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: false });
+		// } else {
+		// 	this.routerExtensions.back();
+		// }
+		// this.passDataService.backalert = false;
+		
 	}
 
-	showNotification(): void {
-		let onSelection = response => {
-			this.routerExtensions.back();
-		};
-		let onSelection1 = response => {
-		};
-		const options: DialogOptions = {
-			dialogStyle: CFAlertStyle.NOTIFICATION,
-			title: "Unsaved Changes!",
-			message: "Do you wish to discard changes?",
-			backgroundBlur: true,
-			onDismiss: () => console.log("showAlert dismissed"),
-			buttons: [
-				{
-					text: "Yes",
-					buttonStyle: CFAlertActionStyle.NEGATIVE,
-					buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
-					onClick: onSelection
-				},
-				{
-					text: "No, Thanks.",
-					buttonStyle: CFAlertActionStyle.POSITIVE,
-					buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
-					onClick: onSelection1
-				}]
-		};
-		this.cfalertDialog.show(options);
-	}
 }
