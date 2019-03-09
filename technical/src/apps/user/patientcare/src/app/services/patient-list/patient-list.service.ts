@@ -16,13 +16,13 @@ export class PatientListService {
     constructor(private database: DatabaseService,
         private workerService: WorkerService) {
         this.patientMasterSubscription = this.workerService.patientMasterDataReceivedSubject.subscribe((uuid) => {
-            console.log('master list call');
+            // console.log('master list call');
                 this.getPatientListDataById(uuid, 'patientlistbymasteruuid');
         });
 
         this.patientAdmissionSubscription = this.workerService.patientAdmissionDataReceivedSubject.subscribe((uuid) => {
             // console.log('subscriber invoked in patient list', uuid);
-            console.log('admission list call');
+            // console.log('admission list call');
                 this.getPatientListDataById(uuid, 'patientlistbyadmissionuuid');
         });
     }
@@ -52,13 +52,13 @@ export class PatientListService {
         paramList.push(uuid);
         this.database.selectByID(key, paramList).then(
             (val) => {
-                console.log("patient list item", val);
+                // console.log("patient list item", val);
                 val.forEach(item => {
                     // console.log("val master", val);
                     const patientMasterListItem = new PatientListViewModel();
                     patientMasterListItem.dbmodel = item;
                     patientlist.push(patientMasterListItem);
-                    console.log('patient list service', patientlist);
+                    // console.log('patient list service', patientlist);
                 });
                 this.patientListChangedSubject.next(patientlist);
 
@@ -67,7 +67,82 @@ export class PatientListService {
 
             }
         );
+    }
+    public getAdmissionDetailsByUUID(patient_uuid: string): any {
+        return new Promise((resolve, reject) => {
 
+            const paramList = new Array<any>();
 
+            paramList.push(patient_uuid);
+
+            this.database.selectByID("patient_admission_details", paramList).then(
+                (val) => {
+                    // console.log("admistion data item", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+    }
+    public getPatientDetailsByUUID(admission_uuid: string): any {
+        return new Promise((resolve, reject) => {
+
+            const paramList = new Array<any>();
+
+            paramList.push(admission_uuid);
+
+            this.database.selectByID("patient_personal_details", paramList).then(
+                (val) => {
+                    // console.log("patient data item", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+    }
+
+    public getPersonAccompanyingByUUID(admission_uuid: string): any {
+        return new Promise((resolve, reject) => {
+
+            const paramList = new Array<any>();
+
+            paramList.push(admission_uuid);
+
+            this.database.selectByID("patient_person_accompanying_details", paramList).then(
+                (val) => {
+                    // console.log("patient_person_accompanying data item", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+    }
+    public getMedicalDetailsByUUID(admission_uuid: string): any {
+        return new Promise((resolve, reject) => {
+
+            const paramList = new Array<any>();
+
+            paramList.push(admission_uuid);
+
+            this.database.selectByID("patient_medical_details", paramList).then(
+                (val) => {
+                    // console.log("patient_medical_details data item", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
     }
 }
