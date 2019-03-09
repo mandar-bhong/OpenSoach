@@ -592,7 +592,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		}
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
-		this.formData.txn_date = new Date;
+		this.formData.txn_date = item.exec_time;
 		this.formData.txn_state = 1;
 		this.formData.status = 1;
 		this.formData.admission_uuid = item.admission_uuid;
