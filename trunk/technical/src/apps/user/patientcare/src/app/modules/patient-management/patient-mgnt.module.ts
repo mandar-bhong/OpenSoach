@@ -37,6 +37,16 @@ import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
 import { ActionFabComponent } from "./action-fab/action-fab.component";
 import { SchedularFabComponent } from "./schedular-fab/schedular-fab.component";
 import { TreatmentReportsComponent } from "./reports/treatment-reports/treatment-reports.component";
+import { AdmissionDetailsComponent } from "./patient-details/admission-details/admission-details.component";
+import { PersonAccompanyingDetailsComponent } from "./patient-details/person-accompanying-details/person-accompanying-details.component";
+import { ReasonForAdmissionDetailsComponent } from "./patient-details/reason-for-admission-details/reason-for-admission-details.component";
+import { HistoryOfPresentIllnessComponent } from "./patient-details/history-of-present-Illness/history-of-present-Illness.component";
+import { PastHistoryAboutHealthComponent } from "./patient-details/past-history-about-health/past-history-about-health.component";
+import { InvestigationBeforeAdmissionComponent } from "./patient-details/investigation-before-admission/investigation-before-admission.component";
+import { FamilyHistoryComponent } from "./patient-details/family-history/family-history.component";
+import { AllergiesComponent } from "./patient-details/allergies/allergies.component";
+import { TreatmentBeforeAdmissionComponent } from "./patient-details/treatment-before-admission/treatment-before-admission.component";
+import { PersonalHistoryComponent } from "./patient-details/personal-history/personal-history.component";
 
 
 @NgModule({
@@ -74,7 +84,17 @@ import { TreatmentReportsComponent } from "./reports/treatment-reports/treatment
         DoctorOrdersComponent,
         ActionFabComponent,
         SchedularFabComponent,
-        TreatmentReportsComponent
+        TreatmentReportsComponent,
+        AdmissionDetailsComponent,
+        PersonAccompanyingDetailsComponent,
+        ReasonForAdmissionDetailsComponent,
+        HistoryOfPresentIllnessComponent,
+        PastHistoryAboutHealthComponent,
+        TreatmentBeforeAdmissionComponent,
+        InvestigationBeforeAdmissionComponent,
+        FamilyHistoryComponent,
+        AllergiesComponent,
+        PersonalHistoryComponent
 
 
     ],

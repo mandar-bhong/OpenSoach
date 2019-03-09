@@ -1,47 +1,33 @@
-<RadListView #myListView [items]="_dataItems" multipleSelection="false" selectionBehavior="Press">
-    <ng-template tkListItemTemplate let-item="item">
-        <GridLayout columns="*" rows="auto, auto, auto" style="justify-content: center; vertical-align: center; padding:20px;">
-            <Label row="0" class="body" textWrap="true" text="PATIENT DETAILS"></Label>
-            <StackLayout row="1" class="hr-light m-10"></StackLayout>
-            <GridLayout row="2" columns="*, auto" rows=" auto, auto, auto">
+<GridLayout columns="*" rows="auto, auto, auto" style="justify-content: center; vertical-align: center; padding:20px;">
+    <Label row="0" class="body groupHeaderTitle" textWrap="true" text="Patient Details"></Label>
+    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+    <GridLayout row="2" columns="*, auto" rows=" auto, auto, auto">
 
-                <GridLayout row="0" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
-                    <StackLayout col="0">
-                        <Label class="body" textWrap="true" text="Name"></Label>
-                        <Label class="labelleft label-small" textWrap="true" [text]="item.name"></Label>
-                    </StackLayout>
-                </GridLayout>
-                <GridLayout row="0" col="1" columns="auto, auto" style=" margin-top:5px;">
-                    <StackLayout col="0">
-                        <Label class="body" textWrap="true" text="Hospitalised on"></Label>
-                    </StackLayout>
-                    <StackLayout col="1" style="margin-left: 5px;">
-                        <Label class="labelleft label-small" textWrap="true" [text]="item.hospitalised"></Label>
-                    </StackLayout>
-                </GridLayout>
+        <GridLayout row="0" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
+            <GridLayout col="0" rows="auto,auto" columns="auto">
+                <Label class="body" col="0" textWrap="true" text="Patient Name"></Label>
+                <Label row="1" col="0" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.fname + ' ' + patientDetailsModel.lname}}"></Label>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout row="0" col="1" columns="auto, auto, auto" style=" margin-top:5px;">
+            <Label row="0" col="0" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.gender}}"></Label>
+            <Label row="0" col="1" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.age + ' ' + 'yr'}}"></Label>
+            <Label col="2" style="margin-left: 5px;" class="labelleft label-small body" style="color:red;" textWrap="true"
+                text="{{patientDetailsModel.blood_grp}}"></Label>
+        </GridLayout>
 
-                <GridLayout row="1" col="0" columns="auto,*,auto,auto" rows="auto" style="margin-top:5px;">
-                    <StackLayout col="0">
-                        <Label class="body" textWrap="true" text="Registration Number"></Label>
-                        <Label class="labelleft label-small" textWrap="true" [text]="item.rno"></Label>
-                    </StackLayout>
-                </GridLayout>
-
-                <GridLayout row="2" col="0" columns="auto,*,auto,auto" rows="auto" style=" margin-top:5px;">
-                    <StackLayout col="0">
-                        <Label class="body" textWrap="true" text="Rome/Bed Number"></Label>
-                        <Label class="labelleft label-small" textWrap="true" [text]="item.bedno"></Label>
-                    </StackLayout>
-
-                </GridLayout>
-
-                <GridLayout row="2" col="1" columns="auto, auto" style=" margin-top:5px;">
-                    <StackLayout col="0">
-                        <Label style="color:#FF8912;" textWrap="true" [text]="item.weight"></Label>
-                    </StackLayout>
+        <GridLayout row="1" col="0" columns="*" rows="auto" style="margin-top:5px;">
+            <GridLayout col="0" rows="auto,auto" columns="auto, auto">
+                <Label class="body" textWrap="true" text="Contact"></Label>
+                <GridLayout col="0" row="1" rows="auto" columns=" auto">
+                    <Label row="0" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912" style="font-size: 15;"></Label>
+                    <Label row="0" col="0" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.mob_no}}" style="margin-left: 20;"></Label>
                 </GridLayout>
             </GridLayout>
-
         </GridLayout>
-    </ng-template>
-</RadListView>
+        
+
+    </GridLayout>
+
+
+</GridLayout>
