@@ -4,6 +4,16 @@ import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { Subject } from 'rxjs/internal/Subject';
 import { action } from 'tns-core-modules/ui/dialogs/dialogs';
 import { IDeviceAuthResult } from '../modules/idevice-auth-result';
+
+
+import {
+	CFAlertDialog,
+	DialogOptions,
+	CFAlertActionAlignment,
+	CFAlertActionStyle,
+	CFAlertStyle
+} from "nativescript-cfalert-dialog";
+import { RouterExtensions } from 'nativescript-angular/router';
 @Injectable()
 
 export class PassDataService {
@@ -15,10 +25,14 @@ export class PassDataService {
     patientName: string;
     createActionsSubject: Subject<boolean> = new Subject<boolean>();
     authResultReuested: IDeviceAuthResult;    
-    backalert = [];
-    constructor() {
+    backalert: boolean;
+    
+
+    private cfalertDialog: CFAlertDialog;
+    constructor(private routerExtensions: RouterExtensions) {
         //  this.patientListViewModel = new PatientListViewModel();
         console.log('service initiated');
+        this.cfalertDialog = new CFAlertDialog();
     }
     setPatientData(data) {
         this.patientListViewModel = new PatientListViewModel();
@@ -37,9 +51,41 @@ export class PassDataService {
     getAdmissionID() {
         return this.patientListViewModel.dbmodel.admission_uuid;
     }
+    getPatientID() {
+        return this.patientListViewModel.dbmodel.patient_uuid;
+    }
     // fucntion for create actions
     createActions(actions: boolean) {
         this.createActionsSubject.next(actions);
     }
     // end of fucntion
+
+    showNotification(): void {
+		let onSelection = response => {
+			// this.routerExtensions.back();
+		};
+		let onSelection1 = response => {
+		};
+		const options: DialogOptions = {
+			dialogStyle: CFAlertStyle.NOTIFICATION,
+			title: "Unsaved Changes!",
+			message: "Do you wish to Disactive changes?",
+			backgroundBlur: true,
+			onDismiss: () => console.log("showAlert dismissed"),
+			buttons: [
+				{
+					text: "Yes",
+					buttonStyle: CFAlertActionStyle.NEGATIVE,
+					buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
+					onClick: onSelection
+				},
+				{
+					text: "No, Thanks.",
+					buttonStyle: CFAlertActionStyle.POSITIVE,
+					buttonAlignment: CFAlertActionAlignment.JUSTIFIED,
+					onClick: onSelection1
+				}]
+		};
+		this.cfalertDialog.show(options);
+	}
 }

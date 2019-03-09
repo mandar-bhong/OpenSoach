@@ -73,6 +73,7 @@ export class UserAuthComponent implements OnInit {
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
+		this.passdataservice.backalert = true;
 		this.createFormUserAuthControls();
 		this.createFormUserPinControls();
 		this.userPinCheckControls();
