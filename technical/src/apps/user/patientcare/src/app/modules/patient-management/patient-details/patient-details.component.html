@@ -6,12 +6,12 @@
                 <Label text="&#xf04d;" class="homeicon mdi"></Label>
             </RL:Ripple>
             <Label col="1" text="&#xf47d;" class="mdi listicon" style="margin-left:30px; color:white;vertical-align: center;"></Label>
-            <Label col="2" text="3A/312, Amol Patil" class="label-action homeheader" ></Label>
-            <StackLayout col="4" class="button-dist">
+            <Label col="2" [text]="patientname" class="label-action homeheader"></Label>
+            <!-- <StackLayout col="4" class="button-dist">
                 <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37">
                     <Label text="&#xf09a;" class="homeicon mdi"></Label>
                 </RL:Ripple>
-            </StackLayout>
+            </StackLayout> -->
             <GridLayout col="5" columns="auto" class="ripplecenter" class="button-dist" style="vertical-align: center;">
                 <network-status></network-status>
             </GridLayout>
@@ -20,18 +20,97 @@
 </ActionBar>
 
 
+<GridLayout style="background-color:#396766;" rows="*" columns="*" height="100%" width="100%">
+    <ScrollView>
+        <GridLayout style="background-color:#396766;margin: 5 0" rows="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto"
+            columns="*">
 
-<StackLayout style="background-color:#396766;">
+            <GridLayout row="0" style=" justify-content: center;">
+                <GridLayout class="cardeffect" shadowOffsetWidth=1 style="margin-top:20">
+                    <patient-info></patient-info>
+                </GridLayout>
+                <GridLayout horizontalAlignment="left" class="rightsecond">
+                    <!-- <RL:Ripple rippleColor="#fff"> -->
+                    <StackLayout row="0" class="float-btn">
+                        <Label class="float-btn-text fas" text="&#xf007;" style="color: white;"></Label>
+                    </StackLayout>
+                    <!-- </RL:Ripple> -->
+                </GridLayout>
+            </GridLayout>
 
-    <StackLayout style="margin-top:20px; justify-content: center;">
-        <CardView class="cardeffect" margin="3" shadowOffsetWidth=1>
-            <patient-info></patient-info>
-        </CardView>
-    </StackLayout>
+            <GridLayout row="1" style=" justify-content: center;">
+                <CardView class="cardeffect" margin-bottom="1" shadowOffsetWidth=1>
+                    <admission-details></admission-details>
+                </CardView>
+            </GridLayout>
 
-    <StackLayout style="margin-top:20px; justify-content: center;">
-        <CardView class="cardeffect" margin="3" shadowOffsetWidth=1>
-            <medical-details></medical-details>
-        </CardView>
-    </StackLayout>
-</StackLayout>
+            <GridLayout row="2" style=" justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <person-accompanying-details></person-accompanying-details>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="3" style=" justify-content: center;" style="margin-top:25">
+                <GridLayout class="cardeffect" shadowOffsetWidth=1>
+                    <personal-history [personallistitem]="personal_history"></personal-history>
+                </GridLayout>
+            </GridLayout>
+            <GridLayout row="3" style=" justify-content: center;" style="margin-top:5">
+                <GridLayout horizontalAlignment="left" class="rightsecond">
+                    <StackLayout row="0" class="float-btn">
+                        <Label class="float-btn-text fas" text="&#xf477;" style="color: white;"></Label>
+                    </StackLayout>
+                </GridLayout>
+            </GridLayout>
+
+            <GridLayout row="4" style=" justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <medical-details [listItem]="jsonpresentComplaintsList.data"></medical-details>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="5" style=" justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <reason-for-admission-details [reasonlistItem]="reason_for_admission.data"></reason-for-admission-details>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="6" style=" justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <history-of-present-Illness [historylistitem]="history_present_illness.data"></history-of-present-Illness>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="7" style=" justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <past-history-about-health [pasthistorylistitem]="past_history.data"></past-history-about-health>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="8" style=" justify-content: center;">
+                <CardView class="cardeffect"  shadowOffsetWidth=1>
+                    <treatment-before-admission [treatmentlistitem]="treatment_before_admission.data"></treatment-before-admission>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="9" style="justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <investigation-before-admission [investigationlistitem]="investigation_before_admission.data"></investigation-before-admission>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="10" style=" justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <family-history [familylistitem]="family_history.data"></family-history>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="11" style=" justify-content: center;">
+                <CardView class="cardeffect"  shadowOffsetWidth=1>
+                    <allergies [allergieslistitem]="allergies.data"></allergies>
+                </CardView>
+            </GridLayout>
+
+        </GridLayout>
+    </ScrollView>
+</GridLayout>

@@ -1,0 +1,10 @@
+.cardeffect{
+    width: 95%;
+    padding: 5 8;
+    background-color: #f0f0f0;  
+    border-radius: 8px;
+  }
+  .labelleft{
+      margin-left: 8px;
+      /* color: #396766; */
+  }

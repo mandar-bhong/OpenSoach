@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PassDataService } from '~/app/services/pass-data-service';
+import { PatientListService } from '~/app/services/patient-list/patient-list.service';
+import { DataList } from '../patient-details.component';
 
 @Component({
 	moduleId: module.id,
@@ -8,10 +11,26 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class MedicalDetailsComponent implements OnInit {
-	_dataItems = [];
+
+	getData = false;
+	noData =  false;
 	constructor() { }
 
+	@Input() listItem: DataList[];
 	ngOnInit() {
-		this._dataItems.push({ reason: "Test body", treatment: "Under Diagnosis", medhistory: "Undergone treatment for bone fracture in right leg", allergies: "Allergy with peanuts" });
+		setTimeout(()=>{
+			if(this.listItem.length > 0){
+				console.log(' if');
+				this.getData = true;
+				this.noData = false;
+			}else{
+				console.log(' else');
+				this.noData = true;
+				this.getData = false;
+			}
+	
+		});
+
 	}
+	
 }
