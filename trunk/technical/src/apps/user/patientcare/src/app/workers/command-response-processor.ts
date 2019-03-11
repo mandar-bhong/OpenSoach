@@ -254,6 +254,8 @@ export class CommandResponseProcessor {
             scheduleDatastoreModel.admission_uuid = item.admission_uuid;
             scheduleDatastoreModel.conf_type_code = item.conf_type_code;
             scheduleDatastoreModel.conf = item.conf;
+            scheduleDatastoreModel.end_date = item.end_date;
+            scheduleDatastoreModel.status = item.status;
             scheduleDatastoreModel.updated_by = item.updated_by;
             scheduleDatastoreModel.updated_on = item.updated_on;
             scheduleDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
@@ -404,7 +406,7 @@ export class CommandResponseProcessor {
             actionTxnDatastoreModel.uuid = item.uuid;
             actionTxnDatastoreModel.schedule_uuid = item.schedule_uuid;
             actionTxnDatastoreModel.txn_data = item.txn_data;
-            actionTxnDatastoreModel.txn_date = item.txn_date;
+            actionTxnDatastoreModel.scheduled_time = item.scheduled_time;
             actionTxnDatastoreModel.txn_state = item.txn_state;
             actionTxnDatastoreModel.conf_type_code = item.conf_type_code;
             actionTxnDatastoreModel.runtime_config_data = item.runtime_config_data;
@@ -442,6 +444,12 @@ export class CommandResponseProcessor {
             doctorsOrdersDatastoreModel.admission_uuid = item.admission_uuid;
             doctorsOrdersDatastoreModel.doctor_id = item.doctor_id;
             doctorsOrdersDatastoreModel.doctors_orders = item.doctors_orders;
+            doctorsOrdersDatastoreModel.comment = item.comment;
+            doctorsOrdersDatastoreModel.ack_by = item.ack_by;
+            doctorsOrdersDatastoreModel.ack_time = item.ack_time;
+            doctorsOrdersDatastoreModel.status = item.status;
+            doctorsOrdersDatastoreModel.order_created_time = item.order_created_time;
+            doctorsOrdersDatastoreModel.order_type = item.order_type;
             doctorsOrdersDatastoreModel.document_uuid = item.document_uuid;
             doctorsOrdersDatastoreModel.document_name = item.document_name;
             doctorsOrdersDatastoreModel.doctype = item.doctype;
@@ -476,6 +484,7 @@ export class CommandResponseProcessor {
             treatmentDatastoreModel.uuid = item.uuid;
             treatmentDatastoreModel.admission_uuid = item.admission_uuid;
             treatmentDatastoreModel.treatment_done = item.treatment_done;
+            treatmentDatastoreModel.treatment_performed_time = item.treatment_performed_time;
             treatmentDatastoreModel.details = item.details;
             treatmentDatastoreModel.post_observation = item.post_observation;
             treatmentDatastoreModel.updated_by = item.updated_by;
@@ -534,6 +543,7 @@ export class CommandResponseProcessor {
             pathologyRecordDatastoreModel.uuid = item.uuid;
             pathologyRecordDatastoreModel.admission_uuid = item.admission_uuid;
             pathologyRecordDatastoreModel.test_performed = item.test_performed;
+            pathologyRecordDatastoreModel.test_performed_time = item.test_performed_time;
             pathologyRecordDatastoreModel.test_result = item.test_result;
             pathologyRecordDatastoreModel.comments = item.comments;
             pathologyRecordDatastoreModel.updated_by = item.updated_by;

@@ -79,7 +79,7 @@ export class ActionService {
             listData.push(data.admission_uuid);
             listData.push(data.conf_type_code);
             listData.push(data.schedule_uuid);
-            listData.push(data.exec_time);
+            listData.push(data.scheduled_time);
             listData.push(data.sync_pending);
 
             this.database.update("actionInsert", listData).then(
@@ -105,7 +105,7 @@ export class ActionService {
             listData.push(data.admission_uuid);
             listData.push(data.schedule_uuid);
             listData.push(data.txn_data);
-            listData.push(data.txn_date);
+            listData.push(data.scheduled_time);
             listData.push(data.txn_state);
             listData.push(data.conf_type_code);
             listData.push(data.runtime_config_data);

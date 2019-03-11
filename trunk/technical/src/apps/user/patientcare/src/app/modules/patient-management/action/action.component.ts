@@ -47,7 +47,7 @@ export class DataActionItem {
 	admission_uuid: string;
 	conf_type_code: string;
 	schedule_uuid: string;
-	exec_time: Date;
+	scheduled_time: Date;
 	name: string;
 	desc: string;
 	status: number;
@@ -454,11 +454,11 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
 
-			// const exectime = new Date(item.dbmodel.exec_time * 1000);
-			// console.log('exectime', exectime);
+			// const scheduled_time = new Date(item.dbmodel.scheduled_time * 1000);
+			// console.log('scheduled_time', scheduled_time);
 
-			actionListDataItem.exec_time = item.dbmodel.exec_time;
-			const a = item.dbmodel.exec_time;
+			actionListDataItem.scheduled_time = item.dbmodel.scheduled_time;
+			const a = item.dbmodel.scheduled_time;
 			var test = new Date(a);
 			// console.log('isodate date', test);
 			// const isodate = test.toISOString();
@@ -468,7 +468,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			// console.log('timestramp', todaydate);
 
 			// >> will display list of actions to be performed in another 12 hours and after 1 hours
-			const recivedDateFormDB = new Date(item.dbmodel.exec_time);
+			const recivedDateFormDB = new Date(item.dbmodel.scheduled_time);
 			const recivedDateDb = recivedDateFormDB.getMinutes();
 			recivedDateFormDB.setMinutes(recivedDateDb);
 			const reciveTimeDb = recivedDateFormDB.toLocaleString();
@@ -504,8 +504,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			// << increass time 15 min 
 
 			// >> Db Date timestramp convert in date 
-			// const theDate = new Date(item.dbmodel.exec_time * 1000);
-			const theDate = new Date(item.dbmodel.exec_time);
+			// const theDate = new Date(item.dbmodel.scheduled_time * 1000);
+			const theDate = new Date(item.dbmodel.scheduled_time);
 			const hr = theDate.getHours();
 			const h = hr * 60;
 			const m = theDate.getMinutes();
@@ -593,7 +593,7 @@ this.passdataservice.backalert = true;
 		}
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
-		this.formData.txn_date = item.exec_time;
+		this.formData.scheduled_time = item.scheduled_time;
 		this.formData.txn_state = 1;
 		this.formData.status = 1;
 		this.formData.admission_uuid = item.admission_uuid;
@@ -642,7 +642,7 @@ this.passdataservice.backalert = true;
 		}
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
-		this.formData.txn_date = new Date;
+		this.formData.scheduled_time = item.scheduled_time;
 		this.formData.txn_state = 2;
 		this.formData.status = 0;
 		this.formData.admission_uuid = item.admission_uuid;
@@ -678,7 +678,7 @@ this.passdataservice.backalert = true;
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
 			console.log('item.txn_data;', item.txn_data);
-			serverDataStoreModel.data.txn_date = item.txn_date;
+			serverDataStoreModel.data.scheduled_time = item.scheduled_time;
 			serverDataStoreModel.data.txn_state = Number(item.txn_state);
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
 			serverDataStoreModel.data.client_updated_at = new Date();

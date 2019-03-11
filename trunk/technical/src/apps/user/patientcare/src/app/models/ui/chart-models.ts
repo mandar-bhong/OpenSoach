@@ -87,7 +87,7 @@ export class ActionListModel {
     uuid: string;
     admission_id: number;
     chart_conf_id: number;
-    exec_time: string;
+    scheduled_time: string;
 }
 
 export class MornFreqInfo {

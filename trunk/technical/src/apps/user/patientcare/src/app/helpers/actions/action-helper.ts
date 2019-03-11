@@ -58,7 +58,7 @@ export class ActionHelper {
                 const dateval = new Date(dateaction);
                 dateval.setMinutes(this.actionItems[i].dayAction[j].time);
                 const actionList = new ActionDataStoreModel();
-                actionList.exec_time = new Date(dateval);
+                actionList.scheduled_time = new Date(dateval);
                 console.log('in generate DB actions fucntion', this.schedulardata.data)
                 actionList.admission_uuid = this.schedulardata.data.admission_uuid;
                 actionList.schedule_uuid = this.schedulardata.data.uuid;
@@ -91,7 +91,7 @@ export class ActionHelper {
     }
     getScheduleEnddate() {
         if (this.actionList.length > 0) {
-            const enddate = this.actionList[this.actionList.length - 1].exec_time;
+            const enddate = this.actionList[this.actionList.length - 1].scheduled_time;
             return enddate;
         }
     }

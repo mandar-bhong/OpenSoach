@@ -151,7 +151,7 @@ export class MonitorComponent implements OnInit {
                     const testdata = JSON.parse(item.txn_data);
                     temperatureListItem.Amount = Number(testdata.value);
 
-                    const getDBDate = new Date(item.txn_date);
+                    const getDBDate = new Date(item.scheduled_time);
                     // const asc_date =
                     temperatureListItem.timeStamp = getDBDate.getTime();
                     temperatureListItem.Impact = 1;
@@ -181,7 +181,7 @@ export class MonitorComponent implements OnInit {
                     // console.log('component bloodpressure', item);
                     let bloodpresHighListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
-                    const getDBDate = new Date(item.txn_date);
+                    const getDBDate = new Date(item.scheduled_time);
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
                     bloodpresHighListItem.Systolic = Number(testdata.value.high);
                     bloodpresHighListItem.Impact = 1;
@@ -209,7 +209,7 @@ export class MonitorComponent implements OnInit {
                     // console.log('item homme', item);
                     let respirationListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
-                    const getDBDate = new Date(item.txn_date);
+                    const getDBDate = new Date(item.scheduled_time);
                     respirationListItem.timeStamp = getDBDate.getTime();
                     respirationListItem.Amount = Number(testdata.value);
                     respirationListItem.Impact = 1;
@@ -232,7 +232,7 @@ export class MonitorComponent implements OnInit {
                     // console.log('item homme', item);
                     let pulseListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
-                    const getDBDate = new Date(item.txn_date);
+                    const getDBDate = new Date(item.scheduled_time);
                     pulseListItem.timeStamp = getDBDate.getTime();
                     pulseListItem.Amount = Number(testdata.value);
                     pulseListItem.Impact = 1;
