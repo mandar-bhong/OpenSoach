@@ -71,6 +71,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     medicaldetialsid: number;
     personaldetailsid: number;
     treatmentid:number;
+    pathologyid:number;
 
     constructor(private serverApiInterfaceService: ServerApiInterfaceService,
         private saveFileService: SaveFileService) {
@@ -139,6 +140,11 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
             request, implicitErrorHandling);
     }
+//     getPatientNUpdates(request: RecordIDRequest, implicitErrorHandling = true):
+//     Observable<PayloadResponse<PatientUpdateResponse>> {
+//     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
+//         request, implicitErrorHandling);
+// }
 
     //Update Admission Response
     getAdmissionUpdates(request: RecordIDRequest, implicitErrorHandling = true):
@@ -317,14 +323,14 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
 
     //Get data for pathology report
     getPathologyList(dataListRequest: DataListRequest<PathologyFilterRequest>, implicitErrorHandling = true):
-        Observable<PayloadResponse<DataListResponse<PathologyResponse<string>[]>>> {
+        Observable<PayloadResponse<DataListResponse<PathologyResponse>>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/pathologyrecord',
             dataListRequest, implicitErrorHandling);
     }
 
     //Get data for pathology report
     getTreatmentList(dataListRequest: DataListRequest<TreatmentFilterRequest>, implicitErrorHandling = true):
-        Observable<PayloadResponse<DataListResponse<TreatmentResponse<string>[]>>> {
+        Observable<PayloadResponse<DataListResponse<TreatmentResponse>>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/treatment',
             dataListRequest, implicitErrorHandling);
     }

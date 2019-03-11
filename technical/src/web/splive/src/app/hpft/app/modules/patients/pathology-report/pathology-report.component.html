@@ -34,7 +34,6 @@
       style="cursor: pointer !important;"></mat-row>
     <mat-row style="min-height: 0px !important" *matRowDef="let row; columns: ['expandedDetail']"
       class="example-detail-row"></mat-row>
-
     <ng-container matColumnDef="testperformed">
       <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 40%;">Test Performed</mat-header-cell>
       <mat-cell *matCellDef="let row" style="flex:0 0 40%;">
@@ -43,20 +42,13 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="txndate">
+    <ng-container matColumnDef="testperformedtime">
       <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Performed On</mat-header-cell>
       <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
         <span class="mat-cell-responsive-label">Performed On</span>
-        <!-- <span class="ellipsis mat-cell-text">{{row.txndate | date:'dd-MMM-yy, h:mm a'}}</span> -->
+        <span class="ellipsis mat-cell-text">{{row.testperformedtime | date:'dd-MMM-yy, h:mm a'}}</span>
       </mat-cell>
     </ng-container>
-    <!-- <ng-container matColumnDef="by">
-      <mat-header-cell *matHeaderCellDef style="flex:0 0 25%;">Performed By</mat-header-cell>
-      <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
-        <span class="mat-cell-responsive-label">Performed By</span>
-        <span class="ellipsis mat-cell-text">{{row.firstname +" "+row.lastname }}</span>
-      </mat-cell>
-    </ng-container> -->
 
     <ng-container matColumnDef="view">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -66,41 +58,52 @@
       </mat-cell>
     </ng-container>
 
-
-
     <ng-container matColumnDef="expandedDetail">
       <mat-cell class="detail_back" *matCellDef="let element" colspan="2">
         <div class="row" style="width:100%" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
           <div class="col iner-body">
-            <div class="row" *ngIf="checkEmptyObjects(element)">
+            <div class="row" *ngIf="element.testresult!=null">
               <div class="col-md-4 col-lg-4 col-sm-4">
-                <label>Result: {{ element.testresult }}</label>
-                <br>
-                <label>Comment: {{ element.comments }}</label>
-                <br>
-                <label>Document: </label>
+                <label>Test Result</label>
               </div>
-              <!-- <div class="col-md-4 col-lg-4 col-sm-4">
-                <label>Comment: {{element.comments }}</label>
-              </div> -->
-              <!-- <div class="col-md-4 col-lg-4 col-sm-4">
-                <label *ngIf="element.txndata.value!==null">Value: {{element.txndata.value }}</label>
-              </div> -->
-              <!-- <div class="col-md-4 col-lg-4 col-sm-4">
-                <div class="pull-right">
-                  <button (click)="viewSchedule(element)" class="btn btn-default btn-xs" style="font-size: 11px;line-height: 1;">View</button>
+              <div class="col-md-8 col-lg-8 col-sm-8">
+                <div class="row">
+                  <label>{{element.testresult}}</label>
                 </div>
-              </div> -->
+              </div>
             </div>
-            <!-- <div class="row" *ngIf="isViewSchedule && element == expandedElement">
-                <app-schedule-details style="width: 100%;" [patientconfid]="element.patientconfid"></app-schedule-details>
-            </div> -->
+            <div class="row" *ngIf="element.comments!=null">
+              <div class="col-md-4 col-lg-4 col-sm-4">
+                <label>Comment</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-sm-8">
+                <div class="row">
+                  <label>{{element.comments}}</label>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row"> -->
+              <!-- <div class="col-md-4 col-lg-4 col-sm-4">
+                <label>Document</label>
+              </div> -->
+              <!-- <div class="col-md-8 col-lg-8 col-sm-8"> -->
+                <div class="row">
+                  <div class="col-md-4 col-lg-4 col-sm-6" *ngFor="let doc of element.documentlist; let i = index" >
+                    <!-- <div class="row"> -->
+                      <a style="cursor: pointer !important;" matTooltip="Download"
+                        (click)="downloadFille(doc.documentuuid,doc.documentname)"
+                        href="{{doc.documentname}}">
+                        <i class="fa fa-paperclip"></i>
+                        {{doc.documentname}}</a>
+                    <!-- </div> -->
+                  </div>
+                </div>
+              <!-- </div> -->
+            <!-- </div> -->
           </div>
         </div>
       </mat-cell>
     </ng-container>
-
-
   </mat-table>
   <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
   </mat-paginator>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Subscription, Observable, merge } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { PathologyResponse, PathologyFilterRequest, ActionPathologyDataValue } from 'app/models/api/patient-models';
+import { PathologyResponse, PathologyFilterRequest } from 'app/models/api/patient-models';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
 import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
 import { PatientService } from 'app/services/patient.service';
@@ -11,6 +11,8 @@ import { AppNotificationService } from '../../../../../shared/services/notificat
 import { startWith, switchMap, map } from 'rxjs/operators';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { PathologyModel } from 'app/models/ui/patient-models';
+import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
+import { FileDownloadRequest } from 'app/models/api/file-download-request';
 
 @Component({
   selector: 'app-pathology-report',
@@ -26,10 +28,11 @@ import { PathologyModel } from 'app/models/ui/patient-models';
 })
 export class PathologyReportComponent implements OnInit {
 
-  displayedColumns = ['testperformed', 'txndate', 'view'];
+  displayedColumns = ['testperformed','testperformedtime', 'view'];
+  // displayedColumns = ['testperformed', 'view'];
   sortByColumns = [
     { text: 'Test Performed', value: 'testperformed' },
-    { text: 'Performed On', value: 'txndate' }
+    { text: 'Performed On', value: 'testperformedtime' }
   ];
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
@@ -44,27 +47,23 @@ export class PathologyReportComponent implements OnInit {
   dataListFilterChangedSubscription: Subscription;
   dataModel = new PathologyModel();
   admissionid: number;
-  pathoResponse: PathologyResponse<ActionPathologyDataValue>[] = []
+  expandedElement: PathologyResponse | null;
+  pathologyResponseArray: PathologyResponse[] = [];
+  dataListRequest: DataListRequest<PathologyFilterRequest>;
 
   constructor(public patientService: PatientService,
     private router: Router,
     private appNotificationService: AppNotificationService,
+    private appLocalStorage: AppLocalStorage,
     private translatePipe: TranslatePipe) { }
 
   ngOnInit() {
     this.paginator.pageSize = 10;
     this.sort.direction = 'asc';
     this.paginator.pageIndex = 1;
-    this.sort.active = 'testperformed';
-    // this.sort.active = this.admissionid;
+    this.sort.active = 'admissionid';
     this.sort.direction = 'asc';
-    // this.pathologyFilterRequest = new PathologyFilterRequest();
-    // this.pathologyFilterRequest.admissionid = this.dataModel.admissionid;
     this.setDataListing();
-    // this.dataListFilterChangedSubscription = this.patientService.dataListSubject.subscribe(value => {
-    //   // this.pathologyFilterRequest = value;
-    //   this.refreshTable.emit();
-    // });
   }
 
   setDataListing(): void {
@@ -86,17 +85,9 @@ export class PathologyReportComponent implements OnInit {
         payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
             this.filteredrecords = payloadResponse.data.filteredrecords;
-            payloadResponse.data.records.forEach((item: any) => {
-              const pathologyResponse = new PathologyResponse<ActionPathologyDataValue>();
-              Object.assign(pathologyResponse, item);
-              this.pathoResponse.push(pathologyResponse);
-            });
-
-            this.dataSource = new MatTableDataSource<PathologyResponse<ActionPathologyDataValue>>(this.pathoResponse);
-
-            if (this.filteredrecords === 0) {
-              this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
-            }
+            this.pathologyResponseArray = [];
+            this.pathologyResponseArray = payloadResponse.data.records;
+            this.dataSource = new MatTableDataSource<PathologyResponse>(this.pathologyResponseArray);
           } else {
             this.dataSource = [];
           }
@@ -104,32 +95,32 @@ export class PathologyReportComponent implements OnInit {
       );
   }
 
-
-  getDataList(): Observable<PayloadResponse<DataListResponse<PathologyResponse<string>[]>>> {
+  getDataList(): Observable<PayloadResponse<DataListResponse<PathologyResponse>>> {
     const dataListRequest = new DataListRequest<PathologyFilterRequest>();
-    dataListRequest.page = this.paginator.pageIndex;
-    dataListRequest.limit = this.paginator.pageSize + 1;
-    dataListRequest.orderby = this.sort.active;
-    dataListRequest.filter = new PathologyFilterRequest();
-
-    dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.orderdirection = this.sort.direction;
+    dataListRequest.limit = this.paginator.pageSize;
+    dataListRequest.page = this.paginator.pageIndex;
+    dataListRequest.orderby = this.sort.active;
+    dataListRequest.page = this.paginator.pageIndex;
+    dataListRequest.filter = new PathologyFilterRequest();
+    dataListRequest.filter.admissionid = this.patientService.admissionid;
     return this.patientService.getPathologyList(dataListRequest);
 
   }
 
 
-  // code block cehcking obejct is emppty.
+  // code block checking obejct is empty.
   checkEmptyObjects(object): boolean {
     if (Object.keys(object).length > 0) {
       return true;
     } else {
       return false;
     }
-  }// end of fucntion 
+  }
 
-  // code bloxk for view schedule detsils  of particular action 
+  // code block for view schedule detsils  of particular action 
   viewSchedule(element) {
+    console.log('element', element);
     console.log('view schedule clickd');
     this.isViewSchedule = true;
   }
@@ -150,6 +141,17 @@ export class PathologyReportComponent implements OnInit {
   sortDirectionDesc() {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
+  }
+
+  downloadFille(id, filename) {
+    const fileDownloadRequest = new FileDownloadRequest();
+    fileDownloadRequest.token = this.appLocalStorage.getObject('AUTH_TOKEN');
+    fileDownloadRequest.uuid = id;
+    this.patientService.downloadFile(fileDownloadRequest).subscribe((filePayloadResponse) => {
+      if (filePayloadResponse) {
+        this.patientService.saveFile(filePayloadResponse, filename);
+      }
+    });
   }
 
 }
