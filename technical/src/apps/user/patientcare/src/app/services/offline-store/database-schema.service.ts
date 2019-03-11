@@ -73,7 +73,7 @@ export class DatabaseSchemaService {
         console.log('set db version', this.DATABASE_VERSION);
 
         // Uncomment following line for creating dummy data in DEBUG_MODE, never to be comitted in SVN.
-         this.createDummyData();
+        //  this.createDummyData();
     }
 
     readFile(filePath: string): Promise<string[]> {
@@ -166,83 +166,83 @@ export class DatabaseSchemaService {
             // `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_pending ) values ('SP002', "General Ward 2","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
             // `INSERT INTO service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_on, sync_pending ) values ('SP003', "General Ward 3","",1,'2018-12-04 14:37:53','2018-12-04 14:37:53', 0)`,
 
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A001', 'PA001' ,'Medicine' ,'PC001',  '2018-12-04T04:42:53.000Z' ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A002', 'PA002' ,'Medicine' ,'PC001', '2018-12-04T10:40:53.000Z'  ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A003', 'PA003' ,'Medicine' ,'PC001',   '2019-02-07T13:46:53.000Z'  ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A004', 'PA004' ,'Medicine' ,'PC001', '2018-12-04T11:30:53.000Z' ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A005', 'PA005' ,'Intake' ,'PC001',  '2018-12-04T11:30:53.000Z'  ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A006', 'PA006' ,'Monitor' ,'PC001', '2018-12-04T12:47:53.000Z' ,0)`,
 
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A007', 'PA007' ,'Output' ,'PC001',   '2018-12-04T12:55:53.000Z'  ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A008', 'PA008' ,'Medicine' ,'PC001', '2018-12-04T13:40:53.000Z' ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A009', 'PA009' ,'Intake' ,'PC001',   '2018-12-04T11:00:53.000Z'  ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A010', 'PA010' ,'Monitor' ,'PC001', '2018-12-04T11:00:53.000Z' ,0)`,
-            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,exec_time, sync_pending) 
+            // `INSERT INTO action_tbl (uuid, admission_uuid , conf_type_code, schedule_uuid ,scheduled_time, sync_pending) 
             // VALUES ('A011', 'PA011' ,'Output' ,'PC001',  '2018-12-04T04:42:53.000Z'  ,0)`,
 
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
             VALUES ('AT001', 'PA001' ,'PC006','{"comment":"test1","value":"98"}' ,'2019-02-25T12:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
             VALUES ('AT002', 'PA001' ,'PC006','{"comment":"test2","value":"98.3 "}' ,'2019-02-25T15:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
             VALUES ('AT003', 'PA001' ,'PC006','{"comment":"test3","value":"97"}' ,'2019-02-26T14:50:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
             VALUES ('AT004', 'PA001' ,'PC006','{"comment":"test4","value":"97.3"}' ,'2019-02-26T17:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
             VALUES ('AT005', 'PA001' ,'PC006','{"comment":"test5","value":"99"}' ,'2019-02-24T08:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
             VALUES ('AT006', 'PA001' ,'PC006','{"comment":"test6","value":"98"}' ,'2019-02-23T13:58:50.582Z','1', 'Monitor' ,'','',1, 0)`,
 
             
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT006', 'PA001' ,'PC008','{"comment":"test1","value":{"high": "115", "low": "80"}}' ,'2019-02-24T12:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT007', 'PA001' ,'PC008','{"comment":"test2","value":{"high": "120", "low": "70"}}' ,'2019-02-26T14:50:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT008', 'PA001' ,'PC008','{"comment":"test3","value":{"high": "122", "low": "83"}}' ,'2019-02-24T17:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT009', 'PA001' ,'PC008','{"comment":"test4","value":{"high": "117", "low": "90"}}' ,'2019-02-23T15:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT010', 'PA001' ,'PC008','{"comment":"test5","value":{"high": "125", "low": "92"}}' ,'2019-02-24T08:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT011', 'PA001' ,'PC008','{"comment":"test6","value":{"high": "119", "low": "88"}}' ,'2019-02-25T13:58:50.582Z','1', 'Monitor' ,'','',1, 0)`,
 
 
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT012', 'PA001' ,'PC010','{"comment":"test1","value":"13"}' ,'2019-02-24T12:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT013', 'PA001' ,'PC010','{"comment":"test2","value":"11"}' ,'2019-02-26T14:50:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT014', 'PA001' ,'PC010','{"comment":"test3","value":"14"}' ,'2019-02-24T17:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT015', 'PA001' ,'PC010','{"comment":"test4","value":"12"}' ,'2019-02-23T15:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT016', 'PA001' ,'PC010','{"comment":"test5","value":"16"}' ,'2019-02-24T08:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT017', 'PA001' ,'PC010','{"comment":"test6","value":"17"}' ,'2019-02-25T13:58:50.582Z','1', 'Monitor' ,'','',1, 0)`,
 
 
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT018', 'PA001' ,'PC009','{"comment":"test1","value":"72"}' ,'2019-02-24T12:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT019', 'PA001' ,'PC009','{"comment":"test2","value":"94"}' ,'2019-02-26T14:50:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT020', 'PA001' ,'PC009','{"comment":"test3","value":"81"}' ,'2019-02-24T17:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT021', 'PA001' ,'PC009','{"comment":"test4","value":"56"}' ,'2019-02-23T15:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT022', 'PA001' ,'PC009','{"comment":"test5","value":"98"}' ,'2019-02-24T08:56:50.582Z','1', 'Monitor' ,'','',1, 0)`,
-            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,txn_date,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
+            `INSERT INTO action_txn_tbl (uuid, admission_uuid ,schedule_uuid, txn_data,scheduled_time,txn_state, conf_type_code, runtime_config_data, updated_on , sync_pending, status) 
                 VALUES ('AT023', 'PA001' ,'PC009','{"comment":"test6","value":"60"}' ,'2019-02-25T13:58:50.582Z','1', 'Monitor' ,'','',1, 0)`,
 
             `INSERT INTO device_access_tbl (userid, user_fname ,user_lname, email, pin ) 

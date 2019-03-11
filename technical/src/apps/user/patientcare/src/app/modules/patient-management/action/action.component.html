@@ -29,12 +29,12 @@
                                 [text]="item.status">
                                 <StackLayout row="1" class="list-layout" *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                     <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
-                                    <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
+                                    <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'" class="label-small"
                                         [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                 </StackLayout>
                                 <StackLayout row="1" class="list-layout" *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                     <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
-                                    <!-- <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
+                                    <!-- <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'" class="label-small"
                                         style="color: green;"></Label> -->
                                 </StackLayout>
                                 <StackLayout row="1" class="list-layout" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
@@ -74,11 +74,11 @@
                                     <Label row="0" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
                                         text="&#xf020;" class="mdi list-text" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                     <Label row="1" col="0" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
-                                        [text]="item.exec_time | date: 'shortTime'" class="label-small" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
+                                        [text]="item.scheduled_time | date: 'shortTime'" class="label-small" [ngClass]="{pendding: item.status === 1,waiting: item.status === 2,default_color: item.status === 3}"></Label>
                                 </StackLayout>
                                 <StackLayout row="1" class="list-layout" *ngIf="iscompleted">
                                     <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
-                                    <!-- <Label row="1" col="0" [text]="item.exec_time | date: 'shortTime'" class="label-small"
+                                    <!-- <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'" class="label-small"
                                             style="color: green;"></Label> -->
                                 </StackLayout>
                             </GridLayout>

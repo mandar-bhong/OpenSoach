@@ -25,7 +25,7 @@ export class ActionList {
     uuid: string;
     admission_id: string;
     chart_conf_id: number;
-    exec_time: Date;
+    scheduled_time: Date;
 }
 export class ActionItems {
     dateAction: Date;

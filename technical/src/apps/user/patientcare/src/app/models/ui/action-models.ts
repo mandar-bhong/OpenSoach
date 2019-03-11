@@ -7,7 +7,7 @@ export class ActionDBModel {
     admission_uuid: string;
     conf_type_code: string;
     schedule_uuid: string;
-    exec_time: Date;
+    scheduled_time: Date;
     sync_pending: number;
 }
 
@@ -15,7 +15,7 @@ export class ActionTxnDBModel {
     uuid: string;
     schedule_uuid: string;
     txn_data: string;
-    txn_date: Date;
+    scheduled_time: Date;
     txn_state: number;
     conf_type_code: string;
     runtime_config_data: string;
