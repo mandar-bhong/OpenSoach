@@ -443,41 +443,53 @@ export class PersonalHistory {
 
 
 //Pethology start from here
-export class PathologyResponse<T>{
+export class PathologyResponse{
+    id: number
+    uuid: string;
     pathologyid: number;
     admissionid: number;
     testperformed: string;
-    txndata: T;
+    treatmentid: number;
+    comments: string;
+    testresult: string;
+    documentid: number;
+    documentuuid: string;
+    documentname: string;
+    testperformedtime: string;
+    value: string;
+    // txndata: T;
 }
 export class PathologyFilterRequest
 {
     admissionid: number;
 }
-export class ActionPathologyDataValue {
-    comments: string;
-    testresult: string;
-    value: string;
-}
 
 //Treatment start from here
-export class TreatmentResponse<T>{
+export class TreatmentResponse{
+    id: number
+    uuid: string;
     treatmentid: number;
     admissionid: number;
     treatmentdone: string;
-    txndata: T;
+    details: string;
+    postobservation: string;
+    documentid: number;
+    documentuuid: string;
+    documentname: string;
+    treatmentperformedtime: string;
+    value: string;
 }
 export class TreatmentFilterRequest
 {
     admissionid: number;
 }
-export class ActionTreatmentDataValue {
-    treatmentid: number;
-    details: string;
-    postobservation: string;
-    documentuuidlist: string;
-    value: string;
+ 
+export class checkPatientRequest
+{
+    patientid: number;
 }
-export class DocumentTblInfoModel {
-    documentuuid: string;
-    documentname: string;
+export class checkPatientResponse
+{
+    patientid: number;
+    status: number;
 }

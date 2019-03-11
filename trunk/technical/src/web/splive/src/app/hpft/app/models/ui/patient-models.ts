@@ -28,8 +28,6 @@ import {
     PersonalDetailsResponse,
     PersonalDetailsUpdateRequest,
     PathologyResponse,
-    DocumentTblInfoModel,
-    ActionTreatmentDataValue,
 } from '../api/patient-models';
 import { NumberCardModule } from '@swimlane/ngx-charts';
 import { JSONBaseModel } from './json-base-model';
@@ -386,18 +384,32 @@ export class PathologyModel {
     testperformed: string;
     testresult: string;
     comments: string;
-    documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
+    // documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
+    id: number
+    uuid: string;
+    treatmentid: number;
+    documentid: number;
+    documentuuid: string;
+    name: string;
+    // documentname: DocumentTblInfoModel[];
+    // copyFrom(pathologyResponse: PathologyResponse)
+    // {
+    //     pathologyResponse.pathologyid = this.pathologyid;
+    //     pathologyResponse.admissionid = this.admissionid;
+    //     pathologyResponse.documentname = this.documentname;
+    //     pathologyResponse.documentuuid =this.documentuuid;
+    // }
 }
 
 export class TreatmentModel {
     treatmentid: number;
     admissionid: number;
     treatmentdone: string;
-    documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
-    copyFrom(actionTreatmentDataValue: ActionTreatmentDataValue) {
-        this.documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
-        const tempDocumentList = JSON.parse(actionTreatmentDataValue.documentuuidlist);
-        this.documentData.data = tempDocumentList || null;
-        this.documentData.version = tempDocumentList.version;
-    }
+    // documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
+    // copyFrom(actionTreatmentDataValue: ActionTreatmentDataValue) {
+    //     this.documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
+    //     const tempDocumentList = JSON.parse(actionTreatmentDataValue.documentlist);
+    //     this.documentData.data = tempDocumentList || null;
+    //     this.documentData.version = tempDocumentList.version;
+    // }
 }
