@@ -69,15 +69,15 @@ INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES 
 INSERT INTO `spl_hpft_patient_master_tbl` (`uuid`, `cpm_id_fk`, `patient_reg_no`, `fname`, `lname`, `mob_no`, `age`, `blood_grp`, `gender`, `updated_by`) 
 VALUES 
 ('PM001', '3', 'P12B12213', 'Amol', 'Patil', '9812xxxxxx', '22', 'AB+', '1', 1),
-('PM002', '3', 'P12B12214', 'Sagar', 'Patil', '9982xxxxxx', '24', 'O+', '1', 1),
-('PM003', '3', 'P12B12215', 'Shubham', 'Lunia', '9832xxxxxx', '34', 'A+', '1', 1),
-('PM004', '3', 'P12B12216', 'Mayuri', 'Jain', '9212xxxxxx', '27', 'A+', '2', 1),
+('PM002', '3', 'P12B12214', 'Sumeet', 'Karande', '9982xxxxxx', '24', 'O+', '1', 1),
+('PM003', '3', 'P12B12215', 'Sarjerao', 'Ghadage', '9832xxxxxx', '34', 'A+', '1', 1),
+('PM004', '3', 'P12B12216', 'Tejal', 'Deshmukh', '9212xxxxxx', '27', 'A+', '2', 1),
 ('PM005', '3', 'P12B12217', 'Sanjay', 'Sawant', '9644xxxxxx', '33', 'A+', '1', 1),
-('PM006', '3', 'P12B12218', 'Pooja', 'Lokare', '9522xxxxxx', '25', 'AB-', '2', 1),
-('PM007', '3', 'P12B12219', 'Mandar', 'Bhong', '9012xxxxxx', '38', 'O-', '1', 1),
+('PM006', '3', 'P12B12218', 'Mandar', 'Bhong', '9522xxxxxx', '25', 'AB-', '2', 1),
+('PM007', '3', 'P12B12219', 'Pooja', 'Lokare', '9012xxxxxx', '38', 'O-', '1', 1),
 ('PM008', '3', 'P12B12220', 'Praveen', 'Pandey', '9442xxxxxx', '29', 'B+', '1', 1),
 ('PM009', '3', 'P12B12221', 'Shashank', 'Atre', '9642xxxxxx', '21', 'O+', '1', 1),
-('PM010', '3', 'P12B12222', 'Tejal', 'Deshmukh', '9412xxxxxx', '25', 'AB-', '2', 1),
+('PM010', '3', 'P12B12222', 'Mayuri', 'Jain', '9412xxxxxx', '25', 'AB-', '2', 1),
 ('PM011', '3', 'P12B12223', 'Shahuraj', 'Patil', '9572xxxxxx', '21', 'O+', '1', 1),
 ('PM012', '3', 'P12B12224', 'Abhijeet', 'Kalbhor', '9042xxxxxx', '24', 'O+', '1', 1);
 
