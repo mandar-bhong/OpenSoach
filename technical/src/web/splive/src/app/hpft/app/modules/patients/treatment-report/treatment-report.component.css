@@ -1,0 +1,14 @@
+.floating-menu {
+    margin-bottom: -43px;
+    text-align: right;
+    margin-bottom: 2%;
+  }
+  
+  .floating-menu-button {
+    z-index: 100;
+  }
+  
+  .display_noon {
+    display: none;
+  }
+  

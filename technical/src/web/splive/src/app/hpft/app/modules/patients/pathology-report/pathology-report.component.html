@@ -1,12 +1,24 @@
-<div class="example-container mat-elevation-z8">
+<div class="floating-menu" [ngClass]="isReportAdd ? 'display_noon' : ''">
+  <button mat-fab color="accent" [matMenuTriggerFor]="menu" class="floating-menu-button">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <ng-template matMenuContent>
+      <button mat-menu-item (click)="addReport()">
+        <mat-icon color='primary'>add_circle</mat-icon>
+        <span>Add Report</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+</div>
+<div class="example-container mat-elevation-z8" [ngClass]="isReportAdd ? 'display_noon' : ''">
   <div class="mobile-sort">
     <h4>Sort</h4>
     <table class="example-full-width" cellspacing="0">
       <tr id="layout-set">
         <td>
           <mat-form-field>
-            <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby"
-              (selectionChange)="sortByChanged()">
+            <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby" (selectionChange)="sortByChanged()">
               <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
                 {{col.text}}
               </mat-option>
@@ -28,12 +40,9 @@
   </div>
   <mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortDisableClear>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
-      [class.example-expanded-row]="expandedElement === row"
-      (click)="expandedElement = expandedElement === row ? null : row;setOpenCloseSchedule()"
-      style="cursor: pointer !important;"></mat-row>
-    <mat-row style="min-height: 0px !important" *matRowDef="let row; columns: ['expandedDetail']"
-      class="example-detail-row"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" [class.example-expanded-row]="expandedElement === row"
+      (click)="expandedElement = expandedElement === row ? null : row;setOpenCloseSchedule()" style="cursor: pointer !important;"></mat-row>
+    <mat-row style="min-height: 0px !important" *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></mat-row>
     <ng-container matColumnDef="testperformed">
       <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 40%;">Test Performed</mat-header-cell>
       <mat-cell *matCellDef="let row" style="flex:0 0 40%;">
@@ -83,22 +92,21 @@
               </div>
             </div>
             <!-- <div class="row"> -->
-              <!-- <div class="col-md-4 col-lg-4 col-sm-4">
+            <!-- <div class="col-md-4 col-lg-4 col-sm-4">
                 <label>Document</label>
               </div> -->
-              <!-- <div class="col-md-8 col-lg-8 col-sm-8"> -->
-                <div class="row">
-                  <div class="col-md-4 col-lg-4 col-sm-6" *ngFor="let doc of element.documentlist; let i = index" >
-                    <!-- <div class="row"> -->
-                      <a style="cursor: pointer !important;" matTooltip="Download"
-                        (click)="downloadFille(doc.documentuuid,doc.documentname)"
-                        href="{{doc.documentname}}">
-                        <i class="fa fa-paperclip"></i>
-                        {{doc.documentname}}</a>
-                    <!-- </div> -->
-                  </div>
-                </div>
-              <!-- </div> -->
+            <!-- <div class="col-md-8 col-lg-8 col-sm-8"> -->
+            <div class="row">
+              <div class="col-md-4 col-lg-4 col-sm-6" *ngFor="let doc of element.documentlist; let i = index">
+                <!-- <div class="row"> -->
+                <a style="cursor: pointer !important;" matTooltip="Download" (click)="downloadFille(doc.documentuuid,doc.documentname)"
+                  href="javascript:void(0);">
+                  <i class="fa fa-paperclip"></i>
+                  {{doc.documentname}}</a>
+                <!-- </div> -->
+              </div>
+            </div>
+            <!-- </div> -->
             <!-- </div> -->
           </div>
         </div>
@@ -108,3 +116,7 @@
   <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
   </mat-paginator>
 </div>
+<!-- add pathalogy report data  -->
+
+
+<app-add-pathology-report (restForm)="restFormData($event)" *ngIf="isReportAdd"></app-add-pathology-report>
