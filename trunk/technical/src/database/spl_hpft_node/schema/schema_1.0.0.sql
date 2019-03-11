@@ -466,6 +466,7 @@ CREATE TABLE `spl_hpft_patient_conf_tbl` (
 	`conf_type_code` VARCHAR(50) NOT NULL,
 	`conf` JSON NOT NULL,
 	`end_date` DATETIME NOT NULL,
+	`status` TINYINT(4) NOT NULL COMMENT '0- active, 1 - cancelled',
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
 	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -491,7 +492,7 @@ CREATE TABLE `spl_hpft_action_txn_tbl` (
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`txn_data` JSON NOT NULL,
 	`runtime_config_data` JSON NULL DEFAULT NULL,
-	`txn_date` DATETIME NOT NULL,
+	`scheduled_time` DATETIME NOT NULL,
 	`txn_state` INT(11) NOT NULL,
 	`conf_type_code` VARCHAR(25) NOT NULL,
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
@@ -597,6 +598,7 @@ CREATE TABLE `spl_hpft_treatment_tbl` (
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`treatment_done` VARCHAR(1000) NOT NULL,
+	`treatment_performed_time` TIMESTAMP NULL DEFAULT NULL,
 	`details` VARCHAR(1000) NULL DEFAULT NULL,
 	`post_observation` VARCHAR(1000) NULL DEFAULT NULL,
 	`updated_by` INT(10) UNSIGNED NOT NULL,
@@ -630,7 +632,7 @@ CREATE TABLE `spl_hpft_treatment_doc_tbl` (
 
 
 --
--- Table structure for table `spl_hpft_pathology_tbl`
+-- Table structure for table `spl_hpft_pathology_record_tbl`
 --
 
 CREATE TABLE `spl_hpft_pathology_record_tbl` (
@@ -639,6 +641,7 @@ CREATE TABLE `spl_hpft_pathology_record_tbl` (
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`test_performed` VARCHAR(5000) NOT NULL,
+	`test_performed_time` TIMESTAMP NULL DEFAULT NULL,
 	`test_result` VARCHAR(5000) NULL DEFAULT NULL,
 	`comments` VARCHAR(1000) NULL DEFAULT NULL,
 	`updated_by` INT(10) UNSIGNED NOT NULL,
@@ -654,7 +657,7 @@ CREATE TABLE `spl_hpft_pathology_record_tbl` (
 
 
 --
--- Table structure for table `spl_hpft_pathology_tbl`
+-- Table structure for table `spl_hpft_pathology_record_doc_tbl`
 --
 
 CREATE TABLE `spl_hpft_pathology_record_doc_tbl` (
