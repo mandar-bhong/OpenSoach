@@ -46,6 +46,8 @@ import { PathologyReportComponent } from './pathology-report/pathology-report.co
 import { TreatmentReportComponent } from './treatment-report/treatment-report.component';
 import { SpecificScheduleDetailsExpandViewComponent } from './schedule-details/specific-schedule-details-expand-view/specific-schedule-details-expand-view.component';
 import { AppLocalStorage } from '../../../../shared/services/app-data-store/app-data-store';
+import { AddPathologyReportComponent } from './pathology-report/add-pathology-report/add-pathology-report.component';
+import { AddTreatmentReportComponent } from './treatment-report/add-treatment-report/add-treatment-report.component';
 
 
 @NgModule({
@@ -93,7 +95,9 @@ import { AppLocalStorage } from '../../../../shared/services/app-data-store/app-
     PathologyReportComponent,
     TreatmentReportComponent,
     ScheduleDetailExpandViewComponent,
-    SpecificScheduleDetailsExpandViewComponent],
+    SpecificScheduleDetailsExpandViewComponent,
+    AddPathologyReportComponent,
+    AddTreatmentReportComponent],
   providers: [
     AmazingTimePickerService,
     MatRadioModule,

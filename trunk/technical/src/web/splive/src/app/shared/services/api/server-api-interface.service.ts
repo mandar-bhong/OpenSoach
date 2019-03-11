@@ -44,6 +44,36 @@ export class ServerApiInterfaceService {
             ),
             catchError(this.apiErrorService.handleError<PayloadResponse<any>>(url)));
     }
+    upload(url: string, request: any, implicitErrorHandling = true): Observable<PayloadResponse<any>> {
+        let httpOptions = {
+            // headers: new HttpHeaders(
+            //     {
+            //         'Content-Type': 'multipart/form-data'
+            //     }), //
+            // withCredentials: true,
+        };
+        if (this.loginStatusProviderService.isLoggedIn) {
+            httpOptions = {
+                headers: new HttpHeaders(
+                    {
+                        // 'Content-Type': 'multipart/form-data',
+                        'Authorization': this.loginStatusProviderService.authToken
+                    }
+                ),
+                withCredentials: true,
+            };
+        }
+        return this.http.post<PayloadResponse<any>>
+            (url, request, httpOptions).pipe(
+            tap(
+                payloadResponse => {
+                    if (implicitErrorHandling) {
+                        this.apiErrorService.handleApiError(payloadResponse);
+                    }
+                }
+            ),
+            catchError(this.apiErrorService.handleError<PayloadResponse<any>>(url)));
+    }
 
     getWithQueryParams(url: string, queryParams: any, implicitErrorHandling = true): Observable<PayloadResponse<any>> {
         let httpOptions = {

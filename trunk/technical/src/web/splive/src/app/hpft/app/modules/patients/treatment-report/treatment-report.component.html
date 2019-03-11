@@ -1,4 +1,17 @@
-<div class="example-container mat-elevation-z8">
+<div class="floating-menu" [ngClass]="isReportAdd ? 'display_noon' : ''">
+    <button mat-fab color="accent" [matMenuTriggerFor]="menu" class="floating-menu-button">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <ng-template matMenuContent>
+        <button mat-menu-item (click)="addReport()">
+          <mat-icon color='primary'>add_circle</mat-icon>
+          <span>Add Report</span>
+        </button>
+      </ng-template>
+    </mat-menu>
+  </div>
+  <div class="example-container mat-elevation-z8" [ngClass]="isReportAdd ? 'display_noon' : ''">
   <div class="mobile-sort">
     <h4>Sort</h4>
     <table class="example-full-width" cellspacing="0">
@@ -104,3 +117,5 @@
   <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
   </mat-paginator>
 </div>
+
+<app-add-treatment-report (restForm)="restFormData($event)" *ngIf="isReportAdd"></app-add-treatment-report>

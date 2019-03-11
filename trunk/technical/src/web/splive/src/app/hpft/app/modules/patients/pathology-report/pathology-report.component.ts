@@ -11,8 +11,12 @@ import { AppNotificationService } from '../../../../../shared/services/notificat
 import { startWith, switchMap, map } from 'rxjs/operators';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { PathologyModel } from 'app/models/ui/patient-models';
+import { FloatingMenu, FloatingMenuItem } from '../../../../../shared/models/ui/floating-menu';
+import { DEFAULT_PAGE_MENU } from '../../../../../shared/app-common-constants';
+import { FloatingButtonMenuService } from '../../../../../shared/services/floating-button-menu.service';
 import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
 import { FileDownloadRequest } from 'app/models/api/file-download-request';
+
 
 @Component({
   selector: 'app-pathology-report',
@@ -41,6 +45,7 @@ export class PathologyReportComponent implements OnInit {
   refreshTable: EventEmitter<null> = new EventEmitter();
   dataSource;
   filteredrecords = 0;
+  isReportAdd: boolean;
   isLoadingResults: boolean;
   isViewSchedule = false;
   pathologyFilterRequest: PathologyFilterRequest;
@@ -52,15 +57,20 @@ export class PathologyReportComponent implements OnInit {
   dataListRequest: DataListRequest<PathologyFilterRequest>;
 
   constructor(public patientService: PatientService,
+    private floatingButtonMenuService: FloatingButtonMenuService,
     private router: Router,
     private appNotificationService: AppNotificationService,
     private appLocalStorage: AppLocalStorage,
-    private translatePipe: TranslatePipe) { }
+    private translatePipe: TranslatePipe) {
+    this.isReportAdd = false }
 
   ngOnInit() {
     this.paginator.pageSize = 10;
     this.sort.direction = 'asc';
     this.paginator.pageIndex = 1;
+    this.sort.active = 'testperformed';
+    this.sort.active = 'testperformed';
+    // this.sort.active = this.admissionid;
     this.sort.active = 'admissionid';
     this.sort.direction = 'asc';
     this.setDataListing();
@@ -143,6 +153,21 @@ export class PathologyReportComponent implements OnInit {
     this.sort.sortChange.next(this.sort);
   }
 
+
+  addReport() {
+    this.isReportAdd = !this.isReportAdd;
+  }
+  restFormData(value) {
+   console.log('value',value);
+   if(value==1){
+    this.isReportAdd = !this.isReportAdd;
+   }else{
+    this.isReportAdd = !this.isReportAdd;
+    this.setDataListing();
+   }
+  
+  }
+
   downloadFille(id, filename) {
     const fileDownloadRequest = new FileDownloadRequest();
     fileDownloadRequest.token = this.appLocalStorage.getObject('AUTH_TOKEN');
@@ -153,5 +178,6 @@ export class PathologyReportComponent implements OnInit {
       }
     });
   }
+
 
 }

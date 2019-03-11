@@ -55,6 +55,8 @@ import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
 import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
 import { SaveFileService } from '../../../shared/services/save-file.service';
 import { FileDownloadRequest } from 'app/models/api/file-download-request';
+import { PathologyReportAddRequest } from 'app/models/api/pathology-report-add-request';
+import { TreatmentReportRequest } from 'app/models/api/treatment-report-request';
 
 
 @Injectable()
@@ -70,7 +72,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     admissionIdReceived = new Subject<number>();
     medicaldetialsid: number;
     personaldetailsid: number;
-    treatmentid:number;
+    treatmentid: number;
     pathologyid:number;
 
     constructor(private serverApiInterfaceService: ServerApiInterfaceService,
@@ -134,8 +136,8 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
             request, implicitErrorHandling);
     }
 
-        //Update New Patient Response
-        getPatientNewUpdates(request: RecordIDRequestModel, implicitErrorHandling = true):
+    //Update New Patient Response
+    getPatientNewUpdates(request: RecordIDRequestModel, implicitErrorHandling = true):
         Observable<PayloadResponse<PatientUpdateResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
             request, implicitErrorHandling);
@@ -334,9 +336,9 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/treatment',
             dataListRequest, implicitErrorHandling);
     }
-       
 
-   
+
+
     // service function for getting doctor order details
     getDoctorOrderDetails(dataListRequest: DataListRequest<DoctorOrderRequest>, implicitErrorHandling = true):
         Observable<PayloadResponse<DataListResponse<DoctorOrderResponse>>> {
@@ -353,5 +355,24 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     saveFile(data: Blob, filename: string) {
         this.saveFileService.saveFile(data, filename);
     }
+    //Post method for docuemnt upload
+    uploadReportsDocuments(formData: any, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.upload(EnvironmentProvider.appbaseurl + '/api/v1/document/upload',
+            formData, implicitErrorHandling);
+    }
+    //Post method for docuemnt upload
+    addReportData(request: PathologyReportAddRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/pathologyrecord/add',
+            request, implicitErrorHandling);
+    }
+     //Post method for docuemnt upload
+     addTeatmentReportData(request: TreatmentReportRequest, implicitErrorHandling = true):
+     Observable<PayloadResponse<any>> {
+     return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/treatment/add',
+         request, implicitErrorHandling);
+ }
+
 
 }

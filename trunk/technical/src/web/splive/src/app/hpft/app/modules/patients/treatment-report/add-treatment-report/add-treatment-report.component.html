@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col">
+      <mat-card style="max-width:500px">
+        <form [formGroup]="editableForm" (ngSubmit)="onFormSubmit()">
+          <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+          <mat-card-content>
+            <div class="form-group form-primary">
+              <mat-form-field>
+                <input matInput placeholder="Treatment Done" formControlName="treatmentdone">
+                <mat-hint>Enter , saparated treatment name</mat-hint>
+                <mat-error *ngIf="editableForm.controls['treatmentdone'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+                <!--
+                <mat-error *ngIf="editableForm.controls['emailControl'].hasError('email') ">
+                  {{ 'ErrorEmailPattern' | translate}}
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="form-group form-primary">
+              <mat-form-field>
+                <input matInput placeholder="Details" formControlName="details">
+              </mat-form-field>
+              <mat-error *ngIf="editableForm.controls['details'].hasError('required')">
+                {{'VALIDATION_REQUIRED_FIELD'|translate}}
+              </mat-error>
+            </div>            
+            <div class="form-group form-primary">
+              <mat-form-field>
+                <input matInput placeholder="Post Observation" formControlName="postobservation">
+              </mat-form-field>
+            </div>
+            <div class="form-group form-primary">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="treatmentperformedtime">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="editableForm.controls['treatmentperformedtime'].hasError('required')">
+                        {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                      </mat-error>
+                  </mat-form-field>
+                </div>
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <form Content-Type="multipart/form-data">
+                  <input #fileUploadInput type="file" (change)="onChange($event)">
+                  <!-- <input type="file"  multiple    (change)="handleFileSelect($event)"/> -->
+                </form>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <button type="button" (click)="uploadDocuments();" class="btn btn-outline-primary  btn-xs">
+                  <i class="fa fa-upload"></i> Upload Document</button>
+                <!-- <p *ngIf="uploadedDocuments.length != 0" class="red">{{'Lbldeletmessage' | translate}}</p> -->
+              </div>
+            </div>
+              <div class="row">
+              <table class="table" style="margin-top: 6px;">
+                <tr *ngFor="let docname of uploadedDocuments; let i = index">
+                  <td class="pointer" (click)="viewDocumentFile(docname.documentid,docname.documentname);">{{docname.documentname}}</td>
+                  <td class="pointer" (click)="removeFile(docname.documentid)">
+                    <i class="fa fa-trash-o" style='color:red;' aria-hidden="true"></i>
+                  </td>
+                </tr>
+              </table>
+              </div>
+              <div class="row">
+                <div class="col">      
+                    <button class="saveButton mat-button pull-right" mat-button="" type="button" (click)="cancle()">Cancel</button>         
+                  <button class="saveButton mat-button pull-right" mat-button="" type="submit">Save</button>
+                  
+                </div>
+              </div>         
+          </mat-card-content>
+        </form>
+      </mat-card>
+    </div>
+    </div>
+  

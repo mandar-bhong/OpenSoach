@@ -38,16 +38,16 @@ export class TreatmentReportComponent implements OnInit {
   paginator: MatPaginator;
   @ViewChild(MatSort)
   sort: MatSort;
+  isReportAdd: boolean;;
   refreshTable: EventEmitter<null> = new EventEmitter();
   dataSource;
   filteredrecords = 0;
   isLoadingResults: boolean;
   isViewSchedule = false;
-  
   dataListFilterChangedSubscription: Subscription;
   dataModel = new TreatmentModel();
   admissionid: number;
-  treatmentid:number;
+  treatmentid: number;
   treatmentFilterRequest: TreatmentFilterRequest;
   expandedElement: TreatmentResponse | null;
   treatmentResponseArray: TreatmentResponse[] = [];
@@ -56,7 +56,9 @@ export class TreatmentReportComponent implements OnInit {
   constructor(public patientService: PatientService,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
-    private appLocalStorage: AppLocalStorage) { }
+    private appLocalStorage: AppLocalStorage) {
+    this.isReportAdd = false;
+  }
 
   ngOnInit() {
     this.paginator.pageSize = 10;
@@ -148,6 +150,19 @@ export class TreatmentReportComponent implements OnInit {
         this.patientService.saveFile(filePayloadResponse, filename);
       }
     });
+  }
+  restFormData(value) {
+    console.log('value', value);
+    if (value == 1) {
+      this.isReportAdd = !this.isReportAdd;
+    } else {
+      this.isReportAdd = !this.isReportAdd;
+      this.setDataListing();
+    }
+
+  }
+  addReport() {
+    this.isReportAdd = !this.isReportAdd;
   }
 
 }
