@@ -24,7 +24,6 @@ import {
     PatientSearchResponseFilter,
     PatientUpdateRequest,
     PatientUpdateResponse,
-    PersonDetailResponse,
     StatusChangeRequest,
     AdmissionAddResponseModel,
     AdmissionStatusRequest,
@@ -40,12 +39,13 @@ import {
     Allergies,
     PersonalHistory,
     PersonAccompanyingInfo,
-    PatientPersonAccompanyingDetail,
     PersonalDetailsResponse,
     PathologyFilterRequest,
     PathologyResponse,
     TreatmentResponse,
     TreatmentFilterRequest,
+    PersonalDetailsRequest,
+    CheckPatientResponse,
 } from '../models/api/patient-models';
 import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse } from 'app/models/api/transaction-details-response';
@@ -73,7 +73,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     medicaldetialsid: number;
     personaldetailsid: number;
     treatmentid: number;
-    pathologyid:number;
+    pathologyid: number;
 
     constructor(private serverApiInterfaceService: ServerApiInterfaceService,
         private saveFileService: SaveFileService) {
@@ -142,11 +142,11 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
             request, implicitErrorHandling);
     }
-//     getPatientNUpdates(request: RecordIDRequest, implicitErrorHandling = true):
-//     Observable<PayloadResponse<PatientUpdateResponse>> {
-//     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
-//         request, implicitErrorHandling);
-// }
+    //     getPatientNUpdates(request: RecordIDRequest, implicitErrorHandling = true):
+    //     Observable<PayloadResponse<PatientUpdateResponse>> {
+    //     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
+    //         request, implicitErrorHandling);
+    // }
 
     //Update Admission Response
     getAdmissionUpdates(request: RecordIDRequest, implicitErrorHandling = true):
@@ -239,10 +239,10 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     }
 
     //Post method for patient personal Add Accompanying
-    personalAddAccompanying(patientPersonAccompanyingDetail: PatientPersonAccompanyingDetail, implicitErrorHandling = true):
+    personalAddAccompanying(personalDetailsRequest: PersonalDetailsRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<any>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/personaldetails/update/personaccompanying',
-            patientPersonAccompanyingDetail, implicitErrorHandling);
+            personalDetailsRequest, implicitErrorHandling);
     }
 
     getPatientStates(): EnumDataSourceItem<number>[] {
@@ -279,7 +279,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
 
     //Update Patient Response
     getPatientPersonDetail(request: RecordIDRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<PersonDetailResponse>> {
+        Observable<PayloadResponse<PersonalDetailsResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/personaldetails/info',
             request, implicitErrorHandling);
     }
@@ -374,5 +374,11 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
          request, implicitErrorHandling);
  }
 
+    //  Update Admission Response
+    getStatusCheck(request: RecordIDRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<CheckPatientResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/admission/info/status',
+            request, implicitErrorHandling);
+    }
 
 }

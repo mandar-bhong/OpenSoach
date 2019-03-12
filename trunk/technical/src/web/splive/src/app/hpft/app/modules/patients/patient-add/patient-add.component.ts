@@ -11,6 +11,7 @@ import { PatientAddRequest, PatientUpdateRequest } from '../../../models/api/pat
 import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 
 @Component({
   selector: 'app-patient-add',
@@ -64,19 +65,21 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
     });
   }
 
-  //For update Response
   getPatientUpdates() {
-    this.patientService.getPatientUpdates({ recid: this.dataModel.patientid }).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        if (payloadResponse.data) {
-          this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        } else {
-          this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
-        }
-      }
-    });
-  }
+    const recordIDRequestModel=new RecordIDRequestModel();
+    recordIDRequestModel.admissionid=this.patientService.admissionid;
+    recordIDRequestModel.patientid=this.dataModel.patientid;
+     this.patientService.getPatientNewUpdates(recordIDRequestModel).subscribe(payloadResponse => {
+       if (payloadResponse && payloadResponse.issuccess) {
+         if (payloadResponse.data) {
+           this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
+           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+         } else {
+           this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
+         }
+       }
+     });
+   }
 
   createControls(): void {
     this.editableForm = new FormGroup({
@@ -106,8 +109,8 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
 
   add() {
     const patientAddRequest = new PatientAddRequest();
-    this.dataModel.uuid = "2443";
-    this.dataModel.patientregno = "3323";
+    this.dataModel.uuid ="4545";
+    this.dataModel.patientregno ="5566";
     this.dataModel.copyTo(patientAddRequest);
     this.patientService.addPatientData(patientAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {

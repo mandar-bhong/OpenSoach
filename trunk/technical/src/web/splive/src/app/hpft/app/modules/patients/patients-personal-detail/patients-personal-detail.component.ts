@@ -1,9 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, Observable, merge } from 'rxjs';
-
-import { ServicepointConfigureListResponse } from '../../../../../prod-shared/models/api/service-configuration-models';
-import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
@@ -12,6 +9,7 @@ import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { PatientUpdateRequest } from 'app/models/api/patient-models';
+import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 
 @Component({
   selector: 'app-patients-personal-detail',
@@ -34,13 +32,13 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
   ) {
     super();
     this.iconCss = 'fa fa-user';
-    this.pageTitle = 'Patient Detail';
+    this.pageTitle = 'Details';
   }
 
   ngOnInit() {
     this.createControls();
-    this.personGender = this.patientService.getPersonGender();
     this.showBackButton = false;
+    this.personGender = this.patientService.getPersonGender();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['id']) {
         this.dataModel.patientid = Number(params['id']);
@@ -48,8 +46,7 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
         this.setFormMode(FORM_MODE.VIEW);
         this.getPatientUpdates();
       } else {
-        // this.subTitle = 'Add Details of Patient';
-        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
       this.callbackUrl = params['callbackurl'];
@@ -57,41 +54,38 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
   }
 
   getPatientUpdates() {
-    this.patientService.getPatientUpdates({ recid: this.dataModel.patientid }).subscribe(payloadResponse => {
+    const recordIDRequestModel = new RecordIDRequestModel();
+    recordIDRequestModel.admissionid = this.patientService.admissionid;
+    recordIDRequestModel.patientid = this.patientService.patientid;
+    this.patientService.getPatientNewUpdates(recordIDRequestModel).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
-          this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        } else {
+          this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
         }
       }
     });
   }
-
   save() {
-    if (this.editableForm.invalid) { return; }
-    this.inProgress = true;
-    //for redirect on admission table first
-    if (this.recordState === EDITABLE_RECORD_STATE.UPDATE) {
-      const patientUpdateRequest = new PatientUpdateRequest();
-      this.dataModel.patientregno = "7654";
-      this.dataModel.CopyToUpdate(patientUpdateRequest);
-      this.patientService.updatePatientDetails(patientUpdateRequest).subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          // this.dataModel = payloadResponse.data;
-          this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-          this.setFormMode(FORM_MODE.VIEW);
-          this.appNotificationService.success(this.translatePipe.transform('SUCCESS_USERS_DETAILS_SAVED'));
-          
-        }
-
-      });
+    if (this.recordState === EDITABLE_RECORD_STATE.UPDATE){
+    const patientUpdateRequest = new PatientUpdateRequest();
+    this.dataModel.patientregno = "7654";
+    this.dataModel.patientid = this.patientService.patientid;
+    this.dataModel.CopyToUpdate(patientUpdateRequest);
+    this.patientService.updatePatientDetails(patientUpdateRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.patientid = payloadResponse.data;
+        this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        this.setFormMode(FORM_MODE.VIEW);
+        this.appNotificationService.success();
+      }
       this.inProgress = false;
-    }
+    });
   }
-
-
-
+}
   createControls(): void {
     this.editableForm = new FormGroup({
       fnameControl: new FormControl(''),

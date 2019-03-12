@@ -15,19 +15,15 @@ import {
     AdmissionUpdateRequest,
     AdmissionUpdateResponse,
     JSONBaseDataModel,
-    PatientPersonDetail,
-    PersonDetailResponse,
     AdmissionStatusRequest,
     MedicalDetailsRequest,
     MedicalDetailsResponse,
     JSONInnerData,
     PersonalHistoryInfo,
-    PatientPersonAccompanyingDetail,
-    PersonalDetailsRequest,
     PersonAccompanyingInfo,
     PersonalDetailsResponse,
-    PersonalDetailsUpdateRequest,
-    PathologyResponse,
+    CheckPatientResponse,
+    PersonalDetailsRequest,
 } from '../api/patient-models';
 import { NumberCardModule } from '@swimlane/ngx-charts';
 import { JSONBaseModel } from './json-base-model';
@@ -272,7 +268,7 @@ export class PatientPersonalDetails {
     uuid: string;
     age: string;
     otherdetails: string;
-    personAccompanyingData: JSONBaseDataModel<PersonAccompanyingInfo>;
+    personAccompanyingData: JSONBaseDataModel<PersonAccompanyingInfo[]>;
     copyToAddPerson(personalDetailsRequest: PersonalDetailsRequest) {
         personalDetailsRequest.personaldetailsid = this.personaldetailsid;
         personalDetailsRequest.uuid = this.uuid;
@@ -283,9 +279,10 @@ export class PatientPersonalDetails {
     }
     copyFromPerson(personalDetailsResponse: PersonalDetailsResponse) {
         personalDetailsResponse.age = this.age;
-        this.personAccompanyingData = new JSONBaseDataModel<PersonAccompanyingInfo>();
+        this.personAccompanyingData = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
         const tempPersonAccompanying = JSON.parse(personalDetailsResponse.personaccompanying);
-        this.personAccompanyingData.data = tempPersonAccompanying || null;
+        this.personAccompanyingData.data = [];
+        this.personAccompanyingData.data = tempPersonAccompanying.data || null;
         this.personAccompanyingData.version = tempPersonAccompanying.version;
     }
 
@@ -322,59 +319,76 @@ export class MedicalDetailsModel {
     copyFrom(medicalDetailsResponse: MedicalDetailsResponse) {
 
         this.medicaldetialsid = medicalDetailsResponse.medicaldetialsid;
+        if (medicalDetailsResponse.presentcomplaints != null) {
+            this.presentComplaintsData = new JSONBaseDataModel<JSONInnerData[]>();
+            const tempPresentComplaints = JSON.parse(medicalDetailsResponse.presentcomplaints);
+            this.presentComplaintsData.data = [];
+            this.presentComplaintsData.data = tempPresentComplaints.data || [];
+            this.presentComplaintsData.version = tempPresentComplaints.version;
+        }
 
-        this.presentComplaintsData = new JSONBaseDataModel<JSONInnerData[]>();
-        const tempPresentComplaints = JSON.parse(medicalDetailsResponse.presentcomplaints);
-        this.presentComplaintsData.data = [];
-        this.presentComplaintsData.data = tempPresentComplaints.data || [];
-        this.presentComplaintsData.version = tempPresentComplaints.version;
+        if (medicalDetailsResponse.reasonforadmission != null) {
+            this.reasonForAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
+            const tempReasonForAdmission = JSON.parse(medicalDetailsResponse.reasonforadmission);
+            this.reasonForAdmissionData.data = [];
+            this.reasonForAdmissionData.data = tempReasonForAdmission.data || [];
+            this.reasonForAdmissionData.version = tempReasonForAdmission.version;
+        }
 
-        this.reasonForAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
-        const tempReasonForAdmission = JSON.parse(medicalDetailsResponse.reasonforadmission);
-        this.reasonForAdmissionData.data = [];
-        this.reasonForAdmissionData.data = tempReasonForAdmission.data || [];
-        this.reasonForAdmissionData.version = tempReasonForAdmission.version;
+        if (medicalDetailsResponse.historypresentillness != null) {
+            this.historyPresentIllnessData = new JSONBaseDataModel<JSONInnerData[]>();
+            const temphistoryPresentIllness = JSON.parse(medicalDetailsResponse.historypresentillness);
+            this.historyPresentIllnessData.data = [];
+            this.historyPresentIllnessData.data = temphistoryPresentIllness.data || [];
+            this.historyPresentIllnessData.version = temphistoryPresentIllness.version;
+        }
 
-        this.historyPresentIllnessData = new JSONBaseDataModel<JSONInnerData[]>();
-        const temphistoryPresentIllness = JSON.parse(medicalDetailsResponse.historypresentillness);
-        this.historyPresentIllnessData.data = [];
-        this.historyPresentIllnessData.data = temphistoryPresentIllness.data || [];
-        this.historyPresentIllnessData.version = temphistoryPresentIllness.version;
+        if (medicalDetailsResponse.pasthistory != null) {
+            this.pastHistoryData = new JSONBaseDataModel<JSONInnerData[]>();
+            const temppastHistory = JSON.parse(medicalDetailsResponse.pasthistory);
+            this.pastHistoryData.data = [];
+            this.pastHistoryData.data = temppastHistory.data || [];
+            this.pastHistoryData.version = temppastHistory.version;
+        }
 
-        this.pastHistoryData = new JSONBaseDataModel<JSONInnerData[]>();
-        const temppastHistory = JSON.parse(medicalDetailsResponse.pasthistory);
-        this.pastHistoryData.data = [];
-        this.pastHistoryData.data = temppastHistory.data || [];
-        this.pastHistoryData.version = temppastHistory.version;
+        if (medicalDetailsResponse.treatmentbeforeadmission != null) {
+            this.treatmentBeforeAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
+            const tempTreatmentBeforeAdmission = JSON.parse(medicalDetailsResponse.treatmentbeforeadmission);
+            this.treatmentBeforeAdmissionData.data = [];
+            this.treatmentBeforeAdmissionData.data = tempTreatmentBeforeAdmission.data || [];
+            this.treatmentBeforeAdmissionData.version = tempTreatmentBeforeAdmission.version;
+        }
 
-        this.treatmentBeforeAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
-        const tempTreatmentBeforeAdmission = JSON.parse(medicalDetailsResponse.treatmentbeforeadmission);
-        this.treatmentBeforeAdmissionData.data = [];
-        this.treatmentBeforeAdmissionData.data = tempTreatmentBeforeAdmission.data || [];
-        this.treatmentBeforeAdmissionData.version = tempTreatmentBeforeAdmission.version;
+        if (medicalDetailsResponse.investigationbeforeadmission != null) {
+            this.investigationBeforeAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
+            const tempInvestigationBeforeAdmission = JSON.parse(medicalDetailsResponse.investigationbeforeadmission);
+            this.investigationBeforeAdmissionData.data = [];
+            this.investigationBeforeAdmissionData.data = tempInvestigationBeforeAdmission.data || [];
+            this.investigationBeforeAdmissionData.version = tempInvestigationBeforeAdmission.version;
+        }
 
-        this.investigationBeforeAdmissionData = new JSONBaseDataModel<JSONInnerData[]>();
-        const tempInvestigationBeforeAdmission = JSON.parse(medicalDetailsResponse.investigationbeforeadmission);
-        this.investigationBeforeAdmissionData.data = [];
-        this.investigationBeforeAdmissionData.data = tempInvestigationBeforeAdmission.data || [];
-        this.investigationBeforeAdmissionData.version = tempInvestigationBeforeAdmission.version;
+        if (medicalDetailsResponse.familyhistory != null) {
+            this.familyHistoryData = new JSONBaseDataModel<JSONInnerData[]>();
+            const tempFamilyHistory = JSON.parse(medicalDetailsResponse.familyhistory);
+            this.familyHistoryData.data = [];
+            this.familyHistoryData.data = tempFamilyHistory.data || [];
+            this.familyHistoryData.version = tempFamilyHistory.version;
+        }
 
-        this.familyHistoryData = new JSONBaseDataModel<JSONInnerData[]>();
-        const tempFamilyHistory = JSON.parse(medicalDetailsResponse.familyhistory);
-        this.familyHistoryData.data = [];
-        this.familyHistoryData.data = tempFamilyHistory.data || [];
-        this.familyHistoryData.version = tempFamilyHistory.version;
+        if (medicalDetailsResponse.allergies != null) {
+            this.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
+            const tempAllergies = JSON.parse(medicalDetailsResponse.allergies);
+            this.allergiesData.data = [];
+            this.allergiesData.data = tempAllergies.data || [];
+            this.allergiesData.version = tempAllergies.version;
+        }
 
-        this.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
-        const tempAllergies = JSON.parse(medicalDetailsResponse.allergies);
-        this.allergiesData.data = [];
-        this.allergiesData.data = tempAllergies.data || [];
-        this.allergiesData.version = tempAllergies.version;
-
-        this.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
-        const tempPersonalHistory = JSON.parse(medicalDetailsResponse.personalhistory);
-        this.personalHistoryData.data = tempPersonalHistory || null;
-        this.personalHistoryData.version = tempPersonalHistory.version;
+        if (medicalDetailsResponse.personalhistory != null) {
+            this.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
+            const tempPersonalHistory = JSON.parse(medicalDetailsResponse.personalhistory);
+            this.personalHistoryData.data = tempPersonalHistory || null;
+            this.personalHistoryData.version = tempPersonalHistory.version;
+        }
     }
 }
 
@@ -384,32 +398,26 @@ export class PathologyModel {
     testperformed: string;
     testresult: string;
     comments: string;
-    // documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
     id: number
     uuid: string;
     treatmentid: number;
     documentid: number;
     documentuuid: string;
     name: string;
-    // documentname: DocumentTblInfoModel[];
-    // copyFrom(pathologyResponse: PathologyResponse)
-    // {
-    //     pathologyResponse.pathologyid = this.pathologyid;
-    //     pathologyResponse.admissionid = this.admissionid;
-    //     pathologyResponse.documentname = this.documentname;
-    //     pathologyResponse.documentuuid =this.documentuuid;
-    // }
 }
 
 export class TreatmentModel {
     treatmentid: number;
     admissionid: number;
     treatmentdone: string;
-    // documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
-    // copyFrom(actionTreatmentDataValue: ActionTreatmentDataValue) {
-    //     this.documentData = new JSONBaseDataModel<DocumentTblInfoModel>();
-    //     const tempDocumentList = JSON.parse(actionTreatmentDataValue.documentlist);
-    //     this.documentData.data = tempDocumentList || null;
-    //     this.documentData.version = tempDocumentList.version;
-    // }
+}
+
+export class CheckStatus {
+    patientid: number;
+    status: number;
+    copyFrom(checkPatientResponse: CheckPatientResponse) {
+        checkPatientResponse.patientid = this.patientid;
+        checkPatientResponse.status = this.status;
+    }
+
 }
