@@ -70,7 +70,18 @@ left join spl_hpft_document_tbl doc on doc.id = tdoc.document_id_fk where trtmnt
 	
 	('pathology_record_doc_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_pathology_record_doc_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_pathology_record_doc_tbl where updated_on > ?','select prec.uuid as pathology_record_uuid,doc.uuid as document_uuid from spl_hpft_pathology_record_tbl prec
 left join spl_hpft_pathology_record_doc_tbl precdoc on precdoc.pathology_id_fk = prec.id
-left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where prec.updated_on > ?','insert_qry','update_qry');
+left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where prec.updated_on > ?','insert_qry','update_qry'),
+
+('mst_user_tbl','2018-01-01 00:00:00','SELECT count(usr.id)
+	FROM spl_master_user_tbl usr
+	INNER  JOIN spl_master_usr_cpm_tbl ucpm ON usr.id = ucpm.user_id_fk
+	INNER  JOIN spl_master_user_role_tbl urole ON urole.id = ucpm.urole_id_fk
+	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','SELECT usr.id, usr.usr_name, urole.urole_code, urole.urole_name ,
+	ucpm.cpm_id_fk
+	FROM spl_master_user_tbl usr
+	INNER  JOIN spl_master_usr_cpm_tbl ucpm ON usr.id = ucpm.user_id_fk
+	INNER  JOIN spl_master_user_role_tbl urole ON urole.id = ucpm.urole_id_fk
+	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','insert_qry','update_qry');
 	
 
 --
