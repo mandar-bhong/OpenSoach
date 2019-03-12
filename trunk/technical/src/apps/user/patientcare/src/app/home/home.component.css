@@ -42,6 +42,7 @@ TextField {
     font-size: 18px;
     font-weight: bold;
     vertical-align: center;
+    font-family: 'Open Sans';
 }
 
 .homeheader {
