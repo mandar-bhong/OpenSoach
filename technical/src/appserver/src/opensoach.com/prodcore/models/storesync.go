@@ -49,6 +49,7 @@ type SyncConfigModel struct {
 	InsertQry      string    `db:"insert_qry" json:"insertqry"`
 	UpdateQry      string    `db:"update_qry" json:"updateqry"`
 	UpdatedOn      time.Time `db:"updated_on" json:"updatedon"`
+	DataSourceType int       `db:"data_source" json:"dbsource"`
 }
 
 type StoreConfigModel struct {
