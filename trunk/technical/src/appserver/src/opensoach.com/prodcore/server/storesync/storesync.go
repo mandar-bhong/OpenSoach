@@ -10,12 +10,23 @@ import (
 
 var SUB_MODULE_NAME = "ProdCore.Server.StoreSync"
 
-func GetChanges(dbConn string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
+func GetChanges(dbConnections map[int]string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
+
+	dbConn := dbConnections[gmodels.DB_CONNECTION_NODE]
 
 	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName)
 	if dbErr != nil {
 		logger.Context().WithField("Sync Config Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get sync config.", dbErr)
 		return dbErr, nil
+	}
+
+	switch syncConfigData.DataSourceType {
+	case gmodels.DB_CONNECTION_MASTER:
+		dbConn = dbConnections[gmodels.DB_CONNECTION_MASTER]
+		break
+	case gmodels.DB_CONNECTION_NODE:
+		dbConn = dbConnections[gmodels.DB_CONNECTION_NODE]
+		break
 	}
 
 	dbErr, tableData := dbaccess.GetTableData(dbConn, syncConfigData.SelectQry, syncReq.UpdatedOn)

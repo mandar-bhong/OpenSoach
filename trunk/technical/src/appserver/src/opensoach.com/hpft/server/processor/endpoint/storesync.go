@@ -29,7 +29,13 @@ func ProcessGetStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		deviceCommandAck.Ack = false
 		packetProcessingResult.IsSuccess = false
 	} else {
-		err, data := pcstoresync.GetChanges(ctx.InstanceDBConn, reqModel)
+
+		var dbConnections map[int]string
+
+		dbConnections[gmodels.DB_CONNECTION_MASTER] = repo.Instance().Context.Master.DBConn
+		dbConnections[gmodels.DB_CONNECTION_NODE] = ctx.InstanceDBConn
+
+		err, data := pcstoresync.GetChanges(dbConnections, reqModel)
 		if err != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting db changes", err)
 			deviceCommandAck.Ack = false
