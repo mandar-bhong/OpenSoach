@@ -18,3 +18,10 @@
     font-size: 20;
     margin-bottom: 8;
 }
+.card{
+    width: 72%;
+    padding: 5 10;
+    background-color: #f0f0f0;  
+    border-radius: 1px;
+    vertical-align: center;
+}

@@ -79,7 +79,13 @@ export class UserAuthComponent implements OnInit {
 		this.userPinCheckControls();
 		this.getUserAccountData();
 
-
+		// if (this._dataItemsaccount.length > 0) {
+		// 	this.pinview = true;
+		// 	this.newpinview = false;
+		// } else {
+		// 	this.newpinview = true;
+		// 	this.pinview = false;
+		// }
 		this.patientName = this.passdataservice.getHeaderName();
 		// console.log('patient name',this.patientName)
 	}
@@ -120,7 +126,7 @@ export class UserAuthComponent implements OnInit {
 				});
 			},
 			(error) => {
-				console.log("getChartData error:", error);
+				console.log("getUserAccountData error:", error);
 			}
 		);
 	}
