@@ -25,12 +25,13 @@ import { PatientService } from '../../../../services/patient.service';
   styleUrls: ['./patient-view.component.css']
 })
 export class PatientViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['fname', 'patientregno', 'mobno', 'spid', 'bedno', 'status', 'action'];
+  displayedColumns = ['fname', 'patientregno','emergencycontactno', 'mobno', 'spid', 'bedno', 'status', 'action'];
   sortByColumns = [{ text: 'Patient Name', value: 'fname' },
-  { text: 'Patient Registration Number', value: 'patientregno' },
-  { text: 'Emergency Contact Number', value: 'mobno' },
+  { text: 'Patient Reg No', value: 'patientregno' },
+  { text: 'Emergency Contact', value: 'emergencycontactno' },
+  { text: 'Contact No', value: 'mobno' },
   { text: 'Ward', value: 'spid' },
-  { text: 'Bed/Room Number', value: 'bedno' },
+  { text: 'Room/Bed No', value: 'bedno' },
   { text: 'Status', value: 'status' }
 
   ];
@@ -65,9 +66,6 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     const dt = new Date();
     const datetime = dt.getHours() + ":" + dt.getMinutes();
     this.selectedStartTime = this.minutesToTimeString(dt.getMinutes());
-
-    console.log("Time is reciving", this.selectedStartTime);
-    // this.minutesToTimeString();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = 1;
     this.paginator.pageSize = 10;
@@ -175,7 +173,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     dataListRequest.orderdirection = this.sort.direction;
     return this.patientService.getDataList(dataListRequest);
   }
-  viewDetails(id: number, addid: number) {
+  viewDetails(id: number, addid: number,pid: number) {
     //setting patient id for further use
     this.patientService.patientid = id;
     this.patientService.admissionid = addid;

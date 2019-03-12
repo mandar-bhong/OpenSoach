@@ -244,25 +244,10 @@ export class JSONBaseDataModel<T> {
     data: T;
 }
 
-// Patient Details here!!!
-export class PatientPersonDetail {
-    name: string;
-    gender: number;
-    personaddress: string;
-    relationshipwithpatient: string;
-    contact: string;
-    alternatecontact: string;
-}
 
-export class PersonDetailResponse {
-    personaldetailsid: number;
-    personaccompanying: string;
-    age: number;
-}
+//person accompanying start from here.
 
-//
 export class PersonAccompanyingInfo {
-
     name: string;
     pesrsonage: string;
     gender: number;
@@ -271,28 +256,8 @@ export class PersonAccompanyingInfo {
     contact: string;
     alternatecontact: string;
 }
-
-export class PatientPersonAccompanyingDetail {
-    uuid: string;
-    patientid: number;
-    admissionid: number;
-    personaldetailsid: number;
-    personaccompanying: string;
-    age: string;
-}
-
 // Personal detail request
 export class PersonalDetailsRequest {
-    personaldetailsid: number;
-    patientid: number;
-    admissionid: number;
-    uuid: string;
-    age: string;
-    otherdetails: string;
-    personaccompanying: string;
-}
-// Personal detail request
-export class PersonalDetailsUpdateRequest {
     personaldetailsid: number;
     patientid: number;
     admissionid: number;
@@ -311,6 +276,8 @@ export class PersonalDetailsResponse {
     otherdetails: string;
     personaccompanying: string;
 }
+
+
 
 //
 export class AdmissionAddResponseModel {
@@ -484,11 +451,11 @@ export class TreatmentFilterRequest
     admissionid: number;
 }
  
-export class checkPatientRequest
+export class CheckPatientRequest
 {
     patientid: number;
 }
-export class checkPatientResponse
+export class CheckPatientResponse
 {
     patientid: number;
     status: number;
