@@ -60,13 +60,19 @@ values
 
 	('document_tbl', '2018-01-01 00:00:00', 'select count(*) as count from spl_hpft_document_tbl where uuid = ?', 'select_count_qry', 'select_qry', 'insert into spl_hpft_document_tbl (uuid,cpm_id_fk,name,doctype,store_name,persisted,updated_by,client_updated_at) values (:uuid,:cpm_id_fk,:doc_name,:doc_type,:datastore,0,:updated_by,STR_TO_DATE(:client_updated_at ,"%Y-%m-%dT%T.%xZ"))', 'update_qry',2),
 	
-	('treatment_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_treatment_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_treatment_tbl where updated_on > ?','select uuid,(select uuid from spl_hpft_patient_admission_tbl where id = admission_id_fk limit 1) as admission_uuid,treatment_done,treatment_performed_time,details,post_observation,updated_by,updated_on from spl_hpft_treatment_tbl where updated_on > ?','insert_qry','update_qry',2),
+	('treatment_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_treatment_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_treatment_tbl where updated_on > ?','select trtmnt.uuid,padmsn.uuid  as admission_uuid,treatment_done,treatment_performed_time,details,post_observation,trtmnt.updated_by,trtmnt.updated_on 
+from spl_hpft_treatment_tbl trtmnt
+inner join spl_hpft_patient_admission_tbl padmsn on padmsn.id = trtmnt.admission_id_fk
+where updated_on > ?','insert_qry','update_qry',2),
 	
 	('treatment_doc_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_treatment_doc_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_treatment_doc_tbl where updated_on > ?','select trtmnt.uuid as treatment_uuid,doc.uuid as document_uuid from spl_hpft_treatment_tbl trtmnt
 left join spl_hpft_treatment_doc_tbl tdoc on tdoc.treatment_id_fk = trtmnt.id
 left join spl_hpft_document_tbl doc on doc.id = tdoc.document_id_fk where trtmnt.updated_on > ?','insert_qry','update_qry',2),
 	
-	('pathology_record_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_pathology_record_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_pathology_record_tbl where updated_on > ?','select uuid,(select uuid from spl_hpft_patient_admission_tbl where id = admission_id_fk limit 1) as admission_uuid,test_performed,test_performed_time,test_result,comments,updated_by,updated_on from spl_hpft_pathology_record_tbl where updated_on > ?','insert_qry','update_qry',2),
+	('pathology_record_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_pathology_record_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_pathology_record_tbl where updated_on > ?','select prec.uuid, padmsn.uuid as admission_uuid,test_performed,test_performed_time,test_result,comments,prec.updated_by,prec.updated_on 
+from spl_hpft_pathology_record_tbl prec
+inner join spl_hpft_patient_admission_tbl padmsn on padmsn.id = prec.admission_id_fk 
+where updated_on > ?','insert_qry','update_qry',2),
 	
 	('pathology_record_doc_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_pathology_record_doc_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_pathology_record_doc_tbl where updated_on > ?','select prec.uuid as pathology_record_uuid,doc.uuid as document_uuid from spl_hpft_pathology_record_tbl prec
 left join spl_hpft_pathology_record_doc_tbl precdoc on precdoc.pathology_id_fk = prec.id
@@ -82,6 +88,14 @@ left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where pre
 	INNER  JOIN spl_master_usr_cpm_tbl ucpm ON usr.id = ucpm.user_id_fk
 	INNER  JOIN spl_master_user_role_tbl urole ON urole.id = ucpm.urole_id_fk
 	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','insert_qry','update_qry',1);
+	
+	('action_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_action_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_action_tbl where updated_on > ?','select actn.uuid,padmsn.uuid as admission_uuid,pconf.uuid as schedule_uuid,actn.conf_type_code,actn.scheduled_time,actn.is_deleted,actn.updated_on,actn.updated_by 
+from spl_hpft_action_tbl actn
+inner join spl_hpft_patient_admission_tbl padmsn on padmsn.id = actn.admission_id_fk
+inner join spl_hpft_patient_conf_tbl pconf on pconf.id = actn.patient_conf_id_fk where actn.updated_on > ?','insert into spl_hpft_action_tbl 
+(uuid,cpm_id_fk,admission_id_fk,patient_conf_id_fk,conf_type_code,scheduled_time,is_deleted,client_updated_at,updated_by)
+values
+(:uuid,:cpm_id_fk,(select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1),(select id as patient_conf_id_fk from spl_hpft_patient_conf_tbl where uuid = :schedule_uuid limit 1),:conf_type_code,STR_TO_DATE(:scheduled_time ,"%Y-%m-%dT%T.%xZ"),:is_deleted,:client_updated_at,:updated_by)','update spl_hpft_action_tbl set cpm_id_fk = :cpm_id_fk,admission_id_fk = (select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1),patient_conf_id_fk = (select id as patient_conf_id_fk from spl_hpft_patient_conf_tbl where uuid = :schedule_uuid limit 1),conf_type_code = :conf_type_code,scheduled_time = :scheduled_time,is_deleted = :is_deleted,client_updated_at = :client_updated_at,updated_by = :updated_by where uuid = ?',2)
 	
 
 --
