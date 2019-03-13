@@ -35,23 +35,23 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     this.iconCss = 'fa fa-user';
     this.pageTitle = 'Personal History';
   }
- 
+
   ngOnInit() {
     this.createControls();
     this.tendency = 'Increasing';
     this.showBackButton = false;
-   setTimeout(()=>{
-    if (Object.keys(this.itemPersonList).length > 0) {
-      // update mode
-      this.getData();
-      this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-      this.setFormMode(FORM_MODE.VIEW);
-    } else {
-      // add mode.
-      this.recordState = EDITABLE_RECORD_STATE.ADD;
-      this.setFormMode(FORM_MODE.EDITABLE);
-    }
-   });
+    setTimeout(() => {
+      if (Object.keys(this.itemPersonList).length > 0) {
+        // update mode
+        this.getData();
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        this.setFormMode(FORM_MODE.VIEW);
+      } else {
+        // add mode.
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.EDITABLE);
+      }
+    });
   }
   getData() {
     this.weight = this.itemPersonList.weight;
@@ -69,7 +69,7 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     }
   }
   itemAdd() {
-    if (this.alcohalquantity || this.alcohalcomment || this.smokingquantity || this.smokingcomment) {
+    if (this.weight || this.tendency || this.alcohalquantity || this.alcohalcomment || this.smokingquantity || this.smokingcomment || this.other) {
       const personalHistoryInfo = new PersonalHistoryInfo();
       personalHistoryInfo.weight = this.weight;
       personalHistoryInfo.weighttendency = this.tendency;
@@ -101,5 +101,5 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
       this.routeSubscription.unsubscribe();
     }
   }
-  
+
 }
