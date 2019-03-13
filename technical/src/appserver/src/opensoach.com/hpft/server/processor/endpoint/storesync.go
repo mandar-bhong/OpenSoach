@@ -30,7 +30,7 @@ func ProcessGetStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		packetProcessingResult.IsSuccess = false
 	} else {
 
-		var dbConnections map[int]string
+		dbConnections := make(map[int]string)
 
 		dbConnections[gmodels.DB_CONNECTION_MASTER] = repo.Instance().Context.Master.DBConn
 		dbConnections[gmodels.DB_CONNECTION_NODE] = ctx.InstanceDBConn
