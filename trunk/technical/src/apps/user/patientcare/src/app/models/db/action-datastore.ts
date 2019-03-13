@@ -6,7 +6,7 @@ export class ActionDataStoreModel implements IDatastoreModel {
     admission_uuid: string;
     conf_type_code: string;
     schedule_uuid: string;
-    scheduled_time: Date;
+    scheduled_time: string;
     sync_pending: number;
     client_updated_at: Date;
     getModelValues(): any[] {
@@ -16,5 +16,5 @@ export class ActionDataStoreModel implements IDatastoreModel {
 
 export class ActionsData {
     actions: ActionDataStoreModel[];
-    enddate: Date;
+    enddate: string;
 }

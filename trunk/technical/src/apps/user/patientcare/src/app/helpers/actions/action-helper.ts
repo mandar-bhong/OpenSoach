@@ -58,7 +58,7 @@ export class ActionHelper {
                 const dateval = new Date(dateaction);
                 dateval.setMinutes(this.actionItems[i].dayAction[j].time);
                 const actionList = new ActionDataStoreModel();
-                actionList.scheduled_time = new Date(dateval);
+                actionList.scheduled_time = new Date(dateval).toISOString();
                 console.log('in generate DB actions fucntion', this.schedulardata.data)
                 actionList.admission_uuid = this.schedulardata.data.admission_uuid;
                 actionList.schedule_uuid = this.schedulardata.data.uuid;
