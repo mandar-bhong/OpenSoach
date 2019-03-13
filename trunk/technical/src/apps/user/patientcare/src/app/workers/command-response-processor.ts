@@ -21,6 +21,7 @@ import { TreatmentDatastoreModel } from "../models/db/treatment-model.js";
 import { TreatmentDocDatastoreModel } from "../models/db/treatment-doc-model.js";
 import { PathologyRecordDatastoreModel } from "../models/db/pathology-record-model.js";
 import { PathologyRecordDocDatastoreModel } from "../models/db/pathology-record-doc-model.js";
+import { ActionDataStoreModel } from "../models/db/action-datastore.js";
 
 export class CommandResponseProcessor {
 
@@ -102,6 +103,9 @@ export class CommandResponseProcessor {
                                 break;
                             case SYNC_STORE.PATHOLOGY_RECORD_DOC:
                                 this.handlePathologyRecordDocResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.ACTION:
+                                this.handleActionResponse(respDataModel);
                                 break;
                         }
                     }
@@ -580,6 +584,38 @@ export class CommandResponseProcessor {
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.PATHOLOGY_RECORD_DOC;
             serverDataStoreDataModel.data = pathologyRecordDocDatastoreModel;
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
+        }
+
+    }
+
+    public static handleActionResponse(data: CmdModel) {
+        // console.log("action tbl data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (var i = 0; i < tblData.length; i++) {
+            const actionDataStoreModel = new ActionDataStoreModel();
+            const item = <ActionDataStoreModel>tblData[i];
+
+            actionDataStoreModel.uuid = item.uuid;
+            actionDataStoreModel.admission_uuid = item.admission_uuid;
+            actionDataStoreModel.conf_type_code = item.conf_type_code;
+            actionDataStoreModel.schedule_uuid = item.conf_type_code;
+            actionDataStoreModel.scheduled_time = item.scheduled_time;
+            actionDataStoreModel.is_deleted = item.is_deleted;
+            actionDataStoreModel.updated_by = item.updated_by;
+            actionDataStoreModel.updated_on = item.updated_on;
+            actionDataStoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+            serverDataStoreDataModel.datastore = SYNC_STORE.ACTION;
+            serverDataStoreDataModel.data = actionDataStoreModel;
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
