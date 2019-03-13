@@ -40,8 +40,8 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                     break;
             }
             try {
-                parsedConf.endDate = actiondata.enddate;
-                msg.end_date = actiondata.enddate.toISOString();
+                //parsedConf.endDate = actiondata.enddate;
+                msg.end_date = actiondata.enddate;
                 actiondata.actions.forEach(element => {
                     const actionsdbdata = new ActionDataStoreModel();
                     Object.assign(actionsdbdata, element);
