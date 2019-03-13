@@ -413,7 +413,7 @@ CREATE TABLE `spl_hpft_patient_medical_details_tbl` (
 	`patient_id` INT(10) UNSIGNED NOT NULL,
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`present_complaints` JSON NULL DEFAULT NULL,
-	`reason_for_admission` VARCHAR(500) NULL DEFAULT NULL,
+	`reason_for_admission` JSON NULL DEFAULT NULL,
 	`history_present_illness` JSON NULL DEFAULT NULL,
 	`past_history` JSON NULL DEFAULT NULL,
 	`treatment_before_admission` JSON NULL DEFAULT NULL,
@@ -478,6 +478,34 @@ CREATE TABLE `spl_hpft_patient_conf_tbl` (
 	CONSTRAINT `fk_pconf_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `fk_pconf_padmsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name: pconf';
+
+
+
+--
+-- Table structure for table `spl_hpft_action_tbl`
+--
+
+CREATE TABLE `spl_hpft_action_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_conf_id_fk` INT(10) UNSIGNED NOT NULL,
+	`conf_type_code` VARCHAR(25) NOT NULL,
+	`scheduled_time` DATETIME NOT NULL,
+	`is_deleted` TINYINT(4) NOT NULL,
+	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(11) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `fk_actn_cpm` (`cpm_id_fk`),
+	INDEX `fk_actn_admsn` (`admission_id_fk`),
+	INDEX `fk_actn_pconf` (`patient_conf_id_fk`),
+	CONSTRAINT `fk_actn_admsn` FOREIGN KEY (`admission_id_fk`) REFERENCES `spl_hpft_patient_admission_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_actn_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_actn_pconf` FOREIGN KEY (`patient_conf_id_fk`) REFERENCES `spl_hpft_patient_conf_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : actn';
 
 
 

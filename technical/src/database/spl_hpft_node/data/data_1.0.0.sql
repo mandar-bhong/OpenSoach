@@ -8,10 +8,10 @@ INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `updated_on`, `has_qry`, `
 	
 	('conf_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_conf_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_conf_tbl where updated_on > ?','select * from spl_hpft_conf_tbl where updated_on > ?','insert_qry','update_qry',2),
 	
-	('patient_master_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_patient_master_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_patient_master_tbl where updated_on > ?','select * from spl_hpft_patient_master_tbl where updated_on > ?','insert: insert into spl_hpft_patient_master_tbl 
+	('patient_master_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_patient_master_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_patient_master_tbl where updated_on > ?','select * from spl_hpft_patient_master_tbl where updated_on > ?','insert into spl_hpft_patient_master_tbl 
 (uuid,cpm_id_fk,patient_reg_no,fname,lname,mob_no,age,blood_grp,gender,client_updated_at,updated_by) 
 values 
-(:uuid,:cpm_id_fk,:patient_reg_no,:fname,:lname,:mob_no,:age,:blood_grp,:gender, STR_TO_DATE(:client_updated_at ,"%Y-%m-%dT%T.%xZ"),:updated_by)','update: update spl_hpft_patient_master_tbl 
+(:uuid,:cpm_id_fk,:patient_reg_no,:fname,:lname,:mob_no,:age,:blood_grp,:gender, STR_TO_DATE(:client_updated_at ,"%Y-%m-%dT%T.%xZ"),:updated_by)','update spl_hpft_patient_master_tbl 
 set cpm_id_fk = :cpm_id_fk, patient_reg_no = :patient_reg_no, fname = :fname, lname = :lname, mob_no = :mob_no, age = :age, blood_grp = :blood_grp, gender = :gender,client_updated_at=STR_TO_DATE(:client_updated_at ,"%Y-%m-%dT%T.%xZ"), updated_by = :updated_by WHERE uuid = :uuid',2),
 	
 	('schedule_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_patient_conf_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_patient_conf_tbl where updated_on > ?','select pconf.uuid, padmsn.uuid as admission_uuid,pconf.conf_type_code,pconf.conf,pconf.end_date,status,pconf.updated_by,pconf.updated_on from spl_hpft_patient_conf_tbl pconf
