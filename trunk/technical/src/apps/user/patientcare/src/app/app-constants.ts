@@ -90,5 +90,27 @@ export enum ConfigCodeType {
     DOCTOR_ORDERS = 'Doctor-Orders'
 }
 
-export const API_SPL_BASE_URL="http://172.105.232.148/api";
-export const API_APP_BASE_URL="http://172.105.232.148:91/api";
+export const API_SPL_BASE_URL = "http://172.105.232.148/api";
+export const API_APP_BASE_URL = "http://172.105.232.148:91/api";
+
+export const ACTION_MISSED_WINDOW = 3 * 60;
+export const ACTION_DELAYED_AFTER = 30;
+export const ACTION_NEEDS_ATTENTION = 15;
+export const ACTION_FUTURE_AFTER = 3 * 60;
+
+export enum ACTION_STATUS {
+    // disabled color. there are no actions to be performed in next 3 hours
+    NONE = "NONE",
+    // default color. there is a action to be performed in next 3 hours, 
+    // however there is a still 15 mins more for the action to be performed
+    ACTIVE_NORMAL = "ACTIVE_NORMAL",
+    // orange, there is action to be performed in another 15 mins or 
+    // action was supposed to be performed in last 30 mins
+    ACTIVE_NEEDS_ATTENTION = "ACTIVE_NEEDS_ATTENTION",
+    // red color, the action is not performed and exceeded 30 mins.
+    ACTIVE_DELAYED = "ACTIVE_DELAYED",
+    // action to be performed in more than 3 hours
+    ACTIVE_FUTURE = "ACTIVE_FUTURE",
+    // actions was supposed to be performed more than 3 hours before
+    MISSED = "MISSED"
+}
