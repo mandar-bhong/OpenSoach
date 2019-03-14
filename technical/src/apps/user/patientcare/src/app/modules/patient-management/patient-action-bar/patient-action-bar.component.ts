@@ -22,15 +22,16 @@ export class PatientActionBarComponent implements OnInit {
 	}
 
 	goBackPage() {
-		const test =  true;
-		console.log('this.passDataService.backalert', this.passDataService.backalert);
-		if (this.passDataService.backalert === test) {
-			console.log(this.passDataService.showNotification());
-			
-		} else {
-			this.routerExtensions.back();
-		}
-		this.passDataService.backalert = false;
+		// const test =  true;
+		// console.log('this.passDataService.backalert', this.passDataService.backalert);
+		// if (this.passDataService.backalert === test) {
+		// 	console.log(this.passDataService.showNotification());
+
+		// } else {
+		// 	this.routerExtensions.back();
+		// }
+		// this.passDataService.backalert = false;
+		this.routerExtensions.back();
 
 	}
 
@@ -46,7 +47,7 @@ export class PatientActionBarComponent implements OnInit {
 		// 	this.routerExtensions.back();
 		// }
 		// this.passDataService.backalert = false;
-		
+
 	}
 
 }
