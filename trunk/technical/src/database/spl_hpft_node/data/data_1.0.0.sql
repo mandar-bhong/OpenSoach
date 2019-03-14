@@ -82,11 +82,12 @@ left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where pre
 	FROM spl_master_user_tbl usr
 	INNER  JOIN spl_master_usr_cpm_tbl ucpm ON usr.id = ucpm.user_id_fk
 	INNER  JOIN spl_master_user_role_tbl urole ON urole.id = ucpm.urole_id_fk
-	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','SELECT usr.id, usr.usr_name, urole.urole_code, urole.urole_name ,
+	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','SELECT usr.id as usr_id, usr.usr_name, urole.urole_code, urole.urole_name ,fname,lname,
 	ucpm.cpm_id_fk
 	FROM spl_master_user_tbl usr
 	INNER  JOIN spl_master_usr_cpm_tbl ucpm ON usr.id = ucpm.user_id_fk
 	INNER  JOIN spl_master_user_role_tbl urole ON urole.id = ucpm.urole_id_fk
+	INNER JOIN spl_master_usr_details_tbl usrd on usrd.usr_id_fk = usr.id
 	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','insert_qry','update_qry',1),
 	
 	('action_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_action_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_action_tbl where updated_on > ?','select actn.uuid,padmsn.uuid as admission_uuid,pconf.uuid as schedule_uuid,actn.conf_type_code,actn.scheduled_time,actn.is_deleted,actn.updated_on,actn.updated_by 
