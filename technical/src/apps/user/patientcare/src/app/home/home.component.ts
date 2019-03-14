@@ -13,14 +13,12 @@ import { PatientListService } from '~/app/services/patient-list/patient-list.ser
 
 import { DataListingInterface } from '../data-listing-interface';
 import { NextActionService } from '../services/action/next-action-service';
+import { JSONBaseDataModel } from '../models/ui/json-base-data-model';
 
 export class PersonAccompanyingModel {
 	contact: string;
 }
-export class JSONBaseDataModel<T> {
-	version: number;
-	data: T;
-}
+
 @Component({
 	selector: "Home",
 	moduleId: module.id,
