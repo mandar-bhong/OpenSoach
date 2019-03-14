@@ -14,10 +14,7 @@ import { PatientListService } from '~/app/services/patient-list/patient-list.ser
 import { DataListingInterface } from '../data-listing-interface';
 import { NextActionService } from '../services/action/next-action-service';
 import { JSONBaseDataModel } from '../models/ui/json-base-data-model';
-
-export class PersonAccompanyingModel {
-	contact: string;
-}
+import { PersonAccompanyModel } from '../models/ui/person-accompany-model';
 
 @Component({
 	selector: "Home",
@@ -67,7 +64,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
-		this.jsonField = new JSONBaseDataModel<PersonAccompanyingModel[]>();
+		this.jsonField = new JSONBaseDataModel<PersonAccompanyModel[]>();
 	}
 
 	bindList() {
@@ -93,21 +90,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 			(val) => {
 				this.isBusy = false;
 				val.forEach(item => {
-					// console.log("home getData", val);
-					const patientListItem = new PatientListViewModel();
-					patientListItem.dbmodel = item;
-
-					this.jsonField = new JSONBaseDataModel<PersonAccompanyingModel[]>();
-					this.jsonField.data = [];
-					Object.assign(this.jsonField, JSON.parse(patientListItem.dbmodel.person_accompanying));
-					if (this.jsonField.data.length > 0) {
-						// console.log('JSON', this.jsonField);
-						const testdata = this.jsonField.data[0].contact;
-						// console.log('testdata', testdata);
-						patientListItem.contact = testdata;
-					}
-					this.listSource.push(patientListItem);
-					// console.log('patientListItem', this.listSource);
+					this.listSource.push(item);
 				});
 
 				this.getNextActionTimeForAll();
@@ -131,13 +114,9 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 			};
 			// console.log('on data received in home');
 			items.forEach(item => {
-				const existingItems = this.listSource.filter(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
-				if (existingItems.length > 0) {
-					const lenght = this.listSource.length;
-					// console.log('listsoure lenght', lenght);
-					const index = this.listSource.indexOf(existingItems[0]);
-					// console.log(' index', index);
-					this.listSource[index].dbmodel = item.dbmodel;
+				const existingItem = this.listSource.find(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
+				if (existingItem) {
+					Object.assign(existingItem, item);
 				}
 				else {
 					this.listSource.push(item);

@@ -16,6 +16,7 @@ import { PatientAdmissionDatastoreModel } from "../models/db/patient-admission-m
 import { ActionDataStoreModel } from "../models/db/action-datastore";
 import { ActionTxnDatastoreModel } from "../models/db/action-txn-model";
 import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model";
+import { PatientPersonalDetailsDatastoreModel } from "../models/db/patient-personal-details-model";
 
 @Injectable()
 export class WorkerService {
@@ -26,6 +27,7 @@ export class WorkerService {
     public actionDataReceivedSubject = new Subject<ActionDataStoreModel>();
     public actionTxnDataReceivedSubject = new Subject<ActionTxnDatastoreModel>();
     public doctorOrderDataReceivedSubject = new Subject<DoctorsOrdersDatastoreModel>();
+    public patientPersonalDetailsDataReceivedSubject = new Subject<PatientPersonalDetailsDatastoreModel>();
 
     // TODO: remove this, use instead scheduleDataReceivedSubject
     actionsSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
@@ -82,9 +84,7 @@ export class WorkerService {
     }
 
     handleDataReceived(data: ServerDataStoreDataModel<IDatastoreModel>[]) {
-        data.forEach(item => {
-            console.log('subject triggered in worker service ', item);
-
+        data.forEach(item => {            
             switch (item.datastore) {
                 case SYNC_STORE.PATIENT_MASTER:
                     this.patientMasterDataReceivedSubject.next(<PatientMasterDatastoreModel>item.data);
@@ -105,6 +105,9 @@ export class WorkerService {
                     break;
                 case SYNC_STORE.ACTION_TXN:
                     this.actionTxnDataReceivedSubject.next(<ActionTxnDatastoreModel>item.data);
+                    break;
+                case SYNC_STORE.PERSONAL_DETAILS:
+                    this.patientPersonalDetailsDataReceivedSubject.next(<PatientPersonalDetailsDatastoreModel>item.data);
                     break;
 
             }
