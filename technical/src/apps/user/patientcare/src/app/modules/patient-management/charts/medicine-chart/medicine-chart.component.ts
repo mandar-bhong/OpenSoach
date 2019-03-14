@@ -1,21 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { RouterExtensions } from "nativescript-angular/router";
-import { Data } from '@angular/router';
-import { dateProperty } from 'tns-core-modules/ui/date-picker/date-picker';
-import { SegmentedBar, SegmentedBarItem } from "tns-core-modules/ui/segmented-bar";
 import { DatePipe } from '@angular/common';
-import { Switch } from "tns-core-modules/ui/switch";
-import { ChartDBModel, MedChartModel, MornFreqInfo, AftrnFreqInfo, NightFreqInfo } from "~/app/models/ui/chart-models";
-import { ChartService } from "~/app/services/chart/chart.service";
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { PlatformHelper } from "~/app/helpers/platform-helper";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { ListPicker } from 'tns-core-modules/ui/list-picker/list-picker';
+import { SegmentedBar, SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
+import { Switch } from 'tns-core-modules/ui/switch';
+import { ConfigCodeType, SYNC_STORE } from '~/app/app-constants';
+import { PlatformHelper } from '~/app/helpers/platform-helper';
+import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
-import { SERVER_WORKER_MSG_TYPE, SYNC_STORE, ConfigCodeType } from '~/app/app-constants';
-import { WorkerService } from '~/app/services/worker.service';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import {
+    AftrnFreqInfo,
+    ChartDBModel,
+    FrequencyValues,
+    MedChartModel,
+    MornFreqInfo,
+    NightFreqInfo,
+} from '~/app/models/ui/chart-models';
+import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
-import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
+import { WorkerService } from '~/app/services/worker.service';
 
 @Component({
     moduleId: module.id,
@@ -23,7 +30,6 @@ import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
     templateUrl: './medicine-chart.component.html',
     styleUrls: ['./medicine-chart.component.css']
 })
-
 export class MedicineChartComponent implements OnInit {
 
     // proccess variables
@@ -48,8 +54,19 @@ export class MedicineChartComponent implements OnInit {
     numberOfTimesValid: boolean;
     startDateValid: boolean;
     patientName: string;
+    public medicineType: Array<string> = [];
+    public frequencyType: Array<FrequencyValues> = [];
+    public picked: string;
     // end of proccess variables
-
+    medicineTypeList = ["Tablet", "Capsule", "Syrup", "Injection", "Ointment", "Eye Drop"];
+    frequencyList: FrequencyValues[] = [
+        { name: "'X'- Times a day", value: 0 },
+        { name: "Every 'X' hours", value: 1 },
+        { name: "As Required", value: 2 }];
+    isInstruction = false;
+    isSplinstructions = false;
+    isDosage = false;
+    isXTimesDay = false;
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
         public workerService: WorkerService,
@@ -66,11 +83,18 @@ export class MedicineChartComponent implements OnInit {
         this.chartConfModel.aftrnFreqInfo = new AftrnFreqInfo();
         this.chartConfModel.nightFreqInfo = new NightFreqInfo();
         this.chartDbModel = new ChartDBModel();
-
+        this.medicineType = [];
+        this.frequencyType = [];
+        for (let item of this.medicineTypeList) {
+            this.medicineType.push(item);
+        }
+        for (let item of this.frequencyList) {
+            this.frequencyType.push(item);
+        }
     }
 
     ngOnInit() {
-        this.patientName = 'Raj Ghadage';
+        // this.patientName = 'Raj Ghadage';
         // creating form control
         this.createFormControls();
         this.foodInsItems = [];
@@ -90,14 +114,6 @@ export class MedicineChartComponent implements OnInit {
         const freqItem2 = new SegmentedBarItem();
         freqItem2.title = "Every 'X' hours";
         this.frequencyItems.push(freqItem2);
-
-        // load default form data
-        this.medicineForm.get('quantity').setValue(1);
-        // this.medicineForm.get('mornQuantity').setValue(1);
-        // this.medicineForm.get('startDate').setValue(new Date());
-
-        // remove this code block once u done testing of 
-        //  this.createActions();
         this.medicineForm.get('startDate').setValue(new Date());
         this.medicineForm.get('startTime').setValue(new Date());
     }
@@ -110,26 +126,38 @@ export class MedicineChartComponent implements OnInit {
     // >> func for navigating previous page
 
     onPageLoaded(args) {
-        console.log("medicine form page loaded");
+
     }
 
     onFrequencySelectedIndexChange(args) {
-        let segmetedBar = <SegmentedBar>args.object;
+        let segmetedBar = <ListPicker>args.object;
         this.freqSelectedIndex = segmetedBar.selectedIndex;
+        this.medicineForm.controls['intervalHrs'].clearValidators();
+        this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
+        this.medicineForm.controls['numberofTimes'].clearValidators();
+        this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
+        this.medicineForm.controls['splinstructions'].clearValidators();
+        this.medicineForm.controls['splinstructions'].updateValueAndValidity();
+        this.medicineForm.controls['quantity'].clearValidators();
+        this.medicineForm.controls['quantity'].updateValueAndValidity();
+        this.intervalHrsIsValid = false;
+        switch (this.freqSelectedIndex) {
+            case 1:
+                this.medicineForm.controls['numberofTimes'].setValidators(Validators.required);
+                this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
+                this.medicineForm.controls['intervalHrs'].setValidators([Validators.required]);
+                this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
+                this.medicineForm.controls['quantity'].setValidators([Validators.required]);
+                this.medicineForm.controls['quantity'].updateValueAndValidity();
+                break;
+            case 0:
 
-        if (this.freqSelectedIndex == 1) {
-            this.medicineForm.controls['numberofTimes'].setValidators(Validators.required);
-            this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
-            this.medicineForm.controls['intervalHrs'].setValidators([Validators.required]);
-            this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
-        } else {
-            this.medicineForm.controls['intervalHrs'].clearValidators();
-            this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
-            this.medicineForm.controls['numberofTimes'].clearValidators();
-            this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
-            this.intervalHrsIsValid = false;
+                break;
+            case 2:
+                this.medicineForm.controls['splinstructions'].setValidators(Validators.required);
+                this.medicineForm.controls['splinstructions'].updateValueAndValidity();
+                break;
         }
-
     }
 
     onInstructionSelectedIndexChange(args) {
@@ -145,6 +173,21 @@ export class MedicineChartComponent implements OnInit {
         this.durationIsValid = this.medicineForm.controls['duration'].hasError('required');
         this.numberOfTimesValid = this.medicineForm.controls['numberofTimes'].hasError('required');
         this.startDateValid = this.medicineForm.controls['startDate'].hasError('required');
+        // this.isInstruction = this.medicineForm.controls['desc'].hasError('required');
+        this.isSplinstructions = this.medicineForm.controls['splinstructions'].hasError('required');
+        this.isDosage = this.medicineForm.controls['quantity'].hasError('required');
+        // frequency check
+        switch (this.medicineForm.get('frequency').value) {
+            case 0:
+                if (!(this.freqMorn || this.freqAftrn || this.freqNight)) {
+                    this.isXTimesDay = true;
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
+        //  validation check  if form is valid 
         if (this.medicineForm.invalid) {
             console.log("validation error");
             return;
@@ -172,11 +215,8 @@ export class MedicineChartComponent implements OnInit {
         formData.startDate = this.medicineForm.get('startDate').value;
         formData.duration = this.medicineForm.get('duration').value;
         formData.startTime = this.medicineForm.get('startTime').value;
-        formData.desc = this.medicineForm.get('desc').value;
-        // replace this with user entered value of how many times take 
-        //  console.log("formData", formData);
-
-        // insert form data to sqlite db
+        formData.remark = this.medicineForm.get('remark').value;
+        formData.splinstruction = this.medicineForm.get('splinstructions').value;
         this.insertData(formData);
     }
     // >> func for submit form data
@@ -197,58 +237,55 @@ export class MedicineChartComponent implements OnInit {
 
     // set frequency checkbox value
     onMorningChecked(args) {
-
         let Switch = <Switch>args.object;
         if (Switch.checked) {
             this.freqMorn = true;
         } else {
             this.freqMorn = false;
         }
-
     }
 
     onAfternoonChecked(args) {
-
         let Switch = <Switch>args.object;
         if (Switch.checked) {
             this.freqAftrn = true;
         } else {
             this.freqAftrn = false;
         }
-
     }
 
     onNightChecked(args) {
-
         let Switch = <Switch>args.object;
         if (Switch.checked) {
             this.freqNight = true;
         } else {
             this.freqNight = false;
         }
-
     }
 
     // << func for inserting form data to sqlite db
     insertData(data: MedChartModel) {
-
+        this.chartConfModel = new MedChartModel();
+        this.chartConfModel.mornFreqInfo = new MornFreqInfo();
+        this.chartConfModel.aftrnFreqInfo = new AftrnFreqInfo();
+        this.chartConfModel.nightFreqInfo = new NightFreqInfo();
+        this.chartDbModel = new ChartDBModel();
         //set chart conf model
         let foodIns = "";
         let desc = "";
         let count = 0;
-
         if (data.foodInst == 0) {
             foodIns = "before meal";
         } else {
             foodIns = "after meal";
         }
-
+        //  for x times in day 
         if (data.frequency == 0) {
             if (data.mornFreqInfo.freqMorn == true) {
                 this.chartConfModel.mornFreqInfo.freqMorn = data.mornFreqInfo.freqMorn;
                 this.chartConfModel.mornFreqInfo.mornFreqQuantity = data.mornFreqInfo.mornFreqQuantity;
                 count = count + 1;
-                desc = desc + " Morning &"
+                // desc = desc + " Morning &"
             } else {
                 this.chartConfModel.mornFreqInfo.freqMorn = data.mornFreqInfo.freqMorn;
                 this.chartConfModel.mornFreqInfo.mornFreqQuantity = 0;
@@ -258,7 +295,7 @@ export class MedicineChartComponent implements OnInit {
                 this.chartConfModel.aftrnFreqInfo.freqAftrn = data.aftrnFreqInfo.freqAftrn;
                 this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = data.aftrnFreqInfo.aftrnFreqQuantity;
                 count = count + 1;
-                desc = desc + " Afternoon &"
+                // desc = desc + " Afternoon &"
             } else {
                 this.chartConfModel.aftrnFreqInfo.freqAftrn = data.aftrnFreqInfo.freqAftrn;
                 this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = 0;
@@ -268,36 +305,66 @@ export class MedicineChartComponent implements OnInit {
                 this.chartConfModel.nightFreqInfo.freqNight = data.nightFreqInfo.freqNight;
                 this.chartConfModel.nightFreqInfo.nightFreqQuantity = data.nightFreqInfo.nightFreqQuantity;
                 count = count + 1;
-                desc = desc + " Night &"
+                // desc = desc + " Night &"
             } else {
                 this.chartConfModel.nightFreqInfo.freqNight = data.nightFreqInfo.freqNight;
                 this.chartConfModel.nightFreqInfo.nightFreqQuantity = 0;
             }
 
-            desc = desc.slice(0, -1);
-
-            if (data.desc != null) {
-                this.chartConfModel.desc = desc + foodIns + ". \n" + data.desc + ".";
-            } else {
-                this.chartConfModel.desc = desc + foodIns + ".";
+            // code for generating scheduel description.
+            switch (count) {
+                case 1:
+                    let descText = '';
+                    if (data.mornFreqInfo.freqMorn) {
+                        descText = "morning";
+                    } else if (data.aftrnFreqInfo.freqAftrn) {
+                        descText = "afternoon";
+                    }
+                    else if (data.nightFreqInfo.freqNight) {
+                        descText = "night";
+                    }
+                    desc = `Every ${descText} ${foodIns} for ${data.duration} days`;
+                    break;
+                case 2:
+                    let descTextData = '';
+                    if (data.mornFreqInfo.freqMorn && data.aftrnFreqInfo.freqAftrn) {
+                        descTextData = "morning & afternoon"
+                    }
+                    else if (data.mornFreqInfo.freqMorn && data.nightFreqInfo.freqNight) {
+                        descTextData = "morning & night";
+                    } else if (data.aftrnFreqInfo.freqAftrn && data.nightFreqInfo.freqNight) {
+                        descTextData = "afternoon & night";
+                    }
+                    desc = `Every ${descTextData} ${foodIns} for ${data.duration} days`;
+                    break;
+                case 3:
+                    desc = `3 times a day ${foodIns} for ${data.duration} days`;
+                    break;
+                default:
+                    break;
             }
+            this.chartConfModel.desc = desc;
 
-        } else {
+        } else if (data.frequency == 1) {  // for every xtimes in a day
+
+            this.chartConfModel.quantity = data.quantity;
             this.chartConfModel.numberofTimes = data.numberofTimes;
-            this.chartConfModel.intervalHrs = data.intervalHrs;
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
-            console.log(' this.chartConfModel.startTime', this.chartConfModel.startTime);
-            if (data.desc != null) {
-                this.chartConfModel.desc = "Every " + data.intervalHrs + " minutes in a day " + foodIns + ". \n" + data.desc + ".";
-            } else {
-                this.chartConfModel.desc = "Every " + data.intervalHrs + " minutes in a day " + foodIns + ".";
+            if (data.intervalHrs != null) {
+                this.chartConfModel.intervalHrs = data.intervalHrs * 60;
             }
+            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
+
+            let description = '';
+            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.intervalHrs);
+            description = ` ${data.numberofTimes} times a day after every ${hourMinutsData} for ${data.duration} days.`;
+            this.chartConfModel.desc = description;
+        } else if (data.frequency == 2) { //  for as required
+            this.chartConfModel.splinstruction = data.splinstruction;
+            this.chartConfModel.desc = data.splinstruction;
         }
         const currentTime = this.datePipe.transform(Date.now(), "H:mm");
-        console.log("currentTime", currentTime);
-
         this.chartConfModel.name = data.name;
-        this.chartConfModel.quantity = data.quantity;
+        this.chartConfModel.medicinetype = this.medicineType[this.medicineForm.get('medicineType').value];
         this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd") + " " + currentTime;
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
@@ -309,10 +376,7 @@ export class MedicineChartComponent implements OnInit {
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.MEDICINE
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
-        // get chart data from sqlite db
-        // this.chartservice.getChartList();
-        //  this.goBackPage();
-    }
+     }
     // >> func for inserting form data to sqlite db
 
 
@@ -329,12 +393,22 @@ export class MedicineChartComponent implements OnInit {
             startDate: new FormControl(),
             duration: new FormControl('', [Validators.required]),
             startTime: new FormControl(),
-            desc: new FormControl(),
+            remark: new FormControl(),
             mornQuantity: new FormControl(),
             aftrnQuantity: new FormControl(),
-            nightQuantity: new FormControl()
+            nightQuantity: new FormControl(),
+            medicineType: new FormControl(),
+            splinstructions: new FormControl(),
         });
     }
     // >> func for creating form controls
+    // << func for selecting monitor name
+    selectedIndexChanged(args) {
+        let picker = <ListPicker>args.object;
+        let picked: any;
+        // picked = this.monitorConf.dbmodel.conf.tasks[picker.selectedIndex];
+        // this.formData.name = picked.name;
+        // this.monitorName = picked.name;
+    }
 
 }

@@ -38,6 +38,7 @@ export class IntakeHelper extends ActionHelper {
         actios.actions = this.actionList;
         actios.enddate = this.getScheduleEnddate();
         return actios;
+        console.log('actios',actios);
     }// end of fucntions.
 
     // fucntion for geberatating actions for x times in day.

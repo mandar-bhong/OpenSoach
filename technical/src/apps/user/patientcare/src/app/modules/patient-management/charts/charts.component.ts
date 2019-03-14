@@ -1,27 +1,27 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
-import { View, isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
-import { ListViewLinearLayout, ListViewEventData, RadListView, ListViewItemSnapMode } from 'nativescript-ui-listview';
-import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
-import { Observable } from 'tns-core-modules/data/observable';
-import { ChartService } from "~/app/services/chart/chart.service";
-import { ChartListViewModel } from "~/app/models/ui/chart-models";
+import { ModalDialogOptions, ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
+import { ListViewEventData, ListViewItemSnapMode } from 'nativescript-ui-listview';
+import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
 import { Subscription } from 'rxjs';
-import { WorkerService } from '~/app/services/worker.service';
+import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
+import { ConfigCodeType, freuencyone, freuencyzero, SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
-import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
-import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType, freuencyzero, freuencyone } from '~/app/app-constants';
-import { Switch } from 'tns-core-modules/ui/switch/switch';
-import { IDeviceAuthResult } from '../../idevice-auth-result';
+import { ChartListViewModel } from '~/app/models/ui/chart-models';
+import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
-import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
+import { WorkerService } from '~/app/services/worker.service';
+
+import { IDeviceAuthResult } from '../../idevice-auth-result';
+import { SchedularFabComponent } from '../schedular-fab/schedular-fab.component';
 import { IntakeChartComponent } from './intake-chart/intake-chart.component';
 import { MedicineChartComponent } from './medicine-chart/medicine-chart.component';
 import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
-import { SchedularFabComponent } from '../schedular-fab/schedular-fab.component';
+
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -75,16 +75,14 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
-	ngOnInit() {
-		console.log('on ng init executed');
+	ngOnInit() {	
 		this.getChartData('getScheduleListActive');
 		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
 			//	console.log('notified to schedule list page ', value);
 			this.pushAddedSchedule(value);
 		});
 		this.completeorpending = "Active Schedules";
-		this.scheduleDataContext = this.chartService.scheduleDataContext.subscribe((value) => {
-			console.log('schedule data created in schedule  entry', value);
+		this.scheduleDataContext = this.chartService.scheduleDataContext.subscribe((value) => {			
 			// checking if schedulearrray  have any records.
 			if (value.length > 0) {
 				this.ServerDataStoreDataModelArray = value;
@@ -181,13 +179,11 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		return this.chartListItems;
 	}
 
-	public getChartData(key: string) {
-		console.log('getChartData')
+	public getChartData(key: string) {		
 		this.chartListItems = new ObservableArray<ChartListViewModel>();
 		this.chartService.getScheduleList(key, this.passdataservice.getAdmissionID()).then(
 			(val) => {
-				val.forEach(item => {
-					console.log(item);
+				val.forEach(item => {				
 					let chartListItem = new ChartListViewModel();
 					chartListItem.dbmodel = item;
 					chartListItem.dbmodel.conf = JSON.parse(item.conf);
@@ -231,8 +227,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		tempDbModel.conf = JSON.parse(schedulDataStoreModel.conf);
 		const chartListViewModel = new ChartListViewModel();
 		chartListViewModel.dbmodel = tempDbModel;
-		const end_date = new Date(chartListViewModel.dbmodel.end_date);
-		console.log('end_date', end_date);
+		const end_date = new Date(chartListViewModel.dbmodel.end_date);	
 		const todaysdate = new Date();
 		// checking current mode of list view based on that decide wheater we have to add newly created scchedule in list or not.
 		if (this.iscompleted) {
@@ -252,17 +247,15 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 				this.chartListItems[itemIndex].dbmodel = chartListViewModel;
 			} else {
 				this.chartListItems.push(chartListViewModel);
-			}
-			console.log('pushAddedSchedule');
-			console.log(this.chartListItems);
+			}		
 		} catch (e) {
 			console.log(e.error);
 		}
 	}
 
-
-	test() {
-		console.log('test executed');
+ // to do
+    // remove this after action  heleper code testing
+	test() {		
 		const initModel = new ServerDataProcessorMessageModel();
 		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
@@ -272,7 +265,6 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		serverDataStoreModel.data.admission_uuid = "11";
 		serverDataStoreModel.data.conf_type_code = ConfigCodeType.MEDICINE
 		serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla ks","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
-		console.log('created data', serverDataStoreModel.data)
 		initModel.data = [serverDataStoreModel];
 		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
 		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
