@@ -11,15 +11,26 @@ import { IDatastoreModel } from "../models/db/idatastore-model";
 import { ScheduleDatastoreModel } from "../models/db/schedule-model";
 import { PassDataService } from "./pass-data-service";
 import { DocumentHelper } from "../helpers/document_helper";
+import { PatientMasterDatastoreModel } from "../models/db/patient-master-model";
+import { PatientAdmissionDatastoreModel } from "../models/db/patient-admission-model";
+import { ActionDataStoreModel } from "../models/db/action-datastore";
+import { ActionTxnDatastoreModel } from "../models/db/action-txn-model";
+import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model";
 
 @Injectable()
 export class WorkerService {
     public ServerDataProcessorWorker: Worker;
-    public DataReceivedSubject = new Subject<ServerDataStoreDataModel<any>>();
-    public patientMasterDataReceivedSubject = new Subject<string>();
-    public patientAdmissionDataReceivedSubject: Subject<string> = new Subject<string>();
+    public patientMasterDataReceivedSubject = new Subject<PatientMasterDatastoreModel>();
+    public patientAdmissionDataReceivedSubject = new Subject<PatientAdmissionDatastoreModel>();
     public scheduleDataReceivedSubject = new Subject<ScheduleDatastoreModel>();
+    public actionDataReceivedSubject = new Subject<ActionDataStoreModel>();
+    public actionTxnDataReceivedSubject = new Subject<ActionTxnDatastoreModel>();
+    public doctorOrderDataReceivedSubject = new Subject<DoctorsOrdersDatastoreModel>();
+
+    // TODO: remove this, use instead scheduleDataReceivedSubject
     actionsSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
+
+    //TODO: remove this use instead doctorOrderDataReceivedSubject
     doctorOrderSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
     public ServerConnectionSubject = new Subject<boolean>();
 
@@ -61,7 +72,7 @@ export class WorkerService {
                 this.ServerConnectionSubject.next(false);
                 break;
             case SERVER_WORKER_EVENT_MSG_TYPE.UPLOAD_DOCUMENT:
-                DocumentHelper.uploadDocument(message.data,this);
+                DocumentHelper.uploadDocument(message.data, this);
                 break;
         }
     }
@@ -76,32 +87,24 @@ export class WorkerService {
 
             switch (item.datastore) {
                 case SYNC_STORE.PATIENT_MASTER:
-                    console.log('master data call');
-                    this.patientMasterDataReceivedSubject.next(item.data.uuid);
+                    this.patientMasterDataReceivedSubject.next(<PatientMasterDatastoreModel>item.data);
                     break;
                 case SYNC_STORE.PATIENT_ADMISSION:
-                    console.log('admission data call');
-                    this.patientAdmissionDataReceivedSubject.next(item.data.uuid);
-                    // console.log('item.data.uuid', item.data.uuid);
+                    this.patientAdmissionDataReceivedSubject.next(<PatientAdmissionDatastoreModel>item.data);
                     break;
                 case SYNC_STORE.SCHEDULE:
-                    // notifiyng to schedule list about newly added schedule.
                     this.actionsSubject.next(item);
-                    // TODO: 
-                    // 
-                    // if patient is selected and (<ScheduleDatastoreModel>item.data).admission_uuid equals to selected patient admission_uuid in AppGlobalContext
-                    // then notify else do nothing
-                    console.log('get patient data');
-                    // const getpatientdata = this.passDataService.getpatientData();
-                    // if (getpatientdata.dbmodel.admission_uuid === (<ScheduleDatastoreModel>item.data).admission_uuid) {
-                    //     this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
-                    // }
+                    this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
                     break;
                 case SYNC_STORE.ACTION:
-                    console.log('in worker service action store');
+                    this.actionDataReceivedSubject.next(<ActionDataStoreModel>item.data);
                     break;
                 case SYNC_STORE.DOCTORS_ORDERS:
                     this.doctorOrderSubject.next(item);
+                    this.doctorOrderDataReceivedSubject.next(<DoctorsOrdersDatastoreModel>item.data);
+                    break;
+                case SYNC_STORE.ACTION_TXN:
+                    this.actionTxnDataReceivedSubject.next(<ActionTxnDatastoreModel>item.data);
                     break;
 
             }
