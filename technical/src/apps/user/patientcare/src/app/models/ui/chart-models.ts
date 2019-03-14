@@ -62,9 +62,9 @@ export class IntakeChartModel {
     desc: string;
     endDate: Date
     numberofTimes: number;
-    splinstruction: string;   
+    splinstruction: string;
     remark: string;
-    intakeType:string;
+    intakeType: string;
 }
 
 export class Schedulardata {
@@ -89,7 +89,7 @@ export class ConfigData {
     intervalHrs: string;
     startTime: string;
     medicinetype: string;
-    splinstruction: string;    
+    splinstruction: string;
     remark: string;
 
 }
@@ -133,7 +133,7 @@ export class
     specificTimes: Array<any>;
     numberofTimes: number;
     endDate: Date
-    splinstruction: string;   
+    splinstruction: string;
     remark: string;
 }
 export class FrequencyValues {
@@ -143,4 +143,12 @@ export class FrequencyValues {
 export class PickerValues {
     name: string;
     value: string;
+}
+export class OutputChartModel {
+    outputType: string;
+    duration: number;
+    startDate: string;
+    desc: string;
+    remark: string;
+    name:string;
 }

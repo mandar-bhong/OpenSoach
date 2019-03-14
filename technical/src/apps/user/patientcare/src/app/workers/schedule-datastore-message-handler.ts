@@ -36,6 +36,12 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                     actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
                     console.log('actions created');
                     break;
+                case ConfigCodeType.OUTPUT:
+                    const outputhelper = new MonitorHelper()
+                    //   actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
+                    actiondata = new ActionsData();
+                    actiondata.actions = [];
+                    break;
                 default:
                     break;
             }

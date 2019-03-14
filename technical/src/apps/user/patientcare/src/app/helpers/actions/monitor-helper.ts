@@ -19,6 +19,7 @@ export class MonitorHelper extends ActionHelper {
         console.log('received data', MonitorSchedularData);
         this.schedulardata = MonitorSchedularData;
         this.numberofTimes = this.schedulardata.conf.numberofTimes;
+        if (this.schedulardata.conf.frequency == 0 || this.schedulardata.conf.frequency == 1) {
         // creating date entries  using base class fucntion.
         this.createDateEntries();
         // creating array by value (without memory ref)
@@ -40,6 +41,13 @@ export class MonitorHelper extends ActionHelper {
         actios.enddate = this.getScheduleEnddate();
        // console.log('final actions')
         return actios;
+    } else {
+        console.log('in as required');
+        const actios = new ActionsData();
+        actios.actions = [];
+        actios.enddate = null;
+        return;
+    }
     }// end of fucntions.
 
     // fucntion for geberatating actions for x times in day.
