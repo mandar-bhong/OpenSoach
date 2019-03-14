@@ -3,44 +3,50 @@ import { DatabaseService } from "../../services/offline-store/database.service";
 import { PatientListViewModel } from "~/app/models/ui/patient-view-models";
 import { Subscription, Subject } from "rxjs";
 import { WorkerService } from "../worker.service";
+import { JSONBaseDataModel } from "~/app/models/ui/json-base-data-model";
+import { PersonAccompanyModel } from "~/app/models/ui/person-accompany-model";
 
 @Injectable()
 export class PatientListService {
-    // patientlist: PatientListViewModel[];
     patientlistviewmodel: PatientListViewModel;
     val1: any;
-    public patientMasterSubscription: Subscription;
-    public patientAdmissionSubscription: Subscription;
     patientListChangedSubject = new Subject<PatientListViewModel[]>();
 
     constructor(private database: DatabaseService,
         private workerService: WorkerService) {
-        this.patientMasterSubscription = this.workerService.patientMasterDataReceivedSubject.subscribe((dataStoreModel) => {
-            // console.log('master list call');
-                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbymasteruuid');
+        this.workerService.patientMasterDataReceivedSubject.subscribe((dataStoreModel) => {
+            this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbymasteruuid');
         });
 
-        this.patientAdmissionSubscription = this.workerService.patientAdmissionDataReceivedSubject.subscribe((dataStoreModel) => {
-            // console.log('subscriber invoked in patient list', uuid);
-            // console.log('admission list call');
-                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbyadmissionuuid');
+        this.workerService.patientAdmissionDataReceivedSubject.subscribe((dataStoreModel) => {
+            this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbyadmissionuuid');
+        });
+
+        this.workerService.patientPersonalDetailsDataReceivedSubject.subscribe((dataStoreModel) => {
+            this.getPatientListDataById(dataStoreModel.admission_uuid, 'patientlistbyadmissionuuid');
         });
     }
 
 
-    public getData(): any {
+    public getData(): Promise<PatientListViewModel[]> {
 
         return new Promise((resolve, reject) => {
 
             this.database.selectAll("patientlist").then(
                 (val) => {
-                    resolve(val);
+                    const list: PatientListViewModel[] = [];
+                    val.forEach(item => {
+                        const patientListItem = new PatientListViewModel();
+                        patientListItem.dbmodel = item;
+                        this.fillPersonAccompanyingDetails(patientListItem.dbmodel.person_accompanying, patientListItem);
+                        list.push(patientListItem);
+                    });
+                    resolve(list);
                 },
                 (error) => {
                     reject(error);
                 }
             );
-
         });
 
     }
@@ -52,13 +58,11 @@ export class PatientListService {
         paramList.push(uuid);
         this.database.selectByID(key, paramList).then(
             (val) => {
-                // console.log("patient list item", val);
                 val.forEach(item => {
-                    // console.log("val master", val);
-                    const patientMasterListItem = new PatientListViewModel();
-                    patientMasterListItem.dbmodel = item;
-                    patientlist.push(patientMasterListItem);
-                    // console.log('patient list service', patientlist);
+                    const patientListItem = new PatientListViewModel();
+                    patientListItem.dbmodel = item;
+                    this.fillPersonAccompanyingDetails(patientListItem.dbmodel.person_accompanying, patientListItem);
+                    patientlist.push(patientListItem);                    
                 });
                 this.patientListChangedSubject.next(patientlist);
 
@@ -77,7 +81,6 @@ export class PatientListService {
 
             this.database.selectByID("patient_admission_details", paramList).then(
                 (val) => {
-                    // console.log("admistion data item", val);
                     resolve(val);
                 },
                 (error) => {
@@ -96,7 +99,6 @@ export class PatientListService {
 
             this.database.selectByID("patient_personal_details", paramList).then(
                 (val) => {
-                    // console.log("patient data item", val);
                     resolve(val);
                 },
                 (error) => {
@@ -116,7 +118,6 @@ export class PatientListService {
 
             this.database.selectByID("patient_person_accompanying_details", paramList).then(
                 (val) => {
-                    // console.log("patient_person_accompanying data item", val);
                     resolve(val);
                 },
                 (error) => {
@@ -135,7 +136,6 @@ export class PatientListService {
 
             this.database.selectByID("patient_medical_details", paramList).then(
                 (val) => {
-                    // console.log("patient_medical_details data item", val);
                     resolve(val);
                 },
                 (error) => {
@@ -144,5 +144,17 @@ export class PatientListService {
             );
 
         });
+    }
+
+    fillPersonAccompanyingDetails(personAccompanyJSON: string, viewModel: PatientListViewModel) {
+        const personAccompanyingDetails = new JSONBaseDataModel<PersonAccompanyModel[]>();
+        Object.assign(personAccompanyingDetails, JSON.parse(personAccompanyJSON));
+        if (personAccompanyingDetails && personAccompanyingDetails.data
+            && personAccompanyingDetails.data.length > 0) {
+            viewModel.personAccompanyContact = personAccompanyingDetails.data[0].contact;
+            if (personAccompanyingDetails.data[0].alternatecontact) {
+                viewModel.personAccompanyContact += ', ' + personAccompanyingDetails.data[0].alternatecontact;
+            }
+        }
     }
 }
