@@ -3,6 +3,7 @@ import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { MedicineChartComponent } from '../charts/medicine-chart/medicine-chart.component';
 import { IntakeChartComponent } from '../charts/intake-chart/intake-chart.component';
 import { MonitorChartComponent } from '../charts/monitor-chart/monitor-chart.component';
+import { OutputChartComponent } from '../charts/output-chart/output-chart.component';
 
 @Component({
 	moduleId: module.id,
@@ -23,6 +24,9 @@ export class SchedularFabComponent implements OnInit {
 	}
 	monitorForm() {
 		this.params.closeCallback(MonitorChartComponent);
+	}
+	outputForm(){
+		this.params.closeCallback(OutputChartComponent);
 	}
 	closeDialog() {
 		console.log('in close Dialog');

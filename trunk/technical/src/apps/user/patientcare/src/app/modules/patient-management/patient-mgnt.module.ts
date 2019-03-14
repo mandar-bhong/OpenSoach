@@ -47,6 +47,7 @@ import { FamilyHistoryComponent } from "./patient-details/family-history/family-
 import { AllergiesComponent } from "./patient-details/allergies/allergies.component";
 import { TreatmentBeforeAdmissionComponent } from "./patient-details/treatment-before-admission/treatment-before-admission.component";
 import { PersonalHistoryComponent } from "./patient-details/personal-history/personal-history.component";
+import { OutputChartComponent } from "./charts/output-chart/output-chart.component";
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import { PersonalHistoryComponent } from "./patient-details/personal-history/per
         InvestigationBeforeAdmissionComponent,
         FamilyHistoryComponent,
         AllergiesComponent,
-        PersonalHistoryComponent
+        PersonalHistoryComponent,
+        OutputChartComponent
 
 
     ],
@@ -113,7 +115,8 @@ import { PersonalHistoryComponent } from "./patient-details/personal-history/per
         SchedularFabComponent,
         IntakeChartComponent,
         MedicineChartComponent,
-        MonitorChartComponent
+        MonitorChartComponent,
+        OutputChartComponent
     ]
 })
 export class PatientMgntModule {

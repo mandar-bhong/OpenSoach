@@ -18,27 +18,35 @@ export class IntakeHelper extends ActionHelper {
         console.log('received data', IntakeSchedularData);
         this.schedulardata = IntakeSchedularData;
         this.numberofTimes = this.schedulardata.conf.numberofTimes;
-        // creating date entries
-        this.createDateEntries();
-        // creating array without memory ref.
-        const tempdata = this.actionItems.slice();
-        this.tempActionItems = tempdata;
-        // generating actions based on date entryes.
-        for (let i = 0; i <= this.actionItems.length - 1; i++) {
-            // creating actions for this Date
-            this.frequencyActionasGenerations(this.actionItems[i].dateAction, IntakeSchedularData, i);
+        if (this.schedulardata.conf.frequency == 0 || this.schedulardata.conf.frequency == 1) {
+            // creating date entries
+            this.createDateEntries();
+            // creating array without memory ref.
+            const tempdata = this.actionItems.slice();
+            this.tempActionItems = tempdata;
+            // generating actions based on date entryes.
+            for (let i = 0; i <= this.actionItems.length - 1; i++) {
+                // creating actions for this Date
+                this.frequencyActionasGenerations(this.actionItems[i].dateAction, IntakeSchedularData, i);
+            }
+            // if user selected after x time intervals.
+            if (IntakeSchedularData.conf.frequency == Intakefrequency.AfterXTimeInterval) {
+                this.actionItems = this.tempActionItems;
+            }
+            // creating final actions.
+            this.generateDBActions();
+            const actios = new ActionsData();
+            actios.actions = this.actionList;
+            actios.enddate = this.getScheduleEnddate();
+            return actios;
+            console.log('actios', actios);
+        } else {
+            console.log('in as required');
+            const actios = new ActionsData();
+            actios.actions = [];
+            actios.enddate = null;
+            return;
         }
-        // if user selected after x time intervals.
-        if (IntakeSchedularData.conf.frequency == Intakefrequency.AfterXTimeInterval) {
-            this.actionItems = this.tempActionItems;
-        }
-        // creating final actions.
-        this.generateDBActions();
-        const actios = new ActionsData();
-        actios.actions = this.actionList;
-        actios.enddate = this.getScheduleEnddate();
-        return actios;
-        console.log('actios',actios);
     }// end of fucntions.
 
     // fucntion for geberatating actions for x times in day.

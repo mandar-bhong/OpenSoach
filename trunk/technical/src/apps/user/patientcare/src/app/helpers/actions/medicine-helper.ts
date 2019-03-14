@@ -23,43 +23,51 @@ export class MedicineHelper extends ActionHelper {
         console.log('Received Data', MedicineSchedularData);
         this.schedulardata = MedicineSchedularData;
         this.numberofTimes = this.schedulardata.conf.numberofTimes;
-        this.createDateEntries(); // calling base class function for creating date entries.
-        // creating new array without memory ref.
-        const tempdata = this.actionItems.slice();
-        this.tempActionItems = tempdata;
-        // ittrating date array for creating action entries
-        for (let i = 0; i <= this.actionItems.length - 1; i++) {
-            // creating actions for this Date
-            this.frequencyActionasGenerations(this.actionItems[i].dateAction, MedicineSchedularData, i);
-        }
-        console.log('frequency generation completed');
-        console.log(this.tempActionItems);
-        // this code block will executed  when user selected medicine x times in day
-        if (MedicineSchedularData.conf.frequency == Medicinefrequency.xTimesInDay) {
-            // check wherater we have add extra day or not 
-            const totalActions = this.CheckFrequencyCount() * this.numberofdays;
-            const createdActions = this.actionsLength();
-            if (createdActions < totalActions) {
-                this.isNextDateRequired(); // checking if medicine dosage remening.if yes then adding one extra daty in array.
+        if (this.schedulardata.conf.frequency == 0 || this.schedulardata.conf.frequency == 0) {
+            this.createDateEntries(); // calling base class function for creating date entries.
+            // creating new array without memory ref.
+            const tempdata = this.actionItems.slice();
+            this.tempActionItems = tempdata;
+            // ittrating date array for creating action entries
+            for (let i = 0; i <= this.actionItems.length - 1; i++) {
+                // creating actions for this Date
+                this.frequencyActionasGenerations(this.actionItems[i].dateAction, MedicineSchedularData, i);
             }
-            const updateActionsLen = this.actionsLength();
-            // removing unwanted day entries
-            if (updateActionsLen > totalActions) {
-                this.removeActions(updateActionsLen, totalActions);
-                console.log('extra actions created');
+            console.log('frequency generation completed');
+            console.log(this.tempActionItems);
+            // this code block will executed  when user selected medicine x times in day
+            if (MedicineSchedularData.conf.frequency == Medicinefrequency.xTimesInDay) {
+                // check wherater we have add extra day or not 
+                const totalActions = this.CheckFrequencyCount() * this.numberofdays;
+                const createdActions = this.actionsLength();
+                if (createdActions < totalActions) {
+                    this.isNextDateRequired(); // checking if medicine dosage remening.if yes then adding one extra daty in array.
+                }
+                const updateActionsLen = this.actionsLength();
+                // removing unwanted day entries
+                if (updateActionsLen > totalActions) {
+                    this.removeActions(updateActionsLen, totalActions);
+                    console.log('extra actions created');
+                }
+            } else {
+                this.actionItems = this.tempActionItems;
+                console.log('processed action list', this.actionItems);
             }
+            // calling base function for  create final  action entries.
+            this.generateDBActions();
+            const actios = new ActionsData();
+            actios.actions = this.actionList;
+            actios.enddate = this.getScheduleEnddate();
+            console.log('final return array');
+            console.log(actios);
+            return actios;
         } else {
-            this.actionItems = this.tempActionItems;
-            console.log('processed action list', this.actionItems);
+            console.log('in as required');
+            const actios = new ActionsData();
+            actios.actions = [];
+            actios.enddate = null;
+            return;
         }
-        // calling base function for  create final  action entries.
-        this.generateDBActions();
-        const actios = new ActionsData();
-        actios.actions = this.actionList;
-        actios.enddate = this.getScheduleEnddate();
-        console.log('final return array');
-        console.log(actios);
-        return actios;
     } // end of code block
     // code  block for checking frequency count. 
     CheckFrequencyCount() {
