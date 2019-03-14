@@ -15,15 +15,15 @@ export class PatientListService {
 
     constructor(private database: DatabaseService,
         private workerService: WorkerService) {
-        this.patientMasterSubscription = this.workerService.patientMasterDataReceivedSubject.subscribe((uuid) => {
+        this.patientMasterSubscription = this.workerService.patientMasterDataReceivedSubject.subscribe((dataStoreModel) => {
             // console.log('master list call');
-                this.getPatientListDataById(uuid, 'patientlistbymasteruuid');
+                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbymasteruuid');
         });
 
-        this.patientAdmissionSubscription = this.workerService.patientAdmissionDataReceivedSubject.subscribe((uuid) => {
+        this.patientAdmissionSubscription = this.workerService.patientAdmissionDataReceivedSubject.subscribe((dataStoreModel) => {
             // console.log('subscriber invoked in patient list', uuid);
             // console.log('admission list call');
-                this.getPatientListDataById(uuid, 'patientlistbyadmissionuuid');
+                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbyadmissionuuid');
         });
     }
 
