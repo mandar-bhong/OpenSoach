@@ -17,6 +17,7 @@ import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 import { ServerApiInterfaceService } from "./services/server-api-interface.service";
 import { AppStartupService } from "./services/app-startup.service";
 import { StartupComponent } from "./startup-page/startup.component";
+import { NextActionService } from "./services/action/next-action-service";
 @NgModule({
     bootstrap: [
         AppComponent
@@ -44,7 +45,8 @@ import { StartupComponent } from "./startup-page/startup.component";
         PatientListService,
         ServerConnectivityStatusService,
         ServerApiInterfaceService,
-        AppStartupService
+        AppStartupService,
+        NextActionService
     ],
     exports:[
         // NetworkStatusComponent

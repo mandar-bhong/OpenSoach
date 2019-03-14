@@ -60,6 +60,43 @@ let selectQueries = new Map([
     ["patient_personal_details", "select * from patient_master_tbl where uuid=? "],
     ["patient_person_accompanying_details", "select * from patient_personal_details_tbl where admission_uuid=? "],
     ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],
+    ["action_tbl_next_actions_all",
+        `select * from 
+    (select action_tbl.admission_uuid,
+    action_tbl.schedule_uuid,
+    max(action_tbl.scheduled_time) as scheduled_time
+    from action_tbl left join action_txn_tbl
+    on action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
+    where action_tbl.scheduled_time < ? and action_txn_tbl.uuid IS NULL
+    group by action_tbl.schedule_uuid
+    UNION
+    select action_tbl.admission_uuid,
+    action_tbl.schedule_uuid,
+    action_tbl.scheduled_time
+    from action_tbl  left join action_txn_tbl
+    on  action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
+    where action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
+    ) actions
+    order by actions.scheduled_time ASC`],
+
+    ["action_tbl_next_actions_for_admission",
+    `select * from 
+    (select action_tbl.admission_uuid,
+    action_tbl.schedule_uuid,
+    max(action_tbl.scheduled_time) as scheduled_time
+    from action_tbl left join action_txn_tbl
+    on action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
+    where action_tbl.admission_uuid = ? and action_tbl.scheduled_time < ? and action_txn_tbl.uuid IS NULL
+    group by action_tbl.schedule_uuid
+    UNION
+    select action_tbl.admission_uuid,
+    action_tbl.schedule_uuid,
+    action_tbl.scheduled_time
+    from action_tbl  left join action_txn_tbl
+    on  action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
+    where action_tbl.admission_uuid = ? and action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
+    ) actions
+    order by actions.scheduled_time ASC`]
 ]);
 
 let selectTableName = new Map([

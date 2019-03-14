@@ -12,13 +12,14 @@ import { PassDataService } from '~/app/services/pass-data-service';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
 
 import { DataListingInterface } from '../data-listing-interface';
+import { NextActionService } from '../services/action/next-action-service';
 
 export class PersonAccompanyingModel {
 	contact: string;
 }
 export class JSONBaseDataModel<T> {
-    version:number;
-    data:T;
+	version: number;
+	data: T;
 }
 @Component({
 	selector: "Home",
@@ -47,7 +48,8 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	constructor(private routerExtensions: RouterExtensions,
 		private patientListService: PatientListService,
 		private passdataservice: PassDataService,
-		private ngZone: NgZone) {
+		private ngZone: NgZone,
+		private nextActionService: NextActionService) {
 		console.log("home");
 		this._funcGrouping = (item: any) => {
 			if (item) {
@@ -63,6 +65,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
+		console.log('home component init');
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
@@ -108,6 +111,8 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 					this.listSource.push(patientListItem);
 					// console.log('patientListItem', this.listSource);
 				});
+
+				this.getNextActionTimeForAll();
 				this.bindList();
 			},
 			(error) => {
@@ -141,6 +146,13 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 					if (this.searchValue == "") {
 						this.listItems.push(item);
 					}
+				}
+
+				// associate nextActionItems from NextActionServiceMap
+				const nextActionItems = this.nextActionService.nextActionTimesMap.get(item.dbmodel.admission_uuid);
+				if (nextActionItems) {
+					console.log('setting next action items', nextActionItems);
+					item.nextActionTimes = nextActionItems;
 				}
 			});
 			if (this.searchValue != "") {
@@ -187,4 +199,25 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		}
 	}
 
+	getNextActionTimeForAll() {
+		this.nextActionService.getNextActionsForAllPatients().then(result => {
+			this.listSource.forEach(item => {
+				const nextActionTimes = result.get(item.dbmodel.admission_uuid);
+				if (nextActionTimes) {
+					item.nextActionTimes = nextActionTimes;
+					console.log('action times for admission', item);
+				}
+			});
+		}, error => {
+
+		});
+
+		this.nextActionService.nextActionMapChanged.subscribe(entry => {
+			const viewModel = this.listSource.find(a => a.dbmodel.admission_uuid == entry.admission_uuid);
+			if (viewModel) {
+				console.log('setting next action items receieved from action service notification', entry);
+				viewModel.nextActionTimes = entry.nextActionTimes;
+			}
+		});
+	}
 }
