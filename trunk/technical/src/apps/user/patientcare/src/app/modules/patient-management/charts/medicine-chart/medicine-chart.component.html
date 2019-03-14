@@ -7,6 +7,11 @@
     <ScrollView row="2">
         <StackLayout class="form" [formGroup]="medicineForm">
             <StackLayout class="input-field">
+                <Label text="Medicine Type"></Label>
+                <ListPicker [items]="medicineType" formControlName="medicineType" selectedIndex="0"
+                    (selectedIndexChange)="selectedIndexChanged($event)" class="p-15 picker"></ListPicker>
+            </StackLayout>
+            <StackLayout class="input-field">
                 <Label text="Medicine Name"></Label>
                 <TextField class="input" formControlName="name"></TextField>
                 <StackLayout class="hr-light" [ngClass]="{invalid: medNameIsValid === true}"></StackLayout>
@@ -16,31 +21,21 @@
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
-
-            <StackLayout class="input-field">
-                <Label text="Dosage"></Label>
-                <TextField class="input" keyboardType="number" formControlName="quantity" hint="No. of units"></TextField>
-                <StackLayout class="hr-light"></StackLayout>
-            </StackLayout>
-
             <StackLayout class="input-field">
                 <Label text="Food Instruction"></Label>
                 <SegmentedBar [items]="foodInsItems" selectedIndex="0" formControlName="foodInst" (selectedIndexChange)="onInstructionSelectedIndexChange($event)"
                     class="m-5" style="background-color:white;color:black"></SegmentedBar>
             </StackLayout>
-
             <StackLayout class="input-field">
-
-                <Label text="Frequency"></Label>
-                <SegmentedBar [items]="frequencyItems" formControlName="frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
-                    class="segmented-bar" selectedIndex="0" class="m-5"></SegmentedBar>
-
-                <StackLayout></StackLayout>
-
-                <StackLayout class="input-field" *ngIf="freqSelectedIndex===0">
-
+                <StackLayout class="input-field">
+                    <Label text="Frequency"></Label>
+                    <ListPicker [items]="frequencyType" formControlName="frequency" selectedIndex="0" textField="name"
+                        valueField="value" value="value" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
+                        class="p-15 picker"></ListPicker>
+                </StackLayout>
+                <!-- mark up for x time  -->
+                <StackLayout class="input-field" *ngIf="freqSelectedIndex==0">
                     <GridLayout rows="auto auto auto">
-
                         <GridLayout row="0" columns="* *">
                             <GridLayout col="0" columns="* *">
                                 <Label col="0" text="Morning"></Label>
@@ -53,7 +48,6 @@
                                     formControlName="mornQuantity"></TextField>
                             </GridLayout>
                         </GridLayout>
-
                         <GridLayout row="1" columns="* *">
                             <GridLayout col="0" columns="* *">
                                 <Label col="0" text="Afternoon"></Label>
@@ -66,7 +60,6 @@
                                     formControlName="aftrnQuantity"></TextField>
                             </GridLayout>
                         </GridLayout>
-
                         <GridLayout row="2" columns="* *">
                             <GridLayout col="0" columns="* *">
                                 <Label col="0" text="Night"></Label>
@@ -79,13 +72,14 @@
                                     formControlName="nightQuantity"></TextField>
                             </GridLayout>
                         </GridLayout>
-
                     </GridLayout>
-
+                    <StackLayout *ngIf="isXTimesDay">
+                        <Label text="*Selection is required " style="color:red"></Label>
+                    </StackLayout>
                 </StackLayout>
-
-                <StackLayout class="input-field" *ngIf="freqSelectedIndex===1">
-                    <Label text="Enter interval in minutes"></Label>
+                <!-- mark up for after x  time  -->
+                <StackLayout class="input-field" *ngIf="freqSelectedIndex==1">
+                    <Label text="Enter interval in hours"></Label>
                     <TextField class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
                     <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
                     <StackLayout class="input-field">
@@ -103,10 +97,29 @@
                             <Label text="*No. of times is required " style="color:red"></Label>
                         </StackLayout>
                     </StackLayout>
+                    <StackLayout class="input-field">
+                        <Label text="Dosage"></Label>
+                        <TextField class="input" keyboardType="number" [ngClass]="{invalid: isDosage === true}"
+                            formControlName="quantity" hint="No. of units"></TextField>
+                        <StackLayout class="hr-light"></StackLayout>
+                        <StackLayout *ngIf="isDosage">
+                            <Label text="*Dosage is required " style="color:red"></Label>
+                        </StackLayout>
+                    </StackLayout>
                     <Label text="Start Time"></Label>
                     <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
                 </StackLayout>
-
+                <!-- mark up for as required -->
+                <StackLayout class="input-field" *ngIf="freqSelectedIndex==2">
+                    <Label text="Enter Special Instructions"></Label>
+                    <TextField class="input" formControlName="splinstructions"></TextField>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                    <StackLayout class="input-field">
+                        <StackLayout *ngIf="isSplinstructions">
+                            <Label text="*Special instructions is required " style="color:red"></Label>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
             </StackLayout>
 
             <StackLayout class="input-field">
@@ -129,10 +142,13 @@
             </StackLayout>
 
             <StackLayout class="input-field">
-                <Label text="Instruction"></Label>
-                <TextView formControlName="desc" hint="Enter instruction" editable="true" class="input input-border"></TextView>
-                <StackLayout class="hr-light"></StackLayout>
+                <Label text="Remark"></Label>
+                <TextView formControlName="remark" hint="Enter Remark" editable="true" class="input"></TextView>
+
             </StackLayout>
+
+
+
 
         </StackLayout>
     </ScrollView>

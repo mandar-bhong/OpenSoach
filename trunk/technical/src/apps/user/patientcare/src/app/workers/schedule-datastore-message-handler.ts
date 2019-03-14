@@ -10,7 +10,7 @@ import { MedicineHelper } from "../helpers/actions/medicine-helper.js";
 
 export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler<ScheduleDatastoreModel>
 {
-    handleMessage(msg: ScheduleDatastoreModel): void {
+    handleMessage(msg: ScheduleDatastoreModel): ActionDataStoreModel[] {
         // const data = <ScheduleDatastoreModel>this.dataModel.data;
         const schedulardata = new Schedulardata();
         schedulardata.data = msg;
@@ -42,11 +42,13 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
             try {
                 //parsedConf.endDate = actiondata.enddate;
                 msg.end_date = actiondata.enddate;
-                actiondata.actions.forEach(element => {
-                    const actionsdbdata = new ActionDataStoreModel();
-                    Object.assign(actionsdbdata, element);
-                    DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, actionsdbdata.getModelValues());
-                });
+                // actiondata.actions.forEach(element => {
+                //     //const actionsdbdata = new ActionDataStoreModel();
+                //   //  Object.assign(actionsdbdata, element);
+                //     DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, element.getModelValues());
+                // });
+
+                return actiondata.actions;
             } catch (e) {
                 console.log('action inserting failed....', e.error);
             }

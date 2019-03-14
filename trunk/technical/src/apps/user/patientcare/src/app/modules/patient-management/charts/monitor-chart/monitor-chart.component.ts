@@ -1,23 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { RouterExtensions } from "nativescript-angular/router";
-import { dateProperty } from 'tns-core-modules/ui/date-picker/date-picker';
-import { SegmentedBar, SegmentedBarItem } from "tns-core-modules/ui/segmented-bar";
 import { DatePipe } from '@angular/common';
-import { ChartDBModel, MonitorChartModel, ChartListViewModel } from "~/app/models/ui/chart-models";
-import { ChartService } from "~/app/services/chart/chart.service";
-import { Observable } from 'tns-core-modules/ui/page/page';
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
-import { ConfListViewModel } from '~/app/models/ui/conf-models';
-import { ListPicker } from "tns-core-modules/ui/list-picker";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PlatformHelper } from "~/app/helpers/platform-helper";
-import { SERVER_WORKER_MSG_TYPE, SYNC_STORE, ConfigCodeType } from '~/app/app-constants';
-import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
-import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
-import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
-import { WorkerService } from '~/app/services/worker.service';
-import { PassDataService } from '~/app/services/pass-data-service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { ListPicker } from 'tns-core-modules/ui/list-picker';
+import { SegmentedBar, SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
+import { ConfigCodeType, SYNC_STORE } from '~/app/app-constants';
+import { PlatformHelper } from '~/app/helpers/platform-helper';
+import { TimeConversion } from '~/app/helpers/time-conversion-helper';
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
+import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { ChartDBModel, ChartListViewModel, FrequencyValues, MonitorChartModel } from '~/app/models/ui/chart-models';
+import { ChartService } from '~/app/services/chart/chart.service';
+import { PassDataService } from '~/app/services/pass-data-service';
+import { WorkerService } from '~/app/services/worker.service';
 
 @Component({
     moduleId: module.id,
@@ -30,26 +28,27 @@ export class MonitorChartComponent implements OnInit {
 
     // proccess variables
     monitorForm: FormGroup;
-
     intervalHrsIsValid: boolean;
     durationIsValid: boolean;
-
     monitorName: string;
     specifictimes: Array<string>;
-
     formData: MonitorChartModel;
     chartConfModel: MonitorChartModel;
-    chartDbModel: ChartDBModel
-
+    chartDbModel: ChartDBModel;
     foodInstItems: Array<SegmentedBarItem>;
     frequencyItems: Array<SegmentedBarItem>;
     foodInstSelectedIndex = 0;
     freqSelectedIndex = 0;
-
     monitorConfListItems = new ObservableArray<ChartListViewModel>();
     monitorConf: ChartListViewModel;
     isspecificTime: boolean;
     isNumberOfTimes: boolean;
+    // end of proccess variables
+    public frequencyType: Array<FrequencyValues> = [];
+    frequencyList: FrequencyValues[] = [
+        { name: "Every 'X' hours", value: 0 },
+        { name: "Specific time", value: 1 }]
+
     // end of proccess variables
 
     constructor(
@@ -65,6 +64,10 @@ export class MonitorChartComponent implements OnInit {
         this.specifictimes = [];
         this.chartConfModel = new MonitorChartModel();
         this.chartDbModel = new ChartDBModel();
+        this.frequencyType = [];
+        for (let item of this.frequencyList) {
+            this.frequencyType.push(item);
+        }
 
     }
 
@@ -117,9 +120,8 @@ export class MonitorChartComponent implements OnInit {
     }
 
     onFrequencySelectedIndexChange(args) {
-        let segmetedBar = <SegmentedBar>args.object;
+        let segmetedBar = <ListPicker>args.object;
         this.freqSelectedIndex = segmetedBar.selectedIndex;
-
         if (this.freqSelectedIndex == 0) {
             this.monitorForm.controls['intervalHrs'].setValidators([Validators.required]);
             this.monitorForm.controls['intervalHrs'].updateValueAndValidity();
@@ -144,8 +146,9 @@ export class MonitorChartComponent implements OnInit {
         if (this.monitorForm.invalid) {
             console.log("validation error");
             return;
-        }
-
+        };
+        this.formData = new MonitorChartModel();
+        this.formData.specificTimes = []; 
         // assign form data to model
         this.formData = Object.assign({}, this.monitorForm.value);
         this.formData.name = this.monitorName;
@@ -167,35 +170,29 @@ export class MonitorChartComponent implements OnInit {
 
         //set chart conf model
         if (data.frequency == 0) {
-            this.chartConfModel.intervalHrs = data.intervalHrs;
+            this.chartConfModel.intervalHrs = data.intervalHrs * 60;
             this.chartConfModel.numberofTimes = data.numberofTimes;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
-            this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "H.mm");
-
-            if (data.desc != null) {
-                this.chartConfModel.desc = "Monitor every " + data.intervalHrs + " minutes.\n" + data.desc;
-            } else {
-                this.chartConfModel.desc = "Monitor every " + data.intervalHrs + " minutes.";
-            }
-        }
-
-        if (data.frequency == 1) {
+            // this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "H.mm");
+            // generate description
+            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.intervalHrs);
+            let description = ` ${data.numberofTimes} times a day after every ${hourMinutsData} for ${data.duration} days.`;
+            this.chartConfModel.desc = description;
+        } else if (data.frequency == 1) {
             this.chartConfModel.specificTimes = [];
             for (var i = 0; i < data.specificTimes.length; i++) {
                 this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "H:mm"));
             }
-            if (data.desc != null) {
-                this.chartConfModel.desc = "Monitor as per specific timings." + "\n" + data.desc;
-            } else {
-                this.chartConfModel.desc = "Monitor as per specific timings.";
-            }
+            // generate description
+            let desc = `At specific times for ${data.duration} days`;
+            this.chartConfModel.desc = desc;
         }
-
         this.chartConfModel.name = data.name;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.duration = data.duration;
+        this.chartConfModel.remark = data.remark;
         this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd");
-        this.chartConfModel.foodInst = data.foodInst;
+        // this.chartConfModel.foodInst = data.foodInst;
         const currentTime = this.datePipe.transform(Date.now(), "H:mm");
         console.log("currentTime", currentTime);
         this.chartConfModel.startDate = this.chartConfModel.startDate + " " + currentTime;
@@ -206,12 +203,13 @@ export class MonitorChartComponent implements OnInit {
         this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.MONITOR;
-        // insert chart db model to sqlite db       ;
-        this.createActions(this.chartDbModel, confString);
+        console.log(this.chartDbModel);
+        //cehcking existing monitor schedule
+        //  to do 
+          this.createActions(this.chartDbModel, confString);
         // get chart data from sqlite db
         // this.chartService.getChartList();
         //   this.goBackPage();
-
     }
     // >> func for inserting form data to sqlite db
 
@@ -239,7 +237,6 @@ export class MonitorChartComponent implements OnInit {
             (error) => {
                 console.log("confListService error:", error);
             }
-
         );
 
     }
@@ -258,16 +255,16 @@ export class MonitorChartComponent implements OnInit {
     // << func for creating form controls
     createFormControls(): void {
         this.monitorForm = new FormGroup({
-            foodInst: new FormControl(),
+            // foodInst: new FormControl(),
             frequency: new FormControl(),
             duration: new FormControl('', [Validators.required]),
             startDate: new FormControl(),
             intervalHrs: new FormControl('', [Validators.required]),
             numberofTimes: new FormControl(),
             startTime: new FormControl(),
-            endTime: new FormControl(),
+            // endTime: new FormControl(),
             specificTime: new FormControl(),
-            desc: new FormControl()
+            remark: new FormControl()
         });
     }
     // >> func for creating form controls

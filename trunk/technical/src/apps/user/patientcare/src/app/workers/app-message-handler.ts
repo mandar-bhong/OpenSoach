@@ -18,15 +18,19 @@ import { DocumentUploadDatastore } from "../models/db/document-upload-datastore.
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
+    postActionContext:any;
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void): void
     saveToDataStore(): Promise<{}>;
     notifyUI(): void;
     notifySync(): void;
+    postAction: () => void;
 }
 
 export class AppMessageHandler implements AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
+    postActionContext:any;
+    postAction: () => void;
     //ScheduleDatastoreModel
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
@@ -36,11 +40,18 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
 
         switch (msg.datastore) {
             case SYNC_STORE.SCHEDULE:
-                const msg = new ScheduleDatastoreModel();
-                Object.assign(msg, this.dataModel.data)
-                this.dataModel.data = msg;
-                const scheduleDatastoreMessageHandler = new ScheduleDatastoreMessageHandler();
-                scheduleDatastoreMessageHandler.handleMessage(msg);
+                const scheduleDatastoreModel = new ScheduleDatastoreModel();
+                Object.assign(scheduleDatastoreModel, this.dataModel.data)
+                this.dataModel.data = scheduleDatastoreModel;
+                // const scheduleDatastoreMessageHandler = new ScheduleDatastoreMessageHandler();
+                // scheduleDatastoreMessageHandler.handleMessage(scheduleDatastoreModel);
+                break;
+            case SYNC_STORE.ACTION:
+                const actionDatastoreModel = new ActionDataStoreModel();
+                Object.assign(actionDatastoreModel, this.dataModel.data)
+                this.dataModel.data = actionDatastoreModel;
+                // const scheduleDatastoreMessageHandler = new ScheduleDatastoreMessageHandler();
+                // scheduleDatastoreMessageHandler.handleMessage(scheduleDatastoreModel);
                 break;
             case SYNC_STORE.PATIENT_MASTER:
                 const patientMasterDatastoreModel = new PatientMasterDatastoreModel();
@@ -62,7 +73,7 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
                 Object.assign(doctorsOrdersDatastoreModel, this.dataModel.data);
                 this.dataModel.data = doctorsOrdersDatastoreModel;
                 break;
-                case SYNC_STORE.DOCUMENT:
+            case SYNC_STORE.DOCUMENT:
                 const docUploadDatastoreModel = new DocumentUploadDatastore();
                 Object.assign(docUploadDatastoreModel, this.dataModel.data);
                 this.dataModel.data = docUploadDatastoreModel;
@@ -96,6 +107,6 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
 
     notifySync() {
 
-    }
+    }    
 
 }

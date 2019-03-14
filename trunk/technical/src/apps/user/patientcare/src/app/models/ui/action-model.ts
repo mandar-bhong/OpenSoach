@@ -50,14 +50,18 @@ export class DayActionValue {
 }
 
 export enum BeforeMealTimeInMinutes {
-    MorningBeforeMeal = 540,
-    AfternoonbeBeforeMeal = 690,
-    NightBeforemeal = 1170,
+    MorningBeforeMeal = 540, // minutes
+    AfternoonbeBeforeMeal = 690, // minutes
+    NightBeforemeal = 1170, // minutes
 }
 export enum AfterMealTimeInMinutes {
-    MorningAfterMeal = 570,
-    AfternoonAfterMeal = 750,
-    NightAfteremeal = 1230,
+    MorningAfterMeal = 570, // minutes
+    AfternoonAfterMeal = 750, // minutes
+    NightAfteremeal = 1230, // minutes
+}
+export enum DayTimes {
+    dayStartTime = 0, // minutes
+    dayEndTime = 1440 // minutes
 }
 export enum BeforeMealTime {
     MorningBeforeMeal = "9.00 AM",
@@ -69,10 +73,7 @@ export enum AfterMealTime {
     AfternoonAfterMeal = "12.30 PM",
     NightAfteremeal = "8.00 PM",
 }
-export enum DayTimes {
-    dayStartTime = 0, // minutes
-    dayEndTime = 1440 // minutes
-}
+
 export enum Medicinefrequency {
     xTimesInDay = 0,
     AfterXTimeInterval = 1

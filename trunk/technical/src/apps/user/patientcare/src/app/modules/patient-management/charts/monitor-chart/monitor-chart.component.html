@@ -10,33 +10,33 @@
 
             <StackLayout class="input-field">
                 <Label text="Monitor Task Name"></Label>
-                <ListPicker [items]="monitorConf?.dbmodel.conf.tasks" textField="name" valueField="name" selectedIndex="1"
+                <ListPicker [items]="monitorConf?.dbmodel.conf.tasks" textField="name" valueField="value" selectedIndex="1"
                     (selectedIndexChange)="selectedIndexChanged($event)" class="p-15 picker"></ListPicker>
             </StackLayout>
 
-            <StackLayout class="input-field">
+            <!-- <StackLayout class="input-field">
                 <Label text="Food Instruction"></Label>
                 <SegmentedBar [items]="foodInstItems" selectedIndex="0" formControlName="foodInst"
                     (selectedIndexChange)="onFoodInstSelectedIndexChange($event)" class="m-5" style="background-color:white;color:black"></SegmentedBar>
-            </StackLayout>
+            </StackLayout> -->
 
             <StackLayout class="input-field">
-                <Label text="Frequency"></Label>
-
-                <SegmentedBar [items]="frequencyItems" formControlName="frequency" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
-                    class="segmented-bar" selectedIndex="0" class="m-5"></SegmentedBar>
-
-                <StackLayout></StackLayout>
+                <StackLayout class="input-field">
+                    <Label text="Frequency"></Label>
+                    <ListPicker [items]="frequencyType" formControlName="frequency" selectedIndex="0" textField="name"
+                        valueField="value" value="value" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
+                        class="p-15 picker"></ListPicker>
+                </StackLayout>
 
                 <StackLayout *ngIf="freqSelectedIndex===0 ">
                     <StackLayout class="input-field">
-                        <Label col="0" row="0" text="Enter interval in minutes"></Label>
+                        <Label col="0" row="0" text="Enter interval in hours"></Label>
                         <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
                     </StackLayout>
                     <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
                     <StackLayout class="input-field">
                         <StackLayout *ngIf="intervalHrsIsValid">
-                            <Label text="*interval minutes is required " style="color:red"></Label>
+                            <Label text="*interval hours1.5 is required " style="color:red"></Label>
                         </StackLayout>
                     </StackLayout>
                     <StackLayout class="input-field">
@@ -52,10 +52,10 @@
                         <Label text="Start Time"></Label>
                         <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
                     </StackLayout>
-                    <StackLayout class="input-field">
+                    <!-- <StackLayout class="input-field">
                         <Label text="End Time"></Label>
                         <TimePicker verticalAlignment="center" class="m-15" formControlName="endTime"></TimePicker>
-                    </StackLayout>
+                    </StackLayout> -->
                 </StackLayout>
 
                 <StackLayout *ngIf="freqSelectedIndex===1">
@@ -93,7 +93,7 @@
 
             <StackLayout class="input-field">
                 <Label text="Remarks"></Label>
-                <TextView formControlName="desc" hint="Enter remarks" editable="true" class="input input-border"></TextView>
+                <TextView formControlName="remark" hint="Enter remarks" editable="true" class="input"></TextView>
                 <StackLayout class="hr-light"></StackLayout>
             </StackLayout>
 
