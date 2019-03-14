@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { JSONBaseDataModel } from '~/app/models/ui/json-base-data-model';
 
 export class PersonAccompanyDetailsModel {
 	personaccompany: PersonDetailsModel;
@@ -16,11 +17,6 @@ export class PersonDetailsModel {
 	mobile_no: string;
 }
 
-
-export class JSONBaseDataModel<T> {
-	version: number;
-	data: T;
-}
 @Component({
 	moduleId: module.id,
 	selector: 'person-accompanying-details',

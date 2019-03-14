@@ -2,11 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RouterExtensions } from "nativescript-angular/router";
 import { PassDataService } from '~/app/services/pass-data-service';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
+import { JSONBaseDataModel } from '~/app/models/ui/json-base-data-model';
 
-export class JSONBaseDataModel<T> {
-	version: number;
-	data: T;
-}
 export class DataList {
 	test: string;
 }
