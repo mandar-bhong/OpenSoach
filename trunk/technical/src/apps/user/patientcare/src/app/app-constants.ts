@@ -38,6 +38,7 @@ export enum SYNC_STORE {
     TREATMENT_DOC = 'treatment_doc_tbl',
     PATHOLOGY_RECORD = 'pathology_record_tbl',
     PATHOLOGY_RECORD_DOC = 'pathology_record_doc_tbl',
+    USER = 'mst_user_tbl',
 }
 
 export enum DB_SYNC_TYPE {

@@ -60,6 +60,8 @@ let selectQueries = new Map([
     ["patient_personal_details", "select * from patient_master_tbl where uuid=? "],
     ["patient_person_accompanying_details", "select * from patient_personal_details_tbl where admission_uuid=? "],
     ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],
+    ["usr_tbl_insert", "insert into usr_tbl (usr_id,usr_name,urole_name,fname,lname,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?)"],
+    ["usr_tbl_update", "update usr_tbl set usr_name=?,urole_name=?,fname=?,lname=?,updated_on=?,sync_pending=?,client_updated_at=? where usr_id=?"],
     ["action_tbl_next_actions_all",
         `select * from 
     (select action_tbl.admission_uuid,
@@ -116,6 +118,7 @@ let selectTableName = new Map([
     ["treatment_doc_tbl", "treatment_doc_tbl"],
     ["pathology_record_tbl", "pathology_record_tbl"],
     ["pathology_record_doc_tbl", "pathology_record_doc_tbl"],
+    ["mst_user_tbl", "usr_tbl"],
 ]);
 
 

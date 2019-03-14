@@ -22,6 +22,7 @@ import { TreatmentDocDatastoreModel } from "../models/db/treatment-doc-model.js"
 import { PathologyRecordDatastoreModel } from "../models/db/pathology-record-model.js";
 import { PathologyRecordDocDatastoreModel } from "../models/db/pathology-record-doc-model.js";
 import { ActionDataStoreModel } from "../models/db/action-datastore.js";
+import { UserDatastoreModel } from "../models/db/user-model.js";
 
 export class CommandResponseProcessor {
 
@@ -106,6 +107,9 @@ export class CommandResponseProcessor {
                                 break;
                             case SYNC_STORE.ACTION:
                                 this.handleActionResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.USER:
+                                this.handleUserResponse(respDataModel);
                                 break;
                         }
                     }
@@ -616,6 +620,37 @@ export class CommandResponseProcessor {
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
             serverDataStoreDataModel.datastore = SYNC_STORE.ACTION;
             serverDataStoreDataModel.data = actionDataStoreModel;
+
+            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            // update sync table last synced
+            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
+
+        }
+
+    }
+
+    public static handleUserResponse(data: CmdModel) {
+        // console.log("user tbl data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (var i = 0; i < tblData.length; i++) {
+            const userDatastoreModel = new UserDatastoreModel();
+            const item = <UserDatastoreModel>tblData[i];
+
+            userDatastoreModel.usr_id=item.usr_id
+            userDatastoreModel.usr_name=item.usr_name
+            userDatastoreModel.usr_id=item.usr_id
+            userDatastoreModel.urole_name=item.urole_name
+            userDatastoreModel.fname=item.fname
+            userDatastoreModel.lname=item.lname
+            userDatastoreModel.updated_on = item.updated_on;
+            userDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+            const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+            serverDataStoreDataModel.datastore = SYNC_STORE.USER;
+            serverDataStoreDataModel.data = userDatastoreModel;
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
