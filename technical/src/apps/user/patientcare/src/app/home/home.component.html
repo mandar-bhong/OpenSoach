@@ -1,9 +1,9 @@
 <ActionBar class="action-bar" width="100%" style="background-color: #396766; color: white; vertical-align: center;">
 
   <GridLayout row="*" columns="auto,*, auto, auto" height="100%" width="100%">
-    <GridLayout col="1" columns="auto, auto" style="text-align: center;" >
+    <GridLayout col="1" columns="auto, auto" style="text-align: center;">
       <Label col="0" text="PatientCare" class="hometitle"></Label>
-      <Image col="1"  src="res://iclauncher"></Image>
+      <Image col="1" src="res://iclauncher"></Image>
       <!-- <Label col="1" text=".live" class="hometitlesub" style="color: #FF8912"></Label> -->
     </GridLayout>
     <!-- <GridLayout col="2" columns="auto" class="button-dist">
@@ -19,43 +19,34 @@
 </ActionBar>
 
 <GridLayout rows="auto,*" columns="*" height="100%" width="100%">
-  <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8" color="#A8A8A8"
-    (loaded)="sBLoaded($event)" (clear)="onClear($event)" (submit)="onSubmit($event)"></SearchBar>
+  <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8"
+    color="#A8A8A8" (loaded)="sBLoaded($event)" (clear)="onClear($event)" (submit)="onSubmit($event)"></SearchBar>
   <!-- <StackLayout row="1" class="hr-light m-10"></StackLayout> -->
   <StackLayout row="1" col="0">
 
     <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
 
-    <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping"  enableCollapsibleGroups="true" >
+    <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping" enableCollapsibleGroups="true">
 
       <ng-template tkListItemTemplate let-item="item">
         <RL:Ripple rippleColor="#6E737B" (tap)="details(item)">
 
           <GridLayout columns="*" rows="auto" class="listItemStackLayout">
-            <GridLayout row="0" columns="70, *" rows="auto" >
+            <GridLayout row="0" columns="70, *" rows="auto">
               <GridLayout col="0" columns="*" rows="auto, auto" [text]="item.dbmodel.status">
-                <StackLayout *ngIf="item.dbmodel.status === 1" row="1" class="list-layout">
-                  <Label row="0" col="0" text="&#xf020;" class="mdi" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
-                  <Label row="1" col="0" text="1:45 PM" class="label-small" style="margin-top:5px;" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
-                </StackLayout>
-                <StackLayout *ngIf="item.dbmodel.status === 2" row="1" class="list-layout">
-                  <Label row="0" col="0" text="&#xf020;" class="mdi" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
-                  <Label row="1" col="0" text="2:30 PM" class="label-small" style="margin-top:5px;" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
-                </StackLayout>
-                <StackLayout *ngIf="item.dbmodel.status === 3" row="1" class="list-layout">
-                  <Label row="0" col="0" text="&#xf020;" class="mdi " [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
-                  <Label row="1" col="0" text="4:30 PM" class="label-small" style="margin-top:5px;" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
-                </StackLayout>
-                <StackLayout *ngIf="item.dbmodel.status === 4" row="1" class="list-layout">
-                  <Label row="0" col="0" text="&#xf020;" class="mdi " [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
-                  <Label row="1" col="0" text="2:30 PM" class="label-small" style="margin-top:5px;" [ngClass]="{grey: item.dbmodel.status === 1,orenge: item.dbmodel.status === 2,green: item.dbmodel.status === 3,red: item.dbmodel.status === 4}"></Label>
+                <StackLayout row="1" class="list-layout">
+                  <Label row="0" col="0" text="&#xf020;" class="mdi" style="vertical-align: center;text-align: center;">
+                  </Label>
+                  <Label row="1" col="0" [text]="item.nextActionTimes.currentTime | date: 'shortTime'" class="label-small" style="margin-top:5px;vertical-align: center;text-align: center;color:#396766" >
+                  </Label>
                 </StackLayout>
               </GridLayout>
 
               <GridLayout row="0" col="1" columns="*, auto" rows="auto, auto">
                 <GridLayout col="0" columns="auto,auto,*, auto" rows="auto, 8, auto" class="list-layout">
                   <Label row="0" col="0" text="&#xf47d;" class="mdi listicon "></Label>
-                  <Label row="0" col="1" class="body align-centre"  [text]="item.dbmodel.bed_no + ' ' + item.dbmodel.fname + ' ' + item.dbmodel.lname " style="color: #396767;"></Label>
+                  <Label row="0" col="1" class="body align-centre" [text]="item.dbmodel.bed_no + ' ' + item.dbmodel.fname + ' ' + item.dbmodel.lname "
+                    style="color: #396767;"></Label>
 
                   <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
                   <Label row="2" col="1" class="align-centre label-small" textWrap="true" [text]="item.contact"></Label>
@@ -77,10 +68,10 @@
       </ng-template>
       <ng-template tkGroupTemplate let-category="category">
         <StackLayout class="category-header">
-            <StackLayout style="background-color:#f6f6f6;" height="7"></StackLayout>
-            <Label class="nameLabel groupLabel" [text]="category" ></Label>
+          <StackLayout style="background-color:#f6f6f6;" height="7"></StackLayout>
+          <Label class="nameLabel groupLabel" [text]="category"></Label>
         </StackLayout>
-    </ng-template>
+      </ng-template>
     </RadListView>
   </StackLayout>
 </GridLayout>
