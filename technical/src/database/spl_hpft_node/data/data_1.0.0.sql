@@ -87,7 +87,7 @@ left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where pre
 	FROM spl_master_user_tbl usr
 	INNER  JOIN spl_master_usr_cpm_tbl ucpm ON usr.id = ucpm.user_id_fk
 	INNER  JOIN spl_master_user_role_tbl urole ON urole.id = ucpm.urole_id_fk
-	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','insert_qry','update_qry',1);
+	WHERE urole.prod_id_fk = 2 AND  ucpm.cpm_id_fk = ?','insert_qry','update_qry',1),
 	
 	('action_tbl','2018-01-01 00:00:00','select count(*) as count from spl_hpft_action_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_action_tbl where updated_on > ?','select actn.uuid,padmsn.uuid as admission_uuid,pconf.uuid as schedule_uuid,actn.conf_type_code,actn.scheduled_time,actn.is_deleted,actn.updated_on,actn.updated_by 
 from spl_hpft_action_tbl actn
@@ -95,7 +95,7 @@ inner join spl_hpft_patient_admission_tbl padmsn on padmsn.id = actn.admission_i
 inner join spl_hpft_patient_conf_tbl pconf on pconf.id = actn.patient_conf_id_fk where actn.updated_on > ?','insert into spl_hpft_action_tbl 
 (uuid,cpm_id_fk,admission_id_fk,patient_conf_id_fk,conf_type_code,scheduled_time,is_deleted,client_updated_at,updated_by)
 values
-(:uuid,:cpm_id_fk,(select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1),(select id as patient_conf_id_fk from spl_hpft_patient_conf_tbl where uuid = :schedule_uuid limit 1),:conf_type_code,STR_TO_DATE(:scheduled_time ,"%Y-%m-%dT%T.%xZ"),:is_deleted,:client_updated_at,:updated_by)','update spl_hpft_action_tbl set cpm_id_fk = :cpm_id_fk,admission_id_fk = (select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1),patient_conf_id_fk = (select id as patient_conf_id_fk from spl_hpft_patient_conf_tbl where uuid = :schedule_uuid limit 1),conf_type_code = :conf_type_code,scheduled_time = :scheduled_time,is_deleted = :is_deleted,client_updated_at = :client_updated_at,updated_by = :updated_by where uuid = ?',2)
+(:uuid,:cpm_id_fk,(select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1),(select id as patient_conf_id_fk from spl_hpft_patient_conf_tbl where uuid = :schedule_uuid limit 1),:conf_type_code,STR_TO_DATE(:scheduled_time ,"%Y-%m-%dT%T.%xZ"),:is_deleted,:client_updated_at,:updated_by)','update spl_hpft_action_tbl set cpm_id_fk = :cpm_id_fk,admission_id_fk = (select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1),patient_conf_id_fk = (select id as patient_conf_id_fk from spl_hpft_patient_conf_tbl where uuid = :schedule_uuid limit 1),conf_type_code = :conf_type_code,scheduled_time = :scheduled_time,is_deleted = :is_deleted,client_updated_at = :client_updated_at,updated_by = :updated_by where uuid = ?',2);
 	
 
 --
