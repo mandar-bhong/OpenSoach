@@ -109,8 +109,6 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
 
   add() {
     const patientAddRequest = new PatientAddRequest();
-    this.dataModel.uuid ="4545";
-    this.dataModel.patientregno ="5566";
     this.dataModel.copyTo(patientAddRequest);
     this.patientService.addPatientData(patientAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
@@ -130,7 +128,6 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
 
   update() {
     const patientUpdateRequest = new PatientUpdateRequest();
-    this.dataModel.patientregno = "7654";
     this.dataModel.CopyToUpdate(patientUpdateRequest);
     this.patientService.updatePatientDetails(patientUpdateRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
