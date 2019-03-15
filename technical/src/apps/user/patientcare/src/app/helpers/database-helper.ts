@@ -48,12 +48,12 @@ let selectQueries = new Map([
     ["document_tbl_insert", "insert into document_tbl (uuid,doc_path,doc_name,doc_type,datastore,updated_by,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["document_tbl_delete", "delete from document_tbl where uuid=?"],
     ["documentget", "select * from document_tbl"],
-    ["treatment_tbl_insert", "treatment_tbl into (uuid, admission_uuid, treatment_done, treatment_performed_time, details, post_observation, updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
-    ["treatment_tbl_update", "treatment_tbl set admission_uuid=?, treatment_done=?, treatment_performed_time=?, details=?, post_observation=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid = "],
-    ["treatment_doc_tbl_insert", "insert into treatment_doc_tbl (treatment_uuid,document_uuid) valuers (?,?)"],
+    ["treatment_tbl_insert", "insert into treatment_tbl (uuid, admission_uuid, treatment_done, treatment_performed_time, details, post_observation, updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
+    ["treatment_tbl_update", "update treatment_tbl set admission_uuid=?, treatment_done=?, treatment_performed_time=?, details=?, post_observation=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid = "],
+    ["treatment_doc_tbl_insert", "insert into treatment_doc_tbl (treatment_uuid,document_uuid) values (?,?)"],
     ["pathology_record_tbl_insert", "insert into pathology_record_tbl (uuid, admission_uuid, test_performed, test_performed_time, test_result, comments,updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
     ["pathology_record_tbl_update", "update pathology_record_doc_tbl set admission_uuid=?, test_performed=?, test_performed_time=?, test_result=?, comments=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid =?"],
-    ["pathology_record_doc_tbl_insert", "insert pathology_record_doc_tbl (pathology_record_uuid,document_uuid) values (?,?)"],
+    ["pathology_record_doc_tbl_insert", "insert into pathology_record_doc_tbl (pathology_record_uuid,document_uuid) values (?,?)"],
     ["documentlist", "select * from document_tbl"],
 
     ["patient_admission_details", "select * from patient_admission_tbl where patient_uuid=? "],
@@ -82,7 +82,7 @@ let selectQueries = new Map([
     order by actions.scheduled_time ASC`],
 
     ["action_tbl_next_actions_for_admission",
-    `select * from 
+        `select * from 
     (select action_tbl.admission_uuid,
     action_tbl.schedule_uuid,
     max(action_tbl.scheduled_time) as scheduled_time
@@ -232,11 +232,35 @@ export class DatabaseHelper {
             // console.log("updateDatalist", updateDatalist);
 
             var tblname: string;
-            var getQuery = "select * from TABLENAME where uuid = ?";
+            var getQuery: string;
+            var getParamList = [];
 
             if (selectTableName.has(storename) == true) {
                 tblname = selectTableName.get(storename);
             };
+
+            switch (storename) {
+                case "mst_user_tbl":
+                    getQuery = "select * from TABLENAME where usr_id = ?";
+                    getParamList = dataList[0];
+                    break;
+                case "treatment_doc_tbl":
+                    getQuery = "select * from TABLENAME where treatment_uuid = ? and document_uuid = ?";
+                    getParamList.push(dataList[0])
+                    getParamList.push(dataList[1])
+                    break;
+                case "pathology_record_doc_tbl":
+                    getQuery = "select * from TABLENAME where pathology_record_uuid = ? and document_uuid = ?";
+                    getParamList.push(dataList[0])
+                    getParamList.push(dataList[1])
+                    break;
+                default:
+                    getQuery = "select * from TABLENAME where uuid = ?";
+                    getParamList = dataList[0]
+                    break;
+            }
+
+            // getQuery = "select * from TABLENAME where uuid = ?";
 
             getQuery = getQuery.replace("TABLENAME", tblname);
             // console.log("getQuery", getQuery);
@@ -246,7 +270,7 @@ export class DatabaseHelper {
 
                     db.resultType(Sqlite.RESULTSASOBJECT);
 
-                    db.get(getQuery, dataList[0], function (err, row) {
+                    db.get(getQuery, getParamList, function (err, row) {
 
                         if (err) {
                             console.log("getQuery err", err);
