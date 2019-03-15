@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { PatientDetailsModel } from '~/app/models/ui/patient-details';
 
-export class PatientDetailsModel{
-	fname: string;
-	lname:string;
-	mob_no: string;
-	age: string;
-	blood_grp: string;
-	gender: number;
-}
+
 @Component({
 	moduleId: module.id,
 	selector: 'patient-info',

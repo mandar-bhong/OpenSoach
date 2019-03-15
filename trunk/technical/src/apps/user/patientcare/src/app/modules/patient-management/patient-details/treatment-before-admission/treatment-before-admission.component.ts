@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataList } from '../patient-details.component';
+import { DataList } from '~/app/models/ui/patient-details';
 
 @Component({
 	moduleId: module.id,

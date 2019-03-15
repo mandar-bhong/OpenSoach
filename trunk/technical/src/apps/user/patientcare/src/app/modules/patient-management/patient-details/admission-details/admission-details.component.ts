@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
 import { PassDataService } from '~/app/services/pass-data-service';
+import { AdmissionDetailsModel } from '~/app/models/ui/patient-details';
 
 
-export class AdmissionDetailsModel {
-	patient_uuid: string;
-	patient_reg_no: string;
-	bed_no: string;
-	sp_uuid: number;
-	dr_incharge: number;
-	admitted_on: Date;
 
-}
 @Component({
 	moduleId: module.id,
 	selector: 'admission-details',
