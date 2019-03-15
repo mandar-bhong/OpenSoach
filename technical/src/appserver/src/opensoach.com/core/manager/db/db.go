@@ -533,7 +533,7 @@ func (spc *SelectContext) Select(args ...interface{}) error {
 	return errors.New(fmt.Sprintf("QueryType Not Set. Got %d", spc.QueryType))
 }
 
-func (spc *SelectContext) SelectToMap(args ...interface{}) (error, []map[string]interface{}) {
+func (spc *SelectContext) SelectToMap(args interface{}) (error, []map[string]interface{}) {
 
 	switch spc.QueryType {
 	case AutoQuery:
@@ -545,39 +545,13 @@ func (spc *SelectContext) SelectToMap(args ...interface{}) (error, []map[string]
 			return dbConnErr, nil
 		}
 
-		stmt, err := dbEngine.Preparex(spc.Query)
+		stmt, err := dbEngine.PrepareNamed(spc.Query)
 		if err != nil {
 			return err, nil
 		}
 		defer stmt.Close()
 
-		err, result := getMapOfColumnsValues(stmt, args...)
-		return err, result
-
-	case StoredProcedure:
-		spQuery := ""
-
-		for i := 0; i < len(args); i++ {
-			spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
-		}
-
-		spQuery = strings.TrimRight(spQuery, ",")
-
-		spQuery = "call " + spc.Query + "(" + spQuery + ")"
-
-		dbConnErr, dbEngine := getConnectionEngine(spc.DBConnection)
-
-		if dbConnErr != nil {
-			return dbConnErr, nil
-		}
-
-		stmt, err := dbEngine.Preparex(spc.Query)
-		if err != nil {
-			return err, nil
-		}
-		defer stmt.Close()
-
-		err, result := getMapOfColumnsValues(stmt, args...)
+		err, result := getMapOfColumnsValues(stmt, args)
 		return err, result
 
 	}
@@ -797,40 +771,20 @@ func (spc *SelectTxContext) Select(args ...interface{}) error {
 	return nil
 }
 
-func (spc *SelectTxContext) SelectToMap(args ...interface{}) (error, []map[string]interface{}) {
+func (spc *SelectTxContext) SelectToMap(args interface{}) (error, []map[string]interface{}) {
 
 	switch spc.QueryType {
 	case AutoQuery:
 		return errors.New("AutoQuery is not supported for Select method"), nil
 	case Query:
 
-		stmt, err := spc.Tx.Preparex(spc.Query)
+		stmt, err := spc.Tx.PrepareNamed(spc.Query)
 		if err != nil {
 			return err, nil
 		}
 		defer stmt.Close()
 
-		err, result := getMapOfColumnsValues(stmt, args...)
-		return err, result
-
-	case StoredProcedure:
-		spQuery := ""
-
-		for i := 0; i < len(args); i++ {
-			spQuery = spQuery + fmt.Sprintf("%#v", args[i]) + ","
-		}
-
-		spQuery = strings.TrimRight(spQuery, ",")
-
-		spQuery = "call " + spc.Query + "(" + spQuery + ")"
-
-		stmt, err := spc.Tx.Preparex(spc.Query)
-		if err != nil {
-			return err, nil
-		}
-		defer stmt.Close()
-
-		err, result := getMapOfColumnsValues(stmt, args...)
+		err, result := getMapOfColumnsValues(stmt, args)
 		return err, result
 
 	}
@@ -892,9 +846,9 @@ func getDBTags(user interface{}) []string {
 	return []string{""}
 }
 
-func getMapOfColumnsValues(stmt *sqlx.Stmt, args ...interface{}) (error, []map[string]interface{}) {
+func getMapOfColumnsValues(stmt *sqlx.NamedStmt, args interface{}) (error, []map[string]interface{}) {
 
-	rows, err := stmt.Query(args...)
+	rows, err := stmt.Query(args)
 	if err != nil {
 		return err, nil
 	}
