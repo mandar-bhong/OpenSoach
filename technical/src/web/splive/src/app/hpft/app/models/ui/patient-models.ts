@@ -2,9 +2,7 @@ import {
     MedicalDetailAddRequest,
     PatientDataAddRequest,
     PatientDetailAddRequest,
-    StatusChangeRequest,
     PatientAddRequest,
-    PatientRequestFilterDataModel,
     PatientDetaListResponse,
     PatientFilterRequest,
     PatientSearchRequestFilter,
@@ -22,7 +20,6 @@ import {
     PersonalHistoryInfo,
     PersonAccompanyingInfo,
     PersonalDetailsResponse,
-    CheckPatientResponse,
     PersonalDetailsRequest,
 } from '../api/patient-models';
 import { NumberCardModule } from '@swimlane/ngx-charts';
@@ -266,7 +263,6 @@ export class PatientPersonalDetails {
     patientid: number;
     admissionid: number;
     uuid: string;
-    age: string;
     otherdetails: string;
     personAccompanyingData: JSONBaseDataModel<PersonAccompanyingInfo[]>;
     copyToAddPerson(personalDetailsRequest: PersonalDetailsRequest) {
@@ -274,11 +270,9 @@ export class PatientPersonalDetails {
         personalDetailsRequest.uuid = this.uuid;
         personalDetailsRequest.patientid = this.patientid;
         personalDetailsRequest.admissionid = this.admissionid;
-        personalDetailsRequest.age = this.age;
         personalDetailsRequest.personaccompanying = JSON.stringify(this.personAccompanyingData);
     }
     copyFromPerson(personalDetailsResponse: PersonalDetailsResponse) {
-        personalDetailsResponse.age = this.age;
         this.personAccompanyingData = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
         const tempPersonAccompanying = JSON.parse(personalDetailsResponse.personaccompanying);
         this.personAccompanyingData.data = [];
@@ -410,14 +404,4 @@ export class TreatmentModel {
     treatmentid: number;
     admissionid: number;
     treatmentdone: string;
-}
-
-export class CheckStatus {
-    patientid: number;
-    status: number;
-    copyFrom(checkPatientResponse: CheckPatientResponse) {
-        checkPatientResponse.patientid = this.patientid;
-        checkPatientResponse.status = this.status;
-    }
-
 }
