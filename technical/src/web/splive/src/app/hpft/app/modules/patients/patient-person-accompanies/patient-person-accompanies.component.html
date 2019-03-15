@@ -18,12 +18,12 @@
         
         <div class="form-group form-primary " *ngIf="formMode === 1">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Age" formControlName="personageControl"  maxlength="3" [(ngModel)]="pesrsonage" >
+            <input matInput placeholder="Age" formControlName="personageControl"  maxlength="3" [(ngModel)]="age" >
           </mat-form-field>
         </div>
         <div class="form-group form-primary" *ngIf="formMode === 0">
           <span class="viewlabel">Age</span>
-          <label class="viewtext">{{ pesrsonage }}</label>
+          <label class="viewtext">{{ age }}</label>
         </div>
 
         <div class="form-group form-primary" *ngIf="formMode === 1">
@@ -46,12 +46,12 @@
 
         <div class="form-group form-primary " *ngIf="formMode === 1">
           <mat-form-field class="full-width" id="personal-address">
-            <textarea matInput placeholder="Address" rows="3" [(ngModel)]="personaddress" formControlName="personaladdressControl"  maxlength="25"></textarea>
+            <textarea matInput placeholder="Address" rows="3" [(ngModel)]="address" formControlName="personaladdressControl"  maxlength="25"></textarea>
           </mat-form-field>
         </div>
         <div class="form-group form-primary" *ngIf="formMode === 0">
           <span class="viewlabel">Address</span>
-          <label class="viewtext">{{ personaddress }}</label>
+          <label class="viewtext">{{ address }}</label>
         </div>
 
         <div class="form-group form-primary " *ngIf="formMode === 1">
