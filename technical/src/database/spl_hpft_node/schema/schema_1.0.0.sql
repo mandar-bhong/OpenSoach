@@ -316,6 +316,7 @@ CREATE TABLE `spl_node_sync_config_tbl` (
 	`insert_qry` VARCHAR(1000) NOT NULL,
 	`update_qry` VARCHAR(1000) NOT NULL,
 	`data_source` int(10) NOT NULL DEFAULT '2' COMMENT '1: MstDataSource, 2: NodeDataSource',
+	`query_data` JSON NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: sync';
 
