@@ -23,7 +23,7 @@ export class MedicineHelper extends ActionHelper {
         console.log('Received Data', MedicineSchedularData);
         this.schedulardata = MedicineSchedularData;
         this.numberofTimes = this.schedulardata.conf.numberofTimes;
-        if (this.schedulardata.conf.frequency == 0 || this.schedulardata.conf.frequency == 0) {
+        if (this.schedulardata.conf.frequency == 0 || this.schedulardata.conf.frequency == 1) {
             this.createDateEntries(); // calling base class function for creating date entries.
             // creating new array without memory ref.
             const tempdata = this.actionItems.slice();
