@@ -443,10 +443,10 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'ErrorNumberPattern',
     en: 'You must be enter only number !'
   },
-  // {
-  //   key: 'Device_Name_Already_Exists',
-  //   en: 'Device name already exists'
-  // },
+  {
+    key: 'Check_Status_Already_Hospitalized',
+    en: 'Patient status is already hospitalized, go to patient list and change status to discharge.'
+  },
 
   // validation errer end
 
