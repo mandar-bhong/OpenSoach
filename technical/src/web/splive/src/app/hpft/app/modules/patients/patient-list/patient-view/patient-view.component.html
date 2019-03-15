@@ -37,8 +37,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;">Patient Name</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 16%;">
               <span class="mat-cell-responsive-label">Patient Name</span>
-              <span class="ellipsis mat-cell-text">{{row.fname}}</span>
-              <span class="ellipsis mat-cell-text" id="second">{{row.lname}}</span>
+              <span class="ellipsis mat-cell-text">{{row.fname +' '+row.lname}}</span>
             </mat-cell>
           </ng-container>
 
