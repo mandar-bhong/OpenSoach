@@ -209,14 +209,14 @@
             <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
                 <StackLayout row="0">
                     <RL:Ripple rippleColor="#fff" style="margin-top: 20px;">
-                        <StackLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
-                            <Label class="float-btn-cat-text fas" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
-                        </StackLayout>
-                    </RL:Ripple>
-                    <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
                         <StackLayout class="float-btn-cat" (tap)="medicinebuttonClicked = true" [class.button-clicked]="medicinebuttonClicked">
                             <Label class="float-btn-cat-text fas" (tap)="selectMedicine()" text="&#xf484;"
                                 [style.color]="medicinebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                        </StackLayout>
+                    </RL:Ripple>
+                    <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                        <StackLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
+                            <Label class="float-btn-cat-text fas" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                         </StackLayout>
                     </RL:Ripple>
                     <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
