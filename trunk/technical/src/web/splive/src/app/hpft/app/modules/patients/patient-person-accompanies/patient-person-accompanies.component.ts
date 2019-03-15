@@ -24,8 +24,8 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
   contact: string;
   personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo>();
   name: string;
-  pesrsonage: string;
-  personaddress: string;
+  age: number;
+  address: string;
   gender: any;
   relationshipwithpatient: string;
   alternatecontact: string;
@@ -40,7 +40,7 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
   ) {
     super();
     this.iconCss = 'fa fa-user';
-    this.pageTitle = 'Person Details';
+    this.pageTitle = 'Person Accompanying';
   }
 
   ngOnInit() {
@@ -49,8 +49,8 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
     this.personGender = this.patientService.getPersonGender();
     this.personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo>();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
-      if (params['addid']) {
-        this.dataModel.admissionid = Number(params['addid']);
+      if (params['admissionid']) {
+        this.dataModel.admissionid = Number(params['admissionid']);
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
         if (this.patientService.admissionid) {
@@ -76,13 +76,13 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
     patientPersonAccompanyingDetail.admissionid = this.patientService.admissionid;
     patientPersonAccompanyingDetail.patientid = this.patientService.patientid;
     patientPersonAccompanyingDetail.personaldetailsid = this.personaldetailsid;
-    if (this.name || this.gender || this.personaddress || this.relationshipwithpatient) {
+    if (this.name || this.age || this.gender || this.address || this.relationshipwithpatient || this.contact || this.alternatecontact) {
       const personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo>();
       personAccompanyingInfo.data = new PersonAccompanyingInfo();
       personAccompanyingInfo.data.name = this.name;
-      personAccompanyingInfo.data.pesrsonage = this.pesrsonage;
+      personAccompanyingInfo.data.age = this.age;
       personAccompanyingInfo.data.gender = this.gender;
-      personAccompanyingInfo.data.personaddress = this.personaddress;
+      personAccompanyingInfo.data.address = this.address;
       personAccompanyingInfo.data.relationshipwithpatient = this.relationshipwithpatient;
       personAccompanyingInfo.data.contact = this.contact;
       personAccompanyingInfo.data.alternatecontact = this.alternatecontact;
@@ -140,9 +140,9 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
           personAccompanyingInfo.data = tempPersonAccompanying.data || null;
           personAccompanyingInfo.version = tempPersonAccompanying.version;
           this.name = personAccompanyingInfo.data[0].name;
-          this.pesrsonage = personAccompanyingInfo.data[0].pesrsonage;
+          this.age = personAccompanyingInfo.data[0].age;
           this.gender = personAccompanyingInfo.data[0].gender;
-          this.personaddress = personAccompanyingInfo.data[0].personaddress;
+          this.address = personAccompanyingInfo.data[0].address;
           this.relationshipwithpatient = personAccompanyingInfo.data[0].relationshipwithpatient;
           this.contact = personAccompanyingInfo.data[0].contact;
           this.alternatecontact = personAccompanyingInfo.data[0].alternatecontact;
