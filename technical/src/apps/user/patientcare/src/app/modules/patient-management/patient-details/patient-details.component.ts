@@ -3,19 +3,9 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { PassDataService } from '~/app/services/pass-data-service';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
 import { JSONBaseDataModel } from '~/app/models/ui/json-base-data-model';
+import { DataList, PersonalHistoryModel } from '~/app/models/ui/patient-details';
 
-export class DataList {
-	test: string;
-}
-export class PersonalHistoryModel{
-	weight: string;
-	weighttendency: string;
-	alcohalquantity: string;
-	alcohalcomment: string;
-	smokingquantity: string;
-	smokingcomment: string;
-	other: string;
-}
+
 @Component({
 	moduleId: module.id,
 	selector: 'patient-details',
@@ -34,12 +24,10 @@ export class PatientDetailsComponent implements OnInit {
 	family_history = new JSONBaseDataModel<DataList[]>();
 	allergies = new JSONBaseDataModel<DataList[]>();
 	personal_history = new PersonalHistoryModel();
-	// family_history
 	constructor(private routerExtensions: RouterExtensions,
 		private passDataService: PassDataService,
 		private patientListService: PatientListService) {
 	}
-	// @Input() patientName: string;
 	ngOnInit() {
 		this.getMedicalDetailsByUUID();
 		this.patientname = this.passDataService.getHeaderName();
@@ -50,8 +38,6 @@ export class PatientDetailsComponent implements OnInit {
 	public getMedicalDetailsByUUID() {
 		this.patientListService.getMedicalDetailsByUUID(this.passDataService.getAdmissionID()).then(
 			(val) => {
-				// val.forEach(item => {
-				console.log("Medial details", val[0]);
 				this.jsonpresentComplaintsList = new JSONBaseDataModel<DataList[]>();
 				this.jsonpresentComplaintsList.data = [];
 				Object.assign(this.jsonpresentComplaintsList, JSON.parse(val[0].present_complaints));
@@ -64,7 +50,6 @@ export class PatientDetailsComponent implements OnInit {
 				this.history_present_illness = new JSONBaseDataModel<DataList[]>();
 				this.history_present_illness.data = [];
 				Object.assign(this.history_present_illness, JSON.parse(val[0].history_present_illness));
-				// console.log('this.jsonpresentComplaintsList', this.reason_for_admission.data);
 
 				this.past_history = new JSONBaseDataModel<DataList[]>();
 				this.past_history.data = [];

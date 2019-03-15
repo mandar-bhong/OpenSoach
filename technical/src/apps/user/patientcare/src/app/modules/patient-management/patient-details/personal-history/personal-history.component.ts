@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PersonalHistoryModel } from '../patient-details.component';
+import { PersonalHistoryModel } from '~/app/models/ui/patient-details';
 
 @Component({
 	moduleId: module.id,

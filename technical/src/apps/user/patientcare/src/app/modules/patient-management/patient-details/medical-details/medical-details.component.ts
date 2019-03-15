@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PassDataService } from '~/app/services/pass-data-service';
-import { PatientListService } from '~/app/services/patient-list/patient-list.service';
-import { DataList } from '../patient-details.component';
+import { DataList } from '~/app/models/ui/patient-details';
 
 @Component({
 	moduleId: module.id,
