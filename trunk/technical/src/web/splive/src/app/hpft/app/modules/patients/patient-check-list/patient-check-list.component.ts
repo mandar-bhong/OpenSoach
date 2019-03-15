@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import { MatSort, MatPaginator } from '@angular/material';
 import { Subscription, merge, Observable, } from 'rxjs';
 import { Router } from '@angular/router';
@@ -8,9 +8,10 @@ import { PayloadResponse } from '../../../../../shared/models/api/payload-models
 import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { PatientSearchRequestFilter, PatientSearchResponseFilter } from '../../../models/api/patient-models';
+import { PatientSearchRequestFilter, PatientSearchResponseFilter, CheckPatientRequest, CheckPatientResponse } from '../../../models/api/patient-models';
 import { PatientCheckListDataModal } from '../../../models/ui/patient-models';
 import { PatientAddService } from 'app/services/patient-add.service';
+import { PATIENT_STATE } from 'app/app-constants';
 
 @Component({
   selector: 'app-patient-check-list',
@@ -37,14 +38,16 @@ export class PatientCheckListComponent implements OnInit, OnDestroy {
   showEditForm = false;
   selectedPatient: PatientCheckListDataModal;
   patientSearchRequestFilter: PatientSearchRequestFilter;
-
+  checkPatientRequest = new CheckPatientRequest
+  checkPatientResponse: CheckPatientResponse;
+  PATIENT_STATE = PATIENT_STATE;
+  status: PATIENT_STATE.HOSPITALIZE;
 
   constructor(public patientService: PatientService,
     public patientAddService: PatientAddService,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe,
-    private ch: ChangeDetectorRef) { }
+    private translatePipe: TranslatePipe, ) { }
 
   ngOnInit() {
     this.paginator.pageSize = 10;
@@ -112,11 +115,25 @@ export class PatientCheckListComponent implements OnInit, OnDestroy {
     this.sort.sortChange.next(this.sort);
   }
 
-  viewDetails(id: number, addid:number) {
+  viewDetails(id: number, admissionid: number) {
     //setting patient id for further use
     this.patientService.patientid = id;
-    this.patientService.admissionid = addid;
-    this.router.navigate(['patients', 'add'], { queryParams: { id: id,addid: addid, callbackurl: 'patients' }, skipLocationChange: true });
+    this.patientService.admissionid = admissionid;
+    const checkPatientRequest = new CheckPatientRequest();
+    checkPatientRequest.patientid = this.patientService.patientid;
+    this.patientService.getStatusCheck({ recid: checkPatientRequest.patientid }).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        if (payloadResponse.data.status == PATIENT_STATE.HOSPITALIZE) {
+          this.appNotificationService.warn(this.translatePipe.transform('Check_Status_Already_Hospitalized'));
+        }
+        else if (payloadResponse.data.status == PATIENT_STATE.NOT_ADMITTED) {
+          this.router.navigate(['patients', 'add'], { queryParams: { id: id, admissionid: admissionid, callbackurl: 'patients' }, skipLocationChange: true });
+        }
+        else {
+          this.router.navigate(['patients', 'add'], { queryParams: { id: id, admissionid: admissionid, callbackurl: 'patients' }, skipLocationChange: true });
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -124,5 +141,4 @@ export class PatientCheckListComponent implements OnInit, OnDestroy {
       this.dataListFilterChangedSubscription.unsubscribe();
     }
   }
-
 }
