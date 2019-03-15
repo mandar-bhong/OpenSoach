@@ -2,14 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
 import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
-import { AdmissionAddRequest, AdmissionUpdateRequest } from '../../../models/api/patient-models';
+import { AdmissionAddRequest, AdmissionUpdateRequest, DrInchargeListResponse } from '../../../models/api/patient-models';
 import { AdmissionAddModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
+import { PATIENT_STATE } from 'app/app-constants';
+import { stringify } from '@angular/compiler/src/util';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
   selector: 'app-patient-admission',
@@ -21,6 +23,8 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
   dataModel = new AdmissionAddModel();
   routeSubscription: Subscription;
   splist: ServicepointListResponse[];
+  drlist: DrInchargeListResponse[];
+  PATIENT_STATE = PATIENT_STATE;
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -36,11 +40,11 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
   ngOnInit() {
     this.createControls();
     this.showBackButton = false;
-    // this.subTitle = this.translatePipe.transform('OPERATOR_ADD_MODE_TITLE');
     this.getServicepointList();
+    this.getDrInchargeList();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
-      if (params['addid']) {
-        this.dataModel.admissionid = Number(params['addid']);
+      if (params['admissionid']) {
+        this.dataModel.admissionid = Number(params['admissionid']);
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
         this.getAdmissionUpdates();
@@ -58,9 +62,22 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       if (payloadResponse && payloadResponse.issuccess) {
         this.splist = payloadResponse.data;
       }
+      else {
+        this.appNotificationService.error();
+      }
     });
   }
 
+  getDrInchargeList() {
+    this.patientService.getDrInchargeList().subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.drlist = payloadResponse.data;
+      }
+      else {
+        this.appNotificationService.error();
+      }
+    });
+  }
 
   createControls(): void {
     this.editableForm = new FormGroup({
@@ -86,11 +103,9 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
   }
   add() {
     const admissionAddRequest = new AdmissionAddRequest();
-    this.dataModel.uuid = "4567";
     this.dataModel.patientid = this.patientService.patientid;
-    this.dataModel.status = 1;
+    this.dataModel.status = PATIENT_STATE.HOSPITALIZE;
     this.dataModel.copyTo(admissionAddRequest);
-    console.log("Goted admission id here ", this.patientService.admissionid);
     this.patientService.admissionAddPatient(admissionAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.dataModel.admissionid = payloadResponse.data.admissionid;
@@ -102,10 +117,8 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
       }
-
       this.inProgress = false;
     });
-
   }
   update() {
     const admissionUpdateRequest = new AdmissionUpdateRequest();
@@ -146,6 +159,12 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
   getSPName(value: number) {
     if (this.splist && value) {
       return this.splist.find(a => a.spid === value).spname;
+    }
+  }
+  getDrName(value: number) {
+    if (this.drlist && value) {
+      const user = this.drlist.find(a => a.usrid === value);
+      return user.fname + ' ' + user.lname;
     }
   }
 }

@@ -46,6 +46,8 @@ import {
     TreatmentFilterRequest,
     PersonalDetailsRequest,
     CheckPatientResponse,
+    DrInchargeListResponse,
+    PersonalHistoryInfo,
 } from '../models/api/patient-models';
 import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse } from 'app/models/api/transaction-details-response';
@@ -142,12 +144,6 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
             request, implicitErrorHandling);
     }
-    //     getPatientNUpdates(request: RecordIDRequest, implicitErrorHandling = true):
-    //     Observable<PayloadResponse<PatientUpdateResponse>> {
-    //     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
-    //         request, implicitErrorHandling);
-    // }
-
     //Update Admission Response
     getAdmissionUpdates(request: RecordIDRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<AdmissionUpdateResponse>> {
@@ -233,7 +229,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
 
     //Post method for patient medical Personal History
     medicalAddPatientPersonalHistory(personalHistory: PersonalHistory, implicitErrorHandling = true):
-        Observable<PayloadResponse<any>> {
+        Observable<PayloadResponse<PersonalHistoryInfo[]>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/personalhistory',
             personalHistory, implicitErrorHandling);
     }
@@ -248,6 +244,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     getPatientStates(): EnumDataSourceItem<number>[] {
         return EnumNumberDatasource.getDataSource('PATIENT_STATE_', PATIENT_STATE);
     }
+
     getPatientState(states: number) {
         return 'PATIENT_STATE_' + states;
     }
@@ -269,10 +266,10 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     getWardState(states: number) {
         return 'PATIENT_STATE_' + states;
     }
+
     getPersonGender(): EnumDataSourceItem<number>[] {
         return EnumNumberDatasource.getDataSource('PERSON_GENDER_', PERSON_GENDER);
     }
-
     getPersonGenders(genders: number) {
         return 'PERSON_GENDER_' + genders;
     }
@@ -337,8 +334,6 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
             dataListRequest, implicitErrorHandling);
     }
 
-
-
     // service function for getting doctor order details
     getDoctorOrderDetails(dataListRequest: DataListRequest<DoctorOrderRequest>, implicitErrorHandling = true):
         Observable<PayloadResponse<DataListResponse<DoctorOrderResponse>>> {
@@ -367,18 +362,24 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/pathologyrecord/add',
             request, implicitErrorHandling);
     }
-     //Post method for docuemnt upload
-     addTeatmentReportData(request: TreatmentReportRequest, implicitErrorHandling = true):
-     Observable<PayloadResponse<any>> {
-     return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/treatment/add',
-         request, implicitErrorHandling);
- }
+    //Post method for docuemnt upload
+    addTeatmentReportData(request: TreatmentReportRequest, implicitErrorHandling = true):
+        Observable<PayloadResponse<any>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/treatment/add',
+            request, implicitErrorHandling);
+    }
 
     //  Update Admission Response
     getStatusCheck(request: RecordIDRequest, implicitErrorHandling = true):
         Observable<PayloadResponse<CheckPatientResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/admission/info/status',
             request, implicitErrorHandling);
+    }
+
+    getDrInchargeList(implicitErrorHandling = true):
+        Observable<PayloadResponse<DrInchargeListResponse[]>> {
+        return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/user/doctorlist',
+            implicitErrorHandling);
     }
 
 }
