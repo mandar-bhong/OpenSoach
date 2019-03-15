@@ -285,8 +285,6 @@ func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, in
 	dBPatientReportDataModel.TreatmentData = treatmentDataRecordList
 	dBPatientReportDataModel.PathologyRecordData = pathologyRecordRecordList
 
-	fmt.Println("dBPatientReportDataModel", dBPatientReportDataModel)
-
 	//pdf create
 	currDir := ghelper.GetExeFolder()
 	inpath := filepath.Join(currDir, "patient_report.html")
@@ -294,6 +292,7 @@ func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, in
 
 	pdfmodel := gmodels.HTMLPDFDataModel{}
 	pdfmodel.TemplatePath = inpath
+	pdfmodel.HeaderPath = filepath.Join(currDir, "header.html")
 	// pdfmodel.PDFOutputPath = outPath
 	pdfmodel.TemplateData = dBPatientReportDataModel
 	pdfErr := ghelper.CreateHTMLToPDF(&pdfmodel)
