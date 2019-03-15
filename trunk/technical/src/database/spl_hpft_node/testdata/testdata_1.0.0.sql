@@ -103,13 +103,13 @@ VALUES
 
 INSERT INTO `spl_hpft_patient_personal_details_tbl` (`cpm_id_fk`, `patient_id`, `admission_id_fk`, `uuid`, `age`, `person_accompanying`, `updated_by`) 
 VALUES 
-('3', '1', '1', 'PPD001', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9843xxxxxx", "pesrsonage": "23", "personaddress": "warje", "alternatecontact": "9923xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
-('3', '2', '2', 'PPD002', '22', '{"data": [{"name": "Sanket", "gender": 1, "contact": "9712xxxxxx", "pesrsonage": "23", "personaddress": "warje", "alternatecontact": "8123xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
-('3', '3', '3', 'PPD003', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9932xxxxxx", "pesrsonage": "23", "personaddress": "warje", "alternatecontact": "8993xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
-('3', '4', '4', 'PPD004', '22', '{"data": [{"name": "Rohit", "gender": 2, "contact": "8812xxxxxx", "pesrsonage": "23", "personaddress": "warje", "alternatecontact": "9901xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
-('3', '5', '5', 'PPD005', '22', '{"data": [{"name": "Priya", "gender": 2, "contact": "9453xxxxxx", "pesrsonage": "23", "personaddress": "warje", "alternatecontact": "9456xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
-('3', '6', '6', 'PPD006', '22', '{"data": [{"name": "Sonal", "gender": 2, "contact": "8663xxxxxx", "pesrsonage": "23", "personaddress": "warje", "alternatecontact": "8723xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
-('3', '7', '7', 'PPD007', '22', '{"data": [{"name": "Kaushik", "gender": 1, "contact": "9813xxxxxx", "pesrsonage": "23", "personaddress": "warje", "alternatecontact": "8884xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2');
+('3', '1', '1', 'PPD001', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9843xxxxxx", "age": "23", "address": "warje", "alternatecontact": "9923xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
+('3', '2', '2', 'PPD002', '22', '{"data": [{"name": "Sanket", "gender": 1, "contact": "9712xxxxxx", "age": "23", "address": "warje", "alternatecontact": "8123xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
+('3', '3', '3', 'PPD003', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9932xxxxxx", "age": "23", "address": "warje", "alternatecontact": "8993xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
+('3', '4', '4', 'PPD004', '22', '{"data": [{"name": "Rohit", "gender": 2, "contact": "8812xxxxxx", "age": "23", "address": "warje", "alternatecontact": "9901xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
+('3', '5', '5', 'PPD005', '22', '{"data": [{"name": "Priya", "gender": 2, "contact": "9453xxxxxx", "age": "23", "address": "warje", "alternatecontact": "9456xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
+('3', '6', '6', 'PPD006', '22', '{"data": [{"name": "Sonal", "gender": 2, "contact": "8663xxxxxx", "age": "23", "address": "warje", "alternatecontact": "8723xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
+('3', '7', '7', 'PPD007', '22', '{"data": [{"name": "Kaushik", "gender": 1, "contact": "9813xxxxxx", "age": "23", "address": "warje", "alternatecontact": "8884xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2');
 
 
 --
