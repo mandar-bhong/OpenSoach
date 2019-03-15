@@ -76,6 +76,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     personaldetailsid: number;
     treatmentid: number;
     pathologyid: number;
+    patientName = new Subject<string>();
 
     constructor(private serverApiInterfaceService: ServerApiInterfaceService,
         private saveFileService: SaveFileService) {
@@ -380,6 +381,11 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
         Observable<PayloadResponse<DrInchargeListResponse[]>> {
         return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/user/doctorlist',
             implicitErrorHandling);
+    }
+
+    setPatientName(value)
+    {
+        this.patientName.next(value);
     }
 
 }
