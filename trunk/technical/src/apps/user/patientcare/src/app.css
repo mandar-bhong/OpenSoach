@@ -47,31 +47,31 @@ components that have the btn class name.
 .mdi {
     font-family: "Material Design Icons", "materialdesignicons-webfont";
     font-size: 24;
-    color: black;
+    color: #396767;
 }
 
 .far {
     font-family: Font Awesome 5 Free, 'fa-regular-400', fa-regular-400;
     font-size: 24;
-    color: black;
+    color: #396767;
 }
 
 .fas {
     font-family: Font Awesome 5 Free, 'fa-solid-900', fa-solid-900;
     font-size: 24;
-    color: black;
+    color: #396767;
 }
 
 .fab {
     font-family: Font Awesome 5 Brands, 'fa-brands-400', fa-brands-400;
     font-size: 24;
-    color: black;
+    color: #396767;
 }
 
 .fa4 {
     font-family: FontAwesome, "fontawesome-webfont";
     font-size: 24;
-    color: black;
+    color: #396767;
 }
 
 .home-panel {
