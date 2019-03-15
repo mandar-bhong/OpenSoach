@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"path/filepath"
 	"time"
 
 	wkhtmltopdf "github.com/SebastiaanKlippert/go-wkhtmltopdf"
 	"github.com/jung-kurt/gofpdf"
+	"github.com/thedevsaddam/gojsonq"
 	gmodels "opensoach.com/models"
 )
 
@@ -224,7 +226,11 @@ func savePDF(pdf *gofpdf.Fpdf) error {
 
 func CreateHTMLToPDF(model *gmodels.HTMLPDFDataModel) error {
 
-	t, err := template.ParseFiles(model.TemplatePath)
+	t, err := template.New(filepath.Base(model.TemplatePath)).Funcs(template.FuncMap{
+		"getVal":    getJsonFieldValue,
+		"getDate":   getFormatedDate,
+		"getGender": getGender,
+	}).ParseFiles(model.TemplatePath)
 	if err != nil {
 		fmt.Println(err.Error())
 		return err
@@ -246,15 +252,25 @@ func CreateHTMLToPDF(model *gmodels.HTMLPDFDataModel) error {
 	pdfg.Dpi.Set(300)
 	pdfg.Orientation.Set(wkhtmltopdf.OrientationPortrait)
 	pdfg.Grayscale.Set(false)
+	pdfg.MarginTop.Set(25)
+	pdfg.MarginBottom.Set(12)
 
 	readBuf := tpl.Bytes()
 
 	page := wkhtmltopdf.NewPageReader(bytes.NewReader(readBuf))
 
 	// Set options for this page
-	page.FooterRight.Set("[page]")
-	page.FooterFontSize.Set(12)
-	page.Zoom.Set(0.70)
+	pdfg.PageSize.Set(wkhtmltopdf.PageSizeA4)
+
+	//page header
+	page.PageOptions.HeaderHTML.Set("header.html")
+	page.HeaderSpacing.Set(5)
+
+	//page header
+	page.FooterRight.Set("[page]/[topage]")
+	page.FooterFontSize.Set(8)
+	page.FooterLine.Set(true)
+	page.FooterSpacing.Set(5)
 
 	// Add to document
 	pdfg.AddPage(page)
@@ -276,4 +292,42 @@ func CreateHTMLToPDF(model *gmodels.HTMLPDFDataModel) error {
 	}
 
 	return nil
+}
+
+func getJsonFieldValue(jsonDataString string, datatype string, fieldName string) interface{} {
+
+	jq := gojsonq.New().JSONString(jsonDataString).From(fieldName)
+	var dataList interface{}
+
+	switch datatype {
+	case "personaccompanying":
+		dataList = jq.Only("name", "contact", "gender", "alternatecontact", "address")
+		fmt.Println("personaccompanying dataList:", dataList)
+		break
+	case "medicaldetails":
+		dataList = jq.Only("text")
+		break
+	case "personalhistory":
+		dataList = jq.Get()
+		fmt.Println("personalhistory dataList:", dataList)
+		break
+	}
+
+	return dataList
+}
+
+func getFormatedDate(date time.Time) string {
+	return date.Format("2 Jan 2006 15:04")
+}
+
+func getGender(g float64) string {
+	switch int(g) {
+	case 1:
+		return "Male"
+		break
+	case 2:
+		return "Female"
+		break
+	}
+	return ""
 }
