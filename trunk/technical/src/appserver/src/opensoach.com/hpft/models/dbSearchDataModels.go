@@ -140,19 +140,20 @@ type DBSearchPatientRequestFilterDataModel struct {
 }
 
 type DBSearchPatientResponseFilterDataModel struct {
-	PatientId    int64      `db:"patient_id_fk" json:"patientid"`
-	PatientRegNo *string    `db:"patient_reg_no" json:"patientregno"`
-	AdmissionId  *int64     `db:"id" dbattr:"pri,auto"  json:"admissionid"`
-	CpmId        *int64     `db:"cpm_id_fk" json:"cpmid"`
-	Fname        string     `db:"fname" json:"fname"`
-	Lname        string     `db:"lname" json:"lname"`
-	MobNo        string     `db:"mob_no" json:"mobno"`
-	BedNo        *string    `db:"bed_no" json:"bedno"`
-	Status       *int       `db:"status" json:"status"`
-	SpId         *int64     `db:"sp_id_fk" json:"spid"`
-	DrIncharge   *int64     `db:"dr_incharge" json:"drincharge"`
-	AdmittedOn   *time.Time `db:"admitted_on" json:"admittedon"`
-	DischargedOn *time.Time `db:"discharged_on" json:"dischargedon"`
+	PatientId          int64      `db:"patient_id_fk" json:"patientid"`
+	PatientRegNo       *string    `db:"patient_reg_no" json:"patientregno"`
+	AdmissionId        *int64     `db:"id" dbattr:"pri,auto"  json:"admissionid"`
+	CpmId              *int64     `db:"cpm_id_fk" json:"cpmid"`
+	Fname              string     `db:"fname" json:"fname"`
+	Lname              string     `db:"lname" json:"lname"`
+	MobNo              string     `db:"mob_no" json:"mobno"`
+	EmergencyContactNo *string    `db:"emergency_contact_no" json:"emergencycontactno"`
+	BedNo              *string    `db:"bed_no" json:"bedno"`
+	Status             *int       `db:"status" json:"status"`
+	SpId               *int64     `db:"sp_id_fk" json:"spid"`
+	DrIncharge         *int64     `db:"dr_incharge" json:"drincharge"`
+	AdmittedOn         *time.Time `db:"admitted_on" json:"admittedon"`
+	DischargedOn       *time.Time `db:"discharged_on" json:"dischargedon"`
 }
 
 type DBSearchPatientMasterRequestFilterDataModel struct {
@@ -228,12 +229,14 @@ type DBSearchPatientTreatmentRequestFilterDataModel struct {
 }
 
 type DBSearchPatientTreatmentResponseFilterDataModel struct {
-	TreatmentId     int64                    `db:"id" dbattr:"pri,auto"  json:"treatmentid"`
-	AdmissionId     int64                    `db:"admission_id_fk" json:"admissionid"`
-	TreatmentDone   string                   `db:"treatment_done" json:"treatmentdone"`
-	Details         *string                  `db:"details" json:"details"`
-	PostObservation *string                  `db:"post_observation" json:"postobservation"`
-	DocumentList    []DBDocumentTblInfoModel `db:"document_id" json:"documentlist"`
+	TreatmentId            int64                    `db:"id" dbattr:"pri,auto"  json:"treatmentid"`
+	AdmissionId            int64                    `db:"admission_id_fk" json:"admissionid"`
+	TreatmentDone          string                   `db:"treatment_done" json:"treatmentdone"`
+	TreatmentPerformedTime *time.Time               `db:"treatment_performed_time" json:"treatmentperformedtime"`
+	Details                *string                  `db:"details" json:"details"`
+	PostObservation        *string                  `db:"post_observation" json:"postobservation"`
+	DocumentList           []DBDocumentTblInfoModel `db:"document_id" json:"documentlist"`
+	CreatedOn              time.Time                `db:"created_on" json:"createdon"`
 }
 
 type DBSearchPatientPathologyRecordRequestFilterDataModel struct {
@@ -242,12 +245,14 @@ type DBSearchPatientPathologyRecordRequestFilterDataModel struct {
 }
 
 type DBSearchPatientPathologyRecordResponseFilterDataModel struct {
-	PathologyId   int64                    `db:"id" dbattr:"pri,auto"  json:"pathologyid"`
-	AdmissionId   int64                    `db:"admission_id_fk" json:"admissionid"`
-	TestPerformed string                   `db:"test_performed" json:"testperformed"`
-	TestResult    *string                  `db:"test_result" json:"testresult"`
-	Comments      *string                  `db:"comments" json:"comments"`
-	DocumentList  []DBDocumentTblInfoModel `db:"document_id" json:"documentlist"`
+	PathologyId       int64                    `db:"id" dbattr:"pri,auto"  json:"pathologyid"`
+	AdmissionId       int64                    `db:"admission_id_fk" json:"admissionid"`
+	TestPerformed     string                   `db:"test_performed" json:"testperformed"`
+	TestPerformedTime *time.Time               `db:"test_performed_time" json:"testperformedtime"`
+	TestResult        *string                  `db:"test_result" json:"testresult"`
+	Comments          *string                  `db:"comments" json:"comments"`
+	DocumentList      []DBDocumentTblInfoModel `db:"document_id" json:"documentlist"`
+	CreatedOn         time.Time                `db:"created_on" json:"createdon"`
 }
 
 type DBSearchPatientConfRequestFilterDataModel struct {
@@ -262,4 +267,5 @@ type DBSearchPatientConfResponseFilterDataModel struct {
 	ConfTypeCode  string    `db:"conf_type_code" json:"conftypecode"`
 	Conf          string    `db:"conf" json:"conf"`
 	EndDate       time.Time `db:"end_date" json:"enddate"`
+	Status        time.Time `db:"status" json:"status"`
 }

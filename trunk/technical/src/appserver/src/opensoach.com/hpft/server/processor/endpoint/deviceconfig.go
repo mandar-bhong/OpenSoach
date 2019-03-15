@@ -4,11 +4,11 @@ import (
 	"opensoach.com/core/logger"
 	lconst "opensoach.com/hpft/server/constants"
 	"opensoach.com/hpft/server/dbaccess"
-	lmodels "opensoach.com/hpft/server/models"
 	gmodels "opensoach.com/models"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
-func ProcessDeviceSyncCompleted(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+func ProcessDeviceSyncCompleted(ctx *pcmodels.DevicePacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	dberr, splst := dbaccess.EPGetDeviceServicePoints(ctx.InstanceDBConn, ctx.TokenInfo.CpmID, ctx.TokenInfo.DevID)
 

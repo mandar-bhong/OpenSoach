@@ -128,3 +128,5 @@ const API_DEVICE_DOCUMENT_DOWNLOAD = API_BASE_URL + "/v1/document/download/ep"
 
 const API_PATIENT_TREATMENT_ADD = API_BASE_URL + "/v1/patient/treatment/add"
 const API_PATIENT_PATHOLOGY_RECORD_ADD = API_BASE_URL + "/v1/patient/pathologyrecord/add"
+
+const API_USER_DOCTOR_USERS_LIST = API_BASE_URL + "/v1/user/doctorlist"
