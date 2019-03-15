@@ -96,7 +96,7 @@ left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where pre
 left join spl_hpft_pathology_record_doc_tbl precdoc on precdoc.pathology_id_fk = prec.id
 left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where prec.updated_on > :updatedon','insert_qry','update_qry',2,'{"select": {"filters": ["cpm", "updatedon"]}}'),
 
-('mst_user_tbl','2018-01-01 00:00:00','has_qry','SELECT count(usr.id) as count
+('mst_user_tbl','2018-01-01 00:00:00','has_qry','SELECT count(usr.id) as count , max(usr.updated_on) as max_updated_on
 	FROM spl_master_user_tbl usr
 	INNER  JOIN spl_master_usr_cpm_tbl ucpm ON usr.id = ucpm.user_id_fk
 	INNER  JOIN spl_master_user_role_tbl urole ON urole.id = ucpm.urole_id_fk
