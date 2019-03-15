@@ -249,9 +249,9 @@ export class JSONBaseDataModel<T> {
 
 export class PersonAccompanyingInfo {
     name: string;
-    pesrsonage: string;
+    age: number;
     gender: number;
-    personaddress: string;
+    address: string;
     relationshipwithpatient: string;
     contact: string;
     alternatecontact: string;
@@ -261,8 +261,7 @@ export class PersonalDetailsRequest {
     personaldetailsid: number;
     patientid: number;
     admissionid: number;
-    uuid: string;
-    age: string;
+    uuid: string
     otherdetails: string;
     personaccompanying: string;
 }
@@ -272,14 +271,10 @@ export class PersonalDetailsResponse {
     patientid: number;
     admissionid: number;
     uuid: string;
-    age: string;
     otherdetails: string;
     personaccompanying: string;
 }
 
-
-
-//
 export class AdmissionAddResponseModel {
     admissionid: number;
     personaldetailsid: number;
@@ -389,13 +384,16 @@ export class PersonalHistoryInfo {
     medicaldetialsid: number;
     weight: string;
     weighttendency: string;
+    alcoholaplicable: boolean;
     alcohalquantity: string;
     alcohalcomment: string;
+    smokingaplicable: boolean;
     smokingquantity: string;
     smokingcomment: string;
     other: string;
     date: Date;
 }
+
 
 //Medical data start from here
 export class WaightTendencyInfo {
@@ -410,7 +408,7 @@ export class PersonalHistory {
 
 
 //Pethology start from here
-export class PathologyResponse{
+export class PathologyResponse {
     id: number
     uuid: string;
     pathologyid: number;
@@ -426,13 +424,12 @@ export class PathologyResponse{
     value: string;
     // txndata: T;
 }
-export class PathologyFilterRequest
-{
+export class PathologyFilterRequest {
     admissionid: number;
 }
 
 //Treatment start from here
-export class TreatmentResponse{
+export class TreatmentResponse {
     id: number
     uuid: string;
     treatmentid: number;
@@ -446,17 +443,20 @@ export class TreatmentResponse{
     treatmentperformedtime: string;
     value: string;
 }
-export class TreatmentFilterRequest
-{
+export class TreatmentFilterRequest {
     admissionid: number;
 }
- 
-export class CheckPatientRequest
-{
+
+export class CheckPatientRequest {
     patientid: number;
 }
-export class CheckPatientResponse
-{
+export class CheckPatientResponse {
     patientid: number;
     status: number;
+}
+
+export class DrInchargeListResponse {
+    usrid: number;
+    fname: string;
+    lname: string;
 }
