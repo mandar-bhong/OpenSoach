@@ -41,7 +41,7 @@ from spl_hpft_action_txn_tbl actn_txn
 inner join spl_hpft_patient_conf_tbl pconf on pconf.id = actn_txn.patient_conf_id_fk
 $WhereCondition$`
 
-const QUERY_SPL_PATIENT_ACTION_TXN_SELECT_BY_FILTER = `select actn_txn.admission_id_fk,actn_txn.patient_conf_id_fk,txn_date,txn_data,txn_state,actn_txn.conf_type_code,actn_txn.updated_by,pconf.conf->>'$.name' as action_name from spl_hpft_action_txn_tbl as actn_txn
+const QUERY_SPL_PATIENT_ACTION_TXN_SELECT_BY_FILTER = `select actn_txn.admission_id_fk,actn_txn.patient_conf_id_fk,scheduled_time,txn_data,txn_state,actn_txn.conf_type_code,actn_txn.updated_by,pconf.conf->>'$.name' as action_name from spl_hpft_action_txn_tbl as actn_txn
 inner join spl_hpft_patient_conf_tbl pconf on pconf.id = actn_txn.patient_conf_id_fk
 $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
