@@ -41,7 +41,10 @@ export class AppMessageUIHandler extends AppMessageHandler {
     schedulePostAction() {
         this.postActionContext.forEach(element => {
             const appMessageUIHandler = new AppMessageUIHandler();
-            appMessageUIHandler.handleMessage(element, this.postMessageCallback);
+            const x = new ServerDataStoreDataModel<IDatastoreModel>()
+            x.datastore = SYNC_STORE.ACTION
+            x.data = element;
+            appMessageUIHandler.handleMessage(x, this.postMessageCallback);
         });
     }
 }
