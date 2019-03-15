@@ -1,6 +1,8 @@
 package dbaccess
 
 import (
+	"time"
+
 	dbmgr "opensoach.com/core/manager/db"
 	"opensoach.com/prodcore/constants/dbquery"
 	"opensoach.com/prodcore/models"
@@ -48,6 +50,12 @@ func GetTableDataCount(dbConn string, query string, params interface{}) (error, 
 	}
 
 	data.Count = int((countresult[0]["count"]).(int64))
+
+	if countresult[0]["updated_on"] != nil {
+		data.MaxUpdatedOn = countresult[0]["updated_on"].(*time.Time)
+	} else {
+		data.MaxUpdatedOn = nil
+	}
 
 	return nil, data
 }
