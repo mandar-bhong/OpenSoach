@@ -85,15 +85,13 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Status</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
               <span class="mat-cell-responsive-label">Status</span>
-              <span [ngSwitch]="row.status" *ngIf="row.status === 1">
-                <div class="statusBlock" *ngSwitchCase="1" style="background-color:#28a745">Hospitalize</div>
-                <button mat-icon-button color="accent" data-toggle="modal" data-target="#myModal"
+              <span [ngSwitch]="row.status">
+                <div class="statusBlock" *ngSwitchCase="PATIENT_STATE.HOSPITALIZE" style="background-color:#28a745">Hospitalize</div>
+                <button *ngSwitchCase="PATIENT_STATE.HOSPITALIZE" mat-icon-button color="accent" data-toggle="modal" data-target="#myModal"
                   (click)="setSelectedPatient(row)">
                   <i class="fa fa-toggle-on" aria-hidden="true" matTooltip="Change Status"></i>
                 </button>
-              </span>
-              <span [ngSwitch]="row.status">
-                <div class="statusBlock" *ngSwitchCase="2" style="background-color:#15A5CA">Discharged</div>
+                <div class="statusBlock" *ngSwitchCase="PATIENT_STATE.DISCHARGED" style="background-color:#15A5CA">Discharged</div>
               </span>
             </mat-cell>
           </ng-container>
