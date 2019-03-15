@@ -136,8 +136,8 @@ export const APP_ROUTES: RoutingModel[] = [
     },
     {
         url: '/patients/patient_admission',
-        linktitle: 'Admission Detail',
-        pagetitle: 'Admission Detail',
+        linktitle: 'Admission Details',
+        pagetitle: 'Admission Details',
         linkiconcss: 'fa fa-users'
     },
 
@@ -176,6 +176,7 @@ export enum SERVICE_CONF_TYPE {
     SERVICE_DAILY_CHART = 'SERVICE_DAILY_CHART'
 }
 export enum PATIENT_STATE {
+    NOT_ADMITTED = 0,
     HOSPITALIZE = 1,
     DISCHARGED = 2
 }

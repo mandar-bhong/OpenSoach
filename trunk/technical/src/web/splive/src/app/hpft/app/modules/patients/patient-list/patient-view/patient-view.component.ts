@@ -18,6 +18,7 @@ import {
   PatientFilterRequest,
 } from '../../../../models/api/patient-models';
 import { PatientService } from '../../../../services/patient.service';
+import { PATIENT_STATE } from 'app/app-constants';
 
 @Component({
   selector: 'app-patient-view',
@@ -25,6 +26,7 @@ import { PatientService } from '../../../../services/patient.service';
   styleUrls: ['./patient-view.component.css']
 })
 export class PatientViewComponent implements OnInit, OnDestroy {
+  PATIENT_STATE = PATIENT_STATE;
   displayedColumns = ['fname', 'patientregno','emergencycontactno', 'mobno', 'spid', 'bedno', 'status', 'action'];
   sortByColumns = [{ text: 'Patient Name', value: 'fname' },
   { text: 'Patient Reg No', value: 'patientregno' },
@@ -67,7 +69,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     const datetime = dt.getHours() + ":" + dt.getMinutes();
     this.selectedStartTime = this.minutesToTimeString(dt.getMinutes());
     this.patientFilterRequest = new PatientFilterRequest();
-    this.patientFilterRequest.status = 1;
+    this.patientFilterRequest.status = PATIENT_STATE.HOSPITALIZE;
     this.paginator.pageSize = 10;
     this.sort.active = 'fname';
     this.sort.direction = 'asc';
@@ -101,7 +103,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   // Changing status , patient is dicharge or not
   changestatus() {
     const admissionStatusRequest = new AdmissionStatusRequest();
-    admissionStatusRequest.status = 2;
+    admissionStatusRequest.status = PATIENT_STATE.DISCHARGED;
     const date = this.dataModel.dischargedon;
     const datetime = date + this.selectedStartTime.toString();
     admissionStatusRequest.admissionid = this.selectedPatient.admissionid;
@@ -109,17 +111,14 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.patientService.updateAdmissionStatus(admissionStatusRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
-        this.selectedPatient.status = 2;
+        this.selectedPatient.status = PATIENT_STATE.DISCHARGED;
         this.dataModel.dischargedon = new Date();
         const dt = new Date();
         const datetime = dt.getHours() + ":" + dt.getMinutes();
         // this.selectedStartTime = dt.minutesToTimeString();
         this.selectedStartTime = this.minutesToTimeString(Number(datetime));
-        console.log("Time is reciving changemodel", this.selectedStartTime);
       }
-
     });
-
   }
 
   // For Time selection
@@ -173,11 +172,12 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     dataListRequest.orderdirection = this.sort.direction;
     return this.patientService.getDataList(dataListRequest);
   }
-  viewDetails(id: number, addid: number,pid: number) {
+  viewDetails(id: number, admissionid: number) {
     //setting patient id for further use
     this.patientService.patientid = id;
-    this.patientService.admissionid = addid;
-    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, addid: addid, callbackurl: 'patients' }, skipLocationChange: true });
+    this.patientService.admissionid = admissionid;
+    this.patientService.selcetdIndex = 0;
+    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid, callbackurl: 'patients' }, skipLocationChange: true });
   }
 
   sortByChanged() {
