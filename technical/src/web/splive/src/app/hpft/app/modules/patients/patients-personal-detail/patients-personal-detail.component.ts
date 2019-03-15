@@ -62,6 +62,9 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
         if (payloadResponse.data) {
           this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.patientService.fname = this.dataModel.fname;
+          this.patientService.lname = this.dataModel.lname;
+          this.patientService.setPatientName(this.dataModel.fname+' '+this.dataModel.lname);
         } else {
           this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
         }
@@ -69,23 +72,22 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
     });
   }
   save() {
-    if (this.recordState === EDITABLE_RECORD_STATE.UPDATE){
-    const patientUpdateRequest = new PatientUpdateRequest();
-    this.dataModel.patientregno = "7654";
-    this.dataModel.patientid = this.patientService.patientid;
-    this.dataModel.CopyToUpdate(patientUpdateRequest);
-    this.patientService.updatePatientDetails(patientUpdateRequest).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.dataModel.patientid = payloadResponse.data;
-        this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
-        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        this.setFormMode(FORM_MODE.VIEW);
-        this.appNotificationService.success();
-      }
-      this.inProgress = false;
-    });
+    if (this.recordState === EDITABLE_RECORD_STATE.UPDATE) {
+      const patientUpdateRequest = new PatientUpdateRequest();
+      this.dataModel.patientid = this.patientService.patientid;
+      this.dataModel.CopyToUpdate(patientUpdateRequest);
+      this.patientService.updatePatientDetails(patientUpdateRequest).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.patientService.setPatientName(this.dataModel.fname+' '+this.dataModel.lname);
+          this.dataModel.patientid = payloadResponse.data;
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.VIEW);
+          this.appNotificationService.success();
+        }
+        this.inProgress = false;
+      });
+    }
   }
-}
   createControls(): void {
     this.editableForm = new FormGroup({
       fnameControl: new FormControl(''),
