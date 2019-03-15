@@ -13,7 +13,7 @@
         </div>
         <div class="col-2 text-right">
           <button type="button" class="backButton" mat-icon-button (click)="close()" matTooltip="Back">
-           <mat-icon aria-label="Back">arrow_back</mat-icon>
+            <mat-icon aria-label="Back">arrow_back</mat-icon>
           </button>
         </div>
       </div>
@@ -59,19 +59,7 @@
             <div style="margin: 20px; padding: 10px;">
               <div class="row">
                 <div class="col-md-12 col-12" *ngIf="disableTab">
-                    <app-medical-container></app-medical-container>                 
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </mat-tab>
-
-        <mat-tab label="Reports">
-          <ng-template matTabContent>
-            <div style="margin: 20px; padding: 10px;">
-              <div class="row">
-                <div class="col-md-12 col-12" *ngIf="disableTab">
-                  <app-patient-report></app-patient-report>
+                  <app-medical-container></app-medical-container>
                 </div>
               </div>
             </div>
