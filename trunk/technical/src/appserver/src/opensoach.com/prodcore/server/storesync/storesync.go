@@ -10,7 +10,7 @@ import (
 
 var SUB_MODULE_NAME = "ProdCore.Server.StoreSync"
 
-func GetChanges(dbConnections map[int]string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
+func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[int]string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
 
 	dbConn := dbConnections[gmodels.DB_CONNECTION_NODE]
 
@@ -29,13 +29,21 @@ func GetChanges(dbConnections map[int]string, syncReq pcmodels.StoreSyncGetReque
 		break
 	}
 
-	dbErr, tableData := dbaccess.GetTableData(dbConn, syncConfigData.SelectQry, syncReq.UpdatedOn)
+	if syncReq.FilterHandler != nil {
+		err := syncReq.FilterHandler(ctx, syncConfigData, &syncReq)
+		if err != nil {
+			logger.Context().WithField("Table Data Request", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get table data.", err)
+			return err, nil
+		}
+	}
+
+	dbErr, tableData := dbaccess.GetTableData(dbConn, syncConfigData.SelectQry, syncReq.QueryParams)
 	if dbErr != nil {
 		logger.Context().WithField("Table Data Request", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get table data.", dbErr)
 		return dbErr, nil
 	}
 
-	dbErr, count := dbaccess.GetTableDataCount(dbConn, syncConfigData.SelectCountQry, syncReq.UpdatedOn)
+	dbErr, count := dbaccess.GetTableDataCount(dbConn, syncConfigData.SelectCountQry, syncReq.QueryParams)
 	if dbErr != nil {
 		logger.Context().WithField("Table Data Request", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get table data count", dbErr)
 		return dbErr, nil

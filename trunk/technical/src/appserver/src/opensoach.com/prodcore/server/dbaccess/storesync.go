@@ -1,8 +1,6 @@
 package dbaccess
 
 import (
-	"time"
-
 	dbmgr "opensoach.com/core/manager/db"
 	"opensoach.com/prodcore/constants/dbquery"
 	"opensoach.com/prodcore/models"
@@ -23,20 +21,20 @@ func GetSyncConfig(dbConn string, storename string) (error, *models.SyncConfigMo
 	return nil, data
 }
 
-func GetTableData(dbConn string, query string, updateon time.Time) (error, []map[string]interface{}) {
+func GetTableData(dbConn string, query string, params interface{}) (error, []map[string]interface{}) {
 
 	selDBCtx := dbmgr.SelectContext{}
 	selDBCtx.DBConnection = dbConn
 	selDBCtx.Query = query
 	selDBCtx.QueryType = dbmgr.Query
-	selErr, data := selDBCtx.SelectToMap(updateon)
+	selErr, data := selDBCtx.SelectToMap(params)
 	if selErr != nil {
 		return selErr, nil
 	}
 	return nil, data
 }
 
-func GetTableDataCount(dbConn string, query string, updateon time.Time) (error, *models.SyncConfigTblInfoModel) {
+func GetTableDataCount(dbConn string, query string, params interface{}) (error, *models.SyncConfigTblInfoModel) {
 
 	selDBCtx := dbmgr.SelectContext{}
 	selDBCtx.DBConnection = dbConn
@@ -44,10 +42,13 @@ func GetTableDataCount(dbConn string, query string, updateon time.Time) (error, 
 	selDBCtx.Dest = data
 	selDBCtx.Query = query
 	selDBCtx.QueryType = dbmgr.Query
-	selErr := selDBCtx.Get(updateon)
+	selErr, countresult := selDBCtx.SelectToMap(params)
 	if selErr != nil {
 		return selErr, nil
 	}
+
+	data.Count = int((countresult[0]["count"]).(int64))
+
 	return nil, data
 }
 
