@@ -21,8 +21,10 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
   dataModal = new PatientDataModel();
   selectedIndex: 0;
   disableTab: boolean;
-  addid: number;
+  admissionid: number;
   admissionIdSubscription: Subscription;
+  patientName: string;
+  patientNameSubscription: Subscription;
 
   constructor(
     private patientService: PatientService,
@@ -36,12 +38,21 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
   }
 
   ngOnInit() {
+    // setTimeout(() => {
+    //   this.fname = this.patientService.fname;
+    //   this.lname = this.patientService.lname;
+    // }, 10);
+    this.patientNameSubscription = this.patientService.patientName.subscribe((value) => {
+        this.patientName = value;
+    });
+
+    this.subTitle = this.patientService.fname + ' ' + this.patientService.lname;
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.subTitle = this.translatePipe.transform('OPERATOR_ADD_MODE_TITLE');
       this.callbackUrl = params['callbackurl'];
     });
     this.admissionIdSubscription = this.patientService.admissionIdReceived.subscribe((value) => {
-      this.addid = value;
+      this.admissionid = value;
       this.HideTab();
     });
     if (this.patientService.selcetdIndex && this.patientService.selcetdIndex != null) {
@@ -49,13 +60,13 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
     }
     this.route.queryParams.subscribe(params => {
       const id = params['id'];
-      this.addid = params['addid'];
+      this.admissionid = params['admissionid'];
       this.HideTab();
     });
   }
 
   HideTab() {
-    if (this.addid != null) {
+    if (this.admissionid != null) {
       this.disableTab = true;
     } else {
       this.disableTab = false;
@@ -79,7 +90,12 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
-    if (this.admissionIdSubscription) { this.admissionIdSubscription.unsubscribe(); }
+    if (this.admissionIdSubscription) {
+      this.admissionIdSubscription.unsubscribe();
+    }
+    if (this.patientNameSubscription) {
+      this.patientNameSubscription.unsubscribe();
+    }
   }
 
 }
