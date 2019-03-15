@@ -70,4 +70,5 @@ type HTMLPDFDataModel struct {
 	TemplateData  interface{}
 	PDFBuffer     *bytes.Buffer
 	PDFOutputPath string
+	HeaderPath    string
 }
