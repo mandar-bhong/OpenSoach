@@ -11,9 +11,10 @@ import (
 	lhelper "opensoach.com/hpft/server/helper"
 	lmodels "opensoach.com/hpft/server/models"
 	gmodels "opensoach.com/models"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
-func ProcessDeviceStateBatteryLevelData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+func ProcessDeviceStateBatteryLevelData(ctx *pcmodels.DevicePacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	devicePacket := &gmodels.DevicePacket{}
 	devicePacket.Payload = &lmodels.PacketDeviceBatteryLevelUpdateData{}

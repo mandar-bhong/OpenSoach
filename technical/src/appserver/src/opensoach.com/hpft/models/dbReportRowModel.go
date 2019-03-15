@@ -22,3 +22,21 @@ type ReportHeaderModel struct {
 	En []string `json:"en"`
 	Hi []string `json:"hi"`
 }
+
+type DBPatientReportDataModel struct {
+	AdmissionData       DBSplHpftPatientAdmissionTableRowModel
+	PatientMasterData   DBSplHpftPatientMasterTableRowModel
+	PersonalDetailsData DBSplHpftPatientPersonalDetailsRowModel
+	MedicalDetailsData  DBSplHpftPatientMedicalDetailsRowModel
+	DoctorOrdersData    []DBPatientDoctorOrdersData
+	TreatmentData       []DBSplHpftTreatmentTableRowModel
+	PathologyRecordData []DBSplHpftPathologyRecordTableRowModel
+}
+
+type DBPatientDoctorOrdersData struct {
+	DBSplHpftDoctorsOrdersTableRowModel
+	DoctorFname *string `json:"doctorfname"`
+	DoctorLname *string `json:"doctorlname"`
+	AckByFname  *string `json:ackbyfname""`
+	AckByLname  *string `json:"ackbylname"`
+}

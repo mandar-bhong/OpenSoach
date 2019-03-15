@@ -1092,3 +1092,54 @@ func GetDocumentDataByDocumentUUID(dbConn string, documentuuid string) (error, *
 	}
 	return nil, data
 }
+
+func GetPatientDoctorsOrdersByAdmissionId(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftDoctorsOrdersTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientDoctorsOrdersByAdmissionId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHpftDoctorsOrdersTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Query = dbquery.QUERY_SELECT_PATIENT_DOCTORS_ORDERS_BY_ADMISSION_ID
+	selDBCtx.Dest = data
+	selErr := selDBCtx.SelectById(admissionid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetPatientTreatmentByAdmissionId(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftTreatmentTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientTreatmentByAdmissionId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHpftTreatmentTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Query = dbquery.QUERY_SELECT_PATIENT_TREATMENT_BY_ADMISSION_ID
+	selDBCtx.Dest = data
+	selErr := selDBCtx.SelectById(admissionid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetPatientPathologyRecordsByAdmissionId(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftPathologyRecordTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientPathologyRecordsByAdmissionId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBSplHpftPathologyRecordTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Query = dbquery.QUERY_SELECT_PATIENT_PATHOLOGY_RECORDS_BY_ADMISSION_ID
+	selDBCtx.Dest = data
+	selErr := selDBCtx.SelectById(admissionid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

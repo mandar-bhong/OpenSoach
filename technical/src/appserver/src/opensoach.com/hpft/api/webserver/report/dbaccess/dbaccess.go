@@ -128,3 +128,73 @@ func GetPatientAdmissionReportData(dbConn string, admissionid int64) (error, *[]
 	return err, data
 
 }
+
+func GetPatientMasterReportData(dbConn string, patientid int64) (error, *[]hktmodels.DBSplHpftPatientMasterTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientMasterReportData")
+
+	err, data := patientdbaccess.GetPatientById(dbConn, patientid)
+
+	return err, data
+
+}
+
+func GetPatientPersonalDetailsReportData(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftPatientPersonalDetailsRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientPersonalDetailsReportData")
+
+	err, data := patientdbaccess.GetPersonalDetailsByAdmissionId(dbConn, admissionid)
+
+	return err, data
+
+}
+
+func GetPatientMedicalDetailsReportData(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftPatientMedicalDetailsRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientMedicalDetailsReportData")
+
+	err, data := patientdbaccess.GetMedicalDetailsDetailsByAdmissionId(dbConn, admissionid)
+
+	return err, data
+
+}
+
+func GetPatientDoctorsOrdersReportData(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftDoctorsOrdersTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientDoctorsOrdersReportData")
+
+	err, data := patientdbaccess.GetPatientDoctorsOrdersByAdmissionId(dbConn, admissionid)
+
+	return err, data
+
+}
+
+func GetPatientTreatmentReportData(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftTreatmentTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientTreatmentReportData")
+
+	err, data := patientdbaccess.GetPatientTreatmentByAdmissionId(dbConn, admissionid)
+
+	return err, data
+
+}
+
+func GetPatientPathologicalRecordReportData(dbConn string, admissionid int64) (error, *[]hktmodels.DBSplHpftPathologyRecordTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientPathologicalRecordReportData")
+
+	err, data := patientdbaccess.GetPatientPathologyRecordsByAdmissionId(dbConn, admissionid)
+
+	return err, data
+
+}
+
+func GetUserData(dbConn string, usrid int64) (error, *[]hktmodels.PatientUserInfo) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserData")
+
+	err, data := patientdbaccess.GetUserInfoById(dbConn, usrid)
+
+	return err, data
+
+}

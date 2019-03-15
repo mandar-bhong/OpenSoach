@@ -10,9 +10,10 @@ import (
 	lhelper "opensoach.com/hpft/server/helper"
 	lmodels "opensoach.com/hpft/server/models"
 	gmodels "opensoach.com/models"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
-func ProcessComplaintData(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+func ProcessComplaintData(ctx *pcmodels.DevicePacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	devicePacket := &gmodels.DevicePacket{}
 	devicePacket.Payload = &[]lmodels.PacketComplaintData{}

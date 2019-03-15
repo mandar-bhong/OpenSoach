@@ -9,15 +9,15 @@ import (
 	serconst "opensoach.com/hpft/server/constants"
 	"opensoach.com/hpft/server/dbaccess"
 	lhelper "opensoach.com/hpft/server/helper"
-	lmodels "opensoach.com/hpft/server/models"
 	"opensoach.com/hpft/server/processor/endpoint"
 	epproc "opensoach.com/hpft/server/processor/endpoint"
 	repo "opensoach.com/hpft/server/repository"
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
-type CommandExecutor func(context *lmodels.PacketProccessExecution, result *gmodels.PacketProcessingTaskResult)
+type CommandExecutor func(context *pcmodels.DevicePacketProccessExecution, result *gmodels.PacketProcessingTaskResult)
 
 var PacketProcessExecutor map[string]CommandExecutor
 
@@ -48,12 +48,11 @@ func InitProcessor() {
 	CAT_DATA_DEVICE_STATE_BATTERY_LEVEL_DATA := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
 		serconst.DEVICE_CMD_DEVICE_STATE_BATTERY_LEVEL_DATA)
 
-	CAT_DATA_STORE_GET_SYNC:= pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
-			serconst.DEVICE_CMD_STORE_GET_SYNC)
+	CAT_DATA_STORE_GET_SYNC := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+		serconst.DEVICE_CMD_STORE_GET_SYNC)
 
-	CAT_DATA_STORE_APPLY_SYNC:= pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
-				serconst.DEVICE_CMD_STORE_APPLY_SYNC)
-
+	CAT_DATA_STORE_APPLY_SYNC := pchelper.GetDeviceCmdKey(serconst.DEVICE_CMD_CAT_DATA,
+		serconst.DEVICE_CMD_STORE_APPLY_SYNC)
 
 	PacketProcessExecutor[CAT_DR_DEV_REG] = endpoint.ProcessDevReg
 
@@ -140,7 +139,7 @@ func ProcessEndPointReceivedPacket(msg string) (string, error) {
 
 	packetProcessingResult.AckPayload = []*gmodels.DevicePacket{}
 
-	packetProccessExecution := &lmodels.PacketProccessExecution{}
+	packetProccessExecution := &pcmodels.DevicePacketProccessExecution{}
 	packetProccessExecution.Token = endPointToServerTaskModel.Token
 	packetProccessExecution.DevicePacket = endPointToServerTaskModel.Message
 	packetProccessExecution.InstanceDBConn = dbInstConn

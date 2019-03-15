@@ -210,8 +210,8 @@ type DBPatientConfUpdateRowModel struct {
 }
 
 type DBPatientAdmissionStatusInfoModel struct {
-	PatientId int64 `db:"patient_id_fk" json:"patientid"`
-	Status    int   `db:"status" json:"status"`
+	PatientId int64 `db:"id" json:"patientid"`
+	Status    *int  `db:"status" json:"status"`
 }
 
 type PatientUserInfo struct {
@@ -220,12 +220,13 @@ type PatientUserInfo struct {
 }
 
 type DBPatientTreatmentDataModel struct {
-	Uuid            string  `db:"uuid" json:"uuid"`
-	AdmissionId     int64   `db:"admission_id_fk" json:"admissionid"`
-	TreatmentDone   string  `db:"treatment_done" json:"treatmentdone"`
-	Details         *string `db:"details" json:"details"`
-	PostObservation *string `db:"post_observation" json:"postobservation"`
-	UpdatedBy       int64   `db:"updated_by" json:"updatedby"`
+	Uuid                   string     `db:"uuid" json:"uuid"`
+	AdmissionId            int64      `db:"admission_id_fk" json:"admissionid"`
+	TreatmentDone          string     `db:"treatment_done" json:"treatmentdone"`
+	TreatmentPerformedTime *time.Time `db:"treatment_performed_time" json:"treatmentperformedtime"`
+	Details                *string    `db:"details" json:"details"`
+	PostObservation        *string    `db:"post_observation" json:"postobservation"`
+	UpdatedBy              int64      `db:"updated_by" json:"updatedby"`
 }
 
 type DBPatientTreatmentInsertRowModel struct {
@@ -239,12 +240,13 @@ type DBPatientTreatmentDocInsertRowModel struct {
 }
 
 type DBPatientPathologyRecordDataModel struct {
-	Uuid          string  `db:"uuid" json:"uuid"`
-	AdmissionId   int64   `db:"admission_id_fk" json:"admissionid"`
-	TestPerformed string  `db:"test_performed" json:"testperformed"`
-	TestResult    *string `db:"test_result" json:"testresult"`
-	Comments      *string `db:"comments" json:"comments"`
-	UpdatedBy     int64   `db:"updated_by" json:"updatedby"`
+	Uuid              string     `db:"uuid" json:"uuid"`
+	AdmissionId       int64      `db:"admission_id_fk" json:"admissionid"`
+	TestPerformed     string     `db:"test_performed" json:"testperformed"`
+	TestPerformedTime *time.Time `db:"test_performed_time" json:"testperformedtime"`
+	TestResult        *string    `db:"test_result" json:"testresult"`
+	Comments          *string    `db:"comments" json:"comments"`
+	UpdatedBy         int64      `db:"updated_by" json:"updatedby"`
 }
 
 type DBPatientPathologyRecordInsertRowModel struct {

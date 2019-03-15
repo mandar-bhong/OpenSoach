@@ -9,6 +9,7 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	lmodels "opensoach.com/hpft/api/models"
+	repo "opensoach.com/hpft/api/repository"
 	"opensoach.com/hpft/api/webserver/report/dbaccess"
 	hktmodels "opensoach.com/hpft/models"
 	gmodels "opensoach.com/models"
@@ -156,7 +157,8 @@ func (service ReportService) ReportShortList() (bool, interface{}) {
 
 func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, interface{}) {
 
-	dbErr, listData := dbaccess.GetPatientAdmissionReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	// get admission data
+	dbErr, admissionData := dbaccess.GetPatientAdmissionReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
 
@@ -165,7 +167,125 @@ func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, in
 		return false, errModel
 	}
 
-	dbRecordList := *listData
+	admissionRecordList := *admissionData
+
+	// get patient master data
+	dbErr, patientMasterData := dbaccess.GetPatientMasterReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	patientMasterRecordList := *patientMasterData
+
+	// get patient personal details data
+	dbErr, personalDetailsData := dbaccess.GetPatientPersonalDetailsReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	patientPersonalDetailsRecordList := *personalDetailsData
+
+	// get patient medical details data
+	dbErr, medicalDetailsData := dbaccess.GetPatientMedicalDetailsReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	patientMedicalDetailsRecordList := *medicalDetailsData
+
+	// get patient doctors orders data
+	dbErr, doctorOrdersData := dbaccess.GetPatientDoctorsOrdersReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	patientDoctorOrdersRecordList := *doctorOrdersData
+	dbPatientDoctorOrdersList := []hktmodels.DBPatientDoctorOrdersData{}
+
+	for _, each := range patientDoctorOrdersRecordList {
+		//get doctor ack by user data
+		dbErr, ackByData := dbaccess.GetUserData(repo.Instance().Context.Master.DBConn, *each.AckBy)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting doctor ack by user info.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		ackByDataRecord := *ackByData
+
+		dbErr, doctorData := dbaccess.GetUserData(repo.Instance().Context.Master.DBConn, each.DoctorId)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting doctor ack by user info.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		doctorDataRecord := *doctorData
+
+		dbPatientDoctorOrdersDataItem := hktmodels.DBPatientDoctorOrdersData{}
+		dbPatientDoctorOrdersDataItem.DBSplHpftDoctorsOrdersTableRowModel = each
+		dbPatientDoctorOrdersDataItem.AckByFname = &ackByDataRecord[0].Firstname
+		dbPatientDoctorOrdersDataItem.AckByLname = &ackByDataRecord[0].LastName
+		dbPatientDoctorOrdersDataItem.DoctorFname = &doctorDataRecord[0].Firstname
+		dbPatientDoctorOrdersDataItem.DoctorLname = &doctorDataRecord[0].LastName
+		dbPatientDoctorOrdersList = append(dbPatientDoctorOrdersList, dbPatientDoctorOrdersDataItem)
+
+	}
+
+	// get patient treatment data
+	dbErr, treatmentData := dbaccess.GetPatientTreatmentReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	treatmentDataRecordList := *treatmentData
+
+	// get patient pathology record data
+	dbErr, pathologyRecordData := dbaccess.GetPatientPathologicalRecordReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient admission report.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	pathologyRecordRecordList := *pathologyRecordData
+
+	dBPatientReportDataModel := hktmodels.DBPatientReportDataModel{}
+	dBPatientReportDataModel.AdmissionData = admissionRecordList[0]
+	dBPatientReportDataModel.PatientMasterData = patientMasterRecordList[0]
+	dBPatientReportDataModel.PersonalDetailsData = patientPersonalDetailsRecordList[0]
+	dBPatientReportDataModel.MedicalDetailsData = patientMedicalDetailsRecordList[0]
+	dBPatientReportDataModel.DoctorOrdersData = dbPatientDoctorOrdersList
+	dBPatientReportDataModel.TreatmentData = treatmentDataRecordList
+	dBPatientReportDataModel.PathologyRecordData = pathologyRecordRecordList
+
+	fmt.Println("dBPatientReportDataModel", dBPatientReportDataModel)
 
 	//pdf create
 	currDir := ghelper.GetExeFolder()
@@ -175,7 +295,7 @@ func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, in
 	pdfmodel := gmodels.HTMLPDFDataModel{}
 	pdfmodel.TemplatePath = inpath
 	// pdfmodel.PDFOutputPath = outPath
-	pdfmodel.TemplateData = dbRecordList[0]
+	pdfmodel.TemplateData = dBPatientReportDataModel
 	pdfErr := ghelper.CreateHTMLToPDF(&pdfmodel)
 	if pdfErr != nil {
 		fmt.Println("pdf create err:", pdfErr)

@@ -4,11 +4,12 @@ import (
 	"fmt"
 
 	//ghelper "opensoach.com/core/helper"
-	lmodels "opensoach.com/hpft/server/models"
+
 	gmodels "opensoach.com/models"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
-func ProcessDevReg(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+func ProcessDevReg(ctx *pcmodels.DevicePacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	packetProcessingResult.IsSuccess = true
 

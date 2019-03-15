@@ -1,9 +1,10 @@
 package endpoint
 
 import (
+	"errors"
+
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
-	lmodels "opensoach.com/hpft/server/models"
 	repo "opensoach.com/hpft/server/repository"
 	gmodels "opensoach.com/models"
 	pchelper "opensoach.com/prodcore/helper"
@@ -12,13 +13,14 @@ import (
 	pcservices "opensoach.com/prodcore/services"
 )
 
-func ProcessGetStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+func ProcessGetStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	packetProcessingResult.IsSuccess = true
 	deviceCommandAck := gmodels.DeviceCommandAck{}
 	deviceCommandAck.Ack = true
 
 	reqModel := pcmodels.StoreSyncGetRequestModel{}
+	reqModel.FilterHandler = AttachServerFilter
 
 	devPacket := &gmodels.DevicePacket{}
 	devPacket.Payload = &reqModel
@@ -35,7 +37,7 @@ func ProcessGetStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessingR
 		dbConnections[gmodels.DB_CONNECTION_MASTER] = repo.Instance().Context.Master.DBConn
 		dbConnections[gmodels.DB_CONNECTION_NODE] = ctx.InstanceDBConn
 
-		err, data := pcstoresync.GetChanges(dbConnections, reqModel)
+		err, data := pcstoresync.GetChanges(ctx, dbConnections, reqModel)
 		if err != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting db changes", err)
 			deviceCommandAck.Ack = false
@@ -68,7 +70,7 @@ func ProcessGetStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessingR
 
 }
 
-func ProcessApplyStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
+func ProcessApplyStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
 	packetProcessingResult.IsSuccess = true
 	deviceCommandAck := gmodels.DeviceCommandAck{}
@@ -106,4 +108,33 @@ func ProcessApplyStoreSync(ctx *lmodels.PacketProccessExecution, packetProcessin
 		return
 	}
 
+}
+
+func AttachServerFilter(ctx *pcmodels.DevicePacketProccessExecution, filterModel *pcmodels.SyncConfigModel, request *pcmodels.StoreSyncGetRequestModel) error {
+
+	queryDataModel := pcmodels.QueryDataModel{}
+	isSuccess := ghelper.ConvertFromJSONString(filterModel.QueryData, &queryDataModel)
+	if isSuccess == false {
+		logger.Context().WithField("DB Server Filter", filterModel.QueryData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to convert query data json.", nil)
+		return errors.New("Unable to server parse query parameter form json data")
+	}
+
+	if request.QueryParams == nil {
+		request.QueryParams = make(map[string]interface{})
+	}
+
+	if len(queryDataModel.Select.Filters) > 0 {
+		for _, each := range queryDataModel.Select.Filters {
+			switch each {
+			case "cpm":
+				request.QueryParams["cpmid"] = ctx.TokenInfo.CpmID
+				break
+			case "updatedon":
+				request.QueryParams["updatedon"] = request.UpdatedOn
+				break
+			}
+		}
+	}
+
+	return nil
 }

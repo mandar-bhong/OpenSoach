@@ -24,6 +24,7 @@ func (service PatientService) PatientAdd(req lmodels.APIPatientAddRequest) (isSu
 	dbRowModel.DBPatientMasterDataModel = req.DBPatientMasterDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+	dbRowModel.Uuid = ghelper.GenerateUUID()
 
 	dbErr, insertedId := dbaccess.Insert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -77,20 +78,12 @@ func (service PatientService) PatientUpdate(reqData *hktmodels.DBPatientUpdateRo
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.UpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -103,20 +96,12 @@ func (service PatientService) UpdateStatus(reqData *hktmodels.DBPatientUpdateSta
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
-	dbErr, affectedRow := dbaccess.UpdatePatientStatus(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.UpdatePatientStatus(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while udating patient status.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -150,12 +135,6 @@ func (service PatientService) SelectPatientById(patientID int64) (bool, interfac
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient info")
 	return true, dbRecord[0]
 }
@@ -173,12 +152,6 @@ func (service PatientService) SelectPatientByFilter(req *hktmodels.DBPatientFilt
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient info")
 	return true, dbRecord
 }
@@ -189,6 +162,7 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 	dbRowModel.DBAdmissionTblDataModel = req.DBAdmissionTblDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+	dbRowModel.Uuid = ghelper.GenerateUUID()
 
 	dbErr, insertedId := dbaccess.AdmissionTblInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -214,12 +188,6 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 	}
 
 	dbRecord := *data
-
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
 
 	// insert personal details
 	personalDetailsAddRequest := lmodels.APIPersonalDetailsAddRequest{}
@@ -257,20 +225,12 @@ func (service PatientService) AdmissionUpdate(reqData *hktmodels.DBAdmissionTblU
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.AdmissionTblUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.AdmissionTblUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient admission info.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -292,12 +252,6 @@ func (service PatientService) SelectAdmissionById(admissionID int64) (bool, inte
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission info")
 	return true, dbRecord[0]
 }
@@ -308,6 +262,7 @@ func (service PatientService) PersonalDetialsAdd(req lmodels.APIPersonalDetailsA
 	dbRowModel.DBPersonalDetailsDataModel = req.DBPersonalDetailsDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+	dbRowModel.Uuid = ghelper.GenerateUUID()
 
 	dbErr, insertedId := dbaccess.PersonalDetailsInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -332,20 +287,12 @@ func (service PatientService) PersonalDetailsUpdate(reqData *hktmodels.DBPersona
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.PersonalDetailsUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.PersonalDetailsUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient personal details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -359,20 +306,12 @@ func (service PatientService) PersonalDetailsUpdatePersonAccompanying(reqData *h
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.PersonalDetailsUpdatePersonAccompanying(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.PersonalDetailsUpdatePersonAccompanying(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient personal details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -394,12 +333,6 @@ func (service PatientService) SelectPersonalDetailsById(personalDetailsID int64)
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient personal details.")
 	return true, dbRecord[0]
 }
@@ -410,6 +343,7 @@ func (service PatientService) MedicalDetialsAdd(req lmodels.APIMedicalDetailsAdd
 	dbRowModel.DBMedicalDetailsDataModel = req.DBMedicalDetailsDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+	dbRowModel.Uuid = ghelper.GenerateUUID()
 
 	dbErr, insertedId := dbaccess.MedicalDetailsInsert(service.ExeCtx.SessionInfo.Product.NodeDbConn, dbRowModel)
 	if dbErr != nil {
@@ -434,20 +368,12 @@ func (service PatientService) MedicalDetailsUpdate(reqData *hktmodels.DBMedicalD
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -461,20 +387,12 @@ func (service PatientService) MedicalDetailsUpdatePresentComplaints(reqData *hkt
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdatePresentComplaints(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdatePresentComplaints(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -488,20 +406,12 @@ func (service PatientService) MedicalDetailsUpdateReasonForAdmission(reqData *hk
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateReasonForAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdateReasonForAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -515,20 +425,12 @@ func (service PatientService) MedicalDetailsUpdateHistoryPresentIllness(reqData 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateHistoryPresentIllness(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdateHistoryPresentIllness(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -542,20 +444,12 @@ func (service PatientService) MedicalDetailsUpdatePastHistory(reqData *hktmodels
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdatePastHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdatePastHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -569,20 +463,12 @@ func (service PatientService) MedicalDetailsUpdateTreatmentBeforeAdmission(reqDa
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateTreatmentBeforeAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdateTreatmentBeforeAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -596,20 +482,12 @@ func (service PatientService) MedicalDetailsUpdateInvestigationBeforeAdmission(r
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateInvestigationBeforeAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdateInvestigationBeforeAdmission(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -623,20 +501,12 @@ func (service PatientService) MedicalDetailsUpdateFamilyHistory(reqData *hktmode
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateFamilyHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdateFamilyHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -650,20 +520,12 @@ func (service PatientService) MedicalDetailsUpdateAllergies(reqData *hktmodels.D
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdateAllergies(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdateAllergies(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -677,20 +539,12 @@ func (service PatientService) MedicalDetailsUpdatePersonalHistory(reqData *hktmo
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
 
-	dbErr, affectedRow := dbaccess.MedicalDetailsUpdatePersonalHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.MedicalDetailsUpdatePersonalHistory(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient medical details.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -711,12 +565,6 @@ func (service PatientService) SelectMedicalDetailsById(medicalDetailsID int64) (
 	}
 
 	dbRecord := *data
-
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient medical details.")
 	return true, dbRecord[0]
@@ -764,12 +612,6 @@ func (service PatientService) SelectPatientConfById(confID int64) (bool, interfa
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient config.")
 	return true, dbRecord[0]
 }
@@ -778,20 +620,12 @@ func (service PatientService) PatientConfUpdate(reqData *hktmodels.DBPatientConf
 
 	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 
-	dbErr, affectedRow := dbaccess.PatientConfUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	dbErr, _ := dbaccess.PatientConfUpdateByFilter(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
 	if dbErr != nil {
 		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient config.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
-		return false, errModel
-	}
-
-	if affectedRow == 0 {
-		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Update request has no updated data.", dbErr)
-
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
 		return false, errModel
 	}
 
@@ -841,12 +675,6 @@ func (service PatientService) GetAdmissionStatusById(admissionID int64) (bool, i
 	}
 
 	dbRecord := *data
-
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission status info")
 	return true, dbRecord[0]
@@ -943,12 +771,6 @@ func (service PatientService) SelectPatientDoctorsOrdersById(doctorsordersID int
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient doctor orders info.")
 	return true, dbRecord[0]
 }
@@ -966,12 +788,6 @@ func (service PatientService) SelectPatientPathologyRecordsById(pathologyrecordI
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient pathology record info.")
 	return true, dbRecord[0]
 }
@@ -988,12 +804,6 @@ func (service PatientService) SelectPatientTreatmentById(pathologyrecordID int64
 	}
 
 	dbRecord := *data
-
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient treatment info.")
 	return true, dbRecord[0]
@@ -1176,12 +986,6 @@ func (service PatientService) SelectPatientInfoByAdmissionId(req lmodels.APIPati
 
 	dbRecord := *data
 
-	if len(dbRecord) < 1 {
-		errModel := gmodels.APIResponseError{}
-		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
-		return false, errModel
-	}
-
 	if req.AdmissionId != nil {
 
 		dbErr, personaldetailsdata := dbaccess.GetPersonalDetailsByAdmissionId(service.ExeCtx.SessionInfo.Product.NodeDbConn, *req.AdmissionId)
@@ -1210,6 +1014,7 @@ func (service PatientService) PatientTreatmentAdd(req lmodels.APIPatientTreatmen
 	dbRowModel.DBPatientTreatmentDataModel = req.DBPatientTreatmentDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+	dbRowModel.Uuid = ghelper.GenerateUUID()
 
 	dbTxErr, tx := dbaccess.GetDBTransaction(service.ExeCtx.SessionInfo.Product.NodeDbConn)
 
@@ -1306,6 +1111,7 @@ func (service PatientService) PatientPathologyRecordAdd(req lmodels.APIPatientPa
 	dbRowModel.DBPatientPathologyRecordDataModel = req.DBPatientPathologyRecordDataModel
 	dbRowModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
 	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+	dbRowModel.Uuid = ghelper.GenerateUUID()
 
 	dbTxErr, tx := dbaccess.GetDBTransaction(service.ExeCtx.SessionInfo.Product.NodeDbConn)
 

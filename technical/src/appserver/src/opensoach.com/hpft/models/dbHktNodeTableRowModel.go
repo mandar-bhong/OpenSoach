@@ -242,6 +242,7 @@ type DBSplHpftPatientConfTableRowModel struct {
 	ConfTypeCode    string     `db:"conf_type_code" json:"conftypecode"`
 	Conf            string     `db:"conf" json:"conf"`
 	EndDate         time.Time  `db:"end_date" json:"enddate"`
+	Status          int        `db:"status" json:"status"`
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
@@ -323,16 +324,17 @@ type DBSplHpftPathologyRecordDocTableRowModel struct {
 
 type DBSplHpftPathologyRecordTableRowModel struct {
 	pcmodels.StoreEntityModel
-	PathologyId     int64      `db:"id" dbattr:"pri,auto"  json:"pathologyid"`
-	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
-	AdmissionId     int64      `db:"admission_id_fk" json:"admissionid"`
-	TestPerformed   string     `db:"test_performed" json:"testperformed"`
-	TestResult      *string    `db:"test_result" json:"testresult"`
-	Comments        *string    `db:"comments" json:"comments"`
-	UpdatedBy       int64      `db:"updated_by" json:"updatedby"`
-	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
-	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
-	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+	PathologyId       int64      `db:"id" dbattr:"pri,auto"  json:"pathologyid"`
+	CpmId             int64      `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId       int64      `db:"admission_id_fk" json:"admissionid"`
+	TestPerformed     string     `db:"test_performed" json:"testperformed"`
+	TestPerformedTime *time.Time `db:"test_performed_time" json:"testperformedtime"`
+	TestResult        *string    `db:"test_result" json:"testresult"`
+	Comments          *string    `db:"comments" json:"comments"`
+	UpdatedBy         int64      `db:"updated_by" json:"updatedby"`
+	ClientUpdatedAt   *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn         time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn         time.Time  `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplHpftTreatmentDocTableRowModel struct {
@@ -344,14 +346,15 @@ type DBSplHpftTreatmentDocTableRowModel struct {
 
 type DBSplHpftTreatmentTableRowModel struct {
 	pcmodels.StoreEntityModel
-	TreatmentId     int64      `db:"id" dbattr:"pri,auto"  json:"treatmentid"`
-	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
-	AdmissionId     int64      `db:"admission_id_fk" json:"admissionid"`
-	TreatmentDone   string     `db:"treatment_done" json:"treatmentdone"`
-	Details         *string    `db:"details" json:"details"`
-	PostObservation *string    `db:"post_observation" json:"postobservation"`
-	UpdatedBy       int64      `db:"updated_by" json:"updatedby"`
-	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
-	CreatedOn       *time.Time `db:"created_on" json:"createdon"`
-	UpdatedOn       *time.Time `db:"updated_on" json:"updatedon"`
+	TreatmentId            int64      `db:"id" dbattr:"pri,auto"  json:"treatmentid"`
+	CpmId                  int64      `db:"cpm_id_fk" json:"cpmid"`
+	AdmissionId            int64      `db:"admission_id_fk" json:"admissionid"`
+	TreatmentDone          string     `db:"treatment_done" json:"treatmentdone"`
+	TreatmentPerformedTime *time.Time `db:"treatment_performed_time" json:"treatmentperformedtime"`
+	Details                *string    `db:"details" json:"details"`
+	PostObservation        *string    `db:"post_observation" json:"postobservation"`
+	UpdatedBy              int64      `db:"updated_by" json:"updatedby"`
+	ClientUpdatedAt        *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn              *time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn              *time.Time `db:"updated_on" json:"updatedon"`
 }

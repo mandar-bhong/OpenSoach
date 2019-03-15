@@ -22,6 +22,7 @@ import (
 	servicepoint "opensoach.com/hpft/api/webserver/servicepoint"
 	splprod "opensoach.com/hpft/api/webserver/splprod"
 	task "opensoach.com/hpft/api/webserver/task"
+	user "opensoach.com/hpft/api/webserver/user"
 	"opensoach.com/hpft/api/webserver/webcontent"
 	gmodels "opensoach.com/models"
 	pcmodels "opensoach.com/prodcore/models"
@@ -57,6 +58,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	feedback.Init(webConfig)
 	patient.Init(webConfig)
 	document.Init(webConfig)
+	user.Init(webConfig)
 
 	var webServerStartErr error
 
