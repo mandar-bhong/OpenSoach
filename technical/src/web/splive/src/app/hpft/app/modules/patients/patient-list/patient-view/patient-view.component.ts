@@ -26,8 +26,8 @@ import { PATIENT_STATE } from 'app/app-constants';
   styleUrls: ['./patient-view.component.css']
 })
 export class PatientViewComponent implements OnInit, OnDestroy {
-  PATIENT_STATE = PATIENT_STATE;
-  displayedColumns = ['fname', 'patientregno','emergencycontactno', 'mobno', 'spid', 'bedno', 'status', 'action'];
+
+  displayedColumns = ['fname', 'patientregno', 'emergencycontactno', 'mobno', 'spid', 'bedno', 'status', 'action'];
   sortByColumns = [{ text: 'Patient Name', value: 'fname' },
   { text: 'Patient Reg No', value: 'patientregno' },
   { text: 'Emergency Contact', value: 'emergencycontactno' },
@@ -53,6 +53,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   dataModel = new PatientListDataModel();
   editableForm: FormGroup;
   selectedStartTime: string;
+  PATIENT_STATE = PATIENT_STATE;
 
   constructor(public patientService: PatientService,
     private router: Router,
