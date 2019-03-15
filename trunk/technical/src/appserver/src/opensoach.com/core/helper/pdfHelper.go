@@ -263,7 +263,7 @@ func CreateHTMLToPDF(model *gmodels.HTMLPDFDataModel) error {
 	pdfg.PageSize.Set(wkhtmltopdf.PageSizeA4)
 
 	//page header
-	page.PageOptions.HeaderHTML.Set("header.html")
+	page.PageOptions.HeaderHTML.Set(model.HeaderPath)
 	page.HeaderSpacing.Set(5)
 
 	//page header
