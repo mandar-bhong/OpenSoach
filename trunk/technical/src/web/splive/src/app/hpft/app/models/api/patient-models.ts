@@ -325,18 +325,18 @@ export class MedicalDetailsResponse {
     personalhistory: string;
     medicaldetialsid: number;
 }
-export class MedicalDetailsResponseJSON {
+// export class MedicalDetailsResponseJSON {
 
-    presentcomplaints: JSONBaseDataModel<JSONInnerData>;
-    reasonforadmission: JSONBaseDataModel<JSONInnerData>;
-    historypresentillness: JSONBaseDataModel<JSONInnerData>;
-    pasthistory: JSONBaseDataModel<JSONInnerData>;
-    treatmentbeforeadmission: JSONBaseDataModel<JSONInnerData>;
-    investigationbeforeadmission: JSONBaseDataModel<JSONInnerData>;
-    familyhistory: JSONBaseDataModel<JSONInnerData>;
-    allergies: JSONBaseDataModel<JSONInnerData>;
-    personalhistory: JSONBaseDataModel<JSONInnerData>;
-}
+//     presentcomplaints: JSONBaseDataModel<JSONInnerData>;
+//     reasonforadmission: JSONBaseDataModel<JSONInnerData>;
+//     historypresentillness: JSONBaseDataModel<JSONInnerData>;
+//     pasthistory: JSONBaseDataModel<JSONInnerData>;
+//     treatmentbeforeadmission: JSONBaseDataModel<JSONInnerData>;
+//     investigationbeforeadmission: JSONBaseDataModel<JSONInnerData>;
+//     familyhistory: JSONBaseDataModel<JSONInnerData>;
+//     allergies: JSONBaseDataModel<JSONInnerData>;
+//     personalhistory: JSONBaseDataModel<JSONInnerData>;
+// }
 
 export class PresentComplaint {
     medicaldetialsid: number;
@@ -379,25 +379,29 @@ export class Allergies {
     allergies: string;
 }
 
-//Medical Personal history start from here
 export class PersonalHistoryInfo {
     medicaldetialsid: number;
-    weight: string;
-    weighttendency: string;
-    alcoholaplicable: boolean;
-    alcohalquantity: string;
-    alcohalcomment: string;
-    smokingaplicable: boolean;
-    smokingquantity: string;
-    smokingcomment: string;
+    weight: WeightData;
+    alcohol: AlcoholData;
+    smoking: SmokData;
     other: string;
-    date: Date;
 }
 
+export class SmokData {
+    aplicable: boolean;
+    smokingquantity: string;
+    smokingcomment: string;
+}
 
-//Medical data start from here
-export class WaightTendencyInfo {
-    tendency: number;
+export class AlcoholData {
+    aplicable: boolean;
+    alcoholquantity: string;
+    alcoholcomment: string;
+}
+
+export class WeightData {
+    weight: string;
+    weighttendency: string;
 }
 
 export class PersonalHistory {
@@ -422,7 +426,6 @@ export class PathologyResponse {
     documentname: string;
     testperformedtime: string;
     value: string;
-    // txndata: T;
 }
 export class PathologyFilterRequest {
     admissionid: number;
