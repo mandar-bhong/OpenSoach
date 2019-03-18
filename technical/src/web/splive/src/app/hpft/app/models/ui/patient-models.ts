@@ -295,7 +295,7 @@ export class MedicalDetailsModel {
     investigationBeforeAdmissionData: JSONBaseDataModel<JSONInnerData[]>;
     familyHistoryData: JSONBaseDataModel<JSONInnerData[]>;
     allergiesData: JSONBaseDataModel<JSONInnerData[]>;
-    personalHistoryData: JSONBaseDataModel<PersonalHistoryInfo>;
+    personalHistoryData: JSONBaseDataModel<PersonalHistoryInfo[]>;
     copyToAdd(medicalDetailsRequest: MedicalDetailsRequest) {
         medicalDetailsRequest.uuid = this.uuid;
         medicalDetailsRequest.patientid = this.patientid;
@@ -378,30 +378,10 @@ export class MedicalDetailsModel {
         }
 
         if (medicalDetailsResponse.personalhistory != null) {
-            this.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
+            this.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo[]>();
             const tempPersonalHistory = JSON.parse(medicalDetailsResponse.personalhistory);
             this.personalHistoryData.data = tempPersonalHistory || null;
             this.personalHistoryData.version = tempPersonalHistory.version;
         }
     }
-}
-
-export class PathologyModel {
-    pathologyid: number;
-    admissionid: number;
-    testperformed: string;
-    testresult: string;
-    comments: string;
-    id: number
-    uuid: string;
-    treatmentid: number;
-    documentid: number;
-    documentuuid: string;
-    name: string;
-}
-
-export class TreatmentModel {
-    treatmentid: number;
-    admissionid: number;
-    treatmentdone: string;
 }

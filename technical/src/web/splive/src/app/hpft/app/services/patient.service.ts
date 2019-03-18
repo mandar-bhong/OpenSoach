@@ -230,7 +230,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
 
     //Post method for patient medical Personal History
     medicalAddPatientPersonalHistory(personalHistory: PersonalHistory, implicitErrorHandling = true):
-        Observable<PayloadResponse<PersonalHistoryInfo[]>> {
+        Observable<PayloadResponse<any>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/medicaldetails/update/personalhistory',
             personalHistory, implicitErrorHandling);
     }

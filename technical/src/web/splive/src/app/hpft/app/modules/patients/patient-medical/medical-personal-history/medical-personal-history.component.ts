@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MedicalDetailsModel } from 'app/models/ui/patient-models';
 import { Subscription } from 'rxjs';
-import { PersonalHistoryInfo } from 'app/models/api/patient-models';
+import { PersonalHistoryInfo, WeightData, AlcoholData, SmokData, JSONBaseDataModel } from 'app/models/api/patient-models';
 import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../../shared/views/edit-record-base';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -12,8 +12,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class MedicalPersonalHistoryComponent extends EditRecordBase implements OnInit, OnDestroy {
 
-  @Input() itemPersonList: PersonalHistoryInfo;
-
+  @Input() itemPersonList: JSONBaseDataModel<PersonalHistoryInfo>;
+  @Input() trueValue = true;
+  @Input() falseValue = false;
   @Input() placeHolderTextPerson: string;
   @Input() headerTextPerson: string;
   @Output() onItemAddPerson = new EventEmitter();
@@ -22,14 +23,16 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
   contextValue: string;
   medicaldetialsid: number;
   weight: string;
-  alcohalquantity: string;
-  alcohalcomment: string;
+  alcoholaplicable: string;
+  alcoholquantity: string;
+  alcoholcomment: string;
+  smokingaplicable: string;
   smokingquantity: string;
   smokingcomment: string;
   other: string;
   tendency: string;
-  alcoholcheck = false;
-  smokCheck = false;
+  alcoholcheck: boolean;
+  smokCheck: boolean;
   constructor() {
     super();
     this.iconCss = 'fa fa-user';
@@ -40,56 +43,89 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     this.createControls();
     this.tendency = 'Increasing';
     this.showBackButton = false;
+    this.alcoholcheck = false;
+    this.smokCheck = false;
     setTimeout(() => {
       if (Object.keys(this.itemPersonList).length > 0) {
-        // update mode
-        this.getData();
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
+        this.getData();
       } else {
-        // add mode.
-        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.EDITABLE);
+        this.getData();
       }
     });
   }
   getData() {
-    this.weight = this.itemPersonList.weight;
-    this.tendency = this.itemPersonList.weighttendency;
-    this.alcohalquantity = this.itemPersonList.alcohalquantity;
-    this.alcohalcomment = this.itemPersonList.alcohalcomment;
-    this.smokingquantity = this.itemPersonList.smokingquantity;
-    this.smokingcomment = this.itemPersonList.smokingcomment;
-    this.other = this.itemPersonList.other;
-    if (this.alcohalquantity != null) {
-      this.alcoholcheck = true;
-    }
-    if (this.smokingquantity != null) {
-      this.smokCheck = true;
+
+    if (Object.keys(this.itemPersonList).length > 0) {
+
+      this.weight = this.itemPersonList.data.weight.weight;
+      this.tendency = this.itemPersonList.data.weight.weighttendency;
+
+      this.alcoholcheck = this.itemPersonList.data.alcohol.aplicable;
+      this.alcoholquantity = this.itemPersonList.data.alcohol.alcoholquantity;
+      this.alcoholcomment = this.itemPersonList.data.alcohol.alcoholcomment;
+
+      this.smokCheck = this.itemPersonList.data.smoking.aplicable;
+      this.smokingquantity = this.itemPersonList.data.smoking.smokingquantity;
+      this.smokingcomment = this.itemPersonList.data.smoking.smokingcomment;
+
+      this.other = this.itemPersonList.data.other;
+      this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+      this.setFormMode(FORM_MODE.VIEW);
     }
   }
-  itemAdd() {
-    if (this.weight || this.tendency || this.alcohalquantity || this.alcohalcomment || this.smokingquantity || this.smokingcomment || this.other) {
-      const personalHistoryInfo = new PersonalHistoryInfo();
-      personalHistoryInfo.weight = this.weight;
-      personalHistoryInfo.weighttendency = this.tendency;
-      personalHistoryInfo.alcohalquantity = this.alcohalquantity;
-      personalHistoryInfo.alcohalcomment = this.alcohalcomment;
-      personalHistoryInfo.smokingquantity = this.smokingquantity;
-      personalHistoryInfo.smokingcomment = this.smokingcomment;
-      personalHistoryInfo.other = this.other;
-      this.onItemAddPerson.emit(personalHistoryInfo);
+
+  toggleVisibility() {
+    if (this.alcoholcheck == false) {
+      this.alcoholquantity = null;
     }
-    this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-    this.setFormMode(FORM_MODE.VIEW);
+  }
+  toggleVisibilitySmok(f) {
+    if (this.smokCheck == false) {
+      this.smokingquantity = null;
+    }
+  }
+
+  itemAdd() {
+    if (this.weight || this.tendency || this.alcoholquantity || this.alcoholcomment || this.smokingquantity || this.smokingcomment || this.other) {
+      const personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
+
+      personalHistoryData.version = 1;
+
+      personalHistoryData.data = new PersonalHistoryInfo();
+      personalHistoryData.data.weight = new WeightData();
+      personalHistoryData.data.weight.weight = this.weight;
+      personalHistoryData.data.weight.weighttendency = this.tendency;
+
+      personalHistoryData.data.alcohol = new AlcoholData();
+      personalHistoryData.data.alcohol.aplicable = this.alcoholcheck;
+      personalHistoryData.data.alcohol.alcoholquantity = this.alcoholquantity;
+      personalHistoryData.data.alcohol.alcoholcomment = this.alcoholcomment;
+
+      personalHistoryData.data.smoking = new SmokData();
+      personalHistoryData.data.smoking.aplicable = this.smokCheck;
+      personalHistoryData.data.smoking.smokingquantity = this.smokingquantity;
+      personalHistoryData.data.smoking.smokingcomment = this.smokingcomment;
+
+      personalHistoryData.data.other = this.other;
+
+      this.onItemAddPerson.emit(personalHistoryData);
+      this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+      this.setFormMode(FORM_MODE.VIEW);
+    }
   }
 
   createControls(): void {
     this.editableForm = new FormGroup({
       weightControls: new FormControl(''),
       tendencyControls: new FormControl(''),
+      alcoholcheckControls: new FormControl(''),
       alcohalquantityControls: new FormControl(''),
       alcohalcommentControls: new FormControl(''),
+      smokCheckControls: new FormControl(''),
       smokingquantityControls: new FormControl(''),
       smokingcommentControls: new FormControl(''),
       otherControls: new FormControl(''),

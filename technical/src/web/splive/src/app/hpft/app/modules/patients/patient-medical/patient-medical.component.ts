@@ -65,8 +65,9 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
     this.dataModel.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
     this.dataModel.allergiesData.data = [];
 
-    this.dataModel.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
-    this.dataModel.personalHistoryData.data = new PersonalHistoryInfo();
+    this.dataModel.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo[]>();
+    this.dataModel.personalHistoryData.version = 1;
+    this.dataModel.personalHistoryData.data = [];
 
     if (this.patientService.admissionid) {
       this.getPatientMedicalId();

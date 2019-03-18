@@ -16,7 +16,7 @@
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
         <span class="viewlabel">Weight</span>
-        <label class="viewtext">{{ itemPersonList.weight }}</label>
+        <label class="viewtext">{{ weight }}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
@@ -35,7 +35,7 @@
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
         <span class="viewlabel">Weight Tendency</span>
-        <label class="viewtext">{{itemPersonList.weighttendency }}</label>
+        <label class="viewtext">{{ tendency }}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
@@ -44,19 +44,25 @@
             <label>Alcohol</label>
           </div>
           <div class="col-md-3 margin-top">
-            <mat-checkbox [(ngModel)]="alcoholcheck"  [ngModelOptions]="{standalone: true}"></mat-checkbox>
+            <mat-checkbox [(ngModel)]="alcoholcheck" (change)="toggleVisibility($event)"
+              [ngModelOptions]="{standalone: true}"></mat-checkbox>
           </div>
-          <div class="col-md-2">
-            <mat-form-field class="example-full-width" *ngIf="alcoholcheck">
-              <input matInput formControlName="alcohalquantityControls"  placeholder="Quantity"
-                [(ngModel)]="alcohalquantity"> 
+          <div class="col-md-2" *ngIf="alcoholcheck">
+            <mat-form-field class="example-full-width">
+              <input matInput formControlName="alcohalquantityControls" placeholder="Quantity"
+                [(ngModel)]="alcoholquantity">
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
         <span class="viewlabel">Alcohol</span>
-        <label class="viewtext">{{ itemPersonList.alcohalquantity }}</label>
+        <span class="viewtext" *ngIf="alcoholcheck">Yes</span>
+        <span class="viewtext" *ngIf="!alcoholcheck">No</span>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel" *ngIf="alcoholcheck">Alcohol Quantity</span>
+        <label class="viewtext">{{ alcoholquantity }}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
@@ -65,7 +71,7 @@
           </div>
           <div class="col-md-8 ">
             <mat-form-field class="full-width">
-              <textarea matInput ref-textarea placeholder="Comment" md-maxlength="200" [(ngModel)]="alcohalcomment"
+              <textarea matInput ref-textarea placeholder="Comment" md-maxlength="200" [(ngModel)]="alcoholcomment"
                 formControlName="alcohalcommentControls"> </textarea>
             </mat-form-field>
           </div>
@@ -73,7 +79,7 @@
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
         <span class="viewlabel">Comment</span>
-        <label class="viewtext">{{ itemPersonList.alcohalcomment }}</label>
+        <label class="viewtext">{{alcoholcomment }}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
@@ -82,7 +88,8 @@
             <label>Smoking</label>
           </div>
           <div class="col-md-3 margin-top">
-            <mat-checkbox [(ngModel)]="smokCheck"  [ngModelOptions]="{standalone: true}"></mat-checkbox>
+            <mat-checkbox [(ngModel)]="smokCheck" (change)="toggleVisibilitySmok($event)"
+              [ngModelOptions]="{standalone: true}"></mat-checkbox>
           </div>
           <div class="col-md-2">
             <mat-form-field class="example-full-width" *ngIf="smokCheck">
@@ -94,7 +101,12 @@
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
         <span class="viewlabel">Smoking</span>
-        <label class="viewtext">{{ itemPersonList.smokingquantity }}</label>
+        <span class="viewtext" *ngIf="smokCheck">Yes</span>
+        <span class="viewtext" *ngIf="!smokCheck">No</span>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel" *ngIf="smokCheck">Smoking Quantity</span>
+        <label class="viewtext">{{smokingquantity }}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
@@ -111,7 +123,7 @@
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
         <span class="viewlabel">Comment</span>
-        <label class="viewtext">{{ itemPersonList.smokingcomment }}</label>
+        <label class="viewtext">{{ smokingcomment }}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
@@ -129,7 +141,7 @@
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
         <span class="viewlabel">Other Comment</span>
-        <label class="viewtext">{{itemPersonList.other}}</label>
+        <label class="viewtext">{{other}}</label>
       </div>
 
       <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()">

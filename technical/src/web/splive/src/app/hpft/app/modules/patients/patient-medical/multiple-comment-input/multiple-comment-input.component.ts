@@ -13,8 +13,6 @@ export class MultipleCommentInputComponent implements OnInit {
   @Input() placeHolderText: string;
   @Input() headerText: string;
   @Output() onItemAdd = new EventEmitter();
-  dataModel = new MedicalDetailsModel();
-  routeSubscription: Subscription;
   contextValue: string;
   constructor() {
   }
