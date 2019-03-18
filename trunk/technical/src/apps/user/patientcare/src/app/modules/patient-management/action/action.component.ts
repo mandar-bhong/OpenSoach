@@ -25,7 +25,7 @@ import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
-import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType } from '~/app/app-constants';
+import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType, ACTION_STATUS } from '~/app/app-constants';
 import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
 import { WorkerService } from '~/app/services/worker.service';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -35,6 +35,8 @@ import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/mod
 import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ActionFabComponent } from '../action-fab/action-fab.component';
+import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
+import { DataActionItem, BloodPressureValueModel, GetJsonmodel } from '~/app/models/ui/action-model';
 
 
 // expand row 
@@ -42,23 +44,7 @@ declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
 
 // SnackBar import 
-export class DataActionItem {
-	uuid: string;
-	admission_uuid: string;
-	conf_type_code: string;
-	schedule_uuid: string;
-	scheduled_time: Date;
-	name: string;
-	desc: string;
-	status: number;
-	document_uuid: string;
-	doctors_orders: string;
-	doctor_id: number;
-}
-export class BloodPressureValueModel {
-	high: string;
-	low: string
-}
+
 @Component({
 	moduleId: module.id,
 	selector: 'action',
@@ -74,11 +60,13 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		console.log('chart componenent onDeviceAuthSuccess executed');
 		this.ServerDataStoreDataModelArray.forEach(element => {
 			element.data.updated_by = userid;
+			console.log('get data userid', userid);
 		});
 		const initModel = new ServerDataProcessorMessageModel();
 		initModel.data = this.ServerDataStoreDataModelArray
 		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
 		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
+		
 		//	this.save();
 		//	throw new Error("Method not implemented.");
 	}
@@ -106,8 +94,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	actionSubscription: Subscription;
 	doctorOrderSubscription: Subscription;
 	// >> search var declaration
-	// public myItems: ObservableArray<DataItem> = new ObservableArray<DataItem>();
-	// tempdata = new Array<DataItem>();
 	tempdata = new Array<ActionTxnDBModel>();
 
 
@@ -126,7 +112,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// >>  bottom snackbar msg
 	private snackbar: SnackBar;
 
-	actionListItems = new ActionListViewModel();;
+	actionListItems = new ActionListViewModel();
 	tempList = new ObservableArray<DataActionItem>();
 
 	// >> details form field
@@ -140,8 +126,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	confString1;
 	saveViewOpen = false;
 	exectime;
-	listaccount = true;
-	removeAccount = false;
+	// listaccount = true;
+	// removeAccount = false;
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
 	// blood pressure high and low value model
 	bloodPressureValueModel = new BloodPressureValueModel()
@@ -152,8 +138,17 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// filter buttton 
 	buttonClicked: boolean = true;
 	buttonCompleted: boolean = false;
-
+	getAllFlag = false;
 	valuejson: string;
+
+	// filter data complited UI readonly Mode
+	editMode = false;
+
+	activeAction = new ObservableArray<DataActionItem>();
+	allAction = new ObservableArray<DataActionItem>();
+	action_Status = ACTION_STATUS;
+	get_Value: BloodPressureValueModel;
+	actionStatus: any;
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
@@ -181,8 +176,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
-		// this.getActionData();
-		this.getActionData('getActionListActive');
+		this.getActionData();
+
 		// subscription for create actions
 		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
 
@@ -199,36 +194,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		});
 		this.passdataservice.backalert = false;
 	}// end of ng init.
-
-	public listLoaded() {
-		//return; 
-		// console.log('list loaded');
-
-		setTimeout(() => {
-		}, 200);
-	}
-
-	public addMoreItemsFromSource(chunkSize: number) {
-		let newItems = this.tempList.slice(this.dataItems.length, this.dataItems.length + chunkSize);
-	}
-
-	public onLoadMoreItemsRequested(args: LoadOnDemandListViewEventData) {
-		// console.log('onLoadMoreItemsRequested');
-
-		// const that = new WeakRef(this);
-		const listView: RadListView = args.object;
-		if (this.dataItems.length < this.tempList.length) {
-			setTimeout(() => {
-				this.addMoreItemsFromSource(20);
-				listView.notifyLoadOnDemandFinished();
-				//console.log('onLoadMoreItemsRequested', this.dataItems.length);
-			}, 200);
-		} else {
-			args.returnValue = false;
-			listView.notifyLoadOnDemandFinished(true);
-			// console.log('onLoadMoreItemsRequested', 'load on demand finished');
-		}
-	}
 
 
 	// >> expand row code start
@@ -359,61 +324,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	}
 	// << Calculate Grouping index value
 
-
-	// >> discard patient in list 
-	public onDeleteRow(event: ListViewEventData) {
-
-		// console.log("Right swipe click");
-		this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
-		// console.log(this._dataItems);
-		// console.log(this._dataItems.length);
-		// this.showAction();
-	}
-	// << discard patient in list 
-
-	// >> snackbar mes show bottom 
-	// showMessage(): void {
-	// 	this.snackbar.simple("Have a snack(bar)!");
-	// }
-	public showAction(event: ListViewEventData) {
-		const abcd = this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
-		console.log('delete element', abcd);
-		const item = this._dataItems.getItem(event.index);
-		// this._dataItems.push(this._dataItems.indexOf(abcd), 1);
-		console.log(item);
-
-		// console.log(this._dataItems.length);
-		// this._dataItems.splice(this._dataItems.indexOf(event.object.bindingContext), 1);
-		// console.log(this._dataItems);
-		// console.log(this._dataItems.length);
-
-
-		let options: SnackBarOptions = {
-			actionText: "Undo",
-			actionTextColor: "#FF8910", // Android only
-			snackText: "Patient action have been discard!",
-			hideDelay: 3500
-		}
-		this.snackbar.action(options).then(args => {
-			if (args.command === "Action") {
-				// this._dataItems.push(abcd);
-				// this._dataItems.push(this._dataItems.indexOf(abcd), 1);
-				// console.log(this._dataItems.length);
-				// alert({
-				//   title: "Well hello there!",
-				//   message: "That Snackbar seems useful, right?",
-				//   okButtonText: "Uhm, I guess..",
-				//   cancelable: true
-				// });
-			}
-		});
-	}
-	// << snackbar mes show bottom 
-
-
-
-	// end of code block
-
 	// clean up
 	ngOnDestroy(): void {
 		//Called once, before the instance is destroyed.
@@ -422,14 +332,13 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	}
 
-	// >>get action list 
-	public getActionData(key: string) {
+	public getActionData() {
 		console.log('getActinData')
 		this.actionListItem = new ObservableArray<ActionListViewModel>();
-		this.actionService.getActionActiveList(key, this.passdataservice.getAdmissionID()).then(
+		this.actionService.getallActionActiveList(this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				val.forEach(item => {
-					// console.log(item);
+					console.log("get action item ", item);
 					let actionListItem = new ActionListViewModel();
 					actionListItem.dbmodel = item;
 					this.actionListItem.push(actionListItem);
@@ -445,27 +354,21 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >> get action list by id
 	public getListDataById() {
-		// console.log('this.actionnListItem', this.actionListItem);
 		this.tempList = new ObservableArray<DataActionItem>();
-		// this.tempList = new Array<DataActionItem>();
+		this.activeAction = new ObservableArray<DataActionItem>();
+		this.allAction = new ObservableArray<DataActionItem>();
+
 		this.actionListItem.forEach(item => {
 			const actionListDataItem = new DataActionItem();
+			const gettxn_data = new GetJsonmodel();
+			const get_value = new BloodPressureValueModel();
 			actionListDataItem.admission_uuid = item.dbmodel.admission_uuid;
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
 
-			// const scheduled_time = new Date(item.dbmodel.scheduled_time * 1000);
-			// console.log('scheduled_time', scheduled_time);
-
 			actionListDataItem.scheduled_time = item.dbmodel.scheduled_time;
-			const a = item.dbmodel.scheduled_time;
-			var test = new Date(a);
-			// console.log('isodate date', test);
-			// const isodate = test.toISOString();
-			const isodate = test.toUTCString();
-			// date to timestramp convert
-			// const todaydate = new Date().valueOf() / 1E3 | 0;
-			// console.log('timestramp', todaydate);
+			// const a = item.dbmodel.scheduled_time;
+
 
 			// >> will display list of actions to be performed in another 12 hours and after 1 hours
 			const recivedDateFormDB = new Date(item.dbmodel.scheduled_time);
@@ -473,71 +376,104 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			recivedDateFormDB.setMinutes(recivedDateDb);
 			const reciveTimeDb = recivedDateFormDB.toLocaleString();
 			const Dbdate = new Date(reciveTimeDb);
+			// console.log('Dbdate',Dbdate);
 
 			const tempEndTime = new Date();
 			const next12Hours = tempEndTime.getMinutes() + 720;
 			tempEndTime.setMinutes(next12Hours);
 			const tempEnd = tempEndTime.toLocaleString();
 			const endTime = new Date(tempEnd);
+			// console.log('endTime',endTime);
 
 			const tempStartTime = new Date();
 			const after1Hours = tempStartTime.getMinutes() - 60;
 			tempStartTime.setMinutes(after1Hours);
 			const tempStart = tempStartTime.toLocaleString();
 			const startTime = new Date(tempStart);
-
-			// << before 12 hours logic
-			// >> today date live time decress time 15 min 
-			const thetodayDate15dec = new Date();
-			const todayhr15dec = thetodayDate15dec.getHours();
-			const liveh15dec = todayhr15dec * 60;
-			const todaym15dec = thetodayDate15dec.getMinutes() - 15;
-			const totaltime15dec = liveh15dec + todaym15dec;
-			// << decress time 15 min 
-
-			// >> today date live time increass time 15 min 
-			const thetodayDate15 = new Date();
-			const todayhr15 = thetodayDate15.getHours();
-			const liveh15 = todayhr15 * 60;
-			const todaym15 = thetodayDate15.getMinutes() + 15;
-			const totaltime15 = liveh15 + todaym15;
-			// << increass time 15 min 
-
-			// >> Db Date timestramp convert in date 
-			// const theDate = new Date(item.dbmodel.scheduled_time * 1000);
-			const theDate = new Date(item.dbmodel.scheduled_time);
-			const hr = theDate.getHours();
-			const h = hr * 60;
-			const m = theDate.getMinutes();
-			const DBtotaltime = h + m;
-			// << Db Date timestramp convert 
-
-
-			if (totaltime15dec > DBtotaltime) {
-				actionListDataItem.status = 1;
-			} else if (totaltime15 > DBtotaltime && DBtotaltime > totaltime15dec) {
-				actionListDataItem.status = 2;
-			} else if (DBtotaltime > totaltime15) {
-				actionListDataItem.status = 3;
-			}
+			// console.log('startTime',startTime);
 
 			this.chartService.getChartByUUID(actionListDataItem.schedule_uuid).then(
 				(val) => {
 					val.forEach(item => {
-						// console.log('val', val);
+						// console.log('val name ', val);
 						const conf = JSON.parse(item.conf);
 						actionListDataItem.name = conf.name;
 						this.valuejson = actionListDataItem.name;
 						actionListDataItem.desc = conf.desc;
 					});
 				})
+			actionListDataItem.txn_state = item.dbmodel.txn_state;
+			Object.assign(gettxn_data, JSON.parse(item.dbmodel.txn_data));
+			actionListDataItem.txn_data = gettxn_data;
+			actionListDataItem.txn_data.comment = gettxn_data.comment;
+			// Object.assign(get_value, JSON.parse(gettxn_data.value));
+			// console.log('get_value value', get_value);
+			// console.log('item.dbmodel.name', );
+			if (item.dbmodel.name == "Blood Pressure") {
 
-
-			if (Dbdate >= startTime && Dbdate <= endTime) {
-				console.log('endTime', endTime);
-				console.log('Dbdate', Dbdate);
-				this.tempList.push(actionListDataItem);
+				// actionListDataItem.txn_data.value  =gettxn_data;
+			} else {
+				actionListDataItem.txn_data.value = gettxn_data.value;
 			}
+			// Object.assign(gettxn_data, JSON.parse(gettxn_data.value);
+			actionListDataItem.txn_data.value = gettxn_data.value;
+			// console.log('gettxn_data.value.Systolic',gettxn_data.value.Systolic);
+
+
+			//  condition for type set action list active and all
+			if (item.dbmodel.action_txn_uuid != null) {
+				// set type  Completed action 2
+				const recivedDateFormDB = new Date(item.dbmodel.client_updated_at);
+				const recivedDateDb = recivedDateFormDB.getMinutes();
+				recivedDateFormDB.setMinutes(recivedDateDb);
+				const reciveTimeDb = recivedDateFormDB.toLocaleString();
+				actionListDataItem.client_updated_at = new Date(reciveTimeDb);
+				console.log('actionListDataItem.client_updated_a', actionListDataItem.client_updated_at)
+				actionListDataItem.type = 2;
+				if (item.dbmodel.txn_state === 1) {
+					actionListDataItem.status_labels = "Completed";
+
+				} else if (item.dbmodel.txn_state === 2) {
+					actionListDataItem.status_labels = "Discarded";
+				}
+				console.log('type 2 =======');
+				this.allAction.push(actionListDataItem);
+			} else {
+				console.log('type 1 ******');
+				// set type Active action1 
+				actionListDataItem.type = 1;
+				actionListDataItem.actionStatus = ActionStatusHelper.getActionStatus(Dbdate);
+				this.actionStatus = actionListDataItem.actionStatus;
+				console.log('ActionStatusHelper.getActionStatus(Dbdate)', ActionStatusHelper.getActionStatus(Dbdate));
+				if (actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NORMAL || actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_DELAYED || actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
+					if (Dbdate >= startTime && Dbdate <= endTime) {
+					this.activeAction.push(actionListDataItem);
+					}
+
+				}
+				this.allAction.push(actionListDataItem);
+			}
+			// status color set
+			if (actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NORMAL) {
+				actionListDataItem.status = 3;
+			} else if (actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_DELAYED) {
+				actionListDataItem.status = 1;
+			} else if (actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
+				actionListDataItem.status = 2;
+			} else if (actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_FUTURE) {
+				actionListDataItem.status = 4;
+			} else if (actionListDataItem.actionStatus == ACTION_STATUS.MISSED) {
+				actionListDataItem.status = 1;
+			}
+
+			if (this.getAllFlag == true) {
+				// all
+				this.tempList = this.allAction;
+			} else {
+				//  active
+				this.tempList = this.activeAction;
+			}
+
 		});
 		// get doctor orders.
 		this.getDoctorsOrders();
@@ -549,24 +485,22 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	onSubmit(item) {
 		console.log('on sumbit', item);
 		//set action conf model
-this.passdataservice.backalert = true;
+		this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
 		this.formData = new ActionTxnDBModel();
-		// const value = this.actiondata.value;
-		// console.log('value', this.actiondata.value);
+
 		// >> check condition medicine data not add comment and value entries
 		if (item.conf_type_code === 'Medicine') {
 			this.actionDbData.comment = this.actiondata.comment;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
-			// console.log('confString', this.confString1);
 		} else {
 			if (item.name === 'Blood Pressure') {
 				console.log('if  condition');
 				const bloodPressureValueModel = new BloodPressureValueModel()
-				bloodPressureValueModel.high = this.bloodPressureValueModel.high;
-				bloodPressureValueModel.low = this.bloodPressureValueModel.low;
+				bloodPressureValueModel.Systolic = this.bloodPressureValueModel.Systolic;
+				bloodPressureValueModel.Diastolic = this.bloodPressureValueModel.Diastolic;
 				this.actionDbData.value = JSON.stringify(bloodPressureValueModel);
 				this.actionDbData.comment = this.actiondata.comment;
 			} else {
@@ -575,10 +509,6 @@ this.passdataservice.backalert = true;
 				this.actionDbData.comment = this.actiondata.comment;
 			}
 			this.confString = JSON.stringify(this.actionDbData);
-
-
-			// this.confString = JSON.stringify(this.actionDbData);
-			// console.log('confString', this.confString);
 		}
 
 		// set db model 
@@ -597,8 +527,6 @@ this.passdataservice.backalert = true;
 		this.formData.txn_state = 1;
 		this.formData.status = 1;
 		this.formData.admission_uuid = item.admission_uuid;
-
-		// console.log('this.actionformData', this.formData);
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
@@ -622,12 +550,10 @@ this.passdataservice.backalert = true;
 			this.actionDbData.comment = null;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
-			// console.log('confString', this.confString1);
 		} else {
 			this.actionDbData.comment = this.actiondata.comment;
 			this.actionDbData.value = this.actiondata.value;
 			this.confString = JSON.stringify(this.actionDbData);
-			// console.log('confString', this.confString);
 		}
 
 		// set db model 
@@ -646,8 +572,6 @@ this.passdataservice.backalert = true;
 		this.formData.txn_state = 2;
 		this.formData.status = 0;
 		this.formData.admission_uuid = item.admission_uuid;
-
-		// console.log('this.actionformData', this.formData);
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
@@ -675,11 +599,12 @@ this.passdataservice.backalert = true;
 			serverDataStoreModel.data.sync_pending = 1
 			serverDataStoreModel.data.admission_uuid = item.admission_uuid;
 			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
+			console.log('item.schedule_uuid;',item.schedule_uuid);
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
 			console.log('item.txn_data;', item.txn_data);
 			serverDataStoreModel.data.scheduled_time = item.scheduled_time;
-			serverDataStoreModel.data.txn_state = Number(item.txn_state);
+			serverDataStoreModel.data.txn_state = item.txn_state;
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
 			serverDataStoreModel.data.client_updated_at = new Date();
 			console.log('created data', serverDataStoreModel.data);
@@ -689,6 +614,7 @@ this.passdataservice.backalert = true;
 		this.savetoUserAuth();
 		// check data save entries added in action trn table 
 		this.gettrnlistdata();
+
 	}
 
 	// selected done and discard row change background color
@@ -719,27 +645,6 @@ this.passdataservice.backalert = true;
 		});
 		//	this.dialogOpen = true;
 	}
-
-
-
-	public onListSorting(args) {
-		let firstSwitch = <Switch>args.object;
-		if (firstSwitch.checked) {
-			this.completeorpending = "Completed Actions";
-			this.iscompleted = true;
-			this.viewexpand = true;
-			this.saveViewOpen = false;
-			this.getActionData('getActionListComplated');
-		} else {
-			this.completeorpending = "Active Actions";
-			this.iscompleted = false;
-			this.viewexpand = false;
-			this.saveViewOpen = false;
-			// this.viewexpand = !this.viewexpand;
-
-			this.getActionData('getActionListActive');
-		}
-	}// end of fucntions.
 
 	// code block for opening component in modal.
 	openModal() {
@@ -774,16 +679,22 @@ this.passdataservice.backalert = true;
 		this.viewexpand = false;
 		this.saveViewOpen = false;
 		this.buttonCompleted = false;
-		this.getActionData('getActionListActive');
+		this.getAllFlag = false;
+		this.getActionData();
+		// this.getActionData('getActionListActive', this.getAllFlag = true);
+
 	}
 	public compilitedList() {
-		this.completeorpending = "Completed Actions";
+		this.completeorpending = "All Actions";
 		this.iscompleted = true;
 		this.viewexpand = true;
 		this.saveViewOpen = false;
 		this.buttonClicked = false;
-		this.getActionData('getActionListComplated');
-		// this.getActionData('getActionListActive');
+		this.getAllFlag = true;
+		this.getActionData();
+		// this.getActionData('getAllActionList', this.getAllFlag = false);
+		// this.getActionData('getActionListComplated');
+
 
 	}
 
@@ -798,7 +709,7 @@ this.passdataservice.backalert = true;
 			(val) => {
 				// console.log('doctor order received', this.tempList);
 				val.forEach(item => {
-					console.log('item', item);
+					console.log('getdoctororders item', item);
 					let actionListItem = new DataActionItem();
 					actionListItem = item;
 					actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
@@ -831,6 +742,5 @@ this.passdataservice.backalert = true;
 		}
 		this.getCount();
 	} // end of code block.
-
 
 }

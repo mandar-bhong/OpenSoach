@@ -96,3 +96,31 @@ export class AfterXtimeIntervl {
     dateAction: Date;
     time: number;
 }
+
+export class DataActionItem {
+	uuid: string;
+	admission_uuid: string;
+	conf_type_code: string;
+	schedule_uuid: string;
+	scheduled_time: Date;
+	name: string;
+	desc: string;
+	status: number;
+	document_uuid: string;
+	doctors_orders: string;
+	doctor_id: number;
+	type: number;
+	actionStatus: any;
+	txn_state: number;
+	txn_data: GetJsonmodel;
+	status_labels: string;
+	client_updated_at: Date;
+}
+export class GetJsonmodel {
+	comment: string;
+	value: any;
+}
+export class BloodPressureValueModel {
+	Systolic: number;
+	Diastolic: number;
+}

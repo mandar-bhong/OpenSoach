@@ -2,7 +2,6 @@ import { Injectable, Version } from "@angular/core";
 import { DatabaseService } from "../../services/offline-store/database.service";
 import { ActionDBModel, ActionTxnDBModel } from "~/app/models/ui/action-models";
 import { ActionDataStoreModel } from "~/app/models/db/action-datastore";
-import { UserDetailDBModel } from "~/app/modules/patient-management/user_auth/user_auth.component";
 
 @Injectable()
 export class ActionService {
@@ -42,22 +41,43 @@ export class ActionService {
                     reject(error);
                 }
             );
+        });
+
+    }
+
+    public getActionActiveList(key: string, admission_uuid: string, getAllFlag: boolean): any {
+        return new Promise((resolve, reject) => {
+            const paramList = new Array<any>();
+            if (getAllFlag === true) {
+                const dt = new Date().toISOString();
+                console.log('dt', dt);
+                paramList.push(dt);
+                console.log('filter data console');
+            }
+            paramList.push(admission_uuid);
+            // console.log('param list', paramList);
+            this.database.selectByID(key, paramList).then(
+                (val) => {
+                    // console.log("Action data", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
 
         });
 
     }
 
-    public getActionActiveList(key: string, admission_uuid: string): any {
+    public getallActionActiveList(admission_uuid: string): any {
         return new Promise((resolve, reject) => {
             const paramList = new Array<any>();
-            const dt = new Date().toISOString();
-            console.log('dt', dt);
-            paramList.push(dt);
             paramList.push(admission_uuid);
-            console.log('param list', paramList);
-            this.database.selectByID(key, paramList).then(
+            // console.log('param list', paramList);
+            this.database.selectByID("getActionList", paramList).then(
                 (val) => {
-                    console.log("Action data", val);
+                    console.log("Action All data new ", val);
                     resolve(val);
                 },
                 (error) => {
@@ -124,47 +144,7 @@ export class ActionService {
         });
     }
 
-    public getUserAccountList(): any {
-
-        return new Promise((resolve, reject) => {
-
-            this.database.selectAll("userList").then(
-                (val) => {
-                    // console.log("User Account List", val);
-                    resolve(val);
-                },
-                (error) => {
-                    reject(error);
-                }
-            );
-
-        });
-
-    }
-    public insertDeviceAccessItem(data: UserDetailDBModel) {
-
-        return new Promise((resolve, reject) => {
-
-            const listData = new Array<any>();
-
-            listData.push(data.userid);
-            listData.push(data.first_name);
-            listData.push(data.last_name);
-            listData.push(data.email);
-            listData.push(data.pin);
-
-            this.database.update("device_access_tbl_insert", listData).then(
-                (val) => {
-                    console.log("device access data", val);
-                    resolve(val);
-                },
-                (error) => {
-                    reject(error);
-                }
-            );
-
-        });
-    }// end of code block.
+    // end of code block.
     public getDoctorsList(key: string, admission_uuid: string): any {
         return new Promise((resolve, reject) => {
             const paramList = new Array<any>();

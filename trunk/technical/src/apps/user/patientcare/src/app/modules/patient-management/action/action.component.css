@@ -80,7 +80,7 @@
 .category-header {
     /* background-color: #608584;   */
     background-color: #ffffff;
-    /* background-color: #7fd2e6; */
+    
 }
 
 .nameLabel {
@@ -138,25 +138,13 @@
     padding: 3px 0px;
 }
 
-.default_color {
-    color: #608584;
-}
-
-.pendding {
-    color: #eb5c5c;
-}
-
-.waiting {
-    color: #FF8910;
-}
-
 .list-layout {
     padding: 10% 7px;
 }
 
-.list-text {
-    /* color: #ffffff; */
-}
+/* .list-text {
+    color: #ffffff;
+} */
 
 .hr-lightt {
     display: block;
@@ -277,4 +265,7 @@
     padding: 5px;
     text-align: center;
     vertical-align: center;
+}
+.labelleft{
+    margin-left: 8px;
 }
