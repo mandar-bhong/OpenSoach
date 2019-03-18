@@ -267,5 +267,5 @@ type DBSearchPatientConfResponseFilterDataModel struct {
 	ConfTypeCode  string    `db:"conf_type_code" json:"conftypecode"`
 	Conf          string    `db:"conf" json:"conf"`
 	EndDate       time.Time `db:"end_date" json:"enddate"`
-	Status        time.Time `db:"status" json:"status"`
+	Status        int       `db:"status" json:"status"`
 }
