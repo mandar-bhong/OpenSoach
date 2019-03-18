@@ -136,6 +136,7 @@ TextField {
     margin-right: 0;
     color: #ffffff;
 }
+
 .btn-danger {
     background-color: #d9534f;
     margin-left: 0;
@@ -245,27 +246,51 @@ Label.mod-light {
 .invalid {
     background-color: red;
 }
-.body{
+
+.body {
     font-size: 14%;
     /* font-weight: bold; */
 }
+
 .label-action {
     font-family: 'Open Sans';
     font-size: 12%;
 }
+
 .startup-indicator {
     color: #FF8912;
     vertical-align: center;
     height: 20%;
     width: 20%;
 }
+
 .pageHeaderTitle {
     color: #396766;
     font-size: 16;
     font-weight: bold;
 }
-.groupHeaderTitle{
+
+.groupHeaderTitle {
     color: #396766;
     font-size: 16;
     font-weight: bold;
 }
+
+/* status css start*/
+.active_normal {
+    color: #608584;
+}
+
+.active_delayed_missed {
+    color: #eb5c5c;
+}
+
+.active_needs_attention {
+    color: #FF8910;
+}
+
+.active_future {
+    color: #727473;
+}
+
+/* status css end*/
