@@ -169,6 +169,36 @@ func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, in
 
 	admissionRecordList := *admissionData
 
+	//get admission doctor incharge data
+	dbErr, drInchargeData := dbaccess.GetUserData(repo.Instance().Context.Master.DBConn, admissionRecordList[0].DrIncharge)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting doctor incharge info.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	drInchargeDBRecord := *drInchargeData
+
+	//get servicepoint data
+	dbErr, spData := dbaccess.GetServicePointData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionRecordList[0].SpId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting service point info.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	spDBRecord := *spData
+
+	patientAdmissionData := hktmodels.DBPatientAdmissionData{}
+	patientAdmissionData.DBSplHpftPatientAdmissionTableRowModel = admissionRecordList[0]
+	patientAdmissionData.DrInchargeFname = drInchargeDBRecord[0].Firstname
+	patientAdmissionData.DrInchargeLname = drInchargeDBRecord[0].LastName
+	patientAdmissionData.SPName = spDBRecord[0].SpName
+
 	// get patient master data
 	dbErr, patientMasterData := dbaccess.GetPatientMasterReportData(service.ExeCtx.SessionInfo.Product.NodeDbConn, admissionID)
 	if dbErr != nil {
@@ -277,7 +307,7 @@ func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, in
 	pathologyRecordRecordList := *pathologyRecordData
 
 	dBPatientReportDataModel := hktmodels.DBPatientReportDataModel{}
-	dBPatientReportDataModel.AdmissionData = admissionRecordList[0]
+	dBPatientReportDataModel.AdmissionData = patientAdmissionData
 	dBPatientReportDataModel.PatientMasterData = patientMasterRecordList[0]
 	dBPatientReportDataModel.PersonalDetailsData = patientPersonalDetailsRecordList[0]
 	dBPatientReportDataModel.MedicalDetailsData = patientMedicalDetailsRecordList[0]

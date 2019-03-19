@@ -139,6 +139,7 @@ type DBSplNodeSpTableRowModel struct {
 	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
 	SpState      int       `db:"sp_state" json:"spstate"`
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
+	UpdatedBy    int64     `db:"updated_by" json:"updatedby"`
 	CreatedOn    time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn    time.Time `db:"updated_on" json:"updatedon"`
 }
