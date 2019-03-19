@@ -58,7 +58,8 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     });
   }
   getData() {
-
+    
+    setTimeout(() => {
     if (Object.keys(this.itemPersonList).length > 0) {
 
       this.weight = this.itemPersonList.data.weight.weight;
@@ -76,6 +77,7 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
       this.recordState = EDITABLE_RECORD_STATE.UPDATE;
       this.setFormMode(FORM_MODE.VIEW);
     }
+  });
   }
 
   toggleVisibility() {

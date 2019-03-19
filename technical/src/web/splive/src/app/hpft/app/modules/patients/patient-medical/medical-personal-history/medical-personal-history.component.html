@@ -71,14 +71,14 @@
           </div>
           <div class="col-md-8 ">
             <mat-form-field class="full-width">
-              <textarea matInput ref-textarea placeholder="Comment" md-maxlength="200" [(ngModel)]="alcoholcomment"
+              <textarea matInput ref-textarea placeholder="Comments" md-maxlength="200" [(ngModel)]="alcoholcomment"
                 formControlName="alcohalcommentControls"> </textarea>
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
-        <span class="viewlabel">Comment</span>
+        <span class="viewlabel">Comments (Alcohol)</span>
         <label class="viewtext">{{alcoholcomment }}</label>
       </div>
 
@@ -115,32 +115,32 @@
           </div>
           <div class="col-md-8">
             <mat-form-field class="full-width">
-              <textarea matInput ref-textarea placeholder="Comment" rows="2" [(ngModel)]="smokingcomment"
+              <textarea matInput ref-textarea placeholder="Comments" rows="2" [(ngModel)]="smokingcomment"
                 formControlName="smokingcommentControls"> </textarea>
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
-        <span class="viewlabel">Comment</span>
+        <span class="viewlabel">Comments (Smoking)</span>
         <label class="viewtext">{{ smokingcomment }}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
         <div class="row">
           <div class="col-md-3 margin-top">
-            Other
+            Other Comments
           </div>
           <div class="col-md-8">
             <mat-form-field class="full-width">
-              <textarea matInput ref-textarea placeholder="Comment" md-maxlength="200" [(ngModel)]="other"
+              <textarea matInput ref-textarea placeholder="Comments" md-maxlength="200" [(ngModel)]="other"
                 formControlName="otherControls"> </textarea>
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
-        <span class="viewlabel">Other Comment</span>
+        <span class="viewlabel">Other Comments</span>
         <label class="viewtext">{{other}}</label>
       </div>
 
