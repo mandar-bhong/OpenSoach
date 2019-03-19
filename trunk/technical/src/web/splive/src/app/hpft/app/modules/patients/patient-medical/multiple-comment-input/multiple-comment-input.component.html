@@ -10,7 +10,8 @@
     </button>
   </div>
 </div>
-<div class="row" *ngFor="let item of itemList">
+<div class="row" *ngFor="let item of itemList let index =index;let isOdd=odd;let isEven=even" [class.odd]="isOdd"
+  [class.even]="isEven" [class.selected]="item === itemList">
   <div class="text-alignment">
     <label for="ItemList">{{item.text}}</label>
   </div>
