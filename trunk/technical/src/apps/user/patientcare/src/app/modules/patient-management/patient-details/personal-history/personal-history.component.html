@@ -6,13 +6,13 @@
         <GridLayout row="0" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
             <GridLayout col="0" rows="auto,auto">
                 <Label class="body" textWrap="true" text="Weight"></Label>
-                <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.weight}}"></Label>
+                <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.weight.weight}}"></Label>
             </GridLayout>
         </GridLayout>
         <GridLayout row="0" col="1" columns="auto">
             <GridLayout col="0" rows="auto,auto">
                 <Label class="body" textWrap="true" text="Weight Tendency"></Label>
-                <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.weighttendency}}"></Label>
+                <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.weight.weighttendency}}"></Label>
             </GridLayout>
         </GridLayout>
         <GridLayout row="1" col="0" columns="auto,*,auto,auto" rows="auto" style="margin-top:5px;">
@@ -21,39 +21,34 @@
                 <GridLayout row="1" rows="auto,auto" columns="auto,auto">
                     <Label row="0" col="0" *ngIf="alcoholtest" textWrap="true" text="Yes :- "></Label>
                     <Label row="0" col="0" *ngIf="alcoholtest1" textWrap="true" text="No :- "></Label>
-                    <Label row="0" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.alcohalcomment}}"></Label>
+                    <Label row="0" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.alcohol.alcoholcomment}}"></Label>
                     <Label row="1" col="0" *ngIf="alcoholtest" textWrap="true" text="Quantity :- "></Label>
-                    <Label row="1" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.alcohalquantity}}"></Label>
+                    <Label row="1" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.alcohol.alcoholquantity}}"></Label>
                 </GridLayout>
             </GridLayout>
         </GridLayout>
-        <!-- <GridLayout row="1" col="1" columns="auto">
-            <GridLayout col="0" rows="auto,auto">
-                <Label class="body" textWrap="true" text="Alcohol Comment"></Label>
-                <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.alcohalcomment}}"></Label>
-            </GridLayout>
-        </GridLayout> -->
+
 
         <GridLayout row="2" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
             <GridLayout col="0" rows="auto,auto">
                 <Label class="body" textWrap="true" text="Smoking"></Label>
                 <GridLayout row="1" rows="auto,auto" columns="auto,auto">
-                        <Label row="0" col="0" *ngIf="quantityYes" textWrap="true" text="Yes :- "></Label>
-                        <Label row="0" col="0" *ngIf="quantityNo" textWrap="true" text="No :- "></Label>
-                        <Label row="0" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.smokingcomment}}"></Label>
-                        <Label row="1" col="0" *ngIf="quantityYes" textWrap="true" text="Quantity :- "></Label>
-                        <Label row="1" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.smokingquantity}}"></Label>
-                    </GridLayout>
-                <!-- <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.smokingquantity}}"></Label> -->
-            </GridLayout>
-        </GridLayout>
+                    <Label row="0" col="0" *ngIf="quantityYes" textWrap="true" text="Yes :- "></Label>
+                    <Label row="0" col="0" *ngIf="quantityNo" textWrap="true" text="No :- "></Label>
+                    <Label row="0" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.smoking.smokingcomment}}"></Label>
+                    <Label row="1" col="0" *ngIf="quantityYes" textWrap="true" text="Quantity :- "></Label>
+                    <Label row="1" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.smoking.smokingquantity}}"></Label>
+                </GridLayout>
 
+            </GridLayout>
+
+           
+        </GridLayout>
         <GridLayout row="2" col="1" columns="auto">
             <GridLayout col="0" rows="auto,auto" *ngIf="other">
                 <Label class="body" textWrap="true" text="Others"></Label>
                 <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.other}}"></Label>
             </GridLayout>
         </GridLayout>
-    </GridLayout>
 
-</GridLayout>
+    </GridLayout>

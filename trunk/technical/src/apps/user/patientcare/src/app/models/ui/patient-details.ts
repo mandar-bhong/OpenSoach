@@ -21,14 +21,29 @@ export class DataList {
 	test: string;
 }
 export class PersonalHistoryModel{
-	weight: string;
-	weighttendency: string;
-	alcohalquantity: string;
-	alcohalcomment: string;
-	smokingquantity: string;
-	smokingcomment: string;
-	other: string;
+	medicaldetialsid: number;
+    weight: WeightData;
+    alcohol: AlcoholData;
+    smoking: SmokData;
+    other: string;
 }
+export class SmokData {
+    aplicable: boolean;
+    smokingquantity: string;
+    smokingcomment: string;
+}
+
+export class AlcoholData {
+    aplicable: boolean;
+    alcoholquantity: string;
+    alcoholcomment: string;
+}
+
+export class WeightData {
+    weight: string;
+    weighttendency: string;
+}
+
 export class PatientDetailsModel{
 	fname: string;
 	lname:string;
