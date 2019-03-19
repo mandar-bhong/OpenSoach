@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ServicepointListResponse } from '../../../../../../prod-shared/models/api/servicepoint-models';
-import { PatientFilterRequest } from '../../../../models/api/patient-models';
+import { PatientFilterRequest } from '../../../../models/api/patient-data-models';
 import { PatientFilterModel } from '../../../../models/ui/patient-models';
 import { PatientService } from '../../../../services/patient.service';
 
@@ -21,21 +21,21 @@ export class PatientSearchComponent implements OnInit {
   ngOnInit() {
     this.getServicepointList();
   }
-   // Accept data from ward ie. list of ward
-   getServicepointList() {
+  // Accept data from ward ie. list of ward
+  getServicepointList() {
     this.patientService.getServicepointList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.splist = payloadResponse.data;
       }
     });
   }
-  
+
   search() {
     this.isExpanded = false;
     const patientFilterRequest = new PatientFilterRequest();
     this.dataModel.copyTo(patientFilterRequest);
     this.patientService.dataListSubjectTrigger(patientFilterRequest);
-    
+
   }
 
   panelOpened() {

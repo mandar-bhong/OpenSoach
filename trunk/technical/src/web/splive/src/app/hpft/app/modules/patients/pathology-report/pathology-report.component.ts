@@ -1,21 +1,19 @@
-import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { Subscription, Observable, merge } from 'rxjs';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { PathologyResponse, PathologyFilterRequest } from 'app/models/api/patient-models';
-import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
-import { PatientService } from 'app/services/patient.service';
 import { Router } from '@angular/router';
-import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { startWith, switchMap, map } from 'rxjs/operators';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
-import { PathologyModel } from 'app/models/ui/patient-models';
-import { FloatingMenu, FloatingMenuItem } from '../../../../../shared/models/ui/floating-menu';
-import { DEFAULT_PAGE_MENU } from '../../../../../shared/app-common-constants';
-import { FloatingButtonMenuService } from '../../../../../shared/services/floating-button-menu.service';
-import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
 import { FileDownloadRequest } from 'app/models/api/file-download-request';
+import { PathologyFilterRequest, PathologyResponse } from 'app/models/api/patient-data-models';
+import { PatientService } from 'app/services/patient.service';
+import { merge, Observable, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
+
+import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
+import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
+import { FloatingButtonMenuService } from '../../../../../shared/services/floating-button-menu.service';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 
 
 @Component({
@@ -33,7 +31,6 @@ import { FileDownloadRequest } from 'app/models/api/file-download-request';
 export class PathologyReportComponent implements OnInit {
 
   displayedColumns = ['testperformed','testperformedtime', 'view'];
-  // displayedColumns = ['testperformed', 'view'];
   sortByColumns = [
     { text: 'Test Performed', value: 'testperformed' },
     { text: 'Performed On', value: 'testperformedtime' }
@@ -50,7 +47,6 @@ export class PathologyReportComponent implements OnInit {
   isViewSchedule = false;
   pathologyFilterRequest: PathologyFilterRequest;
   dataListFilterChangedSubscription: Subscription;
-  dataModel = new PathologyModel();
   admissionid: number;
   expandedElement: PathologyResponse | null;
   pathologyResponseArray: PathologyResponse[] = [];

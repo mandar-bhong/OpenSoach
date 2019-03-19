@@ -9,7 +9,7 @@ import { ListingService } from '../../../shared/services/listing.service';
 import { DataListRequest, DataListResponse } from '../../../shared/models/api/data-list-models';
 import { ServicepointListResponse } from '../../../prod-shared/models/api/servicepoint-models';
 import { ServicepointConfigureListResponse } from '../../../prod-shared/models/api/service-configuration-models';
-import { PatientSearchRequestFilter, PatientSearchResponseFilter } from '../models/api/patient-models';
+import { PatientSearchRequestFilter, PatientSearchResponseFilter } from '../models/api/patient-data-models';
 
 @Injectable()
 

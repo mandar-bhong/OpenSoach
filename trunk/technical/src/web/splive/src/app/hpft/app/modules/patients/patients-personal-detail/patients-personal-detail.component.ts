@@ -8,7 +8,7 @@ import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../..
 import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { PatientUpdateRequest } from 'app/models/api/patient-models';
+import { PatientUpdateRequest } from 'app/models/api/patient-data-models';
 import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 
 @Component({

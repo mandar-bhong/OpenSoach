@@ -8,7 +8,7 @@ import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../..
 import { PatientPersonalDetails } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { PersonAccompanyingInfo, JSONBaseDataModel, PersonalDetailsRequest } from 'app/models/api/patient-models';
+import { PersonAccompanyingInfo, JSONBaseDataModel, PersonalDetailsRequest } from 'app/models/api/patient-data-models';
 
 @Component({
   selector: 'app-patient-person-accompanies',

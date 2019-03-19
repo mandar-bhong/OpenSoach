@@ -4,7 +4,7 @@ import { merge, Observable } from 'rxjs';
 import { startWith, switchMap, map } from 'rxjs/operators';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
 import { DataListResponse, DataListRequest } from '../../../../../../shared/models/api/data-list-models';
-import { PatientDetaListResponse, PatientFilterRequest } from 'app/models/api/patient-models';
+import { PatientDetaListResponse, PatientFilterRequest } from 'app/models/api/patient-data-models';
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
 import { PatientService } from 'app/services/patient.service';

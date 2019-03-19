@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MedicalDetailsModel } from 'app/models/ui/patient-models';
 import { Subscription } from 'rxjs';
-import { PersonalHistoryInfo, WeightData, AlcoholData, SmokData, JSONBaseDataModel } from 'app/models/api/patient-models';
+import { PersonalHistoryInfo, WeightData, AlcoholData, SmokData, JSONBaseDataModel } from 'app/models/api/patient-data-models';
 import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../../shared/views/edit-record-base';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -59,26 +59,19 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     });
   }
   getData() {
-    
-    // setTimeout(() => {
     if (Object.keys(this.itemPersonList).length > 0) {
-
       this.weight = this.itemPersonList.data.weight.weight;
       this.tendency = this.itemPersonList.data.weight.weighttendency;
-
       this.alcoholcheck = this.itemPersonList.data.alcohol.aplicable;
       this.alcoholquantity = this.itemPersonList.data.alcohol.alcoholquantity;
       this.alcoholcomment = this.itemPersonList.data.alcohol.alcoholcomment;
-
       this.smokCheck = this.itemPersonList.data.smoking.aplicable;
       this.smokingquantity = this.itemPersonList.data.smoking.smokingquantity;
       this.smokingcomment = this.itemPersonList.data.smoking.smokingcomment;
-
       this.other = this.itemPersonList.data.other;
       this.recordState = EDITABLE_RECORD_STATE.UPDATE;
       this.setFormMode(FORM_MODE.VIEW);
     }
-  // });
   }
 
   toggleVisibility() {

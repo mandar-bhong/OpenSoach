@@ -48,7 +48,7 @@ import {
     CheckPatientResponse,
     DrInchargeListResponse,
     PersonalHistoryInfo,
-} from '../models/api/patient-models';
+} from '../models/api/patient-data-models';
 import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse } from 'app/models/api/transaction-details-response';
 import { ScheduleFilter } from 'app/models/api/schedule-request';
