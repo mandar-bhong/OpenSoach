@@ -32,7 +32,7 @@ func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[i
 	if syncReq.FilterHandler != nil {
 		err := syncReq.FilterHandler(ctx, syncConfigData, &syncReq)
 		if err != nil {
-			logger.Context().WithField("Table Data Request", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get table data.", err)
+			logger.Context().WithField("DB server filter:", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to apply server filter.", err)
 			return err, nil
 		}
 	}

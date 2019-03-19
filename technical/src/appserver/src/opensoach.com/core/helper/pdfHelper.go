@@ -302,14 +302,12 @@ func getJsonFieldValue(jsonDataString string, datatype string, fieldName string)
 	switch datatype {
 	case "personaccompanying":
 		dataList = jq.Only("name", "contact", "gender", "alternatecontact", "address")
-		fmt.Println("personaccompanying dataList:", dataList)
 		break
 	case "medicaldetails":
 		dataList = jq.Only("text")
 		break
 	case "personalhistory":
 		dataList = jq.Get()
-		fmt.Println("personalhistory dataList:", dataList)
 		break
 	}
 
