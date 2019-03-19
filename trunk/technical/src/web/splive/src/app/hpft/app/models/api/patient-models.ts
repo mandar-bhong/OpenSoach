@@ -1,5 +1,3 @@
-import { Time } from "@angular/common";
-
 export class PatientDataAddRequest {
     patientdetails: string;
     medicaldetails: string;

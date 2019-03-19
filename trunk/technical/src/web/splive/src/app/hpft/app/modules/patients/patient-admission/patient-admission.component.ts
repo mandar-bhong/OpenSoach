@@ -94,45 +94,37 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     if (this.editableForm.invalid) { return; }
     this.inProgress = true;
     if (this.recordState == EDITABLE_RECORD_STATE.ADD) {
-      this.add();
-      console.log('if add condition');
+      const admissionAddRequest = new AdmissionAddRequest();
+      this.dataModel.patientid = this.patientService.patientid;
+      this.dataModel.status = PATIENT_STATE.HOSPITALIZE;
+      this.dataModel.copyTo(admissionAddRequest);
+      this.patientService.admissionAddPatient(admissionAddRequest).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.dataModel.admissionid = payloadResponse.data.admissionid;
+          this.patientService.setAdmissionId(payloadResponse.data.admissionid);
+          this.appNotificationService.success();
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.VIEW);
+          this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
+          this.patientService.personaldetailsid = payloadResponse.data.personaldetailsid;
+          this.patientService.admissionid = payloadResponse.data.admissionid;
+        }
+        this.inProgress = false;
+      });
     }
-    if (this.recordState == EDITABLE_RECORD_STATE.UPDATE) {
-      this.update();
+      else{
+        const admissionUpdateRequest = new AdmissionUpdateRequest();
+        this.dataModel.admissionid = this.patientService.admissionid;
+        this.dataModel.copyToUpdate(admissionUpdateRequest);
+        this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
+          if (payloadResponse && payloadResponse.issuccess) {
+            this.appNotificationService.success();
+            this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+            this.setFormMode(FORM_MODE.VIEW);
+          }
+          this.inProgress = false;
+        });
     }
-  }
-  add() {
-    const admissionAddRequest = new AdmissionAddRequest();
-    this.dataModel.patientid = this.patientService.patientid;
-    this.dataModel.status = PATIENT_STATE.HOSPITALIZE;
-    this.dataModel.copyTo(admissionAddRequest);
-    this.patientService.admissionAddPatient(admissionAddRequest).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.dataModel.admissionid = payloadResponse.data.admissionid;
-        this.patientService.setAdmissionId(payloadResponse.data.admissionid);
-        this.appNotificationService.success();
-        this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
-        this.patientService.personaldetailsid = payloadResponse.data.personaldetailsid;
-        this.patientService.admissionid = payloadResponse.data.admissionid;
-        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        this.setFormMode(FORM_MODE.VIEW);
-      }
-      this.inProgress = false;
-    });
-  }
-  update() {
-    const admissionUpdateRequest = new AdmissionUpdateRequest();
-    this.dataModel.uuid = "6767";
-    this.dataModel.admissionid = this.patientService.admissionid;
-    this.dataModel.copyToUpdate(admissionUpdateRequest);
-    this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.appNotificationService.success();
-        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        this.setFormMode(FORM_MODE.VIEW);
-      }
-      this.inProgress = false;
-    });
   }
 
   getAdmissionUpdates() {
