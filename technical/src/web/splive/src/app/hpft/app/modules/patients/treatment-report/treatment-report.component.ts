@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { TreatmentFilterRequest, TreatmentResponse } from 'app/models/api/patient-models';
+import { TreatmentFilterRequest, TreatmentResponse } from 'app/models/api/patient-data-models';
 import { Subscription, merge, Observable } from 'rxjs';
 import { PatientService } from 'app/services/patient.service';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
@@ -9,7 +9,6 @@ import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.p
 import { startWith, switchMap, map } from 'rxjs/operators';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
 import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
-import { TreatmentModel } from 'app/models/ui/patient-models';
 import { FileDownloadRequest } from 'app/models/api/file-download-request';
 import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
 
@@ -45,7 +44,6 @@ export class TreatmentReportComponent implements OnInit {
   isLoadingResults: boolean;
   isViewSchedule = false;
   dataListFilterChangedSubscription: Subscription;
-  dataModel = new TreatmentModel();
   admissionid: number;
   treatmentid: number;
   treatmentFilterRequest: TreatmentFilterRequest;

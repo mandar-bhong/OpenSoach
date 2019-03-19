@@ -9,11 +9,11 @@ import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasou
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../shared/views/edit-record-base';
-import { MedicalDetailAddRequest, PatientDataAddRequest, PatientDetailAddRequest,PersonDataAddRequest } from '../../../models/api/patient-models';
+import { MedicalDetailAddRequest, PatientDataAddRequest, PatientDetailAddRequest,PersonDataAddRequest } from '../../../models/api/patient-data-models';
 import { PatientDataModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { PatientAdmissionComponent } from '../patient-admission/patient-admission.component';
-import { StatusChangeRequest } from '../../../models/api/patient-models';
+import { StatusChangeRequest } from '../../../models/api/patient-data-models';
 
 @Component({
   selector: 'app-patient-report',

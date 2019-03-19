@@ -16,7 +16,7 @@ import {
   AdmissionStatusRequest,
   PatientDetaListResponse,
   PatientFilterRequest,
-} from '../../../../models/api/patient-models';
+} from '../../../../models/api/patient-data-models';
 import { PatientService } from '../../../../services/patient.service';
 import { PATIENT_STATE } from 'app/app-constants';
 

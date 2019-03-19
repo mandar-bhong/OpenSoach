@@ -9,7 +9,7 @@ import { ServicepointConfigureListResponse } from '../../../../../prod-shared/mo
 import { Router } from '@angular/router';
 import { PatientCheckModal } from '../../../models/ui/patient-models';
 import { PatientAddService } from '../../../services/patient-add.service';
-import { PatientSearchRequestFilter } from '../../../models/api/patient-models';
+import { PatientSearchRequestFilter } from '../../../models/api/patient-data-models';
 
 @Component({
   selector: 'app-patient-check-search',

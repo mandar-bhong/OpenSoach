@@ -8,7 +8,7 @@ import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasou
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EditRecordBase } from '../../../../../shared/views/edit-record-base';
-import { PatientDetailAddRequest } from '../../../models/api/patient-models';
+import { PatientDetailAddRequest } from '../../../models/api/patient-data-models';
 import { ChartDataViewModel, PatientDayWiseTxn } from '../../../models/ui/chart-conf-models';
 import { PatientDataModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';

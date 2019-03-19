@@ -8,7 +8,7 @@ import { PayloadResponse } from '../../../../../shared/models/api/payload-models
 import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { PatientSearchRequestFilter, PatientSearchResponseFilter, CheckPatientRequest, CheckPatientResponse } from '../../../models/api/patient-models';
+import { PatientSearchRequestFilter, PatientSearchResponseFilter, CheckPatientRequest, CheckPatientResponse } from '../../../models/api/patient-data-models';
 import { PatientCheckListDataModal } from '../../../models/ui/patient-models';
 import { PatientAddService } from 'app/services/patient-add.service';
 import { PATIENT_STATE } from 'app/app-constants';

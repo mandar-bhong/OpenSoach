@@ -7,7 +7,7 @@ import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasou
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EditRecordBase, FORM_MODE, EDITABLE_RECORD_STATE } from '../../../../../shared/views/edit-record-base';
-import { PatientAddRequest, PatientUpdateRequest } from '../../../models/api/patient-models';
+import { PatientAddRequest, PatientUpdateRequest } from '../../../models/api/patient-data-models';
 import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';

@@ -5,7 +5,7 @@ import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
 import { ServiceInstanceTransactionResponse, ServiceTxnRequest } from '../../models/api/service-txn-models';
-import { PatientTxnRequest } from '../../../hpft/app/models/api/patient-models';
+import { PatientTxnRequest } from '../../../hpft/app/models/api/patient-data-models';
 
 @Injectable()
 export class SpServiceTxnService {

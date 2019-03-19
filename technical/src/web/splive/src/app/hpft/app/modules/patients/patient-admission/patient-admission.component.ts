@@ -6,7 +6,7 @@ import { ServicepointListResponse } from '../../../../../prod-shared/models/api/
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
-import { AdmissionAddRequest, AdmissionUpdateRequest, DrInchargeListResponse } from '../../../models/api/patient-models';
+import { AdmissionAddRequest, AdmissionUpdateRequest, DrInchargeListResponse } from '../../../models/api/patient-data-models';
 import { AdmissionAddModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { PATIENT_STATE } from 'app/app-constants';

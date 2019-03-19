@@ -13,7 +13,7 @@ import {
   PresentComplaint,
   ReasonForAdmission,
   TreatmentBeforeAdmission,
-} from 'app/models/api/patient-models';
+} from 'app/models/api/patient-data-models';
 import { MedicalDetailsModel } from 'app/models/ui/patient-models';
 import { PatientService } from 'app/services/patient.service';
 import { Subscription } from 'rxjs';
@@ -101,8 +101,6 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-
 
   ngOnDestroy() {
     if (this.routeSubscription) {
