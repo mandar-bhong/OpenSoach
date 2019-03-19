@@ -77,7 +77,7 @@ export class DoctorOrdersComponent implements OnInit {
 		serverDataStoreModel.datastore = SYNC_STORE.DOCTORS_ORDERS;
 		serverDataStoreModel.data = new DoctorsOrdersDatastoreModel();
 		serverDataStoreModel.data.admission_uuid = this.passDataService.getAdmissionID();
-		serverDataStoreModel.data.client_updated_at = new Date();
+		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
 		serverDataStoreModel.data.doctor_id = doctorName;
 		serverDataStoreModel.data.doctors_orders = desc;
 		// to do call api of upload document and set received rec id here.
@@ -89,7 +89,7 @@ export class DoctorOrdersComponent implements OnInit {
 		const serverDocumentDataStoreModel = new ServerDataStoreDataModel<DocumentUploadDatastore>();
 		serverDocumentDataStoreModel.datastore = SYNC_STORE.DOCUMENT;
 		serverDocumentDataStoreModel.data = new DocumentUploadDatastore();
-		serverDocumentDataStoreModel.data.client_updated_at = new Date();
+		serverDocumentDataStoreModel.data.client_updated_at = new Date().toISOString();
 		serverDocumentDataStoreModel.data.doc_path = this.docPath;
 		serverDocumentDataStoreModel.data.doc_name = 'test';
 		serverDocumentDataStoreModel.data.doc_type = mime.lookup('xlsx');

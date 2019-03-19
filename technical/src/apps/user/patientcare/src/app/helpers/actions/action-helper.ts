@@ -3,6 +3,7 @@ import { Schedulardata } from "~/app/models/ui/chart-models.js";
 import { ActionDBModel } from "~/app/models/ui/action-models.js";
 import { ActionDataStoreModel } from "~/app/models/db/action-datastore.js";
 import { PlatformHelper } from "../platform-helper.js";
+import { ActionStatus } from "~/app/app-constants.js";
 
 export class ActionHelper {
     startdate: Date;
@@ -63,8 +64,11 @@ export class ActionHelper {
                 actionList.admission_uuid = this.schedulardata.data.admission_uuid;
                 actionList.schedule_uuid = this.schedulardata.data.uuid;
                 actionList.conf_type_code = this.schedulardata.data.conf_type_code;
+                actionList.is_deleted = ActionStatus.ACTION_ACTIVE;
                 actionList.sync_pending = 1;
-               actionList.uuid = PlatformHelper.API.getRandomUUID();
+                actionList.client_updated_at=new Date().toISOString();              
+                actionList.updated_by = this.schedulardata.updated_by;
+                actionList.uuid = PlatformHelper.API.getRandomUUID();
                 // const tempid = Math.random();
                 // actionList.uuid = tempid.toString();
                 this.actionList.push(actionList);

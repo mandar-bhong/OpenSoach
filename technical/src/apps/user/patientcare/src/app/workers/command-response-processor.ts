@@ -33,7 +33,7 @@ export class CommandResponseProcessor {
 
         console.log(" in CmdProcessor..");
 
-        console.log("respMsg", respMsg);
+       console.log("respMsg", respMsg);
 
         const respDataModel: CmdModel = JSON.parse(respMsg);
 
@@ -610,8 +610,8 @@ export class CommandResponseProcessor {
             actionDataStoreModel.uuid = item.uuid;
             actionDataStoreModel.admission_uuid = item.admission_uuid;
             actionDataStoreModel.conf_type_code = item.conf_type_code;
-            actionDataStoreModel.schedule_uuid = item.conf_type_code;
-            actionDataStoreModel.scheduled_time = item.scheduled_time;
+            actionDataStoreModel.schedule_uuid = item.schedule_uuid;
+            actionDataStoreModel.scheduled_time = new Date(item.scheduled_time).toISOString();
             actionDataStoreModel.is_deleted = item.is_deleted;
             actionDataStoreModel.updated_by = item.updated_by;
             actionDataStoreModel.updated_on = item.updated_on;

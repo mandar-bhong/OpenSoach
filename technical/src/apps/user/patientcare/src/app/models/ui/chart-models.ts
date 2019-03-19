@@ -2,6 +2,8 @@ import { ScheduleDatastoreModel } from "../db/schedule-model.js";
 
 export class ChartListViewModel {
     dbmodel: any;
+    // serverdbmodal: any;
+    conf: ConfigData;
 }
 
 export class ChartDBModel {
@@ -73,6 +75,7 @@ export class Schedulardata {
     admission_uuid: string;
     conf_type_code: string;
     conf: SchedularConfigData;
+    updated_by: number;
 }
 
 export class ConfigData {
@@ -150,5 +153,5 @@ export class OutputChartModel {
     startDate: string;
     desc: string;
     remark: string;
-    name:string;
+    name: string;
 }

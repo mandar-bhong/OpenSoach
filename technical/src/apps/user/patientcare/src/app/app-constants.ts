@@ -90,6 +90,14 @@ export enum ConfigCodeType {
     INTAKE = "Intake",
     DOCTOR_ORDERS = 'Doctor-Orders'
 }
+export enum ActionStatus {
+    ACTION_ACTIVE = 0,
+    ACTION_DELETED = 1
+}
+export enum ScheuldeStatus {
+    SCHEDULE_ACTIVE = 0,
+    SCHEDULE_CANCELLED = 1
+}
 
 export const API_SPL_BASE_URL = "http://172.105.232.148/api";
 export const API_APP_BASE_URL = "http://172.105.232.148:91/api";

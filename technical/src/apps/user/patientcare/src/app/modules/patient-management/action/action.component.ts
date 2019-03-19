@@ -614,7 +614,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.scheduled_time = item.scheduled_time;
 			serverDataStoreModel.data.txn_state = item.txn_state;
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
-			serverDataStoreModel.data.client_updated_at = new Date();
+			serverDataStoreModel.data.client_updated_at = new Date().toDateString();
 			console.log('created data', serverDataStoreModel.data);
 			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
 		});

@@ -6,12 +6,12 @@ import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-
 import { Subscription } from 'rxjs';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
-import { ConfigCodeType, freuencyone, freuencyzero, SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { ConfigCodeType, freuencyone, freuencyzero, SERVER_WORKER_MSG_TYPE, SYNC_STORE, ScheuldeStatus } from '~/app/app-constants';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
-import { ChartListViewModel } from '~/app/models/ui/chart-models';
+import { ChartListViewModel, ConfigData } from '~/app/models/ui/chart-models';
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
@@ -21,7 +21,8 @@ import { SchedularFabComponent } from '../schedular-fab/schedular-fab.component'
 import { IntakeChartComponent } from './intake-chart/intake-chart.component';
 import { MedicineChartComponent } from './medicine-chart/medicine-chart.component';
 import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
-
+import { TraceCustomCategory } from '~/app/helpers/trace-helper';
+import * as trace from 'trace';
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -75,14 +76,15 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
-	ngOnInit() {	
+	ngOnInit() {
 		this.getChartData('getScheduleListActive');
-		this.schedulecreationSubscription = this.workerservice.actionsSubject.subscribe((value) => {
-			//	console.log('notified to schedule list page ', value);
+		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
+			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);
+			console.log('<======================notified to schedule list page===> ', value);
 			this.pushAddedSchedule(value);
 		});
 		this.completeorpending = "Active Schedules";
-		this.scheduleDataContext = this.chartService.scheduleDataContext.subscribe((value) => {			
+		this.scheduleDataContext = this.chartService.scheduleDataContext.subscribe((value) => {
 			// checking if schedulearrray  have any records.
 			if (value.length > 0) {
 				this.ServerDataStoreDataModelArray = value;
@@ -179,14 +181,15 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		return this.chartListItems;
 	}
 
-	public getChartData(key: string) {		
+	public getChartData(key: string) {
 		this.chartListItems = new ObservableArray<ChartListViewModel>();
 		this.chartService.getScheduleList(key, this.passdataservice.getAdmissionID()).then(
 			(val) => {
-				val.forEach(item => {				
+				val.forEach(item => {
 					let chartListItem = new ChartListViewModel();
 					chartListItem.dbmodel = item;
-					chartListItem.dbmodel.conf = JSON.parse(item.conf);
+					chartListItem.conf = new ConfigData();
+					Object.assign(chartListItem.conf, JSON.parse(chartListItem.dbmodel.conf));
 					this.chartListItems.push(chartListItem);
 				});
 				this.getGroupIndex();
@@ -219,43 +222,51 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		}
 	}// end 
 
-	pushAddedSchedule(Schedule: ServerDataStoreDataModel<IDatastoreModel>) {
-		const schedulDataStoreModel = new ScheduleDatastoreModel();
-		Object.assign(schedulDataStoreModel, Schedule.data);
-		let tempDbModel = new ScheduleDatastoreModel();
-		tempDbModel = schedulDataStoreModel;
-		tempDbModel.conf = JSON.parse(schedulDataStoreModel.conf);
+	pushAddedSchedule(Schedule: ScheduleDatastoreModel) {
+		let scheduleDatastoreModel = new ScheduleDatastoreModel();
+		scheduleDatastoreModel = Schedule;
 		const chartListViewModel = new ChartListViewModel();
-		chartListViewModel.dbmodel = tempDbModel;
-		const end_date = new Date(chartListViewModel.dbmodel.end_date);	
-		const todaysdate = new Date();
-		// checking current mode of list view based on that decide wheater we have to add newly created scchedule in list or not.
-		if (this.iscompleted) {
-			if (todaysdate < end_date) {
-				return;
+		chartListViewModel.dbmodel = scheduleDatastoreModel;
+		chartListViewModel.conf=JSON.parse(scheduleDatastoreModel.conf);
+		if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_ACTIVE) {
+			const end_date = new Date(chartListViewModel.dbmodel.end_date);
+			const todaysdate = new Date();
+			// checking current mode of list view based on that decide wheater we have to add newly created scchedule in list or not.
+			if (this.iscompleted) {
+				if (todaysdate < end_date) {
+					return;
+				}
+			} else if (!this.iscompleted) {
+				if (todaysdate > end_date) {
+					return;
+				}
+			} // end
+			try {
+				const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === chartListViewModel.dbmodel.uuid)[0];
+				// ittem found in array 
+				if (scheduleitem && scheduleitem != null) {
+					const itemIndex = this.chartListItems.indexOf(scheduleitem);
+					this.chartListItems[itemIndex].dbmodel = chartListViewModel;
+					this.chartListItems[itemIndex].conf = JSON.stringify(chartListViewModel.dbmodel.conf)
+				} else {
+					this.chartListItems.push(chartListViewModel);
+				}
+			} catch (e) {
+				console.log(e.error);
 			}
-		} else if (!this.iscompleted) {
-			if (todaysdate > end_date) {
-				return;
-			}
-		} // end
-		try {
-			const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === chartListViewModel.dbmodel.uuid)[0];
-			// ittem found in array 
-			if (scheduleitem && scheduleitem != null) {
+		} else if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_CANCELLED) {  // schedule is cancelled 
+			const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === scheduleDatastoreModel.uuid)[0];
+			if (scheduleitem) {
 				const itemIndex = this.chartListItems.indexOf(scheduleitem);
-				this.chartListItems[itemIndex].dbmodel = chartListViewModel;
-			} else {
-				this.chartListItems.push(chartListViewModel);
-			}		
-		} catch (e) {
-			console.log(e.error);
+				this.chartListItems.splice(itemIndex, 1);
+			}
 		}
+
 	}
 
- // to do
-    // remove this after action  heleper code testing
-	test() {		
+	// to do
+	// remove this after action  heleper code testing
+	test() {
 		const initModel = new ServerDataProcessorMessageModel();
 		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
@@ -376,5 +387,23 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		});
 
 	}// end 
+	//code block for cancel schedule
+	cancelScheudle(scheduleItem: ChartListViewModel) {
+		// let chartListViewModel = new ChartListViewModel();
+		// chartListViewModel.serverdbmodal = scheduleItem.serverdbmodal;
+		// console.log('chartListViewModel', chartListViewModel);
+		// chartListViewModel.serverdbmodal.status = 1;
+		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
+		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
+		serverDataStoreModel.data = new ScheduleDatastoreModel();
+		Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);
+		console.log('schedule data',scheduleItem.dbmodel);
+		serverDataStoreModel.data.status = 1;
+		serverDataStoreModel.data.sync_pending = 1
+		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
+		this.ServerDataStoreDataModelArray = [];
+		this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
+		this.savetoUserAuth();
+	}
 
 } 

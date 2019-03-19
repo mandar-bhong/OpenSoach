@@ -231,7 +231,8 @@ export class MedicineChartComponent implements OnInit {
         serverDataStoreModel.data.admission_uuid = admission_uuid;
         serverDataStoreModel.data.conf_type_code = conf_type_code;
         serverDataStoreModel.data.conf = conf;
-        serverDataStoreModel.data.client_updated_at = new Date();
+        serverDataStoreModel.data.status = 0;
+        serverDataStoreModel.data.client_updated_at = new Date().toISOString();
         this.params.closeCallback([serverDataStoreModel]);
     }
 

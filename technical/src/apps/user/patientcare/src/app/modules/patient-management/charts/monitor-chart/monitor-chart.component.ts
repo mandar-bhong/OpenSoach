@@ -98,7 +98,7 @@ export class MonitorChartComponent implements OnInit {
         freqItem2.title = "Specific time";
         this.frequencyItems.push(freqItem2);
         this.monitorForm.get('startDate').setValue(new Date());
-        this.monitorForm.get('startTime').setValue(new Date());
+        this.monitorForm.get('startTime').setValue(new Date());       
         // load default form data
         // this.monitorForm.get('startDate').setValue(new Date());
     }
@@ -181,7 +181,7 @@ export class MonitorChartComponent implements OnInit {
         } else if (data.frequency == 1) {
             this.chartConfModel.specificTimes = [];
             for (var i = 0; i < data.specificTimes.length; i++) {
-                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "H:mm"));
+                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "H.mm"));
             }
             // generate description
             let desc = `At specific times for ${data.duration} days`;
@@ -276,8 +276,9 @@ export class MonitorChartComponent implements OnInit {
         serverDataStoreModel.data = new ScheduleDatastoreModel();
         serverDataStoreModel.data = monitormodel;
         serverDataStoreModel.data.sync_pending = 1
-        serverDataStoreModel.data.client_updated_at = new Date();
+        serverDataStoreModel.data.client_updated_at = new Date().toISOString();
         serverDataStoreModel.data.conf = conf;
+        serverDataStoreModel.data.status = 0;
         this.params.closeCallback([serverDataStoreModel]);
 
     }

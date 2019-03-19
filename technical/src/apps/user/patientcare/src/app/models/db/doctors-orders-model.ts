@@ -17,7 +17,7 @@ export class DoctorsOrdersDatastoreModel implements IDatastoreModel {
     updated_by: number;
     updated_on: Date;
     sync_pending: number;
-    client_updated_at: Date;
+    client_updated_at: string;
     getModelValues(): any[] {
         return [this.uuid, this.admission_uuid, this.doctor_id, this.doctors_orders, this.comment, this.ack_by,
         this.ack_time, this.status, this.order_created_time, this.order_type, this.document_uuid, this.document_name,
