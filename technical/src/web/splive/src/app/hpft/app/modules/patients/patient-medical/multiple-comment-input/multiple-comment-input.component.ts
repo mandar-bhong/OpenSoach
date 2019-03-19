@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { MedicalDetailsModel } from 'app/models/ui/patient-models';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-multiple-comment-input',
@@ -17,13 +15,19 @@ export class MultipleCommentInputComponent implements OnInit {
   constructor() {
   }
   ngOnInit() {
-    this.itemList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.itemList.sort((a, b) => {
+        return (new Date(b.date).getTime() - new Date(a.date).getTime())
+      });
   }
+
   // emit event
   itemAdd() {
     if (this.contextValue) {
       this.onItemAdd.emit(this.contextValue);
       this.contextValue = null;
+      this.itemList.sort((a, b) => {
+        return (new Date(b.date).getTime() - new Date(a.date).getTime())
+      });
     }
   }
 }
