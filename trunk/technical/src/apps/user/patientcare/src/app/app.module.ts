@@ -18,6 +18,7 @@ import { ServerApiInterfaceService } from "./services/server-api-interface.servi
 import { AppStartupService } from "./services/app-startup.service";
 import { StartupComponent } from "./startup-page/startup.component";
 import { NextActionService } from "./services/action/next-action-service";
+import { UserAuthService } from "./services/user-auth/user-auth-service";
 @NgModule({
     bootstrap: [
         AppComponent
@@ -46,7 +47,8 @@ import { NextActionService } from "./services/action/next-action-service";
         ServerConnectivityStatusService,
         ServerApiInterfaceService,
         AppStartupService,
-        NextActionService
+        NextActionService,
+        UserAuthService
     ],
     exports:[
         // NetworkStatusComponent

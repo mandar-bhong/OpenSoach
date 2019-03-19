@@ -9,21 +9,9 @@ import { PassDataService } from '~/app/services/pass-data-service';
 import { ServerApiInterfaceService } from '~/app/services/server-api-interface.service';
 import { API_SPL_BASE_URL } from '~/app/app-constants';
 import { AppGlobalContext } from '~/app/app-global-context';
+import { UserDetails, UserDetailDBModel } from '~/app/models/ui/user-auth-models';
+import { UserAuthService } from '~/app/services/user-auth/user-auth-service';
 
-export class UserDetails {
-	userid: number;
-	firstname: string;
-	lastname: string;
-	username: string;
-	pin: string;
-}
-export class UserDetailDBModel {
-	userid: number;
-	first_name: string;
-	last_name: string;
-	email: string;
-	pin: string;
-}
 @Component({
 	moduleId: module.id,
 	selector: 'user_auth',
@@ -59,7 +47,7 @@ export class UserAuthComponent implements OnInit {
 	selecedItemsData: any;
 
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
-	constructor(private actionService: ActionService,
+	constructor(private UserAuthService: UserAuthService,
 		private routerExtensions: RouterExtensions,
 		private passdataservice: PassDataService,
 		private serverApiInterfaceService: ServerApiInterfaceService) {
@@ -78,6 +66,7 @@ export class UserAuthComponent implements OnInit {
 		this.createFormUserPinControls();
 		this.userPinCheckControls();
 		this.getUserAccountData();
+		this.UserAuthService.getUserAccountList1();
 
 		// if (this._dataItemsaccount.length > 0) {
 		// 	this.pinview = true;
@@ -115,7 +104,7 @@ export class UserAuthComponent implements OnInit {
 	}
 
 	public getUserAccountData() {
-		this.actionService.getUserAccountList().then(
+		this.UserAuthService.getUserAccountList().then(
 			(val) => {
 				val.forEach(item => {
 					const actionListItems = new ActionListViewModel();
@@ -146,7 +135,9 @@ export class UserAuthComponent implements OnInit {
 		const formmodel = new UserAuthDBRequest();
 		formmodel.pin = this.userPinCheckForm.get('userpin').value;
 		if (formmodel.pin == this.pincheck) {
-			console.log('this.pin Right', formmodel.pin);
+			// console.log('this.pin Right', formmodel.pin);
+			this.passdataservice.getAuthUserId = this.selecedItemsData.userid;
+			// console.log('call all ready add list user id', this.passdataservice.getAuthUserId);
 			this.passdataservice.authResultReuested.onDeviceAuthSuccess(this.selecedItemsData.userid);
 			this.routerExtensions.back();
 
@@ -156,6 +147,7 @@ export class UserAuthComponent implements OnInit {
 		console.log('on submit back');
 
 	}
+	// new user create add email and password then compare to server user is valid or not. user is vaild then call API get fname and lname
 	userAuthAccount() {
 		this.emailIsValid = this.userAuthForm.controls['email'].hasError('required');
 		this.passwordIsValid = this.userAuthForm.controls['password'].hasError('required');
@@ -195,6 +187,7 @@ export class UserAuthComponent implements OnInit {
 
 
 	}
+	// new user create account set new password 
 	userSign() {
 		this.newpinIsValid = this.userAuthPinForm.controls['newpin'].hasError('required');
 		this.re_enterpinIsValid = this.userAuthPinForm.controls['re_enterpin'].hasError('required');
@@ -216,7 +209,9 @@ export class UserAuthComponent implements OnInit {
 			// save action done and discard in DB
 			// const userid = Number(saveuserdetails.userid)
 			const userid = saveuserdetails.userid;
-			this.actionService.insertDeviceAccessItem(saveuserdetails);
+			this.passdataservice.getAuthUserId = userid;
+			// console.log('call new user id', this.passdataservice.getAuthUserId);
+			this.UserAuthService.insertDeviceAccessItem(saveuserdetails);
 			this.passdataservice.authResultReuested.onDeviceAuthSuccess(userid);
 			this.routerExtensions.back();
 		}
