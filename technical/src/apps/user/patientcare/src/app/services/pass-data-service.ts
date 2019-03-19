@@ -26,7 +26,6 @@ export class PassDataService {
     createActionsSubject: Subject<boolean> = new Subject<boolean>();
     authResultReuested: IDeviceAuthResult;
     backalert: boolean;
-    getAuthUserId: any;
 
     private cfalertDialog: CFAlertDialog;
     constructor(private routerExtensions: RouterExtensions) {

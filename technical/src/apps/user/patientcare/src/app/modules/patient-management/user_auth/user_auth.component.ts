@@ -136,8 +136,7 @@ export class UserAuthComponent implements OnInit {
 		formmodel.pin = this.userPinCheckForm.get('userpin').value;
 		if (formmodel.pin == this.pincheck) {
 			// console.log('this.pin Right', formmodel.pin);
-			this.passdataservice.getAuthUserId = this.selecedItemsData.userid;
-			// console.log('call all ready add list user id', this.passdataservice.getAuthUserId);
+
 			this.passdataservice.authResultReuested.onDeviceAuthSuccess(this.selecedItemsData.userid);
 			this.routerExtensions.back();
 
@@ -209,8 +208,6 @@ export class UserAuthComponent implements OnInit {
 			// save action done and discard in DB
 			// const userid = Number(saveuserdetails.userid)
 			const userid = saveuserdetails.userid;
-			this.passdataservice.getAuthUserId = userid;
-			// console.log('call new user id', this.passdataservice.getAuthUserId);
 			this.UserAuthService.insertDeviceAccessItem(saveuserdetails);
 			this.passdataservice.authResultReuested.onDeviceAuthSuccess(userid);
 			this.routerExtensions.back();

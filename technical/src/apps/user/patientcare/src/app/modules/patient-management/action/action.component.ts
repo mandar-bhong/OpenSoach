@@ -371,6 +371,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.allAction = new ObservableArray<DataActionItem>();
 
 		this.actionListItem.forEach(item => {
+			console.log('txn item', item);
 			const actionListDataItem = new DataActionItem();
 			const gettxn_data = new GetJsonmodel();
 			gettxn_data.jsonvalue = new BloodPressureValueModel();
@@ -416,9 +417,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 
 			const conf = JSON.parse(item.dbmodel.conf);
-			console.log('conf ', conf);
+			// console.log('conf ', conf);
 			actionListDataItem.name = conf.name;
-			console.log('conf name', conf.name);
+			// console.log('conf name', conf.name);
 			actionListDataItem.desc = conf.desc;
 
 
@@ -614,7 +615,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.scheduled_time = item.scheduled_time;
 			serverDataStoreModel.data.txn_state = item.txn_state;
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
-			serverDataStoreModel.data.client_updated_at = new Date().toDateString();
+			serverDataStoreModel.data.client_updated_at = new Date().toISOString();
 			console.log('created data', serverDataStoreModel.data);
 			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
 		});
