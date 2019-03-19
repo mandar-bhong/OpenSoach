@@ -24,7 +24,7 @@ type ReportHeaderModel struct {
 }
 
 type DBPatientReportDataModel struct {
-	AdmissionData       DBSplHpftPatientAdmissionTableRowModel
+	AdmissionData       DBPatientAdmissionData
 	PatientMasterData   DBSplHpftPatientMasterTableRowModel
 	PersonalDetailsData DBSplHpftPatientPersonalDetailsRowModel
 	MedicalDetailsData  DBSplHpftPatientMedicalDetailsRowModel
@@ -39,4 +39,11 @@ type DBPatientDoctorOrdersData struct {
 	DoctorLname *string `json:"doctorlname"`
 	AckByFname  *string `json:ackbyfname""`
 	AckByLname  *string `json:"ackbylname"`
+}
+
+type DBPatientAdmissionData struct {
+	DBSplHpftPatientAdmissionTableRowModel
+	DrInchargeFname string
+	DrInchargeLname string
+	SPName          string
 }

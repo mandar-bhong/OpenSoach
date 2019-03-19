@@ -5,6 +5,7 @@ import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	patientdbaccess "opensoach.com/hpft/api/webserver/patient/dbaccess"
+	spdbaccess "opensoach.com/hpft/api/webserver/servicepoint/dbaccess"
 	"opensoach.com/hpft/constants"
 	"opensoach.com/hpft/constants/dbquery"
 	hktmodels "opensoach.com/hpft/models"
@@ -194,6 +195,16 @@ func GetUserData(dbConn string, usrid int64) (error, *[]hktmodels.PatientUserInf
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserData")
 
 	err, data := patientdbaccess.GetUserInfoById(dbConn, usrid)
+
+	return err, data
+
+}
+
+func GetServicePointData(dbConn string, spid int64) (error, *[]hktmodels.DBSplNodeSpTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetServiPointData")
+
+	err, data := spdbaccess.ServicePointSelectByID(dbConn, spid)
 
 	return err, data
 
