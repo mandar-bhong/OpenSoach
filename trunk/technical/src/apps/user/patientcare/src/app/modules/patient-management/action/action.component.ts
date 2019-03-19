@@ -66,7 +66,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		initModel.data = this.ServerDataStoreDataModelArray
 		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
 		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
-		
+
 		//	this.save();
 		//	throw new Error("Method not implemented.");
 	}
@@ -130,7 +130,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// removeAccount = false;
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
 	// blood pressure high and low value model
-	bloodPressureValueModel = new BloodPressureValueModel()
+	bloodPressureValueModel = new BloodPressureValueModel();
 	bloddname: any;
 	// switch active and complited
 	completeorpending: string;
@@ -139,7 +139,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	buttonClicked: boolean = true;
 	buttonCompleted: boolean = false;
 	getAllFlag = false;
-	valuejson: string;
 
 	// filter data complited UI readonly Mode
 	editMode = false;
@@ -149,6 +148,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	action_Status = ACTION_STATUS;
 	get_Value: BloodPressureValueModel;
 	actionStatus: any;
+	conf_type_code: any;
 	constructor(public page: Page,
 		private actionService: ActionService,
 		public workerService: WorkerService,
@@ -227,55 +227,67 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >> Grouping intake scroll to top position change 
 	public selectIntake() {
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
+		if (this.conf_type_code === "Intake") {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
+
+			console.log("Clicked select intake", this.intakeIndex);
+		}
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = true;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = false;
-		console.log("Clicked select intake", this.intakeIndex);
 	}
 	// <<  Grouping intake scroll to top position change 
 
 	// >>  Grouping monitor scroll to top position change 
 	public selectMonitor() {
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
+		if (this.conf_type_code === "Monitor") {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
+
+			console.log("Clicked select monitor", this.monitorIndex);
+		}
 		this.monitorbuttonClicked = true;
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = false;
-		console.log("Clicked select monitor", this.monitorIndex);
-
 	}
 	// <<  Grouping monitor scroll to top position change 
 
 	// >>  Grouping medicine scroll to top position change 
 	public selectMedicine() {
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
+		console.log('this.conf_type_code button', this.conf_type_code);
+		if (this.conf_type_code === "Medicine") {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
+
+			console.log("Clicked select medicine", this.medicineIndex);
+		}
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = true;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = false;
-		console.log("Clicked select medicine", this.medicineIndex);
+
 	}
 	// <<  Grouping medicine scroll to top position change 
 
 	// >>  Grouping medicine scroll to top position change
 	public selectOutput() {
-
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
+		if (this.conf_type_code === "Output") {
+			console.log('this.conf_type_code button output', this.conf_type_code);
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
+			console.log("Clicked select output", this.outputIndex);
+		}
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = false;
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = true;
 		this.doctorOrderButtonClicked = false;
-		console.log("Clicked select output", this.outputIndex);
 	}
 	selectDoctorOrder() {
 		console.log();
@@ -361,12 +373,15 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actionListItem.forEach(item => {
 			const actionListDataItem = new DataActionItem();
 			const gettxn_data = new GetJsonmodel();
-			const get_value = new BloodPressureValueModel();
+			gettxn_data.jsonvalue = new BloodPressureValueModel();
 			actionListDataItem.admission_uuid = item.dbmodel.admission_uuid;
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
-
+			this.conf_type_code = actionListDataItem.conf_type_code;
+			console.log('this.conf_type_code', this.conf_type_code);
 			actionListDataItem.scheduled_time = item.dbmodel.scheduled_time;
+			actionListDataItem.fname = item.dbmodel.fname;
+			actionListDataItem.lname = item.dbmodel.lname;
 			// const a = item.dbmodel.scheduled_time;
 
 
@@ -391,34 +406,35 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			const tempStart = tempStartTime.toLocaleString();
 			const startTime = new Date(tempStart);
 			// console.log('startTime',startTime);
-
-			this.chartService.getChartByUUID(actionListDataItem.schedule_uuid).then(
-				(val) => {
-					val.forEach(item => {
-						// console.log('val name ', val);
-						const conf = JSON.parse(item.conf);
-						actionListDataItem.name = conf.name;
-						this.valuejson = actionListDataItem.name;
-						actionListDataItem.desc = conf.desc;
-					});
-				})
 			actionListDataItem.txn_state = item.dbmodel.txn_state;
 			Object.assign(gettxn_data, JSON.parse(item.dbmodel.txn_data));
 			actionListDataItem.txn_data = gettxn_data;
 			actionListDataItem.txn_data.comment = gettxn_data.comment;
-			// Object.assign(get_value, JSON.parse(gettxn_data.value));
-			// console.log('get_value value', get_value);
-			// console.log('item.dbmodel.name', );
-			if (item.dbmodel.name == "Blood Pressure") {
+			console.log('actionListDataItem.value.systolic', gettxn_data.jsonvalue.systolic);
 
-				// actionListDataItem.txn_data.value  =gettxn_data;
+
+
+
+			const conf = JSON.parse(item.dbmodel.conf);
+			console.log('conf ', conf);
+			actionListDataItem.name = conf.name;
+			console.log('conf name', conf.name);
+			actionListDataItem.desc = conf.desc;
+
+
+
+			if (actionListDataItem.name === 'Blood Pressure') {
+				// console.log('if value');
+				// Object.assign(gettxnData.value, JSON.parse(gettxn_data.value));
+				// console.log('gettxnData.value.systolic', gettxnData.value.systolic);
+				// actionListDataItem.value.systolic = gettxnData.value.systolic;
+				// console.log('************systolic', gettxnData.value.systolic);
+				// actionListDataItem.value.diastolic = gettxnData.value.diastolic;
+				// console.log('************diastolic', gettxnData.value.diastolic);
 			} else {
 				actionListDataItem.txn_data.value = gettxn_data.value;
+				console.log('else value', actionListDataItem.txn_data.value);
 			}
-			// Object.assign(gettxn_data, JSON.parse(gettxn_data.value);
-			actionListDataItem.txn_data.value = gettxn_data.value;
-			// console.log('gettxn_data.value.Systolic',gettxn_data.value.Systolic);
-
 
 			//  condition for type set action list active and all
 			if (item.dbmodel.action_txn_uuid != null) {
@@ -428,14 +444,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				recivedDateFormDB.setMinutes(recivedDateDb);
 				const reciveTimeDb = recivedDateFormDB.toLocaleString();
 				actionListDataItem.client_updated_at = new Date(reciveTimeDb);
-				console.log('actionListDataItem.client_updated_a', actionListDataItem.client_updated_at)
 				actionListDataItem.type = 2;
-				if (item.dbmodel.txn_state === 1) {
-					actionListDataItem.status_labels = "Completed";
-
-				} else if (item.dbmodel.txn_state === 2) {
-					actionListDataItem.status_labels = "Discarded";
-				}
 				console.log('type 2 =======');
 				this.allAction.push(actionListDataItem);
 			} else {
@@ -444,10 +453,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				actionListDataItem.type = 1;
 				actionListDataItem.actionStatus = ActionStatusHelper.getActionStatus(Dbdate);
 				this.actionStatus = actionListDataItem.actionStatus;
-				console.log('ActionStatusHelper.getActionStatus(Dbdate)', ActionStatusHelper.getActionStatus(Dbdate));
 				if (actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NORMAL || actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_DELAYED || actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
 					if (Dbdate >= startTime && Dbdate <= endTime) {
-					this.activeAction.push(actionListDataItem);
+						this.activeAction.push(actionListDataItem);
 					}
 
 				}
@@ -499,8 +507,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			if (item.name === 'Blood Pressure') {
 				console.log('if  condition');
 				const bloodPressureValueModel = new BloodPressureValueModel()
-				bloodPressureValueModel.Systolic = this.bloodPressureValueModel.Systolic;
-				bloodPressureValueModel.Diastolic = this.bloodPressureValueModel.Diastolic;
+				bloodPressureValueModel.systolic = this.bloodPressureValueModel.systolic;
+				bloodPressureValueModel.diastolic = this.bloodPressureValueModel.diastolic;
 				this.actionDbData.value = JSON.stringify(bloodPressureValueModel);
 				this.actionDbData.comment = this.actiondata.comment;
 			} else {
@@ -599,7 +607,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.sync_pending = 1
 			serverDataStoreModel.data.admission_uuid = item.admission_uuid;
 			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
-			console.log('item.schedule_uuid;',item.schedule_uuid);
+			console.log('item.schedule_uuid;', item.schedule_uuid);
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
 			console.log('item.txn_data;', item.txn_data);

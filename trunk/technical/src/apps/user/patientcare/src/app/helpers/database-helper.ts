@@ -62,7 +62,14 @@ let selectQueries = new Map([
     ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],
     ["getAllActionList", "select * from action_tbl where admission_uuid=?"],
 
-    ["getActionList", "select act.uuid as action_uuid,act.admission_uuid,act.schedule_uuid,act.scheduled_time,act.conf_type_code,atxn.uuid as action_txn_uuid,atxn.txn_data,atxn.client_updated_at,atxn.txn_state,usr.fname,usr.lname from action_tbl act left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time left join usr_tbl usr on usr.usr_id = atxn.updated_by where act.admission_uuid = ? order by act.scheduled_time asc"],
+    ["getActionList", `select act.uuid as action_uuid,act.admission_uuid,act.schedule_uuid,act.scheduled_time,act.conf_type_code,atxn.uuid as action_txn_uuid,atxn.txn_data,
+    atxn.client_updated_at,atxn.txn_state,usr.fname,usr.lname, sch.conf
+    from action_tbl act
+    left join schedule_tbl sch on sch.uuid = act.schedule_uuid
+    left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time
+    left join usr_tbl usr on usr.usr_id = act.updated_by
+    where act.admission_uuid = ? 
+    order by act.scheduled_time asc`],
     ["usr_tbl_insert", "insert into usr_tbl (usr_id,usr_name,urole_name,fname,lname,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?)"],
     ["usr_tbl_update", "update usr_tbl set usr_name=?,urole_name=?,fname=?,lname=?,updated_on=?,sync_pending=?,client_updated_at=? where usr_id=?"],
     ["action_tbl_next_actions_all",
@@ -101,7 +108,8 @@ let selectQueries = new Map([
     on  action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
     where action_tbl.admission_uuid = ? and action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
     ) actions
-    order by actions.scheduled_time ASC`]
+    order by actions.scheduled_time ASC`],
+    ["userList1", "select * from usr_tbl"],
 ]);
 
 let selectTableName = new Map([

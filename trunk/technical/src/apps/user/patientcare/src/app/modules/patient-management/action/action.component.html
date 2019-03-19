@@ -47,9 +47,9 @@
                                     </GridLayout>
 
                                     <GridLayout row="1" class="list-layout" *ngIf="item.type == 2">
-                                        <Label row="0" col="0" text="&#xf008;" style="color: green;" class="mdi list-text"
+                                        <Label row="0" col="0" text="&#xfbbe;" style="color: green;" class="mdi list-text"
                                             *ngIf="item.txn_state == 1"></Label>
-                                        <Label row="0" col="0" text="&#xf015;" style="color: red;" class="mdi list-text"
+                                        <Label row="0" col="0" text="&#xfaec;" style="color: red;" class="mdi list-text"
                                             *ngIf="item.txn_state == 2"></Label>
                                     </GridLayout>
                                 </GridLayout>
@@ -106,9 +106,9 @@
                                     </GridLayout>
 
                                     <GridLayout row="1" class="list-layout" *ngIf="item.type == 2">
-                                        <Label row="0" col="0" text="&#xf008;" style="color: green;" class="mdi list-text"
+                                        <Label row="0" col="0" text="&#xfbbe;" style="color: green;" class="mdi list-text"
                                             *ngIf="item.txn_state == 1"></Label>
-                                        <Label row="0" col="0" text="&#xf015;" style="color: red;" class="mdi list-text"
+                                        <Label row="0" col="0" text="&#xfaec;" style="color: red;" class="mdi list-text"
                                             *ngIf="item.txn_state == 2"></Label>
                                     </GridLayout>
                                 </GridLayout>
@@ -164,45 +164,36 @@
                                             </StackLayout>
                                             <StackLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
                                                 <TextField hint="High" keyboardType="number" autocorrect="false"
-                                                    autocapitalizationType="none" [(ngModel)]="bloodPressureValueModel.Systolic"
+                                                    autocapitalizationType="none" [(ngModel)]="bloodPressureValueModel.systolic"
                                                     class="input input-border"></TextField>
                                             </StackLayout>
                                             <StackLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
                                                 <TextField hint="low" keyboardType="number" autocorrect="false"
-                                                    autocapitalizationType="none" [(ngModel)]="bloodPressureValueModel.Diastolic"
+                                                    autocapitalizationType="none" [(ngModel)]="bloodPressureValueModel.diastolic"
                                                     class="input input-border"></TextField>
                                             </StackLayout>
                                         </StackLayout>
                                     </GridLayout>
                                 </GridLayout>
 
-
-                                <!-- <GridLayout rows="auto, auto" columns="*, *" *ngIf="item.actionStatus == action_Status.ACTIVE_FUTURE">
-
-                                    <Label text=" future "></Label>
-                                </GridLayout> -->
-
                                 <GridLayout rows="auto, auto, auto" *ngIf="item.type == 2 " style="padding: 20;">
-                                    <GridLayout row="0" rows="auto, auto" columns="*, *">
-                                        <Label row="0" col="0" class="body" textWrap="true" text="Comment"></Label>
-                                        <Label row="0" col="1" class="body" textWrap="true" text="Date"></Label>
-                                        <Label row="1" col="0" class="labelleft label-small" textWrap="true" text="{{item.txn_data.comment}}"></Label>
-                                        <Label row="1" col="1" class="labelleft label-small" textWrap="true" text="{{item.client_updated_at | date: 'fullDate'}}"></Label>
+                                    <GridLayout row="0" rows=" auto" columns="auto , auto, auto, auto">
+                                        <Label row="0" col="0" class="label-small" textWrap="true" style="color:green;"
+                                            text="Completed on  " *ngIf="item.txn_state === 1"></Label>
+                                        <Label row="0" col="0" class="label-small" textWrap="true" style="color:red;"
+                                            text="Discarded on  " *ngIf="item.txn_state === 2"></Label>
+                                        <Label row="0" col="1" class="label-small" textWrap="true" text="{{ ' ' + item.client_updated_at | date: 'fullDate' }}"></Label>
+                                        <Label row="0" col="2" class="label-small" textWrap="true" text="{{ ' ' +  'by' + ' ' + item.fname + ' '+ item.lname}}"></Label>
                                     </GridLayout>
-                                    <GridLayout rows="auto, auto" columns="* , *" row="1">
-                                        <Label row="0" col="0" class="Time" textWrap="true" text="By"></Label>
-                                        <Label row="0" col="1" class="By" textWrap="true" text="Value"></Label>
+                                    <GridLayout row="1" rows="auto, auto" columns="*, *">
+                                        <Label row="0" col="0" class="body" textWrap="true" text="Comment" *ngIf="item.txn_data.comment != null"></Label>
+                                        <Label row="0" col="1" class="body" textWrap="true" text="Value" *ngIf="item.txn_data.value || item.txn_data.value != null"></Label>
                                         <Label row="1" col="0" class="labelleft label-small" textWrap="true" text="{{item.txn_data.comment}}"></Label>
-                                        <Label row="1" col="1" class="labelleft label-small" textWrap="true" text="{{item.txn_data.comment}}"></Label>
-                                    </GridLayout>
-                                    <GridLayout row="2" rows="auto, auto" columns="* , *">
-                                        <Label row="0" col="0" class="Status" textWrap="true" text="Status" *ngIf="item.txn_state == 1 || item.txn_state == 2"></Label>
-                                        <Label row="1" col="0" class="labelleft label-small" textWrap="true" style="color:red;"
-                                            text="{{item.status_labels}}"></Label>
+                                        <Label row="1" col="1" class="labelleft label-small" *ngIf="item.name !== 'Blood Pressure'" textWrap="true" text="{{item.txn_data.value}}"></Label>
+                                        <!-- <Label row="1" col="1" class="labelleft label-small" *ngIf="item.name === 'Blood Pressure'" textWrap="true" text="{{ 'Systolic :-'+ item.value.systolic + ' ' +  'Diastolic :-' + item.value.diastolic}}"></Label> -->
                                     </GridLayout>
                                 </GridLayout>
                             </GridLayout>
-
                         </GridLayout>
 
                         <GridLayout row="3" col="0" *ngIf="item.actionStatus != action_Status.ACTIVE_FUTURE">
@@ -215,17 +206,20 @@
             <StackLayout row="0" col="1" horizontalAlignment="right" class="right" VerticalAlignment="center">
                 <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
                     <StackLayout class="float-btn-cat" (tap)="doctorOrderButtonClicked = true" [class.button-clicked]="doctorOrderButtonClicked">
-                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectDoctorOrder()" text="&#xf0f0;" [style.color]="doctorOrderButtonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectDoctorOrder()" text="&#xf0f0;"
+                            [style.color]="doctorOrderButtonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </StackLayout>
                 </RL:Ripple>
                 <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
                     <StackLayout class="float-btn-cat" (tap)="medicinebuttonClicked = true" [class.button-clicked]="medicinebuttonClicked">
-                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMedicine()" text="&#xf484;" [style.color]="medicinebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMedicine()" text="&#xf484;"
+                            [style.color]="medicinebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </StackLayout>
                 </RL:Ripple>
                 <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
                     <StackLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true" [class.button-clicked]="monitorbuttonClicked">
-                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMonitor()" text="&#xf201;" [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMonitor()" text="&#xf201;"
+                            [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </StackLayout>
                 </RL:Ripple>
                 <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">

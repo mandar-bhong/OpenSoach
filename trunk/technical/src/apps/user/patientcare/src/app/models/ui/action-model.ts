@@ -113,14 +113,17 @@ export class DataActionItem {
 	actionStatus: any;
 	txn_state: number;
 	txn_data: GetJsonmodel;
-	status_labels: string;
-	client_updated_at: Date;
+    client_updated_at: Date;
+    fname: string;
+    lname:string;
+    value: BloodPressureValueModel
 }
 export class GetJsonmodel {
 	comment: string;
-	value: any;
+    value: any;
+    jsonvalue: BloodPressureValueModel;
 }
 export class BloodPressureValueModel {
-	Systolic: number;
-	Diastolic: number;
+	systolic: number;
+	diastolic: number;
 }
