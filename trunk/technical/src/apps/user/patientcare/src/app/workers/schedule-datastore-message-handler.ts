@@ -14,6 +14,7 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
         // const data = <ScheduleDatastoreModel>this.dataModel.data;
         const schedulardata = new Schedulardata();
         schedulardata.data = msg;
+        schedulardata.updated_by = msg.updated_by;
         schedulardata.conf = new SchedularConfigData()
         const parsedConf = <SchedularConfigData>JSON.parse(msg.conf);
         schedulardata.conf = parsedConf;
@@ -22,7 +23,7 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
             switch (schedulardata.data.conf_type_code) {
                 case ConfigCodeType.MEDICINE:
                     const medicineHelper = new MedicineHelper();
-                    console.log('MedicineHelper created');
+                    console.log('<=================== MedicineHelper created =========================>');
                     actiondata = <ActionsData>medicineHelper.createMedicineActions(schedulardata);
                     break;
                 case ConfigCodeType.INTAKE:
@@ -47,6 +48,8 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
             }
             try {
                 //parsedConf.endDate = actiondata.enddate;
+                console.log('<=========================== sending actions to datastore =======================================>');
+                console.log('actiondata.enddate', actiondata.enddate);
                 msg.end_date = actiondata.enddate;
                 // actiondata.actions.forEach(element => {
                 //     //const actionsdbdata = new ActionDataStoreModel();

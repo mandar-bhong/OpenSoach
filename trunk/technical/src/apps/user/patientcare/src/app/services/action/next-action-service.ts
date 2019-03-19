@@ -57,7 +57,7 @@ export class NextActionService {
         const currentDate = new Date().toISOString();
         this.database.selectByID("action_tbl_next_actions_for_admission", [admission_uuid, currentDate, admission_uuid, currentDate]).then(
             (val) => {
-                console.log('action_tbl_next_actions_for_admission', val);
+             //   console.log('action_tbl_next_actions_for_admission', val);
                 const nextActionTimes = new NextActionTimes();
                 val.forEach(element => {
                     nextActionTimes.times.push(new Date(element.scheduled_time));

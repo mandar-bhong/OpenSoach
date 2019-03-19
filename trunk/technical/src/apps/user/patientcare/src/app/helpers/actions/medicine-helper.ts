@@ -23,6 +23,10 @@ export class MedicineHelper extends ActionHelper {
         console.log('Received Data', MedicineSchedularData);
         this.schedulardata = MedicineSchedularData;
         this.numberofTimes = this.schedulardata.conf.numberofTimes;
+        // code block for excuting code based on specific fequency types
+        // switch (this.schedulardata.conf.frequency) {
+             
+        // }
         if (this.schedulardata.conf.frequency == 0 || this.schedulardata.conf.frequency == 1) {
             this.createDateEntries(); // calling base class function for creating date entries.
             // creating new array without memory ref.

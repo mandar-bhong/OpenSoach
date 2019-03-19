@@ -55,6 +55,7 @@ export class MonitorHelper extends ActionHelper {
         // if user has selectes  medicine after x time interval then following code blcok will executed
         console.log('frequencyActionasGenerations called ');
         if (MonitorSchedularData.conf.frequency == Monitorfrequency.AfterXTimeInterval) {
+            console.log('createActionAfterXTimeinterval called ');
             this.createActionAfterXTimeinterval(strdate, MonitorSchedularData, i);
         } else {
             // if user selected specific times in a day then following code block will executed.
@@ -145,6 +146,7 @@ export class MonitorHelper extends ActionHelper {
 
     // code block for generate actions on specific times
     generateActionsOnSpecificTime(receivedDate, MonitorSchedularData, i) {
+        console.log('generateActionsOnSpecificTime executed');
         const receivedActionDate = new Date(receivedDate);
         if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
             const totalminutes = this.getMinutes();

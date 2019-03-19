@@ -166,6 +166,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	details(listItem) {
 		// console.log(listItem);
 		this.passdataservice.setPatientData(listItem);
+		console.log('listItem',listItem);
 		this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
 	}
 
@@ -182,7 +183,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 				const nextActionTimes = result.get(item.dbmodel.admission_uuid);
 				if (nextActionTimes) {
 					item.nextActionTimes = nextActionTimes;
-					console.log('action times for admission', item);
+					//console.log('action times for admission', item);
 				}
 			});
 		}, error => {
@@ -192,7 +193,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		this.nextActionService.nextActionMapChanged.subscribe(entry => {
 			const viewModel = this.listSource.find(a => a.dbmodel.admission_uuid == entry.admission_uuid);
 			if (viewModel) {
-				console.log('setting next action items receieved from action service notification', entry);
+				//console.log('setting next action items receieved from action service notification', entry);
 				viewModel.nextActionTimes = entry.nextActionTimes;
 			}
 		});

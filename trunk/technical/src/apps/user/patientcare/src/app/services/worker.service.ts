@@ -61,7 +61,7 @@ export class WorkerService {
     }
 
     serverWorkerMessageRecieved(messageEvent: MessageEvent) {
-        console.log('worker message recieved', messageEvent);
+       // console.log('worker message recieved', messageEvent);
         const message: ServerWorkerEventDataModel = messageEvent.data;
         switch (message.msgtype) {
             case SERVER_WORKER_EVENT_MSG_TYPE.DATA_RECEIVED:
@@ -93,9 +93,20 @@ export class WorkerService {
                     this.patientAdmissionDataReceivedSubject.next(<PatientAdmissionDatastoreModel>item.data);
                     break;
                 case SYNC_STORE.SCHEDULE:
-                    this.actionsSubject.next(item);
-                    this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
-                    break;
+                  //  this.actionsSubject.next(item);
+                  //  const scheduleDatastoreModel = new ScheduleDatastoreModel();
+                  //  Object.assign(scheduleDatastoreModel, item.data);
+                 //   this.scheduleDataReceivedSubject.next(scheduleDatastoreModel);                    // TODO: 
+                     this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);                    // 
+                    // if patient is selected and (<ScheduleDatastoreModel>item.data).admission_uuid equals to selected patient admission_uuid in AppGlobalContext
+                    // then notify else do nothing
+                   // console.log('get patient data');
+                    // const getpatientdata = this.passDataService.getpatientData();
+                    // if (getpatientdata.dbmodel.admission_uuid === (<ScheduleDatastoreModel>item.data).admission_uuid) {
+                    //     this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
+                    // }
+                   // this.scheduleDataReceivedSubject.next(<ScheduleDatastoreModel>item.data);
+                 break;
                 case SYNC_STORE.ACTION:
                     this.actionDataReceivedSubject.next(<ActionDataStoreModel>item.data);
                     break;

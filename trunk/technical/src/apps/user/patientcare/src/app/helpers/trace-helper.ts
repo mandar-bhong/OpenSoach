@@ -5,9 +5,9 @@ export enum TraceCustomCategory {
     APP_START = "APP_START",
     SYNC = "SYNC",
     DATABASE = "DATABASE",
-    WORKER="WORKER"
+    WORKER="WORKER",
+    SCHEDULE='SCHEDULE'
 }
-
 export class TraceHelper {
     constructor(){
         console.log('in TraceHelper constructor');

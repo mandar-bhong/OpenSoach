@@ -10,7 +10,7 @@ let selectQueries = new Map([
     ["actionList", "select * from action_tbl"],
     ["actionInsert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,scheduled_time, status, client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?)"],
     ["chartItemByUUID", "select * from schedule_tbl where uuid = ? "],
-    ["getScheduleListActive", "select * from schedule_tbl where end_date >=? and admission_uuid=?"],
+    ["getScheduleListActive", "select * from schedule_tbl where status=0 and end_date >=? and admission_uuid=?"],
     ["getScheduleListComplated", "select * from schedule_tbl where end_date <? and admission_uuid=?"],
     ["servicePointList", "select * from service_point_tbl"],
     ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,scheduled_time,txn_state,conf_type_code, updated_on,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?, ?,?)"],
@@ -59,7 +59,7 @@ let selectQueries = new Map([
     ["patient_admission_details", "select * from patient_admission_tbl where patient_uuid=? "],
     ["patient_personal_details", "select * from patient_master_tbl where uuid=? "],
     ["patient_person_accompanying_details", "select * from patient_personal_details_tbl where admission_uuid=? "],
-    ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],
+    ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],    
     ["getAllActionList", "select * from action_tbl where admission_uuid=?"],
 
     ["getActionList", `select act.uuid as action_uuid,act.admission_uuid,act.schedule_uuid,act.scheduled_time,act.conf_type_code,atxn.uuid as action_txn_uuid,atxn.txn_data,
@@ -90,7 +90,6 @@ let selectQueries = new Map([
     where action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
     ) actions
     order by actions.scheduled_time ASC`],
-
     ["action_tbl_next_actions_for_admission",
         `select * from 
     (select action_tbl.admission_uuid,
@@ -108,7 +107,10 @@ let selectQueries = new Map([
     on  action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
     where action_tbl.admission_uuid = ? and action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
     ) actions
-    order by actions.scheduled_time ASC`],
+    order by actions.scheduled_time ASC`],    
+    ["getActionForCancel", `select act.uuid,act.admission_uuid,act.conf_type_code,act.schedule_uuid,act.scheduled_time,act.is_deleted,act.updated_by,act.updated_on,act.sync_pending,act.client_updated_at,atxn.uuid as atxn_uuid from action_tbl act
+    left join action_txn_tbl atxn on act.scheduled_time = atxn.scheduled_time
+    where act.scheduled_time >=? and act.schedule_uuid=? and atxn.uuid IS NULL`],
     ["userList1", "select * from usr_tbl"],
 ]);
 
@@ -469,5 +471,25 @@ export class DatabaseHelper {
 
         });
     }
-
+    // fucntion for fetch action for cancel schedule 
+    public static getDataByParameters(key: string, paramList: Array<any>): any {
+        return new Promise((resolve, reject) => {           
+            var query: string;
+            if (selectQueries.has(key) == true) {
+                query = selectQueries.get(key);
+            };
+            this.getdbConn()
+                .then(db => {
+                    db.resultType(Sqlite.RESULTSASOBJECT);
+                    db.all(query, paramList, function (err, result) {
+                        if (err) {
+                            console.log('in inner promise error', err);
+                            reject(err);
+                        } else {                           
+                            resolve(result);
+                        }
+                    });
+                });
+        });
+    }// end of fucntion
 }

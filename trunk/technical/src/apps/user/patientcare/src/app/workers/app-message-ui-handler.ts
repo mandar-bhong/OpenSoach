@@ -6,27 +6,30 @@ import { SyncStoreManager } from "./sync-store-manager.js";
 import { ScheduleDatastoreModel } from "../models/db/schedule-model.js";
 import { SYNC_STORE } from "../app-constants.js";
 import { ScheduleDatastoreMessageHandler } from "./schedule-datastore-message-handler.js";
+import { CancelScheduleDatastoreMessageHandler } from "./cancel-schedule-datastore-message-handler.js";
 
 export class AppMessageUIHandler extends AppMessageHandler {
 
     constructor() {
         super();
     }
-
-    handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
+    async handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
         super.handleMessage(msg, postMessageFn);
-
         switch (msg.datastore) {
             case SYNC_STORE.SCHEDULE:
                 const scheduleDatastoreModel = <ScheduleDatastoreModel>this.dataModel.data
                 //0:   scheduleDatastoreModel.status
-                const scheduleDatastoreMessageHandler = new ScheduleDatastoreMessageHandler();
-                this.postActionContext = scheduleDatastoreMessageHandler.handleMessage(scheduleDatastoreModel);
-                this.postAction = this.schedulePostAction;
-                // 1: call update meyhod in case of cancel schedule of update above method
+                if (scheduleDatastoreModel.status == 0) {
+                    const scheduleDatastoreMessageHandler = new ScheduleDatastoreMessageHandler();
+                    this.postActionContext = scheduleDatastoreMessageHandler.handleMessage(scheduleDatastoreModel);
+                    this.postAction = this.schedulePostAction;
+                } else if (scheduleDatastoreModel.status == 1) {
+                    const cancelScheduleDatastoreMessageHandler = new CancelScheduleDatastoreMessageHandler();                 
+                    this.postActionContext = await cancelScheduleDatastoreMessageHandler.handleMessage(scheduleDatastoreModel);                  
+                    this.postAction = this.schedulePostAction;                    
+                }
                 break;
-        }
-
+        }       
         this.saveToDataStore().then(() => {
             this.notifyUI();
             this.notifySync();
@@ -41,10 +44,10 @@ export class AppMessageUIHandler extends AppMessageHandler {
     schedulePostAction() {
         this.postActionContext.forEach(element => {
             const appMessageUIHandler = new AppMessageUIHandler();
-            const x = new ServerDataStoreDataModel<IDatastoreModel>()
-            x.datastore = SYNC_STORE.ACTION
-            x.data = element;
-            appMessageUIHandler.handleMessage(x, this.postMessageCallback);
+            const item = new ServerDataStoreDataModel<IDatastoreModel>()
+            item.datastore = SYNC_STORE.ACTION
+            item.data = element;
+            appMessageUIHandler.handleMessage(item, this.postMessageCallback);
         });
     }
 }

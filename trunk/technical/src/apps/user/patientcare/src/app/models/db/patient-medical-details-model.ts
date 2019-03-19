@@ -16,7 +16,7 @@ export class PatientMedicalDetailsDatastoreModel implements IDatastoreModel {
     updated_by: number;
     updated_on: Date;
     sync_pending: number;
-    client_updated_at: Date;
+    client_updated_at: string;
     getModelValues(): any[] {
         return [this.uuid, this.patient_uuid, this.admission_uuid, this.present_complaints,this.reason_for_admission, 
         this.history_present_illness,this.past_history,this.treatment_before_admission, this.investigation_before_admission, 

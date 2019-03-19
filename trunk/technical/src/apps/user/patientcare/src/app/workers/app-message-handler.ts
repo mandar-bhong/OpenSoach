@@ -18,7 +18,7 @@ import { DocumentUploadDatastore } from "../models/db/document-upload-datastore.
 
 export interface AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
-    postActionContext:any;
+    postActionContext: any;
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
     handleMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void): void
     saveToDataStore(): Promise<{}>;
@@ -29,7 +29,7 @@ export interface AppMessageHandlerInterface {
 
 export class AppMessageHandler implements AppMessageHandlerInterface {
     dataModel: ServerDataStoreDataModel<IDatastoreModel>;
-    postActionContext:any;
+    postActionContext: any;
     postAction: () => void;
     //ScheduleDatastoreModel
     postMessageCallback: (msg: ServerWorkerEventDataModel) => void;
@@ -107,6 +107,6 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
 
     notifySync() {
 
-    }    
+    }
 
 }
