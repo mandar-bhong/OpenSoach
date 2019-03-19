@@ -65,9 +65,9 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
     this.dataModel.allergiesData = new JSONBaseDataModel<JSONInnerData[]>();
     this.dataModel.allergiesData.data = [];
 
-    this.dataModel.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo[]>();
+    this.dataModel.personalHistoryData = new JSONBaseDataModel<PersonalHistoryInfo>();
     this.dataModel.personalHistoryData.version = 1;
-    this.dataModel.personalHistoryData.data = [];
+    this.dataModel.personalHistoryData.data =new PersonalHistoryInfo();
 
     if (this.patientService.admissionid) {
       this.getPatientMedicalId();
@@ -79,15 +79,12 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
   getPatientMedicalId() {
     this.patientService.getPatientMedicalID({ recid: this.patientService.admissionid }).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
-        this.isResponsereceived = true;
         if (payloadResponse.data) {
           this.medicaldetialsid = payloadResponse.data.medicaldetails.medicaldetialsid;
           if (this.medicaldetialsid) {
             this.getPatientMedical();
           }
         }
-      } else {
-        this.isResponsereceived = true;
       }
     });
   }
@@ -95,14 +92,12 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
   //Getting data from database
   getPatientMedical() {
     this.patientService.getPatientMedicalDetail({ recid: this.medicaldetialsid }).subscribe(payloadResponse => {
-      if (payloadResponse && payloadResponse.issuccess) {
-        this.isResponsereceived = true;
+      if (payloadResponse && payloadResponse.issuccess) {    
         if (payloadResponse.data) {
           this.medicaldetialsid = payloadResponse.data.medicaldetialsid;
           this.dataModel.copyFrom(payloadResponse.data);
+          this.isResponsereceived = true;
         }
-      } else {
-        this.isResponsereceived = true;
       }
     });
   }
