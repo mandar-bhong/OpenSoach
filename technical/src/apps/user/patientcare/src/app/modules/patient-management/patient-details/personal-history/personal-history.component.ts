@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PersonalHistoryModel } from '~/app/models/ui/patient-details';
+import { PersonalHistoryModel, WeightData, AlcoholData, SmokData } from '~/app/models/ui/patient-details';
+import { JSONBaseDataModel } from '~/app/models/ui/json-base-data-model';
 
 @Component({
 	moduleId: module.id,
@@ -19,12 +20,19 @@ export class PersonalHistoryComponent implements OnInit {
 		// 
 	}
 	@Input() personallistitem: PersonalHistoryModel;
-
+	
+	// this.personallistitem.data : 
 	ngOnInit() {
 
 
 		setTimeout(() => {
-			if (this.personallistitem.alcohalquantity != null) {
+			// this.personallistitem = new PersonalHistoryModel;
+			// this.personallistitem.weight = new WeightData;
+			// this.personallistitem.alcohol = new AlcoholData();
+			// this.personallistitem.smoking = new SmokData();
+			console.log('get data personallistitem', this.personallistitem);
+			// console.log('get data weight', this.personallistitem.weight);
+			if (this.personallistitem.alcohol.alcoholquantity != null) {
 				this.alcoholtest = true;
 				this.alcoholtest1 = false;
 			} else {
@@ -32,7 +40,7 @@ export class PersonalHistoryComponent implements OnInit {
 				this.alcoholtest = false;
 				this.alcoholtest1 = true
 			}
-			if (this.personallistitem.smokingquantity != null) {
+			if (this.personallistitem.smoking.smokingquantity != null) {
 				this.quantityYes = true;
 				this.quantityNo = false;
 			} else {

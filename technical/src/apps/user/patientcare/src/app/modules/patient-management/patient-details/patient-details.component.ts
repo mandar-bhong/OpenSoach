@@ -3,7 +3,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { PassDataService } from '~/app/services/pass-data-service';
 import { PatientListService } from '~/app/services/patient-list/patient-list.service';
 import { JSONBaseDataModel } from '~/app/models/ui/json-base-data-model';
-import { DataList, PersonalHistoryModel } from '~/app/models/ui/patient-details';
+import { DataList, PersonalHistoryModel, WeightData, AlcoholData, SmokData } from '~/app/models/ui/patient-details';
 
 
 @Component({
@@ -23,7 +23,8 @@ export class PatientDetailsComponent implements OnInit {
 	investigation_before_admission = new JSONBaseDataModel<DataList[]>();
 	family_history = new JSONBaseDataModel<DataList[]>();
 	allergies = new JSONBaseDataModel<DataList[]>();
-	personal_history = new PersonalHistoryModel();
+	personal_history = new JSONBaseDataModel<PersonalHistoryModel>();
+
 	constructor(private routerExtensions: RouterExtensions,
 		private passDataService: PassDataService,
 		private patientListService: PatientListService) {
@@ -31,6 +32,9 @@ export class PatientDetailsComponent implements OnInit {
 	ngOnInit() {
 		this.getMedicalDetailsByUUID();
 		this.patientname = this.passDataService.getHeaderName();
+		// this.personal_history.data.weight = new WeightData;
+		// this.personal_history.data.alcohol = new AlcoholData();
+		// this.personal_history.data.smoking = new SmokData();
 	}
 	goBackPage() {
 		this.routerExtensions.back();
@@ -71,8 +75,16 @@ export class PatientDetailsComponent implements OnInit {
 				this.allergies.data = [];
 				Object.assign(this.allergies, JSON.parse(val[0].allergies));
 
-				this.personal_history = new PersonalHistoryModel();
-				Object.assign(this.personal_history, JSON.parse(val[0].personal_history));
+
+				const personal_history = new JSONBaseDataModel<PersonalHistoryModel>();
+				personal_history.data = new PersonalHistoryModel;
+				personal_history.data.weight = new WeightData;
+				personal_history.data.alcohol = new AlcoholData();
+				personal_history.data.smoking = new SmokData();
+				Object.assign(personal_history, JSON.parse(val[0].personal_history));
+				this.personal_history.data = personal_history.data;
+
+				console.log('this.personal_history', personal_history.data);
 			},
 			(error) => {
 				console.log("Medial details error:", error);
