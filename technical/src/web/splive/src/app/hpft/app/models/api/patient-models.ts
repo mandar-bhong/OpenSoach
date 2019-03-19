@@ -325,18 +325,6 @@ export class MedicalDetailsResponse {
     personalhistory: string;
     medicaldetialsid: number;
 }
-// export class MedicalDetailsResponseJSON {
-
-//     presentcomplaints: JSONBaseDataModel<JSONInnerData>;
-//     reasonforadmission: JSONBaseDataModel<JSONInnerData>;
-//     historypresentillness: JSONBaseDataModel<JSONInnerData>;
-//     pasthistory: JSONBaseDataModel<JSONInnerData>;
-//     treatmentbeforeadmission: JSONBaseDataModel<JSONInnerData>;
-//     investigationbeforeadmission: JSONBaseDataModel<JSONInnerData>;
-//     familyhistory: JSONBaseDataModel<JSONInnerData>;
-//     allergies: JSONBaseDataModel<JSONInnerData>;
-//     personalhistory: JSONBaseDataModel<JSONInnerData>;
-// }
 
 export class PresentComplaint {
     medicaldetialsid: number;
