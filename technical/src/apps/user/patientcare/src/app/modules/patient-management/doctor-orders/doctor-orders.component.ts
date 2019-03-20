@@ -83,25 +83,24 @@ export class DoctorOrdersComponent implements OnInit {
 		// to do call api of upload document and set received rec id here.
 		serverDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
 		serverDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
-
-		// create document datastore 
-
-		const serverDocumentDataStoreModel = new ServerDataStoreDataModel<DocumentUploadDatastore>();
-		serverDocumentDataStoreModel.datastore = SYNC_STORE.DOCUMENT;
-		serverDocumentDataStoreModel.data = new DocumentUploadDatastore();
-		serverDocumentDataStoreModel.data.client_updated_at = new Date().toISOString();
-		serverDocumentDataStoreModel.data.doc_path = this.docPath;
-		serverDocumentDataStoreModel.data.doc_name = 'test';
-		serverDocumentDataStoreModel.data.doc_type = mime.lookup('xlsx');
-		serverDocumentDataStoreModel.data.datastore = SYNC_STORE.DOCTORS_ORDERS;
-		serverDocumentDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
-		serverDocumentDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
-		serverDataStoreModel.data.document_uuid = serverDocumentDataStoreModel.data.uuid;
 		const TempDataStore = new Array();
-		TempDataStore.push(serverDocumentDataStoreModel);
-		TempDataStore.push(serverDataStoreModel);		
+		// create document datastore 
+		if (this.docPath && this.docPath != null) {
+			const serverDocumentDataStoreModel = new ServerDataStoreDataModel<DocumentUploadDatastore>();
+			serverDocumentDataStoreModel.datastore = SYNC_STORE.DOCUMENT;
+			serverDocumentDataStoreModel.data = new DocumentUploadDatastore();
+			serverDocumentDataStoreModel.data.client_updated_at = new Date().toISOString();
+			serverDocumentDataStoreModel.data.doc_path = this.docPath;
+			serverDocumentDataStoreModel.data.doc_name = 'test';
+			serverDocumentDataStoreModel.data.doc_type = mime.lookup('xlsx');
+			serverDocumentDataStoreModel.data.datastore = SYNC_STORE.DOCTORS_ORDERS;
+			serverDocumentDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
+			serverDocumentDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
+			serverDataStoreModel.data.document_uuid = serverDocumentDataStoreModel.data.uuid;			
+			TempDataStore.push(serverDocumentDataStoreModel);		
+		}
+		TempDataStore.push(serverDataStoreModel);
 		this.params.closeCallback(TempDataStore);
-
 	}
 
 	//end of code block
