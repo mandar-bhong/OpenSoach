@@ -90,7 +90,7 @@ export class MedicineChartComponent implements OnInit {
         }
         for (let item of this.frequencyList) {
             this.frequencyType.push(item);
-        }
+        }       
     }
 
     ngOnInit() {
@@ -116,6 +116,9 @@ export class MedicineChartComponent implements OnInit {
         this.frequencyItems.push(freqItem2);
         this.medicineForm.get('startDate').setValue(new Date());
         this.medicineForm.get('startTime').setValue(new Date());
+        this.medicineForm.get('mornQuantity').setValue('1');
+        this.medicineForm.get('aftrnQuantity').setValue('1');
+        this.medicineForm.get('nightQuantity').setValue('1');
     }
 
     // << func for navigating previous page
