@@ -19,6 +19,7 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
         const parsedConf = <SchedularConfigData>JSON.parse(msg.conf);
         schedulardata.conf = parsedConf;
         let actiondata: ActionsData;
+        let days: number;
         try {
             switch (schedulardata.data.conf_type_code) {
                 case ConfigCodeType.MEDICINE:
@@ -38,10 +39,13 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                     console.log('actions created');
                     break;
                 case ConfigCodeType.OUTPUT:
-                    const outputhelper = new MonitorHelper()
                     //   actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
-                    actiondata = new ActionsData();
+                    actiondata = new ActionsData();let startDate = new Date(schedulardata.conf.startDate);
+                    let endDate = new Date();
+                    days = parseInt(schedulardata.conf.duration.toString());                
+                    endDate.setDate(startDate.getDate() + days);                   
                     actiondata.actions = [];
+                    actiondata.enddate = new Date(endDate).toISOString();
                     break;
                 default:
                     break;
