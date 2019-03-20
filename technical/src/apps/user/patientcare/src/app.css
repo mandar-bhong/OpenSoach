@@ -278,7 +278,15 @@ Label.mod-light {
 
 /* status css start*/
 .active_normal {
-    color: #608584;
+    color: #396767;
+}
+
+.active_delayed {
+    color: #eb5c5c;
+}
+
+.active_missed {
+    color: #eb5c5c;
 }
 
 .active_delayed_missed {
