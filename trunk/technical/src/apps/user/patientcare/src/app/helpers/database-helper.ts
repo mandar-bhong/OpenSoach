@@ -68,7 +68,7 @@ let selectQueries = new Map([
     left join schedule_tbl sch on sch.uuid = act.schedule_uuid
     left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time
     left join usr_tbl usr on usr.usr_id = act.updated_by
-    where act.admission_uuid = ? 
+    where act.is_deleted = 0 and act.admission_uuid = ? 
     order by act.scheduled_time asc`],
     ["usr_tbl_insert", "insert into usr_tbl (usr_id,usr_name,urole_name,fname,lname,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?)"],
     ["usr_tbl_update", "update usr_tbl set usr_name=?,urole_name=?,fname=?,lname=?,updated_on=?,sync_pending=?,client_updated_at=? where usr_id=?"],
