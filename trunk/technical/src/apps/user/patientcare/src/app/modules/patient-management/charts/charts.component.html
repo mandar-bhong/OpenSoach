@@ -9,7 +9,7 @@
                 </RL:Ripple>
                 <Label text="|" class="tab-layout-separator"></Label>
                 <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()" (tap)="buttonCompleted = true">
-                    <Label text="Completed" [class.tab-clicked]="buttonCompleted" class="tab-layout"></Label>
+                    <Label text="All" [class.tab-clicked]="buttonCompleted" class="tab-layout"></Label>
                 </RL:Ripple>
             </StackLayout>
         </GridLayout>
@@ -194,7 +194,7 @@
                                 <Label row="0" col="0" class="body" text="Description" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" [text]="item.conf.desc"
                                     style="margin-left: 10px;"></Label>                               
-                                   <Button class="btn btn-primary btn-active btn-xs"  row="1" col="0" id="button" colSpan="2" text="Cancel Scheudle" (tap)="cancelScheudle(item)"></Button>
+                                   <Button class="btn btn-primary btn-active btn-xs"  row="1" col="0" id="button" colSpan="2" text="Stop Schedule" (tap)="cancelScheudle(item)"></Button>
                             </GridLayout>
                         </GridLayout>
 
