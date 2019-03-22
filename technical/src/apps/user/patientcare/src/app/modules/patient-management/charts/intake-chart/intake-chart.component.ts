@@ -186,8 +186,7 @@ export class IntakeChartComponent implements OnInit {
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.remark = data.remark;
         this.chartConfModel.intakeType = this.intakeType[this.intakeForm.get('intakeType').value];
-        const currentTime = this.datePipe.transform(Date.now(), "H:mm");
-        this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd") + " " + currentTime;
+        this.chartConfModel.startDate = data.startDate
         let confString = JSON.stringify(this.chartConfModel);
 
         // set db model
