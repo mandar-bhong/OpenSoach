@@ -355,7 +355,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 					actionListItem.dbmodel = item;
 					this.actionListItem.push(actionListItem);
 				});
-				// console.log('this.actionListItem', this.actionListItem);
+				console.log('this.actionListItem', this.actionListItem);
 				this.getListDataById();
 			},
 			(error) => {
@@ -689,6 +689,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.saveViewOpen = false;
 		this.buttonCompleted = false;
 		this.getAllFlag = false;
+		this.getActionData();
 	}
 	public compilitedList() {
 		this.completeorpending = "All Actions";
@@ -696,7 +697,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.viewexpand = true;
 		this.saveViewOpen = false;
 		this.buttonClicked = false;
-		this.getAllFlag = true;		
+		this.getAllFlag = true;	
+		this.getActionData();			
 	}
 
 	// code block for closing opened dialog
