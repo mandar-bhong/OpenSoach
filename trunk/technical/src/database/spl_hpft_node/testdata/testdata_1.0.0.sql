@@ -129,7 +129,7 @@ VALUES
   '{"data": [{"date": "2019-03-07T08:52:36.474Z", "text": "allergies"}]}',
  	'{"data":{"weight":{"weight":40,"weight_tendency":"Increasing"},"alcohol":{"applicable":true,"quantity":"30 ml","remarks":"drinks sometimes"},"smoking":{"applicable":false,"quantity":null,"remarks":null},"others":null}}',
   	'2'),
- ('PMD002', '3', '2', '2', null, null, null, null, null, null, null, null, null, '2'),
+ ('PMD002', '3', '2', '2', '{"data": [{"date": "2019-03-22T13:11:05.383Z", "text": "This is test complaint"}, {"date": "2019-03-22T13:11:11.541Z", "text": "This is test complaint 2"}]}', '{"data": [{"date": "2019-03-22T13:12:10.448Z", "text": "Fever and back pain"}, {"date": "2019-03-22T13:12:31.052Z", "text": "Headache"}]}', '{"data": [{"date": "2019-03-22T13:12:58.582Z", "text": "Headache from last few months"}]}', '{"data": [{"date": "2019-03-22T13:13:31.222Z", "text": "2 years back headache started"}]}', '{"data": [{"date": "2019-03-22T13:13:53.912Z", "text": "Not done any treatment before addmission"}]}', '{"data": [{"date": "2019-03-22T13:14:03.581Z", "text": "No invegigation"}]}', '{"data": [{"date": "2019-03-22T13:14:18.882Z", "text": "Grand father was suffering from headache"}]}', '{"data": [{"date": "2019-03-22T13:14:35.110Z", "text": "Having dust allergy"}]}', '{"data": {"other": "", "weight": {"weight": "52", "weighttendency": "Increasing"}, "alcohol": {"aplicable": false, "alcoholcomment": "No"}, "smoking": {"aplicable": false, "smokingcomment": "No"}}, "version": 1}', '2'),
  ('PMD003', '3', '3', '3', null, null, null, null, null, null, null, null, null, '2'),
  ('PMD004', '3', '4', '4', null, null, null, null, null, null, null, null, null, '2'),
  ('PMD005', '3', '5', '5', null, null, null, null, null, null, null, null, null, '2'),
