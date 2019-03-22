@@ -467,6 +467,7 @@ CREATE TABLE `spl_hpft_patient_conf_tbl` (
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`conf_type_code` VARCHAR(50) NOT NULL,
 	`conf` JSON NOT NULL,
+	`start_date` DATETIME NULL DEFAULT NULL,
 	`end_date` DATETIME NOT NULL,
 	`status` TINYINT(4) NOT NULL COMMENT '0- active, 1 - cancelled',
 	`client_updated_at` TIMESTAMP NULL DEFAULT NULL,
