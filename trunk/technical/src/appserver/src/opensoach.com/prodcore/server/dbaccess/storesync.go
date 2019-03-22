@@ -52,7 +52,7 @@ func GetTableDataCount(dbConn string, query string, params interface{}) (error, 
 	data.Count = int((countresult[0]["count"]).(int64))
 
 	if countresult[0]["max_updated_on"] != nil {
-		maxUpdatedOn, _ := time.Parse("2006-01-02 15:04:05", countresult[0]["max_updated_on"].(string))
+		maxUpdatedOn := countresult[0]["max_updated_on"].(time.Time)
 		data.MaxUpdatedOn = &maxUpdatedOn
 	} else {
 		data.MaxUpdatedOn = nil
