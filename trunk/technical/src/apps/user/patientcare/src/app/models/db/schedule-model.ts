@@ -5,7 +5,7 @@ export class ScheduleDatastoreModel implements IDatastoreModel {
     admission_uuid: string;
     conf_type_code: string;
     conf: string;
-    start_date: Date;
+    start_date: string;
     end_date: string;
     updated_by: number;
     updated_on: string;
