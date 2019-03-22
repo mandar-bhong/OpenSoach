@@ -19,7 +19,7 @@ export class MonitorChartModel {
     foodInst: number;
     frequency: number;
     duration: number;
-    startDate: string;
+    startDate: Date;
     intervalHrs: number;
     startTime: string;
     endTime: string;
@@ -40,7 +40,7 @@ export class MedChartModel {
     aftrnFreqInfo: AftrnFreqInfo;
     nightFreqInfo: NightFreqInfo
     intervalHrs: number;
-    startDate: string;
+    startDate: Date;
     duration: number;
     startTime: string;
     desc: string;

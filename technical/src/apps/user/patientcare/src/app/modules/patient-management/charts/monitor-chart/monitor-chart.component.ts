@@ -98,7 +98,7 @@ export class MonitorChartComponent implements OnInit {
         freqItem2.title = "Specific time";
         this.frequencyItems.push(freqItem2);
         this.monitorForm.get('startDate').setValue(new Date());
-        this.monitorForm.get('startTime').setValue(new Date());       
+        this.monitorForm.get('startTime').setValue(new Date());
         // load default form data
         // this.monitorForm.get('startDate').setValue(new Date());
     }
@@ -148,7 +148,7 @@ export class MonitorChartComponent implements OnInit {
             return;
         };
         this.formData = new MonitorChartModel();
-        this.formData.specificTimes = []; 
+        this.formData.specificTimes = [];
         // assign form data to model
         this.formData = Object.assign({}, this.monitorForm.value);
         this.formData.name = this.monitorName;
@@ -191,11 +191,8 @@ export class MonitorChartComponent implements OnInit {
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.remark = data.remark;
-        this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd");
+        this.chartConfModel.startDate = data.startDate;
         // this.chartConfModel.foodInst = data.foodInst;
-        const currentTime = this.datePipe.transform(Date.now(), "H:mm");
-        console.log("currentTime", currentTime);
-        this.chartConfModel.startDate = this.chartConfModel.startDate + " " + currentTime;
 
         let confString = JSON.stringify(this.chartConfModel);
         // set db model
@@ -206,7 +203,7 @@ export class MonitorChartComponent implements OnInit {
         console.log(this.chartDbModel);
         //cehcking existing monitor schedule
         //  to do 
-          this.createActions(this.chartDbModel, confString);
+        this.createActions(this.chartDbModel, confString);
         // get chart data from sqlite db
         // this.chartService.getChartList();
         //   this.goBackPage();

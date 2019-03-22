@@ -366,11 +366,10 @@ export class MedicineChartComponent implements OnInit {
             this.chartConfModel.splinstruction = data.splinstruction;
             this.chartConfModel.desc = data.splinstruction;
         }
-        const currentTime = this.datePipe.transform(Date.now(), "H:mm");
+
         this.chartConfModel.name = data.name;
         this.chartConfModel.medicinetype = this.medicineType[this.medicineForm.get('medicineType').value];
-        this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd") + " " + currentTime;
-        this.chartConfModel.startDate = new Date(this.chartConfModel.startDate).toISOString();
+        this.chartConfModel.startDate = data.startDate;
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.foodInst = data.foodInst;

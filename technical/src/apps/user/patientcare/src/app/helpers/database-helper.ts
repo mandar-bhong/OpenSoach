@@ -18,7 +18,7 @@ let selectQueries = new Map([
     ["actionTxnList", "select * from action_txn_tbl"],
     ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_by,updated_on,sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_by=?,updated_on=?,sync_pending=?, client_updated_at=? where uuid=?"],
-    ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,end_date,status,updated_by,updated_on,sync_pending,client_updated_at) values ( ?, ?, ?, ?,?,?,?,?,?,?)"],
+    ["schedule_tbl_insert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf,start_date,end_date,status,updated_by,updated_on,sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?,?,?,?,?,?,?)"],
     ["action_tbl_insert", "insert into action_tbl (uuid,admission_uuid,conf_type_code,schedule_uuid,scheduled_time,is_deleted,updated_by,updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["action_tbl_update", "update action_tbl set admission_uuid=?,conf_type_code=?,schedule_uuid=?,scheduled_time=?,is_deleted=?,updated_by=?,updated_on=?, sync_pending=?,client_updated_at=? where uuid = ?"],
     ["action_tbl_delete", "DELETE FROM action_tbl"],
@@ -33,7 +33,7 @@ let selectQueries = new Map([
 
     ["conf_tbl_insert", "insert into conf_tbl (uuid,conf_type_code,conf, updated_by,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?)"],
     ["conf_tbl_update", "update conf_tbl set conf_type_code=?,conf=?, updated_by=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
-    ["schedule_tbl_update", "update schedule_tbl set admission_uuid=?,conf_type_code=?,conf=?,end_date=?,status=?,updated_by=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
+    ["schedule_tbl_update", "update schedule_tbl set admission_uuid=?,conf_type_code=?,conf=?, start_date=?,end_date=?,status=?,updated_by=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
     ["patient_personal_details_tbl_insert", "insert into patient_personal_details_tbl (uuid,patient_uuid,admission_uuid,age,other_details,person_accompanying, updated_by,updated_on,sync_pending,client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
     ["patient_personal_details_tbl_update", "update patient_personal_details_tbl set patient_uuid=?,admission_uuid=?,age=?,other_details=?,person_accompanying=?, updated_by=?,updated_on=?,sync_pending=?,client_updated_at=? where uuid = ?"],
     ["patient_medical_details_tbl_insert", "insert into patient_medical_details_tbl (uuid,patient_uuid,admission_uuid,present_complaints,reason_for_admission,history_present_illness,past_history,treatment_before_admission,investigation_before_admission,family_history,allergies,personal_history, updated_by,updated_on,sync_pending,client_updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"],
