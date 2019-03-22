@@ -33,11 +33,19 @@
 
           <GridLayout columns="*" rows="auto" class="listItemStackLayout">
             <GridLayout row="0" columns="70, *" rows="auto">
-              <GridLayout col="0" columns="*" rows="auto, auto" [text]="item.dbmodel.status">
-                <StackLayout row="1" class="list-layout">
-                  <Label row="0" col="0" text="&#xf020;" class="mdi" style="vertical-align: center;text-align: center;">
+              <GridLayout col="0" columns="*" rows="auto, auto">
+                <StackLayout row="1" class="list-layout">                  
+                  <Label row="0" col="0" class="mdi" text="&#xf020;" [ngClass]="{active_normal: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NORMAL,
+                    active_needs_attention: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NEEDS_ATTENTION,
+                    active_delayed: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_DELAYED,
+                    active_no_actions: item.nextActionTimes.status === ACTION_STATUS.NONE}"
+                    style="vertical-align: center;text-align: center;">
                   </Label>
-                  <Label row="1" col="0" [text]="item.nextActionTimes.currentTime | date: 'shortTime'" class="label-small" style="margin-top:5px;vertical-align: center;text-align: center;color:#396766" >
+                  <Label row="1" col="0" [text]="item.nextActionTimes.currentTime | date: 'shortTime'" class="label-small"
+                    style="margin-top:5px;vertical-align: center;text-align: center;" [ngClass]="{active_normal: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NORMAL,
+                      active_needs_attention: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NEEDS_ATTENTION,
+                      active_delayed: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_DELAYED,
+                      active_no_actions: item.nextActionTimes.status === ACTION_STATUS.NONE}">
                   </Label>
                 </StackLayout>
               </GridLayout>

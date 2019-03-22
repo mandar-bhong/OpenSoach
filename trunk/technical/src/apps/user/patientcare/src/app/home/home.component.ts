@@ -15,6 +15,7 @@ import { DataListingInterface } from '../data-listing-interface';
 import { NextActionService } from '../services/action/next-action-service';
 import { JSONBaseDataModel } from '../models/ui/json-base-data-model';
 import { PersonAccompanyModel } from '../models/ui/person-accompany-model';
+import { ACTION_STATUS } from '../app-constants';
 
 @Component({
 	selector: "Home",
@@ -40,6 +41,7 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 	patientListItemMaster = new PatientListViewModel();
 
 	jsonField;
+	ACTION_STATUS = ACTION_STATUS;
 	constructor(private routerExtensions: RouterExtensions,
 		private patientListService: PatientListService,
 		private passdataservice: PassDataService,
