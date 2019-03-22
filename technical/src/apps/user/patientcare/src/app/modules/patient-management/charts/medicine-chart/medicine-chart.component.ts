@@ -370,6 +370,7 @@ export class MedicineChartComponent implements OnInit {
         this.chartConfModel.name = data.name;
         this.chartConfModel.medicinetype = this.medicineType[this.medicineForm.get('medicineType').value];
         this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd") + " " + currentTime;
+        this.chartConfModel.startDate = new Date(this.chartConfModel.startDate).toISOString();
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.foodInst = data.foodInst;
