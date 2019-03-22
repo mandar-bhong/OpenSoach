@@ -56,7 +56,7 @@ const QUERY_SELECT_PATIENT_DOCTORS_ORDERS_BY_ADMISSION_ID = `select * from spl_h
 const QUERY_GET_SPL_PATIENT_DOCTORS_ORDERS_TOTAL_FILTERED_COUNT = `select count(*) as count from spl_hpft_doctors_orders_tbl dorders
 left join spl_hpft_document_tbl doc on doc.id = dorders.document_id_fk $WhereCondition$`
 
-const QUERY_SPL_PATIENT_DOCTORS_ORDERS_SELECT_BY_FILTER = `select dorders.id,dorders.uuid,admission_id_fk,doctor_id_fk,doctors_orders,ack_by,ack_time,comment,order_created_time,order_type,document_id_fk,doc.uuid as document_uuid,doc.name 
+const QUERY_SPL_PATIENT_DOCTORS_ORDERS_SELECT_BY_FILTER = `select dorders.id,dorders.uuid,admission_id_fk,doctor_id_fk,doctors_orders, dorders.status,ack_by,ack_time,comment,order_created_time,order_type,document_id_fk,doc.uuid as document_uuid,doc.name 
 from spl_hpft_doctors_orders_tbl dorders 
 left join spl_hpft_document_tbl doc on doc.id = dorders.document_id_fk
 $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
