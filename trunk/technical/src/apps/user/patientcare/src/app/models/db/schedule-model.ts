@@ -5,6 +5,7 @@ export class ScheduleDatastoreModel implements IDatastoreModel {
     admission_uuid: string;
     conf_type_code: string;
     conf: string;
+    start_date: Date;
     end_date: string;
     updated_by: number;
     updated_on: string;
@@ -12,6 +13,6 @@ export class ScheduleDatastoreModel implements IDatastoreModel {
     client_updated_at: string;
     status: number; // 0: ACTIVE, 1: CANCEL
     getModelValues(): any[] {
-        return [this.uuid, this.admission_uuid, this.conf_type_code, this.conf, this.end_date, this.status, this.updated_by, this.updated_on, this.sync_pending, this.client_updated_at];
+        return [this.uuid, this.admission_uuid, this.conf_type_code, this.conf, this.start_date, this.end_date, this.status, this.updated_by, this.updated_on, this.sync_pending, this.client_updated_at];
     }
 }

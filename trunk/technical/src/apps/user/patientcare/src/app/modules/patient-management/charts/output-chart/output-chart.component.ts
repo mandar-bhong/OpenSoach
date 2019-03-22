@@ -86,11 +86,8 @@ export class OutputChartComponent implements OnInit {
 		this.chartConfModel.remark = data.remark;
 		const desc = `Check ${this.chartConfModel.name} for ${data.duration} days`;
 		this.chartConfModel.desc = desc;
-		this.chartConfModel.startDate = this.datePipe.transform(data.startDate, "yyyy-MM-dd");
+		this.chartConfModel.startDate = data.startDate;
 		// this.chartConfModel.foodInst = data.foodInst;
-		const currentTime = this.datePipe.transform(Date.now(), "H:mm");
-		console.log("currentTime", currentTime);
-		this.chartConfModel.startDate = this.chartConfModel.startDate + " " + currentTime;
 		let confString = JSON.stringify(this.chartConfModel);
 		// set db model
 		this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();

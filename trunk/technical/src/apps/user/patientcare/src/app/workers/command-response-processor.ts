@@ -265,6 +265,7 @@ export class CommandResponseProcessor {
             scheduleDatastoreModel.admission_uuid = item.admission_uuid;
             scheduleDatastoreModel.conf_type_code = item.conf_type_code;
             scheduleDatastoreModel.conf = item.conf;
+            scheduleDatastoreModel.start_date = item.start_date;
             scheduleDatastoreModel.end_date = item.end_date;
             scheduleDatastoreModel.status = item.status;
             scheduleDatastoreModel.updated_by = item.updated_by;
