@@ -159,7 +159,6 @@ export class CommandResponseProcessor {
             servicePointDatastoreModel.sp_state_since = item.sp_state_since;
             servicePointDatastoreModel.updated_by = item.updated_by;
             servicePointDatastoreModel.updated_on = item.updated_on;
-            servicePointDatastoreModel.client_updated_at = item.client_updated_at;
             servicePointDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("sp store data:", servicePointDatastoreModel);
@@ -193,7 +192,6 @@ export class CommandResponseProcessor {
             confDatastoreModel.conf = item.conf;
             confDatastoreModel.updated_by = item.updated_by;
             confDatastoreModel.updated_on = item.updated_on;
-            confDatastoreModel.client_updated_at = item.client_updated_at;
             confDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("conf store data:", confDatastoreModel);
@@ -232,7 +230,6 @@ export class CommandResponseProcessor {
             patientMasterDatastoreModel.gender = item.gender;
             patientMasterDatastoreModel.updated_by = item.updated_by;
             patientMasterDatastoreModel.updated_on = item.updated_on;
-            patientMasterDatastoreModel.client_updated_at = item.client_updated_at;
             patientMasterDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("patient master store data:", patientMasterDatastoreModel);
@@ -269,7 +266,6 @@ export class CommandResponseProcessor {
             scheduleDatastoreModel.status = item.status;
             scheduleDatastoreModel.updated_by = item.updated_by;
             scheduleDatastoreModel.updated_on = item.updated_on;
-            scheduleDatastoreModel.client_updated_at = item.client_updated_at;
             scheduleDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("schedule store data:", scheduleDatastoreModel);
@@ -309,7 +305,6 @@ export class CommandResponseProcessor {
             patientAdmissionDatastoreModel.discharged_on = item.discharged_on;
             patientAdmissionDatastoreModel.updated_by = item.updated_by;
             patientAdmissionDatastoreModel.updated_on = item.updated_on;
-            patientAdmissionDatastoreModel.client_updated_at = item.client_updated_at;
             patientAdmissionDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("patient admsn store data:", patientAdmissionDatastoreModel);
@@ -346,7 +341,6 @@ export class CommandResponseProcessor {
             patientPersonalDetailsDatastoreModel.person_accompanying = item.person_accompanying;
             patientPersonalDetailsDatastoreModel.updated_by = item.updated_by;
             patientPersonalDetailsDatastoreModel.updated_on = item.updated_on;
-            patientPersonalDetailsDatastoreModel.client_updated_at = item.client_updated_at;
             patientPersonalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("personal details store data:", patientPersonalDetailsDatastoreModel);
@@ -389,7 +383,6 @@ export class CommandResponseProcessor {
             patientMedicalDetailsDatastoreModel.personal_history = item.personal_history;
             patientMedicalDetailsDatastoreModel.updated_by = item.updated_by;
             patientMedicalDetailsDatastoreModel.updated_on = item.updated_on;
-            patientMedicalDetailsDatastoreModel.client_updated_at = item.client_updated_at;
             patientMedicalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("medical details store data:", patientMedicalDetailsDatastoreModel);
@@ -427,7 +420,6 @@ export class CommandResponseProcessor {
             actionTxnDatastoreModel.runtime_config_data = item.runtime_config_data;
             actionTxnDatastoreModel.updated_by = item.updated_by;
             actionTxnDatastoreModel.updated_on = item.updated_on;
-            actionTxnDatastoreModel.client_updated_at = item.client_updated_at;
             actionTxnDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("action txn store data:", actionTxnDatastoreModel);
@@ -471,7 +463,6 @@ export class CommandResponseProcessor {
             doctorsOrdersDatastoreModel.doctype = item.doctype;
             doctorsOrdersDatastoreModel.updated_by = item.updated_by;
             doctorsOrdersDatastoreModel.updated_on = item.updated_on;
-            doctorsOrdersDatastoreModel.client_updated_at = item.client_updated_at;
             doctorsOrdersDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("action txn store data:", doctorsOrdersDatastoreModel);
@@ -506,7 +497,6 @@ export class CommandResponseProcessor {
             treatmentDatastoreModel.post_observation = item.post_observation;
             treatmentDatastoreModel.updated_by = item.updated_by;
             treatmentDatastoreModel.updated_on = item.updated_on;
-            treatmentDatastoreModel.client_updated_at = item.client_updated_at;
             treatmentDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
@@ -566,7 +556,6 @@ export class CommandResponseProcessor {
             pathologyRecordDatastoreModel.comments = item.comments;
             pathologyRecordDatastoreModel.updated_by = item.updated_by;
             pathologyRecordDatastoreModel.updated_on = item.updated_on;
-            pathologyRecordDatastoreModel.client_updated_at = item.client_updated_at;
             pathologyRecordDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
@@ -626,7 +615,6 @@ export class CommandResponseProcessor {
             actionDataStoreModel.is_deleted = item.is_deleted;
             actionDataStoreModel.updated_by = item.updated_by;
             actionDataStoreModel.updated_on = item.updated_on;
-            actionDataStoreModel.client_updated_at = item.client_updated_at;
             actionDataStoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
