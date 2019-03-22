@@ -611,7 +611,7 @@ export class CommandResponseProcessor {
             actionDataStoreModel.admission_uuid = item.admission_uuid;
             actionDataStoreModel.conf_type_code = item.conf_type_code;
             actionDataStoreModel.schedule_uuid = item.schedule_uuid;
-            actionDataStoreModel.scheduled_time = new Date(item.scheduled_time).toISOString();
+            actionDataStoreModel.scheduled_time = item.scheduled_time
             actionDataStoreModel.is_deleted = item.is_deleted;
             actionDataStoreModel.updated_by = item.updated_by;
             actionDataStoreModel.updated_on = item.updated_on;
