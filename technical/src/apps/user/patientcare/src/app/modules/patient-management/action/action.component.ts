@@ -689,9 +689,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.saveViewOpen = false;
 		this.buttonCompleted = false;
 		this.getAllFlag = false;
-		this.getActionData();
-		// this.getActionData('getActionListActive', this.getAllFlag = true);
-
 	}
 	public compilitedList() {
 		this.completeorpending = "All Actions";
@@ -699,12 +696,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.viewexpand = true;
 		this.saveViewOpen = false;
 		this.buttonClicked = false;
-		this.getAllFlag = true;
-		this.getActionData();
-		// this.getActionData('getAllActionList', this.getAllFlag = false);
-		// this.getActionData('getActionListComplated');
-
-
+		this.getAllFlag = true;		
 	}
 
 	// code block for closing opened dialog
