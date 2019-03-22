@@ -56,7 +56,7 @@ export class IntakeChartModel {
     quantity: string;
     frequency: number;
     duration: number;
-    startDate: string;
+    startDate: Date;
     intervalHrs: number;
     startTime: string;
     specificTime: string;
