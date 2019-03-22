@@ -877,7 +877,7 @@ func getMapOfColumnsValues(stmt *sqlx.NamedStmt, args interface{}) (error, []map
 			case []byte:
 				newVal = string(val.([]byte))
 			case time.Time:
-				newVal = val.(time.Time).Format("2006-01-02 15:04:05")
+				newVal = val.(time.Time)
 			default:
 				newVal = val
 			}
