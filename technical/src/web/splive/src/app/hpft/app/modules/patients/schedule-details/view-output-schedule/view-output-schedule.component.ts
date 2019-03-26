@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Input, OnDestroy } from '@angular/core';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
-import { merge, Observable } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { startWith, switchMap, map } from 'rxjs/operators';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
 import { DataListResponse, DataListRequest } from '../../../../../../shared/models/api/data-list-models';
@@ -14,6 +14,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { ScheduleDataResponse } from 'app/models/api/schedule-response';
 import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { ComplaintsModule } from 'app/modules/complaints/complaints.module';
+import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ import { ComplaintsModule } from 'app/modules/complaints/complaints.module';
     ]),
   ],
 })
-export class ViewOutputScheduleComponent implements OnInit {
+export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
   @ViewChild(MatSort)
@@ -37,7 +38,9 @@ export class ViewOutputScheduleComponent implements OnInit {
   dataSource;
   filteredrecords = 0;
   isLoadingResults: boolean;
-  patientFilterRequest: PatientFilterRequest;
+  dataListFilterChangedSubscription: Subscription;
+  // patientFilterRequest: PatientFilterRequest;
+  scheduleFilter: ScheduleFilter;
   expandedElement: ActionTransactionResponse<string> | null;
   scheduleResponse: ScheduleDataResponse<any>[] = [];
   dataListRequest: DataListRequest<TransactionDetailsFilter>;
@@ -45,7 +48,10 @@ export class ViewOutputScheduleComponent implements OnInit {
   constructor(
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
-    private patientService: PatientService) { }
+    private patientService: PatientService,
+    private scheduleService: ScheduleService) {
+  }
+
   displayedColumns = ['name', 'startdate', 'enddate', 'view'];
   sortByColumns = [
     { text: 'Name', value: 'name' },
@@ -54,15 +60,16 @@ export class ViewOutputScheduleComponent implements OnInit {
   ];
   // columnsToDisplay = ['fname', 'date'];
   ngOnInit() {
-    console.log('getDataListing executed');
     this.paginator.pageSize = 10;
     this.paginator.pageIndex = 1;
     this.sort.direction = 'asc';
     this.sort.active = 'enddate';
     this.sort.direction = 'asc';
     this.getDataListing();
-
-
+    this.dataListFilterChangedSubscription = this.scheduleService.dataListSubject.subscribe(value => {
+      this.scheduleFilter.conftypecode = value.conftypecode;
+      this.refreshTable.emit();
+    });
   }
   getDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -86,15 +93,13 @@ export class ViewOutputScheduleComponent implements OnInit {
             payloadResponse.data.records.forEach((item: any) => {
               const ActionTransactionData = new ScheduleDataResponse<any>();
               Object.assign(ActionTransactionData, item);
-              console.log('item', item.txndata);
               const confData = JSON.parse(item.conf);
               ActionTransactionData.conf = confData;
               this.scheduleResponse.push(ActionTransactionData);
             });
-            console.log(' this.scheduleResponse', this.scheduleResponse);
             this.dataSource = new MatTableDataSource<ScheduleDataResponse<any>>(this.scheduleResponse);
             if (this.filteredrecords === 0) {
-            //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+              //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];
@@ -114,8 +119,8 @@ export class ViewOutputScheduleComponent implements OnInit {
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.filter.conftypecode = 'Output';
-
-    return this.patientService.getScheduleData(dataListRequest);
+    return this.scheduleService.getDataList(dataListRequest);
+    // return this.patientService.getScheduleData(dataListRequest);
   }
 
 
@@ -130,6 +135,12 @@ export class ViewOutputScheduleComponent implements OnInit {
   sortDirectionDesc() {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
+  }
+
+  ngOnDestroy(): void {
+    if (this.dataListFilterChangedSubscription) {
+      this.dataListFilterChangedSubscription.unsubscribe();
+    }
   }
 
 }
