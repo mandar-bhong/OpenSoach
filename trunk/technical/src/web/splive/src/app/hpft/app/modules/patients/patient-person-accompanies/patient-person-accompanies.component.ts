@@ -7,7 +7,7 @@ import { AppNotificationService } from '../../../../../shared/services/notificat
 import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { PatientPersonalDetails } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PersonAccompanyingInfo, JSONBaseDataModel, PersonalDetailsRequest } from 'app/models/api/patient-data-models';
 
 @Component({
@@ -59,10 +59,10 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
       } else if (this.patientService.admissionid) {
         this.getPatientPersonalDetailId();
         {
-        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        this.setFormMode(FORM_MODE.EDITABLE);
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.EDITABLE);
+        }
       }
-    }
 
       this.callbackUrl = params['callbackurl'];
     });
@@ -102,12 +102,12 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
 
   createControls(): void {
     this.editableForm = new FormGroup({
-      personnameControl: new FormControl(''),
+      personnameControl: new FormControl('', [Validators.required]),
       personageControl: new FormControl(''),
-      genderControl: new FormControl(''),
+      genderControl: new FormControl('', [Validators.required]),
       personaladdressControl: new FormControl(''),
       reletionpatientsControl: new FormControl(''),
-      mobilenoControl: new FormControl(''),
+      mobilenoControl: new FormControl('', [Validators.required]),
       alternateContactControl: new FormControl('')
     });
   }
@@ -120,6 +120,7 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
           this.personaldetailsid = payloadResponse.data.personaldetails.personaldetailsid;
           if (this.personaldetailsid) {
             this.getPatientPersonDetails();
+
           }
         }
       }
@@ -131,22 +132,23 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.VIEW);
           this.personaldetailsid = payloadResponse.data.personaldetailsid;
           this.personaldetailsid = payloadResponse.data.personaldetailsid;
           const personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
-          if(payloadResponse.data.personaccompanying!=null){
-          const tempPersonAccompanying = JSON.parse(payloadResponse.data.personaccompanying);
-          personAccompanyingInfo.data = [];
-          personAccompanyingInfo.data = tempPersonAccompanying.data || null;
-          personAccompanyingInfo.version = tempPersonAccompanying.version;
-          this.name = personAccompanyingInfo.data[0].name;
-          this.age = personAccompanyingInfo.data[0].age;
-          this.gender = personAccompanyingInfo.data[0].gender;
-          this.address = personAccompanyingInfo.data[0].address;
-          this.relationshipwithpatient = personAccompanyingInfo.data[0].relationshipwithpatient;
-          this.contact = personAccompanyingInfo.data[0].contact;
-          this.alternatecontact = personAccompanyingInfo.data[0].alternatecontact;
-        }
+          if (payloadResponse.data.personaccompanying != null) {
+            const tempPersonAccompanying = JSON.parse(payloadResponse.data.personaccompanying);
+            personAccompanyingInfo.data = [];
+            personAccompanyingInfo.data = tempPersonAccompanying.data || null;
+            personAccompanyingInfo.version = tempPersonAccompanying.version;
+            this.name = personAccompanyingInfo.data[0].name;
+            this.age = personAccompanyingInfo.data[0].age;
+            this.gender = personAccompanyingInfo.data[0].gender;
+            this.address = personAccompanyingInfo.data[0].address;
+            this.relationshipwithpatient = personAccompanyingInfo.data[0].relationshipwithpatient;
+            this.contact = personAccompanyingInfo.data[0].contact;
+            this.alternatecontact = personAccompanyingInfo.data[0].alternatecontact;
+          }
         }
       }
     });

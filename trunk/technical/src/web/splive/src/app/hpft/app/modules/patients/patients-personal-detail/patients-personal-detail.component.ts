@@ -47,7 +47,8 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
         this.getPatientUpdates();
       } else {
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        this.setFormMode(FORM_MODE.EDITABLE);
+        this.setFormMode(FORM_MODE.VIEW);
+        this.getPatientUpdates();
       }
       this.callbackUrl = params['callbackurl'];
     });
