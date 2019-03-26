@@ -5,7 +5,7 @@ export class ServicePointDatastoreModel implements IDatastoreModel {
     sp_name: string;
     short_desc: string;
     sp_state: number;
-    sp_state_since: Date;
+    sp_state_since: string;
     updated_by: number;
     updated_on: string;
     sync_pending: number;
