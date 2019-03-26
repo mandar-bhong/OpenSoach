@@ -5,7 +5,7 @@ export class SyncListViewModel {
 export class SyncDataModel {
     store_name: string;
     sync_order: number;
-    last_synced: Date;
+    last_synced: string;
     sync_type: number;
     sync_to_server_pending:number;
     sync_to_server_pending_time:Date;

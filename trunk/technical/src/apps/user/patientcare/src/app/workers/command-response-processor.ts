@@ -33,7 +33,7 @@ export class CommandResponseProcessor {
 
         console.log(" in CmdProcessor..");
 
-       console.log("respMsg", respMsg);
+        console.log("respMsg", respMsg);
 
         const respDataModel: CmdModel = JSON.parse(respMsg);
 
@@ -112,6 +112,11 @@ export class CommandResponseProcessor {
                                 this.handleUserResponse(respDataModel);
                                 break;
                         }
+
+                        if (respDataModel.payload.ackdata.updatedon) {
+                            // update sync table last synced
+                            DatabaseHelper.updateSyncStoreLastSynched(respDataModel.payload.ackdata.storename, respDataModel.payload.ackdata.updatedon);
+                        }
                     }
 
                     break;
@@ -172,10 +177,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
-
         }
 
     }
@@ -205,10 +206,6 @@ export class CommandResponseProcessor {
             // console.log("conf server data store model", serverDataStoreDataModel);
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
-
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -245,9 +242,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -282,9 +276,6 @@ export class CommandResponseProcessor {
             // console.log("schedule server data store model", serverDataStoreDataModel);
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
-
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -323,9 +314,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -359,9 +347,6 @@ export class CommandResponseProcessor {
             // console.log("personal details server data store model", serverDataStoreDataModel);
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
-
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -403,9 +388,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -440,9 +422,6 @@ export class CommandResponseProcessor {
             // console.log("action txn server data store model", serverDataStoreDataModel);
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
-
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -483,9 +462,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -516,9 +492,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -542,9 +515,6 @@ export class CommandResponseProcessor {
             serverDataStoreDataModel.data = treatmentDocDatastoreModel;
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
-
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -576,9 +546,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -602,9 +569,6 @@ export class CommandResponseProcessor {
             serverDataStoreDataModel.data = pathologyRecordDocDatastoreModel;
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
-
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
@@ -636,9 +600,6 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
-
         }
 
     }
@@ -652,12 +613,12 @@ export class CommandResponseProcessor {
             const userDatastoreModel = new UserDatastoreModel();
             const item = <UserDatastoreModel>tblData[i];
 
-            userDatastoreModel.usr_id=item.usr_id
-            userDatastoreModel.usr_name=item.usr_name
-            userDatastoreModel.usr_id=item.usr_id
-            userDatastoreModel.urole_name=item.urole_name
-            userDatastoreModel.fname=item.fname
-            userDatastoreModel.lname=item.lname
+            userDatastoreModel.usr_id = item.usr_id
+            userDatastoreModel.usr_name = item.usr_name
+            userDatastoreModel.usr_id = item.usr_id
+            userDatastoreModel.urole_name = item.urole_name
+            userDatastoreModel.fname = item.fname
+            userDatastoreModel.lname = item.lname
             userDatastoreModel.updated_on = item.updated_on;
             userDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
@@ -666,9 +627,6 @@ export class CommandResponseProcessor {
             serverDataStoreDataModel.data = userDatastoreModel;
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
-
-            // update sync table last synced
-            DatabaseHelper.updateSyncStoreLastSynched(data.payload.ackdata.storename, data.payload.ackdata.updatedon);
 
         }
 
