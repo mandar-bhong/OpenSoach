@@ -67,7 +67,7 @@ let selectQueries = new Map([
     from action_tbl act
     left join schedule_tbl sch on sch.uuid = act.schedule_uuid
     left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time
-    left join usr_tbl usr on usr.usr_id = act.updated_by
+    left join usr_tbl usr on usr.usr_id = atxn.updated_by
     where act.is_deleted = 0 and act.admission_uuid = ? 
     order by act.scheduled_time asc`],
     ["usr_tbl_insert", "insert into usr_tbl (usr_id,usr_name,urole_name,fname,lname,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?)"],
@@ -112,6 +112,7 @@ let selectQueries = new Map([
     left join action_txn_tbl atxn on act.scheduled_time = atxn.scheduled_time
     where act.scheduled_time >=? and act.schedule_uuid=? and atxn.uuid IS NULL`],
     ["userList1", "select * from usr_tbl"],
+    ["actionTxnList", "select * from action_txn_tbl"],
 ]);
 
 let selectTableName = new Map([

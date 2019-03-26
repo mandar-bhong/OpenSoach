@@ -26,24 +26,24 @@
                         <GridLayout row="0" columns="70, *" rows="auto, auto ">
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;">
                                 <StackLayout row="1" class="list-layout" *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
-                                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                     <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'" class="label-small"
-                                        [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                        [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                 </StackLayout>
 
 
                                 <GridLayout row="1" class="list-layout" rows="auto" *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                     <GridLayout row="0" rows="auto, auto, auto" *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
                                         <Label row="0" col="0" [text]="item.scheduled_time | date: 'dd MMM'" class="label-small"
-                                            [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
-                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                         <Label row="2" col="0" [text]="item.scheduled_time | date: 'shortTime'" class="label-small"
-                                            [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                     </GridLayout>
 
 
                                     <GridLayout row="1" class="list-layout" *ngIf="item.actionStatus == action_Status.ACTIVE_FUTURE || item.actionStatus == action_Status.MISSED">
-                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.status === 1,active_future: item.status === 4}"></Label>
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED, active_missed: item.actionStatus === action_Status.MISSED, active_future:item.actionStatus === action_Status.ACTIVE_FUTURE}"></Label>
                                     </GridLayout>
 
                                     <GridLayout row="1" class="list-layout" *ngIf="item.type == 2">
@@ -85,24 +85,24 @@
                         <GridLayout row="0" columns="70, *" rows="auto, auto" style="padding-bottom: 8%;">
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;">
                                 <StackLayout row="1" class="list-layout" *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
-                                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                     <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'" class="label-small"
-                                        [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                        [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                 </StackLayout>
 
 
                                 <GridLayout row="1" class="list-layout" rows="auto" *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                     <GridLayout row="0" rows="auto, auto, auto" *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
                                         <Label row="0" col="0" [text]="item.scheduled_time | date: 'dd MMM'" class="label-small"
-                                            [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
-                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                         <Label row="2" col="0" [text]="item.scheduled_time | date: 'shortTime'" class="label-small"
-                                            [ngClass]="{active_delayed_missed: item.status === 1,active_needs_attention: item.status === 2,active_normal: item.status === 3}"></Label>
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                     </GridLayout>
 
 
                                     <GridLayout row="1" class="list-layout" *ngIf="item.actionStatus == action_Status.ACTIVE_FUTURE || item.actionStatus == action_Status.MISSED">
-                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.status === 1,active_future: item.status === 4}"></Label>
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED, active_missed: item.actionStatus === action_Status.MISSED, active_future:item.actionStatus === action_Status.ACTIVE_FUTURE}"></Label>
                                     </GridLayout>
 
                                     <GridLayout row="1" class="list-layout" *ngIf="item.type == 2">

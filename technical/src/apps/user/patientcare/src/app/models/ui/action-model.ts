@@ -102,7 +102,7 @@ export class DataActionItem {
 	admission_uuid: string;
 	conf_type_code: string;
 	schedule_uuid: string;
-	scheduled_time: Date;
+	scheduled_time: string;
 	name: string;
 	desc: string;
 	status: number;
@@ -113,7 +113,7 @@ export class DataActionItem {
 	actionStatus: any;
 	txn_state: number;
 	txn_data: GetJsonmodel;
-    client_updated_at: Date;
+    client_updated_at: string;
     fname: string;
     lname:string;
     value: BloodPressureValueModel
