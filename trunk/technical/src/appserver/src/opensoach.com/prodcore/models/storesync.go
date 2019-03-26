@@ -30,7 +30,8 @@ type StoreSyncGetRequestModel struct {
 }
 type StoreSyncGetResponseModel struct {
 	StoreSyncModel
-	UpdatedOn *time.Time  `json:"updatedon"`
+	//UpdatedOn *time.Time  `json:"updatedon"`
+	UpdatedOn *string     `json:"updatedon"`
 	Count     int         `json:"count"`
 	Data      interface{} `json:"data"`
 }
@@ -60,8 +61,9 @@ type StoreConfigModel struct {
 }
 
 type SyncConfigTblInfoModel struct {
-	Count        int        `db:"count" json:"count"`
-	MaxUpdatedOn *time.Time `db:"max_updated_on" json:"updatedon"`
+	Count int `db:"count" json:"count"`
+	//MaxUpdatedOn *time.Time `db:"max_updated_on" json:"updatedon"`
+	MaxUpdatedOn *string `db:"max_updated_on" json:"updatedon"`
 }
 
 type CPMIDEntityModel struct {
