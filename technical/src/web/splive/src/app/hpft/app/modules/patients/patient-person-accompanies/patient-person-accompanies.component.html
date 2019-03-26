@@ -5,10 +5,10 @@
         <!-- <h5>First Contact </h5> -->
         <div class="form-group form-primary " *ngIf="formMode === 1">
           <mat-form-field class="full-width" id="point-selection ">
-            <input matInput placeholder="Person Name" formControlName="personnameControl" [(ngModel)]="name"  maxlength="25">
-            <!-- <mat-error *ngIf="editableForm.controls['name'].hasError('required')">
+            <input matInput placeholder="Person Name" formControlName="personnameControl" [(ngModel)]="name"  maxlength="25" required>
+            <mat-error *ngIf="editableForm.controls['personnameControl'].hasError('required')">
               {{'VALIDATION_REQUIRED_FIELD'|translate}}
-            </mat-error> -->
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="form-group form-primary" *ngIf="formMode === 0" >
@@ -28,14 +28,14 @@
 
         <div class="form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field>
-            <mat-select placeholder="Gender" [(ngModel)]="gender" formControlName="genderControl">
+            <mat-select placeholder="Gender" [(ngModel)]="gender" formControlName="genderControl" required>
               <mat-option *ngFor="let gend of personGender" [value]="gend.value">
                 {{gend.text | translate }}
               </mat-option>
             </mat-select>
-            <!-- <mat-error *ngIf="editableForm.controls['genderControl'].hasError('required')">
+            <mat-error *ngIf="editableForm.controls['genderControl'].hasError('required')">
               {{'VALIDATION_REQUIRED_FIELD'|translate}}
-            </mat-error> -->
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
@@ -67,8 +67,10 @@
         <div class="form-group form-primary" *ngIf="formMode === 1">
           <mat-form-field id="telephone">
             <span matPrefix>+91 &nbsp;</span>
-            <input type="tel" matInput placeholder="Contact Number" [(ngModel)]="contact" formControlName="mobilenoControl" maxlength="10">
-    
+            <input type="tel" matInput placeholder="Contact Number" [(ngModel)]="contact" formControlName="mobilenoControl" maxlength="10" required>
+            <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
@@ -81,9 +83,6 @@
             <span matPrefix>+91 &nbsp;</span>
             <input type="tel" matInput placeholder="Alternate Contact Number" [(ngModel)]="alternatecontact" formControlName="alternateContactControl"
               maxlength="10">
-            <mat-error *ngIf="editableForm.controls['alternateContactControl'].hasError('pattern')">
-              {{ 'ErrorNumberPattern' | translate}}
-            </mat-error>
           </mat-form-field>
         </div>
         <div class="form-group form-primary" *ngIf="formMode === 0">

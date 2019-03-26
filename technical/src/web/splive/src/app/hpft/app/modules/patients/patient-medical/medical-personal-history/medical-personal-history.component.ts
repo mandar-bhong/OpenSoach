@@ -35,7 +35,7 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
   smokCheck: boolean;
   constructor() {
     super();
-    this.iconCss = 'fa fa-user';
+    this.iconCss = 'fa fa-address-card-o';
     this.pageTitle = 'Personal History';
   }
 
