@@ -3,6 +3,7 @@ import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { PatientService } from 'app/services/patient.service';
 import { ScheduleDataResponse, SchedularConfigData } from 'app/models/api/schedule-response';
 import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE } from 'app/app-constants';
+import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
 
 @Component({
   selector: 'app-specific-schedule-details-expand-view',
@@ -14,18 +15,18 @@ export class SpecificScheduleDetailsExpandViewComponent implements OnInit {
   freuencyZero = FREQUENCY_ZERO;
   freuencyOne = FREQUENCY_ONE
   isDataReveived = false;
-  constructor(private patientService: PatientService) { }
+  constructor(private patientService: PatientService, private scheduleService: ScheduleService) { }
   @Input() patientconfid: number;
   scheduleDataResponse = new ScheduleDataResponse<SchedularConfigData>();
   ngOnInit() {
-    console.log('this.patientconfid',this.patientconfid);
+    console.log('this.patientconfid', this.patientconfid);
     this.getScheduleDataById();
   }
   getScheduleDataById() {
     const dataListRequest = new ScheduleFilter();
     dataListRequest.recid = this.patientconfid
     console.log('this.patientconfid', this.patientconfid);
-    this.patientService.getScheduleDataById(dataListRequest).subscribe((schedulePayloadResponse) => {
+    this.scheduleService.getScheduleDataById(dataListRequest).subscribe((schedulePayloadResponse) => {
       if (schedulePayloadResponse.issuccess) {
         this.isDataReveived = true;
         console.log('schedulePayloadResponse', schedulePayloadResponse);
