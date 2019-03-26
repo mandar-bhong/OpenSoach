@@ -97,7 +97,7 @@
           </ng-container>
 
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 7%;">Details</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 7%;">Details</mat-header-cell>
             <mat-cell *matCellDef="let row" style="flex:0 0 6%;">
               <span class="mat-cell-responsive-label">Details</span>
               <button mat-icon-button (click)="viewDetails(row.patientid,row.admissionid)">
