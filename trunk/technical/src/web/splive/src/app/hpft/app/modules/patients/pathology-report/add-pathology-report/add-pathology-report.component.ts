@@ -29,7 +29,7 @@ export class AddPathologyReportComponent extends EditRecordBase implements OnIni
 
   ngOnInit() {
     this.createControls();
-    this.iconCss = 'fa fa-list-ul'
+    this.iconCss = 'medical-icon-i-pathology'
     this.pageTitle = "Pathology Report";
     this.subTitle = 'Add Pathology Report Details';
     this.recordState = EDITABLE_RECORD_STATE.ADD;

@@ -29,7 +29,7 @@ export class AddTreatmentReportComponent extends EditRecordBase implements OnIni
 
   ngOnInit() {
     this.createControls();
-    this.iconCss = 'fa fa-list-ul'
+    this.iconCss = 'medical-icon-i-physical-therapy'
     this.pageTitle = "Treatment Report";
     this.subTitle = 'Add Treatment Report Details';
     this.recordState = EDITABLE_RECORD_STATE.ADD;
