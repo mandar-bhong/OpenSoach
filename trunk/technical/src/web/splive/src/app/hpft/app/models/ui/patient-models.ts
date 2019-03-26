@@ -21,7 +21,7 @@ import {
     PersonAccompanyingInfo,
     PersonalDetailsResponse,
     PersonalDetailsRequest,
-} from '../api/patient-models';
+} from '../api/patient-data-models';
 import { NumberCardModule } from '@swimlane/ngx-charts';
 import { JSONBaseModel } from './json-base-model';
 
