@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, Input, OnDestroy } from '@angular/core';
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
-import { merge, Observable } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { startWith, switchMap, map } from 'rxjs/operators';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
 import { DataListResponse, DataListRequest } from '../../../../../../shared/models/api/data-list-models';
@@ -14,6 +14,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { ScheduleDataResponse } from 'app/models/api/schedule-response';
 import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { ComplaintsModule } from 'app/modules/complaints/complaints.module';
+import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ import { ComplaintsModule } from 'app/modules/complaints/complaints.module';
     ]),
   ],
 })
-export class ViewMedicineScheduleComponent implements OnInit {
+export class ViewMedicineScheduleComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
   @ViewChild(MatSort)
@@ -42,10 +43,13 @@ export class ViewMedicineScheduleComponent implements OnInit {
   scheduleResponse: ScheduleDataResponse<any>[] = [];
   dataListRequest: DataListRequest<TransactionDetailsFilter>;
   isViewSchedule = false;
+  dataListFilterChangedSubscription: Subscription;
+  scheduleFilter: ScheduleFilter;
   constructor(
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
-    private patientService: PatientService) { }
+    private patientService: PatientService,
+    private scheduleService: ScheduleService) { }
   displayedColumns = ['name', 'startdate', 'enddate', 'view'];
   sortByColumns = [
     { text: 'Name', value: 'name' },
@@ -61,8 +65,11 @@ export class ViewMedicineScheduleComponent implements OnInit {
     this.sort.active = 'enddate';
     this.sort.direction = 'asc';
     this.getDataListing();
-
-
+    this.dataListFilterChangedSubscription = this.scheduleService.dataListSubject.subscribe(value => {
+      // this.scheduleFilter = value;
+      this.scheduleFilter.conftypecode = value.conftypecode;
+      this.refreshTable.emit();
+    });
   }
   getDataListing(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -114,8 +121,8 @@ export class ViewMedicineScheduleComponent implements OnInit {
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.filter.conftypecode = 'Medicine';
-
-    return this.patientService.getScheduleData(dataListRequest);
+    return this.scheduleService.getDataList(dataListRequest);
+    // return this.patientService.getScheduleData(dataListRequest);
   }
 
  
@@ -131,7 +138,11 @@ export class ViewMedicineScheduleComponent implements OnInit {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
-
+  ngOnDestroy(): void {
+    if (this.dataListFilterChangedSubscription) {
+      this.dataListFilterChangedSubscription.unsubscribe();
+    }
+  }
 }
 
 
