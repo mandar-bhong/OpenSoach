@@ -59,7 +59,7 @@ let selectQueries = new Map([
     ["patient_admission_details", "select * from patient_admission_tbl where patient_uuid=? "],
     ["patient_personal_details", "select * from patient_master_tbl where uuid=? "],
     ["patient_person_accompanying_details", "select * from patient_personal_details_tbl where admission_uuid=? "],
-    ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],    
+    ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],
     ["getAllActionList", "select * from action_tbl where admission_uuid=?"],
 
     ["getActionList", `select act.uuid as action_uuid,act.admission_uuid,act.schedule_uuid,act.scheduled_time,act.conf_type_code,atxn.uuid as action_txn_uuid,atxn.txn_data,
@@ -107,7 +107,7 @@ let selectQueries = new Map([
     on  action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
     where action_tbl.is_deleted = 0 and action_tbl.admission_uuid = ? and action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
     ) actions
-    order by actions.scheduled_time ASC`],    
+    order by actions.scheduled_time ASC`],
     ["getActionForCancel", `select act.uuid,act.admission_uuid,act.conf_type_code,act.schedule_uuid,act.scheduled_time,act.is_deleted,act.updated_by,act.updated_on,act.sync_pending,act.client_updated_at,atxn.uuid as atxn_uuid from action_tbl act
     left join action_txn_tbl atxn on act.scheduled_time = atxn.scheduled_time
     where act.scheduled_time >=? and act.schedule_uuid=? and atxn.uuid IS NULL`],
@@ -368,7 +368,7 @@ export class DatabaseHelper {
 
             var paramList = [];
             var updateQuery = "";
-            const currentTime = Date.now();
+            const currentTime = new Date().toISOString();
             paramList.push(isSyncPending);
 
             if (syncType === 1) {
@@ -473,7 +473,7 @@ export class DatabaseHelper {
     }
     // fucntion for fetch action for cancel schedule 
     public static getDataByParameters(key: string, paramList: Array<any>): any {
-        return new Promise((resolve, reject) => {           
+        return new Promise((resolve, reject) => {
             var query: string;
             if (selectQueries.has(key) == true) {
                 query = selectQueries.get(key);
@@ -485,7 +485,7 @@ export class DatabaseHelper {
                         if (err) {
                             console.log('in inner promise error', err);
                             reject(err);
-                        } else {                           
+                        } else {
                             resolve(result);
                         }
                     });
