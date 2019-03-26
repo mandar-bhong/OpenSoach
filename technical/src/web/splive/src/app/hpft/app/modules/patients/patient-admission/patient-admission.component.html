@@ -67,10 +67,11 @@
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
         <mat-form-field class="full-width">
-          <input matInput placeholder="Patient Admit Date" [matDatepicker]="startdatepicker"
-            [(ngModel)]="dataModel.admittedon" formControlName="admittedDateControls">
-          <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
-          <mat-datepicker #startdatepicker></mat-datepicker>
+          <input matInput [matDatepicker]="picker" placeholder="Patient Admit Date" [(ngModel)]="dataModel.admittedon"
+            formControlName="admittedDateControls">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+
         </mat-form-field>
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
