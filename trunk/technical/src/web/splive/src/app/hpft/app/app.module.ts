@@ -18,6 +18,7 @@ import { DashboardService } from './services/dashboard.service';
 import { ReportService } from './services/report.service';
 import { PatientService } from './services/patient.service';
 import { PatientAddService } from './services/patient-add.service';
+import { ScheduleService } from './services/patient-detail-sevices/schedule.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { PatientAddService } from './services/patient-add.service';
     ProdComplaintService,
     ReportService,
     PatientService,
-    PatientAddService, 
+    PatientAddService,
+    ScheduleService,
   ],
 
   bootstrap: [AppComponent]
