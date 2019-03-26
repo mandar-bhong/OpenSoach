@@ -20,33 +20,33 @@
 export class DataList {
 	test: string;
 }
-export class PersonalHistoryModel{
+export class PersonalHistoryModel {
 	medicaldetialsid: number;
-    weight: WeightData;
-    alcohol: AlcoholData;
-    smoking: SmokData;
-    other: string;
+	weight: WeightData;
+	alcohol: AlcoholData;
+	smoking: SmokData;
+	other: string;
 }
 export class SmokData {
-    aplicable: boolean;
-    smokingquantity: string;
-    smokingcomment: string;
+	aplicable: boolean;
+	smokingquantity: string;
+	smokingcomment: string;
 }
 
 export class AlcoholData {
-    aplicable: boolean;
-    alcoholquantity: string;
-    alcoholcomment: string;
+	aplicable: boolean;
+	alcoholquantity: string;
+	alcoholcomment: string;
 }
 
 export class WeightData {
-    weight: string;
-    weighttendency: string;
+	weight: string;
+	weighttendency: string;
 }
 
-export class PatientDetailsModel{
+export class PatientDetailsModel {
 	fname: string;
-	lname:string;
+	lname: string;
 	mob_no: string;
 	age: string;
 	blood_grp: string;
@@ -58,5 +58,5 @@ export class AdmissionDetailsModel {
 	bed_no: string;
 	sp_uuid: number;
 	dr_incharge: number;
-	admitted_on: Date;
+	admitted_on: string;
 }
