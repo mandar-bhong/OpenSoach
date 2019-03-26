@@ -9,7 +9,7 @@ export class ActionDataStoreModel implements IDatastoreModel {
     scheduled_time: string;
     is_deleted: number;
     updated_by:number;
-    updated_on:Date;
+    updated_on:string;
     sync_pending: number;
     client_updated_at: string;
     getModelValues(): any[] {

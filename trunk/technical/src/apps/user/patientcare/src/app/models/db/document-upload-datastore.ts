@@ -7,7 +7,7 @@ export class DocumentUploadDatastore implements IDatastoreModel {
     doc_name: string;
     doc_type: string;
     datastore: string;
-    updated_on: Date;
+    updated_on: string;
     updated_by: number;
     sync_pending: number;
     client_updated_at: string;

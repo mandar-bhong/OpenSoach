@@ -7,7 +7,7 @@ export class UserDatastoreModel implements IDatastoreModel {
     urole_name:string;
     fname:string;
     lname:string;
-    updated_on: Date;
+    updated_on: string;
     sync_pending: number;
     client_updated_at: string;
     getModelValues(): any[] {

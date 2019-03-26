@@ -4,7 +4,7 @@ export class ConfDatastoreModel implements IDatastoreModel {
     uuid: string;
     conf_type_code: string;
     conf: string;
-    updated_on: Date;
+    updated_on: string;
     updated_by: number;
     sync_pending: number;
     client_updated_at: string;

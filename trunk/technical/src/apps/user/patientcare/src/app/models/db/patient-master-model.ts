@@ -10,7 +10,7 @@ export class PatientMasterDatastoreModel implements IDatastoreModel {
     blood_grp: string;
     gender: string;
     updated_by: number;
-    updated_on: Date;
+    updated_on: string;
     sync_pending: number;
     client_updated_at: string;
     getModelValues(): any[] {
