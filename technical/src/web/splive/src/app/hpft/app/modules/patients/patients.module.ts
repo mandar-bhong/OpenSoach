@@ -48,6 +48,7 @@ import { SpecificScheduleDetailsExpandViewComponent } from './schedule-details/s
 import { AppLocalStorage } from '../../../../shared/services/app-data-store/app-data-store';
 import { AddPathologyReportComponent } from './pathology-report/add-pathology-report/add-pathology-report.component';
 import { AddTreatmentReportComponent } from './treatment-report/add-treatment-report/add-treatment-report.component';
+import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
 
 
 @NgModule({
@@ -102,7 +103,8 @@ import { AddTreatmentReportComponent } from './treatment-report/add-treatment-re
     AmazingTimePickerService,
     MatRadioModule,
     MatCheckboxModule,
-    AppLocalStorage
+    AppLocalStorage,
+    ScheduleService
   ]
 })
 export class PatientsModule { }
