@@ -77,7 +77,7 @@ export class ActionService {
             // console.log('param list', paramList);
             this.database.selectByID("getActionList", paramList).then(
                 (val) => {
-                    console.log("Action All data new ", val);
+                    // console.log("Action All data new ", val);
                     resolve(val);
                 },
                 (error) => {
@@ -158,5 +158,22 @@ export class ActionService {
             );
         });
     }
+    public ationTxnList(): any {
 
+        return new Promise((resolve, reject) => {
+
+            this.database.selectAll("actionTxnList").then(
+                (val) => {
+                    console.log("get actionTxnList",val);                  
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+
+    }
+    
 }
