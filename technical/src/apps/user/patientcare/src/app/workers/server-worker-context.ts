@@ -19,5 +19,5 @@ export enum SYNC_TYPE {
 
 export class CurrentStoreModel {
     currentStoreName: string;
-    lastSynched: Date;
+    lastSynched: string;
 }

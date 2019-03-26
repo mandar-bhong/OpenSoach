@@ -27,7 +27,7 @@ export class CommandRequestGenerator{
         return cmdstring;
     }
 
-    public static getSyncCmd(strname: string, lastSynched: Date) {
+    public static getSyncCmd(strname: string, lastSynched: string) {
         // {"header":{"crc":"12","category":3,"commandid":50,"seqid":3},"payload":{"storename":"","updatedon":"2018-10-30T00:00:00Z"}}
 
         const getSyncCmd = new CmdModel();
@@ -43,7 +43,7 @@ export class CommandRequestGenerator{
         if (lastSynched) {
             getrequest.updatedon = lastSynched;
         } else {
-            getrequest.updatedon = new Date("2018-10-30T00:00:00Z");
+            getrequest.updatedon = "2018-10-30T00:00:00.000Z";
         }
 
         getSyncCmd.payload = getrequest;

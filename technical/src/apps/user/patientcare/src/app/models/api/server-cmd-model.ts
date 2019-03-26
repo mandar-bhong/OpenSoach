@@ -12,7 +12,7 @@ export class CmdHeader {
 
 export class GetSyncRequestModel {
     storename: string;
-    updatedon: Date;
+    updatedon: string;
 }
 
 export class ApplySyncRequestModel {
