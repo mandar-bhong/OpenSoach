@@ -1,8 +1,22 @@
 package models
 
 import (
+	"errors"
 	"time"
+
+	prodconst "opensoach.com/prodcore/constants"
 )
+
+type ISOTime time.Time
+
+func (s ISOTime) MarshalJSON() ([]byte, error) {
+	t := time.Time(s)
+	if y := t.Year(); y < 0 || y >= 10000 {
+		return nil, errors.New("Time.MarshalJSON: year outside of range [0,9999]")
+	}
+
+	return []byte(t.Format(prodconst.ISO_TIME_FORMAT)), nil
+}
 
 type PreExecuteFilterHandler func(ctx *DevicePacketProccessExecution, filterModel *SyncConfigModel, request *StoreSyncGetRequestModel) error
 
@@ -30,8 +44,7 @@ type StoreSyncGetRequestModel struct {
 }
 type StoreSyncGetResponseModel struct {
 	StoreSyncModel
-	//UpdatedOn *time.Time  `json:"updatedon"`
-	UpdatedOn *string     `json:"updatedon"`
+	UpdatedOn *ISOTime    `json:"updatedon"`
 	Count     int         `json:"count"`
 	Data      interface{} `json:"data"`
 }
@@ -62,8 +75,7 @@ type StoreConfigModel struct {
 
 type SyncConfigTblInfoModel struct {
 	Count int `db:"count" json:"count"`
-	//MaxUpdatedOn *time.Time `db:"max_updated_on" json:"updatedon"`
-	MaxUpdatedOn *string `db:"max_updated_on" json:"updatedon"`
+	MaxUpdatedOn *ISOTime `db:"max_updated_on" json:"updatedon"`
 }
 
 type CPMIDEntityModel struct {
