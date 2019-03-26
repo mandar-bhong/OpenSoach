@@ -26,7 +26,8 @@ export class SchedularConfigData {
     specificTimes: Array<any>;
     numberofTimes: number;
     endDate: Date
-    splinstruction: string;   
+    splinstruction: string; 
+    remark: string;  
 }
 export class MornFreqInfo {
     freqMorn: boolean;
