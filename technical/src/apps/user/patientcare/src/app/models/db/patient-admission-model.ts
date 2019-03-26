@@ -11,7 +11,7 @@ export class PatientAdmissionDatastoreModel implements IDatastoreModel {
     admitted_on: Date;
     discharged_on: Date;
     updated_by: number;
-    updated_on: Date;
+    updated_on: string;
     sync_pending: number;
     client_updated_at: string;
     getModelValues(): any[] {

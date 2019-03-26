@@ -7,7 +7,7 @@ export class ServicePointDatastoreModel implements IDatastoreModel {
     sp_state: number;
     sp_state_since: Date;
     updated_by: number;
-    updated_on: Date;
+    updated_on: string;
     sync_pending: number;
     client_updated_at: string;
     getModelValues(): any[] {

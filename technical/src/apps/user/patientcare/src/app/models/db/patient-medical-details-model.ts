@@ -14,7 +14,7 @@ export class PatientMedicalDetailsDatastoreModel implements IDatastoreModel {
     allergies: string;
     personal_history: string;
     updated_by: number;
-    updated_on: Date;
+    updated_on: string;
     sync_pending: number;
     client_updated_at: string;
     getModelValues(): any[] {

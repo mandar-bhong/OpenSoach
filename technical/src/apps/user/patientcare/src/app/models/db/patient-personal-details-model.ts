@@ -8,7 +8,7 @@ export class PatientPersonalDetailsDatastoreModel implements IDatastoreModel {
     other_details: string;
     person_accompanying:string;
     updated_by: number;
-    updated_on: Date;
+    updated_on: string;
     sync_pending: number;
      client_updated_at: string;
     getModelValues(): any[] {

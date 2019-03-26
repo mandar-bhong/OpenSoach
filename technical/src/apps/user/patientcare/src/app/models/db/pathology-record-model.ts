@@ -8,7 +8,7 @@ export class PathologyRecordDatastoreModel implements IDatastoreModel {
     test_result: string;
     comments: string;
     updated_by: number;
-    updated_on: Date;
+    updated_on: string;
     sync_pending: number;
     client_updated_at: string;
     getModelValues(): any[] {
