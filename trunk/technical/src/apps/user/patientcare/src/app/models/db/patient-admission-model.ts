@@ -8,8 +8,8 @@ export class PatientAdmissionDatastoreModel implements IDatastoreModel {
     status: string;
     sp_uuid: string;
     dr_incharge: number;
-    admitted_on: Date;
-    discharged_on: Date;
+    admitted_on: string;
+    discharged_on: string;
     updated_by: number;
     updated_on: string;
     sync_pending: number;
