@@ -79,7 +79,7 @@ let selectQueries = new Map([
     max(action_tbl.scheduled_time) as scheduled_time
     from action_tbl left join action_txn_tbl
     on action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
-    where action_tbl.is_deleted = 0 and action_tbl.scheduled_time < ? and action_txn_tbl.uuid IS NULL
+    where action_tbl.is_deleted = 0 and datetime(action_tbl.scheduled_time) < datetime(?) and action_txn_tbl.uuid IS NULL
     group by action_tbl.schedule_uuid
     UNION
     select action_tbl.admission_uuid,
@@ -87,7 +87,7 @@ let selectQueries = new Map([
     action_tbl.scheduled_time
     from action_tbl  left join action_txn_tbl
     on  action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
-    where action_tbl.is_deleted = 0 and action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
+    where action_tbl.is_deleted = 0 and datetime(action_tbl.scheduled_time) >= datetime(?) and action_txn_tbl.uuid IS NULL
     ) actions
     order by actions.scheduled_time ASC`],
     ["action_tbl_next_actions_for_admission",
@@ -97,7 +97,7 @@ let selectQueries = new Map([
     max(action_tbl.scheduled_time) as scheduled_time
     from action_tbl left join action_txn_tbl
     on action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
-    where action_tbl.is_deleted = 0 and action_tbl.admission_uuid = ? and action_tbl.scheduled_time < ? and action_txn_tbl.uuid IS NULL
+    where action_tbl.is_deleted = 0 and action_tbl.admission_uuid = ? and datetime(action_tbl.scheduled_time) < datetime(?) and action_txn_tbl.uuid IS NULL
     group by action_tbl.schedule_uuid
     UNION
     select action_tbl.admission_uuid,
@@ -105,7 +105,7 @@ let selectQueries = new Map([
     action_tbl.scheduled_time
     from action_tbl  left join action_txn_tbl
     on  action_tbl.schedule_uuid = action_txn_tbl.schedule_uuid and action_tbl.scheduled_time = action_txn_tbl.scheduled_time
-    where action_tbl.is_deleted = 0 and action_tbl.admission_uuid = ? and action_tbl.scheduled_time >= ? and action_txn_tbl.uuid IS NULL
+    where action_tbl.is_deleted = 0 and action_tbl.admission_uuid = ? and datetime(action_tbl.scheduled_time) >= datetime(?) and action_txn_tbl.uuid IS NULL
     ) actions
     order by actions.scheduled_time ASC`],
     ["getActionForCancel", `select act.uuid,act.admission_uuid,act.conf_type_code,act.schedule_uuid,act.scheduled_time,act.is_deleted,act.updated_by,act.updated_on,act.sync_pending,act.client_updated_at,atxn.uuid as atxn_uuid from action_tbl act
