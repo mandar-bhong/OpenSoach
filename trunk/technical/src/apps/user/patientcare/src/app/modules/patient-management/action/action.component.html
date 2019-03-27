@@ -190,7 +190,7 @@
                                         <Label row="0" col="1" class="body" textWrap="true" text="Value" *ngIf="item.txn_data.value || item.txn_data.value != null"></Label>
                                         <Label row="1" col="0" class="labelleft label-small" textWrap="true" text="{{item.txn_data.comment}}"></Label>
                                         <Label row="1" col="1" class="labelleft label-small" *ngIf="item.name !== 'Blood Pressure'" textWrap="true" text="{{item.txn_data.value}}"></Label>
-                                        <!-- <Label row="1" col="1" class="labelleft label-small" *ngIf="item.name === 'Blood Pressure'" textWrap="true" text="{{ 'Systolic :-'+ item.value.systolic + ' ' +  'Diastolic :-' + item.value.diastolic}}"></Label> -->
+                                        <Label row="1" col="1" class="labelleft label-small" *ngIf="item.name === 'Blood Pressure'" textWrap="true" text="{{ 'Systolic :-'+ item.value.systolic + '/' +  'Diastolic :-' + item.value.diastolic}}"></Label>
                                     </GridLayout>
                                 </GridLayout>
                             </GridLayout>

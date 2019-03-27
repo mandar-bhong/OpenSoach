@@ -1,4 +1,3 @@
-import { Time } from "@angular/common/src/i18n/locale_data_api";
 
 export class SchedularData {
     uuid: string;
@@ -112,17 +111,16 @@ export class DataActionItem {
 	type: number;
 	actionStatus: any;
 	txn_state: number;
-	txn_data: GetJsonmodel;
+	txn_data: GetJsonModel;
     client_updated_at: string;
     fname: string;
     lname:string;
-    value: BloodPressureValueModel
+    value: BloodPressureValueModel;
 }
-export class GetJsonmodel {
+export class GetJsonModel {
 	comment: string;
     value: any;
-    jsonvalue: BloodPressureValueModel;
-}
+ }
 export class BloodPressureValueModel {
 	systolic: number;
 	diastolic: number;
