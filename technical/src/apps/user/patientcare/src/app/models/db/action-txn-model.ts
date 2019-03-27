@@ -5,7 +5,7 @@ export class ActionTxnDatastoreModel implements IDatastoreModel {
     schedule_uuid: string;
     admission_uuid: string;
     txn_data: string;
-    scheduled_time: Date;
+    scheduled_time: string;
     txn_state: number;
     conf_type_code: string;
     runtime_config_data: string;

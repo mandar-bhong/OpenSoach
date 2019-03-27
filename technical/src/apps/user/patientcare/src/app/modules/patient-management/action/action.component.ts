@@ -36,7 +36,7 @@ import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component'
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ActionFabComponent } from '../action-fab/action-fab.component';
 import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
-import { DataActionItem, BloodPressureValueModel, GetJsonmodel } from '~/app/models/ui/action-model';
+import { DataActionItem, BloodPressureValueModel, GetJsonModel } from '~/app/models/ui/action-model';
 
 
 // expand row 
@@ -174,11 +174,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	ngOnInit() {
 
-		this.actionService.ationTxnList();
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getActionData();
-	
+
 
 		// subscription for create actions
 		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
@@ -375,8 +374,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.actionListItem.forEach(item => {
 			// console.log('txn item', item);
 			const actionListDataItem = new DataActionItem();
-			const gettxn_data = new GetJsonmodel();
-			gettxn_data.jsonvalue = new BloodPressureValueModel();
+			const gettxn_data = new GetJsonModel();
+			actionListDataItem.value = new BloodPressureValueModel();
 			actionListDataItem.admission_uuid = item.dbmodel.admission_uuid;
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
@@ -409,34 +408,27 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			const tempStart = tempStartTime.toLocaleString();
 			const startTime = new Date(tempStart);
 			// console.log('startTime',startTime);
+
 			actionListDataItem.txn_state = item.dbmodel.txn_state;
 			Object.assign(gettxn_data, JSON.parse(item.dbmodel.txn_data));
 			actionListDataItem.txn_data = gettxn_data;
 			actionListDataItem.txn_data.comment = gettxn_data.comment;
-			// console.log('actionListDataItem.value.systolic', gettxn_data.jsonvalue.systolic);
-
-
-
-
 			const conf = JSON.parse(item.dbmodel.conf);
 			// console.log('conf ', conf);
 			actionListDataItem.name = conf.name;
 			// console.log('conf name', conf.name);
 			actionListDataItem.desc = conf.desc;
 
-
-
 			if (actionListDataItem.name === 'Blood Pressure') {
-				// console.log('if value');
-				// Object.assign(gettxnData.value, JSON.parse(gettxn_data.value));
-				// console.log('gettxnData.value.systolic', gettxnData.value.systolic);
-				// actionListDataItem.value.systolic = gettxnData.value.systolic;
-				// console.log('************systolic', gettxnData.value.systolic);
-				// actionListDataItem.value.diastolic = gettxnData.value.diastolic;
-				// console.log('************diastolic', gettxnData.value.diastolic);
+				if (gettxn_data.value != null) {
+					const jsonvalue = new BloodPressureValueModel();
+					Object.assign(jsonvalue, JSON.parse(gettxn_data.value));
+					console.log('gettxnData.value', jsonvalue);
+					actionListDataItem.value.systolic = jsonvalue.systolic;
+					actionListDataItem.value.diastolic = jsonvalue.diastolic;
+				}
 			} else {
 				actionListDataItem.txn_data.value = gettxn_data.value;
-				// console.log('else value', actionListDataItem.txn_data.value);
 			}
 
 			//  condition for type set action list active and all
@@ -459,7 +451,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				}
 				this.allAction.push(actionListDataItem);
 			}
-		
+
 		});
 		this.toggoleActionList();
 		// get doctor orders.
@@ -571,8 +563,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
-		// console.log('this.actionDbArray', this.actionDbArray);
-
 
 	}
 	// all action done and discard save in action-trn-table
@@ -592,15 +582,12 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data = new ActionTxnDatastoreModel();
 
 			serverDataStoreModel.data.uuid = item.uuid;
-			// serverDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
 			serverDataStoreModel.data.sync_pending = 1
 			serverDataStoreModel.data.admission_uuid = item.admission_uuid;
 			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
-			// console.log('item.schedule_uuid;', item.schedule_uuid);
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
-			// console.log('item.txn_data;', item.txn_data);
-			serverDataStoreModel.data.scheduled_time = item.scheduled_time;
+			serverDataStoreModel.data.scheduled_time =item.scheduled_time;
 			serverDataStoreModel.data.txn_state = item.txn_state;
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
 			serverDataStoreModel.data.client_updated_at = new Date().toISOString();
@@ -687,7 +674,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.buttonClicked = false;
 		this.getAllFlag = true;
 		this.toggoleActionList();
-		// this.actionService.ationTxnList();
 	}
 
 	// code block for closing opened dialog

@@ -158,22 +158,6 @@ export class ActionService {
             );
         });
     }
-    public ationTxnList(): any {
-
-        return new Promise((resolve, reject) => {
-
-            this.database.selectAll("actionTxnList").then(
-                (val) => {
-                    console.log("get actionTxnList",val);                  
-                    resolve(val);
-                },
-                (error) => {
-                    reject(error);
-                }
-            );
-
-        });
-
-    }
+    
     
 }
