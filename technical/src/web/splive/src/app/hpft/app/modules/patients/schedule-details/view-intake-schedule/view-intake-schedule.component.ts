@@ -60,14 +60,13 @@ export class ViewIntakeScheduleComponent implements OnInit {
   ngOnInit() {
     console.log('getDataListing executed');
     this.paginator.pageSize = 10;
-    this.paginator.pageIndex = 1;
     this.sort.direction = 'asc';
     this.sort.active = 'enddate';
     this.sort.direction = 'asc';
     this.getDataListing();
     this.dataListFilterChangedSubscription = this.scheduleService.dataListSubject.subscribe(value => {
-      // this.scheduleFilter = value;
-      this.scheduleFilter.conftypecode = value.conftypecode;
+      this.scheduleFilter = value;
+      // this.scheduleFilter.conftypecode = value.conftypecode;
       this.refreshTable.emit();
     });
 
@@ -116,15 +115,15 @@ export class ViewIntakeScheduleComponent implements OnInit {
     const dataListRequest = new DataListRequest<ScheduleFilter>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
-    dataListRequest.page = this.paginator.pageIndex;
-    dataListRequest.orderby = this.sort.active
-    dataListRequest.page = this.paginator.pageIndex;
+    dataListRequest.page = this.paginator.pageIndex + 1;
+    dataListRequest.orderby = this.sort.active;
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.filter.conftypecode = 'Intake';
     return this.scheduleService.getDataList(dataListRequest);
     // return this.patientService.getScheduleData(dataListRequest);
   }
+
 
   sortByChanged() {
     this.sort.sortChange.next(this.sort);
@@ -138,7 +137,7 @@ export class ViewIntakeScheduleComponent implements OnInit {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
-  
+
   ngOnDestroy(): void {
     if (this.dataListFilterChangedSubscription) {
       this.dataListFilterChangedSubscription.unsubscribe();

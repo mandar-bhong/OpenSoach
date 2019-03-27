@@ -60,14 +60,13 @@ export class ViewMedicineScheduleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log('getDataListing executed');
     this.paginator.pageSize = 10;
-    this.paginator.pageIndex = 1;
     this.sort.direction = 'asc';
     this.sort.active = 'enddate';
     this.sort.direction = 'asc';
     this.getDataListing();
     this.dataListFilterChangedSubscription = this.scheduleService.dataListSubject.subscribe(value => {
-      // this.scheduleFilter = value;
-      this.scheduleFilter.conftypecode = value.conftypecode;
+      this.scheduleFilter = value;
+      // this.scheduleFilter.conftypecode = value.conftypecode;
       this.refreshTable.emit();
     });
   }
@@ -101,7 +100,7 @@ export class ViewMedicineScheduleComponent implements OnInit, OnDestroy {
             console.log(' this.scheduleResponse', this.scheduleResponse);
             this.dataSource = new MatTableDataSource<ScheduleDataResponse<any>>(this.scheduleResponse);
             if (this.filteredrecords === 0) {
-            //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+              //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];
@@ -115,9 +114,8 @@ export class ViewMedicineScheduleComponent implements OnInit, OnDestroy {
     const dataListRequest = new DataListRequest<ScheduleFilter>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
-    dataListRequest.page = this.paginator.pageIndex;
-    dataListRequest.orderby = this.sort.active
-    dataListRequest.page = this.paginator.pageIndex;
+    dataListRequest.page = this.paginator.pageIndex + 1;
+    dataListRequest.orderby = this.sort.active;
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.filter.conftypecode = 'Medicine';
@@ -125,7 +123,6 @@ export class ViewMedicineScheduleComponent implements OnInit, OnDestroy {
     // return this.patientService.getScheduleData(dataListRequest);
   }
 
- 
   sortByChanged() {
     this.sort.sortChange.next(this.sort);
   }
