@@ -67,7 +67,7 @@
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
         <mat-form-field class="full-width">
-          <input matInput [matDatepicker]="picker" placeholder="Patient Admit Date" [(ngModel)]="dataModel.admittedon"
+          <input matInput [matDatepicker]="picker" placeholder="Admit Date" [(ngModel)]="dataModel.admittedon"
             formControlName="admittedDateControls">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -78,6 +78,14 @@
         <span class="viewlabel">Hospitalized On</span>
         <label class="viewtext"> {{dataModel.admittedon | date:'mediumDate'}}</label>
       </div>
+
+      <div *ngIf="dataModel.dischargedon">
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Discharged On</span>
+        <label class="viewtext"> {{dataModel.dischargedon | date:'mediumDate'}}</label>
+      </div>
+      </div>
+
       <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()">
       </app-editable-form-footer-toolbar>
     </mat-card-content>
