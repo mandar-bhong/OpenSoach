@@ -42,16 +42,23 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     this.showBackButton = false;
     this.getServicepointList();
     this.getDrInchargeList();
+
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['admissionid']) {
         this.dataModel.admissionid = Number(params['admissionid']);
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
+        // if (this.dataModel.status = PATIENT_STATE.DISCHARGED) {
+        //   this.setFormMode(FORM_MODE.VIEW)
+        // }
         this.getAdmissionUpdates();
-      } else {
+      }
+      else {
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
+
       }
+
       this.callbackUrl = params['callbackurl'];
     });
   }
@@ -103,27 +110,27 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
           this.dataModel.admissionid = payloadResponse.data.admissionid;
           this.patientService.setAdmissionId(payloadResponse.data.admissionid);
           this.appNotificationService.success();
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-          this.setFormMode(FORM_MODE.VIEW);
           this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
           this.patientService.personaldetailsid = payloadResponse.data.personaldetailsid;
           this.patientService.admissionid = payloadResponse.data.admissionid;
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.VIEW);
         }
         this.inProgress = false;
       });
     }
-      else{
-        const admissionUpdateRequest = new AdmissionUpdateRequest();
-        this.dataModel.admissionid = this.patientService.admissionid;
-        this.dataModel.copyToUpdate(admissionUpdateRequest);
-        this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
-          if (payloadResponse && payloadResponse.issuccess) {
-            this.appNotificationService.success();
-            this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-            this.setFormMode(FORM_MODE.VIEW);
-          }
-          this.inProgress = false;
-        });
+    else {
+      const admissionUpdateRequest = new AdmissionUpdateRequest();
+      this.dataModel.admissionid = this.patientService.admissionid;
+      this.dataModel.copyToUpdate(admissionUpdateRequest);
+      this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.appNotificationService.success();
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.VIEW);
+        }
+        this.inProgress = false;
+      });
     }
   }
 
@@ -133,6 +140,10 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
         if (payloadResponse.data) {
           this.dataModel.copyFromUpdateResponse(payloadResponse.data);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.VIEW);
+          if (this.dataModel.status === PATIENT_STATE.DISCHARGED) {
+            this.isEditable = false;
+          }
         }
       }
     });
@@ -159,4 +170,5 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       return user.fname + ' ' + user.lname;
     }
   }
+
 }

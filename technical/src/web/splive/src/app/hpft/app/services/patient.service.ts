@@ -167,7 +167,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
 
     //Update patient status on discharge
     updateAdmissionStatus(admissionStatusRequest: AdmissionStatusRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<null>> {
+        Observable<PayloadResponse<any>> {
         return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/update/status',
             admissionStatusRequest, implicitErrorHandling);
     }
@@ -288,11 +288,11 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
             dataListRequest, implicitErrorHandling);
     }
     // service function for getting schedule details.
-    getScheduleData(dataListRequest: DataListRequest<ScheduleFilter>, implicitErrorHandling = true):
-        Observable<PayloadResponse<DataListResponse<ScheduleDataResponse<string>[]>>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/patientconf',
-            dataListRequest, implicitErrorHandling);
-    }
+    // getScheduleData(dataListRequest: DataListRequest<ScheduleFilter>, implicitErrorHandling = true):
+    //     Observable<PayloadResponse<DataListResponse<ScheduleDataResponse<string>[]>>> {
+    //     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/patientconf',
+    //         dataListRequest, implicitErrorHandling);
+    // }
     // service function for getting schedule details.
     getScheduleDataById(dataListRequest: ScheduleFilter, implicitErrorHandling = true):
         Observable<PayloadResponse<ScheduleDataResponse<string>>> {
@@ -383,8 +383,7 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
             implicitErrorHandling);
     }
 
-    setPatientName(value)
-    {
+    setPatientName(value) {
         this.patientName.next(value);
     }
 
