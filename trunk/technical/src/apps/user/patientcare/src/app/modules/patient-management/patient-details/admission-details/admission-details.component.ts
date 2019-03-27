@@ -19,21 +19,18 @@ export class AdmissionDetailsComponent implements OnInit {
 
 	ngOnInit() {
 		this.getAdmissionDetailsByUUID();
-		// console.log('this.passdataservice.getAdmissionID()', this.passdataservice.getAdmissionID())
 	}
 	public getAdmissionDetailsByUUID() {
 			this.patientListService.getAdmissionDetailsByUUID(this.passdataservice.getPatientID()).then(
 			(val) => {
 				val.forEach(item => {
-					// console.log("admistion details", val);
-					
+			
 					this.admissionDetailsModel.patient_reg_no = item.patient_reg_no;
 					this.admissionDetailsModel.sp_uuid = item.sp_uuid;
 					this.admissionDetailsModel.bed_no = item.bed_no;
 					this.admissionDetailsModel.dr_incharge = item.dr_incharge;
 					this.admissionDetailsModel.admitted_on = item.admitted_on;
 
-					// console.log('admissionDetailsModel', this.admissionDetailsModel);
 				});
 			},
 			(error) => {

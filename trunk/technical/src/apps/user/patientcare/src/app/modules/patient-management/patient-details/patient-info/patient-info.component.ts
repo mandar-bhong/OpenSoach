@@ -26,16 +26,13 @@ export class PatientInfoComponent implements OnInit {
 		this.patientListService.getPatientDetailsByUUID(this.passdataservice.getPatientID()).then(
 			(val) => {
 				val.forEach(item => {
-					// console.log("Patient details", val);
-					
+			
 					this.patientDetailsModel.fname = item.fname;
 					this.patientDetailsModel.lname = item.lname;
 					this.patientDetailsModel.blood_grp = item.blood_grp;
 					this.patientDetailsModel.gender = item.gender;
 					this.patientDetailsModel.age = item.age;
 					this.patientDetailsModel.mob_no = item.mob_no;
-
-					// console.log('admissionDetailsModel', this.patientDetailsModel);
 				});
 			},
 			(error) => {

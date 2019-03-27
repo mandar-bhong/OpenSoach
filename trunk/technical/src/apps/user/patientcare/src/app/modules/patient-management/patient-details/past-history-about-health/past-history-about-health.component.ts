@@ -15,7 +15,6 @@ export class PastHistoryAboutHealthComponent implements OnInit {
 	constructor() { }
 	@Input() pasthistorylistitem: DataList[];
 	ngOnInit() { 
-		setTimeout(() => {
 
 			if (this.pasthistorylistitem.length > 0) {
 				this.getData = true;
@@ -24,7 +23,5 @@ export class PastHistoryAboutHealthComponent implements OnInit {
 				this.noData = true;
 				this.getData = false;
 			}
-
-		});
 	}
 }

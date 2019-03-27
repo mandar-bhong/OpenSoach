@@ -14,14 +14,14 @@ export class ReasonForAdmissionDetailsComponent implements OnInit {
 	constructor() { }
 	@Input() reasonlistItem: DataList[];
 	ngOnInit() {
-		setTimeout(() => {
-			if (this.reasonlistItem.length > 0) {
-				this.getData = true;
-				this.noData = false;
-			} else {
-				this.noData = true;
-				this.getData = false;
-			}
-		});
+
+		if (this.reasonlistItem.length > 0) {
+			this.getData = true;
+			this.noData = false;
+		} else {
+			this.noData = true;
+			this.getData = false;
+		}
+
 	}
 }

@@ -51,7 +51,7 @@
             </GridLayout>
 
             <GridLayout row="3" style=" justify-content: center;" style="margin-top:25">
-                <GridLayout class="cardeffect" shadowOffsetWidth=1>
+                <GridLayout class="cardeffect" shadowOffsetWidth=1 *ngIf="personal_history.data != null">
                     <personal-history [personallistitem]="personal_history.data"></personal-history>
                 </GridLayout>
             </GridLayout>
@@ -63,49 +63,49 @@
                 </GridLayout>
             </GridLayout>
 
-            <GridLayout row="4" style=" justify-content: center;">
+            <GridLayout row="4" style=" justify-content: center;" *ngIf="jsonpresentComplaintsList.data != null">
                 <CardView class="cardeffect" shadowOffsetWidth=1>
                     <medical-details [listItem]="jsonpresentComplaintsList.data"></medical-details>
                 </CardView>
             </GridLayout>
 
-            <GridLayout row="5" style=" justify-content: center;">
+            <GridLayout row="5" style=" justify-content: center;"  *ngIf="reason_for_admission.data != null">
                 <CardView class="cardeffect" shadowOffsetWidth=1>
                     <reason-for-admission-details [reasonlistItem]="reason_for_admission.data"></reason-for-admission-details>
                 </CardView>
             </GridLayout>
 
-            <GridLayout row="6" style=" justify-content: center;">
+            <GridLayout row="6" style=" justify-content: center;"  *ngIf="history_present_illness.data != null">
                 <CardView class="cardeffect" shadowOffsetWidth=1>
                     <history-of-present-Illness [historylistitem]="history_present_illness.data"></history-of-present-Illness>
                 </CardView>
             </GridLayout>
 
-            <GridLayout row="7" style=" justify-content: center;">
+            <GridLayout row="7" style=" justify-content: center;" *ngIf="past_history.data != null">
                 <CardView class="cardeffect" shadowOffsetWidth=1>
                     <past-history-about-health [pasthistorylistitem]="past_history.data"></past-history-about-health>
                 </CardView>
             </GridLayout>
 
-            <GridLayout row="8" style=" justify-content: center;">
+            <GridLayout row="8" style=" justify-content: center;" *ngIf="treatment_before_admission.data != null">
                 <CardView class="cardeffect"  shadowOffsetWidth=1>
                     <treatment-before-admission [treatmentlistitem]="treatment_before_admission.data"></treatment-before-admission>
                 </CardView>
             </GridLayout>
 
-            <GridLayout row="9" style="justify-content: center;">
+            <GridLayout row="9" style="justify-content: center;" *ngIf="investigation_before_admission.data != null">
                 <CardView class="cardeffect" shadowOffsetWidth=1>
                     <investigation-before-admission [investigationlistitem]="investigation_before_admission.data"></investigation-before-admission>
                 </CardView>
             </GridLayout>
 
-            <GridLayout row="10" style=" justify-content: center;">
+            <GridLayout row="10" style=" justify-content: center;" *ngIf="investigation_before_admission.data != null">
                 <CardView class="cardeffect" shadowOffsetWidth=1>
                     <family-history [familylistitem]="family_history.data"></family-history>
                 </CardView>
             </GridLayout>
 
-            <GridLayout row="11" style=" justify-content: center;">
+            <GridLayout row="11" style=" justify-content: center;" *ngIf="allergies.data != null">
                 <CardView class="cardeffect"  shadowOffsetWidth=1>
                     <allergies [allergieslistitem]="allergies.data"></allergies>
                 </CardView>
