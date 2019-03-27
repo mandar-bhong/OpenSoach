@@ -61,14 +61,14 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
   getData() {
     if (Object.keys(this.itemPersonList).length > 0) {
       this.weight = this.itemPersonList.data.weight.weight;
-      this.tendency = this.itemPersonList.data.weight.weighttendency;
-      this.alcoholcheck = this.itemPersonList.data.alcohol.aplicable;
-      this.alcoholquantity = this.itemPersonList.data.alcohol.alcoholquantity;
-      this.alcoholcomment = this.itemPersonList.data.alcohol.alcoholcomment;
-      this.smokCheck = this.itemPersonList.data.smoking.aplicable;
-      this.smokingquantity = this.itemPersonList.data.smoking.smokingquantity;
-      this.smokingcomment = this.itemPersonList.data.smoking.smokingcomment;
-      this.other = this.itemPersonList.data.other;
+      this.tendency = this.itemPersonList.data.weight.weight_tendency;
+      this.alcoholcheck = this.itemPersonList.data.alcohol.applicable;
+      this.alcoholquantity = this.itemPersonList.data.alcohol.quantity;
+      this.alcoholcomment = this.itemPersonList.data.alcohol.remarks;
+      this.smokCheck = this.itemPersonList.data.smoking.applicable;
+      this.smokingquantity = this.itemPersonList.data.smoking.quantity;
+      this.smokingcomment = this.itemPersonList.data.smoking.remarks;
+      this.other = this.itemPersonList.data.others;
       this.recordState = EDITABLE_RECORD_STATE.UPDATE;
       this.setFormMode(FORM_MODE.VIEW);
     }
@@ -94,19 +94,19 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
       personalHistoryData.data = new PersonalHistoryInfo();
       personalHistoryData.data.weight = new WeightData();
       personalHistoryData.data.weight.weight = this.weight;
-      personalHistoryData.data.weight.weighttendency = this.tendency;
+      personalHistoryData.data.weight.weight_tendency = this.tendency;
 
       personalHistoryData.data.alcohol = new AlcoholData();
-      personalHistoryData.data.alcohol.aplicable = this.alcoholcheck;
-      personalHistoryData.data.alcohol.alcoholquantity = this.alcoholquantity;
-      personalHistoryData.data.alcohol.alcoholcomment = this.alcoholcomment;
+      personalHistoryData.data.alcohol.applicable = this.alcoholcheck;
+      personalHistoryData.data.alcohol.quantity = this.alcoholquantity;
+      personalHistoryData.data.alcohol.remarks = this.alcoholcomment;
 
       personalHistoryData.data.smoking = new SmokData();
-      personalHistoryData.data.smoking.aplicable = this.smokCheck;
-      personalHistoryData.data.smoking.smokingquantity = this.smokingquantity;
-      personalHistoryData.data.smoking.smokingcomment = this.smokingcomment;
+      personalHistoryData.data.smoking.applicable = this.smokCheck;
+      personalHistoryData.data.smoking.quantity = this.smokingquantity;
+      personalHistoryData.data.smoking.remarks = this.smokingcomment;
 
-      personalHistoryData.data.other = this.other;
+      personalHistoryData.data.others = this.other;
 
       this.onItemAddPerson.emit(personalHistoryData);
       this.recordState = EDITABLE_RECORD_STATE.UPDATE;
