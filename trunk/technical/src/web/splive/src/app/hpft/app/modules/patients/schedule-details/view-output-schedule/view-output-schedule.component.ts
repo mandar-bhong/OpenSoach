@@ -15,6 +15,7 @@ import { ScheduleDataResponse } from 'app/models/api/schedule-response';
 import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { ComplaintsModule } from 'app/modules/complaints/complaints.module';
 import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
+import { ConfigCodeType } from 'app/app-constants';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
   scheduleResponse: ScheduleDataResponse<any>[] = [];
   dataListRequest: DataListRequest<TransactionDetailsFilter>;
   isViewSchedule = false;
+  ConfigCodeType = ConfigCodeType;
   constructor(
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
@@ -121,7 +123,7 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
     // dataListRequest.filter = this.scheduleFilter;
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
-    dataListRequest.filter.conftypecode = 'Output';
+    dataListRequest.filter.conftypecode = ConfigCodeType.OUTPUT;
     return this.scheduleService.getDataList(dataListRequest);
   }
 

@@ -15,6 +15,7 @@ import { ScheduleDataResponse } from 'app/models/api/schedule-response';
 import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { ComplaintsModule } from 'app/modules/complaints/complaints.module';
 import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
+import { ConfigCodeType } from 'app/app-constants';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class ViewMonitorScheduleComponent implements OnInit, OnDestroy {
   isViewSchedule = false;
   dataListFilterChangedSubscription: Subscription;
   scheduleFilter: ScheduleFilter;
+  ConfigCodeType = ConfigCodeType;
   constructor(
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
@@ -119,7 +121,7 @@ export class ViewMonitorScheduleComponent implements OnInit, OnDestroy {
     dataListRequest.orderby = this.sort.active;
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
-    dataListRequest.filter.conftypecode = 'Monitor';
+    dataListRequest.filter.conftypecode = ConfigCodeType.MONITOR;
     return this.scheduleService.getDataList(dataListRequest);
     // return this.patientService.getScheduleData(dataListRequest);
   }
