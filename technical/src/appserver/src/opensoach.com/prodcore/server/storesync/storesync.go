@@ -87,13 +87,19 @@ func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (e
 		if count > 0 {
 			dbErr, _ := dbaccess.UpdateTableData(dbConn, syncConfigData.UpdateQry, each)
 			if dbErr != nil {
-				logger.Context().WithField("Update table data", each).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to update table data ", dbErr)
+				logger.Context().
+					WithField("Update table data", each).
+					WithField("Update query", syncConfigData.UpdateQry).
+					LogError(SUB_MODULE_NAME, logger.Normal, "Failed to update table data ", dbErr)
 				return dbErr, nil
 			}
 		} else {
 			dbErr := dbaccess.InsertTableData(dbConn, syncConfigData.InsertQry, each)
 			if dbErr != nil {
-				logger.Context().WithField("Insert table data", each).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to insert table data ", dbErr)
+				logger.Context().
+					WithField("Insert table data", each).
+					WithField("Update query", syncConfigData.InsertQry).
+					LogError(SUB_MODULE_NAME, logger.Normal, "Failed to insert table data ", dbErr)
 				return dbErr, nil
 			}
 		}
