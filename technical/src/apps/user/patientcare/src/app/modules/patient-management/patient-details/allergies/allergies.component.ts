@@ -11,19 +11,19 @@ import { DataList } from '~/app/models/ui/patient-details';
 export class AllergiesComponent implements OnInit {
 
 	getData = false;
-	noData =  false;
+	noData = false;
 	constructor() { }
 	@Input() allergieslistitem: DataList[];
-	
+
 	ngOnInit() {
-		setTimeout(()=>{
-			if(this.allergieslistitem.length > 0){
-				this.getData = true;
-				this.noData = false;
-			}else{
-				this.noData = true;
-				this.getData = false;
-			}
-		});
-	 }
+
+		if (this.allergieslistitem.length > 0) {
+			this.getData = true;
+			this.noData = false;
+		} else {
+			this.noData = true;
+			this.getData = false;
+		}
+
+	}
 }

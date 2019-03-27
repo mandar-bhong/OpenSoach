@@ -28,20 +28,20 @@ export class PersonalHistoryModel {
 	other: string;
 }
 export class SmokData {
-	aplicable: boolean;
-	smokingquantity: string;
-	smokingcomment: string;
+	applicable: boolean;
+	quantity: string;
+	remarks: string;
 }
 
 export class AlcoholData {
-	aplicable: boolean;
-	alcoholquantity: string;
-	alcoholcomment: string;
+	applicable: boolean;
+	quantity: string;
+	remarks: string;
 }
 
 export class WeightData {
 	weight: string;
-	weighttendency: string;
+	weight_tendency: string;
 }
 
 export class PatientDetailsModel {

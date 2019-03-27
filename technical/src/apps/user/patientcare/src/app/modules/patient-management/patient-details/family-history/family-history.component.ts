@@ -16,7 +16,7 @@ export class FamilyHistoryComponent implements OnInit {
 	@Input() familylistitem: DataList[];
 
 	ngOnInit() {
-		setTimeout(() => {
+
 			if (this.familylistitem.length > 0) {
 				this.getData = true;
 				this.noData = false;
@@ -24,6 +24,5 @@ export class FamilyHistoryComponent implements OnInit {
 				this.noData = true;
 				this.getData = false;
 			}
-		});
 	}
 }

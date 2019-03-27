@@ -16,14 +16,14 @@ export class InvestigationBeforeAdmissionComponent implements OnInit {
 	@Input() investigationlistitem: DataList[];
 
 	ngOnInit() {
-		setTimeout(() => {
-			if (this.investigationlistitem.length > 0) {
-				this.getData = true;
-				this.noData = false;
-			} else {
-				this.noData = true;
-				this.getData = false;
-			}
-		});
+
+		if (this.investigationlistitem.length > 0) {
+			this.getData = true;
+			this.noData = false;
+		} else {
+			this.noData = true;
+			this.getData = false;
+		}
+
 	}
 }

@@ -14,16 +14,16 @@ export class TreatmentBeforeAdmissionComponent implements OnInit {
 	noData = false;
 	constructor() { }
 	@Input() treatmentlistitem: DataList[];
-	
-	ngOnInit() { 
-		setTimeout(() => {
-			if (this.treatmentlistitem.length > 0) {
-				this.getData = true;
-				this.noData = false;
-			} else {
-				this.noData = true;
-				this.getData = false;
-			}
-		});
+
+	ngOnInit() {
+
+		if (this.treatmentlistitem.length > 0) {
+			this.getData = true;
+			this.noData = false;
+		} else {
+			this.noData = true;
+			this.getData = false;
+		}
+
 	}
 }

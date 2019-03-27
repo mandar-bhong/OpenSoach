@@ -11,24 +11,20 @@ import { DataList } from '~/app/models/ui/patient-details';
 export class MedicalDetailsComponent implements OnInit {
 
 	getData = false;
-	noData =  false;
+	noData = false;
 	constructor() { }
 
 	@Input() listItem: DataList[];
 	ngOnInit() {
-		setTimeout(()=>{
-			if(this.listItem.length > 0){
-				console.log(' if');
-				this.getData = true;
-				this.noData = false;
-			}else{
-				console.log(' else');
-				this.noData = true;
-				this.getData = false;
-			}
-	
-		});
 
+		if (this.listItem.length > 0) {
+
+			this.getData = true;
+			this.noData = false;
+		} else {
+			this.noData = true;
+			this.getData = false;
+		}
 	}
-	
+
 }
