@@ -157,14 +157,7 @@ export class CommandResponseProcessor {
         for (var i = 0; i < tblData.length; i++) {
             const servicePointDatastoreModel = new ServicePointDatastoreModel();
             const item = <ServicePointDatastoreModel>tblData[i];
-            servicePointDatastoreModel.uuid = item.uuid;
-            servicePointDatastoreModel.sp_name = item.sp_name;
-            servicePointDatastoreModel.short_desc = item.short_desc;
-            servicePointDatastoreModel.sp_state = item.sp_state;
-            servicePointDatastoreModel.sp_state_since = item.sp_state_since;
-            servicePointDatastoreModel.updated_by = item.updated_by;
-            servicePointDatastoreModel.updated_on = item.updated_on;
-            servicePointDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(servicePointDatastoreModel, item);
             servicePointDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("sp store data:", servicePointDatastoreModel);
@@ -189,12 +182,7 @@ export class CommandResponseProcessor {
         for (var i = 0; i < tblData.length; i++) {
             const confDatastoreModel = new ConfDatastoreModel();
             const item = <ConfDatastoreModel>tblData[i];
-            confDatastoreModel.uuid = item.uuid;
-            confDatastoreModel.conf_type_code = item.conf_type_code;
-            confDatastoreModel.conf = item.conf;
-            confDatastoreModel.updated_by = item.updated_by;
-            confDatastoreModel.updated_on = item.updated_on;
-            confDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(confDatastoreModel, item);
             confDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("conf store data:", confDatastoreModel);
@@ -219,17 +207,7 @@ export class CommandResponseProcessor {
             const patientMasterDatastoreModel = new PatientMasterDatastoreModel();
             const item = <PatientMasterDatastoreModel>tblData[i];
 
-            patientMasterDatastoreModel.uuid = item.uuid;
-            patientMasterDatastoreModel.patient_reg_no = item.patient_reg_no;
-            patientMasterDatastoreModel.fname = item.fname;
-            patientMasterDatastoreModel.lname = item.lname;
-            patientMasterDatastoreModel.mob_no = item.mob_no;
-            patientMasterDatastoreModel.age = item.age;
-            patientMasterDatastoreModel.blood_grp = item.blood_grp;
-            patientMasterDatastoreModel.gender = item.gender;
-            patientMasterDatastoreModel.updated_by = item.updated_by;
-            patientMasterDatastoreModel.updated_on = item.updated_on;
-            patientMasterDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(patientMasterDatastoreModel, item);
             patientMasterDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("patient master store data:", patientMasterDatastoreModel);
@@ -255,16 +233,7 @@ export class CommandResponseProcessor {
             const scheduleDatastoreModel = new ScheduleDatastoreModel();
             const item = <ScheduleDatastoreModel>tblData[i];
 
-            scheduleDatastoreModel.uuid = item.uuid;
-            scheduleDatastoreModel.admission_uuid = item.admission_uuid;
-            scheduleDatastoreModel.conf_type_code = item.conf_type_code;
-            scheduleDatastoreModel.conf = item.conf;
-            scheduleDatastoreModel.start_date = item.start_date;
-            scheduleDatastoreModel.end_date = item.end_date;
-            scheduleDatastoreModel.status = item.status;
-            scheduleDatastoreModel.updated_by = item.updated_by;
-            scheduleDatastoreModel.updated_on = item.updated_on;
-            scheduleDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(scheduleDatastoreModel, item);
             scheduleDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("schedule store data:", scheduleDatastoreModel);
@@ -290,18 +259,7 @@ export class CommandResponseProcessor {
             const patientAdmissionDatastoreModel = new PatientAdmissionDatastoreModel();
             const item = <PatientAdmissionDatastoreModel>tblData[i];
 
-            patientAdmissionDatastoreModel.uuid = item.uuid;
-            patientAdmissionDatastoreModel.patient_uuid = item.patient_uuid;
-            patientAdmissionDatastoreModel.patient_reg_no = item.patient_reg_no;
-            patientAdmissionDatastoreModel.bed_no = item.bed_no;
-            patientAdmissionDatastoreModel.status = item.status;
-            patientAdmissionDatastoreModel.sp_uuid = item.sp_uuid;
-            patientAdmissionDatastoreModel.dr_incharge = item.dr_incharge;
-            patientAdmissionDatastoreModel.admitted_on = item.admitted_on;
-            patientAdmissionDatastoreModel.discharged_on = item.discharged_on;
-            patientAdmissionDatastoreModel.updated_by = item.updated_by;
-            patientAdmissionDatastoreModel.updated_on = item.updated_on;
-            patientAdmissionDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(patientAdmissionDatastoreModel, item);
             patientAdmissionDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("patient admsn store data:", patientAdmissionDatastoreModel);
@@ -327,15 +285,7 @@ export class CommandResponseProcessor {
             const patientPersonalDetailsDatastoreModel = new PatientPersonalDetailsDatastoreModel();
             const item = <PatientPersonalDetailsDatastoreModel>tblData[i];
 
-            patientPersonalDetailsDatastoreModel.uuid = item.uuid;
-            patientPersonalDetailsDatastoreModel.patient_uuid = item.patient_uuid;
-            patientPersonalDetailsDatastoreModel.admission_uuid = item.admission_uuid;
-            patientPersonalDetailsDatastoreModel.age = item.age;
-            patientPersonalDetailsDatastoreModel.other_details = item.other_details;
-            patientPersonalDetailsDatastoreModel.person_accompanying = item.person_accompanying;
-            patientPersonalDetailsDatastoreModel.updated_by = item.updated_by;
-            patientPersonalDetailsDatastoreModel.updated_on = item.updated_on;
-            patientPersonalDetailsDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(patientPersonalDetailsDatastoreModel, item);
             patientPersonalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("personal details store data:", patientPersonalDetailsDatastoreModel);
@@ -361,21 +311,7 @@ export class CommandResponseProcessor {
             const patientMedicalDetailsDatastoreModel = new PatientMedicalDetailsDatastoreModel();
             const item = <PatientMedicalDetailsDatastoreModel>tblData[i];
 
-            patientMedicalDetailsDatastoreModel.uuid = item.uuid;
-            patientMedicalDetailsDatastoreModel.patient_uuid = item.patient_uuid;
-            patientMedicalDetailsDatastoreModel.admission_uuid = item.admission_uuid;
-            patientMedicalDetailsDatastoreModel.present_complaints = item.present_complaints;
-            patientMedicalDetailsDatastoreModel.reason_for_admission = item.reason_for_admission;
-            patientMedicalDetailsDatastoreModel.history_present_illness = item.history_present_illness;
-            patientMedicalDetailsDatastoreModel.past_history = item.past_history;
-            patientMedicalDetailsDatastoreModel.treatment_before_admission = item.treatment_before_admission;
-            patientMedicalDetailsDatastoreModel.investigation_before_admission = item.investigation_before_admission;
-            patientMedicalDetailsDatastoreModel.family_history = item.family_history;
-            patientMedicalDetailsDatastoreModel.allergies = item.allergies;
-            patientMedicalDetailsDatastoreModel.personal_history = item.personal_history;
-            patientMedicalDetailsDatastoreModel.updated_by = item.updated_by;
-            patientMedicalDetailsDatastoreModel.updated_on = item.updated_on;
-            patientMedicalDetailsDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(patientMedicalDetailsDatastoreModel, item);
             patientMedicalDetailsDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("medical details store data:", patientMedicalDetailsDatastoreModel);
@@ -401,16 +337,7 @@ export class CommandResponseProcessor {
             const actionTxnDatastoreModel = new ActionTxnDatastoreModel();
             const item = <ActionTxnDatastoreModel>tblData[i];
 
-            actionTxnDatastoreModel.uuid = item.uuid;
-            actionTxnDatastoreModel.schedule_uuid = item.schedule_uuid;
-            actionTxnDatastoreModel.txn_data = item.txn_data;
-            actionTxnDatastoreModel.scheduled_time = item.scheduled_time;
-            actionTxnDatastoreModel.txn_state = item.txn_state;
-            actionTxnDatastoreModel.conf_type_code = item.conf_type_code;
-            actionTxnDatastoreModel.runtime_config_data = item.runtime_config_data;
-            actionTxnDatastoreModel.updated_by = item.updated_by;
-            actionTxnDatastoreModel.updated_on = item.updated_on;
-            actionTxnDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(actionTxnDatastoreModel, item);
             actionTxnDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("action txn store data:", actionTxnDatastoreModel);
@@ -436,22 +363,7 @@ export class CommandResponseProcessor {
             const doctorsOrdersDatastoreModel = new DoctorsOrdersDatastoreModel();
             const item = <DoctorsOrdersDatastoreModel>tblData[i];
 
-            doctorsOrdersDatastoreModel.uuid = item.uuid;
-            doctorsOrdersDatastoreModel.admission_uuid = item.admission_uuid;
-            doctorsOrdersDatastoreModel.doctor_id = item.doctor_id;
-            doctorsOrdersDatastoreModel.doctors_orders = item.doctors_orders;
-            doctorsOrdersDatastoreModel.comment = item.comment;
-            doctorsOrdersDatastoreModel.ack_by = item.ack_by;
-            doctorsOrdersDatastoreModel.ack_time = item.ack_time;
-            doctorsOrdersDatastoreModel.status = item.status;
-            doctorsOrdersDatastoreModel.order_created_time = item.order_created_time;
-            doctorsOrdersDatastoreModel.order_type = item.order_type;
-            doctorsOrdersDatastoreModel.document_uuid = item.document_uuid;
-            doctorsOrdersDatastoreModel.document_name = item.document_name;
-            doctorsOrdersDatastoreModel.doctype = item.doctype;
-            doctorsOrdersDatastoreModel.updated_by = item.updated_by;
-            doctorsOrdersDatastoreModel.updated_on = item.updated_on;
-            doctorsOrdersDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(doctorsOrdersDatastoreModel, item);
             doctorsOrdersDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             // console.log("action txn store data:", doctorsOrdersDatastoreModel);
@@ -475,15 +387,7 @@ export class CommandResponseProcessor {
             const treatmentDatastoreModel = new TreatmentDatastoreModel();
             const item = <TreatmentDatastoreModel>tblData[i];
 
-            treatmentDatastoreModel.uuid = item.uuid;
-            treatmentDatastoreModel.admission_uuid = item.admission_uuid;
-            treatmentDatastoreModel.treatment_done = item.treatment_done;
-            treatmentDatastoreModel.treatment_performed_time = item.treatment_performed_time;
-            treatmentDatastoreModel.details = item.details;
-            treatmentDatastoreModel.post_observation = item.post_observation;
-            treatmentDatastoreModel.updated_by = item.updated_by;
-            treatmentDatastoreModel.updated_on = item.updated_on;
-            treatmentDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(treatmentDatastoreModel, item);
             treatmentDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
@@ -505,9 +409,7 @@ export class CommandResponseProcessor {
             const treatmentDocDatastoreModel = new TreatmentDocDatastoreModel();
             const item = <TreatmentDocDatastoreModel>tblData[i];
 
-            treatmentDocDatastoreModel.uuid = item.uuid;
-            treatmentDocDatastoreModel.treatment_uuid = item.treatment_uuid;
-            treatmentDocDatastoreModel.document_uuid = item.document_uuid;
+            Object.assign(treatmentDocDatastoreModel, item);
             treatmentDocDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
@@ -529,15 +431,7 @@ export class CommandResponseProcessor {
             const pathologyRecordDatastoreModel = new PathologyRecordDatastoreModel();
             const item = <PathologyRecordDatastoreModel>tblData[i];
 
-            pathologyRecordDatastoreModel.uuid = item.uuid;
-            pathologyRecordDatastoreModel.admission_uuid = item.admission_uuid;
-            pathologyRecordDatastoreModel.test_performed = item.test_performed;
-            pathologyRecordDatastoreModel.test_performed_time = item.test_performed_time;
-            pathologyRecordDatastoreModel.test_result = item.test_result;
-            pathologyRecordDatastoreModel.comments = item.comments;
-            pathologyRecordDatastoreModel.updated_by = item.updated_by;
-            pathologyRecordDatastoreModel.updated_on = item.updated_on;
-            pathologyRecordDatastoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(pathologyRecordDatastoreModel, item);
             pathologyRecordDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
@@ -559,9 +453,7 @@ export class CommandResponseProcessor {
             const pathologyRecordDocDatastoreModel = new PathologyRecordDocDatastoreModel();
             const item = <PathologyRecordDocDatastoreModel>tblData[i];
 
-            pathologyRecordDocDatastoreModel.uuid = item.uuid;
-            pathologyRecordDocDatastoreModel.pathology_record_uuid = item.pathology_record_uuid;
-            pathologyRecordDocDatastoreModel.document_uuid = item.document_uuid;
+            Object.assign(pathologyRecordDocDatastoreModel, item);
             pathologyRecordDocDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
@@ -583,15 +475,7 @@ export class CommandResponseProcessor {
             const actionDataStoreModel = new ActionDataStoreModel();
             const item = <ActionDataStoreModel>tblData[i];
 
-            actionDataStoreModel.uuid = item.uuid;
-            actionDataStoreModel.admission_uuid = item.admission_uuid;
-            actionDataStoreModel.conf_type_code = item.conf_type_code;
-            actionDataStoreModel.schedule_uuid = item.schedule_uuid;
-            actionDataStoreModel.scheduled_time = item.scheduled_time
-            actionDataStoreModel.is_deleted = item.is_deleted;
-            actionDataStoreModel.updated_by = item.updated_by;
-            actionDataStoreModel.updated_on = item.updated_on;
-            actionDataStoreModel.client_updated_at = item.client_updated_at;
+            Object.assign(actionDataStoreModel, item);
             actionDataStoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
@@ -613,13 +497,7 @@ export class CommandResponseProcessor {
             const userDatastoreModel = new UserDatastoreModel();
             const item = <UserDatastoreModel>tblData[i];
 
-            userDatastoreModel.usr_id = item.usr_id
-            userDatastoreModel.usr_name = item.usr_name
-            userDatastoreModel.usr_id = item.usr_id
-            userDatastoreModel.urole_name = item.urole_name
-            userDatastoreModel.fname = item.fname
-            userDatastoreModel.lname = item.lname
-            userDatastoreModel.updated_on = item.updated_on;
+            Object.assign(userDatastoreModel, item);
             userDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
 
             const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
