@@ -28,10 +28,7 @@ export class ChartService {
     }
     public getScheduleList(key: string, admission_uuid: string): any {
         return new Promise((resolve, reject) => {
-            const paramList = new Array<any>();
-            const dt = new Date().toISOString();
-            console.log('dt', dt);
-            paramList.push(dt);
+            const paramList = new Array<any>();        
             paramList.push(admission_uuid);
             console.log('param list', paramList);
             this.database.selectByID(key, paramList).then(

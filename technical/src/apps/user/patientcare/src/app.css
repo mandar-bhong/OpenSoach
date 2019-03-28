@@ -230,7 +230,12 @@ Label {
     /* font-size: 14; */
     /* Regular Open Sans */
 }
-
+Span {
+    font-family: 'Open Sans';
+    font-weight: 300;
+    /* font-size: 14; */
+    /* Regular Open Sans */
+}
 Label.mod-light {
     font-family: 100;
     /* Light Open Sans */

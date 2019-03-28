@@ -23,6 +23,7 @@ import { MedicineChartComponent } from './medicine-chart/medicine-chart.componen
 import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
 import { TraceCustomCategory } from '~/app/helpers/trace-helper';
 import * as trace from 'trace';
+import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -33,6 +34,8 @@ import * as trace from 'trace';
 export class ChartsComponent implements OnInit, IDeviceAuthResult {
 
 	chartListItems: ObservableArray<ChartListViewModel>;
+	chartListItemsAll: ObservableArray<ChartListViewModel>;
+	chartListItemsActive: ObservableArray<ChartListViewModel>;
 	ServerDataStoreDataModelArray: ServerDataStoreDataModel<ScheduleDatastoreModel>[] = [];
 	//chartListItemsSource = new ObservableArray<ChartListViewModel>();
 	// >> seleced bottom button change color
@@ -60,8 +63,8 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	freuencyZero = freuencyzero;
 	freuencyOne = freuencyone;
 
-	buttonClicked: boolean = true;
-	buttonCompleted: boolean = false;
+	activeSchedule: boolean = true;
+	allSchedule: boolean = false;
 	constructor(private chartService: ChartService,
 		public workerservice: WorkerService,
 		public passdataservice: PassDataService,
@@ -77,7 +80,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
-		this.getChartData('getScheduleListActive');
+		this.getChartData('getScheduleListAll');
 		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
 			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);
 			console.log('<======================notified to schedule list page===> ', value);
@@ -182,7 +185,8 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	}
 
 	public getChartData(key: string) {
-		this.chartListItems = new ObservableArray<ChartListViewModel>();
+		this.chartListItemsAll = new ObservableArray<ChartListViewModel>();
+		this.chartListItemsActive = new ObservableArray<ChartListViewModel>();
 		this.chartService.getScheduleList(key, this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				val.forEach(item => {
@@ -190,14 +194,29 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 					chartListItem.dbmodel = item;
 					chartListItem.conf = new ConfigData();
 					Object.assign(chartListItem.conf, JSON.parse(chartListItem.dbmodel.conf));
-					this.chartListItems.push(chartListItem);
+					this.chartListItemsAll.push(chartListItem);
 				});
-				this.getGroupIndex();
+				const activeItem = this.chartListItemsAll.filter(data => data.dbmodel.status == 0 && new Date(data.dbmodel.end_date) >= new Date());
+				activeItem.forEach((item) => {
+					this.chartListItemsActive.push(item);
+				});
+				console.log('this.chartListItemsAll', this.chartListItemsAll);
+				this.sortActiveAndAllSchedule();
 			},
 			(error) => {
 				console.log("getChartData error:", error);
 			}
 		);
+	}
+	sortActiveAndAllSchedule() {
+		console.log('this.activeSchedule', this.activeSchedule);
+		console.log('this.allSchedule', this.allSchedule);
+		if (this.activeSchedule) {
+			this.chartListItems = this.chartListItemsActive;
+		} else if (this.allSchedule) {
+			this.chartListItems = this.chartListItemsAll;
+		}
+		this.getGroupIndex();
 	}
 	monitorForm() {
 		this.openModel(MonitorChartComponent);
@@ -221,66 +240,49 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			this.schedulecreationSubscription.unsubscribe();
 		}
 	}// end 
+	pushAddedSchedule(scheduleDatastoreModel: ScheduleDatastoreModel) {
+		let scheduleitem = this.chartListItemsAll.filter(data => data.dbmodel.uuid === scheduleDatastoreModel.uuid)[0];
+		// item found in array 
+		if (scheduleitem && scheduleitem != null) {
+			scheduleitem.dbmodel = scheduleDatastoreModel;
+			scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
+		}
+		else {
+			scheduleitem = new ChartListViewModel();
+			scheduleitem.dbmodel = scheduleDatastoreModel;
+			scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
+			this.chartListItemsAll.push(scheduleitem);		}
 
-	pushAddedSchedule(Schedule: ScheduleDatastoreModel) {
-		let scheduleDatastoreModel = new ScheduleDatastoreModel();
-		scheduleDatastoreModel = Schedule;
-		const chartListViewModel = new ChartListViewModel();
-		chartListViewModel.dbmodel = scheduleDatastoreModel;
-		chartListViewModel.conf=JSON.parse(scheduleDatastoreModel.conf);
 		if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_ACTIVE) {
-			const end_date = new Date(chartListViewModel.dbmodel.end_date);
+			const end_date = new Date(scheduleDatastoreModel.end_date);
 			const todaysdate = new Date();
-			// checking current mode of list view based on that decide wheater we have to add newly created scchedule in list or not.
-			if (this.iscompleted) {
-				if (todaysdate < end_date) {
-					return;
+			// check for end date, if end date is less
+			const activeScheduleItemInex = this.chartListItemsActive.indexOf(scheduleitem);
+			if (end_date >= todaysdate) {
+				// if not present in chartListItemsActive, add it				
+				if (activeScheduleItemInex < 0) {
+					this.chartListItemsActive.push(scheduleitem);
 				}
-			} else if (!this.iscompleted) {
-				if (todaysdate > end_date) {
-					return;
-				}
-			} // end
-			try {
-				const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === chartListViewModel.dbmodel.uuid)[0];
-				// ittem found in array 
-				if (scheduleitem && scheduleitem != null) {
-					const itemIndex = this.chartListItems.indexOf(scheduleitem);
-					this.chartListItems[itemIndex].dbmodel = chartListViewModel;
-					this.chartListItems[itemIndex].conf = JSON.stringify(chartListViewModel.dbmodel.conf)
-				} else {
-					this.chartListItems.push(chartListViewModel);
-				}
-			} catch (e) {
-				console.log(e.error);
 			}
-		} else if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_CANCELLED) {  // schedule is cancelled 
-			const scheduleitem = this.chartListItems.filter(data => data.dbmodel.uuid === scheduleDatastoreModel.uuid)[0];
+			else {
+				// if present in chartListItemsActive, remove it
+				if (activeScheduleItemInex >= 0) {
+					this.chartListItemsActive.splice(activeScheduleItemInex, 1);
+				}
+			}
+		} else if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_CANCELLED) {
 			if (scheduleitem) {
-				const itemIndex = this.chartListItems.indexOf(scheduleitem);
-				this.chartListItems.splice(itemIndex, 1);
+				// if scheduleitem exists in chartListItemsActive remove it
+				const itemIndex = this.chartListItemsActive.indexOf(scheduleitem);
+				if (itemIndex >= 0) {
+					this.chartListItemsActive.splice(itemIndex, 1);
+				}
 			}
 		}
-
+		this.sortActiveAndAllSchedule();
 	}
 
-	// to do
-	// remove this after action  heleper code testing
-	test() {
-		const initModel = new ServerDataProcessorMessageModel();
-		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
-		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
-		serverDataStoreModel.data = new ScheduleDatastoreModel();
-		serverDataStoreModel.data.uuid = 'cb86aeee-c21b-475e-ab68-1335f97c9b9b'
-		serverDataStoreModel.data.sync_pending = 1
-		serverDataStoreModel.data.admission_uuid = "11";
-		serverDataStoreModel.data.conf_type_code = ConfigCodeType.MEDICINE
-		serverDataStoreModel.data.conf = '{"mornFreqInfo":{"freqMorn":true},"aftrnFreqInfo":{"freqAftrn":true},"nightFreqInfo":{"freqNight":true},"desc":" Morning & Afternoon & Night before meal Test.","name":"Cipla ks","quantity":11,"startDate":"2019-01-23T08:30:00.438Z","duration":3,"frequency":1,"startTime":"20.30","intervalHrs":180,"foodInst":1,"endTime":"12.30","numberofTimes":3,"specificTimes":[11.3,12.3]}';
-		initModel.data = [serverDataStoreModel];
-		initModel.msgtype = SERVER_WORKER_MSG_TYPE.SEND_MESSAGE;
-		this.workerservice.ServerDataProcessorWorker.postMessage(initModel);
 
-	}
 	public listLoaded() {
 		// console.log('this.isSchedularDataReceived', this.isSchedularDataReceived);
 		// if (this.isSchedularDataReceived) {
@@ -290,32 +292,20 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	public activeList() {
 		this.completeorpending = "Active Schedules";
 		this.iscompleted = false;
-		this.buttonCompleted = false;
-		this.getChartData('getScheduleListActive');
+		this.allSchedule = false;
+		this.activeSchedule = true;
+		this.sortActiveAndAllSchedule();
 	}
 	public compilitedList() {
 		this.iscompleted = true;
-		this.buttonClicked = false;
+		this.activeSchedule = false;
+		this.allSchedule = true;
 		this.completeorpending = "Completed Schedules";
-		this.getChartData('getScheduleListComplated');
+		this.sortActiveAndAllSchedule();
 
 	}
 
-	// public onListSorting(args) {
-	// 	let firstSwitch = <Switch>args.object;
-	// 	if (firstSwitch.checked) {
-	// 		this.completeorpending = "Completed Schedules";
-	// 		this.iscompleted = true;
-	// 		this.getChartData('getScheduleListComplated');
-	// 	} else {
-	// 		this.completeorpending = "Active Schedules";
-	// 		this.iscompleted = false;
-	// 		this.getChartData('getScheduleListActive');
 
-	// 	}
-	// }
-	// on click of button set current service name in passdata service for ref invocatios
-	// like authResultReuested=this or name of your component.
 	savetoUserAuth() {
 		setTimeout(() => {
 			this.passdataservice.authResultReuested = this;
@@ -389,15 +379,11 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	}// end 
 	//code block for cancel schedule
 	cancelScheudle(scheduleItem: ChartListViewModel) {
-		// let chartListViewModel = new ChartListViewModel();
-		// chartListViewModel.serverdbmodal = scheduleItem.serverdbmodal;
-		// console.log('chartListViewModel', chartListViewModel);
-		// chartListViewModel.serverdbmodal.status = 1;
 		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
 		serverDataStoreModel.data = new ScheduleDatastoreModel();
 		Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);
-		console.log('schedule data',scheduleItem.dbmodel);
+		console.log('schedule data', scheduleItem.dbmodel);
 		serverDataStoreModel.data.status = 1;
 		serverDataStoreModel.data.sync_pending = 1
 		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
@@ -405,5 +391,27 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
 		this.savetoUserAuth();
 	}
+	timeConvert(minute: number) {
+		return TimeConversion.timeConvert(minute);
+	}
+	// code block for check status
+	checkStatus(status: number, enddate: string) {
+		if (status == 0) {
+			const enddt = new Date(enddate);
+			const currentdt = new Date();
+			if (enddt.getTime() > currentdt.getTime()) {
+				return 'Active';
+			} else {
+				return 'Completed';
+			}
+		} else {
+			return 'Cancelled';
+		}
+	}// end of code block
+	isNextElementAvailable(i: number, len: number): string {
+		if (i < len) {
+			return ',';
+		}
 
-} 
+	}
+} // end of class
