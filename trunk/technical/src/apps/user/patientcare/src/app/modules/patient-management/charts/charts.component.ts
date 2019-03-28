@@ -251,7 +251,8 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			scheduleitem = new ChartListViewModel();
 			scheduleitem.dbmodel = scheduleDatastoreModel;
 			scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
-			this.chartListItemsAll.push(scheduleitem);		}
+			this.chartListItemsAll.push(scheduleitem);
+		}
 
 		if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_ACTIVE) {
 			const end_date = new Date(scheduleDatastoreModel.end_date);
@@ -411,6 +412,15 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	isNextElementAvailable(i: number, len: number): string {
 		if (i < len) {
 			return ',';
+		}
+
+	}
+	checkEnddate(enddate: string) {	
+		const endDate = new Date(enddate);
+		if (endDate >= new Date()) {
+			return false;
+		} else {
+			return true;
 		}
 
 	}

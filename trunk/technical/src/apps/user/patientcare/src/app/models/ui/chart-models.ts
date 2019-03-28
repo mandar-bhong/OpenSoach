@@ -21,7 +21,7 @@ export class MonitorChartModel {
     frequency: number;
     duration: number;
     startDate: Date;
-    intervalHrs: number;
+    interval: number;
     startTime: string;
     endTime: string;
     specificTime: string;
@@ -40,7 +40,7 @@ export class MedChartModel {
     mornFreqInfo: MornFreqInfo;
     aftrnFreqInfo: AftrnFreqInfo;
     nightFreqInfo: NightFreqInfo
-    intervalHrs: number;
+    interval: number;
     startDate: string;
     duration: number;
     startTime: string;
@@ -58,7 +58,7 @@ export class IntakeChartModel {
     frequency: number;
     duration: number;
     startDate: Date;
-    intervalHrs: number;
+    interval: number;
     startTime: string;
     specificTime: string;
     specificTimes: Array<any>;
@@ -91,7 +91,7 @@ export class ConfigData {
     frequency: number;
     foodInst: number;
     duration: string;
-    intervalHrs: string;
+    interval: number;
     startTime: string;
     medicinetype: string;
     splinstruction: string;
@@ -128,7 +128,7 @@ export class
     mornFreqInfo: MornFreqInfo;
     aftrnFreqInfo: AftrnFreqInfo;
     nightFreqInfo: NightFreqInfo
-    intervalHrs: number;
+    interval: number;
     startDate: string;
     duration: number;
     startTime: string;

@@ -31,11 +31,11 @@
                 <StackLayout *ngIf="freqSelectedIndex===0 ">
                     <StackLayout class="input-field">
                         <Label col="0" row="0" text="Enter interval in hours"></Label>
-                        <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
+                        <TextField col="1" row="0" class="input" keyboardType="number" formControlName="interval"></TextField>
                     </StackLayout>
-                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalIsValid === true}"></StackLayout>
                     <StackLayout class="input-field">
-                        <StackLayout *ngIf="intervalHrsIsValid">
+                        <StackLayout *ngIf="intervalIsValid">
                             <Label text="*interval hours1.5 is required " style="color:red"></Label>
                         </StackLayout>
                     </StackLayout>

@@ -20,32 +20,13 @@
                     <GridLayout row="0" columns="70, *" rows="auto, auto " class="listItemStackLayout">
                         <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                             [text]="item.status">
-                            <StackLayout row="1" class="list-layout" *ngIf="!iscompleted">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label>
-                                <!-- <Label row="1" col="0" text="3:30 PM" class="label-small"></Label> -->
-                            </StackLayout>
-                            <StackLayout row="1" class="list-layout" *ngIf="iscompleted">
-                                <Label row="0" col="0" text="&#xf021;" style="color: green;" class="mdi list-text"></Label>
-                                <Label row="1" col="0" text="3:30 PM" style="color: green;" class="label-small"></Label>
-                            </StackLayout>
-
-                            <!-- todo clock color chnage condition code -->
-
-                            <!-- <StackLayout *ngIf="item.status === 1" row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                                <Label row="1" col="0" text="3:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout>
-                            <StackLayout *ngIf="item.status === 2" row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                                <Label row="1" col="0" text="2:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout>
-                            <StackLayout *ngIf="item.status === 3" row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                                <Label row="1" col="0" text="4:30 PM" class="label-small" [ngClass]="{grey: item.status === 1,red: item.status === 2,orenge: item.status === 3}"></Label>
-                            </StackLayout>
-                         </StackLayout> -->
-
-                            <!-- todo clock color chnage condition code -->
+                            <StackLayout row="1" class="list-layout">
+                            <StackLayout row="0" col="0" *ngIf="item.dbmodel.status==0">
+                                    <Label text="&#xf020;" class="mdi list-text" [ngClass]="checkEnddate(item.dbmodel.end_date) ? 'green':'normal'"></Label>
+                            </StackLayout>                               
+                                <Label row="0" col="0" text="&#xf15a;" class="mdi list-text cancelled" *ngIf="item.dbmodel.status==1"></Label> 
+                            </StackLayout>                          
+                          
                         </GridLayout>
                         <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout">
                             <Label row="0" col="0" class="body" [text]="item.conf.name" style="color: #396767;"></Label>
@@ -69,7 +50,10 @@
                         <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                             [text]="item.status">
                             <StackLayout row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label> 
+                                    <StackLayout row="0" col="0" *ngIf="item.dbmodel.status==0">
+                                            <Label text="&#xf020;" class="mdi list-text" [ngClass]="checkEnddate(item.dbmodel.end_date) ? 'green':'normal'"></Label>
+                                    </StackLayout>     
+                                <Label row="0" col="0" text="&#xf15a;" class="mdi list-text cancelled" *ngIf="item.dbmodel.status==1"></Label>                                 
                             </StackLayout>
                         </GridLayout>
                          <GridLayout row="0" col="1"  rows="auto, auto "  class="list-layout">
@@ -99,7 +83,7 @@
                                            <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
                                            <Label row="0" col="1" class="label-small" textWrap="true"  text="{{item.conf.numberofTimes + ' times a day'}}"></Label>
                                            <Label row="1" col="1" class="label-small" textWrap="true" text="'Starts at' {{item.conf.startTime | date:'shortTime' }}"></Label>
-                                           <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.intervalHrs)}}"></Label> -->
+                                           <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.interval)}}"></Label> -->
                                 </GridLayout>                          
                         </GridLayout>
                         <!-- intake config details view  -->
@@ -110,7 +94,7 @@
                                 <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true"  text="{{item.conf.numberofTimes + ' times a day'}}"></Label>
                                 <Label row="1" col="1" class="label-small" textWrap="true" text="'Starts at' {{item.conf.startTime | date:'shortTime' }}"></Label>
-                                <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.intervalHrs)}}"></Label> -->
+                                <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.interval)}}"></Label> -->
                           </GridLayout>               
                           <GridLayout row="0" col="0" columns="*,*" rows="auto"  *ngIf="item.conf.frequency===freuencyOne">
                             <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
@@ -132,7 +116,7 @@
                                 <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true"  text="{{item.conf.numberofTimes + ' times a day'}}"></Label>
                                 <Label row="1" col="1" class="label-small" textWrap="true" text="'Starts at' {{item.conf.startTime | date:'shortTime' }}"></Label>
-                                <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.intervalHrs)}}"></Label> -->
+                                <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.interval)}}"></Label> -->
                           </GridLayout>               
                           <GridLayout row="0" col="0" columns="*,*" rows="auto"  *ngIf="item.conf.frequency===freuencyOne">
                             <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>

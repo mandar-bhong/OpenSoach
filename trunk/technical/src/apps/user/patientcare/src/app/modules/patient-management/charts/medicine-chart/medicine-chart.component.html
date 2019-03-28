@@ -80,10 +80,10 @@
                 <!-- mark up for after x  time  -->
                 <StackLayout class="input-field" *ngIf="freqSelectedIndex==1">
                     <Label text="Enter interval in hours"></Label>
-                    <TextField class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
-                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                    <TextField class="input" keyboardType="number" formControlName="interval"></TextField>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalIsValid === true}"></StackLayout>
                     <StackLayout class="input-field">
-                        <StackLayout *ngIf="intervalHrsIsValid">
+                        <StackLayout *ngIf="intervalIsValid">
                             <Label text="*interval hours is required " style="color:red"></Label>
                         </StackLayout>
                     </StackLayout>
@@ -113,7 +113,7 @@
                 <StackLayout class="input-field" *ngIf="freqSelectedIndex==2">
                     <Label text="Enter Special Instructions"></Label>
                     <TextField class="input" formControlName="splinstructions"></TextField>
-                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalIsValid === true}"></StackLayout>
                     <StackLayout class="input-field">
                         <StackLayout *ngIf="isSplinstructions">
                             <Label text="*Special instructions is required " style="color:red"></Label>
@@ -121,7 +121,6 @@
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
-
             <StackLayout class="input-field">
                 <Label text="Start Date"></Label>
                 <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>

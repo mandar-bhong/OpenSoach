@@ -67,7 +67,7 @@ export class MonitorHelper extends ActionHelper {
     createActionAfterXTimeinterval(receivedDate, SchedularData, i) {
         let index = i;
         const receivedActionDate = new Date(receivedDate);
-        const TimeInterval = SchedularData.conf.intervalHrs;
+        const TimeInterval = SchedularData.conf.interval;
         let scheduleTimeOnStartDate = this.getStartTime(SchedularData.conf.startTime);
         let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
         console.log('scheduled time', scheduleTime);

@@ -43,10 +43,10 @@
                 <StackLayout *ngIf="freqSelectedIndex===0 ">
                     <StackLayout class="input-field">
                         <Label col="0" row="0" text="Enter interval in hours"></Label>
-                        <TextField col="1" row="0" class="input" keyboardType="number" formControlName="intervalHrs"></TextField>
+                        <TextField col="1" row="0" class="input" keyboardType="number" formControlName="interval"></TextField>
                     </StackLayout>
-                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
-                    <StackLayout *ngIf="intervalHrsIsValid">
+                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalIsValid === true}"></StackLayout>
+                    <StackLayout *ngIf="intervalIsValid">
                         <Label text="*interval hours is required " style="color:red"></Label>
                     </StackLayout>
                     <StackLayout class="input-field">
@@ -82,7 +82,7 @@
                 <StackLayout class="input-field" *ngIf="freqSelectedIndex==2">
                     <Label text="Enter Special Instructions"></Label>
                     <TextField class="input" formControlName="splinstruction"></TextField>
-                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalHrsIsValid === true}"></StackLayout>
+                    <StackLayout class="hr-light" [ngClass]="{invalid: intervalIsValid === true}"></StackLayout>
                     <StackLayout class="input-field">
                         <StackLayout *ngIf="isSplinstructions">
                             <Label text="*Special instructions is required " style="color:red"></Label>
