@@ -36,7 +36,7 @@ export class MedicineChartComponent implements OnInit {
     medicineForm: FormGroup;
 
     medNameIsValid: boolean;
-    intervalHrsIsValid: boolean;
+    intervalIsValid: boolean;
     durationIsValid: boolean;
 
     // formData: MedChartModel;
@@ -135,21 +135,21 @@ export class MedicineChartComponent implements OnInit {
     onFrequencySelectedIndexChange(args) {
         let segmetedBar = <ListPicker>args.object;
         this.freqSelectedIndex = segmetedBar.selectedIndex;
-        this.medicineForm.controls['intervalHrs'].clearValidators();
-        this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
+        this.medicineForm.controls['interval'].clearValidators();
+        this.medicineForm.controls['interval'].updateValueAndValidity();
         this.medicineForm.controls['numberofTimes'].clearValidators();
         this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
         this.medicineForm.controls['splinstructions'].clearValidators();
         this.medicineForm.controls['splinstructions'].updateValueAndValidity();
         this.medicineForm.controls['quantity'].clearValidators();
         this.medicineForm.controls['quantity'].updateValueAndValidity();
-        this.intervalHrsIsValid = false;
+        this.intervalIsValid = false;
         switch (this.freqSelectedIndex) {
             case 1:
                 this.medicineForm.controls['numberofTimes'].setValidators(Validators.required);
                 this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
-                this.medicineForm.controls['intervalHrs'].setValidators([Validators.required]);
-                this.medicineForm.controls['intervalHrs'].updateValueAndValidity();
+                this.medicineForm.controls['interval'].setValidators([Validators.required]);
+                this.medicineForm.controls['interval'].updateValueAndValidity();
                 this.medicineForm.controls['quantity'].setValidators([Validators.required]);
                 this.medicineForm.controls['quantity'].updateValueAndValidity();
                 break;
@@ -172,7 +172,7 @@ export class MedicineChartComponent implements OnInit {
     onSubmit() {
 
         this.medNameIsValid = this.medicineForm.controls['name'].hasError('required');
-        this.intervalHrsIsValid = this.medicineForm.controls['intervalHrs'].hasError('required');
+        this.intervalIsValid = this.medicineForm.controls['interval'].hasError('required');
         this.durationIsValid = this.medicineForm.controls['duration'].hasError('required');
         this.numberOfTimesValid = this.medicineForm.controls['numberofTimes'].hasError('required');
         this.startDateValid = this.medicineForm.controls['startDate'].hasError('required');
@@ -213,7 +213,7 @@ export class MedicineChartComponent implements OnInit {
         formData.nightFreqInfo.freqNight = this.freqNight;
         formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
         formData.nightFreqInfo.nightFreqQuantity = this.medicineForm.get('nightQuantity').value;
-        formData.intervalHrs = this.medicineForm.get('intervalHrs').value;
+        formData.interval = this.medicineForm.get('interval').value;
         formData.numberofTimes = this.medicineForm.get('numberofTimes').value;
         formData.startDate = this.medicineForm.get('startDate').value;
         formData.duration = this.medicineForm.get('duration').value;
@@ -353,13 +353,13 @@ export class MedicineChartComponent implements OnInit {
 
             this.chartConfModel.quantity = data.quantity;
             this.chartConfModel.numberofTimes = data.numberofTimes;
-            if (data.intervalHrs != null) {
-                this.chartConfModel.intervalHrs = data.intervalHrs * 60;
+            if (data.interval != null) {
+                this.chartConfModel.interval = data.interval * 60;
             }
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
 
             let description = '';
-            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.intervalHrs);
+            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
             description = ` ${data.numberofTimes} times a day after every ${hourMinutsData} for ${data.duration} days.`;
             this.chartConfModel.desc = description;
         } else if (data.frequency == 2) { //  for as required
@@ -393,7 +393,7 @@ export class MedicineChartComponent implements OnInit {
             quantity: new FormControl(),
             foodInst: new FormControl(),
             frequency: new FormControl(),
-            intervalHrs: new FormControl(),
+            interval: new FormControl(),
             numberofTimes: new FormControl(),
             startDate: new FormControl(),
             duration: new FormControl('', [Validators.required]),

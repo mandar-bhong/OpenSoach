@@ -66,7 +66,7 @@ export class IntakeHelper extends ActionHelper {
         console.log(' createActionAfterXTimeinterval function called');
         let index = i;
         const receivedActionDate = new Date(receivedDate);
-        const TimeInterval = SchedularData.conf.intervalHrs;
+        const TimeInterval = SchedularData.conf.interval;
         let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
         let scheduleTimeOnStartDate = this.getStartTime(SchedularData.conf.startTime);
         console.log('scheduled time', scheduleTime);
@@ -113,22 +113,7 @@ export class IntakeHelper extends ActionHelper {
             }
             scheduleTime = Number(scheduleTime) + Number(TimeInterval);
         }
-        // const receivedActionDate = new Date(receivedDate);
-        // const TimeInterval = IntakeSchedularData.conf.intervalHrs;
-        // // checking schedule start and its time periods
-        // let treatmentStartTime = Math.floor(IntakeSchedularData.conf.startTime * 60);
-        // let xIntervalStartTime = treatmentStartTime;
-        // if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-        //     // getting totoal minutes from start date
-        //     const totalminutes = this.getMinutes();
-        //     if (totalminutes > xIntervalStartTime) {
-        //         this.generateXTimesActions(totalminutes, receivedActionDate, TimeInterval, i)
-        //     } else {
-        //         this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
-        //     }
-        // } else {
-        //     this.generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i)
-        // }
+       
     } // end of code block.
     // code block for generate actions after x time intervalF
     generateXTimesActions(xIntervalStartTime, receivedActionDate, TimeInterval, i) {

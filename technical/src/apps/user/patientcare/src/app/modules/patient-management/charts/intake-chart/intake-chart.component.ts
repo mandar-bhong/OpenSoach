@@ -28,7 +28,7 @@ export class IntakeChartComponent implements OnInit {
     intakeForm: FormGroup;
     intakeNameIsValid: boolean;
     quantityIsValid: boolean;
-    intervalHrsIsValid: boolean;
+    intervalIsValid: boolean;
     durationIsValid: boolean;
     specifictimes: Array<string>;
     formData: IntakeChartModel;
@@ -99,26 +99,26 @@ export class IntakeChartComponent implements OnInit {
     onFrequencySelectedIndexChange(args) {
         let segmetedBar = <ListPicker>args.object;
         this.freqSelectedIndex = segmetedBar.selectedIndex;
-        this.intakeForm.controls['intervalHrs'].clearValidators();
-        this.intakeForm.controls['intervalHrs'].updateValueAndValidity();
+        this.intakeForm.controls['interval'].clearValidators();
+        this.intakeForm.controls['interval'].updateValueAndValidity();
         this.intakeForm.controls['numberofTimes'].clearValidators();
         this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
         this.intakeForm.controls['splinstruction'].clearValidators();
         this.intakeForm.controls['splinstruction'].updateValueAndValidity();
-        this.intervalHrsIsValid = false;
+        this.intervalIsValid = false;
         switch (this.freqSelectedIndex) {
             case 1:
-                this.intakeForm.controls['intervalHrs'].clearValidators();
-                this.intakeForm.controls['intervalHrs'].updateValueAndValidity();
+                this.intakeForm.controls['interval'].clearValidators();
+                this.intakeForm.controls['interval'].updateValueAndValidity();
                 this.intakeForm.controls['numberofTimes'].clearValidators();
                 this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
-                this.intervalHrsIsValid = false;
+                this.intervalIsValid = false;
                 break;
             case 0:
                 this.intakeForm.controls['numberofTimes'].setValidators([Validators.required]);
                 this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
-                this.intakeForm.controls['intervalHrs'].setValidators([Validators.required]);
-                this.intakeForm.controls['intervalHrs'].updateValueAndValidity();
+                this.intakeForm.controls['interval'].setValidators([Validators.required]);
+                this.intakeForm.controls['interval'].updateValueAndValidity();
                 break;
             case 2:
                 this.intakeForm.controls['splinstruction'].setValidators(Validators.required);
@@ -131,7 +131,7 @@ export class IntakeChartComponent implements OnInit {
     onSubmit() {
         this.intakeNameIsValid = this.intakeForm.controls['name'].hasError('required');
         this.quantityIsValid = this.intakeForm.controls['quantity'].hasError('required');
-        this.intervalHrsIsValid = this.intakeForm.controls['intervalHrs'].hasError('required');
+        this.intervalIsValid = this.intakeForm.controls['interval'].hasError('required');
         this.durationIsValid = this.intakeForm.controls['duration'].hasError('required');
         this.SrtartdateIsValid = this.intakeForm.controls['startDate'].hasError('required');
         this.isNumberOfTimes = this.intakeForm.controls['numberofTimes'].hasError('required');
@@ -162,11 +162,11 @@ export class IntakeChartComponent implements OnInit {
 
         //set chart conf model
         if (data.frequency == 0) {    //  for  after x time interval
-            this.chartConfModel.intervalHrs = data.intervalHrs * 60;
+            this.chartConfModel.interval = data.interval * 60;
             this.chartConfModel.numberofTimes = data.numberofTimes;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
             // generate description
-            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.intervalHrs);
+            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
             let description = ` ${data.numberofTimes} times a day after every ${hourMinutsData} for ${data.duration} days.`;
             this.chartConfModel.desc = description;
         } else if (data.frequency == 1) {  //  for  at specific time
@@ -216,7 +216,7 @@ export class IntakeChartComponent implements OnInit {
             frequency: new FormControl(),
             duration: new FormControl('', [Validators.required]),
             startDate: new FormControl(),
-            intervalHrs: new FormControl(),
+            interval: new FormControl(),
             numberofTimes: new FormControl(),
             startTime: new FormControl(),
             specificTime: new FormControl(),

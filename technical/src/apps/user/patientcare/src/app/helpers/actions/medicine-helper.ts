@@ -211,7 +211,7 @@ export class MedicineHelper extends ActionHelper {
     createActionAfterXTimeinterval(receivedDate, SchedularData, i) {
         let index = i;
         const receivedActionDate = new Date(receivedDate);
-        const TimeInterval = SchedularData.conf.intervalHrs;
+        const TimeInterval = SchedularData.conf.interval;
         let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
         let scheduleTimeOnStartDate = this.getStartTime(SchedularData.conf.startTime);
         const scheduleCreationTime = this.getMinutes();

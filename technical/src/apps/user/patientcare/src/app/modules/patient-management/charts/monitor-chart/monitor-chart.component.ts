@@ -28,7 +28,7 @@ export class MonitorChartComponent implements OnInit {
 
     // proccess variables
     monitorForm: FormGroup;
-    intervalHrsIsValid: boolean;
+    intervalIsValid: boolean;
     durationIsValid: boolean;
     monitorName: string;
     specifictimes: Array<string>;
@@ -123,16 +123,16 @@ export class MonitorChartComponent implements OnInit {
         let segmetedBar = <ListPicker>args.object;
         this.freqSelectedIndex = segmetedBar.selectedIndex;
         if (this.freqSelectedIndex == 0) {
-            this.monitorForm.controls['intervalHrs'].setValidators([Validators.required]);
-            this.monitorForm.controls['intervalHrs'].updateValueAndValidity();
+            this.monitorForm.controls['interval'].setValidators([Validators.required]);
+            this.monitorForm.controls['interval'].updateValueAndValidity();
             this.monitorForm.controls['numberofTimes'].setValidators([Validators.required]);
             this.monitorForm.controls['numberofTimes'].updateValueAndValidity();
         } else {
-            this.monitorForm.controls['intervalHrs'].clearValidators();
-            this.monitorForm.controls['intervalHrs'].updateValueAndValidity();
+            this.monitorForm.controls['interval'].clearValidators();
+            this.monitorForm.controls['interval'].updateValueAndValidity();
             this.monitorForm.controls['numberofTimes'].clearValidators();
             this.monitorForm.controls['numberofTimes'].updateValueAndValidity();
-            this.intervalHrsIsValid = false;
+            this.intervalIsValid = false;
         }
 
     }
@@ -140,7 +140,7 @@ export class MonitorChartComponent implements OnInit {
     // << func for submit form data
     onSubmit() {
 
-        this.intervalHrsIsValid = this.monitorForm.controls['intervalHrs'].hasError('required');
+        this.intervalIsValid = this.monitorForm.controls['interval'].hasError('required');
         this.durationIsValid = this.monitorForm.controls['duration'].hasError('required');
         this.isNumberOfTimes = this.monitorForm.controls['numberofTimes'].hasError('required');
         if (this.monitorForm.invalid) {
@@ -170,12 +170,12 @@ export class MonitorChartComponent implements OnInit {
 
         //set chart conf model
         if (data.frequency == 0) {
-            this.chartConfModel.intervalHrs = data.intervalHrs * 60;
+            this.chartConfModel.interval = data.interval * 60;
             this.chartConfModel.numberofTimes = data.numberofTimes;
             this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
             // this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "H.mm");
             // generate description
-            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.intervalHrs);
+            let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
             let description = ` ${data.numberofTimes} times a day after every ${hourMinutsData} for ${data.duration} days.`;
             this.chartConfModel.desc = description;
         } else if (data.frequency == 1) {
@@ -256,7 +256,7 @@ export class MonitorChartComponent implements OnInit {
             frequency: new FormControl(),
             duration: new FormControl('', [Validators.required]),
             startDate: new FormControl(),
-            intervalHrs: new FormControl('', [Validators.required]),
+            interval: new FormControl('', [Validators.required]),
             numberofTimes: new FormControl(),
             startTime: new FormControl(),
             // endTime: new FormControl(),
