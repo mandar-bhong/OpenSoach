@@ -248,6 +248,7 @@ type DBSplHpftPatientConfTableRowModel struct {
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
 	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
 	UpdatedBy       int64      `db:"updated_by" json:"updated_by"`
+	StartDate       *time.Time `db:"start_date json:"startdate""`
 }
 
 type DBSplHpftActionTxnTableRowModel struct {
