@@ -11,6 +11,7 @@ export class ChartDBModel {
     conf: any;
     uuid: string;
     admission_uuid: string;
+    start_date: string;
 
 }
 
@@ -40,7 +41,7 @@ export class MedChartModel {
     aftrnFreqInfo: AftrnFreqInfo;
     nightFreqInfo: NightFreqInfo
     intervalHrs: number;
-    startDate: Date;
+    startDate: string;
     duration: number;
     startTime: string;
     desc: string;
@@ -76,6 +77,7 @@ export class Schedulardata {
     conf_type_code: string;
     conf: SchedularConfigData;
     updated_by: number;
+    start_date: string;
 }
 
 export class ConfigData {

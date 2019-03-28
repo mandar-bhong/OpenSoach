@@ -4,12 +4,12 @@
         <GridLayout row="0" rows="auto" columns="*, auto" class="m-5" style="vertical-align: center;padding-top: 2;padding-bottom: 2">
             <Label class="pageHeaderTitle" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
             <StackLayout col="1" orientation="horizontal">
-                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="activeList()" (tap)="buttonClicked = true">
-                    <Label text="Active" [class.tab-clicked]="buttonClicked" class="tab-layout"></Label>
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="activeList()" (tap)="activeSchedule = true">
+                    <Label text="Active" [class.tab-clicked]="activeSchedule" class="tab-layout"></Label>
                 </RL:Ripple>
                 <Label text="|" class="tab-layout-separator"></Label>
-                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()" (tap)="buttonCompleted = true">
-                    <Label text="All" [class.tab-clicked]="buttonCompleted" class="tab-layout"></Label>
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()" (tap)="allSchedule = true">
+                    <Label text="All" [class.tab-clicked]="allSchedule" class="tab-layout"></Label>
                 </RL:Ripple>
             </StackLayout>
         </GridLayout>
@@ -69,133 +69,107 @@
                         <GridLayout row="0" col="0" columns="*" rows="auto, auto" style="vertical-align: center; text-align:center;color: #ebebeb;"
                             [text]="item.status">
                             <StackLayout row="1" class="list-layout">
-                                <Label row="0" col="0" text="&#xf021;" class="mdi list-text"></Label>
-                                <Label row="1" col="0" text="3:30 PM" class="label-small"></Label>
+                                <Label row="0" col="0" text="&#xf020;" class="mdi list-text"></Label> 
                             </StackLayout>
                         </GridLayout>
-                        <StackLayout row="0" col="1" class="list-layout">
+                         <GridLayout row="0" col="1"  rows="auto, auto "  class="list-layout">
                             <Label row="0" col="0" class="body" [text]="item.conf.name" style="color: #396767;"></Label>
-                        </StackLayout>
+                            <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.conf.desc"
+                                style="margin-left: 10px;"></Label>
+                        </GridLayout>
 
                         <!-- medicine config  details view -->
                         <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.MEDICINE">
-                            <!-- food frequency  -->
+                            <!-- medicine type  -->
                             <GridLayout row="0" col="0" columns="*,*" rows="auto">
-                                <Label row="0" col="0" class="body" text="Food Instruction" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.foodInst===freuencyZero"
-                                    text="Before Meal" style="margin-left: 10px;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.foodInst===freuencyOne"
-                                    text="After Meal" style="margin-left: 10px;"></Label>
-                            </GridLayout>
-                            <GridLayout row="1" col="0" columns="*,*" rows="auto">
-                                <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.frequency===0"
-                                    text="X Times A Day" style="margin-left: 10px;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.frequency===1"
-                                    text="Every X Hours" style="margin-left: 10px;"></Label>
-                            </GridLayout>
-                            <GridLayout row="2" col="0" columns="*" rows="auto">
-                                <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.conf.frequency===freuencyZero">
-                                    <Label row="0" col="0" class="body" text="Morning" style="color: #396767;"></Label>
-                                    <Label row="1" col="0" class="body" text="Afternoon" style="color: #396767;"></Label>
-                                    <Label row="2" col="0" class="body" text="Night" style="color: #396767;"></Label>
-
-
-                                    <Label row="0" col="1" class="body" [text]="item.conf.mornFreqInfo.mornFreqQuantity"
-                                        style="color: #396767;"></Label>
-                                    <Label row="1" col="1" class="body" [text]="item.conf.aftrnFreqInfo.aftrnFreqQuantity"
-                                        style="color: #396767;"></Label>
-                                    <Label row="2" col="1" class="body" [text]="item.conf.nightFreqInfo.nightFreqQuantity"
-                                        style="color: #396767;"></Label>
-                                </GridLayout>
-                                <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.conf.frequency===freuencyOne">
-                                    <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
-                                    <Label row="1" col="0" class="body" text="No Of Times" style="color: #396767;"></Label>
-                                    <Label row="2" col="0" class="body" text="Start Time" style="color: #396767;"></Label>
-
-                                    <Label row="0" col="1" class="body" [text]="item.conf.intervalHrs" style="color: #396767;"></Label>
-                                    <Label row="1" col="1" class="body" [text]="item.conf.numberofTimes" style="color: #396767;"></Label>
-                                    <Label row="2" col="1" class="body" [text]="item.conf.startTime" style="color: #396767;"></Label>
-
-                                </GridLayout>
-
-                            </GridLayout>
+                                <Label row="0" col="0" class="body" text="Medicine Type" style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true" [text]="item.conf.medicinetype"></Label>
+                               </GridLayout>       
+                                <!-- food frequency zero  -->                   
+                            <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto"  *ngIf="item.conf.frequency===freuencyZero">
+                                       <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
+                                       <GridLayout row="0" col="1" columns="*" rows="auto,auto,auto"> 
+                                           <Label row="0"  class="label-small" textWrap="true" *ngIf="item.conf.mornFreqInfo.freqMorn" text="{{'Morning' + ': ' + item.conf.mornFreqInfo.mornFreqQuantity}}"></Label>
+                                        <Label row="1" class="label-small" textWrap="true" *ngIf="item.conf.aftrnFreqInfo.freqAftrn" text="{{'Afternoon' + ': ' + item.conf.aftrnFreqInfo.aftrnFreqQuantity}}"></Label>
+                                        <Label row="2"  class="label-small" textWrap="true" *ngIf="item.conf.nightFreqInfo.freqNight" text="{{'Night' + ': ' + item.conf.nightFreqInfo.nightFreqQuantity}}"></Label> 
+                                        </GridLayout>
+                             </GridLayout>    
+                                <!-- food frequency one  -->                   
+                            <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto"  *ngIf="item.conf.frequency===freuencyOne">
+                                           <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
+                                           <Label row="0" col="1" class="label-small" textWrap="true"  text="{{item.conf.numberofTimes + ' times a day'}}"></Label>
+                                           <Label row="1" col="1" class="label-small" textWrap="true" text="'Starts at' {{item.conf.startTime | date:'shortTime' }}"></Label>
+                                           <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.intervalHrs)}}"></Label> -->
+                                </GridLayout>                          
                         </GridLayout>
                         <!-- intake config details view  -->
-                        <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.INTAKE">
+                        <GridLayout row="1" col="1" columns="*" rows="auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.INTAKE">
 
-                            <GridLayout row="0" col="0" columns="*,*" rows="auto,auto">
+                           
+                            <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto"  *ngIf="item.conf.frequency===freuencyZero">
                                 <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.frequency===freuencyZero"
-                                    text="Every X Hours" style="margin-left: 10px;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.frequency===freuencyOne"
-                                    text="Specific Time" style="margin-left: 10px;"></Label>
-                                <Label row="1" col="0" class="body" text="Quantity" style="color: #396767;"></Label>
-                                <Label row="1" col="1" class="label-small" textWrap="true" [text]="item.conf.quantity"
-                                    style="margin-left: 10px;"></Label>
-                            </GridLayout>
-                            <GridLayout row="2" col="0" columns="*" rows="auto">
-                                <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.conf.frequency===freuencyZero">
-                                    <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
-                                    <Label row="1" col="0" class="body" text="No Of Times" style="color: #396767;"></Label>
-                                    <Label row="2" col="0" class="body" text="Start Time" style="color: #396767;"></Label>
-
-                                    <Label row="0" col="1" class="body" [text]="item.conf.intervalHrs" style="color: #396767;"></Label>
-                                    <Label row="1" col="1" class="body" [text]="item.conf.numberofTimes" style="color: #396767;"></Label>
-                                    <Label row="2" col="1" class="body" [text]="item.conf.startTime" style="color: #396767;"></Label>
-
-                                </GridLayout>
-                                <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.conf.frequency===freuencyOne">
-                                    <Label row="0" col="0" class="body" text="Specific Times" style="color: #396767;"></Label>
-                                    <Label row="0" col="1" class="body" [text]="item.conf.specificTimes" style="color: #396767;"></Label>
-                                </GridLayout>
-                            </GridLayout>
+                                <Label row="0" col="1" class="label-small" textWrap="true"  text="{{item.conf.numberofTimes + ' times a day'}}"></Label>
+                                <Label row="1" col="1" class="label-small" textWrap="true" text="'Starts at' {{item.conf.startTime | date:'shortTime' }}"></Label>
+                                <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.intervalHrs)}}"></Label> -->
+                          </GridLayout>               
+                          <GridLayout row="0" col="0" columns="*,*" rows="auto"  *ngIf="item.conf.frequency===freuencyOne">
+                            <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
+                            <GridLayout row="0" col="1" columns="*" rows="auto,auto"> 
+                                <Label  textWrap="true" row="0"  class="label-small">
+                                    <FormattedString class="label-small" >
+                                        <Span class="label-small"   text="{{item.conf.specificTimes.length}} times a day at "></Span>
+                                        <Span class="label-small"   *ngFor="let items of item.conf.specificTimes;let i=index" text="{{items | date :'shortTime'}} {{ isNextElementAvailable(i, item.conf.specificTimes.length-1)}} ">
+                                           </Span>                                    
+                                    </FormattedString>                                
+                                  </Label>  
+                                  <Label row="1"  class="label-small" text="Quantity: {{item.conf.quantity}}" style="color: #396767;"></Label>
+                             </GridLayout>     
+                        </GridLayout> 
                         </GridLayout>
                         <!-- Monitor details view  -->
-                        <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.dbconf_type_code==configCodeType.MONITOR">
-
-                            <GridLayout row="0" col="0" columns="*,*" rows="auto">
+                        <GridLayout row="1" col="1" columns="*" rows="auto,auto,auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.MONITOR">
+                            <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto"  *ngIf="item.conf.frequency===freuencyZero">
                                 <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.frequency===freuencyZero"
-                                    text="Every X Hours" style="margin-left: 10px;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" *ngIf="item.conf.frequency===freuencyOne"
-                                    text="Specific Time" style="margin-left: 10px;"></Label>
-                            </GridLayout>
-                            <GridLayout row="2" col="0" columns="*" rows="auto">
-                                <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.conf.frequency===freuencyZero">
-                                    <Label row="0" col="0" class="body" text="Time Interval" style="color: #396767;"></Label>
-                                    <Label row="1" col="0" class="body" text="No Of Times" style="color: #396767;"></Label>
-                                    <Label row="2" col="0" class="body" text="Start Time" style="color: #396767;"></Label>
-
-                                    <Label row="0" col="1" class="body" [text]="item.conf.intervalHrs" style="color: #396767;"></Label>
-                                    <Label row="1" col="1" class="body" [text]="item.conf.numberofTimes" style="color: #396767;"></Label>
-                                    <Label row="2" col="1" class="body" [text]="item.conf.startTime" style="color: #396767;"></Label>
-
-                                </GridLayout>
-                                <GridLayout row="1" col="0" columns="*,*" rows="auto,auto,auto" *ngIf="item.conf.frequency===freuencyOne">
-                                    <Label row="0" col="0" class="body" text="Specific Times" style="color: #396767;"></Label>
-                                    <Label row="0" col="1" class="body" [text]="item.conf.specificTimes" style="color: #396767;"></Label>
-                                </GridLayout>
-                            </GridLayout>
+                                <Label row="0" col="1" class="label-small" textWrap="true"  text="{{item.conf.numberofTimes + ' times a day'}}"></Label>
+                                <Label row="1" col="1" class="label-small" textWrap="true" text="'Starts at' {{item.conf.startTime | date:'shortTime' }}"></Label>
+                                <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.intervalHrs)}}"></Label> -->
+                          </GridLayout>               
+                          <GridLayout row="0" col="0" columns="*,*" rows="auto"  *ngIf="item.conf.frequency===freuencyOne">
+                            <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
+                            <GridLayout row="0" col="1" columns="*" rows="auto"> 
+                                <Label  textWrap="true" row="0"  class="label-small">
+                                    <FormattedString class="label-small" >
+                                        <Span class="label-small"   text="{{item.conf.specificTimes.length}} times a day at "></Span>
+                                        <Span class="label-small"   *ngFor="let items of item.conf.specificTimes;let i=index" text="{{items | date :'shortTime'}} {{ isNextElementAvailable(i, item.conf.specificTimes.length-1)}} ">
+                                           </Span>                                    
+                                    </FormattedString>                                
+                                  </Label>                                
+                             </GridLayout>     
+                        </GridLayout>                            
                         </GridLayout>
-                        <GridLayout row="2" col="1" columns="*" rows="auto,auto,auto">
-                            <!-- duration and start date of schedule   -->
-                            <GridLayout row="0" col="0" columns="*,*" rows="auto">
-                                <Label row="0" col="0" class="body" text="Start Date" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" [text]="item.conf.startDate | date: 'short'"
-                                    style="margin-left: 10px;"></Label>
-                            </GridLayout>
-                            <GridLayout row="1" col="0" columns="*,*" rows="auto">
+                        <GridLayout row="2" col="1" columns="*" rows="auto,auto">
+                            <!-- duration and start date of schedule   -->                           
+                            <GridLayout row="0" col="0" columns="*,*,*" rows="auto">
                                 <Label row="0" col="0" class="body" text="Duration" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" [text]="item.conf.duration"
+                                <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" text="{{item.conf.duration}} days ({{ item.conf.startDate | date:'dd MMM yy'}} - {{item.dbmodel.end_date | date:'dd MMM yy'}} )"
                                     style="margin-left: 10px;"></Label>
                             </GridLayout>
-                            <GridLayout row="2" col="0" columns="*,*,*" rows="auto,auto">
+                              <!-- description of schedule   -->       
+                            <GridLayout row="1" col="0" columns="*,*,*" rows="auto,auto,auto,auto">
                                 <Label row="0" col="0" class="body" text="Description" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" [text]="item.conf.desc"
-                                    style="margin-left: 10px;"></Label>                               
-                                   <Button class="btn btn-primary btn-active btn-xs"  row="1" col="0" id="button" colSpan="2" text="Stop Schedule" (tap)="cancelScheudle(item)"></Button>
-                            </GridLayout>
+                                    style="margin-left: 10px;"></Label>    
+                                       <!-- status of schedule -->   
+                                    <Label row="1" col="0" class="body" text="Status" style="color: #396767;"></Label>
+                                    <Label row="1" col="1" class="label-small" textWrap="true" colSpan="2" text="{{checkStatus(item.dbmodel.status,item.dbmodel.end_date)}}"
+                                        style="margin-left: 10px;"></Label> 
+                                        <!-- mark up for remark                              -->
+                                        <Label row="2" col="0" class="body" text="Remark" style="color: #396767;" *ngIf="item.conf.remark!=null"></Label>
+                                        <Label row="2" col="1" class="label-small" textWrap="true" colSpan="2" *ngIf="item.conf.remark!=null" [text]="item.conf.remark"
+                                            style="margin-left: 10px;"></Label> 
+                                   <Button *ngIf="item.dbmodel.status==0" class="btn btn-primary btn-active btn-xs"  row="3" col="0" id="button" colSpan="2" text="Stop Schedule" (tap)="cancelScheudle(item)"></Button>
+                            </GridLayout>                        
+                           
                         </GridLayout>
 
                     </GridLayout>

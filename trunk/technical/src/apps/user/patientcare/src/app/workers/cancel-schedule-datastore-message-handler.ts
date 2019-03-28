@@ -10,27 +10,29 @@ import { MedicineHelper } from "../helpers/actions/medicine-helper.js";
 
 export class CancelScheduleDatastoreMessageHandler implements IDatastoreMessageHandler<ScheduleDatastoreModel>{
     handleMessage(msg: ScheduleDatastoreModel): Promise<ActionDataStoreModel[]> {
-        return new Promise(async (resolve, reject) => {         
+        return new Promise(async (resolve, reject) => {
             const schedulardata = new Schedulardata();
             schedulardata.data = msg;
             schedulardata.conf = new SchedularConfigData()
             const parsedConf = <SchedularConfigData>JSON.parse(msg.conf);
             schedulardata.conf = parsedConf;
             let actiondata: ActionsData;
-            try {             
+            try {
                 actiondata = new ActionsData();
-                actiondata.actions = [];            
+                actiondata.actions = [];
                 try {
                     const success = await this.getChartList(schedulardata.data.uuid, msg.updated_by);
                     success.forEach((item) => {
-                        item.is_deleted = ActionStatus.ACTION_DELETED;
+                      item.is_deleted = ActionStatus.ACTION_DELETED;
                         item.updated_by = msg.updated_by;
                         item.sync_pending = 1;
                         item.client_updated_at = new Date().toISOString();
+                        item.scheduled_time = new Date(item.scheduled_time).toISOString();
+                        item.updated_on = new Date(item.updated_on).toISOString();
                         actiondata.actions.push(item);
-                        resolve(actiondata.actions);
                     });
-                    msg.end_date = new Date().toISOString();
+                    msg.end_date = new Date().toISOString();                   
+                    resolve(actiondata.actions);
                 }
                 catch (e) {
                     console.error('Action not received', e);
@@ -48,8 +50,8 @@ export class CancelScheduleDatastoreMessageHandler implements IDatastoreMessageH
             let paramData = [currentDate, uuid];
             console.log('parameter', paramData);
             DatabaseHelper.getDataByParameters("getActionForCancel", paramData).then(
-                (success) => {               
-                   resolve(success);
+                (success) => {
+                    resolve(success);
                 },
                 (error) => {
                     console.log('getChartList response Failed', error);

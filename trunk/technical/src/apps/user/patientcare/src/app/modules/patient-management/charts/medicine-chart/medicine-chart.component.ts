@@ -90,7 +90,7 @@ export class MedicineChartComponent implements OnInit {
         }
         for (let item of this.frequencyList) {
             this.frequencyType.push(item);
-        }       
+        }
     }
 
     ngOnInit() {
@@ -369,10 +369,11 @@ export class MedicineChartComponent implements OnInit {
 
         this.chartConfModel.name = data.name;
         this.chartConfModel.medicinetype = this.medicineType[this.medicineForm.get('medicineType').value];
-        this.chartConfModel.startDate = data.startDate;
+        this.chartConfModel.startDate = new Date(data.startDate).toISOString();
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.foodInst = data.foodInst;
+        this.chartConfModel.remark = data.remark;
 
         let confString = JSON.stringify(this.chartConfModel);
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
@@ -380,7 +381,7 @@ export class MedicineChartComponent implements OnInit {
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.MEDICINE
         this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
-     }
+    }
     // >> func for inserting form data to sqlite db
 
 
