@@ -63,12 +63,8 @@ export class PathologyReportComponent implements OnInit {
   ngOnInit() {
     this.paginator.pageSize = 10;
     this.sort.direction = 'asc';
-    this.paginator.pageIndex = 1;
     this.sort.active = 'testperformed';
-    this.sort.active = 'testperformed';
-    // this.sort.active = this.admissionid;
     this.sort.active = 'admissionid';
-    this.sort.direction = 'asc';
     this.setDataListing();
   }
 
@@ -105,9 +101,8 @@ export class PathologyReportComponent implements OnInit {
     const dataListRequest = new DataListRequest<PathologyFilterRequest>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
-    dataListRequest.page = this.paginator.pageIndex;
+    dataListRequest.page = this.paginator.pageIndex +1;
     dataListRequest.orderby = this.sort.active;
-    dataListRequest.page = this.paginator.pageIndex;
     dataListRequest.filter = new PathologyFilterRequest();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     return this.patientService.getPathologyList(dataListRequest);
