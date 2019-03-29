@@ -36,6 +36,15 @@
                     </StackLayout>
                     <TextField class="input" formControlName="doctorName" style="visibility: hidden;"></TextField>                  
                 </StackLayout>
+                <StackLayout class="input-field">
+                    <Label text="Comment"></Label>
+                    <TextField class="input" formControlName="comment"></TextField>
+                    <StackLayout class="input-field">
+                        <StackLayout *ngIf="isCommentRequired">
+                            <Label text="*Comment required " style="color:red"></Label>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout> 
             </StackLayout>
         </GridLayout>
 

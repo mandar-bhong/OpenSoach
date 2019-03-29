@@ -42,6 +42,7 @@ export class DoctorOrdersComponent implements OnInit {
 		{ name: "Sarjerao", id: '14' }]
 	isDescRequired = false;
 	isDrNameRequired = false;
+	isCommentRequired = false;
 	isSingleMode: boolean;
 	constructor(private params: ModalDialogParams,
 		private passDataService: PassDataService) {
@@ -55,7 +56,8 @@ export class DoctorOrdersComponent implements OnInit {
 	// << func for creating form controls
 	createFormControls(): void {
 		this.doctorOrdersForm = new FormGroup({
-			desc: new FormControl('', [Validators.required])
+			desc: new FormControl('', [Validators.required]),
+			comment: new FormControl('', [Validators.required])
 		});
 		this.doctorOrdersForm.addControl('doctorName', this.doctorName);
 	}
@@ -65,13 +67,14 @@ export class DoctorOrdersComponent implements OnInit {
 		console.log('this.doctorOrdersForm', this.doctorOrdersForm.status);
 		this.isDescRequired = this.doctorOrdersForm.controls['desc'].hasError('required');
 		this.isDrNameRequired = this.doctorOrdersForm.controls['doctorName'].hasError('required');
-
+		this.isCommentRequired = this.doctorOrdersForm.controls['comment'].hasError('required');
 		if (this.doctorOrdersForm.invalid) {
 			console.log("validation error");
 			return;
 		}
 		const desc = this.doctorOrdersForm.controls['desc'].value
 		const doctorName = this.doctorOrdersForm.controls['doctorName'].value;
+		const doctorComment = this.doctorOrdersForm.controls['comment'].value;
 		console.log(this.autocomplete);
 		const serverDataStoreModel = new ServerDataStoreDataModel<DoctorsOrdersDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.DOCTORS_ORDERS;
@@ -80,6 +83,9 @@ export class DoctorOrdersComponent implements OnInit {
 		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
 		serverDataStoreModel.data.doctor_id = doctorName;
 		serverDataStoreModel.data.doctors_orders = desc;
+		serverDataStoreModel.data.status = 0;
+		serverDataStoreModel.data.comment = doctorComment;
+		serverDataStoreModel.data.order_created_time = new Date().toISOString();
 		// to do call api of upload document and set received rec id here.
 		serverDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
 		serverDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
@@ -96,8 +102,8 @@ export class DoctorOrdersComponent implements OnInit {
 			serverDocumentDataStoreModel.data.datastore = SYNC_STORE.DOCTORS_ORDERS;
 			serverDocumentDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
 			serverDocumentDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
-			serverDataStoreModel.data.document_uuid = serverDocumentDataStoreModel.data.uuid;			
-			TempDataStore.push(serverDocumentDataStoreModel);		
+			serverDataStoreModel.data.document_uuid = serverDocumentDataStoreModel.data.uuid;
+			TempDataStore.push(serverDocumentDataStoreModel);
 		}
 		TempDataStore.push(serverDataStoreModel);
 		this.params.closeCallback(TempDataStore);

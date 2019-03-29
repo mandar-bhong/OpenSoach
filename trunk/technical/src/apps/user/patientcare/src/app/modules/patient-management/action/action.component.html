@@ -231,14 +231,13 @@
                     <StackLayout class="float-btn-cat" (tap)="outputbuttonClicked = true" [class.button-clicked]="outputbuttonClicked">
                         <Label class="mdi float-btn-cat-text-mdi" (tap)="selectOutput()" text="&#xfb30;" [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </StackLayout>
-                </RL:Ripple>
-                <StackLayout horizontalAlignment="right" class="rightsecond" VerticalAlignment="bottom">
-                    <RL:Ripple rippleColor="#fff" style="margin-top: 35;" (tap)="showDialog()">
-                        <StackLayout row="1" class="float-btn">
-                            <Label class="float-btn-text fas" text="&#xf067;" style="color: white;"></Label>
-                        </StackLayout>
-                    </RL:Ripple>
-                </StackLayout>
+                </RL:Ripple>               
+                <RL:Ripple rippleColor="#fff" style="margin-top: 40;" (tap)="showDialog()">
+                    <StackLayout row="1" class="float-btn">
+                        <Label class="float-btn-text fas" text="&#xf067;" style="color: white;"></Label>
+                    </StackLayout>
+                </RL:Ripple>             
+              
             </StackLayout>
 
         </GridLayout>
