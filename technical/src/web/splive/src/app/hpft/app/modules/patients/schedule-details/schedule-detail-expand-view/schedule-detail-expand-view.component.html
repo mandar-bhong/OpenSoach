@@ -25,7 +25,7 @@
         <label>Afternoon: {{scheduleDataResponse.conf.aftrnFreqInfo.aftrnFreqQuantity}}</label>
       </div>
       <div class="row" *ngIf="scheduleDataResponse.conf.nightFreqInfo.freqNight">
-        <label>Evening: {{scheduleDataResponse.conf.nightFreqInfo.nightFreqQuantity}}</label>
+        <label>Night: {{scheduleDataResponse.conf.nightFreqInfo.nightFreqQuantity}}</label>
       </div>
     </div>
   </div>
@@ -92,7 +92,18 @@
       </div>
     </div>
   </div>
+  <div class="row" *ngIf="scheduleDataResponse.conf.remark && scheduleDataResponse.conf.remark!=null">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Remark </label>
+    </div>
+    <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="row">
+        <label>{{scheduleDataResponse.conf.remark}}</label>
+      </div>
+    </div>
+  </div>
 </div>
+
 <!-- for Intake -->
 <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="scheduleDataResponse.conftypecode==configCodeType.INTAKE">
   <!-- name of medicine  -->
@@ -188,7 +199,19 @@
       </div>
     </div>
   </div>
+
+  <div class="row" *ngIf="scheduleDataResponse.conf.remark && scheduleDataResponse.conf.remark!=null">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Remark </label>
+    </div>
+    <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="row">
+        <label>{{scheduleDataResponse.conf.remark}}</label>
+      </div>
+    </div>
+  </div>
 </div>
+
 <!-- for Monitor -->
 <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="scheduleDataResponse.conftypecode==configCodeType.MONITOR">
   <!-- name of medicine  -->
@@ -278,6 +301,16 @@
     <div class="col-sm-8 col-md-8 col-lg-8">
       <div class="row">
         <label>{{checkStatus(scheduleDataResponse.status,scheduleDataResponse.enddate)}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="scheduleDataResponse.conf.remark && scheduleDataResponse.conf.remark!=null">
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Remark </label>
+    </div>
+    <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="row">
+        <label>{{scheduleDataResponse.conf.remark}}</label>
       </div>
     </div>
   </div>
