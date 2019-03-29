@@ -4,6 +4,7 @@ import { ServicepointListResponse } from '../../../../../../prod-shared/models/a
 import { PatientFilterRequest } from '../../../../models/api/patient-data-models';
 import { PatientFilterModel } from '../../../../models/ui/patient-models';
 import { PatientService } from '../../../../services/patient.service';
+import { PATIENT_STATE } from 'app/app-constants';
 
 @Component({
   selector: 'app-patient-search',
@@ -14,12 +15,14 @@ export class PatientSearchComponent implements OnInit {
   dataModel = new PatientFilterModel();
   isExpanded = false;
   splist: ServicepointListResponse[] = [];
+  PATIENT_STATE:PATIENT_STATE;
 
   patientFilterRequest: PatientFilterRequest;
   constructor(public patientService: PatientService) { }
 
   ngOnInit() {
     this.getServicepointList();
+    this.dataModel.status = PATIENT_STATE.HOSPITALIZE;
   }
   // Accept data from ward ie. list of ward
   getServicepointList() {
