@@ -180,6 +180,12 @@ export enum PATIENT_STATE {
     HOSPITALIZE = 1,
     DISCHARGED = 2
 }
+
+export enum CHECK_STATE {
+    NEW = 0,
+    ACKNOWLEDGED = 1
+}
+
 export enum PERSON_GENDER {
     NOT_SELECTED = 0,
     MALE = 1,
@@ -192,6 +198,15 @@ export enum ConfigCodeType {
     INTAKE = "Intake",
     DOCTOR_ORDERS = 'Doctor-Orders'
 }
+
+
+export enum PATIENT_CHECK_STATE {
+    ACTIVE = "Active",
+    COMPLETED = "Completed",
+    CANCELLED = "Cancelled"
+}
+
+
 export const FREQUENCY_ZERO = 0
 export const FREQUENCY_ONE = 1;
 

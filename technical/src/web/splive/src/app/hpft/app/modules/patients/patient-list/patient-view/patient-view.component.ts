@@ -67,8 +67,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.createControls();
     this.dataModel.dischargedon = new Date();
     const dt = new Date();
-    const datetime = dt.getHours() + ":" + dt.getMinutes();
-    this.selectedStartTime = this.minutesToTimeString(dt.getMinutes());
+    this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = PATIENT_STATE.HOSPITALIZE;
     this.paginator.pageSize = 10;
@@ -105,22 +104,16 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   changestatus() {
     const admissionStatusRequest = new AdmissionStatusRequest();
     admissionStatusRequest.status = PATIENT_STATE.DISCHARGED;
-    const date = this.dataModel.dischargedon;
-    const datetime = date + this.selectedStartTime.toString();
     admissionStatusRequest.admissionid = this.selectedPatient.admissionid;
     admissionStatusRequest.dischargedon = this.dataModel.dischargedon;
     this.patientService.updateAdmissionStatus(admissionStatusRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
         this.selectedPatient.status = PATIENT_STATE.DISCHARGED;
-        this.dataModel.dischargedon = new Date();
-        const dt = new Date();
-        const datetime = dt.getHours() + ":" + dt.getMinutes();
-        // this.selectedStartTime = dt.minutesToTimeString();
-        this.selectedStartTime = this.minutesToTimeString(Number(datetime));
       }
     });
   }
+
 
   // For Time selection
   openStartTime() {
@@ -128,7 +121,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
       time: this.selectedStartTime,
       theme: 'material-orange',
     });
-    this.selectedStartTime = this.dataModel.dischargedon.toLocaleTimeString();
+    // this.selectedStartTime = this.dataModel.dischargedon.toLocaleTimeString();
     amazingTimePicker.afterClose().subscribe(time => {
       this.selectedStartTime = time;
     });
@@ -211,16 +204,6 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.dataModel.dischargedon = new Date();
     const dt = new Date();
     this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
-  }
-
-  minutesToTimeString(time: number) {
-    if (time || time === 0) {
-      const hours = Math.floor(time / 60);
-      const hourstr = hours < 10 ? '0' + hours : hours;
-      const minutes = time % 60;
-      const minutestr = minutes < 10 ? '0' + minutes : minutes;
-      return hourstr + ':' + minutestr;
-    }
   }
 
 }

@@ -18,6 +18,7 @@ import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
 import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
 import { FileDownloadRequest } from 'app/models/api/file-download-request';
 import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
+import { CHECK_STATE } from 'app/app-constants';
 
 @Component({
   selector: 'app-doctor-orders',
@@ -46,6 +47,7 @@ export class DoctorOrdersComponent implements OnInit {
   doctorOrderResponseArray: DoctorOrderResponse[] = [];
   dataListRequest: DataListRequest<DoctorOrderRequest>;
   isViewSchedule = false;
+  CHECK_STATE:CHECK_STATE;
   constructor(
     private appNotificationService: AppNotificationService,
     private appLocalStorage: AppLocalStorage,
@@ -59,10 +61,8 @@ export class DoctorOrdersComponent implements OnInit {
   // columnsToDisplay = ['fname', 'date'];
   ngOnInit() {
     this.paginator.pageSize = 10;
-    this.paginator.pageIndex = 1;
     this.sort.direction = 'asc';
     this.sort.active = 'admissionid';
-    this.sort.direction = 'asc';
     this.getDataListing();
   }
   getDataListing(): void {
@@ -93,14 +93,12 @@ export class DoctorOrdersComponent implements OnInit {
       );
   }
 
-
   getDataList(): Observable<PayloadResponse<DataListResponse<DoctorOrderResponse>>> {
     const dataListRequest = new DataListRequest<DoctorOrderRequest>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
-    dataListRequest.page = this.paginator.pageIndex;
-    dataListRequest.orderby = this.sort.active
-    dataListRequest.page = this.paginator.pageIndex;
+    dataListRequest.page = this.paginator.pageIndex + 1;
+    dataListRequest.orderby = this.sort.active;
     dataListRequest.filter = new TransactionDetailsFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     return this.patientService.getDoctorOrderDetails(dataListRequest);
@@ -149,4 +147,13 @@ export class DoctorOrdersComponent implements OnInit {
       }
     });
   }
+
+   // code block for check status
+   checkStatus(status: number) {
+    if (status == CHECK_STATE.ACKNOWLEDGED) {
+        return 'Acknowledged';
+      } else {
+        return 'New';
+      }
+  }// end of code block
 }

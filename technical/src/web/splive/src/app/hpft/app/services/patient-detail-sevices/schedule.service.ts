@@ -23,17 +23,4 @@ export class ScheduleService extends ListingService<ScheduleFilter, ScheduleData
     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/list/patientconf',
       dataListRequest, implicitErrorHandling);
   }
-
-  getScheduleDataById(dataListRequest: ScheduleFilter, implicitErrorHandling = true):
-    Observable<PayloadResponse<ScheduleDataResponse<string>>> {
-    return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/config/info',
-      dataListRequest, implicitErrorHandling);
-  }
-
-  getServicepointConfigureList(implicitErrorHandling = true):
-    Observable<PayloadResponse<ServicepointConfigureListResponse[]>> {
-    return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/service/config/list/short',
-      implicitErrorHandling);
-  }
-
 }

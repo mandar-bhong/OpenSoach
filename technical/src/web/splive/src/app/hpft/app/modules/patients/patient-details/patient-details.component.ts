@@ -25,6 +25,7 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
   admissionIdSubscription: Subscription;
   patientName: string;
   patientNameSubscription: Subscription;
+  disableMedicalTab:boolean;
 
   constructor(
     private patientService: PatientService,
@@ -38,15 +39,9 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
   }
 
   ngOnInit() {
-    // setTimeout(() => {
-    //   this.fname = this.patientService.fname;
-    //   this.lname = this.patientService.lname;
-    // }, 10);
     this.patientNameSubscription = this.patientService.patientName.subscribe((value) => {
         this.patientName = value;
     });
-
-    this.subTitle = this.patientService.fname + ' ' + this.patientService.lname;
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       this.subTitle = this.translatePipe.transform('OPERATOR_ADD_MODE_TITLE');
       this.callbackUrl = params['callbackurl'];
@@ -73,6 +68,13 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
     }
   }
 
+  // DisableTab() {
+  //   if (this.admissionid != null) {
+  //     this.disableMedicalTab = true;
+  //   } else {
+  //     this.disableMedicalTab = false;
+  //   }
+  // }
 
   changeTab(value) {
     this.selectedIndex = value;

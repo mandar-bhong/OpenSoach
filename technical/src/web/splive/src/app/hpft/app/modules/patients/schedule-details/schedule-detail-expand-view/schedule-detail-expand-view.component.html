@@ -7,7 +7,7 @@
     </div>
     <div class="col-sm-8 col-md-8 col-lg-8">
       <div class="row">
-        Test Medicine
+        {{scheduleDataResponse.conf.medicinetype}}
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
         <label> Starts at {{scheduleDataResponse.conf.startTime | date :'shortTime'}}</label>
       </div>
       <div class="row">
-        <label>Repeat every {{ timeConvert(scheduleDataResponse.conf.intervalHrs)}}</label>
+        <label>Repeat every {{ timeConvert(scheduleDataResponse.conf.interval)}}</label>
       </div>
     </div>
   </div>
@@ -109,7 +109,7 @@
 
   <!-- frequency zero  markup block -->
   <div class="row"
-    *ngIf="scheduleDataResponse.conf.frequency==freuencyZero && scheduleDataResponse.conf.intervalHrs !=null">
+    *ngIf="scheduleDataResponse.conf.frequency==freuencyZero && scheduleDataResponse.conf.interval !=null">
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Frequency </label>
     </div>
@@ -121,7 +121,7 @@
         <label> Starts at {{scheduleDataResponse.conf.startTime | date :'shortTime'}}</label>
       </div>
       <div class="row">
-        <label>Repeat every {{timeConvert(scheduleDataResponse.conf.intervalHrs)}}</label>
+        <label>Repeat every {{timeConvert(scheduleDataResponse.conf.interval)}}</label>
       </div>
     </div>
   </div>
@@ -205,7 +205,7 @@
 
   <!-- frequency zero  markup block -->
   <div class="row"
-    *ngIf="scheduleDataResponse.conf.frequency==freuencyZero && scheduleDataResponse.conf.intervalHrs !=null">
+    *ngIf="scheduleDataResponse.conf.frequency==freuencyZero && scheduleDataResponse.conf.interval !=null">
     <div class="col-sm-4 col-md-4 col-lg-4">
       <label>Frequency </label>
     </div>
@@ -217,7 +217,7 @@
         <label> Starts at {{scheduleDataResponse.conf.startTime | date :'shortTime'}}</label>
       </div>
       <div class="row">
-        <label>Repeat every {{timeConvert(scheduleDataResponse.conf.intervalHrs)}}</label>
+        <label>Repeat every {{timeConvert(scheduleDataResponse.conf.interval)}}</label>
       </div>
     </div>
   </div>
