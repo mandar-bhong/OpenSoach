@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ScheduleDataResponse, SchedularConfigData } from 'app/models/api/schedule-response';
-import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE } from 'app/app-constants'
+import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE } from 'app/app-constants'
 @Component({
   selector: 'app-schedule-detail-expand-view',
   templateUrl: './schedule-detail-expand-view.component.html',
@@ -12,6 +12,7 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
   configCodeType = ConfigCodeType;
   freuencyZero = FREQUENCY_ZERO;
   freuencyOne = FREQUENCY_ONE
+  PATIENT_CHECK_STATE:PATIENT_CHECK_STATE;
   constructor() {
   }
 
@@ -44,12 +45,12 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
       const enddt = new Date(enddate);
       const currentdt = new Date();
       if (enddt.getTime() > currentdt.getTime()) {
-        return 'Active';
+        return PATIENT_CHECK_STATE.ACTIVE;
       } else {
-        return 'Completed';
+        return PATIENT_CHECK_STATE.COMPLETED;
       }
     } else {
-      return 'Cancelled';
+      return PATIENT_CHECK_STATE.CANCELLED;
     }
   }// end of code block
 }

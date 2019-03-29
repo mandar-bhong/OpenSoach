@@ -42,6 +42,7 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     this.showBackButton = false;
     this.getServicepointList();
     this.getDrInchargeList();
+    this.dataModel.admittedon = new Date();
 
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['admissionid']) {

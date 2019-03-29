@@ -16,7 +16,7 @@ export class SchedularConfigData {
     mornFreqInfo: MornFreqInfo;
     aftrnFreqInfo: AftrnFreqInfo;
     nightFreqInfo: NightFreqInfo
-    intervalHrs: number;
+    interval: number;
     startDate: string;
     duration: number;
     startTime: string;

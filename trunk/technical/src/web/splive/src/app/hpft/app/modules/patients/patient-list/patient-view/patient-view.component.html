@@ -115,7 +115,7 @@
       <br>
     </mat-card>
 
-    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal fade" id="myModal" role="dialog" tabindex="-1" aria-hidden="true">
       <form [formGroup]="editableForm">
         <div class="modal-dialog">
           <!-- Modal content-->
@@ -138,16 +138,16 @@
                     <input matInput placeholder="Patient Discharged Date" [matDatepicker]="startdatepicker"
                       [(ngModel)]="dataModel.dischargedon" formControlName="dischargedDateControls">
                     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #startdatepicker touchUi="true"></mat-datepicker>
+                    <mat-datepicker #startdatepicker></mat-datepicker>
                     <mat-error *ngIf="editableForm.controls['dischargedDateControls'].hasError('required')">
                       {{'VALIDATION_REQUIRED_FIELD'|translate}}
                     </mat-error>
                   </mat-form-field>
                 </div>
                 <div>
-                  <mat-form-field>
+                  <mat-form-field class="full-width">
                     <input matInput type="time" placeholder="Choose Time" [(ngModel)]="selectedStartTime" value="{{selectedStartTime}}" formControlName="dischargedTimeControls">
-                    <button color="accent" type="button" matSuffix mat-icon-button aria-label="Choose"
+                    <button color="accent" atp-time-picker type="button" matSuffix mat-icon-button aria-label="Choose"
                       (click)="openStartTime()">
                       <i class="fa fa-clock-o" aria-hidden="true"></i>
                     </button>
