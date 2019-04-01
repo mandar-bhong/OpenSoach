@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ScheduleDataResponse, SchedularConfigData } from 'app/models/api/schedule-response';
-import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE } from 'app/app-constants'
+import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE } from 'app/app-constants';
 @Component({
   selector: 'app-schedule-detail-expand-view',
   templateUrl: './schedule-detail-expand-view.component.html',
@@ -20,9 +20,8 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
     // SchedularConfigData
     this.scheduleDataResponse = new ScheduleDataResponse<SchedularConfigData>();
     Object.assign(this.scheduleDataResponse, this.schedule);
-    console.log('expand schedule executed', this.schedule);
-    console.log('processed conf data', this.scheduleDataResponse);
   }
+
   timeConvert(n) {
     var num = n;
     var hours = (num / 60);
@@ -41,6 +40,7 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
   }
   // code block for check status
   checkStatus(status: number, enddate: string) {
+    // import status value from constants.
     if (status == 0) {
       const enddt = new Date(enddate);
       const currentdt = new Date();
@@ -50,7 +50,15 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
         return PATIENT_CHECK_STATE.COMPLETED;
       }
     } else {
-      return PATIENT_CHECK_STATE.CANCELLED;
+      return PATIENT_CHECK_STATE.STOPPED;
     }
   }// end of code block
+  
+  convertToDate(minutes: number) {
+    let date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setMinutes(minutes);
+    return date;
+    }
+
 }

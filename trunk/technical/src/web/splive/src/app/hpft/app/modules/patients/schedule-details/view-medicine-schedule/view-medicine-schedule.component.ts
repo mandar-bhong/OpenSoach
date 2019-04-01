@@ -18,6 +18,7 @@ import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.se
 import { ConfigCodeType } from 'app/app-constants';
 
 
+
 @Component({
   selector: 'app-view-medicine-schedule',
   templateUrl: './view-medicine-schedule.component.html',
@@ -60,7 +61,6 @@ export class ViewMedicineScheduleComponent implements OnInit, OnDestroy {
   ];
   // columnsToDisplay = ['fname', 'date'];
   ngOnInit() {
-    console.log('getDataListing executed');
     this.paginator.pageSize = 10;
     this.sort.direction = 'asc';
     this.sort.active = 'enddate';
@@ -94,12 +94,10 @@ export class ViewMedicineScheduleComponent implements OnInit, OnDestroy {
             payloadResponse.data.records.forEach((item: any) => {
               const ActionTransactionData = new ScheduleDataResponse<any>();
               Object.assign(ActionTransactionData, item);
-              console.log('item', item.txndata);
               const confData = JSON.parse(item.conf);
               ActionTransactionData.conf = confData;
               this.scheduleResponse.push(ActionTransactionData);
             });
-            console.log(' this.scheduleResponse', this.scheduleResponse);
             this.dataSource = new MatTableDataSource<ScheduleDataResponse<any>>(this.scheduleResponse);
             if (this.filteredrecords === 0) {
               //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
