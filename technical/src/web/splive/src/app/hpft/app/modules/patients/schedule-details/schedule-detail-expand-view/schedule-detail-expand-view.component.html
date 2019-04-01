@@ -27,6 +27,7 @@
       <div class="row" *ngIf="scheduleDataResponse.conf.nightFreqInfo.freqNight">
         <label>Night: {{scheduleDataResponse.conf.nightFreqInfo.nightFreqQuantity}}</label>
       </div>
+
     </div>
   </div>
   <!-- frequency one  markup block -->
@@ -40,10 +41,13 @@
         <label>{{scheduleDataResponse.conf.numberofTimes}} times a day</label>
       </div>
       <div class="row">
-        <label> Starts at {{scheduleDataResponse.conf.startTime | date :'shortTime'}}</label>
+        <label> Starts at {{convertToDate(scheduleDataResponse.conf.startTime) | date :'shortTime'}}</label>
       </div>
       <div class="row">
         <label>Repeat every {{ timeConvert(scheduleDataResponse.conf.interval)}}</label>
+      </div>
+      <div class="row" *ngIf="scheduleDataResponse.conf.quantity !=null">
+        <label>{{scheduleDataResponse.conf.quantity}} dosage</label>
       </div>
     </div>
   </div>
@@ -129,7 +133,7 @@
         <label>{{scheduleDataResponse.conf.numberofTimes}} times a day</label>
       </div>
       <div class="row">
-        <label> Starts at {{scheduleDataResponse.conf.startTime | date :'shortTime'}}</label>
+        <label> Starts at {{convertToDate(scheduleDataResponse.conf.startTime) | date :'shortTime'}}</label>
       </div>
       <div class="row">
         <label>Repeat every {{timeConvert(scheduleDataResponse.conf.interval)}}</label>
@@ -237,7 +241,7 @@
         <label>{{scheduleDataResponse.conf.numberofTimes}} times a day</label>
       </div>
       <div class="row">
-        <label> Starts at {{scheduleDataResponse.conf.startTime | date :'shortTime'}}</label>
+        <label> Starts at {{convertToDate(scheduleDataResponse.conf.startTime) | date :'shortTime'}}</label>
       </div>
       <div class="row">
         <label>Repeat every {{timeConvert(scheduleDataResponse.conf.interval)}}</label>

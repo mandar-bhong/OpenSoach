@@ -49,21 +49,24 @@
           <mat-header-cell *matHeaderCellDef style="flex:0 0 41%;"> Parameter</mat-header-cell>
           <mat-cell *matCellDef="let row" style="flex:0 0 41%;">
             <span class="mat-cell-responsive-label">Parameter</span>
-            <span class="ellipsis mat-cell-text">{{row.conf.name}}</span>
+            <span class="ellipsis mat-cell-text">{{row.conf.name}}<br>
+              <div class="displayDesc">  {{  row.conf.desc}}</div></span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="startdate">
           <mat-header-cell *matHeaderCellDef style="flex:0 0 26%;">Start</mat-header-cell>
           <mat-cell *matCellDef="let row" style="flex:0 0 26%;">
             <span class="mat-cell-responsive-label">Start</span>
-            <span class="ellipsis mat-cell-text">{{row.conf.startDate | date:'dd-MMM-yy, h:mm a'}}</span>
+            <!-- <span class="ellipsis mat-cell-text">{{row.conf.startDate | date:'dd-MMM-yy, h:mm a'}}</span> -->
+            <span class="ellipsis mat-cell-text">{{row.conf.startDate | date:'dd-MMM-yy'}}</span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="enddate">
           <mat-header-cell *matHeaderCellDef style="flex:0 0 26%;">End</mat-header-cell>
           <mat-cell *matCellDef="let row" style="flex:0 0 26%;">
             <span class="mat-cell-responsive-label">End</span>
-            <span class="ellipsis mat-cell-text">{{row.enddate | date:'dd-MMM-yy, h:mm a'}}</span>
+            <!-- <span class="ellipsis mat-cell-text">{{row.enddate | date:'dd-MMM-yy, h:mm a'}}</span> -->
+            <span class="ellipsis mat-cell-text">{{row.enddate | date:'dd-MMM-yy'}}</span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="view">

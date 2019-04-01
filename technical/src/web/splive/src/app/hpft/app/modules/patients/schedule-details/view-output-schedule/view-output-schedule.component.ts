@@ -60,7 +60,6 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
     { text: 'Start', value: 'startDate' },
     { text: 'End', value: 'enddate' }
   ];
-  // columnsToDisplay = ['fname', 'date'];
   ngOnInit() {
     this.paginator.pageSize = 10;
     this.sort.direction = 'asc';
@@ -68,11 +67,7 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
     this.sort.direction = 'asc';
     this.getDataListing();
     this.dataListFilterChangedSubscription = this.scheduleService.dataListSubject.subscribe(value => {
-      // this.scheduleFilter.conftypecode = value.conftypecode;
-      // this.scheduleFilter.admissionid = value.admissionid;
       this.scheduleFilter = value;
-      // this.scheduleFilter.admissionid;
-      // this.scheduleFilter.conftypecode;
       this.refreshTable.emit();
     });
   }
@@ -104,7 +99,6 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
             });
             this.dataSource = new MatTableDataSource<ScheduleDataResponse<any>>(this.scheduleResponse);
             if (this.filteredrecords === 0) {
-              //  this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];
@@ -120,7 +114,6 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
     dataListRequest.limit = this.paginator.pageSize;
     dataListRequest.page = this.paginator.pageIndex +1;
     dataListRequest.orderby = this.sort.active;
-    // dataListRequest.filter = this.scheduleFilter;
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     dataListRequest.filter.conftypecode = ConfigCodeType.OUTPUT;
