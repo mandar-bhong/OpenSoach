@@ -187,7 +187,7 @@ type DBSearchPatientActionTxnRequestFilterDataModel struct {
 type DBSearchPatientActionTxnResponseFilterDataModel struct {
 	AdmissionId   int64     `db:"admission_id_fk" json:"admissionid"`
 	PatientConfId int64     `db:"patient_conf_id_fk" json:"patientconfid"`
-	ScheduledTime time.Time `db:"scheduled_time" json:"scheduled_time"`
+	ScheduledTime time.Time `db:"scheduled_time" json:"scheduledtime"`
 	TxnData       string    `db:"txn_data" json:"txndata"`
 	TxnState      int64     `db:"txn_state" json:"txnstate"`
 	ConfTypeCode  string    `db:"conf_type_code" json:"conftypecode"`
