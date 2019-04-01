@@ -203,7 +203,7 @@ export enum ConfigCodeType {
 export enum PATIENT_CHECK_STATE {
     ACTIVE = "Active",
     COMPLETED = "Completed",
-    CANCELLED = "Cancelled"
+    STOPPED = "Stopped"
 }
 
 
