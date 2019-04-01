@@ -11,11 +11,12 @@ import { PatientService } from 'app/services/patient.service';
 import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse, ActionTransactionDataValue } from 'app/models/api/transaction-details-response';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ConfigCodeType } from 'app/app-constants';
 
 @Component({
   selector: 'app-view-medicine-transaction',
   templateUrl: './view-medicine-transaction.component.html',
-  styleUrls: ['./view-medicine-transaction.component.css','../transaction-details.component.css'],
+  styleUrls: ['./view-medicine-transaction.component.css', '../transaction-details.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
@@ -38,22 +39,22 @@ export class ViewMedicineTransactionComponent implements OnInit {
   expandedElement: ActionTransactionResponse<string> | null;
   transactionResponse: ActionTransactionResponse<ActionTransactionDataValue>[] = []
   isViewSchedule = false;
-  dataListRequest:DataListRequest<TransactionDetailsFilter>;
+  ConfigCodeType = ConfigCodeType;
+  dataListRequest: DataListRequest<TransactionDetailsFilter>;
   constructor(
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
     private patientService: PatientService) { }
-  displayedColumns = ['actionname', 'txndate', 'by', 'view'];
+  displayedColumns = ['actionname', 'scheduledtime', 'by', 'view'];
   sortByColumns = [
     { text: 'Name', value: 'actionname' },
-    { text: 'Performed On', value: 'txndate' }
-    ];
+    { text: 'Performed On', value: 'scheduledtime' }
+  ];
   // columnsToDisplay = ['fname', 'date'];
   ngOnInit() {
     this.paginator.pageSize = 10;
     this.sort.direction = 'asc';
-    this.paginator.pageIndex = 1;
-    this.sort.active = 'txndate';
+    this.sort.active = 'scheduledtime';
     this.sort.direction = 'asc';
     this.getDataListing();
   }
@@ -75,11 +76,10 @@ export class ViewMedicineTransactionComponent implements OnInit {
         payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
             this.filteredrecords = payloadResponse.data.filteredrecords;
-          //   this.transactionResponse = [];
+            //   this.transactionResponse = [];
             payloadResponse.data.records.forEach((item: any) => {
               const ActionTransactionData = new ActionTransactionResponse<ActionTransactionDataValue>();
               Object.assign(ActionTransactionData, item);
-              console.log('item', item.txndata);
               const txnJsonData = JSON.parse(item.txndata);
               ActionTransactionData.txndata = txnJsonData;
               this.transactionResponse.push(ActionTransactionData);
@@ -88,7 +88,7 @@ export class ViewMedicineTransactionComponent implements OnInit {
             this.dataSource = new MatTableDataSource<ActionTransactionResponse<ActionTransactionDataValue>>(this.transactionResponse);
 
             if (this.filteredrecords === 0) {
-             // this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+              // this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];
@@ -99,15 +99,15 @@ export class ViewMedicineTransactionComponent implements OnInit {
 
 
   getDataList(): Observable<PayloadResponse<DataListResponse<ActionTransactionResponse<string>[]>>> {
-  
+
     const dataListRequest = new DataListRequest<TransactionDetailsFilter>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
-    dataListRequest.page= this.paginator.pageIndex ;
-    dataListRequest.orderby = this.sort.active
+    dataListRequest.page = this.paginator.pageIndex + 1;
+    dataListRequest.orderby = this.sort.active;
     dataListRequest.filter = new TransactionDetailsFilter();
-    dataListRequest.filter.conftypecode = 'Medicine';
-    dataListRequest.filter.admissionid =this.patientService.admissionid;
+    dataListRequest.filter.conftypecode = ConfigCodeType.MEDICINE;
+    dataListRequest.filter.admissionid = this.patientService.admissionid;
     return this.patientService.getActionTransaction(dataListRequest);
   }
 
@@ -122,12 +122,10 @@ export class ViewMedicineTransactionComponent implements OnInit {
 
   // code bloxk for view schedule detsils  of particular action 
   viewSchedule(element) {
-    console.log('view schedule clickd');
     this.isViewSchedule = true;
   }
 
   setOpenCloseSchedule() {
-    console.log('view setOpenCloseSchedule clickd');
     this.isViewSchedule = false;
   }
   sortByChanged() {

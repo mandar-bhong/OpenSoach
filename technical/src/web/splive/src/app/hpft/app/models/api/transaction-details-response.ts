@@ -2,7 +2,7 @@ export class ActionTransactionResponse<T>{
     admissionid: number;
     patientconfid: number;
     txndate: string;
-    scheduled_time: string;
+    scheduledtime: string;
     txndata: T;
     actionname: string;
     updated_by: string;
