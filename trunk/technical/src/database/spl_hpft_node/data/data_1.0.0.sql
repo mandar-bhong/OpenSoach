@@ -257,6 +257,10 @@ INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, 
 VALUES 
 ('f9d1d51e56e64455', '3', 'OUTPUT_TYPE', '["Urine", "Gastric", "Stool"]',1);
 
+INSERT INTO `spl_hpft_conf_tbl` (`uuid`, `cpm_id_fk`, `conf_type_code`, `conf`, `updated_by`) 
+VALUES 
+('f9d1d51e56e12222', '3', 'DOCTOR_ORDER_TYPE', '["Prescription", "General"]',1);
+
 
 
 
