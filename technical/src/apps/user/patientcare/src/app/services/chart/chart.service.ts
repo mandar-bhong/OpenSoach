@@ -110,4 +110,18 @@ export class ChartService {
     setScheduleContext(value) {
         this.scheduleDataContext.next(value);
     }
+    public getAllData(key): any {
+        return new Promise((resolve, reject) => {
+            this.database.selectAll(key).then(
+                (val) => {
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+
+    }
 }// end of init 

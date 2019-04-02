@@ -85,14 +85,14 @@ export class ActionHelper {
         return totalminutes;
     }// end of code block
 
-    getStartTime(startTime): number {
-        let t = startTime.toString();
-        const time = t.split('.');
-        const minutes = 60 * Number(time[0]);
-        const totalminutes = minutes + Number(time[1]);
-        console.log('getStartTime return', totalminutes);
-        return totalminutes;
-    }
+    // getStartTime(startTime): number {
+    //     let t = startTime.toString();
+    //     const time = t.split('.');
+    //     const minutes = 60 * Number(time[0]);
+    //     const totalminutes = minutes + Number(time[1]);
+    //     console.log('getStartTime return', totalminutes);
+    //     return totalminutes;
+    // }
     getScheduleEnddate() {
         if (this.actionList.length > 0) {
             const enddate = this.actionList[this.actionList.length - 1].scheduled_time;

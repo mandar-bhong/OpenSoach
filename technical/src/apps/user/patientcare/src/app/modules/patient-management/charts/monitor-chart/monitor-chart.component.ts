@@ -172,7 +172,7 @@ export class MonitorChartComponent implements OnInit {
         if (data.frequency == 0) {
             this.chartConfModel.interval = data.interval * 60;
             this.chartConfModel.numberofTimes = data.numberofTimes;
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
+            this.chartConfModel.startTime =TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
             // this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "H.mm");
             // generate description
             let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
@@ -181,7 +181,7 @@ export class MonitorChartComponent implements OnInit {
         } else if (data.frequency == 1) {
             this.chartConfModel.specificTimes = [];
             for (var i = 0; i < data.specificTimes.length; i++) {
-                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "H.mm"));
+                this.chartConfModel.specificTimes.push(TimeConversion.getStartTime(this.datePipe.transform(data.specificTimes[i], "H.mm")));
             }
             // generate description
             let desc = `At specific times for ${data.duration} days`;

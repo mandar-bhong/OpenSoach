@@ -1,13 +1,19 @@
 <GridLayout columns="*" height="100%" width="100%" rows="*">
     <GridLayout columns="*" rows="auto,auto,*">
-        <GridLayout row="0" columns="auto, *, auto" rows="65" style="background-color: #396766; color: white; vertical-align: center;padding: 0px 10px;">
+        <GridLayout row="0" columns="auto, *, auto" rows="65"
+            style="background-color: #396766; color: white; vertical-align: center;padding: 0px 10px;">
             <Label col="0" text="&#xf156;" class="homeicon mdi mdi" (tap)="goBackPage()"></Label>
             <Label col="1" text="Doctor Orders Form" style="text-align:center;  vertical-align: center;"></Label>
-            <Label col="2" text="&#xf12c;" class="homeicon mdi mdi" (tap)="onSubmit()" style="margin-right: 1px"></Label>
+            <Label col="2" text="&#xf12c;" class="homeicon mdi mdi" (tap)="onSubmit()"
+                style="margin-right: 1px"></Label>
         </GridLayout>
-        <!-- <ScrollView row="2"> -->
-        <GridLayout row="1">
+        <ScrollView row="2">
             <StackLayout class="form" [formGroup]="doctorOrdersForm">
+                <StackLayout class="input-field">
+                    <Label text="Order Type"></Label>
+                    <ListPicker [items]="orderType" formControlName="order_type" selectedIndex="0" class="p-15 picker">
+                    </ListPicker>
+                </StackLayout>
                 <StackLayout class="input-field">
                     <Label text="Order Description"></Label>
                     <TextField class="input" formControlName="desc"></TextField>
@@ -16,12 +22,12 @@
                             <Label text="*Order Description required " style="color:red"></Label>
                         </StackLayout>
                     </StackLayout>
-                </StackLayout>             
+                </StackLayout>
                 <StackLayout class="input-field">
                     <Label text="Doctor Name"></Label>
                     <RadAutoCompleteTextView #autocomplete [items]="dataItems" suggestMode="Suggest" displayMode="Plain"
                         (didAutoComplete)="onDidAutoComplete($event)">
-                        <SuggestionView tkAutoCompleteSuggestionView>
+                        <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="50">
                             <ng-template tkSuggestionItemTemplate let-item="item">
                                 <StackLayout orientation="vertical" padding="10">
                                     <Label [text]="item.text"></Label>
@@ -34,7 +40,7 @@
                             <Label text="*Doctor Name required " style="color:red"></Label>
                         </StackLayout>
                     </StackLayout>
-                    <TextField class="input" formControlName="doctorName" style="visibility: hidden;"></TextField>                  
+                    <TextField class="input" formControlName="doctorName" style="visibility: hidden;"></TextField>
                 </StackLayout>
                 <StackLayout class="input-field">
                     <Label text="Comment"></Label>
@@ -44,16 +50,16 @@
                             <Label text="*Comment required " style="color:red"></Label>
                         </StackLayout>
                     </StackLayout>
-                </StackLayout> 
+                </StackLayout>
+                <GridLayout>
+                    <FlexboxLayout flexDirection="column-reverse">
+                        <Image [src]="imageTaken" flexGrow="3" class="p-15 img-rounded"></Image>
+                    </FlexboxLayout>
+                </GridLayout>
             </StackLayout>
-        </GridLayout>
 
-        <GridLayout row="2">
-            <FlexboxLayout flexDirection="column-reverse">
-                <Image [src]="imageTaken" flexGrow="3" class="p-15 img-rounded"></Image>
-            </FlexboxLayout>
-        </GridLayout>
-        <!-- </ScrollView> -->
+          
+        </ScrollView>
     </GridLayout>
     <GridLayout columns="*">
         <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">

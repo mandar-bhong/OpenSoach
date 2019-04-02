@@ -67,8 +67,8 @@ export class IntakeHelper extends ActionHelper {
         let index = i;
         const receivedActionDate = new Date(receivedDate);
         const TimeInterval = SchedularData.conf.interval;
-        let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
-        let scheduleTimeOnStartDate = this.getStartTime(SchedularData.conf.startTime);
+        let scheduleTime = SchedularData.conf.startTime;
+        let scheduleTimeOnStartDate = SchedularData.conf.startTime;
         console.log('scheduled time', scheduleTime);
         const scheduleCreationTime = this.getMinutes();
         let position = 0;
@@ -146,14 +146,14 @@ export class IntakeHelper extends ActionHelper {
         if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
             const totalminutes = this.getMinutes();
             for (let h = 0; h < IntakeSchedularData.conf.specificTimes.length; h++) {
-                const receivedSpecificTime = this.getStartTime(IntakeSchedularData.conf.specificTimes[h]);
+                const receivedSpecificTime = IntakeSchedularData.conf.specificTimes[h];
                 if (receivedSpecificTime >= totalminutes) {
                     this.actionItems[i].dayAction.push({ time: receivedSpecificTime });
                 }
             }
         } else {
             for (let h = 0; h < IntakeSchedularData.conf.specificTimes.length; h++) {
-                const receivedSpecificTime = this.getStartTime(IntakeSchedularData.conf.specificTimes[h]);
+                const receivedSpecificTime = IntakeSchedularData.conf.specificTimes[h];
                 this.actionItems[i].dayAction.push({ time: receivedSpecificTime });
             }
         }

@@ -406,7 +406,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 				return 'Completed';
 			}
 		} else {
-			return 'Cancelled';
+			return 'Stopped';
 		}
 	}// end of code block
 	isNextElementAvailable(i: number, len: number): string {
@@ -415,7 +415,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		}
 
 	}
-	checkEnddate(enddate: string) {	
+	checkEnddate(enddate: string) {
 		const endDate = new Date(enddate);
 		if (endDate >= new Date()) {
 			return false;
@@ -423,5 +423,11 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			return true;
 		}
 
+	}
+	convertToDate(minutes: number) {
+		let date = new Date();
+		date.setHours(0, 0, 0, 0);
+		date.setMinutes(minutes);
+		return date;
 	}
 } // end of class

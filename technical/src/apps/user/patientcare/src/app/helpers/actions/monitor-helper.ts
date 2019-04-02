@@ -68,8 +68,8 @@ export class MonitorHelper extends ActionHelper {
         let index = i;
         const receivedActionDate = new Date(receivedDate);
         const TimeInterval = SchedularData.conf.interval;
-        let scheduleTimeOnStartDate = this.getStartTime(SchedularData.conf.startTime);
-        let scheduleTime = this.getStartTime(SchedularData.conf.startTime);
+        let scheduleTimeOnStartDate = SchedularData.conf.startTime;
+        let scheduleTime = SchedularData.conf.startTime;
         console.log('scheduled time', scheduleTime);
         const scheduleCreationTime = this.getMinutes();
         let position = 0;
@@ -152,7 +152,7 @@ export class MonitorHelper extends ActionHelper {
             const totalminutes = this.getMinutes();
             // checking schedule start date time period.
             for (let h = 0; h < MonitorSchedularData.conf.specificTimes.length; h++) {
-                const receivedSpecificTime = this.getStartTime(MonitorSchedularData.conf.specificTimes[h]);
+                const receivedSpecificTime =MonitorSchedularData.conf.specificTimes[h];
                 // cheking schedule start time ellpased  of not 
                 if (receivedSpecificTime >= totalminutes) {
                     this.actionItems[i].dayAction.push({ time: receivedSpecificTime });
@@ -160,7 +160,7 @@ export class MonitorHelper extends ActionHelper {
             }
         } else {
             for (let h = 0; h < MonitorSchedularData.conf.specificTimes.length; h++) {
-                const receivedSpecificTime = this.getStartTime(MonitorSchedularData.conf.specificTimes[h]);
+                const receivedSpecificTime = MonitorSchedularData.conf.specificTimes[h];
                 this.actionItems[i].dayAction.push({ time: receivedSpecificTime });
             }
         }

@@ -13,4 +13,11 @@ export class TimeConversion {
             return rminutes + " minutes";
         }
     }
+   static getStartTime(startTime:string): number {
+        let t = startTime.toString();
+        const time = t.split('.');
+        const minutes = 60 * Number(time[0]);
+        const totalminutes = minutes + Number(time[1]);      
+        return totalminutes;
+    }
 }

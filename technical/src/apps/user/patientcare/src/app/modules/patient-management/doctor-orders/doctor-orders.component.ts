@@ -15,6 +15,7 @@ import { TokenModel } from 'nativescript-ui-autocomplete';
 import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/angular/autocomplete-directives';
 import * as imagepicker from "nativescript-imagepicker";
 import { DocumentUploadDatastore } from '~/app/models/db/document-upload-datastore';
+import { ChartService } from '~/app/services/chart/chart.service';
 var mime = require('mime-types')
 @Component({
 	moduleId: module.id,
@@ -34,37 +35,36 @@ export class DoctorOrdersComponent implements OnInit {
 	previewSize: number = 300;
 	doctorOrdersForm: FormGroup;
 	private _items: ObservableArray<DoctorInfo>;
+	public orderType: Array<string> = [];
 	doctorName = new FormControl('', [Validators.required]);
-	private doctors: DoctorsList[] = [
-		{ name: "Amol Patil", id: '11' },
-		{ name: "Ganesh Patil", id: '12' },
-		{ name: "mahesh Patil", id: '13' },
-		{ name: "Sarjerao", id: '14' }]
+	private doctors: DoctorsList[] = [];
 	isDescRequired = false;
 	isDrNameRequired = false;
 	isCommentRequired = false;
 	isSingleMode: boolean;
 	constructor(private params: ModalDialogParams,
+		private chartService: ChartService,
 		private passDataService: PassDataService) {
-		this.initDataItems();
 	}
 	// @ViewChild('aut') Item: RadAutoCompleteTextViewComponent;
 	ngOnInit() {
 		this.createFormControls();
+		this.getOrderType();
+		this.getDoctorNames();
 
 	}
 	// << func for creating form controls
 	createFormControls(): void {
 		this.doctorOrdersForm = new FormGroup({
 			desc: new FormControl('', [Validators.required]),
-			comment: new FormControl('', [Validators.required])
+			comment: new FormControl('', [Validators.required]),
+			order_type: new FormControl()
 		});
 		this.doctorOrdersForm.addControl('doctorName', this.doctorName);
 	}
 	// >> func for creating form controls
 	// will execute on submit
 	onSubmit() {
-		console.log('this.doctorOrdersForm', this.doctorOrdersForm.status);
 		this.isDescRequired = this.doctorOrdersForm.controls['desc'].hasError('required');
 		this.isDrNameRequired = this.doctorOrdersForm.controls['doctorName'].hasError('required');
 		this.isCommentRequired = this.doctorOrdersForm.controls['comment'].hasError('required');
@@ -75,7 +75,7 @@ export class DoctorOrdersComponent implements OnInit {
 		const desc = this.doctorOrdersForm.controls['desc'].value
 		const doctorName = this.doctorOrdersForm.controls['doctorName'].value;
 		const doctorComment = this.doctorOrdersForm.controls['comment'].value;
-		console.log(this.autocomplete);
+
 		const serverDataStoreModel = new ServerDataStoreDataModel<DoctorsOrdersDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.DOCTORS_ORDERS;
 		serverDataStoreModel.data = new DoctorsOrdersDatastoreModel();
@@ -84,6 +84,7 @@ export class DoctorOrdersComponent implements OnInit {
 		serverDataStoreModel.data.doctor_id = doctorName;
 		serverDataStoreModel.data.doctors_orders = desc;
 		serverDataStoreModel.data.status = 0;
+		serverDataStoreModel.data.order_type = this.orderType[this.doctorOrdersForm.get('order_type').value];
 		serverDataStoreModel.data.comment = doctorComment;
 		serverDataStoreModel.data.order_created_time = new Date().toISOString();
 		// to do call api of upload document and set received rec id here.
@@ -129,8 +130,8 @@ export class DoctorOrdersComponent implements OnInit {
 		takePicture(options)
 			.then(imageAsset => {
 				this.imageTaken = imageAsset;
-				console.log("Size: " + imageAsset.options.width + "x" + imageAsset.options.height);
-				console.log('picked image', this.imageTaken);
+				// console.log("Size: " + imageAsset.options.width + "x" + imageAsset.options.height);
+				// console.log('picked image', this.imageTaken);
 				if (application.android) {
 					this.docPath = this.imageTaken.android;
 				} else if (application.ios) {
@@ -152,23 +153,22 @@ export class DoctorOrdersComponent implements OnInit {
 		return this._items;
 	}
 
-	private initDataItems() {
-		this._items = new ObservableArray<DoctorInfo>();
+	// private initDataItems() {
+	// 	this._items = new ObservableArray<DoctorInfo>();
 
-		for (let i = 0; i < this.doctors.length; i++) {
-			this._items.push(new DoctorInfo(this.doctors[i].name, undefined, this.doctors[i].id));
-		}
-	}
+	// 	for (let i = 0; i < this.doctors.length; i++) {
+	// 		this._items.push(new DoctorInfo(this.doctors[i].name, undefined, this.doctors[i].id));
+	// 	}
+	// }
 	public onDidAutoComplete(args) {
-		console.log("DidAutoComplete with: " + args.text);
 		const doctorName = args.text
 		//  to do 
 		// if same doctors have same names then append email id before or after doctor name so it will easy to find id from doctor list.
 		//  fetching id from name bcz auto complete returns onley text.
 		if (doctorName != '') {
-			const item = this.doctors.filter(doctor => doctor.name === doctorName)[0]
+			const item = this.doctors.filter(doctor => doctor.formatedName === doctorName)[0] || null;
 			if (item) {
-				this.doctorOrdersForm.controls['doctorName'].setValue(item.id);
+				this.doctorOrdersForm.controls['doctorName'].setValue(item.usr_id);
 				this.doctorOrdersForm.controls['doctorName'].updateValueAndValidity();
 			}
 		}
@@ -199,8 +199,6 @@ export class DoctorOrdersComponent implements OnInit {
 					element.options.height = that.isSingleMode ? that.previewSize : that.thumbSize;
 				});
 				that.imageTaken = selection[0];
-				console.log('select image  from galary');
-				console.log(that.imageTaken);
 				if (application.android) {
 					that.docPath = this.imageTaken.android;
 				} else if (application.ios) {
@@ -209,7 +207,44 @@ export class DoctorOrdersComponent implements OnInit {
 			}).catch(function (e) {
 				console.log(e);
 			});
-	} // end of select image 
+	} // end of select image
+	// fucntion for getting  doctor order type form database
+	public getOrderType() {
+		this.chartService.getAllData('orderType').then(
+			(success) => {
+				if (success.length > 0) {
+					const medicineType = JSON.parse(success[0].conf);
+					this.orderType = [];
+					for (let item of medicineType) {
+						this.orderType.push(item);
+					}
+				}
+			},
+			(error) => {
+				console.log("getChartData error:", error);
+			}
+		);
+	}// end of block
+	// code block for getting doctors names 
+	public getDoctorNames() {
+		this.chartService.getAllData('doctorName').then(
+			(success) => {				
+				this.doctors= success;
+				if (this.doctors.length > 0) {
+					console.log('doctors names', success);
+					this._items = new ObservableArray<DoctorInfo>();
+					success.forEach((item) => {
+						item.formatedName = item.fname + " " + item.lname;
+						this._items.push(new DoctorInfo(item.formatedName, undefined, item.usr_id));
+					});					
+				}
+			},
+			(error) => {
+				console.log("getChartData error:", error);
+			}
+		);
+	}
+
 } // end of class 
 
 export class DoctorInfo extends TokenModel {
@@ -221,6 +256,10 @@ export class DoctorInfo extends TokenModel {
 	}
 }
 export class DoctorsList {
-	name: string;
-	id: string;
+	usr_id: number;
+	usr_name: string;
+	urole_name: string;
+	fname: string;
+	lname: string;
+	formatedName: string;
 }
