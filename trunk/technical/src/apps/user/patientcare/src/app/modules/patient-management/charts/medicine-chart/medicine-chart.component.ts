@@ -58,7 +58,6 @@ export class MedicineChartComponent implements OnInit {
     public frequencyType: Array<FrequencyValues> = [];
     public picked: string;
     // end of proccess variables
-    medicineTypeList = ["Tablet", "Capsule", "Syrup", "Injection", "Ointment", "Eye Drop"];
     frequencyList: FrequencyValues[] = [
         { name: "'X'- Times a day", value: 0 },
         { name: "Every 'X' hours", value: 1 },
@@ -82,12 +81,8 @@ export class MedicineChartComponent implements OnInit {
         this.chartConfModel.mornFreqInfo = new MornFreqInfo();
         this.chartConfModel.aftrnFreqInfo = new AftrnFreqInfo();
         this.chartConfModel.nightFreqInfo = new NightFreqInfo();
-        this.chartDbModel = new ChartDBModel();
-        this.medicineType = [];
-        this.frequencyType = [];
-        for (let item of this.medicineTypeList) {
-            this.medicineType.push(item);
-        }
+        this.chartDbModel = new ChartDBModel();     
+        this.frequencyType = [];      
         for (let item of this.frequencyList) {
             this.frequencyType.push(item);
         }
@@ -97,6 +92,7 @@ export class MedicineChartComponent implements OnInit {
         // this.patientName = 'Raj Ghadage';
         // creating form control
         this.createFormControls();
+        this.getMedicineType();
         this.foodInsItems = [];
         this.frequencyItems = [];
         // set food instruction segmented bar items
@@ -356,7 +352,7 @@ export class MedicineChartComponent implements OnInit {
             if (data.interval != null) {
                 this.chartConfModel.interval = data.interval * 60;
             }
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
+            this.chartConfModel.startTime =TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
 
             let description = '';
             let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
@@ -369,7 +365,7 @@ export class MedicineChartComponent implements OnInit {
 
         this.chartConfModel.name = data.name;
         this.chartConfModel.medicinetype = this.medicineType[this.medicineForm.get('medicineType').value];
-        this.chartConfModel.startDate = new Date(data.startDate).toISOString();
+        this.chartConfModel.startDate =data.startDate
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.foodInst = data.foodInst;
@@ -415,5 +411,22 @@ export class MedicineChartComponent implements OnInit {
         // this.formData.name = picked.name;
         // this.monitorName = picked.name;
     }
+// fucntion for getting  medicine type form database
+public getMedicineType() {
+    this.chartservice.getAllData('medicineType').then(
+        (success) => {	          
+            if (success.length > 0) {
+             const   medicineType = JSON.parse(success[0].conf);				
+                this.medicineType = [];
+                for (let item of medicineType) {
+                    this.medicineType.push(item);
+                }
+            }
+        },
+        (error) => {
+            console.log("getChartData error:", error);
+        }
+    );
+}
 
 }

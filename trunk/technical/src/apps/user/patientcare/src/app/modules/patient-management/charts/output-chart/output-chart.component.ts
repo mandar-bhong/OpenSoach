@@ -30,7 +30,7 @@ export class OutputChartComponent implements OnInit {
 	formData: OutputChartModel;
 	// end of proccess variables
 	public outputType: Array<string> = [];
-	outputList: string[] = ['test Output1', 'Test Output 2'];
+	outputList: string[] = [];
 
 	// end of proccess variables
 
@@ -40,17 +40,16 @@ export class OutputChartComponent implements OnInit {
 		private params: ModalDialogParams,
 		public workerService: WorkerService,
 		private chartService: ChartService) {
-		this.outputType = [];
-		for (let item of this.outputList) {
-			this.outputType.push(item);
-		}
+
 		this.chartDbModel = new ChartDBModel();
 		this.chartConfModel = new OutputChartModel();
 	}
 
 	ngOnInit() {
+
 		// creating form control
 		this.createFormControls();
+		this.getOutputType();
 		// get montior conf data for list picker
 		this.outputForm.get('startDate').setValue(new Date());
 	}
@@ -128,5 +127,22 @@ export class OutputChartComponent implements OnInit {
 	}
 	// en dof fucntion
 
-
+	// fucntion for getting  output type form database
+	public getOutputType() {
+		this.chartService.getAllData('outputType').then(
+			(success) => {			
+				let outputtype;
+				if (success.length > 0) {
+					outputtype = JSON.parse(success[0].conf);				
+					this.outputType = [];
+					for (let item of outputtype) {
+						this.outputType.push(item);
+					}
+				}
+			},
+			(error) => {
+				console.log("getChartData error:", error);
+			}
+		);
+	}
 }// end of class

@@ -48,7 +48,6 @@ export class IntakeChartComponent implements OnInit {
         { name: "Every 'X' hours", value: 0 },
         { name: "Specific time", value: 1 },
         { name: "As Required", value: 2 }];
-    intakeList: string[] = ["IV","Oral"];
 
     isSplinstructions = false;
     constructor(private routerExtensions: RouterExtensions,
@@ -68,14 +67,13 @@ export class IntakeChartComponent implements OnInit {
         for (let item of this.frequencyList) {
             this.frequencyType.push(item);
         }
-        for (let item of this.intakeList) {
-            this.intakeType.push(item);
-        }
+        
     }
 
     ngOnInit() {
         // creating form control
         this.createFormControls();
+        this.getIntakeType();
         this.frequencyItems = [];
         const freqItem1 = new SegmentedBarItem();
         freqItem1.title = "Every 'X' hours";
@@ -164,14 +162,14 @@ export class IntakeChartComponent implements OnInit {
         if (data.frequency == 0) {    //  for  after x time interval
             this.chartConfModel.interval = data.interval * 60;
             this.chartConfModel.numberofTimes = data.numberofTimes;
-            this.chartConfModel.startTime = this.datePipe.transform(data.startTime, "H.mm");
+            this.chartConfModel.startTime =TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
             // generate description
             let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
             let description = ` ${data.numberofTimes} times a day after every ${hourMinutsData} for ${data.duration} days.`;
             this.chartConfModel.desc = description;
         } else if (data.frequency == 1) {  //  for  at specific time
             for (var i = 0; i < data.specificTimes.length; i++) {
-                this.chartConfModel.specificTimes.push(this.datePipe.transform(data.specificTimes[i], "H.mm"));
+                this.chartConfModel.specificTimes.push(TimeConversion.getStartTime(this.datePipe.transform(data.specificTimes[i], "H.mm")));
             }
             // generate description
             let desc = `At specific times for ${data.duration} days`;
@@ -248,5 +246,22 @@ export class IntakeChartComponent implements OnInit {
    intakeTypeIndexChanged(args) {
     let picker = <ListPicker>args.object;
     let picked: any;   
+}
+// fucntion for getting  medicine type form database
+public getIntakeType() {
+    this.chartservice.getAllData('intakeType').then(
+        (success) => {	          
+            if (success.length > 0) {
+             const   medicineType = JSON.parse(success[0].conf);				
+                this.intakeType = [];
+                for (let item of medicineType) {
+                    this.intakeType.push(item);
+                }
+            }
+        },
+        (error) => {
+            console.log("getChartData error:", error);
+        }
+    );
 }
 }
