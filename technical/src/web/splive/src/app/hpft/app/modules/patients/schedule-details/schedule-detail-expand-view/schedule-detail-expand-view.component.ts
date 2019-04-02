@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ScheduleDataResponse, SchedularConfigData } from 'app/models/api/schedule-response';
 import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE } from 'app/app-constants';
+import { TimeConversionHelper } from 'app/helpers/time-conversion-helper';
 @Component({
   selector: 'app-schedule-detail-expand-view',
   templateUrl: './schedule-detail-expand-view.component.html',
@@ -22,21 +23,9 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
     Object.assign(this.scheduleDataResponse, this.schedule);
   }
 
-  timeConvert(n) {
-    var num = n;
-    var hours = (num / 60);
-    var rhours = Math.floor(hours);
-    var minutes = (hours - rhours) * 60;
-    var rminutes = Math.round(minutes);
-    if (rhours > 0) {
-      if (rminutes > 0) {
-        return rhours + " hour & " + rminutes + " minute";
-      } else {
-        return rhours + " hour";
-      }
-    } else {
-      return rminutes + " minute";
-    }
+  // import fromstatic class .
+  timeConvert(time: number) {
+    return TimeConversionHelper.timeConvert(time);
   }
   // code block for check status
   checkStatus(status: number, enddate: string) {

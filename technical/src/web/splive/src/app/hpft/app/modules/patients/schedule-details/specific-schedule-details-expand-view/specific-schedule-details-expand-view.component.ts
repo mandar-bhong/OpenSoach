@@ -4,7 +4,7 @@ import { PatientService } from 'app/services/patient.service';
 import { ScheduleDataResponse, SchedularConfigData } from 'app/models/api/schedule-response';
 import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE } from 'app/app-constants';
 import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
-import { Timeconversion } from 'app/helper';
+import { TimeConversionHelper } from 'app/helpers/time-conversion-helper';
 
 @Component({
   selector: 'app-specific-schedule-details-expand-view',
@@ -16,8 +16,7 @@ export class SpecificScheduleDetailsExpandViewComponent implements OnInit {
   freuencyZero = FREQUENCY_ZERO;
   freuencyOne = FREQUENCY_ONE
   isDataReveived = false;
-  PATIENT_CHECK_STATE:PATIENT_CHECK_STATE;
-  timeconversion :Timeconversion;
+  PATIENT_CHECK_STATE: PATIENT_CHECK_STATE;
   interval: any;
   constructor(private patientService: PatientService) { }
   @Input() patientconfid: number;
@@ -40,21 +39,8 @@ export class SpecificScheduleDetailsExpandViewComponent implements OnInit {
   }
 
   // import fromstatic class .
-  timeConvert(time:number) {
-    var num = time;
-    var hours = (num / 60);
-    var rhours = Math.floor(hours);
-    var minutes = (hours - rhours) * 60;
-    var rminutes = Math.round(minutes);
-    if (rhours > 0) {
-      if (rminutes > 0) {
-        return rhours + " hour & " + rminutes + " minute";
-      } else {
-        return rhours + " hour";
-      }
-    } else {
-      return rminutes + " minute";
-    }
+  timeConvert(time: number) {
+    return TimeConversionHelper.timeConvert(time);
   }
 
   // code block for check status
@@ -77,5 +63,5 @@ export class SpecificScheduleDetailsExpandViewComponent implements OnInit {
     date.setHours(0, 0, 0, 0);
     date.setMinutes(minutes);
     return date;
-    }
+  }
 }
