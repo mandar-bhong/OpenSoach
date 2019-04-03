@@ -14,7 +14,6 @@ export class MedicalContainerComponent implements OnInit {
    
   }
   selectedViewClick(value: string) {
-    console.log('value', value);
     this.selectedView = value;
   }
 }
