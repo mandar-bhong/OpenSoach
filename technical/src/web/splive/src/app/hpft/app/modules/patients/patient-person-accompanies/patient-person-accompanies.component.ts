@@ -72,6 +72,8 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
 
   //Save function for Family History.
   save() {
+    if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     const patientPersonAccompanyingDetail = new PersonalDetailsRequest();
     patientPersonAccompanyingDetail.admissionid = this.patientService.admissionid;
     patientPersonAccompanyingDetail.patientid = this.patientService.patientid;
