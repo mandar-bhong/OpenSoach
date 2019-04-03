@@ -85,7 +85,7 @@ where prec.id = ?`
 
 const QUERY_GET_SPL_PATIENT_CONF_TOTAL_FILTERED_COUNT = `select count(*) as count from spl_hpft_patient_conf_tbl $WhereCondition$`
 
-const QUERY_SPL_PATIENT_CONF_SELECT_BY_FILTER = `select id,admission_id_fk,conf_type_code,conf,end_date,status 
+const QUERY_SPL_PATIENT_CONF_SELECT_BY_FILTER = `select id,admission_id_fk,conf_type_code,conf,start_date,end_date,status 
 from spl_hpft_patient_conf_tbl 
 $WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
 
