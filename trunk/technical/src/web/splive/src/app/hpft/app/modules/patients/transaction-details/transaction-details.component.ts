@@ -14,14 +14,9 @@ export class TransactionDetailsComponent implements OnInit {
   constructor(private patientService: PatientService) { }
   transactionResponse: ActionTransactionResponse<ActionTransactionDataValue>[] = [];
   groupTransaction: GroupTransaction[] = [];
-  // groupTransactionMap = new Map<string, ActionTransactionResponse[]>();
   actionTransactionProcessedData: ActionTransactionProcessedData[] = [];
   panelOpenState = false;
   ngOnInit() {
-    //  fucntion call for geting transaction data.
-
-   // this.test();
-
 
   }
   // service fucntion for getting action transaction details.
@@ -63,54 +58,13 @@ export class TransactionDetailsComponent implements OnInit {
       }
     });
 
-
-
-
-
-
-    // this.groupTransactionMap.set("Medicine", result.Medicine || []);
-    // this.groupTransactionMap.set("Monitor", result.Monitor || []);
-    // this.groupTransactionMap.set("Intake", result.Intake || []);
-    // this.groupTransactionMap.set("Output", result.Output || []);
-    // console.log('groupTransactionMap', this.groupTransactionMap);
-
-
   }
   test() {
-    // for (let i = 0; i <= 3; i++) {
-    //   const x = new ActionTransactionResponse<ActionTransactionDataValue>();
-    //   x.actionname = 'Take Cipla 4 Times ' + i;
-    //   x.firstname = 'Sarjerao';
-    //   x.lastname = 'Ghadage';
-    //   x.txndate = '2019-03-01T16:37:01Z'
-    //   x.conftypecode = 'Medicine';
-    //   this.transactionResponse.push(x);
-    // }
-    // for (let i = 0; i <= 3; i++) {
-    //   const x = new ActionTransactionResponse<ActionTransactionDataValue>();
-    //   x.actionname = 'intake' + i;
-    //   x.firstname = 'Sarjerao';
-    //   x.lastname = 'Ghadage';
-    //   x.txndate = '2019-03-01T16:37:01Z'
-    //   x.conftypecode = 'Intake';
-    //   this.transactionResponse.push(x);
-    // }
-    // for (let i = 0; i <= 3; i++) {
-    //   const x = new ActionTransactionResponse<ActionTransactionDataValue>();
-    //   x.actionname = 'monitoring' + i;
-    //   x.firstname = 'Sarjerao';
-    //   x.lastname = 'Ghadage';
-    //   x.txndate = '2019-03-01T16:37:01Z'
-    //   x.conftypecode = 'Monitor';
-    //   this.transactionResponse.push(x);
-    // }
-    // console.log(' this.transactionResponse', this.transactionResponse);
     this.getActionTransaction();
   }
+
   gotoTop() {
-    console.log('goto top clicked');
     let el = document.getElementById('Medicine');
-    console.log('el', el);
     el.scrollIntoView({ behavior: "smooth" });
   }
   // code block cehcking obejct is emppty.
