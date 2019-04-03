@@ -92,7 +92,7 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       patientwardControls: new FormControl('', [Validators.required]),
       bednumberControls: new FormControl(''),
       doctorinchargeControls: new FormControl('', [Validators.required]),
-      admittedDateControls: new FormControl(''),
+      admittedDateControls: new FormControl('',[Validators.required]),
       patientregnoControls: new FormControl('', [Validators.required]),
     });
   }
