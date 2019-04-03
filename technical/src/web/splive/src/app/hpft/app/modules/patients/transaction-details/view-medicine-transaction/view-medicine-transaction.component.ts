@@ -11,7 +11,7 @@ import { PatientService } from 'app/services/patient.service';
 import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse, ActionTransactionDataValue } from 'app/models/api/transaction-details-response';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ConfigCodeType } from 'app/app-constants';
+import { ConfigCodeType, OUTPUT_TYPE } from 'app/app-constants';
 
 @Component({
   selector: 'app-view-medicine-transaction',
@@ -40,6 +40,7 @@ export class ViewMedicineTransactionComponent implements OnInit {
   transactionResponse: ActionTransactionResponse<ActionTransactionDataValue>[] = []
   isViewSchedule = false;
   ConfigCodeType = ConfigCodeType;
+
   dataListRequest: DataListRequest<TransactionDetailsFilter>;
   constructor(
     private appNotificationService: AppNotificationService,
@@ -97,9 +98,7 @@ export class ViewMedicineTransactionComponent implements OnInit {
       );
   }
 
-
   getDataList(): Observable<PayloadResponse<DataListResponse<ActionTransactionResponse<string>[]>>> {
-
     const dataListRequest = new DataListRequest<TransactionDetailsFilter>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
@@ -140,4 +139,5 @@ export class ViewMedicineTransactionComponent implements OnInit {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
   }
+
 }

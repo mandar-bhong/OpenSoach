@@ -51,12 +51,10 @@ export class ViewIntakeTransactionComponent implements OnInit {
     { text: 'Name', value: 'actionname' },
     { text: 'Performed On', value: 'scheduledtime' }
   ];
-  // columnsToDisplay = ['fname', 'date'];
   ngOnInit() {
     this.paginator.pageSize = 10;
     this.sort.direction = 'asc';
     this.sort.active = 'scheduledtime';
-    this.sort.direction = 'asc';
     this.getDataListing();
   }
   getDataListing(): void {
@@ -94,10 +92,8 @@ export class ViewIntakeTransactionComponent implements OnInit {
           } else {
             this.dataSource = [];
           }
-        }
-      );
+        });
   }
-
 
   getDataList(): Observable<PayloadResponse<DataListResponse<ActionTransactionResponse<string>[]>>> {
     const dataListRequest = new DataListRequest<TransactionDetailsFilter>();

@@ -11,7 +11,7 @@ import { PatientService } from 'app/services/patient.service';
 import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
 import { ActionTransactionResponse, ActionTransactionDataValue } from 'app/models/api/transaction-details-response';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ConfigCodeType } from 'app/app-constants';
+import { ConfigCodeType, OUTPUT_TYPE } from 'app/app-constants';
 
 @Component({
   selector: 'app-view-monitor-transaction',
@@ -41,6 +41,8 @@ export class ViewMonitorTransactionComponent implements OnInit {
   transactionResponse: ActionTransactionResponse<ActionTransactionDataValue>[] = []
   isViewSchedule = false;
   ConfigCodeType = ConfigCodeType;
+  outputType = OUTPUT_TYPE;
+  test: any;
   constructor(
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
@@ -135,5 +137,8 @@ export class ViewMonitorTransactionComponent implements OnInit {
   sortDirectionDesc() {
     this.sort.direction = 'desc';
     this.sort.sortChange.next(this.sort);
+  }
+  parseJSONValue(value: string) {
+    this.test = JSON.parse(value);
   }
 }

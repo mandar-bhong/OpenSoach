@@ -1,24 +1,24 @@
 <!-- for medicine  -->
-<div class="row" style="width:100%;" *ngIf="isDataReveived">
+<div class="row" *ngIf="isDataReveived">
   <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="scheduleDataResponse.conftypecode==configCodeType.MEDICINE">
     <!-- name of medicine  -->
     <div class="row">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Medicine Type </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
-          <div class="row">
-            {{scheduleDataResponse.conf.medicinetype}}
-          </div>
+      <div class="col-sm-7 col-md-7 col-lg-7">
+        <div class="row">
+          {{scheduleDataResponse.conf.medicinetype}}
         </div>
+      </div>
     </div>
     <!-- frequency zero  markup block -->
     <div class="row"
       *ngIf="scheduleDataResponse.conf.frequency==freuencyZero && (scheduleDataResponse.conf.mornFreqInfo.freqMorn || scheduleDataResponse.conf.aftrnFreqInfo.freqAftrn || scheduleDataResponse.conf.nightFreqInfo.freqNight)">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Frequency </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row" *ngIf="scheduleDataResponse.conf.mornFreqInfo.freqMorn">
           <label>Morning: {{scheduleDataResponse.conf.mornFreqInfo.mornFreqQuantity}}</label>
         </div>
@@ -33,10 +33,10 @@
     <!-- frequency one  markup block -->
     <div class="row"
       *ngIf="scheduleDataResponse.conf.frequency==freuencyOne && scheduleDataResponse.conf.numberofTimes!=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Frequency </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.numberofTimes}} times a day</label>
         </div>
@@ -51,22 +51,22 @@
     </div>
     <!-- duration markup block -->
     <div class="row">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Duration </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
-          <label>{{scheduleDataResponse.conf.duration}} days ({{ scheduleDataResponse.conf.startDate |
+          <label>{{scheduleDataResponse.conf.duration}} days ({{ scheduleDataResponse.startdate |
             date:'dd MMM yy'}} - {{scheduleDataResponse.enddate | date:'dd MMM yy'}} )</label>
         </div>
       </div>
     </div>
     <!-- description block -->
     <div class="row" *ngIf="scheduleDataResponse.conf.desc && scheduleDataResponse.conf.desc!=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Description </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.desc}} </label>
         </div>
@@ -74,10 +74,10 @@
     </div>
     <!-- special Instructions block -->
     <div class="row" *ngIf="scheduleDataResponse.conf.splinstruction">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Special Instruction </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>Test Instruction</label>
         </div>
@@ -85,10 +85,10 @@
     </div>
     <!-- status block -->
     <div class="row" *ngIf="scheduleDataResponse.status!=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Status </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{checkStatus(scheduleDataResponse.status,scheduleDataResponse.enddate)}}</label>
         </div>
@@ -97,27 +97,16 @@
   </div>
 </div>
 <!-- for Intake -->
-<div class="row" style="width:100%;" *ngIf="isDataReveived">
+<div class="row" *ngIf="isDataReveived">
   <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="scheduleDataResponse.conftypecode==configCodeType.INTAKE">
-    <!-- name of medicine  -->
-    <!-- <div class="row">
-      <div class="col-sm-4 col-md-4 col-lg-4">
-        <label>Medicine Type </label>
-      </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
-        <div class="row">
-          Test Medicine
-        </div>
-      </div>
-    </div> -->
 
     <!-- frequency zero  markup block -->
     <div class="row"
       *ngIf="scheduleDataResponse.conf.frequency==freuencyZero && scheduleDataResponse.conf.interval !=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Frequency </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.numberofTimes}} times a day</label>
         </div>
@@ -132,10 +121,10 @@
     <!-- frequency one  markup block -->
     <div class="row"
       *ngIf="scheduleDataResponse.conf.frequency==freuencyOne && scheduleDataResponse.conf.specificTimes.length>0">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Frequency </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.specificTimes.length}} times a day at <span
               *ngFor="let item of scheduleDataResponse.conf.specificTimes;let i=index">{{item | date :'shortTime'}}
@@ -148,22 +137,22 @@
     </div>
     <!-- duration markup block -->
     <div class="row">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Duration </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
-          <label>{{scheduleDataResponse.conf.duration}} days ({{ scheduleDataResponse.conf.startDate |
+          <label>{{scheduleDataResponse.conf.duration}} days ({{ scheduleDataResponse.startdate |
             date:'dd MMM yy'}} - {{scheduleDataResponse.enddate | date:'dd MMM yy'}} )</label>
         </div>
       </div>
     </div>
     <!-- description block -->
     <div class="row" *ngIf="scheduleDataResponse.conf.desc && scheduleDataResponse.conf.desc!=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Description </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.desc}} </label>
         </div>
@@ -171,10 +160,10 @@
     </div>
     <!-- special Instructions block -->
     <div class="row" *ngIf="scheduleDataResponse.conf.splinstruction">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Special Instruction </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>Test Instruction</label>
         </div>
@@ -182,10 +171,10 @@
     </div>
     <!-- status block -->
     <div class="row" *ngIf="scheduleDataResponse.status!=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Status </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{checkStatus(scheduleDataResponse.status,scheduleDataResponse.enddate)}}</label>
         </div>
@@ -194,27 +183,16 @@
   </div>
 </div>
 <!-- for Monitor -->
-<div class="row" style="width:100%;" *ngIf="isDataReveived">
+<div class="row" *ngIf="isDataReveived">
   <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="scheduleDataResponse.conftypecode==configCodeType.MONITOR">
-    <!-- name of medicine  -->
-    <div class="row">
-        <div class="col-sm-4 col-md-4 col-lg-4">
-          <label>Medicine Type </label>
-        </div>
-        <div class="col-sm-8 col-md-8 col-lg-8">
-          <div class="row">
-            Test Medicine
-          </div>
-        </div>
-      </div>
 
     <!-- frequency zero  markup block -->
     <div class="row"
       *ngIf="scheduleDataResponse.conf.frequency==freuencyZero && scheduleDataResponse.conf.interval !=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Frequency </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.numberofTimes}} times a day</label>
         </div>
@@ -229,10 +207,10 @@
     <!-- frequency one  markup block -->
     <div class="row"
       *ngIf="scheduleDataResponse.conf.frequency==freuencyOne && scheduleDataResponse.conf.specificTimes.length>0">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Frequency </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.specificTimes.length}} times a day at <span
               *ngFor="let item of scheduleDataResponse.conf.specificTimes;let i=index">{{item | date :'shortTime'}}
@@ -242,22 +220,22 @@
     </div>
     <!-- duration markup block -->
     <div class="row">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Duration </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
-          <label>{{scheduleDataResponse.conf.duration}} days ({{ scheduleDataResponse.conf.startDate |
+          <label>{{scheduleDataResponse.conf.duration}} days ({{ scheduleDataResponse.startdate |
               date:'dd MMM yy'}} - {{scheduleDataResponse.enddate | date:'dd MMM yy'}} )</label>
         </div>
       </div>
     </div>
     <!-- description block -->
     <div class="row" *ngIf="scheduleDataResponse.conf.desc && scheduleDataResponse.conf.desc!=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Description </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{scheduleDataResponse.conf.desc}} </label>
         </div>
@@ -265,10 +243,10 @@
     </div>
     <!-- special Instructions block -->
     <div class="row" *ngIf="scheduleDataResponse.conf.splinstruction">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Special Instruction </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>Test Instruction</label>
         </div>
@@ -276,10 +254,10 @@
     </div>
     <!-- status block -->
     <div class="row" *ngIf="scheduleDataResponse.status!=null">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-sm-5 col-md-5 col-lg-5">
         <label>Status </label>
       </div>
-      <div class="col-sm-8 col-md-8 col-lg-8">
+      <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
           <label>{{checkStatus(scheduleDataResponse.status,scheduleDataResponse.enddate)}}</label>
         </div>
@@ -289,7 +267,7 @@
 </div>
 
 <!-- for OutPut -->
-<div class="row" style="width:100%;" *ngIf="isDataReveived">
+<div class="row" *ngIf="isDataReveived">
   <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="scheduleDataResponse.conftypecode==configCodeType.OUTPUT">
     <!-- duration markup block -->
     <div class="row">
@@ -298,7 +276,7 @@
       </div>
       <div class="col-sm-7 col-md-7 col-lg-7">
         <div class="row">
-          <label>{{ scheduleDataResponse.conf.duration}} days ({{  scheduleDataResponse.conf.startDate |
+          <label>{{ scheduleDataResponse.conf.duration}} days ({{  scheduleDataResponse.startdate |
               date:'dd MMM yy'}} - {{scheduleDataResponse.enddate | date:'dd MMM yy'}} )</label>
         </div>
       </div>
@@ -340,4 +318,5 @@
       </div>
     </div>
   </div>
+
 </div>
