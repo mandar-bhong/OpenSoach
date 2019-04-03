@@ -116,7 +116,7 @@
     </mat-card>
 
     <div class="modal fade" id="myModal" role="dialog" tabindex="-1" aria-hidden="true">
-      <form [formGroup]="editableForm">
+      <form [formGroup]="editableForm" (ngSubmit)="changestatus()">
         <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
@@ -135,8 +135,8 @@
               <div class="form-group form-primary" mat-dialog-content>
                 <div>
                   <mat-form-field class="full-width">
-                    <input matInput placeholder="Patient Discharged Date" [matDatepicker]="startdatepicker"
-                      [(ngModel)]="dataModel.dischargedon" formControlName="dischargedDateControls">
+                    <input matInput placeholder="Patient Discharged Date" readonly [matDatepicker]="startdatepicker"
+                      [(ngModel)]="dataModel.dischargedon" formControlName="dischargedDateControls" required>
                     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
                     <mat-datepicker #startdatepicker></mat-datepicker>
                     <mat-error *ngIf="editableForm.controls['dischargedDateControls'].hasError('required')">
@@ -146,11 +146,14 @@
                 </div>
                 <div>
                   <mat-form-field class="full-width">
-                    <input matInput type="time" placeholder="Choose Time" [(ngModel)]="selectedStartTime" value="{{selectedStartTime}}" formControlName="dischargedTimeControls">
+                    <input matInput type="time" placeholder="Choose Time" [(ngModel)]="selectedStartTime" value="{{selectedStartTime}}" formControlName="dischargedTimeControls" required>
                     <button color="accent" atp-time-picker type="button" matSuffix mat-icon-button aria-label="Choose"
                       (click)="openStartTime()">
                       <i class="fa fa-clock-o" aria-hidden="true"></i>
                     </button>
+                    <mat-error *ngIf="editableForm.controls['dischargedTimeControls'].hasError('required')">
+                        {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                      </mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -160,7 +163,7 @@
                 <div class="col text-right" style="margin-top: 15px;">
                   <button matSuffix type="button" color="primary" mat-raised-button style="margin-right:10px"
                     data-dismiss="modal" (click)="cancelStatus()">No</button>
-                  <button matSuffix type="button" color="primary" mat-raised-button (click)="changestatus()"
+                  <button matSuffix type="submit" color="primary" mat-raised-button (click)="changestatus()"
                     data-dismiss="modal">Yes</button>
                 </div>
               </div>
