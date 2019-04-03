@@ -135,7 +135,7 @@
                             <!-- duration and start date of schedule   -->                           
                             <GridLayout row="0" col="0" columns="*,*,*" rows="auto">
                                 <Label row="0" col="0" class="body" text="Duration" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" text="{{item.conf.duration}} days ({{ item.conf.startDate | date:'dd MMM yy'}} - {{item.dbmodel.end_date | date:'dd MMM yy'}} )"
+                                <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" text="{{item.conf.duration}} days ({{ item.dbmodel.start_date | date:'dd MMM yy'}} - {{item.dbmodel.end_date | date:'dd MMM yy'}} )"
                                     style="margin-left: 10px;"></Label>
                             </GridLayout>
                               <!-- description of schedule   -->       
