@@ -55,7 +55,7 @@ export class ViewMonitorScheduleComponent implements OnInit, OnDestroy {
   displayedColumns = ['name', 'startdate', 'enddate', 'view'];
   sortByColumns = [
     { text: 'Name', value: 'name' },
-    { text: 'Start', value: 'startDate' },
+    { text: 'Start', value: 'startdate' },
     { text: 'End', value: 'enddate' }
   ];
   // columnsToDisplay = ['fname', 'date'];

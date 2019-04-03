@@ -51,15 +51,16 @@
           <mat-cell *matCellDef="let row" style="flex:0 0 41%;">
             <span class="mat-cell-responsive-label">Name</span>
             <span class="ellipsis mat-cell-text">{{row.conf.name}}<br>
-              <div class="displayDesc">{{row.conf.desc}}</div></span>
+              <div class="displayDesc">{{row.conf.desc}}</div>
+            </span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="startdate">
           <mat-header-cell *matHeaderCellDef style="flex:0 0 26%;">Start</mat-header-cell>
           <mat-cell *matCellDef="let row" style="flex:0 0 26%;">
             <span class="mat-cell-responsive-label">Start</span>
-            <span class="ellipsis mat-cell-text">{{row.conf.startDate | date:'dd-MMM-yy'}}</span>
-            <!-- <span class="ellipsis mat-cell-text">{{row.conf.startDate | date:'dd-MMM-yy, h:mm a'}}</span> -->
+            <span class="ellipsis mat-cell-text">{{row.startdate | date:'dd-MMM-yy'}}</span>
+            <!-- <span class="ellipsis mat-cell-text">{{row.startdate | date:'dd-MMM-yy, h:mm a'}}</span> -->
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="enddate">
@@ -75,11 +76,9 @@
           <mat-cell *matCellDef="let row">
             <span class="mat-cell-responsive-label">view</span>
             <span class="ellipsis mat-cell-text" *ngIf="row!=expandedElement" style="text-align: center;"><i
-                class="fa fa-chevron-circle-right" style="text-align: center;font-size: 1.5em;color:#FFA500"
-                aria-hidden="true"></i></span>
+                class="fa fa-chevron-circle-right setListButton" aria-hidden="true"></i></span>
             <span class="ellipsis mat-cell-text" *ngIf="row==expandedElement" style="text-align: center;"><i
-                class="fa fa-chevron-circle-down" style="text-align: center;font-size: 1.5em;color:#FFA500"
-                aria-hidden="true"></i></span>
+                class="fa fa-chevron-circle-down setListButton" aria-hidden="true"></i></span>
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="expandedDetail">

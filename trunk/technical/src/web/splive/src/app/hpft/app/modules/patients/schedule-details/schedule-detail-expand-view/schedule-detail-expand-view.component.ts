@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ScheduleDataResponse, SchedularConfigData } from 'app/models/api/schedule-response';
-import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE } from 'app/app-constants';
+import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE, CHECK_PATIENT_STATUS } from 'app/app-constants';
 import { TimeConversionHelper } from 'app/helpers/time-conversion-helper';
 @Component({
   selector: 'app-schedule-detail-expand-view',
@@ -13,7 +13,8 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
   configCodeType = ConfigCodeType;
   freuencyZero = FREQUENCY_ZERO;
   freuencyOne = FREQUENCY_ONE
-  PATIENT_CHECK_STATE:PATIENT_CHECK_STATE;
+  PATIENT_CHECK_STATE: PATIENT_CHECK_STATE;
+  CHECK_PATIENT_STATUS: CHECK_PATIENT_STATUS;
   constructor() {
   }
 
@@ -30,7 +31,7 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
   // code block for check status
   checkStatus(status: number, enddate: string) {
     // import status value from constants.
-    if (status == 0) {
+    if (status == CHECK_PATIENT_STATUS.ACTIVE) {
       const enddt = new Date(enddate);
       const currentdt = new Date();
       if (enddt.getTime() > currentdt.getTime()) {
@@ -42,12 +43,12 @@ export class ScheduleDetailExpandViewComponent implements OnInit {
       return PATIENT_CHECK_STATE.STOPPED;
     }
   }// end of code block
-  
+
   convertToDate(minutes: number) {
     let date = new Date();
     date.setHours(0, 0, 0, 0);
     date.setMinutes(minutes);
     return date;
-    }
+  }
 
 }
