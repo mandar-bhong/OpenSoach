@@ -243,7 +243,7 @@ type DBSplHpftPatientConfTableRowModel struct {
 	ConfTypeCode    string     `db:"conf_type_code" json:"conftypecode"`
 	Conf            string     `db:"conf" json:"conf"`
 	EndDate         time.Time  `db:"end_date" json:"enddate"`
-	StartDate       *time.Time `db:"start_date" json:"startdate"`
+	StartDate       time.Time `db:"start_date" json:"startdate"`
 	Status          int        `db:"status" json:"status"`
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
