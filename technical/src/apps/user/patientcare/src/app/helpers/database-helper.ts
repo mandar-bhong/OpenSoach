@@ -54,10 +54,10 @@ let selectQueries = new Map([
     ["documentget", "select * from document_tbl"],
     ["treatment_tbl_insert", "insert into treatment_tbl (uuid, admission_uuid, treatment_done, treatment_performed_time, details, post_observation, updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
     ["treatment_tbl_update", "update treatment_tbl set admission_uuid=?, treatment_done=?, treatment_performed_time=?, details=?, post_observation=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid = "],
-    ["treatment_doc_tbl_insert", "insert into treatment_doc_tbl (treatment_uuid,document_uuid) values (?,?)"],
+    ["treatment_doc_tbl_insert", "insert into treatment_doc_tbl (treatment_uuid,document_uuid,document_name,doctype) values (?,?,?,?)"],
     ["pathology_record_tbl_insert", "insert into pathology_record_tbl (uuid, admission_uuid, test_performed, test_performed_time, test_result, comments,updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
     ["pathology_record_tbl_update", "update pathology_record_doc_tbl set admission_uuid=?, test_performed=?, test_performed_time=?, test_result=?, comments=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid =?"],
-    ["pathology_record_doc_tbl_insert", "insert into pathology_record_doc_tbl (pathology_record_uuid,document_uuid) values (?,?)"],
+    ["pathology_record_doc_tbl_insert", "insert into pathology_record_doc_tbl (pathology_record_uuid,document_uuid,document_name,doctype) values (?,?,?,?)"],
     ["documentlist", "select * from document_tbl"],
 
     ["patient_admission_details", "select * from patient_admission_tbl where patient_uuid=? "],
