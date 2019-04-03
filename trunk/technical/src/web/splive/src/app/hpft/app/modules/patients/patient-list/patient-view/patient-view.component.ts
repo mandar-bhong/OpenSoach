@@ -66,6 +66,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.getServicepointList();
     this.createControls();
     this.dataModel.dischargedon = new Date();
+    // this.dataModel.dischargedon = new Date(new Date().toLocaleDateString("en-US")).toISOString().substr(0, 10);
     const dt = new Date();
     this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
     this.patientFilterRequest = new PatientFilterRequest();
@@ -82,7 +83,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   createControls(): void {
     this.editableForm = new FormGroup({
       dischargedDateControls: new FormControl('', [Validators.required]),
-      dischargedTimeControls: new FormControl(''),
+      dischargedTimeControls: new FormControl('', [Validators.required]),
     });
   }
 
@@ -102,6 +103,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
 
   // Changing status , patient is dicharge or not
   changestatus() {
+    if (this.editableForm.invalid) { return; }
     const admissionStatusRequest = new AdmissionStatusRequest();
     admissionStatusRequest.status = PATIENT_STATE.DISCHARGED;
     admissionStatusRequest.admissionid = this.selectedPatient.admissionid;
@@ -111,6 +113,8 @@ export class PatientViewComponent implements OnInit, OnDestroy {
         this.appNotificationService.success();
         this.selectedPatient.status = PATIENT_STATE.DISCHARGED;
       }
+        // this.appNotificationService.warn(this.translatePipe.transform('DATE_VALIDATION'));
+      
     });
   }
 
