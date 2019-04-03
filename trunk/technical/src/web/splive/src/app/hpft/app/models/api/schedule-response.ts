@@ -6,6 +6,7 @@ export class ScheduleDataResponse<T> {
     conftypecode: string;
     conf: T;
     enddate: string;
+    startdate: string;
     status: number;
 }
 export class SchedularConfigData {
