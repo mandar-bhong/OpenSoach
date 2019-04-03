@@ -20,7 +20,7 @@ export class DatabaseSchemaService {
     public setOfflineDB(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             // Uncomment following line for deleting database in DEBUG_MODE, never to be comitted in SVN.
-            this.database.deleteDatabaseInDebugMode();
+            // this.database.deleteDatabaseInDebugMode();
             this.database.getdbConnection()
                 .then(db => {
                     this.dbConnection = db;
@@ -71,7 +71,7 @@ export class DatabaseSchemaService {
         console.log('set db version', this.DATABASE_VERSION);
 
         // Uncomment following line for creating dummy data in DEBUG_MODE, never to be comitted in SVN.
-          this.createDummyData();
+        //   this.createDummyData();
     }
 
     readFile(filePath: string): Promise<string[]> {

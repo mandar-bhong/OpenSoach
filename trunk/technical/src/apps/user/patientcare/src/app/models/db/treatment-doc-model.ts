@@ -6,8 +6,10 @@ export class TreatmentDocDatastoreModel implements IDatastoreModel {
     client_updated_at: string;
     treatment_uuid: string;
     document_uuid: string;
+    document_name: string;
+    doctype: string;
     updated_on: string;
     getModelValues(): any[] {
-        return [this.treatment_uuid, this.document_uuid];
+        return [this.treatment_uuid, this.document_uuid,this.document_name,this.doctype];
     }
 }
