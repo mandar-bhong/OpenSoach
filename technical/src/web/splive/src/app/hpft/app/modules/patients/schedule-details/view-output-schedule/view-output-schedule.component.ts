@@ -57,7 +57,7 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
   displayedColumns = ['name', 'startdate', 'enddate', 'view'];
   sortByColumns = [
     { text: 'Name', value: 'name' },
-    { text: 'Start', value: 'startDate' },
+    { text: 'Start', value: 'startdate' },
     { text: 'End', value: 'enddate' }
   ];
   ngOnInit() {
@@ -112,7 +112,7 @@ export class ViewOutputScheduleComponent implements OnInit, OnDestroy {
     const dataListRequest = new DataListRequest<ScheduleFilter>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
-    dataListRequest.page = this.paginator.pageIndex +1;
+    dataListRequest.page = this.paginator.pageIndex + 1;
     dataListRequest.orderby = this.sort.active;
     dataListRequest.filter = new ScheduleFilter();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
