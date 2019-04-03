@@ -5,10 +5,10 @@
   tr.example-detail-row {
     height: 0 !important;
   }
-  .iner-body {
+   .iner-body {
     padding: 6px;
     margin-left: 4%;
-  }
+  } 
   
   .detail_back {
     background-color: #fdf9f9 !important;
@@ -22,4 +22,9 @@
 .spaceMargin
 {
   margin-left: 10px;
+}
+
+.margin-Left
+{
+  margin-right: 100%;
 }

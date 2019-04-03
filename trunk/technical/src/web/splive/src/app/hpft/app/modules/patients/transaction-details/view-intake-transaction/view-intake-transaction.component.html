@@ -86,10 +86,13 @@
               <div class="col iner-body">
                 <div class="row" *ngIf="checkEmptyObjects(element)">
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <label>Comment:{{element.txndata.comment }}</label>
+                    <div class="row" *ngIf="element.txndata.comment && element.txndata.comment!=null">
+                      <label>Comment:{{element.txndata.comment }}</label>
+                    </div>
                   </div>
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <label *ngIf="element.txndata.value !=null">Value: {{element.txndata.value }}</label>
+                    <label *ngIf="element.txndata.value && element.txndata.value!=null">Value:
+                      {{element.txndata.value }}</label>
                   </div>
                   <div class="col-md-4 col-lg-4 col-sm-4">
                     <label *ngIf="element.status!=null">Status: {{element.status }}</label>

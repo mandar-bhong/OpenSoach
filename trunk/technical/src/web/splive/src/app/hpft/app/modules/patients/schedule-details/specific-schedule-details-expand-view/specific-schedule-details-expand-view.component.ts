@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ScheduleFilter } from 'app/models/api/schedule-request';
 import { PatientService } from 'app/services/patient.service';
 import { ScheduleDataResponse, SchedularConfigData } from 'app/models/api/schedule-response';
-import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE } from 'app/app-constants';
+import { ConfigCodeType, FREQUENCY_ZERO, FREQUENCY_ONE, PATIENT_CHECK_STATE, CHECK_PATIENT_STATUS } from 'app/app-constants';
 import { ScheduleService } from 'app/services/patient-detail-sevices/schedule.service';
 import { TimeConversionHelper } from 'app/helpers/time-conversion-helper';
 
@@ -21,6 +21,7 @@ export class SpecificScheduleDetailsExpandViewComponent implements OnInit {
   constructor(private patientService: PatientService) { }
   @Input() patientconfid: number;
   scheduleDataResponse = new ScheduleDataResponse<SchedularConfigData>();
+  CHECK_PATIENT_STATUS: CHECK_PATIENT_STATUS;
   ngOnInit() {
     this.getScheduleDataById();
   }
@@ -45,7 +46,7 @@ export class SpecificScheduleDetailsExpandViewComponent implements OnInit {
 
   // code block for check status
   checkStatus(status: number, enddate: string) {
-    if (status == 0) {
+    if (status == CHECK_PATIENT_STATUS.ACTIVE) {
       const enddt = new Date(enddate);
       const currentdt = new Date();
       if (enddt.getTime() > currentdt.getTime()) {
