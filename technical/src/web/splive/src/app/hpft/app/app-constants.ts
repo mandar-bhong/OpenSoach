@@ -205,7 +205,13 @@ export enum PATIENT_CHECK_STATE {
     COMPLETED = "Completed",
     STOPPED = "Stopped"
 }
+export enum CHECK_PATIENT_STATUS {
+    ACTIVE = 0
+}
 
+export enum OUTPUT_TYPE {
+    BLOOD_PRESSURE = 'Blood Pressure'
+}
 
 export const FREQUENCY_ZERO = 0
 export const FREQUENCY_ONE = 1;
