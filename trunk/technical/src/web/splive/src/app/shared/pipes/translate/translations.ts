@@ -449,7 +449,11 @@ export const TRANSLATIONS: TranslationValue[] = [
   },
 
   // validation errer end
-
+// 
+{
+  key: 'DATE_VALIDATION',
+  en: 'Please enter valid date'
+},
   
   /* Person GENDER BEGIN */
   {
