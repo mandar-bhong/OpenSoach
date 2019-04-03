@@ -5,7 +5,10 @@
     <!-- <h5>First Contact </h5> -->
     <div class="form-group form-primary " *ngIf="formMode === 1">
       <mat-form-field class="full-width">
-        <input matInput placeholder="First Name" [(ngModel)]="dataModel.fname" formControlName="fnameControl">
+        <input matInput placeholder="First Name" [(ngModel)]="dataModel.fname" formControlName="fnameControl" required>
+        <mat-error *ngIf="editableForm.controls['fnameControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
       </mat-form-field>
     </div>
     <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -15,7 +18,10 @@
 
     <div class="form-group form-primary " *ngIf="formMode === 1">
       <mat-form-field class="full-width">
-        <input matInput placeholder="Last Name" [(ngModel)]="dataModel.lname" formControlName="lnameControl">
+        <input matInput placeholder="Last Name" [(ngModel)]="dataModel.lname" formControlName="lnameControl" required>
+        <mat-error *ngIf="editableForm.controls['lnameControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
       </mat-form-field>
     </div>
     <div class="form-group form-primary" *ngIf="formMode === 0">
@@ -69,6 +75,9 @@
                 {{gend.text | translate }}
               </mat-option>
         </mat-select>
+        <mat-error *ngIf="editableForm.controls['genderControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
       </mat-form-field>
     </div>
     <div class="form-group form-primary" *ngIf="formMode === 0">
