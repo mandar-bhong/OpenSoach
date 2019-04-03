@@ -7,7 +7,7 @@ import { AppNotificationService } from '../../../../../shared/services/notificat
 import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PatientUpdateRequest } from 'app/models/api/patient-data-models';
 import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 
@@ -73,6 +73,8 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
     });
   }
   save() {
+    if (this.editableForm.invalid) { return; }
+    this.inProgress = true;
     if (this.recordState === EDITABLE_RECORD_STATE.UPDATE) {
       const patientUpdateRequest = new PatientUpdateRequest();
       this.dataModel.patientid = this.patientService.patientid;
@@ -91,12 +93,12 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
   }
   createControls(): void {
     this.editableForm = new FormGroup({
-      fnameControl: new FormControl(''),
-      lnameControl: new FormControl(''),
+      fnameControl: new FormControl('', [Validators.required]),
+      lnameControl: new FormControl('', [Validators.required]),
       mobnoControl: new FormControl(''),
       ageControl: new FormControl(''),
       bloodgrpControl: new FormControl(''),
-      genderControl: new FormControl(''),
+      genderControl: new FormControl('', [Validators.required]),
     });
   }
 
