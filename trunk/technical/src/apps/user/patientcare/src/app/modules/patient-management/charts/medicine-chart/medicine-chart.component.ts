@@ -81,8 +81,8 @@ export class MedicineChartComponent implements OnInit {
         this.chartConfModel.mornFreqInfo = new MornFreqInfo();
         this.chartConfModel.aftrnFreqInfo = new AftrnFreqInfo();
         this.chartConfModel.nightFreqInfo = new NightFreqInfo();
-        this.chartDbModel = new ChartDBModel();     
-        this.frequencyType = [];      
+        this.chartDbModel = new ChartDBModel();
+        this.frequencyType = [];
         for (let item of this.frequencyList) {
             this.frequencyType.push(item);
         }
@@ -220,15 +220,16 @@ export class MedicineChartComponent implements OnInit {
     }
     // >> func for submit form data
 
-    createActions(uuid, admission_uuid, conf_type_code, conf) {
+    createActions(chartDbModel, conf) {
         const initModel = new ServerDataProcessorMessageModel();
         const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
         serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
         serverDataStoreModel.data = new ScheduleDatastoreModel();
-        serverDataStoreModel.data.uuid = uuid
+        serverDataStoreModel.data.uuid = chartDbModel.uuid;
+        serverDataStoreModel.data.start_date = chartDbModel.start_date;
         serverDataStoreModel.data.sync_pending = 1
-        serverDataStoreModel.data.admission_uuid = admission_uuid;
-        serverDataStoreModel.data.conf_type_code = conf_type_code;
+        serverDataStoreModel.data.admission_uuid = chartDbModel.admission_uuid;
+        serverDataStoreModel.data.conf_type_code = chartDbModel.conf_type_code;
         serverDataStoreModel.data.conf = conf;
         serverDataStoreModel.data.status = 0;
         serverDataStoreModel.data.client_updated_at = new Date().toISOString();
@@ -352,7 +353,7 @@ export class MedicineChartComponent implements OnInit {
             if (data.interval != null) {
                 this.chartConfModel.interval = data.interval * 60;
             }
-            this.chartConfModel.startTime =TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
+            this.chartConfModel.startTime = TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
 
             let description = '';
             let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
@@ -365,7 +366,7 @@ export class MedicineChartComponent implements OnInit {
 
         this.chartConfModel.name = data.name;
         this.chartConfModel.medicinetype = this.medicineType[this.medicineForm.get('medicineType').value];
-        this.chartConfModel.startDate =data.startDate
+        // this.chartConfModel.startDate =data.startDate
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.foodInst = data.foodInst;
@@ -375,8 +376,9 @@ export class MedicineChartComponent implements OnInit {
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
         this.chartDbModel.conf = confString;
+        this.chartDbModel.start_date = data.startDate.toISOString();
         this.chartDbModel.conf_type_code = ConfigCodeType.MEDICINE
-        this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString)
+        this.createActions(this.chartDbModel, confString)
     }
     // >> func for inserting form data to sqlite db
 
@@ -411,22 +413,22 @@ export class MedicineChartComponent implements OnInit {
         // this.formData.name = picked.name;
         // this.monitorName = picked.name;
     }
-// fucntion for getting  medicine type form database
-public getMedicineType() {
-    this.chartservice.getAllData('medicineType').then(
-        (success) => {	          
-            if (success.length > 0) {
-             const   medicineType = JSON.parse(success[0].conf);				
-                this.medicineType = [];
-                for (let item of medicineType) {
-                    this.medicineType.push(item);
+    // fucntion for getting  medicine type form database
+    public getMedicineType() {
+        this.chartservice.getAllData('medicineType').then(
+            (success) => {
+                if (success.length > 0) {
+                    const medicineType = JSON.parse(success[0].conf);
+                    this.medicineType = [];
+                    for (let item of medicineType) {
+                        this.medicineType.push(item);
+                    }
                 }
+            },
+            (error) => {
+                console.log("getChartData error:", error);
             }
-        },
-        (error) => {
-            console.log("getChartData error:", error);
-        }
-    );
-}
+        );
+    }
 
 }

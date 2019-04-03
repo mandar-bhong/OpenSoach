@@ -191,7 +191,7 @@ export class MonitorChartComponent implements OnInit {
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.remark = data.remark;
-        this.chartConfModel.startDate = data.startDate;
+        // this.chartConfModel.startDate = data.startDate;
         // this.chartConfModel.foodInst = data.foodInst;
 
         let confString = JSON.stringify(this.chartConfModel);
@@ -199,6 +199,7 @@ export class MonitorChartComponent implements OnInit {
         this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
         this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
         this.chartDbModel.conf = confString;
+        this.chartDbModel.start_date = data.startDate.toISOString();
         this.chartDbModel.conf_type_code = ConfigCodeType.MONITOR;
         console.log(this.chartDbModel);
         //cehcking existing monitor schedule

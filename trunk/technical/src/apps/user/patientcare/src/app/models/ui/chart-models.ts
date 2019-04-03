@@ -41,7 +41,7 @@ export class MedChartModel {
     aftrnFreqInfo: AftrnFreqInfo;
     nightFreqInfo: NightFreqInfo
     interval: number;
-    startDate: string;
+    startDate: Date;
     duration: number;
     startTime: number;
     desc: string;
@@ -152,7 +152,7 @@ export class PickerValues {
 export class OutputChartModel {
     outputType: string;
     duration: number;
-    startDate: string;
+    startDate: Date;
     desc: string;
     remark: string;
     name: string;

@@ -21,9 +21,9 @@ export class ActionHelper {
     createDateEntries() {
         console.log('in createDateEntries');
         let processTime = ProcessTime;
-        this.startdate = new Date(this.schedulardata.conf.startDate);
-        this.startdatetime = new Date(this.schedulardata.conf.startDate);
-        this.startDateWithoutHours = new Date(this.schedulardata.conf.startDate);
+        this.startdate = new Date(this.schedulardata.data.start_date);
+        this.startdatetime = new Date(this.schedulardata.data.start_date);
+        this.startDateWithoutHours = new Date(this.schedulardata.data.start_date);
         this.startDateWithoutHours.setHours(0, 0, 0, 0);
         this.numberofdays = this.schedulardata.conf.duration;
         this.enddate = new Date();

@@ -67,7 +67,7 @@ export class IntakeChartComponent implements OnInit {
         for (let item of this.frequencyList) {
             this.frequencyType.push(item);
         }
-        
+
     }
 
     ngOnInit() {
@@ -162,7 +162,7 @@ export class IntakeChartComponent implements OnInit {
         if (data.frequency == 0) {    //  for  after x time interval
             this.chartConfModel.interval = data.interval * 60;
             this.chartConfModel.numberofTimes = data.numberofTimes;
-            this.chartConfModel.startTime =TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
+            this.chartConfModel.startTime = TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
             // generate description
             let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);
             let description = ` ${data.numberofTimes} times a day after every ${hourMinutsData} for ${data.duration} days.`;
@@ -184,7 +184,7 @@ export class IntakeChartComponent implements OnInit {
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.remark = data.remark;
         this.chartConfModel.intakeType = this.intakeType[this.intakeForm.get('intakeType').value];
-        this.chartConfModel.startDate = data.startDate
+        // this.chartConfModel.startDate = data.startDate
         let confString = JSON.stringify(this.chartConfModel);
 
         // set db model
@@ -192,8 +192,9 @@ export class IntakeChartComponent implements OnInit {
         this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
         this.chartDbModel.conf = confString;
         this.chartDbModel.conf_type_code = ConfigCodeType.INTAKE;
+        this.chartDbModel.start_date = data.startDate.toISOString();
         //  fucntion  for create actions
-        this.createActions(this.chartDbModel.uuid, this.chartDbModel.admission_uuid, this.chartDbModel.conf_type_code, confString);
+        this.createActions(this.chartDbModel, confString);
 
     }
     // >> func for inserting form data to sqlite db
@@ -226,14 +227,15 @@ export class IntakeChartComponent implements OnInit {
     // >> func for creating form controls
 
     // fucntion for creating intake actions
-    createActions(uuid, admission_uuid, conf_type_code, conf) {
+    createActions(chartDbModel, conf) {
         const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
         serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
         serverDataStoreModel.data = new ScheduleDatastoreModel();
-        serverDataStoreModel.data.uuid = uuid
+        serverDataStoreModel.data.uuid = chartDbModel.uuid
+        serverDataStoreModel.data.start_date = chartDbModel.start_date;
         serverDataStoreModel.data.sync_pending = 1
-        serverDataStoreModel.data.admission_uuid = admission_uuid;
-        serverDataStoreModel.data.conf_type_code = conf_type_code;
+        serverDataStoreModel.data.admission_uuid = chartDbModel.admission_uuid;
+        serverDataStoreModel.data.conf_type_code = chartDbModel.conf_type_code;
         serverDataStoreModel.data.conf = conf;
         serverDataStoreModel.data.status = 0;
         serverDataStoreModel.data.client_updated_at = new Date().toISOString();
@@ -242,26 +244,26 @@ export class IntakeChartComponent implements OnInit {
         this.params.closeCallback([serverDataStoreModel]);
     }
     // en dof fucntion
-   // on inatke type selection change
-   intakeTypeIndexChanged(args) {
-    let picker = <ListPicker>args.object;
-    let picked: any;   
-}
-// fucntion for getting  medicine type form database
-public getIntakeType() {
-    this.chartservice.getAllData('intakeType').then(
-        (success) => {	          
-            if (success.length > 0) {
-             const   medicineType = JSON.parse(success[0].conf);				
-                this.intakeType = [];
-                for (let item of medicineType) {
-                    this.intakeType.push(item);
+    // on inatke type selection change
+    intakeTypeIndexChanged(args) {
+        let picker = <ListPicker>args.object;
+        let picked: any;
+    }
+    // fucntion for getting  medicine type form database
+    public getIntakeType() {
+        this.chartservice.getAllData('intakeType').then(
+            (success) => {
+                if (success.length > 0) {
+                    const medicineType = JSON.parse(success[0].conf);
+                    this.intakeType = [];
+                    for (let item of medicineType) {
+                        this.intakeType.push(item);
+                    }
                 }
+            },
+            (error) => {
+                console.log("getChartData error:", error);
             }
-        },
-        (error) => {
-            console.log("getChartData error:", error);
-        }
-    );
-}
+        );
+    }
 }
