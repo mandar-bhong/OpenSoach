@@ -241,46 +241,51 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		}
 	}// end 
 	pushAddedSchedule(scheduleDatastoreModel: ScheduleDatastoreModel) {
-		let scheduleitem = this.chartListItemsAll.filter(data => data.dbmodel.uuid === scheduleDatastoreModel.uuid)[0];
-		// item found in array 
-		if (scheduleitem && scheduleitem != null) {
-			scheduleitem.dbmodel = scheduleDatastoreModel;
-			scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
-		}
-		else {
-			scheduleitem = new ChartListViewModel();
-			scheduleitem.dbmodel = scheduleDatastoreModel;
-			scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
-			this.chartListItemsAll.push(scheduleitem);
-		}
+		// if schedule is added for another patient then dont add it 
+		if (scheduleDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
 
-		if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_ACTIVE) {
-			const end_date = new Date(scheduleDatastoreModel.end_date);
-			const todaysdate = new Date();
-			// check for end date, if end date is less
-			const activeScheduleItemInex = this.chartListItemsActive.indexOf(scheduleitem);
-			if (end_date >= todaysdate) {
-				// if not present in chartListItemsActive, add it				
-				if (activeScheduleItemInex < 0) {
-					this.chartListItemsActive.push(scheduleitem);
-				}
+
+			let scheduleitem = this.chartListItemsAll.filter(data => data.dbmodel.uuid === scheduleDatastoreModel.uuid)[0];
+			// item found in array 
+			if (scheduleitem && scheduleitem != null) {
+				scheduleitem.dbmodel = scheduleDatastoreModel;
+				scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
 			}
 			else {
-				// if present in chartListItemsActive, remove it
-				if (activeScheduleItemInex >= 0) {
-					this.chartListItemsActive.splice(activeScheduleItemInex, 1);
+				scheduleitem = new ChartListViewModel();
+				scheduleitem.dbmodel = scheduleDatastoreModel;
+				scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
+				this.chartListItemsAll.push(scheduleitem);
+			}
+
+			if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_ACTIVE) {
+				const end_date = new Date(scheduleDatastoreModel.end_date);
+				const todaysdate = new Date();
+				// check for end date, if end date is less
+				const activeScheduleItemInex = this.chartListItemsActive.indexOf(scheduleitem);
+				if (end_date >= todaysdate) {
+					// if not present in chartListItemsActive, add it				
+					if (activeScheduleItemInex < 0) {
+						this.chartListItemsActive.push(scheduleitem);
+					}
+				}
+				else {
+					// if present in chartListItemsActive, remove it
+					if (activeScheduleItemInex >= 0) {
+						this.chartListItemsActive.splice(activeScheduleItemInex, 1);
+					}
+				}
+			} else if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_CANCELLED) {
+				if (scheduleitem) {
+					// if scheduleitem exists in chartListItemsActive remove it
+					const itemIndex = this.chartListItemsActive.indexOf(scheduleitem);
+					if (itemIndex >= 0) {
+						this.chartListItemsActive.splice(itemIndex, 1);
+					}
 				}
 			}
-		} else if (scheduleDatastoreModel.status == ScheuldeStatus.SCHEDULE_CANCELLED) {
-			if (scheduleitem) {
-				// if scheduleitem exists in chartListItemsActive remove it
-				const itemIndex = this.chartListItemsActive.indexOf(scheduleitem);
-				if (itemIndex >= 0) {
-					this.chartListItemsActive.splice(itemIndex, 1);
-				}
-			}
+			this.sortActiveAndAllSchedule();
 		}
-		this.sortActiveAndAllSchedule();
 	}
 
 

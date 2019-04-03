@@ -85,13 +85,14 @@ export class OutputChartComponent implements OnInit {
 		this.chartConfModel.remark = data.remark;
 		const desc = `Check ${this.chartConfModel.name} for ${data.duration} days`;
 		this.chartConfModel.desc = desc;
-		this.chartConfModel.startDate = data.startDate;
+		// this.chartConfModel.startDate = data.startDate;
 		// this.chartConfModel.foodInst = data.foodInst;
 		let confString = JSON.stringify(this.chartConfModel);
 		// set db model
 		this.chartDbModel.uuid = PlatformHelper.API.getRandomUUID();
 		this.chartDbModel.admission_uuid = this.passDataService.getAdmissionID();
 		this.chartDbModel.conf = confString;
+		this.chartDbModel.start_date = data.startDate.toISOString();
 		this.chartDbModel.conf_type_code = ConfigCodeType.OUTPUT;
 		console.log(this.chartDbModel);
 		this.createActions(this.chartDbModel, confString);
@@ -130,10 +131,10 @@ export class OutputChartComponent implements OnInit {
 	// fucntion for getting  output type form database
 	public getOutputType() {
 		this.chartService.getAllData('outputType').then(
-			(success) => {			
+			(success) => {
 				let outputtype;
 				if (success.length > 0) {
-					outputtype = JSON.parse(success[0].conf);				
+					outputtype = JSON.parse(success[0].conf);
 					this.outputType = [];
 					for (let item of outputtype) {
 						this.outputType.push(item);
