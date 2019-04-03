@@ -136,14 +136,6 @@ VALUES
  ('PMD006', '3', '6', '6', null, null, null, null, null, null, null, null, null, '2'),
  ('PMD007', '3', '7', '7', null, null, null, null, null, null, null, null, null, '2');
  
- 
- INSERT INTO `spl_hpft_patient_conf_tbl` (`id`, `uuid`, `cpm_id_fk`, `admission_id_fk`, `conf_type_code`, `conf`, `start_date`, `end_date`, `status`, `client_updated_at`, `created_on`, `updated_on`, `updated_by`) VALUES
-	(1, 'aa16dfa6-f883-4f68-9dd9-4538271b3df4', 3, 3, 'Medicine', '{"desc": "3 times a day before meal for 3 days", "name": "Paracetamol", "duration": "3", "foodInst": 0, "frequency": 0, "startDate": "2019-03-27T11:31:35.429Z", "medicinetype": "Tablet", "mornFreqInfo": {"freqMorn": true, "mornFreqQuantity": "1"}, "aftrnFreqInfo": {"freqAftrn": true, "aftrnFreqQuantity": "1"}, "nightFreqInfo": {"freqNight": true, "nightFreqQuantity": "1"}}', NULL, '2019-03-30 06:00:00', 0, '2019-03-27 11:32:16.000', '2019-03-27 11:32:24.319', '2019-03-27 11:32:24.319', 2),
-	(2, '68fe4f76-79ce-46e3-a80a-04886b3ce4db', 3, 3, 'Output', '{"desc": "Check test Output1 for 3 days", "name": "test Output1", "remark": "Take care", "duration": "3", "startDate": "2019-03-27T11:32:58.839Z"}', NULL, '2019-03-30 11:33:40', 0, '2019-03-27 11:33:20.000', '2019-03-27 11:33:41.634', '2019-03-27 11:33:41.634', 2),
-	(3, '68abc8ae-b300-4dbd-8786-7bef3a7d47a5', 3, 3, 'Monitor', '{"desc": " 3 times a day after every 2 hours for 6 days.", "name": "Blood Pressure", "remark": "Take care", "duration": "6", "frequency": 0, "startDate": "2019-03-27T11:34:36.090Z", "startTime": "17.05", "intervalHrs": 120, "numberofTimes": "3"}', NULL, '2019-04-01 15:35:00', 0, '2019-03-27 11:35:40.000', '2019-03-27 11:35:47.984', '2019-03-27 11:35:47.984', 2),
-	(4, '54a802c7-8135-445b-b7e3-0fb8eee7d96a', 3, 3, 'Intake', '{"desc": " 3 times a day after every 2 hours for 3 days.", "name": "Intake1", "remark": null, "duration": "3", "quantity": "2", "frequency": 0, "startDate": "2019-03-27T11:35:51.417Z", "startTime": "17.06", "intakeType": "IV", "intervalHrs": 120, "numberofTimes": "3", "specificTimes": []}', NULL, '2019-03-29 15:36:00', 0, '2019-03-27 11:36:30.000', '2019-03-27 11:36:38.113', '2019-03-27 11:36:38.113', 2);
-
-
 
 
 
