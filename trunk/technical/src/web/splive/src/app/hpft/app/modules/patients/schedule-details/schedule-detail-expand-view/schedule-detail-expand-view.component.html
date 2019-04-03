@@ -130,6 +130,9 @@
         <div class="row">
           <label>Repeat every {{timeConvert(scheduleDataResponse.conf.interval)}}</label>
         </div>
+        <div class="row">
+            <label>Quantity: {{ scheduleDataResponse.conf.quantity}}</label>
+          </div>
       </div>
     </div>
     <!-- frequency one  markup block -->
@@ -146,7 +149,7 @@
                 *ngIf=" i <scheduleDataResponse.conf.specificTimes.length-1">,</span></span></label>
         </div>
         <div class="row">
-          <label>Quantity {{scheduleDataResponse.conf.quantity}}</label>
+          <label>Quantity: {{ scheduleDataResponse.conf.quantity}}</label>
         </div>
       </div>
     </div>
