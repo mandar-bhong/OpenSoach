@@ -262,10 +262,11 @@ type DBSearchPatientConfRequestFilterDataModel struct {
 }
 
 type DBSearchPatientConfResponseFilterDataModel struct {
-	PatientConfId int64     `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
-	AdmissionId   int64     `db:"admission_id_fk" json:"admissionid"`
-	ConfTypeCode  string    `db:"conf_type_code" json:"conftypecode"`
-	Conf          string    `db:"conf" json:"conf"`
-	EndDate       time.Time `db:"end_date" json:"enddate"`
-	Status        int       `db:"status" json:"status"`
+	PatientConfId int64      `db:"id" dbattr:"pri,auto"  json:"patientconfid"`
+	AdmissionId   int64      `db:"admission_id_fk" json:"admissionid"`
+	ConfTypeCode  string     `db:"conf_type_code" json:"conftypecode"`
+	Conf          string     `db:"conf" json:"conf"`
+	StartDate     *time.Time `db:"start_date" json:"startdate"`
+	EndDate       time.Time  `db:"end_date" json:"enddate"`
+	Status        int        `db:"status" json:"status"`
 }
