@@ -59,4 +59,6 @@ export class AdmissionDetailsModel {
 	sp_uuid: number;
 	dr_incharge: number;
 	admitted_on: string;
+	fname: string;
+	lname: string;
 }

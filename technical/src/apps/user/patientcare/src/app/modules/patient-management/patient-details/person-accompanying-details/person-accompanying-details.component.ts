@@ -3,6 +3,7 @@ import { PatientListService } from '~/app/services/patient-list/patient-list.ser
 import { PassDataService } from '~/app/services/pass-data-service';
 import { JSONBaseDataModel } from '~/app/models/ui/json-base-data-model';
 import { PersonAccompanyModel } from '~/app/models/ui/person-accompany-model';
+import { PERSON_ACCMPANYING_GENDER } from '~/app/app-constants';
 
 @Component({
 	moduleId: module.id,
@@ -28,7 +29,19 @@ export class PersonAccompanyingDetailsComponent implements OnInit {
 					this.jsonField.data = [];
 					Object.assign(this.jsonField, JSON.parse(item.person_accompanying));
 					if (this.jsonField.data.length > 0) {
+						switch(this.jsonField.data[0].gender){
+						   case 0:
+						   this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
+						   break;
+						   case 1:
+						   this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_MALE;
+						   break;
+						   case 2:
+						   this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
+						   break;
+						}
 						this.personAccompanyDetailsModel = this.jsonField.data[0];
+						
 					}
 				});
 			},

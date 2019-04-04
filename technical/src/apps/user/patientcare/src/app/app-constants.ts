@@ -123,3 +123,8 @@ export enum ACTION_STATUS {
     // actions was supposed to be performed more than 3 hours before
     MISSED = "MISSED"
 }
+export enum PERSON_ACCMPANYING_GENDER {
+   GENDER_MALE = "Male",
+   GENDER_FEMALE = "Female",
+   GENDER_NOT_SELECTED = "Not_Seleced",
+}

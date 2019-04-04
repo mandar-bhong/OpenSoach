@@ -21,16 +21,10 @@ export class AdmissionDetailsComponent implements OnInit {
 		this.getAdmissionDetailsByUUID();
 	}
 	public getAdmissionDetailsByUUID() {
-			this.patientListService.getAdmissionDetailsByUUID(this.passdataservice.getPatientID()).then(
+		this.patientListService.getAdmissionDetailsByUUID(this.passdataservice.getPatientID()).then(
 			(val) => {
 				val.forEach(item => {
-			
-					this.admissionDetailsModel.patient_reg_no = item.patient_reg_no;
-					this.admissionDetailsModel.sp_uuid = item.sp_uuid;
-					this.admissionDetailsModel.bed_no = item.bed_no;
-					this.admissionDetailsModel.dr_incharge = item.dr_incharge;
-					this.admissionDetailsModel.admitted_on = item.admitted_on;
-
+					this.admissionDetailsModel = item;
 				});
 			},
 			(error) => {
@@ -38,5 +32,5 @@ export class AdmissionDetailsComponent implements OnInit {
 			}
 		);
 	}
-	
+
 }
