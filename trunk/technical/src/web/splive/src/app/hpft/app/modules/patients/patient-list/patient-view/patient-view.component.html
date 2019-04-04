@@ -135,7 +135,7 @@
               <div class="form-group form-primary" mat-dialog-content>
                 <div>
                   <mat-form-field class="full-width">
-                    <input matInput placeholder="Patient Discharged Date" readonly [matDatepicker]="startdatepicker"
+                    <input matInput placeholder="Patient Discharged Date" [min]="admittedDate" readonly [matDatepicker]="startdatepicker"
                       [(ngModel)]="dataModel.dischargedon" formControlName="dischargedDateControls" required>
                     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
                     <mat-datepicker #startdatepicker></mat-datepicker>

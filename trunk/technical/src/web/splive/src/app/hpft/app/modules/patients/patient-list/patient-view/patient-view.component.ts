@@ -54,6 +54,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   editableForm: FormGroup;
   selectedStartTime: string;
   PATIENT_STATE = PATIENT_STATE;
+  admittedDate:Date;
 
   constructor(public patientService: PatientService,
     private router: Router,
@@ -68,6 +69,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.dataModel.dischargedon = new Date();
     // this.dataModel.dischargedon = new Date(new Date().toLocaleDateString("en-US")).toISOString().substr(0, 10);
     const dt = new Date();
+    
     this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = PATIENT_STATE.HOSPITALIZE;
@@ -99,6 +101,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
 
   setSelectedPatient(patient: PatientListDataModel) {
     this.selectedPatient = patient;
+    this.admittedDate = this.selectedPatient.admittedon;
   }
 
   // Changing status , patient is dicharge or not
@@ -113,8 +116,6 @@ export class PatientViewComponent implements OnInit, OnDestroy {
         this.appNotificationService.success();
         this.selectedPatient.status = PATIENT_STATE.DISCHARGED;
       }
-        // this.appNotificationService.warn(this.translatePipe.transform('DATE_VALIDATION'));
-      
     });
   }
 
@@ -151,14 +152,15 @@ export class PatientViewComponent implements OnInit, OnDestroy {
           if (payloadResponse && payloadResponse.issuccess) {
             this.filteredrecords = payloadResponse.data.filteredrecords;
             this.dataSource = payloadResponse.data.records;
+            
             if (this.filteredrecords === 0) {
               this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
           } else {
             this.dataSource = [];
+
           }
-        }
-      );
+        });
   }
 
   getDataList(): Observable<PayloadResponse<DataListResponse<PatientDetaListResponse>>> {
@@ -177,6 +179,8 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.patientService.selcetdIndex = 0;
     this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid, callbackurl: 'patients' }, skipLocationChange: true });
   }
+
+
 
   sortByChanged() {
     this.sort.sortChange.next(this.sort);
