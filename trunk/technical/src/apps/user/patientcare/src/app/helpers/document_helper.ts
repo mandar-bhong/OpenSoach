@@ -1,6 +1,6 @@
 import { AppGlobalContext } from "../app-global-context";
 import { ServerDataProcessorMessageModel } from "../models/api/server-data-processor-message-model";
-import { SERVER_WORKER_MSG_TYPE } from "../app-constants";
+import { SERVER_WORKER_MSG_TYPE, API_APP_BASE_URL } from "../app-constants";
 import { WorkerService } from "../services/worker.service";
 
 export class DocumentHelper {
@@ -13,7 +13,7 @@ export class DocumentHelper {
 
                 // file path and url
                 var file = data.path;
-                var url = "http://172.105.232.148:91/api/v1/document/upload/ep";
+                var url = API_APP_BASE_URL + "/v1/document/upload/ep";
 
                 // upload configuration
                 var bghttp = require("nativescript-background-http");
