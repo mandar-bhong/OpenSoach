@@ -148,7 +148,7 @@ where trtmnt.cpm_id_fk =:cpmid and trtmnt.updated_on > :updatedon',
 	'select count(*) as count from spl_hpft_treatment_doc_tbl where uuid = ?',
 	'select count(*) as count, max(trtmnt.updated_on) as max_updated_on from spl_hpft_treatment_tbl trtmnt
 left join spl_hpft_treatment_doc_tbl tdoc on tdoc.treatment_id_fk = trtmnt.id
-left join spl_hpft_document_tbl doc on doc.id = tdoc.document_id_fk where trtmnt.updated_on > :updatedon','select trtmnt.uuid as treatment_uuid,doc.uuid as document_uuid,doc.name as document_name,doc.doctype from spl_hpft_treatment_tbl trtmnt
+left join spl_hpft_document_tbl doc on doc.id = tdoc.document_id_fk where trtmnt.updated_on > :updatedon','select trtmnt.uuid as treatment_uuid,doc.uuid as document_uuid,doc.name as document_name,doc.doctype,tdoc.updated_on from spl_hpft_treatment_tbl trtmnt
 left join spl_hpft_treatment_doc_tbl tdoc on tdoc.treatment_id_fk = trtmnt.id
 left join spl_hpft_document_tbl doc on doc.id = tdoc.document_id_fk where trtmnt.updated_on > :updatedon','insert_qry',
 'update_qry',
@@ -173,7 +173,7 @@ where prec.cpm_id_fk = :cpmid and prec.updated_on > :updatedon','insert_qry','up
 	'select count(*) as count from spl_hpft_pathology_record_doc_tbl where uuid = ?',
 	'select count(*) as count, max(prec.updated_on) as max_updated_on from spl_hpft_pathology_record_tbl prec
 left join spl_hpft_pathology_record_doc_tbl precdoc on precdoc.pathology_id_fk = prec.id
-left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where prec.updated_on > :updatedon','select prec.uuid as pathology_record_uuid,doc.uuid as document_uuid,doc.name as document_name,doc.doctype from spl_hpft_pathology_record_tbl prec
+left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where prec.updated_on > :updatedon','select prec.uuid as pathology_record_uuid,doc.uuid as document_uuid,doc.name as document_name,doc.doctype,precdoc.updated_on from spl_hpft_pathology_record_tbl prec
 left join spl_hpft_pathology_record_doc_tbl precdoc on precdoc.pathology_id_fk = prec.id
 left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where prec.updated_on > :updatedon','insert_qry',
 'update_qry',
