@@ -3,6 +3,7 @@ import { ProcessTime, TimeConstants, dayTime, AfterMealTime, BeforeMealTime, Bef
 import { ActionHelper } from "./action-helper.js";
 import { Schedulardata } from "~/app/models/ui/chart-models.js";
 import { ActionsData } from "~/app/models/db/action-datastore.js";
+import { GRACE_PERIOD } from "~/app/app-constants.js";
 
 export class MedicineHelper extends ActionHelper {
     // process variables
@@ -25,7 +26,7 @@ export class MedicineHelper extends ActionHelper {
         this.numberofTimes = this.schedulardata.conf.numberofTimes;
         // code block for excuting code based on specific fequency types
         // switch (this.schedulardata.conf.frequency) {
-             
+
         // }
         if (this.schedulardata.conf.frequency == 0 || this.schedulardata.conf.frequency == 1) {
             this.createDateEntries(); // calling base class function for creating date entries.
@@ -219,7 +220,8 @@ export class MedicineHelper extends ActionHelper {
         for (let x = 0; x < this.numberofTimes; x++) {
             if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
                 // console.log('scheduleTimeOnStartDate', scheduleTimeOnStartDate, 'scheduleCreationTime', scheduleCreationTime);
-                if (scheduleTimeOnStartDate >= scheduleCreationTime) {
+               // if schedule start time is less than cuurrent time then add grace period for generating actions.
+                if (scheduleTimeOnStartDate + GRACE_PERIOD >= scheduleCreationTime) {
                     //  console.log('schedule time ,', scheduleTime)
                     if (scheduleTime > DayTimes.dayEndTime) {
                         position++;

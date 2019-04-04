@@ -48,7 +48,7 @@ import { AllergiesComponent } from "./patient-details/allergies/allergies.compon
 import { TreatmentBeforeAdmissionComponent } from "./patient-details/treatment-before-admission/treatment-before-admission.component";
 import { PersonalHistoryComponent } from "./patient-details/personal-history/personal-history.component";
 import { OutputChartComponent } from "./charts/output-chart/output-chart.component";
-
+import { AppNotificationService } from "~/app/services/app-notification-service";
 
 @NgModule({
     imports: [
@@ -107,7 +107,8 @@ import { OutputChartComponent } from "./charts/output-chart/output-chart.compone
         DatePipe,
         ChartService,
         ActionService,
-        MonitorService
+        MonitorService,
+        AppNotificationService
     ],
     entryComponents: [
         DoctorOrdersComponent,

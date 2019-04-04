@@ -5,7 +5,7 @@ import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ListPicker } from 'tns-core-modules/ui/list-picker/list-picker';
 import { SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
-import { ConfigCodeType, SYNC_STORE } from '~/app/app-constants';
+import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD } from '~/app/app-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
@@ -14,6 +14,7 @@ import { ChartDBModel, FrequencyValues, IntakeChartModel, PickerValues } from '~
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
+import { AppNotificationService } from '~/app/services/app-notification-service';
 
 @Component({
     moduleId: module.id,
@@ -41,6 +42,7 @@ export class IntakeChartComponent implements OnInit {
     isspecificTime: boolean;
     serverDataStoreDataModelArray: ServerDataStoreDataModel<ScheduleDatastoreModel>[] = [];
     patientName: string;
+    isStartTimeValid = false;
     public frequencyType: Array<FrequencyValues> = [];
     public intakeType: Array<string> = [];
     // end of proccess variables
@@ -55,6 +57,7 @@ export class IntakeChartComponent implements OnInit {
         private params: ModalDialogParams,
         public workerService: WorkerService,
         private passDataService: PassDataService,
+        private appNotificationService: AppNotificationService,
         private chartservice: ChartService) {
         this.formData = new IntakeChartModel();
         this.formData.specificTimes = [];
@@ -143,11 +146,38 @@ export class IntakeChartComponent implements OnInit {
         // assign form data to model
         this.formData = Object.assign({}, this.intakeForm.value);
         this.formData.specificTimes = this.specifictimes;
-        if (this.formData.frequency == 1) {
-            if (this.specifictimes.length == 0) {
-                this.isspecificTime = true;
-                return;
-            }
+
+
+        // case for validating data.
+        switch (this.formData.frequency) {
+            case 0:
+                //  validation for checing grace peroid of schedule generation.
+                const startTimeInMinutes = TimeConversion.getStartTime(this.datePipe.transform(this.intakeForm.get('startTime').value, "H.mm"));
+                const strDate = new Date();
+                strDate.setHours(0, 0, 0, 0);
+                strDate.setMinutes(startTimeInMinutes);
+                console.log('strDate', strDate);
+                strDate.setMinutes(strDate.getMinutes() + GRACE_PERIOD);
+                const currentDate = new Date();
+                console.log('currentDate', currentDate);
+                console.log('strDate', strDate);
+                if (strDate.getTime() < currentDate.getTime()) {
+                    this.isStartTimeValid = true;
+                    console.log('invalid time');
+                    this.appNotificationService.notify('Schedule can not be created in past.update start time');
+                    return;
+                } else {
+                    this.isStartTimeValid = false;
+                }
+                break;
+            case 1:
+                if (this.specifictimes.length == 0) {
+                    this.isspecificTime = true;
+                    return;
+                }
+                break;
+            case 2:
+                break;
         }
         // creating 
         this.insertData(this.formData);

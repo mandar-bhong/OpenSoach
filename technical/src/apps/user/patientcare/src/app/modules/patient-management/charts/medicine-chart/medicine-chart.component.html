@@ -25,7 +25,8 @@
                 <Label text="Food Instruction"></Label>
                 <SegmentedBar [items]="foodInsItems" selectedIndex="0" formControlName="foodInst" (selectedIndexChange)="onInstructionSelectedIndexChange($event)"
                     class="m-5" style="background-color:white;color:black"></SegmentedBar>
-            </StackLayout>
+            </StackLayout>          
+
             <StackLayout class="input-field">
                 <StackLayout class="input-field">
                     <Label text="Frequency"></Label>
@@ -108,6 +109,10 @@
                     </StackLayout>
                     <Label text="Start Time"></Label>
                     <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
+                        <StackLayout *ngIf="isStartTimeValid">
+                            <Label  textWrap="true" text="Schedule can not be created in past" style="color:red"></Label>
+                        </StackLayout>
+                    
                 </StackLayout>
                 <!-- mark up for as required -->
                 <StackLayout class="input-field" *ngIf="freqSelectedIndex==2">
