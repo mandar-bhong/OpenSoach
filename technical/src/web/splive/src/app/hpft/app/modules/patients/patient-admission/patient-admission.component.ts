@@ -10,8 +10,6 @@ import { AdmissionAddRequest, AdmissionUpdateRequest, DrInchargeListResponse } f
 import { AdmissionAddModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 import { PATIENT_STATE } from 'app/app-constants';
-import { stringify } from '@angular/compiler/src/util';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 @Component({
   selector: 'app-patient-admission',
@@ -49,17 +47,17 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
         this.dataModel.admissionid = Number(params['admissionid']);
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
-        // if (this.dataModel.status = PATIENT_STATE.DISCHARGED) {
-        //   this.setFormMode(FORM_MODE.VIEW)
-        // }
+        this.getAdmissionUpdates();
+      }
+      else if ((this.dataModel.admissionid = this.patientService.admissionid) != null) {
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        this.setFormMode(FORM_MODE.VIEW);
         this.getAdmissionUpdates();
       }
       else {
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
-
       }
-
       this.callbackUrl = params['callbackurl'];
     });
   }
@@ -92,7 +90,7 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       patientwardControls: new FormControl('', [Validators.required]),
       bednumberControls: new FormControl(''),
       doctorinchargeControls: new FormControl('', [Validators.required]),
-      admittedDateControls: new FormControl('',[Validators.required]),
+      admittedDateControls: new FormControl('', [Validators.required]),
       patientregnoControls: new FormControl('', [Validators.required]),
     });
   }
@@ -101,38 +99,50 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
   save() {
     if (this.editableForm.invalid) { return; }
     this.inProgress = true;
-    if (this.recordState == EDITABLE_RECORD_STATE.ADD) {
-      const admissionAddRequest = new AdmissionAddRequest();
-      this.dataModel.patientid = this.patientService.patientid;
-      this.dataModel.status = PATIENT_STATE.HOSPITALIZE;
-      this.dataModel.copyTo(admissionAddRequest);
-      this.patientService.admissionAddPatient(admissionAddRequest).subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.dataModel.admissionid = payloadResponse.data.admissionid;
-          this.patientService.setAdmissionId(payloadResponse.data.admissionid);
-          this.appNotificationService.success();
-          this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
-          this.patientService.personaldetailsid = payloadResponse.data.personaldetailsid;
+    if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
+      this.add();
+    }
+    if (this.recordState === EDITABLE_RECORD_STATE.UPDATE) {
+      this.update();
+    }
+  }
+
+
+  add() {
+    const admissionAddRequest = new AdmissionAddRequest();
+    this.dataModel.patientid = this.patientService.patientid;
+    this.dataModel.status = PATIENT_STATE.HOSPITALIZE;
+    this.dataModel.copyTo(admissionAddRequest);
+    this.patientService.admissionAddPatient(admissionAddRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.admissionid = payloadResponse.data.admissionid;
+        // setting received admissionid id in service for further use
+        if (payloadResponse.data.admissionid && payloadResponse.data.admissionid != null) {
           this.patientService.admissionid = payloadResponse.data.admissionid;
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-          this.setFormMode(FORM_MODE.VIEW);
         }
-        this.inProgress = false;
-      });
-    }
-    else {
-      const admissionUpdateRequest = new AdmissionUpdateRequest();
-      this.dataModel.admissionid = this.patientService.admissionid;
-      this.dataModel.copyToUpdate(admissionUpdateRequest);
-      this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.appNotificationService.success();
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-          this.setFormMode(FORM_MODE.VIEW);
-        }
-        this.inProgress = false;
-      });
-    }
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.VIEW);
+        this.patientService.setAdmissionId(payloadResponse.data.admissionid);
+        this.appNotificationService.success();
+        this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
+        this.patientService.personaldetailsid = payloadResponse.data.personaldetailsid;
+        // this.patientService.admissionid = payloadResponse.data.admissionid;
+      }
+      this.inProgress = false;
+    });
+  }
+  update() {
+    const admissionUpdateRequest = new AdmissionUpdateRequest();
+    this.dataModel.admissionid = this.patientService.admissionid;
+    this.dataModel.copyToUpdate(admissionUpdateRequest);
+    this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.appNotificationService.success();
+        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.setFormMode(FORM_MODE.VIEW);
+      }
+      this.inProgress = false;
+    });
   }
 
   getAdmissionUpdates() {
@@ -140,8 +150,6 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFromUpdateResponse(payloadResponse.data);
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-          this.setFormMode(FORM_MODE.VIEW);
           if (this.dataModel.status === PATIENT_STATE.DISCHARGED) {
             this.isEditable = false;
           }
