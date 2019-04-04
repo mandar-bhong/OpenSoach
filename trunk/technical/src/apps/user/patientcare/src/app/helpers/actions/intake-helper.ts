@@ -2,6 +2,7 @@ import { ActionHelper } from "./action-helper.js";
 import { Schedulardata } from "~/app/models/ui/chart-models.js";
 import { Medicinefrequency, DayTimes, ActionItems, Monitorfrequency, Intakefrequency } from "~/app/models/ui/action-model.js";
 import { ActionsData } from "~/app/models/db/action-datastore.js";
+import { GRACE_PERIOD } from "~/app/app-constants.js";
 
 export class IntakeHelper extends ActionHelper {
     // process variables 
@@ -74,7 +75,7 @@ export class IntakeHelper extends ActionHelper {
         let position = 0;
         for (let x = 0; x < this.numberofTimes; x++) {
             if (receivedActionDate.getTime() == this.startDateWithoutHours.getTime()) {
-                if (scheduleTimeOnStartDate >= scheduleCreationTime) {
+                if (scheduleTimeOnStartDate + GRACE_PERIOD >= scheduleCreationTime) {
                     if (scheduleTime > DayTimes.dayEndTime) {
                         position++;
                         const nextDate = new Date(receivedActionDate);

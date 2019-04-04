@@ -61,6 +61,9 @@
                     <StackLayout class="input-field">
                         <Label text="Start Time"></Label>
                         <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime"></TimePicker>
+                        <StackLayout *ngIf="isStartTimeValid">
+                            <Label  textWrap="true" text="Start time should be greater than current time or 10 minutes less" style="color:red"></Label>
+                        </StackLayout>
                     </StackLayout>
                 </StackLayout>
                 <!-- mark up for as at specific times -->

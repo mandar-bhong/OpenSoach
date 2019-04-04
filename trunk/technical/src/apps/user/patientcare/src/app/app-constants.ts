@@ -122,7 +122,10 @@ export enum ACTION_STATUS {
     ACTIVE_FUTURE = "ACTIVE_FUTURE",
     // actions was supposed to be performed more than 3 hours before
     MISSED = "MISSED"
+
 }
+export const GRACE_PERIOD = 10; // in minutes
+
 export enum PERSON_ACCMPANYING_GENDER {
    GENDER_MALE = "Male",
    GENDER_FEMALE = "Female",

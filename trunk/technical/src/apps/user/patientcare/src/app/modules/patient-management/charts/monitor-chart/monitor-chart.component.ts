@@ -6,7 +6,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { ListPicker } from 'tns-core-modules/ui/list-picker';
 import { SegmentedBar, SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
-import { ConfigCodeType, SYNC_STORE } from '~/app/app-constants';
+import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD } from '~/app/app-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
@@ -16,6 +16,7 @@ import { ChartDBModel, ChartListViewModel, FrequencyValues, MonitorChartModel } 
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
+import { AppNotificationService } from '~/app/services/app-notification-service';
 
 @Component({
     moduleId: module.id,
@@ -43,6 +44,7 @@ export class MonitorChartComponent implements OnInit {
     monitorConf: ChartListViewModel;
     isspecificTime: boolean;
     isNumberOfTimes: boolean;
+    isStartTimeValid = false;
     // end of proccess variables
     public frequencyType: Array<FrequencyValues> = [];
     frequencyList: FrequencyValues[] = [
@@ -56,6 +58,7 @@ export class MonitorChartComponent implements OnInit {
         private passDataService: PassDataService,
         private datePipe: DatePipe,
         private params: ModalDialogParams,
+        private appNotificationService:AppNotificationService,
         public workerService: WorkerService,
         private chartService: ChartService) {
 
@@ -153,12 +156,38 @@ export class MonitorChartComponent implements OnInit {
         this.formData = Object.assign({}, this.monitorForm.value);
         this.formData.name = this.monitorName;
         this.formData.specificTimes = this.specifictimes;
-        if (this.formData.frequency == 1) {
-            if (this.specifictimes.length == 0) {
-                this.isspecificTime = true;
-                return;
-            }
+        switch (this.formData.frequency) {
+            case 0:
+                //  validation for checing grace peroid of schedule generation.
+                const startTimeInMinutes = TimeConversion.getStartTime(this.datePipe.transform(this.monitorForm.get('startTime').value, "H.mm"));
+                const strDate = new Date();
+                strDate.setHours(0, 0, 0, 0);
+                strDate.setMinutes(startTimeInMinutes);
+                console.log('strDate', strDate);
+                strDate.setMinutes(strDate.getMinutes() + GRACE_PERIOD);
+                const currentDate = new Date();
+                console.log('currentDate', currentDate);
+                console.log('strDate', strDate);
+                if (strDate.getTime() < currentDate.getTime()) {
+                    this.isStartTimeValid = true;
+                    console.log('invalid time');
+                    this.appNotificationService.notify('Schedule can not be created in past.update start time');
+                    return;
+                } else {
+                    this.isStartTimeValid = false;
+                }
+                break;
+            case 1:
+                if (this.specifictimes.length == 0) {
+                    this.isspecificTime = true;
+                    return;
+                }
+                break;
+            case 2:
+                break;
+
         }
+
         // insert form data to sqlite db
         this.insertData(this.formData);
 
@@ -172,7 +201,7 @@ export class MonitorChartComponent implements OnInit {
         if (data.frequency == 0) {
             this.chartConfModel.interval = data.interval * 60;
             this.chartConfModel.numberofTimes = data.numberofTimes;
-            this.chartConfModel.startTime =TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
+            this.chartConfModel.startTime = TimeConversion.getStartTime(this.datePipe.transform(data.startTime, "H.mm"));
             // this.chartConfModel.endTime = this.datePipe.transform(data.endTime, "H.mm");
             // generate description
             let hourMinutsData = TimeConversion.timeConvert(this.chartConfModel.interval);

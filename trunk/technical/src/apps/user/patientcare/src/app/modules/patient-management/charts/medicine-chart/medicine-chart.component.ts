@@ -6,7 +6,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { ListPicker } from 'tns-core-modules/ui/list-picker/list-picker';
 import { SegmentedBar, SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
 import { Switch } from 'tns-core-modules/ui/switch';
-import { ConfigCodeType, SYNC_STORE } from '~/app/app-constants';
+import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD } from '~/app/app-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
@@ -23,6 +23,7 @@ import {
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
+import { AppNotificationService } from '~/app/services/app-notification-service';
 
 @Component({
     moduleId: module.id,
@@ -34,7 +35,6 @@ export class MedicineChartComponent implements OnInit {
 
     // proccess variables
     medicineForm: FormGroup;
-
     medNameIsValid: boolean;
     intervalIsValid: boolean;
     durationIsValid: boolean;
@@ -57,6 +57,7 @@ export class MedicineChartComponent implements OnInit {
     public medicineType: Array<string> = [];
     public frequencyType: Array<FrequencyValues> = [];
     public picked: string;
+    isStartTimeValid = false;
     // end of proccess variables
     frequencyList: FrequencyValues[] = [
         { name: "'X'- Times a day", value: 0 },
@@ -71,6 +72,7 @@ export class MedicineChartComponent implements OnInit {
         public workerService: WorkerService,
         private params: ModalDialogParams,
         private passDataService: PassDataService,
+        private appNotificationService:AppNotificationService,
         private chartservice: ChartService) {
 
         this.freqMorn = true;
@@ -175,12 +177,33 @@ export class MedicineChartComponent implements OnInit {
         // this.isInstruction = this.medicineForm.controls['desc'].hasError('required');
         this.isSplinstructions = this.medicineForm.controls['splinstructions'].hasError('required');
         this.isDosage = this.medicineForm.controls['quantity'].hasError('required');
+        const startTimeInMinutes = TimeConversion.getStartTime(this.datePipe.transform(this.medicineForm.get('startTime').value, "H.mm"));
+
         // frequency check
         switch (this.medicineForm.get('frequency').value) {
             case 0:
                 if (!(this.freqMorn || this.freqAftrn || this.freqNight)) {
                     this.isXTimesDay = true;
                     return;
+                }
+                break;
+            case 1:
+                //  validation for checing grace peroid of schedule generation.
+                const strDate = new Date();
+                strDate.setHours(0, 0, 0, 0);
+                strDate.setMinutes(startTimeInMinutes);
+                console.log('strDate', strDate);
+                strDate.setMinutes(strDate.getMinutes() + GRACE_PERIOD);
+                const currentDate = new Date();
+                console.log('currentDate', currentDate);
+                console.log('strDate', strDate);
+                if (strDate.getTime() < currentDate.getTime()) {
+                    this.isStartTimeValid = true;
+                    console.log('invalid time');
+                    this.appNotificationService.notify('Schedule can not be created in past.update start time');
+                    return;
+                }else{
+                    this.isStartTimeValid = false;
                 }
                 break;
             default:
@@ -216,7 +239,7 @@ export class MedicineChartComponent implements OnInit {
         formData.startTime = this.medicineForm.get('startTime').value;
         formData.remark = this.medicineForm.get('remark').value;
         formData.splinstruction = this.medicineForm.get('splinstructions').value;
-        this.insertData(formData);
+          this.insertData(formData);
     }
     // >> func for submit form data
 
