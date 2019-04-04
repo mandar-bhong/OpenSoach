@@ -3,6 +3,7 @@ package helper
 import (
 	"reflect"
 
+	"opensoach.com/core/logger"
 	repo "opensoach.com/hpft/api/repository"
 	constants "opensoach.com/hpft/constants"
 	hpftconst "opensoach.com/hpft/constants"
@@ -42,7 +43,7 @@ func sendNotifyTask(taskdata interface{}, tblname string) {
 
 	storename, ok := mapTblnameStorename[tblname]
 	if ok == false {
-		// logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
+		logger.Context().WithField("tblname", tblname).LogError("", logger.Normal, "Unable to get table storename from map", nil)
 	}
 
 	taskDBChangesModel := lmodels.TaskDBChangesModel{}
@@ -53,7 +54,7 @@ func sendNotifyTask(taskdata interface{}, tblname string) {
 		SendTaskToServer(hpftconst.TASK_HPFT_API_NOTIFY_DB_CHANGES, "", taskDBChangesModel)
 
 	if isSendSuccess == false {
-		// logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to submit task to server.", nil)
+		logger.Context().WithField("TaskDBChangesModel", taskDBChangesModel).LogError("", logger.Normal, "Unable to submit notify db changes task to server.", nil)
 	}
 
 }
