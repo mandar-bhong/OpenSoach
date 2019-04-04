@@ -30,7 +30,12 @@ var mapTblnameStorename = map[string]string{
 
 func HandleDatabaseDataChange(tableName string, data interface{}) {
 
-	sendNotifyTask(data, tableName)
+	switch tableName {
+	case constants.DB_SPL_HPFT_DOCUMENT_TBL:
+		break
+	default:
+		sendNotifyTask(data, tableName)
+	}
 
 }
 
