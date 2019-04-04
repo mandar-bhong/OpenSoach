@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS doctors_orders_tbl (uuid TEXT, admission_uuid TEXT, d
 CREATE TABLE IF NOT EXISTS usr_tbl (usr_id INTEGER, usr_name TEXT, urole_name Text, fname TEXT, lname TEXT ,updated_on TEXT, sync_pending INTEGER , client_updated_at TEXT);
 CREATE TABLE IF NOT EXISTS document_tbl (uuid TEXT, doc_path TEXT, doc_name TEXT, doc_type TEXT, datastore TEXT, updated_by INTEGER, updated_on TEXT, sync_pending INTEGER, client_updated_at TEXT );
 CREATE TABLE IF NOT EXISTS treatment_tbl (uuid TEXT, admission_uuid TEXT, treatment_done TEXT,treatment_performed_time TEXT, details TEXT, post_observation TEXT, updated_by INTEGER, updated_on TEXT, sync_pending INTEGER , client_updated_at TEXT);
-CREATE TABLE IF NOT EXISTS treatment_doc_tbl (treatment_uuid TEXT, document_uuid TEXT,document_name Text, doctype Text);
+CREATE TABLE IF NOT EXISTS treatment_doc_tbl (treatment_uuid TEXT, document_uuid TEXT,document_name Text, doctype Text,updated_on TEXT, sync_pending INTEGER, client_updated_at TEXT);
 CREATE TABLE IF NOT EXISTS pathology_record_tbl (uuid TEXT, admission_uuid TEXT, test_performed TEXT, test_performed_time TEXT, test_result TEXT, comments TEXT, updated_by INTEGER, updated_on TEXT, sync_pending INTEGER , client_updated_at TEXT);
-CREATE TABLE IF NOT EXISTS pathology_record_doc_tbl (pathology_record_uuid TEXT,document_uuid TEXT,document_name Text, doctype Text);
+CREATE TABLE IF NOT EXISTS pathology_record_doc_tbl (pathology_record_uuid TEXT,document_uuid TEXT,document_name Text, doctype Text,updated_on TEXT, sync_pending INTEGER, client_updated_at TEXT);
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('mst_user_tbl', 100,1,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('document_tbl', 101,2,0,'',0,'');
 INSERT INTO sync_tbl (store_name, sync_order, sync_type, sync_to_server_pending,sync_to_server_pending_time,sync_from_server_pending,sync_from_server_pending_time) VALUES ('service_point_tbl', 200,1,0,'',0,'');
