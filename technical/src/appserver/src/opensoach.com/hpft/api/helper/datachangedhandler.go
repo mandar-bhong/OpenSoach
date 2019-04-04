@@ -21,7 +21,9 @@ var mapTblnameStorename = map[string]string{
 	constants.DB_SPL_ACTION_TXN_TBL:                    constants.SYNC_STORE_ACTION_TXN,
 	constants.DB_SPL_HPFT_DOCTORS_OPRDERS_TBL:          constants.SYNC_STORE_DOCTORS_ORDERS,
 	constants.DB_SPL_HPFT_TREATMENT_TBL:                constants.SYNC_STORE_TREATMENT,
+	constants.DB_SPL_HPFT_TREATMENT_DOC_TBL:            constants.SYNC_STORE_TREATMENT_DOC,
 	constants.DB_SPL_HPFT_PATHOLOGY_RECORD_TBL:         constants.SYNC_STORE_PATHOLOGY,
+	constants.DB_SPL_HPFT_PATHOLOGY_RECORD_DOC_TBL:     constants.SYNC_STORE_PATHOLOGY_DOC,
 	constants.DB_SPL_HPFT_ACTION_TBL:                   constants.SYNC_STORE_ACTION,
 }
 
