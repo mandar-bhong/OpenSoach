@@ -1095,6 +1095,7 @@ func (service PatientService) PatientTreatmentAdd(req lmodels.APIPatientTreatmen
 	// handler for - notify db changes
 	if dbmgr.DefaultPostDataChangeHandler != nil {
 		dbmgr.DefaultPostDataChangeHandler(constants.DB_SPL_HPFT_TREATMENT_TBL, dbRowModel)
+		dbmgr.DefaultPostDataChangeHandler(constants.DB_SPL_HPFT_TREATMENT_DOC_TBL, dbRowModel)
 	}
 
 	addResponse := gmodels.APIRecordAddResponse{}
@@ -1192,6 +1193,7 @@ func (service PatientService) PatientPathologyRecordAdd(req lmodels.APIPatientPa
 	// handler for - notify db changes
 	if dbmgr.DefaultPostDataChangeHandler != nil {
 		dbmgr.DefaultPostDataChangeHandler(constants.DB_SPL_HPFT_PATHOLOGY_RECORD_TBL, dbRowModel)
+		dbmgr.DefaultPostDataChangeHandler(constants.DB_SPL_HPFT_PATHOLOGY_RECORD_DOC_TBL, dbRowModel)
 	}
 
 	addResponse := gmodels.APIRecordAddResponse{}
