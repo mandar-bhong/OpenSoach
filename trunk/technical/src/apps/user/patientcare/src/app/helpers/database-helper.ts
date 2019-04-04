@@ -55,12 +55,18 @@ let selectQueries = new Map([
     ["treatment_tbl_insert", "insert into treatment_tbl (uuid, admission_uuid, treatment_done, treatment_performed_time, details, post_observation, updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
     ["treatment_tbl_update", "update treatment_tbl set admission_uuid=?, treatment_done=?, treatment_performed_time=?, details=?, post_observation=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid = "],
     ["treatment_doc_tbl_insert", "insert into treatment_doc_tbl (treatment_uuid,document_uuid,document_name,doctype,updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?)"],
+
     ["pathology_record_tbl_insert", "insert into pathology_record_tbl (uuid, admission_uuid, test_performed, test_performed_time, test_result, comments,updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
     ["pathology_record_tbl_update", "update pathology_record_doc_tbl set admission_uuid=?, test_performed=?, test_performed_time=?, test_result=?, comments=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid =?"],
     ["pathology_record_doc_tbl_insert", "insert into pathology_record_doc_tbl (pathology_record_uuid,document_uuid,document_name,doctype,updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?)"],
     ["documentlist", "select * from document_tbl"],
+    ["getPathlogyReportList", "select * from pathology_record_tbl where admission_uuid=?"],
+    ["getPathlogyReportDoc", "select * from pathology_record_doc_tbl where pathology_record_uuid=?"],
+    ["getTreatmentReportList", "select * from treatment_tbl where admission_uuid=?"],
 
-    ["patient_admission_details", "select * from patient_admission_tbl where patient_uuid=? "],
+    ["patient_admission_details", `select padmsn.uuid, padmsn.patient_reg_no, padmsn.bed_no,padmsn.sp_uuid,padmsn.dr_incharge,padmsn.admitted_on,usr.fname,usr.lname from patient_admission_tbl padmsn
+	left join usr_tbl usr on usr.usr_id = padmsn.dr_incharge
+	where patient_uuid=?`],
     ["patient_personal_details", "select * from patient_master_tbl where uuid=? "],
     ["patient_person_accompanying_details", "select * from patient_personal_details_tbl where admission_uuid=? "],
     ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],

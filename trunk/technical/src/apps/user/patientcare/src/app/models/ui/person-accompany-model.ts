@@ -6,4 +6,5 @@ export class PersonAccompanyModel {
 	relationshipwithpatient: string;
 	contact: string;
 	alternatecontact: string;
+	genderString: string;
 }
