@@ -199,6 +199,7 @@ export class PatientListDataModel {
     status: number;
     spid: number;
     drincharge: number;
+    admittedon: Date;
     dischargedon: Date;
     copyFrom(patientDetaListResponse: PatientDetaListResponse) {
         this.patientid = patientDetaListResponse.patientid;
@@ -211,6 +212,7 @@ export class PatientListDataModel {
         this.status = patientDetaListResponse.status;
         this.spid = patientDetaListResponse.spid;
         this.drincharge = patientDetaListResponse.drincharge;
+        this.admittedon = patientDetaListResponse.admittedon;
         this.dischargedon = patientDetaListResponse.dischargedon;
     }
     copyToStatus(admissionStatusRequest: AdmissionStatusRequest) {
