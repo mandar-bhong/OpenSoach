@@ -587,7 +587,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
 			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
 			serverDataStoreModel.data.txn_data = item.txn_data;
-			serverDataStoreModel.data.scheduled_time =item.scheduled_time;
+			serverDataStoreModel.data.scheduled_time = item.scheduled_time;
 			serverDataStoreModel.data.txn_state = item.txn_state;
 			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
 			serverDataStoreModel.data.client_updated_at = new Date().toISOString();
@@ -709,8 +709,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		let actionListItem = new DataActionItem();
 		Object.assign(actionListItem, doctorsOrders.data);
 		actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
-		console.log('pushDoctorOredrs executed actionListItem', actionListItem);
-		const item = this.tempList.filter(data => data.uuid == actionListItem.uuid)[0];
+		if (actionListItem.admission_uuid == this.passdataservice.getAdmissionID()) { 
+		 console.log('pushDoctorOredrs executed actionListItem', actionListItem);
+		const item = this.tempList.filter(data => data.uuid == actionListItem.uuid)[0] || null;
 		//  if record found in list  
 		if (item) {
 			const index = this.tempList.indexOf(item);
@@ -719,6 +720,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			this.tempList.push(actionListItem);
 		}
 		this.getCount();
-	} // end of code block.
+	}
+} // end of code block.
 
 }
