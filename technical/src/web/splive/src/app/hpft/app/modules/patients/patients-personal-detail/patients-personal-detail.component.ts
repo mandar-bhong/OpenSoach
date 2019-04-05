@@ -1,24 +1,27 @@
-import { Component, OnInit, OnDestroy, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, Observable, merge } from 'rxjs';
+import { PatientUpdateRequest } from 'app/models/api/patient-data-models';
+import { Subscription } from 'rxjs';
+import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../shared/views/edit-record-base';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PatientUpdateRequest } from 'app/models/api/patient-data-models';
-import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 
 @Component({
   selector: 'app-patients-personal-detail',
   templateUrl: './patients-personal-detail.component.html',
   styleUrls: ['./patients-personal-detail.component.css']
 })
+
+
 export class PatientsPersonalDetailComponent extends EditRecordBase implements OnInit, OnDestroy {
 
   dataModel = new PatientAddModal();
+  dataModelOrg = new PatientAddModal();
   routeSubscription: Subscription;
   patientStates: EnumDataSourceItem<number>[];
   personGender: EnumDataSourceItem<number>[];
@@ -44,17 +47,18 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
         this.dataModel.patientid = Number(params['id']);
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
-        this.getPatientUpdates();
+        this.getPatientPersonalInfo();
       } else {
         this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
-        this.getPatientUpdates();
+        this.getPatientPersonalInfo();
       }
       this.callbackUrl = params['callbackurl'];
+      
     });
   }
 
-  getPatientUpdates() {
+  getPatientPersonalInfo() {
     const recordIDRequestModel = new RecordIDRequestModel();
     recordIDRequestModel.admissionid = this.patientService.admissionid;
     recordIDRequestModel.patientid = this.patientService.patientid;
@@ -62,6 +66,7 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
+          this.dataModelOrg.CopyFromUpdateResponse(payloadResponse.data);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.patientService.fname = this.dataModel.fname;
           this.patientService.lname = this.dataModel.lname;
@@ -85,6 +90,9 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
           this.dataModel.patientid = payloadResponse.data;
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+
+          this.dataModel.CopyToUpdate(this.dataModelOrg);
+
           this.appNotificationService.success();
         }
         this.inProgress = false;
@@ -109,8 +117,13 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
     }
   }
 
-  closeForm() {
+   closeForm() {
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
+    
+  }
+
+  onCancelHandler() {
+   this.dataModelOrg.CopyToUpdate(this.dataModel);
   }
 
   ngOnDestroy() {
