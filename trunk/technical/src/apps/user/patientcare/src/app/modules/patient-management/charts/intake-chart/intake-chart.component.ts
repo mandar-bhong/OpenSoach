@@ -86,6 +86,8 @@ export class IntakeChartComponent implements OnInit {
         this.frequencyItems.push(freqItem2);
         this.intakeForm.get('startDate').setValue(new Date());
         this.intakeForm.get('startTime').setValue(new Date());
+        this.intakeForm.get('specificTime').setValue(new Date());
+
     }
 
     // << func for navigating previous page
@@ -233,7 +235,11 @@ export class IntakeChartComponent implements OnInit {
     addSpecificTime() {
         const time = this.intakeForm.controls['specificTime'].value;
         if (time != null && time) {
-            this.specifictimes.push(this.intakeForm.controls['specificTime'].value);
+            const itemIndex = this.specifictimes.indexOf(time);
+            if (itemIndex < 0) {
+                this.specifictimes.push(this.intakeForm.controls['specificTime'].value);
+            }
+
         }
     }
 

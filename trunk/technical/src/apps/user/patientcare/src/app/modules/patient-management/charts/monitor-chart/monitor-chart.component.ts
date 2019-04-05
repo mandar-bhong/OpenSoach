@@ -104,6 +104,7 @@ export class MonitorChartComponent implements OnInit {
         this.monitorForm.get('startTime').setValue(new Date());
         // load default form data
         // this.monitorForm.get('startDate').setValue(new Date());
+        this.monitorForm.get('specificTime').setValue(new Date());
     }
 
     // << func for navigating previous page
@@ -244,7 +245,10 @@ export class MonitorChartComponent implements OnInit {
     addSpecificTime() {
         const timeValue = this.monitorForm.controls['specificTime'].value;
         if (timeValue && timeValue != null) {
-            this.specifictimes.push(this.monitorForm.controls['specificTime'].value);
+            const itemIndex = this.specifictimes.indexOf(timeValue);
+            if (itemIndex < 0) {
+            this.specifictimes.push(timeValue);
+            }
         }
     }
     // >> func for specific timings

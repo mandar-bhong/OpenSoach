@@ -40,7 +40,9 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                     break;
                 case ConfigCodeType.OUTPUT:
                     //   actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
-                    actiondata = new ActionsData();let startDate = new Date(schedulardata.conf.startDate);
+                    actiondata = new ActionsData();
+                    let startDate = new Date(schedulardata.data.start_date);
+                
                     let endDate = new Date();
                     days = parseInt(schedulardata.conf.duration.toString());                
                     endDate.setDate(startDate.getDate() + days);                   
@@ -54,13 +56,7 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                 //parsedConf.endDate = actiondata.enddate;
                 console.log('<=========================== sending actions to datastore =======================================>');
                 console.log('actiondata.enddate', actiondata.enddate);
-                msg.end_date = actiondata.enddate;
-                // actiondata.actions.forEach(element => {
-                //     //const actionsdbdata = new ActionDataStoreModel();
-                //   //  Object.assign(actionsdbdata, element);
-                //     DatabaseHelper.DataStoreInsertUpdate(SYNC_STORE.ACTION, element.getModelValues());
-                // });
-
+                msg.end_date = actiondata.enddate;  
                 return actiondata.actions;
             } catch (e) {
                 console.log('action inserting failed....', e.error);

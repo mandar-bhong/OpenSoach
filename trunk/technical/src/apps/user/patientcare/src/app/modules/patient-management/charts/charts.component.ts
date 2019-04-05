@@ -429,7 +429,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		}
 
 	}
-	convertToDate(minutes: number) {
+	convertToDate(minutes: number) {	
 		let date = new Date();
 		date.setHours(0, 0, 0, 0);
 		date.setMinutes(minutes);
