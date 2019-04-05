@@ -9,7 +9,7 @@ import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../..
 import { AdmissionAddRequest, AdmissionUpdateRequest, DrInchargeListResponse } from '../../../models/api/patient-data-models';
 import { AdmissionAddModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { PATIENT_STATE } from 'app/app-constants';
+import { PATIENT_STATE } from '../../../app-constants';
 
 @Component({
   selector: 'app-patient-admission',
@@ -41,7 +41,7 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     this.getServicepointList();
     this.getDrInchargeList();
     this.dataModel.admittedon = new Date();
-
+    setTimeout(() => {
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['admissionid']) {
         this.dataModel.admissionid = Number(params['admissionid']);
@@ -54,12 +54,14 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
         this.setFormMode(FORM_MODE.VIEW);
         this.getAdmissionUpdates();
       }
-      else {
+    
+      else if(this.dataModel.admissionid == null) {
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
       this.callbackUrl = params['callbackurl'];
     });
+  });
   }
 
   // Accept data from ward ie. list of ward
@@ -116,17 +118,13 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     this.patientService.admissionAddPatient(admissionAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.dataModel.admissionid = payloadResponse.data.admissionid;
-        // setting received admissionid id in service for further use
-        if (payloadResponse.data.admissionid && payloadResponse.data.admissionid != null) {
-          this.patientService.admissionid = payloadResponse.data.admissionid;
-        }
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.VIEW);
         this.patientService.setAdmissionId(payloadResponse.data.admissionid);
         this.appNotificationService.success();
         this.patientService.medicaldetialsid = payloadResponse.data.medicaldetailsid;
         this.patientService.personaldetailsid = payloadResponse.data.personaldetailsid;
-        // this.patientService.admissionid = payloadResponse.data.admissionid;
+        this.patientService.admissionid = payloadResponse.data.admissionid;
       }
       this.inProgress = false;
     });
