@@ -102,7 +102,7 @@
                                 <Label  textWrap="true" row="0"  class="label-small">
                                     <FormattedString class="label-small" >
                                         <Span class="label-small"   text="{{item.conf.specificTimes.length}} times a day at "></Span>
-                                        <Span class="label-small"   *ngFor="let items of item.conf.specificTimes;let i=index" text="{{items | date :'shortTime'}} {{ isNextElementAvailable(i, item.conf.specificTimes.length-1)}} ">
+                                        <Span class="label-small"   *ngFor="let items of item.conf.specificTimes;let i=index" text="{{convertToDate(items) | date:'shortTime'}} {{ isNextElementAvailable(i, item.conf.specificTimes.length-1)}} ">
                                            </Span>                                    
                                     </FormattedString>                                
                                   </Label>  
@@ -124,7 +124,7 @@
                                 <Label  textWrap="true" row="0"  class="label-small">
                                     <FormattedString class="label-small" >
                                         <Span class="label-small"   text="{{item.conf.specificTimes.length}} times a day at "></Span>
-                                        <Span class="label-small"   *ngFor="let items of item.conf.specificTimes;let i=index" text="{{items | date :'shortTime'}} {{ isNextElementAvailable(i, item.conf.specificTimes.length-1)}} ">
+                                        <Span class="label-small"   *ngFor="let items of item.conf.specificTimes;let i=index" text="{{convertToDate(items) | date:'shortTime'}} {{ isNextElementAvailable(i, item.conf.specificTimes.length-1)}} ">
                                            </Span>                                    
                                     </FormattedString>                                
                                   </Label>                                
