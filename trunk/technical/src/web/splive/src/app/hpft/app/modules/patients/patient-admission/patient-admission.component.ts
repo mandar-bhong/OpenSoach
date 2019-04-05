@@ -6,10 +6,10 @@ import { ServicepointListResponse } from '../../../../../prod-shared/models/api/
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
+import { PATIENT_STATE } from '../../../app-constants';
 import { AdmissionAddRequest, AdmissionUpdateRequest, DrInchargeListResponse } from '../../../models/api/patient-data-models';
 import { AdmissionAddModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { PATIENT_STATE } from '../../../app-constants';
 
 @Component({
   selector: 'app-patient-admission',
@@ -19,6 +19,7 @@ import { PATIENT_STATE } from '../../../app-constants';
 export class PatientAdmissionComponent extends EditRecordBase implements OnInit, OnDestroy {
 
   dataModel = new AdmissionAddModel();
+  dataModelOrg = new AdmissionAddModel();
   routeSubscription: Subscription;
   splist: ServicepointListResponse[];
   drlist: DrInchargeListResponse[];
@@ -41,7 +42,6 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     this.getServicepointList();
     this.getDrInchargeList();
     this.dataModel.admittedon = new Date();
-    setTimeout(() => {
     this.routeSubscription = this.route.queryParams.subscribe(params => {
       if (params['admissionid']) {
         this.dataModel.admissionid = Number(params['admissionid']);
@@ -54,14 +54,12 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
         this.setFormMode(FORM_MODE.VIEW);
         this.getAdmissionUpdates();
       }
-    
-      else if(this.dataModel.admissionid == null) {
+      else {
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.EDITABLE);
       }
       this.callbackUrl = params['callbackurl'];
     });
-  });
   }
 
   // Accept data from ward ie. list of ward
@@ -104,7 +102,7 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     if (this.recordState === EDITABLE_RECORD_STATE.ADD) {
       this.add();
     }
-    if (this.recordState === EDITABLE_RECORD_STATE.UPDATE) {
+    else if (this.recordState === EDITABLE_RECORD_STATE.UPDATE) {
       this.update();
     }
   }
@@ -135,12 +133,17 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     this.dataModel.copyToUpdate(admissionUpdateRequest);
     this.patientService.updateAdmissionRequest(admissionUpdateRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
+        this.dataModel.copyToUpdate(this.dataModelOrg);
         this.appNotificationService.success();
-        this.recordState = EDITABLE_RECORD_STATE.ADD;
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
         this.setFormMode(FORM_MODE.VIEW);
       }
       this.inProgress = false;
     });
+  }
+
+  onCancelHandler() {
+    this.dataModelOrg.copyToUpdate(this.dataModel);
   }
 
   getAdmissionUpdates() {
@@ -148,6 +151,7 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFromUpdateResponse(payloadResponse.data);
+          this.dataModelOrg.copyFromUpdateResponse(payloadResponse.data);
           if (this.dataModel.status === PATIENT_STATE.DISCHARGED) {
             this.isEditable = false;
           }
