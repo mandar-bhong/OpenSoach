@@ -29,5 +29,6 @@ export class EditableFormFooterToolbarComponent implements OnInit {
 
   cancel() {
     this.editRecordBase.setFormMode(FORM_MODE.VIEW);
+    this.editRecordBase.onCancelHandler();
   }
 }

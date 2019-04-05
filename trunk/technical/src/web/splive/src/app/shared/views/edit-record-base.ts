@@ -42,4 +42,7 @@ export abstract class EditRecordBase {
     }
 
     abstract closeForm();
+
+    onCancelHandler(){}
+
 }
