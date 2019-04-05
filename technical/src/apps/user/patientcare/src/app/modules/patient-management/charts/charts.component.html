@@ -131,7 +131,7 @@
                              </GridLayout>     
                         </GridLayout>                            
                         </GridLayout>
-                        <GridLayout row="2" col="1" columns="*" rows="auto,auto">
+                        <GridLayout row="2" col="1" columns="*" rows="auto,auto" style="margin-left: 8px;">
                             <!-- duration and start date of schedule   -->                           
                             <GridLayout row="0" col="0" columns="*,*,*" rows="auto">
                                 <Label row="0" col="0" class="body" text="Duration" style="color: #396767;"></Label>
@@ -139,19 +139,19 @@
                                     style="margin-left: 10px;"></Label>
                             </GridLayout>
                               <!-- description of schedule   -->       
-                            <GridLayout row="1" col="0" columns="*,*,*" rows="auto,auto,auto,auto">
-                                <Label row="0" col="0" class="body" text="Description" style="color: #396767;"></Label>
+                            <GridLayout row="1" col="0" columns="*,*,*" rows="auto,auto,auto">
+                                <!-- <Label row="0" col="0" class="body" text="Description" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" [text]="item.conf.desc"
-                                    style="margin-left: 10px;"></Label>    
+                                    style="margin-left: 10px;"></Label>     -->
                                        <!-- status of schedule -->   
-                                    <Label row="1" col="0" class="body" text="Status" style="color: #396767;"></Label>
-                                    <Label row="1" col="1" class="label-small" textWrap="true" colSpan="2" text="{{checkStatus(item.dbmodel.status,item.dbmodel.end_date)}}"
+                                    <Label row="0" col="0" class="body" text="Status" style="color: #396767;"></Label>
+                                    <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" text="{{checkStatus(item.dbmodel.status,item.dbmodel.end_date)}}"
                                         style="margin-left: 10px;"></Label> 
                                         <!-- mark up for remark                              -->
-                                        <Label row="2" col="0" class="body" text="Remark" style="color: #396767;" *ngIf="item.conf.remark!=null"></Label>
-                                        <Label row="2" col="1" class="label-small" textWrap="true" colSpan="2" *ngIf="item.conf.remark!=null" [text]="item.conf.remark"
+                                        <Label row="1" col="0" class="body" text="Remark" style="color: #396767;" *ngIf="item.conf.remark!=null"></Label>
+                                        <Label row="1" col="1" class="label-small" textWrap="true" colSpan="2" *ngIf="item.conf.remark!=null" [text]="item.conf.remark"
                                             style="margin-left: 10px;"></Label> 
-                                   <Button *ngIf="item.dbmodel.status==0" class="btn btn-primary btn-active btn-xs"  row="3" col="0" id="button" colSpan="2" text="Stop Schedule" (tap)="cancelScheudle(item)"></Button>
+                                   <Button *ngIf="item.dbmodel.status==0" class="btn btn-primary btn-active btn-xs"  row="2" col="0" id="button" colSpan="2" text="Stop Schedule" (tap)="cancelScheudle(item)"></Button>
                             </GridLayout>                        
                            
                         </GridLayout>
