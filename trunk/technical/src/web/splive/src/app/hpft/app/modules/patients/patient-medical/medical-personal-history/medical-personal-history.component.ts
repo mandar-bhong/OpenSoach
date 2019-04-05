@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { MedicalDetailsModel } from 'app/models/ui/patient-models';
+// import { MedicalDetailsModel } from 'app/models/ui/patient-models';
 import { Subscription } from 'rxjs';
-import { PersonalHistoryInfo, WeightData, AlcoholData, SmokData, JSONBaseDataModel } from 'app/models/api/patient-data-models';
+import { PersonalHistoryInfo, WeightData, AlcoholData, SmokData, JSONBaseDataModel } from '../../../../../app/models/api/patient-data-models';
 import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../../shared/views/edit-record-base';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MedicalDetailsModel } from '../../../../models/ui/patient-models';
 
 @Component({
   selector: 'app-medical-personal-history',
@@ -59,19 +60,28 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
   }
   getData() {
     if (Object.keys(this.itemPersonList).length > 0) {
-      this.weight = this.itemPersonList.data.weight.weight;
-      this.tendency = this.itemPersonList.data.weight.weight_tendency;
-      this.alcoholcheck = this.itemPersonList.data.alcohol.applicable;
-      this.alcoholquantity = this.itemPersonList.data.alcohol.quantity;
-      this.alcoholcomment = this.itemPersonList.data.alcohol.remarks;
-      this.smokCheck = this.itemPersonList.data.smoking.applicable;
-      this.smokingquantity = this.itemPersonList.data.smoking.quantity;
-      this.smokingcomment = this.itemPersonList.data.smoking.remarks;
-      this.other = this.itemPersonList.data.others;
+      this.dataList();
       this.recordState = EDITABLE_RECORD_STATE.UPDATE;
       this.setFormMode(FORM_MODE.VIEW);
     }
   }
+
+  dataList() {
+    this.weight = this.itemPersonList.data.weight.weight;
+    this.tendency = this.itemPersonList.data.weight.weight_tendency;
+    this.alcoholcheck = this.itemPersonList.data.alcohol.applicable;
+    this.alcoholquantity = this.itemPersonList.data.alcohol.quantity;
+    this.alcoholcomment = this.itemPersonList.data.alcohol.remarks;
+    this.smokCheck = this.itemPersonList.data.smoking.applicable;
+    this.smokingquantity = this.itemPersonList.data.smoking.quantity;
+    this.smokingcomment = this.itemPersonList.data.smoking.remarks;
+    this.other = this.itemPersonList.data.others;
+  }
+
+  onCancelHandler() {
+    this.dataList();
+  }
+
 
   toggleVisibility() {
     if (this.alcoholcheck == false) {
