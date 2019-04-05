@@ -137,7 +137,7 @@ VALUES
  ('PMD007', '3', '7', '7', null, null, null, null, null, null, null, null, null, '2');
  
  
- --
+--
 -- Dumping data for table `spl_hpft_patient_conf_tbl`
 --
 
@@ -202,10 +202,10 @@ INSERT INTO `spl_hpft_action_txn_tbl` (`id`, `uuid`, `cpm_id_fk`, `patient_conf_
 --
 
 INSERT INTO `spl_hpft_document_tbl` (`id`, `cpm_id_fk`, `uuid`, `name`, `doctype`, `store_name`, `location`, `location_type`, `persisted`, `updated_by`, `client_updated_at`, `created_on`, `updated_on`) VALUES
-	(1, 3, '7baefe06-597a-4d0a-934f-a3fcce54494e', 'NSIMG_20190109_14959.jpg', 'image/jpeg', 'doctors_orders_tbl', '\\resources\\documents\\3\\7baefe06-597a-4d0a-934f-a3fcce54494e', 1, 1, 2, '2019-04-05 05:01:22.881', '2019-04-05 05:01:31.388', '2019-04-05 05:01:31.388'),
-	(2, 3, 'DB3D7B0E50AC47EBB0AF8A680340B58B45', 'patient.pdf', 'application/pdf', NULL, '\\resources\\documents\\3\\DB3D7B0E50AC47EBB0AF8A680340B58B45', 1, 1, 0, NULL, '2019-04-05 05:03:08.455', '2019-04-05 05:03:08.455'),
-	(3, 3, 'DBB78F762C1144505002441318C93BCF5E', '2018-07-31 11_56_08-Window.png', 'image/png', NULL, '\\resources\\documents\\3\\DBB78F762C1144505002441318C93BCF5E', 1, 1, 0, NULL, '2019-04-05 05:03:54.926', '2019-04-05 05:03:54.926'),
-	(4, 3, 'DB595C45752507DEDE67F12A93744704FA', '2018-07-31 11_56_08-Window.png', 'image/png', NULL, '\\resources\\documents\\3\\DB595C45752507DEDE67F12A93744704FA', 1, 1, 0, NULL, '2019-04-05 05:04:20.460', '2019-04-05 05:04:20.460');
+	(1, 3, '7baefe06-597a-4d0a-934f-a3fcce54494e', 'NSIMG_20190109_14959.jpg', 'image/jpeg', 'doctors_orders_tbl', '/resources/documents/3/7baefe06-597a-4d0a-934f-a3fcce54494e', 1, 1, 2, '2019-04-05 05:01:22.881', '2019-04-05 05:01:31.388', '2019-04-05 05:01:31.388'),
+	(2, 3, 'DB3D7B0E50AC47EBB0AF8A680340B58B45', 'patient.pdf', 'application/pdf', NULL, '/resources/documents/3/DB3D7B0E50AC47EBB0AF8A680340B58B45', 1, 1, 0, NULL, '2019-04-05 05:03:08.455', '2019-04-05 05:03:08.455'),
+	(3, 3, 'DBB78F762C1144505002441318C93BCF5E', '2018-07-31 11_56_08-Window.png', 'image/png', NULL, '/resources/documents/3/DBB78F762C1144505002441318C93BCF5E', 1, 1, 0, NULL, '2019-04-05 05:03:54.926', '2019-04-05 05:03:54.926'),
+	(4, 3, 'DB595C45752507DEDE67F12A93744704FA', '2018-07-31 11_56_08-Window.png', 'image/png', NULL, '/resources/documents/3/DB595C45752507DEDE67F12A93744704FA', 1, 1, 0, NULL, '2019-04-05 05:04:20.460', '2019-04-05 05:04:20.460');
 	
 --
 -- Dumping data for table `spl_hpft_doctors_orders_tbl`
