@@ -54,7 +54,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   editableForm: FormGroup;
   selectedStartTime: string;
   PATIENT_STATE = PATIENT_STATE;
-  admittedDate:Date;
+  admittedDate: Date;
 
   constructor(public patientService: PatientService,
     private router: Router,
@@ -69,7 +69,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.dataModel.dischargedon = new Date();
     // this.dataModel.dischargedon = new Date(new Date().toLocaleDateString("en-US")).toISOString().substr(0, 10);
     const dt = new Date();
-    
+
     this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = PATIENT_STATE.HOSPITALIZE;
@@ -152,7 +152,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
           if (payloadResponse && payloadResponse.issuccess) {
             this.filteredrecords = payloadResponse.data.filteredrecords;
             this.dataSource = payloadResponse.data.records;
-            
+
             if (this.filteredrecords === 0) {
               this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
@@ -177,8 +177,16 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.patientService.patientid = id;
     this.patientService.admissionid = admissionid;
     this.patientService.personaldetailsid = personaldetailsid;
-    this.patientService.selcetdIndex = 0;
-    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid,personaldetailsid:personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });
+    // this.patientService.selcetdIndex = 0;
+    // this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid,personaldetailsid:personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });
+    if (this.patientService.admissionid != null){
+      this.patientService.selcetdIndex = 0;
+      this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid, personaldetailsid: personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });
+    }
+    else{
+      this.patientService.selcetdIndex = 1;
+      this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, callbackurl: 'patients' }, skipLocationChange: true });
+    }
   }
 
 
