@@ -1,11 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../../shared/views/edit-record-base';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GetUUID } from '../../../../../../shared/helpers/get-uuid';
-import { FloatingButtonMenuService } from '../../../../../../shared/services/floating-button-menu.service';
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
-import { PatientService } from '../../../../services/patient.service';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../../shared/views/edit-record-base';
 import { TreatmentReportRequest } from '../../../../models/api/treatment-report-request';
+import { PatientService } from '../../../../services/patient.service';
 
 @Component({
   selector: 'app-add-treatment-report',
@@ -59,7 +58,6 @@ export class AddTreatmentReportComponent extends EditRecordBase implements OnIni
       treatmentReportRequest.documentuuidlist = [];
       if (this.uploadedDocuments.length > 0) {
         this.uploadedDocuments.forEach((item) => {
-          console.log('item.documentid', item);
           treatmentReportRequest.documentuuidlist.push(item.documentid);
         });
       }
@@ -79,9 +77,7 @@ export class AddTreatmentReportComponent extends EditRecordBase implements OnIni
     // code block for appending value to form data
 
     // formdata.append('UUID', uuid.getUuid());
-    console.log('this.doc_Array', this.doc_Array);
     formdata.append('file', this.doc_Array, this.doc_Array.name);
-    console.log(' formdata', formdata);
     this.patientService.uploadReportsDocuments(formdata).subscribe(documentsPayloadResponse => {
       if (documentsPayloadResponse) {
         if (documentsPayloadResponse.issuccess) {
@@ -101,7 +97,6 @@ export class AddTreatmentReportComponent extends EditRecordBase implements OnIni
     if (this.documentFile.length > 0) {
       // document size validations
     }
-    console.log('this.documentFile', this.documentFile);
   }// end of fucntion.
 
   cancle() {
