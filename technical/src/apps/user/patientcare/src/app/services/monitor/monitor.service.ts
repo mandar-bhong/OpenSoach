@@ -2,6 +2,7 @@ import { Injectable, Version } from "@angular/core";
 import { DatabaseService } from "../../services/offline-store/database.service";
 import { ActionDBModel, ActionTxnDBModel } from "~/app/models/ui/action-models";
 import { ActionDataStoreModel } from "~/app/models/db/action-datastore";
+import { MonitorType } from "~/app/app-constants";
 
 @Injectable()
 export class MonitorService {
@@ -10,18 +11,14 @@ export class MonitorService {
 
     }
 
-    public getTempActionTxn(): any {
-
+    public getTempActionTxn(admission_uuid): any {
         return new Promise((resolve, reject) => {
-
-            this.database.selectAll("monitorTxnList").then(
+            const paramList = new Array<any>();        
+            paramList.push(admission_uuid); 
+            this.database.selectByID("monitorTxnList",paramList).then(
                 (val) => {
-                    // console.log("temp data", val);
-
                     const filterdata  = val.filter(a => JSON.parse(a.conf).name ==='Temperature');
-                    // console.log("filterdata",filterdata);
-
-                    resolve(filterdata);
+                   resolve(filterdata);
                 },
                 (error) => {
                     reject(error);
@@ -31,18 +28,14 @@ export class MonitorService {
         });
 
     }
-    public getBloodPreActionTxn(): any {
-
+    public getBloodPreActionTxn(admission_uuid:string): any {
         return new Promise((resolve, reject) => {
-
-            this.database.selectAll("monitorTxnList").then(
-                (val) => {
-                    // console.log("blood pressure data", val);
-
-                    const filterdata  = val.filter(a => JSON.parse(a.conf).name ==='Blood pressure');
-                    // console.log("filterdata",filterdata);
-
-                    resolve(filterdata);
+            const paramList = new Array<any>();        
+            paramList.push(admission_uuid);           
+            this.database.selectByID("monitorTxnList",paramList).then(                
+                (val) => {                   
+                     const filterdata  = val.filter(data => JSON.parse(data.conf).name ===MonitorType.Blood_Pressure);
+                     resolve(filterdata);
                 },
                 (error) => {
                     reject(error);
@@ -51,17 +44,15 @@ export class MonitorService {
 
         });
     }
-    public getRespirationActionTxn(): any {
-
+    public getRespirationActionTxn(admission_uuid): any {
         return new Promise((resolve, reject) => {
-
-            this.database.selectAll("monitorTxnList").then(
-                (val) => {
-                    // console.log("Respiration data", val);
-
+            const paramList = new Array<any>();        
+            paramList.push(admission_uuid); 
+            this.database.selectByID("monitorTxnList",paramList).then(
+                (val) => {   
+                    console.log('getRespirationActionTxn data received',val);             
                     const filterdata  = val.filter(a => JSON.parse(a.conf).name ==='Respiration Rate');
-                    // console.log("filterdata",filterdata);
-
+                   console.log('filterdata',filterdata);
                     resolve(filterdata);
                 },
                 (error) => {
@@ -71,18 +62,14 @@ export class MonitorService {
 
         });
     }
-    public getPulseActionTxn(): any {
-
+    public getPulseActionTxn(admission_uuid): any {
         return new Promise((resolve, reject) => {
-
-            this.database.selectAll("monitorTxnList").then(
+            const paramList = new Array<any>();        
+            paramList.push(admission_uuid);
+            this.database.selectByID("monitorTxnList",paramList).then(
                 (val) => {
-                    // console.log("Pulse data", val);
-
                     const filterdata  = val.filter(a => JSON.parse(a.conf).name ==='Pulse Rate');
-                    // console.log("filterdata",filterdata);
-
-                    resolve(filterdata);
+                     resolve(filterdata);
                 },
                 (error) => {
                     reject(error);
@@ -97,8 +84,7 @@ export class MonitorService {
         return new Promise((resolve, reject) => {
 
             this.database.selectAll("userList").then(
-                (val) => {
-                    // console.log("User Account List", val);
+                (val) => {                
                     resolve(val);
                 },
                 (error) => {

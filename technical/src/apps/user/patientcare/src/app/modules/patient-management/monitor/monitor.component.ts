@@ -4,6 +4,7 @@ import { Schedulardata } from '~/app/models/ui/chart-models';
 import { MonitorService } from '~/app/services/monitor/monitor.service';
 import { ActionService } from '~/app/services/action/action.service';
 import { TrackballCustomContentData } from 'nativescript-ui-chart';
+import { PassDataService } from '~/app/services/pass-data-service';
 
 export class MonitorChartUiModel {
     timeStamp: number;
@@ -56,6 +57,7 @@ export class MonitorComponent implements OnInit {
     seriesVisiblity = [true, true, true, true];
     isLoggingIn = true;
     constructor(private monitorService: MonitorService,
+        private passdataservice:PassDataService,
         private act: ActionService) {
     }
 
@@ -143,7 +145,7 @@ export class MonitorComponent implements OnInit {
     }
     temperature() {
         this.majorStepUnit = "Day";
-        this.monitorService.getTempActionTxn().then(
+        this.monitorService.getTempActionTxn(this.passdataservice.getAdmissionID()).then(
             (val) => {
                 val.forEach(item => {
                     let temperatureListItem = new MonitorChartUiModel();
@@ -175,17 +177,16 @@ export class MonitorComponent implements OnInit {
     bloodpressure() {
         this.bloodpresListItems = new ObservableArray<MonitorChartUiModel>();
          this.majorStepUnit = "Day";
-        this.monitorService.getBloodPreActionTxn().then(
-            (val) => {
+        this.monitorService.getBloodPreActionTxn(this.passdataservice.getAdmissionID()).then(
+            (val) => {               
                 val.forEach(item => {
-                    // console.log('component bloodpressure', item);
+                     console.log('component bloodpressure', item);
                     let bloodpresHighListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
                     const getDBDate = new Date(item.scheduled_time);
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
                     bloodpresHighListItem.Systolic = Number(testdata.value.high);
                     bloodpresHighListItem.Impact = 1;
-
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
                     bloodpresHighListItem.Diastolic = Number(testdata.value.low);
                     bloodpresHighListItem.Impact = 1;
@@ -203,7 +204,7 @@ export class MonitorComponent implements OnInit {
 
     respiration() {
         this.majorStepUnit = "Day";
-        this.monitorService.getRespirationActionTxn().then(
+        this.monitorService.getRespirationActionTxn(this.passdataservice.getAdmissionID()).then(
             (val) => {
                 val.forEach(item => {
                     // console.log('item homme', item);
@@ -226,7 +227,7 @@ export class MonitorComponent implements OnInit {
 
     pulse() {
         this.majorStepUnit = "Day";
-        this.monitorService.getPulseActionTxn().then(
+        this.monitorService.getPulseActionTxn(this.passdataservice.getAdmissionID()).then(
             (val) => {
                 val.forEach(item => {
                     // console.log('item homme', item);

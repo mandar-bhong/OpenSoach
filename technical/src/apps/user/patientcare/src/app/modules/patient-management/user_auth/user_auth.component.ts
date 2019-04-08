@@ -31,6 +31,7 @@ export class UserAuthComponent implements OnInit {
 
 	userPinCheckForm: FormGroup;
 	userpinIsValid: boolean;
+	invalidPin=false;
 
 	// patientname: string;
 	getuserdetails = new UserDetails();
@@ -127,8 +128,9 @@ export class UserAuthComponent implements OnInit {
 		this.pinview = !this.pinview;
 	}
 	onsubmitPin() {
+		this.invalidPin=false;
 		this.userpinIsValid = this.userPinCheckForm.controls['userpin'].hasError('required');
-		if (this.userPinCheckForm.invalid) {
+		if (this.userPinCheckForm.invalid) {			
 			console.log("validation error");
 			return;
 		}
@@ -141,6 +143,7 @@ export class UserAuthComponent implements OnInit {
 			this.routerExtensions.back();
 
 		} else {
+			 this.invalidPin=true; 
 			console.log('this.pin wrong', formmodel.pin);
 		}
 		console.log('on submit back');
