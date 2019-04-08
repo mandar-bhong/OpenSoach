@@ -50,7 +50,7 @@
                         <GridLayout row="2" col="0" columns="auto,*" rows="auto">
                             <RadListView #myListView1 [items]="item.doclist" multipleSelection="false">
                                     <ng-template tkListItemTemplate let-doc="item">
-                                        <Label class="labelleft label-small"  style="margin: 5px 0px" textWrap="true" text="{{doc.document_name}}" (tap)="download(doc.document_uuid)"></Label>
+                                        <Label class="labelleft label-small"  style="margin: 5px 0px" textWrap="true" text="{{doc.document_name}}" (tap)="download(doc.document_name,doc.document_uuid)"></Label>
                                     </ng-template>
                             </RadListView>
                         </GridLayout>
