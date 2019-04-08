@@ -29,7 +29,7 @@ let selectQueries = new Map([
     ["patient_master_tbl_update", "update patient_master_tbl set  patient_reg_no=?, fname=?, lname=?, mob_no=?, age=?, blood_grp=?, gender=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid=?"],
     ["patient_admission_tbl_update", "update patient_admission_tbl set patient_uuid=?, patient_reg_no=?, bed_no=?, status=?, sp_uuid=?, dr_incharge=?, admitted_on=?, discharged_on=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid=?"],
     ["action_txn_tbl_insert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,scheduled_time,txn_state,conf_type_code, updated_by,updated_on,runtime_config_data,sync_pending, client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)"],
-    ["monitorTxnList", "select schedule.conf,txn.schedule_uuid,txn_data,scheduled_time  from action_txn_tbl as txn left join schedule_tbl as schedule on txn.schedule_uuid = schedule.uuid where schedule.conf_type_code = 'Monitor' order by scheduled_time asc"],
+    ["monitorTxnList", "select schedule.conf,schedule.admission_uuid,txn.schedule_uuid,txn_data,scheduled_time  from action_txn_tbl as txn left join schedule_tbl as schedule on txn.schedule_uuid = schedule.uuid where schedule.conf_type_code = 'Monitor' AND schedule.admission_uuid=? order by scheduled_time asc"],
     ["patient_master_tbl_insert", "insert into patient_master_tbl (uuid,patient_reg_no, fname, lname, mob_no, age, blood_grp, gender, updated_by, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["patient_admission_tbl_insert", "insert into patient_admission_tbl (uuid, patient_uuid, patient_reg_no, bed_no, status, sp_uuid, dr_incharge, admitted_on, discharged_on, updated_by, updated_on, sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["userList", "select * from device_access_tbl"],
@@ -241,7 +241,7 @@ export class DatabaseHelper {
                             console.log('err', err);
                             reject(err);
                         } else {
-                            console.log('result', result);
+                          //  console.log('result', result);
                             resolve(result);
                         }
                     });

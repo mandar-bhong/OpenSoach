@@ -131,3 +131,6 @@ export enum PERSON_ACCMPANYING_GENDER {
    GENDER_FEMALE = "Female",
    GENDER_NOT_SELECTED = "Not_Seleced",
 }
+export enum MonitorType{
+    Blood_Pressure='Blood Pressure',
+}

@@ -121,13 +121,13 @@
     </FlexboxLayout>
 
     <AbsuluteLayout style="width: 74%;" *ngIf="!pinview">
-        <GridLayout shadowOffsetWidth=1; height="40%" class="card">
+        <GridLayout shadowOffsetWidth=1; height="45%" class="card">
             <StackLayout class="form" [formGroup]="userPinCheckForm">
                 <GridLayout row="0" rows="80,auto,auto" columns="*" class="form" style="padding: 10 20; background-color: #f0f0f0;">
                     <GridLayout row="0">
                         <Label class="signmainlabel" width="60" height="60" text="Sign In"></Label>
                     </GridLayout>
-                    <GridLayout row="1">
+                    <GridLayout row="1" height="auto">
                         <StackLayout>
                             <TextField hint="Pin" formControlName="userpin" keyboardType="number"
                                 autocapitalizationType="none" secure="true" class="input input-border"></TextField>
@@ -135,6 +135,10 @@
                                 <StackLayout *ngIf="userpinIsValid">
                                     <Label text="*pin is required " style="color:red"></Label>
                                 </StackLayout>
+                                <StackLayout *ngIf="invalidPin">
+                                    <Label text="*Invalid pin,please re-enter pin" style="color:red"></Label>
+                                </StackLayout>
+                                
                             </StackLayout>
                         </StackLayout>
                     </GridLayout>

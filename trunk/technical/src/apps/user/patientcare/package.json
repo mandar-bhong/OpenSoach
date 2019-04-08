@@ -5,8 +5,11 @@
       "version": "5.0.0"
     },
     "tns-android": {
-      "version": "5.0.0"
+      "version": "5.1.0"
     }
+  },
+  "scripts": {
+    "androiddebug": "node --max_old_space_size=4096 tns debug android --bundle"
   },
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
@@ -40,9 +43,10 @@
     "nativescript-ui-listview": "^5.0.0",
     "nativescript-websockets": "^1.5.3",
     "reflect-metadata": "~0.1.8",
-    "rxjs": "~6.3.0",
-    "tns-core-modules": "~5.0.2",
+    "rxjs": "^6.3.3",
+    "tns-core-modules": "^5.1.2",
     "tns-platform-declarations": "^5.1.1",
+    "typescript": "~3.1.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
