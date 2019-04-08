@@ -206,7 +206,7 @@ export class SectionOneComponent implements OnInit {
 		}
 	}
 	// << expand row code end
-	download(document_uuid) {
+	download(document_name,document_uuid) {
 
 		console.log('tap document_uuid', document_uuid);
 		const token1 = AppGlobalContext.Token;
@@ -235,12 +235,10 @@ export class SectionOneComponent implements OnInit {
 		requestObj.uuid = document_uuid;
 		requestObj.token = token1;
 		const apiUrl = '/v1/document/download/ep';
-		const apiURL = API_APP_BASE_URL + apiUrl + '.pdf' +  '?params=' + JSON.stringify(requestObj);
+		const apiURL = API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
 		console.log('apiURL', apiURL);
 		utils.openUrl(apiURL);
 
 	}
-
-
 
 }
