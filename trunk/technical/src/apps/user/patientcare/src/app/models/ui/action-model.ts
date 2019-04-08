@@ -111,11 +111,15 @@ export class DataActionItem {
 	type: number;
 	actionStatus: any;
 	txn_state: number;
-	txn_data: GetJsonModel;
+	txn_data: any;
     client_updated_at: string;
     fname: string;
     lname:string;
     value: BloodPressureValueModel;
+    is_deleted: number;
+    action_txn_uuid: string;
+    conf: string;
+
 }
 export class GetJsonModel {
 	comment: string;
@@ -124,4 +128,9 @@ export class GetJsonModel {
 export class BloodPressureValueModel {
 	systolic: number;
 	diastolic: number;
+}
+export class GetActionListViewModel {
+    dbmodel: DataActionItem;
+    conf: string;
+  
 }
