@@ -1,24 +1,19 @@
-
-
-
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
-import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
-import { merge, Observable } from 'rxjs';
-import { startWith, switchMap, map } from 'rxjs/operators';
-import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
-import { PatientDetaListResponse, PatientFilterRequest } from 'app/models/api/patient-data-models';
-import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
-import { PatientService } from 'app/services/patient.service';
-import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
-import { ActionTransactionResponse, ActionTransactionDataValue } from 'app/models/api/transaction-details-response';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
-import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
-import { FileDownloadRequest } from 'app/models/api/file-download-request';
-import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { CHECK_STATE } from 'app/app-constants';
+import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
+import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
+import { FileDownloadRequest } from 'app/models/api/file-download-request';
+import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
+import { PatientService } from 'app/services/patient.service';
+import { merge, Observable } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
+import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
+import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 
 @Component({
   selector: 'app-doctor-orders',
