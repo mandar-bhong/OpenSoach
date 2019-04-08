@@ -172,12 +172,13 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     dataListRequest.orderdirection = this.sort.direction;
     return this.patientService.getDataList(dataListRequest);
   }
-  viewDetails(id: number, admissionid: number) {
+  viewDetails(id: number, admissionid: number, personaldetailsid: number) {
     //setting patient id for further use
     this.patientService.patientid = id;
     this.patientService.admissionid = admissionid;
+    this.patientService.personaldetailsid = personaldetailsid;
     this.patientService.selcetdIndex = 0;
-    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid, callbackurl: 'patients' }, skipLocationChange: true });
+    this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid,personaldetailsid:personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });
   }
 
 
