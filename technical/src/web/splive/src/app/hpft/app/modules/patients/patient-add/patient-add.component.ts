@@ -110,6 +110,7 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
   add() {
     const patientAddRequest = new PatientAddRequest();
     this.dataModel.copyTo(patientAddRequest);
+    this.patientService.admissionid = null;
     this.patientService.addPatientData(patientAddRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.dataModel.patientid = payloadResponse.data.recid;
@@ -157,6 +158,7 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
     //setting patient id for further use
     this.patientService.patientid = id;
     this.patientService.selcetdIndex = 1;
+    this.patientService.admissionid = null;
     this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, callbackurl: 'patients' }, skipLocationChange: true });
   }
 
