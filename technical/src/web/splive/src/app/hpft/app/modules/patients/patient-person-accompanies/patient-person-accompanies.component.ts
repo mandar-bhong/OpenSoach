@@ -1,14 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { JSONBaseDataModel, PersonAccompanyingInfo, PersonalDetailsRequest } from 'app/models/api/patient-data-models';
 import { Subscription } from 'rxjs';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../shared/views/edit-record-base';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { PatientPersonalDetails } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PersonAccompanyingInfo, JSONBaseDataModel, PersonalDetailsRequest } from 'app/models/api/patient-data-models';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-patient-person-accompanies',
@@ -18,25 +17,28 @@ import { PersonAccompanyingInfo, JSONBaseDataModel, PersonalDetailsRequest } fro
 export class PatientPersonAccompaniesComponent extends EditRecordBase implements OnInit, OnDestroy {
 
   dataModel = new PatientPersonalDetails();
+  dataModelOrg = new PatientPersonalDetails();
   routeSubscription: Subscription;
   patientStates: EnumDataSourceItem<number>[];
   personGender: EnumDataSourceItem<number>[];
   contact: string;
-  personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo>();
-  name: string;
-  age: number;
-  address: string;
-  gender: any;
-  relationshipwithpatient: string;
-  alternatecontact: string;
+  personAccompanyingInfo = new PersonAccompanyingInfo();
+  personAccompanyingInfoArray = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
+  personAccompanyDataItem = new JSONBaseDataModel<PersonAccompanyingInfo>();
+  
+  personAccompanyDataItemOrg = new JSONBaseDataModel<PersonAccompanyingInfo>();
+  // name: string;
+  // age: number;
+  // address: string;
+  // gender: any;
+  // relationshipwithpatient: string;
+  // alternatecontact: string;
   personaldetailsid: number;
   data: string[];
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
-    private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe,
   ) {
     super();
     this.iconCss = 'fa fa-user';
@@ -45,61 +47,90 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
 
   ngOnInit() {
     this.createControls();
+
     this.showBackButton = false;
     this.personGender = this.patientService.getPersonGender();
-    this.personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo>();
-    this.routeSubscription = this.route.queryParams.subscribe(params => {
-      if (params['admissionid']) {
-        this.dataModel.admissionid = Number(params['admissionid']);
-        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-        this.setFormMode(FORM_MODE.VIEW);
-        if (this.patientService.admissionid) {
-          this.getPatientPersonalDetailId();
-        }
-      } else if (this.patientService.admissionid) {
-        this.getPatientPersonalDetailId();
-        {
-          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-          this.setFormMode(FORM_MODE.EDITABLE);
-        }
-      }
+    this.personAccompanyDataItem.data = new PersonAccompanyingInfo();    
+    this.personAccompanyDataItemOrg = this.deepClone(this.personAccompanyDataItem);
+    this.personAccompanyingInfoArray.data = [] ;
 
-      this.callbackUrl = params['callbackurl'];
-    });
+      this.routeSubscription = this.route.queryParams.subscribe(params => {
+        if (params['admissionid']) {
+          this.dataModel.admissionid = Number(params['admissionid']);
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+          this.setFormMode(FORM_MODE.VIEW);
+          if (this.patientService.admissionid) {
+            this.getPatientPersonalDetailId();
+          }
+        } else if (this.patientService.admissionid) {
+          this.getPatientPersonalDetailId();
+          {
+            this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+            this.setFormMode(FORM_MODE.EDITABLE);
+          }
+        }
+
+        this.callbackUrl = params['callbackurl'];
+      });
+   
+
     this.dataModel.personAccompanyingData = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
     this.dataModel.personAccompanyingData.data = [];
+  }
+
+
+  deepClone(source):any{
+    return JSON.parse( JSON.stringify(source));      
   }
 
   //Save function for Family History.
   save() {
     if (this.editableForm.invalid) { return; }
     this.inProgress = true;
-    const patientPersonAccompanyingDetail = new PersonalDetailsRequest();
-    patientPersonAccompanyingDetail.admissionid = this.patientService.admissionid;
-    patientPersonAccompanyingDetail.patientid = this.patientService.patientid;
-    patientPersonAccompanyingDetail.personaldetailsid = this.personaldetailsid;
-    if (this.name || this.age || this.gender || this.address || this.relationshipwithpatient || this.contact || this.alternatecontact) {
-      const personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo>();
-      personAccompanyingInfo.data = new PersonAccompanyingInfo();
-      personAccompanyingInfo.data.name = this.name;
-      personAccompanyingInfo.data.age = this.age;
-      personAccompanyingInfo.data.gender = this.gender;
-      personAccompanyingInfo.data.address = this.address;
-      personAccompanyingInfo.data.relationshipwithpatient = this.relationshipwithpatient;
-      personAccompanyingInfo.data.contact = this.contact;
-      personAccompanyingInfo.data.alternatecontact = this.alternatecontact;
-      const tempPerson = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
-      tempPerson.data = [];
-      tempPerson.data.push(personAccompanyingInfo.data);
-      patientPersonAccompanyingDetail.personaccompanying = JSON.stringify(tempPerson);
+    if (this.recordState === EDITABLE_RECORD_STATE.UPDATE) {
+      const patientPersonAccompanyingDetail = new PersonalDetailsRequest();
+      patientPersonAccompanyingDetail.admissionid = this.patientService.admissionid;
+      patientPersonAccompanyingDetail.patientid = this.patientService.patientid;
+      patientPersonAccompanyingDetail.personaldetailsid = this.personaldetailsid;
+
+
+      if(JSON.stringify(this.personAccompanyDataItem) === JSON.stringify( this.personAccompanyDataItemOrg )){
+        this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        this.setFormMode(FORM_MODE.VIEW);
+        this.inProgress = false;
+        return;
+      }
+
+      if(this.personAccompanyingInfoArray.data.length > 0){
+       this.personAccompanyingInfoArray.data[0] = this.personAccompanyDataItem.data;
+      }else{
+        this.personAccompanyingInfoArray.data.push(this.personAccompanyDataItem.data);
+      }
+
+      patientPersonAccompanyingDetail.personaccompanying = JSON.stringify(this.personAccompanyingInfoArray);
+
       this.patientService.personalAddAccompanying(patientPersonAccompanyingDetail).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
+          this.patientService.personaldetailsid = this.dataModel.personaldetailsid;
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
+
+          this.personAccompanyDataItemOrg = this.deepClone(this.personAccompanyDataItem);
+
+          this.inProgress = false;
+
+        }else{
+          this.inProgress = false;
         }
       });
+
+      }
     }
+
+
+  onCancelHandler() {
+    Object.assign( this.personAccompanyDataItem.data,this.personAccompanyDataItemOrg.data);
   }
 
   createControls(): void {
@@ -122,7 +153,6 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
           this.personaldetailsid = payloadResponse.data.personaldetails.personaldetailsid;
           if (this.personaldetailsid) {
             this.getPatientPersonDetails();
-
           }
         }
       }
@@ -137,25 +167,24 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
           this.setFormMode(FORM_MODE.VIEW);
           this.personaldetailsid = payloadResponse.data.personaldetailsid;
           this.personaldetailsid = payloadResponse.data.personaldetailsid;
-          const personAccompanyingInfo = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
+          
           if (payloadResponse.data.personaccompanying != null) {
-            const tempPersonAccompanying = JSON.parse(payloadResponse.data.personaccompanying);
-            personAccompanyingInfo.data = [];
-            personAccompanyingInfo.data = tempPersonAccompanying.data || null;
-            personAccompanyingInfo.version = tempPersonAccompanying.version;
-            this.name = personAccompanyingInfo.data[0].name;
-            this.age = personAccompanyingInfo.data[0].age;
-            this.gender = personAccompanyingInfo.data[0].gender;
-            this.address = personAccompanyingInfo.data[0].address;
-            this.relationshipwithpatient = personAccompanyingInfo.data[0].relationshipwithpatient;
-            this.contact = personAccompanyingInfo.data[0].contact;
-            this.alternatecontact = personAccompanyingInfo.data[0].alternatecontact;
+            this.personAccompanyingInfoArray = JSON.parse(payloadResponse.data.personaccompanying);
+            
+            if (this.personAccompanyingInfoArray.data.length > 0) {
+              this.personAccompanyDataItem.data =  this.personAccompanyingInfoArray.data[0]; 
+              this.personAccompanyDataItemOrg = this.deepClone(this.personAccompanyDataItem);               
+            }
+
+          }else{
+            this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+            this.setFormMode(FORM_MODE.EDITABLE);
           }
         }
       }
     });
   }
-
+  
   closeForm() { }
 
   //gender value
