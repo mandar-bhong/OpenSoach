@@ -267,7 +267,7 @@ export class PatientPersonalDetails {
     uuid: string;
     otherdetails: string;
     personAccompanyingData: JSONBaseDataModel<PersonAccompanyingInfo[]>;
-    copyToAddPerson(personalDetailsRequest: PersonalDetailsRequest) {
+    copyToAddPersonAccompyning(personalDetailsRequest: PersonalDetailsRequest) {
         personalDetailsRequest.personaldetailsid = this.personaldetailsid;
         personalDetailsRequest.uuid = this.uuid;
         personalDetailsRequest.patientid = this.patientid;
