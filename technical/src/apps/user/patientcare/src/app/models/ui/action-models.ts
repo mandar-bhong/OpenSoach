@@ -1,3 +1,5 @@
+import { DataActionItem } from "./action-model";
+
 export class ActionListViewModel {
     dbmodel: any;
 }
@@ -39,3 +41,4 @@ export class UserCreateFormRequest{
     newpin: string;
     reenterpin: string
 }
+
