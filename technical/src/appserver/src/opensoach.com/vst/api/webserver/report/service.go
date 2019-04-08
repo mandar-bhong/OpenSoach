@@ -7,6 +7,7 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcmodels "opensoach.com/prodcore/models"
 	lmodels "opensoach.com/vst/api/models"
 	"opensoach.com/vst/api/webserver/report/dbaccess"
 	hktmodels "opensoach.com/vst/models"
@@ -93,9 +94,13 @@ func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequest
 		responseData = data
 	}
 
+	documentData := pcmodels.DocumentData{}
+	documentData.ByteData = responseData
+	documentData.ContentType = "attachment"
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully created report")
 
-	return true, responseData
+	return true, documentData
 
 }
 
@@ -253,8 +258,12 @@ func (service ReportService) GenerateConsolidatedReport(req lmodels.APIGenerateR
 		responseData = data
 	}
 
+	documentData := pcmodels.DocumentData{}
+	documentData.ByteData = responseData
+	documentData.ContentType = "attachment"
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully created consolidated report")
 
-	return true, responseData
+	return true, documentData
 
 }

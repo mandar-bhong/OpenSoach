@@ -10,6 +10,7 @@ import (
 	"opensoach.com/hkt/api/webserver/report/dbaccess"
 	hktmodels "opensoach.com/hkt/models"
 	gmodels "opensoach.com/models"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
 var SUB_MODULE_NAME = "HKT.API.Report"
@@ -60,9 +61,13 @@ func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequest
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", err)
 	}
 
+	documentData := pcmodels.DocumentData{}
+	documentData.ByteData = data
+	documentData.ContentType = "attachment"
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Report Excel File")
 
-	return true, data
+	return true, documentData
 
 }
 
