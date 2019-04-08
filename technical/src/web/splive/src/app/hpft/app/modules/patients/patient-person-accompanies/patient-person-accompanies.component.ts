@@ -27,12 +27,6 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
   personAccompanyDataItem = new JSONBaseDataModel<PersonAccompanyingInfo>();
   
   personAccompanyDataItemOrg = new JSONBaseDataModel<PersonAccompanyingInfo>();
-  // name: string;
-  // age: number;
-  // address: string;
-  // gender: any;
-  // relationshipwithpatient: string;
-  // alternatecontact: string;
   personaldetailsid: number;
   data: string[];
   constructor(
@@ -53,7 +47,6 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
     this.personAccompanyDataItem.data = new PersonAccompanyingInfo();    
     this.personAccompanyDataItemOrg = this.deepClone(this.personAccompanyDataItem);
     this.personAccompanyingInfoArray.data = [] ;
-
       this.routeSubscription = this.route.queryParams.subscribe(params => {
         if (params['admissionid']) {
           this.dataModel.admissionid = Number(params['admissionid']);
@@ -63,7 +56,7 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
             this.getPatientPersonalDetailId();
           }
         } else if (this.patientService.admissionid) {
-          this.getPatientPersonalDetailId();
+          if(this.getPatientPersonalDetailId() == null)
           {
             this.recordState = EDITABLE_RECORD_STATE.UPDATE;
             this.setFormMode(FORM_MODE.EDITABLE);
@@ -106,20 +99,15 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
       }else{
         this.personAccompanyingInfoArray.data.push(this.personAccompanyDataItem.data);
       }
-
       patientPersonAccompanyingDetail.personaccompanying = JSON.stringify(this.personAccompanyingInfoArray);
-
       this.patientService.personalAddAccompanying(patientPersonAccompanyingDetail).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.patientService.personaldetailsid = this.dataModel.personaldetailsid;
           this.appNotificationService.success();
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
-
           this.personAccompanyDataItemOrg = this.deepClone(this.personAccompanyDataItem);
-
           this.inProgress = false;
-
         }else{
           this.inProgress = false;
         }
@@ -166,7 +154,6 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
           this.personaldetailsid = payloadResponse.data.personaldetailsid;
-          this.personaldetailsid = payloadResponse.data.personaldetailsid;
           
           if (payloadResponse.data.personaccompanying != null) {
             this.personAccompanyingInfoArray = JSON.parse(payloadResponse.data.personaccompanying);
@@ -175,7 +162,6 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
               this.personAccompanyDataItem.data =  this.personAccompanyingInfoArray.data[0]; 
               this.personAccompanyDataItemOrg = this.deepClone(this.personAccompanyDataItem);               
             }
-
           }else{
             this.recordState = EDITABLE_RECORD_STATE.UPDATE;
             this.setFormMode(FORM_MODE.EDITABLE);

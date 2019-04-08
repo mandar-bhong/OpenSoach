@@ -117,10 +117,7 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
     }
   }
 
-   closeForm() {
-    this.router.navigate([this.callbackUrl], { skipLocationChange: true });
-    
-  }
+   closeForm() {}
 
   onCancelHandler() {
    this.dataModelOrg.CopyToUpdate(this.dataModel);
