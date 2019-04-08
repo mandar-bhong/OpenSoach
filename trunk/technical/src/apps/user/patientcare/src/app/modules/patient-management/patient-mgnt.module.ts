@@ -49,7 +49,7 @@ import { TreatmentBeforeAdmissionComponent } from "./patient-details/treatment-b
 import { PersonalHistoryComponent } from "./patient-details/personal-history/personal-history.component";
 import { OutputChartComponent } from "./charts/output-chart/output-chart.component";
 import { ReportsService } from "~/app/services/reports/reports-service";
-// import { AppNotificationService } from "~/app/services/app-notification-service";
+import { AppNotificationService } from "~/app/services/app-notification-service";
 
 @NgModule({
     imports: [
@@ -110,7 +110,7 @@ import { ReportsService } from "~/app/services/reports/reports-service";
         ActionService,
         MonitorService,
         ReportsService,
-        // AppNotificationService
+        AppNotificationService
     ],
     entryComponents: [
         DoctorOrdersComponent,
