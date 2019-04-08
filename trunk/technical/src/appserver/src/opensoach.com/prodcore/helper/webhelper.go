@@ -10,6 +10,7 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	"opensoach.com/prodcore/models"
 )
 
 var SUB_MODULE_NAME = "ProdCore.Helper"
@@ -204,14 +205,14 @@ func CommonWebRequestHandler(pContext *gin.Context, requestHandlerFunc RequestHa
 func FileDownloadHandler(pContext *gin.Context, requestHandlerFunc RequestHandler) {
 	var isSuccess bool
 	var successErrorData interface{}
-	var successData []byte
+	var successData models.DocumentData
 
 	ghelper.Block{
 		Try: func() {
 			isSuccess, successErrorData = requestHandlerFunc(pContext)
 
 			if isSuccess {
-				successData = successErrorData.([]byte)
+				successData = successErrorData.(models.DocumentData)
 			}
 		},
 		Catch: func(e ghelper.Exception) {
@@ -223,8 +224,8 @@ func FileDownloadHandler(pContext *gin.Context, requestHandlerFunc RequestHandle
 	}.Do()
 
 	if isSuccess {
-		pContext.Header("Content-Disposition", "attachment;")
-		pContext.Data(http.StatusOK, "attachment", successData)
+		pContext.Data(http.StatusOK, successData.ContentType, successData.ByteData)
+
 	} else {
 		pContext.Data(http.StatusNotFound, "attachment", nil)
 	}

@@ -19,6 +19,14 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DEVICE_DOCUMENT_DOWNLOAD, func(c *gin.Context) { lhelper.FileDownloadHandler(c, requestHandler) })
 }
 
+func registerUnAuthHandler(router *gin.RouterGroup) {
+	router.GET(constants.API_DEVICE_DOCUMENT_DOWNLOAD_WITH_NAME, func(c *gin.Context) {
+		lhelper.FileDownloadHandler(c, func(pContext *gin.Context) (bool, interface{}) {
+			return DownloadDeviceDocument(pContext)
+		})
+	})
+}
+
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
 	var resultData interface{}
 	isSuccess := false
@@ -95,45 +103,51 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_DEVICE_DOCUMENT_DOWNLOAD:
+	case constants.API_DEVICE_DOCUMENT_DOWNLOAD, constants.API_DEVICE_DOCUMENT_DOWNLOAD_WITH_NAME:
 
-		req := lmodels.APIDocumentDownloadRequest{}
-
-		jsonData := pContext.Query("params")
-
-		if jsonData == "" {
-			errorData := gmodels.APIResponseError{}
-			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
-			return false, errorData
-		}
-
-		jsonDecodeErr := json.Unmarshal([]byte(jsonData), &req)
-
-		if jsonDecodeErr != nil {
-			errorData := gmodels.APIResponseError{}
-			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
-			return false, errorData
-		}
-
-		val := pContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-		if val == "" {
-			pContext.Request.Header[gmodels.SESSION_CLIENT_HEADER_KEY] = []string{req.DeviceAuthToken}
-		}
-
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceExecutionReqData(repo.Instance().Context, pContext, &req)
-
-		if isPrepareExeSuccess == false {
-			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
-			return false, successErrorData
-		}
-
-		isSuccess, resultData = DeviceDocumentService{
-			ExeCtx: successErrorData.(*gmodels.DeviceExecutionContext),
-		}.DeviceDocumentDownload(req)
+		isSuccess, resultData = DownloadDeviceDocument(pContext)
 
 		break
 
 	}
+
+	return isSuccess, resultData
+}
+
+func DownloadDeviceDocument(pContext *gin.Context) (bool, interface{}) {
+	req := lmodels.APIDocumentDownloadRequest{}
+
+	jsonData := pContext.Query("params")
+
+	if jsonData == "" {
+		errorData := gmodels.APIResponseError{}
+		errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+		return false, errorData
+	}
+
+	jsonDecodeErr := json.Unmarshal([]byte(jsonData), &req)
+
+	if jsonDecodeErr != nil {
+		errorData := gmodels.APIResponseError{}
+		errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+		return false, errorData
+	}
+
+	val := pContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+	if val == "" {
+		pContext.Request.Header[gmodels.SESSION_CLIENT_HEADER_KEY] = []string{req.DeviceAuthToken}
+	}
+
+	isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceExecutionReqData(repo.Instance().Context, pContext, &req)
+
+	if isPrepareExeSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+		return false, successErrorData
+	}
+
+	isSuccess, resultData := DeviceDocumentService{
+		ExeCtx: successErrorData.(*gmodels.DeviceExecutionContext),
+	}.DeviceDocumentDownload(req)
 
 	return isSuccess, resultData
 }

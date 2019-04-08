@@ -15,19 +15,21 @@ import (
 	"opensoach.com/prodcore/server/dbaccess"
 )
 
-func (r DocumentStoreFileSystem) Get() (error, []byte) {
+func (r DocumentStoreFileSystem) Get() (error, pcmodels.DocumentData) {
+
+	documentData := pcmodels.DocumentData{}
 
 	dbErr, data := dbaccess.GetDocumentByUuid(r.Data.DBContext.GetNodeDBConnection(), r.Data.DocumentID)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting field operator by id.", dbErr)
-		return dbErr, nil
+		return dbErr, documentData
 	}
 
 	dbRecord := *data
 
 	if len(dbRecord) < 1 {
 		logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Database record not found")
-		return errors.New("Database record not found"), nil
+		return errors.New("Database record not found"), documentData
 	}
 
 	destDir := ghelper.GetExeFolder()
@@ -35,10 +37,13 @@ func (r DocumentStoreFileSystem) Get() (error, []byte) {
 
 	byteData, readError := ioutil.ReadFile(destDir)
 	if readError != nil {
-		return readError, nil
+		return readError, documentData
 	}
 
-	return nil, byteData
+	documentData.ByteData = byteData
+	documentData.ContentType = dbRecord[0].DocType
+
+	return nil, documentData
 }
 
 func (r DocumentStoreFileSystem) Save() error {

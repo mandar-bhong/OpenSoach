@@ -13,6 +13,7 @@ import (
 	"opensoach.com/hpft/api/webserver/report/dbaccess"
 	hktmodels "opensoach.com/hpft/models"
 	gmodels "opensoach.com/models"
+	pcmodels "opensoach.com/prodcore/models"
 )
 
 var SUB_MODULE_NAME = "HPFT.API.Report"
@@ -63,9 +64,12 @@ func (service ReportService) GenerateReport(req lmodels.APIGenerateReportRequest
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while Creating Excel file.", err)
 	}
 
+	documentData := pcmodels.DocumentData{}
+	documentData.ByteData = data
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Created Report Excel File")
 
-	return true, data
+	return true, documentData
 
 }
 
@@ -331,8 +335,12 @@ func (service ReportService) PatientAdmissionReport(admissionID int64) (bool, in
 		return false, nil
 	}
 
+	documentData := pcmodels.DocumentData{}
+	documentData.ByteData = pdfmodel.PDFBuffer.Bytes()
+	documentData.ContentType = "application/pdf"
+
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient admission report.")
 
-	return true, pdfmodel.PDFBuffer.Bytes()
+	return true, documentData
 
 }

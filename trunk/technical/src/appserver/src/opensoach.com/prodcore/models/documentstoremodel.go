@@ -46,9 +46,14 @@ type DocumentStoreDataModel struct {
 }
 
 type IDocumentStore interface {
-	Get() (error, []byte)
+	Get() (error, DocumentData)
 	Save() error
 	SaveDBRecord() error
 	SaveDocument() error
 	Update() error
+}
+
+type DocumentData struct {
+	ByteData    []byte
+	ContentType string
 }

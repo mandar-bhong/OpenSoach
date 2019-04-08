@@ -125,6 +125,7 @@ const API_DOCUMENT_DOWNLOAD = API_BASE_URL + "/v1/document/download"
 const API_DOCUMENT_UPLOAD = API_BASE_URL + "/v1/document/upload"
 const API_DEVICE_DOCUMENT_UPLOAD = API_BASE_URL + "/v1/document/upload/ep"
 const API_DEVICE_DOCUMENT_DOWNLOAD = API_BASE_URL + "/v1/document/download/ep"
+const API_DEVICE_DOCUMENT_DOWNLOAD_WITH_NAME = API_BASE_URL + "/v1/document/download/ep/:filename"
 
 const API_PATIENT_TREATMENT_ADD = API_BASE_URL + "/v1/patient/treatment/add"
 const API_PATIENT_PATHOLOGY_RECORD_ADD = API_BASE_URL + "/v1/patient/pathologyrecord/add"
