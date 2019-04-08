@@ -33,7 +33,7 @@ func DocumentStoreSave(data *pcmodels.DocumentStoreDataModel) (error, string) {
 
 }
 
-func DocumentStoreGet(data *pcmodels.DocumentStoreDataModel) (error, []byte) {
+func DocumentStoreGet(data *pcmodels.DocumentStoreDataModel) (error, pcmodels.DocumentData) {
 
 	var document pcmodels.IDocumentStore
 
@@ -45,12 +45,12 @@ func DocumentStoreGet(data *pcmodels.DocumentStoreDataModel) (error, []byte) {
 		break
 	}
 
-	getErr, byteData := document.Get()
+	getErr, documentData := document.Get()
 	if getErr != nil {
-		return getErr, nil
+		return getErr, pcmodels.DocumentData{}
 	}
 
-	return nil, byteData
+	return nil, documentData
 
 }
 

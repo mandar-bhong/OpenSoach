@@ -47,7 +47,7 @@ func (service DeviceDocumentService) DeviceDocumentDownload(req lmodels.APIDocum
 	documentStoreDataModel.DocumentID = req.Uuid
 	documentStoreDataModel.DBContext = service.ExeCtx
 
-	err, bytedata := pcmgr.DocumentStoreGet(documentStoreDataModel)
+	err, documentdata := pcmgr.DocumentStoreGet(documentStoreDataModel)
 	if err != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while downloading document.", err)
 		return false, nil
@@ -55,7 +55,7 @@ func (service DeviceDocumentService) DeviceDocumentDownload(req lmodels.APIDocum
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully downloaded document.")
 
-	return true, bytedata
+	return true, documentdata
 }
 
 func (service DocumentService) DocumentUpload(pContext *gin.Context) (bool, interface{}) {

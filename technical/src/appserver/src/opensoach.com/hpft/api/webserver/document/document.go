@@ -8,5 +8,9 @@ import (
 func Init(config *pcmodels.WebServerConfiguration) {
 
 	authorizedGroup := config.AuthorizedRouterHandler[pcconst.API_AUTHORIZATION_ROUTER_GROUP_KEY]
+
 	registerRouters(authorizedGroup)
+
+	registerUnAuthHandler(config.WebHandlerEngine.Group("/"))
+
 }
