@@ -30,7 +30,7 @@ import { AppNotificationService } from '../../../../../shared/services/notificat
 })
 export class PathologyReportComponent implements OnInit {
 
-  displayedColumns = ['testperformed','testperformedtime', 'view'];
+  displayedColumns = ['testperformed', 'testperformedtime', 'view'];
   sortByColumns = [
     { text: 'Test Performed', value: 'testperformed' },
     { text: 'Performed On', value: 'testperformedtime' }
@@ -58,7 +58,8 @@ export class PathologyReportComponent implements OnInit {
     private appNotificationService: AppNotificationService,
     private appLocalStorage: AppLocalStorage,
     private translatePipe: TranslatePipe) {
-    this.isReportAdd = false }
+    this.isReportAdd = false
+  }
 
   ngOnInit() {
     this.paginator.pageSize = 10;
@@ -101,7 +102,7 @@ export class PathologyReportComponent implements OnInit {
     const dataListRequest = new DataListRequest<PathologyFilterRequest>();
     dataListRequest.orderdirection = this.sort.direction;
     dataListRequest.limit = this.paginator.pageSize;
-    dataListRequest.page = this.paginator.pageIndex +1;
+    dataListRequest.page = this.paginator.pageIndex + 1;
     dataListRequest.orderby = this.sort.active;
     dataListRequest.filter = new PathologyFilterRequest();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
@@ -149,14 +150,14 @@ export class PathologyReportComponent implements OnInit {
     this.isReportAdd = !this.isReportAdd;
   }
   restFormData(value) {
-   console.log('value',value);
-   if(value==1){
-    this.isReportAdd = !this.isReportAdd;
-   }else{
-    this.isReportAdd = !this.isReportAdd;
-    this.setDataListing();
-   }
-  
+    console.log('value', value);
+    if (value == 1) {
+      this.isReportAdd = !this.isReportAdd;
+    } else {
+      this.isReportAdd = !this.isReportAdd;
+      this.setDataListing();
+    }
+
   }
 
   downloadFille(id, filename) {

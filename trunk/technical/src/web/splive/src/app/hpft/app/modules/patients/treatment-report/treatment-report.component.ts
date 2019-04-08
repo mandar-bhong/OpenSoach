@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { TreatmentFilterRequest, TreatmentResponse } from 'app/models/api/patient-data-models';
-import { Subscription, merge, Observable } from 'rxjs';
-import { PatientService } from 'app/services/patient.service';
-import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
-import { startWith, switchMap, map } from 'rxjs/operators';
-import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
 import { FileDownloadRequest } from 'app/models/api/file-download-request';
+import { TreatmentFilterRequest, TreatmentResponse } from 'app/models/api/patient-data-models';
+import { PatientService } from 'app/services/patient.service';
+import { merge, Observable, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
+import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
+import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 
 @Component({
   selector: 'app-treatment-report',
