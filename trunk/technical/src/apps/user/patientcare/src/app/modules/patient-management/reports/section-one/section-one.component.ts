@@ -14,13 +14,18 @@ import * as imagepicker from "nativescript-imagepicker";
 import { Page } from 'tns-core-modules/ui/page/page';
 import * as utils from "tns-core-modules/utils/utils";
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
+import { ReportsService } from '~/app/services/reports/reports-service';
+import { PathlogyReportModel } from '~/app/models/ui/reports-models';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { AppGlobalContext } from '~/app/app-global-context';
+import { ServerApiInterfaceService } from '~/app/services/server-api-interface.service';
+import { API_SPL_BASE_URL, API_APP_BASE_URL } from '~/app/app-constants';
 
-export class DataItem {
-	public name: string;
-	public description: string;
-	result: string;
-	time: string;
 
+
+export class ApiParse {
+	uuid: any;
+	token: any;
 }
 @Component({
 	moduleId: module.id,
@@ -30,9 +35,11 @@ export class DataItem {
 })
 
 export class SectionOneComponent implements OnInit {
-	public _dataItems: ObservableArray<any>;
-	tempdata = new Array<DataItem>();
+	// public _dataItems: ObservableArray<any>;
+	// tempdata = new Array<DataItem>();
 
+	pathlogyReportModel: PathlogyReportModel[] = [];
+	pathlogyReportList = new ObservableArray<PathlogyReportModel>();
 	public saveToGallery: boolean = true;
 	public keepAspectRatio: boolean = true;
 	public width: number = 320;
@@ -45,42 +52,63 @@ export class SectionOneComponent implements OnInit {
 	previewSize: number = 300;
 	imgpicker: boolean = true;
 	public removedImageUrl: string;
-	constructor(private routerExtensions: RouterExtensions,
-		private passdataservice: PassDataService, ) { }
+	http: any;
+	httpModule: any;
 
-	ngOnInit() { }
+
+	constructor(private routerExtensions: RouterExtensions,
+		private passdataservice: PassDataService,
+		private reportsService: ReportsService,
+		public httpClient: HttpClient,
+		private serverApiInterfaceService: ServerApiInterfaceService) { }
+
+	ngOnInit() {
+
+	}
 	public listLoaded() {
 
 		console.log('list loaded');
 
 		setTimeout(() => {
-			this.initDataItems();
+			this.getPathlogyReportByUUID()
 		}, 200);
 	}
+	public getPathlogyReportByUUID() {
+		this.pathlogyReportList = new ObservableArray<PathlogyReportModel>();
+		this.reportsService.getPathlogyReportByUUID(this.passdataservice.getAdmissionID()).then(
+			(val) => {
+				// val.forEach(item => {
+				// console.log("get getPathlogyReportByUUID item ", val);
+				this.pathlogyReportModel = val;
+				// console.log(this.newMethod(), this.pathlogyReportList);
+				this.getDoc();
+			},
+			(error) => {
+				console.log("admistion details error:", error);
+			}
+		);
+	}// end 
 
-	public initDataItems() {
-		const tempdata = new Array<DataItem>();
-		this.tempdata.push({ name: "Laboratory Report", description: "Morning and evening before meal", time:"12:00am", result:"test result" });
-		this.tempdata.push({ name: "Radiology Report", description: "Incase of high body temperature", time:"01:00am",  result:"test result" });
-		this.tempdata.push({ name: "Blood Test", description: "Incase of continuos vomitting and nausea", time:"02:00am", result:"test result" });
-		this.tempdata.push({ name: "Blood Glucose Test", description: "Blood glucose tests are also sometimes called blood sugar tests.", time:"03:00am",  result:"test result" });
-		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones.", time:"04:00am",  result:"test result" });
-		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. ", time:"05:00am",  result:"test result" });
-		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. ", time:"06:00am", result:"test result" });
-		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells", time:"07:00am", result:"test result" });
-		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness", time:"08:00am", result:"test result" });
-		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes.", time:"09:00am", result:"test result" });
-		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells", time:"10:00am", result:"test result"});
-		this.tempdata.push({ name: "Calcium Test", description: "Calcium is important because it gives strength to your bones.", time:"11:00am", result:"test result" });
-		this.tempdata.push({ name: "D-dimer Test", description: " D-dimer test is a blood test usually used to help check for or monitor blood clotting problems. ", time:"12:00pm",result:"test result" });
-		this.tempdata.push({ name: "ESR Test", description: "The erythrocyte sedimentation rate (ESR) test checks for inflammation in the body. ", time:"12:00am", result:"test result" });
-		this.tempdata.push({ name: "Floate Test", description: "Folate is an important nutrient for making normal red blood cells", time:"12:00am", result:"test result" });
-		this.tempdata.push({ name: "Full Blood Count", description: "tiredness or weakness", time:"12:00am", result:"test result" });
-		this.tempdata.push({ name: "HbA1c", description: "HbA1c is a blood test that is used to help diagnose and monitor people with diabetes.", time:"12:00am", result:"test result" });
-		this.tempdata.push({ name: "Vitamin B12 test", description: "You need vitamin B12 in your blood so you can make blood cells" , time:"12:00am", result:"test result"});
+	getDoc() {
+
+		this.pathlogyReportModel.forEach(async (pathlogyReportModel: PathlogyReportModel) => {
+			pathlogyReportModel.doclist = [];
+			const x = await this.reportsService.getPathlogyReportDoc(pathlogyReportModel.uuid);
+			x.forEach((val) => {
+				pathlogyReportModel.doclist.push(val);
+			});
+
+			this.pathlogyReportList.push(pathlogyReportModel);
+			console.log('this.pathlogyReportList', this.pathlogyReportList);
+		});
 
 
-		this._dataItems = new ObservableArray(this.tempdata);
+	}
+
+
+
+	private newMethod(): any {
+		return 'pathlogyReportList';
 	}
 
 	onTakePictureTap() {
@@ -178,4 +206,41 @@ export class SectionOneComponent implements OnInit {
 		}
 	}
 	// << expand row code end
+	download(document_uuid) {
+
+		console.log('tap document_uuid', document_uuid);
+		const token1 = AppGlobalContext.Token;
+		console.log('token', token1);
+		const requestObj = new ApiParse();
+		requestObj.uuid = document_uuid;
+		requestObj.token = token1;
+
+		let result;
+
+
+		// this.serverApiInterfaceService.get(API_APP_BASE_URL + "/v1/document/download/ep",
+		// 	{
+		// 		uuid: document_uuid,
+		// 		token: AppGlobalContext.Token
+
+		// 	})
+		// 	.then((result) => {
+		// 		console.log('result', result);
+		// 		result = result;
+
+		// 	})
+		// utils.openUrl(result);
+
+
+		requestObj.uuid = document_uuid;
+		requestObj.token = token1;
+		const apiUrl = '/v1/document/download/ep';
+		const apiURL = API_APP_BASE_URL + apiUrl + '.pdf' +  '?params=' + JSON.stringify(requestObj);
+		console.log('apiURL', apiURL);
+		utils.openUrl(apiURL);
+
+	}
+
+
+
 }

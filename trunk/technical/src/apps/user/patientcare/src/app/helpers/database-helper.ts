@@ -63,6 +63,7 @@ let selectQueries = new Map([
     ["getPathlogyReportList", "select * from pathology_record_tbl where admission_uuid=?"],
     ["getPathlogyReportDoc", "select * from pathology_record_doc_tbl where pathology_record_uuid=?"],
     ["getTreatmentReportList", "select * from treatment_tbl where admission_uuid=?"],
+    ["getTreatmentReportDoc", "select * from treatment_doc_tbl where treatment_uuid=?"],
 
     ["patient_admission_details", `select padmsn.uuid, padmsn.patient_reg_no, padmsn.bed_no,padmsn.sp_uuid,padmsn.dr_incharge,padmsn.admitted_on,usr.fname,usr.lname from patient_admission_tbl padmsn
 	left join usr_tbl usr on usr.usr_id = padmsn.dr_incharge
@@ -230,13 +231,17 @@ export class DatabaseHelper {
             if (selectQueries.has(key) == true) {
                 query = selectQueries.get(key);
             };
+            // console.log('paramlist', paramList);
+            // console.log('query', query);
             this.getdbConn()
                 .then(db => {
                     db.resultType(Sqlite.RESULTSASOBJECT);
                     db.all(query, paramList, function (err, result) {
                         if (err) {
+                            console.log('err', err);
                             reject(err);
                         } else {
+                            console.log('result', result);
                             resolve(result);
                         }
                     });
