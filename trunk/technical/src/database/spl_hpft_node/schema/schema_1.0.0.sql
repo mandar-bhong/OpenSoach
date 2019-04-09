@@ -361,7 +361,7 @@ CREATE TABLE `spl_hpft_patient_admission_tbl` (
 	`dr_incharge` INT(10) NOT NULL,
 	`bed_no` VARCHAR(10) NOT NULL,
 	`status` TINYINT(3) NOT NULL COMMENT '1 :hospitalize, 2 :discharged',
-	`admitted_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`admitted_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`discharged_on` DATETIME NULL DEFAULT NULL,
 	`client_updated_at` TIMESTAMP(3) NULL DEFAULT NULL,
 	`created_on` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
