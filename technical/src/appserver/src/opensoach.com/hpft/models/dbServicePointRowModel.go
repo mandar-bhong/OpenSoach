@@ -52,7 +52,7 @@ type DBDevSpMappingDataModelModel struct {
 
 type DBDevSpMappingInsertRowModel struct {
 	DBDevSpMappingDataModelModel
-	CpmId int64 `db:"cpm_id_fk" json:"cpmid"`
+	pcmodels.CPMIDEntityModel
 }
 
 type DBServicePointShortDataModel struct {
