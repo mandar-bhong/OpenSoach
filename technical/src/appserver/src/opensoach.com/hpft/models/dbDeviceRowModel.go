@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	pcmodels "opensoach.com/prodcore/models"
+)
 
 type DBDeviceShortDataModel struct {
 	DevId    int64  `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
@@ -21,7 +25,7 @@ type DBDevStatusConnectionStateUpdateDataModel struct {
 }
 
 type DBDeviceUpdateRowModel struct {
-	DevId   int64  `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
-	CpmId   int64  `db:"cpm_id_fk" json:"cpmid"`
+	DevId int64 `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
+	pcmodels.CPMIDEntityModel
 	DevName string `db:"dev_name" json:"devname"`
 }

@@ -1,10 +1,14 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	pcmodels "opensoach.com/prodcore/models"
+)
 
 type DBSpUpdateRowModel struct {
-	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
-	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	SpId int64 `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	pcmodels.CPMIDEntityModel
 	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
 	SpName       string    `db:"sp_name" json:"spname"`
 	ShortDesc    *string   `db:"short_desc" json:"shortdesc"`
@@ -31,7 +35,7 @@ type DBSpDataRowModel struct {
 }
 
 type DBSpInsertRowModel struct {
-	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
+	pcmodels.CPMIDEntityModel
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
 	DBSpDataRowModel
 }
