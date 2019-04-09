@@ -9,7 +9,13 @@ import * as utils from 'tns-core-modules/utils/utils';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { ReportsService } from '~/app/services/reports/reports-service';
 import { TeatmentReportModel } from '~/app/models/ui/reports-models';
+import { AppGlobalContext } from '~/app/app-global-context';
+import { API_APP_BASE_URL } from '~/app/app-constants';
 
+export class ApiParse {
+	uuid: any;
+	token: any;
+}
 
 export class DataItem {
 	treatmentdone: string;
@@ -62,6 +68,7 @@ export class TreatmentReportsComponent implements OnInit {
 	}
 
 	public getTreatmentReportByUUID() {
+		this.teatmentReportList = new ObservableArray<TeatmentReportModel>();
 		this.reportsService.getTreatmentReportByUUID(this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				// val.forEach(item => {
@@ -189,4 +196,24 @@ export class TreatmentReportsComponent implements OnInit {
 		}
 	}
 	// << expand row code end
+
+	// << document download
+	download(document_name,document_uuid) {
+
+		console.log('tap document_uuid', document_uuid);
+		const token1 = AppGlobalContext.Token;
+		console.log('token', token1);
+		const requestObj = new ApiParse();
+		requestObj.uuid = document_uuid;
+		requestObj.token = token1;
+
+		requestObj.uuid = document_uuid;
+		requestObj.token = token1;
+		const apiUrl = '/v1/document/download/ep';
+		const apiURL = API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
+		console.log('apiURL', apiURL);
+		utils.openUrl(apiURL);
+
+	}
+	// >> document download
 }
