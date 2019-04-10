@@ -140,10 +140,7 @@
                                     style="margin-left: 10px;"></Label>
                             </GridLayout>
                               <!-- description of schedule   -->       
-                            <GridLayout row="1" col="0" columns="*,*,*" rows="auto,auto,auto">
-                                <!-- <Label row="0" col="0" class="body" text="Description" style="color: #396767;"></Label>
-                                <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" [text]="item.conf.desc"
-                                    style="margin-left: 10px;"></Label>     -->
+                            <GridLayout row="1" col="0" columns="*,*,*" rows="auto,auto,auto">                               
                                        <!-- status of schedule -->   
                                     <Label row="0" col="0" class="body" text="Status" style="color: #396767;"></Label>
                                     <Label row="0" col="1" class="label-small" textWrap="true" colSpan="2" text="{{checkStatus(item.dbmodel.status,item.dbmodel.end_date)}}"

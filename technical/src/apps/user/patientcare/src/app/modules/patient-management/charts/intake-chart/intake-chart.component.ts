@@ -49,7 +49,8 @@ export class IntakeChartComponent implements OnInit {
     frequencyList: FrequencyValues[] = [
         { name: "Every 'X' hours", value: 0 },
         { name: "Specific time", value: 1 },
-        { name: "As Required", value: 2 }];
+        // { name: "As Required", value: 2 }
+    ];
 
     isSplinstructions = false;
     constructor(private routerExtensions: RouterExtensions,

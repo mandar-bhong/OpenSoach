@@ -49,7 +49,8 @@ export class MonitorChartComponent implements OnInit {
     public frequencyType: Array<FrequencyValues> = [];
     frequencyList: FrequencyValues[] = [
         { name: "Every 'X' hours", value: 0 },
-        { name: "Specific time", value: 1 }]
+        { name: "Specific time", value: 1 }
+    ];
 
     // end of proccess variables
 

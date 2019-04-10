@@ -62,7 +62,8 @@ export class MedicineChartComponent implements OnInit {
     frequencyList: FrequencyValues[] = [
         { name: "'X'- Times a day", value: 0 },
         { name: "Every 'X' hours", value: 1 },
-        { name: "As Required", value: 2 }];
+        // { name: "As Required", value: 2 }
+    ];
     isInstruction = false;
     isSplinstructions = false;
     isDosage = false;
