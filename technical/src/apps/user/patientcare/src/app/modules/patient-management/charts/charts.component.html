@@ -90,11 +90,12 @@
                         <GridLayout row="1" col="1" columns="*" rows="auto" class="list-layout" *ngIf="item.dbmodel.conf_type_code==configCodeType.INTAKE">
 
                            
-                            <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto"  *ngIf="item.conf.frequency===freuencyZero">
+                            <GridLayout row="0" col="0" columns="*,*" rows="auto,auto,auto,auto"  *ngIf="item.conf.frequency===freuencyZero">
                                 <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
                                 <Label row="0" col="1" class="label-small" textWrap="true"  text="{{item.conf.numberofTimes + ' times a day'}}"></Label>
                                 <Label row="1" col="1" class="label-small" textWrap="true" text="Starts at {{convertToDate(item.conf.startTime) | date:'shortTime' }}"></Label>
                                 <Label row="2" col="1" class="label-small" textWrap="true"  text="{{'Repeat every '+  timeConvert(item.conf.interval)}}"></Label> 
+                                <Label row="3" col="1" class="label-small" text="Quantity: {{item.conf.quantity}}" style="color: #396767;"></Label>
                           </GridLayout>               
                           <GridLayout row="0" col="0" columns="*,*" rows="auto"  *ngIf="item.conf.frequency===freuencyOne">
                             <Label row="0" col="0" class="body" text="Frequency" style="color: #396767;"></Label>
