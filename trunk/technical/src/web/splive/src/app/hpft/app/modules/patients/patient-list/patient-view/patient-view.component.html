@@ -2,7 +2,6 @@
   <div class="col">
     <mat-card>
       <div class="mobile-sort">
-        <h4>Sort</h4>
         <table class="example-full-width" cellspacing="0">
           <tr id="layout-set">
             <td>
@@ -16,14 +15,14 @@
               </mat-form-field>
             </td>
             <td>
-              <div (click)="sortDirectionAsc()"> Ascending
-                <i class="fa fa-long-arrow-up"></i>
-              </div>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionAsc()">
+                <mat-icon aria-hidden="true" matTooltip="Ascending">arrow_upward</mat-icon>
+              </button>
             </td>
             <td>
-              <div (click)="sortDirectionDesc()"> Descending
-                <i class="fa fa-long-arrow-down"></i>
-              </div>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionDesc()">
+                <mat-icon aria-hidden="true" matTooltip="Descending">arrow_downward</mat-icon>
+              </button>
             </td>
           </tr>
         </table>
@@ -34,16 +33,16 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
           <ng-container matColumnDef="fname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 16%;">Patient Name</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 16%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Patient Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-cell-responsive-label">Patient Name</span>
               <span class="ellipsis mat-cell-text">{{row.fname +' '+row.lname}}</span>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="patientregno">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Patient Reg No</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 14%;">Patient Reg No</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 14%;">
               <span class="mat-cell-responsive-label">Patient Reg No</span>
               <span class="ellipsis mat-cell-text">{{row.patientregno}}</span>
             </mat-cell>
@@ -58,8 +57,8 @@
           </ng-container>
 
           <ng-container matColumnDef="emergencycontactno">
-            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 13%;">Emergency Contact</mat-header-cell>
-            <mat-cell *matCellDef="let row" style="flex:0 0 13%;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 15%;">Emergency Contact</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 15%;">
               <span class="mat-cell-responsive-label">Emergency Contact</span>
               <span class="ellipsis mat-cell-text">{{row.emergencycontactno}}</span>
             </mat-cell>
@@ -117,7 +116,7 @@
       <br>
     </mat-card>
 
-   
+
     <!-- <div class="modal fade" id="myModal" layout-align="center">
       <form [formGroup]="editableForm" (ngSubmit)="changestatus()">
         <mat-card style="max-width:500px ">
@@ -189,7 +188,7 @@
     <div class="modal fade" id="myModal" role="dialog" tabindex="-1" aria-hidden="true">
       <form [formGroup]="editableForm" (ngSubmit)="changestatus()">
         <div class="modal-dialog">
-          
+
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Status</h4>
@@ -203,8 +202,9 @@
               <div class="form-group form-primary" mat-dialog-content>
                 <div>
                   <mat-form-field class="full-width">
-                    <input matInput placeholder="Patient Discharged Date" [min]="admittedDate" readonly [matDatepicker]="startdatepicker"
-                      [(ngModel)]="dataModel.dischargedon" formControlName="dischargedDateControls" required>
+                      <input matInput placeholder="Patient Discharged Date" [min]="admittedDate" readonly
+                      [matDatepicker]="startdatepicker" [(ngModel)]="dataModel.dischargedon"
+                      formControlName="dischargedDateControls" required>
                     <mat-datepicker-toggle matSuffix [for]="startdatepicker"></mat-datepicker-toggle>
                     <mat-datepicker #startdatepicker></mat-datepicker>
                     <mat-error *ngIf="editableForm.controls['dischargedDateControls'].hasError('required')">
@@ -214,13 +214,14 @@
                 </div>
                 <div>
                   <mat-form-field class="full-width">
-                    <input matInput type="time" placeholder="Choose Time" [(ngModel)]="selectedStartTime" value="{{selectedStartTime}}" formControlName="dischargedTimeControls" required>
+                    <input matInput type="time" placeholder="Choose Time" [(ngModel)]="selectedStartTime"
+                      value="{{selectedStartTime}}" formControlName="dischargedTimeControls" required>
                     <!-- <button color="accent" type="button"  matSuffix mat-icon-button aria-label="Choose" (click)="openStartTime()">
                       <i class="fa fa-clock-o" aria-hidden="true"></i>
                     </button> -->
                     <mat-error *ngIf="editableForm.controls['dischargedTimeControls'].hasError('required')">
-                        {{'VALIDATION_REQUIRED_FIELD'|translate}}
-                      </mat-error>
+                      {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                    </mat-error>
                   </mat-form-field>
                 </div>
               </div>

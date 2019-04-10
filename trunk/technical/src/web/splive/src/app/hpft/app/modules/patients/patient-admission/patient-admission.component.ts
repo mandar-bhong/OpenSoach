@@ -69,9 +69,6 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
       if (payloadResponse && payloadResponse.issuccess) {
         this.splist = payloadResponse.data;
       }
-      else {
-        this.appNotificationService.error();
-      }
     });
   }
 
@@ -79,9 +76,6 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     this.patientService.getDrInchargeList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.drlist = payloadResponse.data;
-      }
-      else {
-        this.appNotificationService.error();
       }
     });
   }

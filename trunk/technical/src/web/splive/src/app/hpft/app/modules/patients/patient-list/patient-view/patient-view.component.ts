@@ -67,9 +67,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.getServicepointList();
     this.createControls();
     this.dataModel.dischargedon = new Date();
-    // this.dataModel.dischargedon = new Date(new Date().toLocaleDateString("en-US")).toISOString().substr(0, 10);
     const dt = new Date();
-
     this.selectedStartTime = dt.getHours() + ":" + dt.getMinutes();
     this.patientFilterRequest = new PatientFilterRequest();
     this.patientFilterRequest.status = PATIENT_STATE.HOSPITALIZE;
@@ -158,7 +156,6 @@ export class PatientViewComponent implements OnInit, OnDestroy {
             }
           } else {
             this.dataSource = [];
-
           }
         });
   }
@@ -179,11 +176,11 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.patientService.personaldetailsid = personaldetailsid;
     // this.patientService.selcetdIndex = 0;
     // this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid,personaldetailsid:personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });
-    if (this.patientService.admissionid != null){
+    if (this.patientService.admissionid != null) {
       this.patientService.selcetdIndex = 0;
       this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid, personaldetailsid: personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });
     }
-    else{
+    else {
       this.patientService.selcetdIndex = 1;
       this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, callbackurl: 'patients' }, skipLocationChange: true });
     }

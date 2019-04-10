@@ -66,20 +66,20 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
   }
 
   getPatientUpdates() {
-    const recordIDRequestModel=new RecordIDRequestModel();
-    recordIDRequestModel.admissionid=this.patientService.admissionid;
-    recordIDRequestModel.patientid=this.dataModel.patientid;
-     this.patientService.getPatientNewUpdates(recordIDRequestModel).subscribe(payloadResponse => {
-       if (payloadResponse && payloadResponse.issuccess) {
-         if (payloadResponse.data) {
-           this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
-           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
-         } else {
-           this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
-         }
-       }
-     });
-   }
+    const recordIDRequestModel = new RecordIDRequestModel();
+    recordIDRequestModel.admissionid = this.patientService.admissionid;
+    recordIDRequestModel.patientid = this.dataModel.patientid;
+    this.patientService.getPatientNewUpdates(recordIDRequestModel).subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        if (payloadResponse.data) {
+          this.dataModel.CopyFromUpdateResponse(payloadResponse.data);
+          this.recordState = EDITABLE_RECORD_STATE.UPDATE;
+        } else {
+          this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
+        }
+      }
+    });
+  }
 
   createControls(): void {
     this.editableForm = new FormGroup({
@@ -118,6 +118,9 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
         if (payloadResponse.data.recid && payloadResponse.data.recid != null) {
           this.patientService.patientid = payloadResponse.data.recid;
         }
+        this.patientService.fname = this.dataModel.fname;
+        this.patientService.lname = this.dataModel.lname;
+        this.patientService.setPatientName(this.dataModel.fname + ' ' + this.dataModel.lname);
         this.recordState = EDITABLE_RECORD_STATE.ADD;
         this.setFormMode(FORM_MODE.VIEW);
         this.appNotificationService.success();

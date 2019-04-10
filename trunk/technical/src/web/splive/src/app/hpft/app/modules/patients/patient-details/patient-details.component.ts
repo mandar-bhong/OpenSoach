@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
-import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../shared/views/edit-record-base';
+import { EditRecordBase } from '../../../../../shared/views/edit-record-base';
 import { PatientDataModel } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
 
