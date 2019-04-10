@@ -479,7 +479,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		// for creating active items list
 		this.allAction.forEach((item) => {
 			if (item.actionStatus == ACTION_STATUS.ACTIVE_NORMAL || item.actionStatus == ACTION_STATUS.ACTIVE_DELAYED || item.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
-			   // caculating action execution state
+				// caculating action execution state
 				const scheduleTime = this.calculateActiveActionTime(item.scheduled_time);
 				if (scheduleTime) {
 					this.activeAction.push(item);
@@ -550,10 +550,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 			}
 			// if action is deleted
-			if (actionitem.is_deleted === 1) {	
-				console.log('in is deleted');			
+			if (actionitem.is_deleted === 1) {
+				console.log('in is deleted');
 				const itemindex = this.activeAction.indexOf(actionitem);
-				console.log('itemindex in actiive action list',itemindex);
+				console.log('itemindex in actiive action list', itemindex);
 				if (itemindex >= 0) {
 					this.activeAction.splice(itemindex, 1);
 				}
@@ -562,7 +562,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				if (index >= 0) {
 					this.allAction.splice(index, 1);
 				}
-			} else {				
+			} else {
 				// based on action  status calculating its schedule time/state
 				if (actionitem.actionStatus == ACTION_STATUS.ACTIVE_NORMAL || actionitem.actionStatus == ACTION_STATUS.ACTIVE_DELAYED || actionitem.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
 					const scheduleTime = this.calculateActiveActionTime(actionitem.scheduled_time);
@@ -573,7 +573,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			}
 			// updating to ui list.
 			this.toggoleActionList();
-			
+
 		}
 
 
@@ -929,7 +929,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 					actionListItem = item;
 					actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
 					try {
-						this.uiList.push(actionListItem);
+						this.allAction.push(actionListItem);
+						this.activeAction.push(actionListItem);
 					} catch (e) {
 						console.log(e.error);
 					}
@@ -943,20 +944,28 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	} // end of fucntion
 	pushDoctorOredrs(doctorsOrders: ServerDataStoreDataModel<IDatastoreModel>) {
-		let actionListItem = new DataActionItem();
-		Object.assign(actionListItem, doctorsOrders.data);
-		actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
-		if (actionListItem.admission_uuid == this.passdataservice.getAdmissionID()) {
-			console.log('pushDoctorOredrs executed actionListItem', actionListItem);
-			const item = this.uiList.filter(data => data.uuid == actionListItem.uuid)[0] || null;
+		let dataActionItem = new DataActionItem();
+		dataActionItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
+		Object.assign(dataActionItem, doctorsOrders.data);
+		console.log('dataActionItem', dataActionItem);
+		if (dataActionItem.admission_uuid == this.passdataservice.getAdmissionID()) {
+			let item = this.allAction.filter(data => data.uuid == dataActionItem.uuid)[0] || null;
 			//  if record found in list  
-			if (item) {
-				const index = this.uiList.indexOf(item);
-				this.uiList[index] = item;
+			if (item && item != null) {
+				item = dataActionItem;
 			} else {
-				this.uiList.push(actionListItem);
+				this.allAction.push(dataActionItem);
 			}
-			this.getCount();
+			let doctorOrder = this.activeAction.filter(data => data.uuid == dataActionItem.uuid)[0] || null;
+			//  if record found in list  
+			if (doctorOrder && doctorOrder != null) {
+				doctorOrder = dataActionItem;
+			} else {
+				this.activeAction.push(dataActionItem);
+			}
+			 this.getCount();
+			// updating to ui list.
+	    		this.toggoleActionList();
 		}
 	} // end of code block.
 
@@ -972,7 +981,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		tempStartTime.setMinutes(after1Hours);
 		const tempStart = tempStartTime.toLocaleString();
 		const startTime = new Date(tempStart);
-
 		const tempEndTime = new Date();
 		const next12Hours = tempEndTime.getMinutes() + 720;
 		tempEndTime.setMinutes(next12Hours);
