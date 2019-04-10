@@ -404,6 +404,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			actionListDataItem.value = new BloodPressureValueModel();
 			actionListDataItem.admission_uuid = item.dbmodel.admission_uuid;
 			actionListDataItem.schedule_uuid = item.dbmodel.schedule_uuid;
+			actionListDataItem.uuid = item.dbmodel.action_uuid;
 			actionListDataItem.conf_type_code = item.dbmodel.conf_type_code;
 			this.conf_type_code = actionListDataItem.conf_type_code;
 			// console.log('this.conf_type_code', this.conf_type_code);
@@ -470,15 +471,22 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				actionListDataItem.type = 1;
 				actionListDataItem.actionStatus = ActionStatusHelper.getActionStatus(Dbdate);
 				this.actionStatus = actionListDataItem.actionStatus;
-				if (actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NORMAL || actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_DELAYED || actionListDataItem.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
-					if (Dbdate >= startTime && Dbdate <= endTime) {
-						this.activeAction.push(actionListDataItem);
-					}
-				}
+
 				this.allAction.push(actionListDataItem);
 			}
 
 		});
+		// for creating active items list
+		this.allAction.forEach((item) => {
+			if (item.actionStatus == ACTION_STATUS.ACTIVE_NORMAL || item.actionStatus == ACTION_STATUS.ACTIVE_DELAYED || item.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
+			   // caculating action execution state
+				const scheduleTime = this.calculateActiveActionTime(item.scheduled_time);
+				if (scheduleTime) {
+					this.activeAction.push(item);
+				}
+			}
+		});
+		//  updating to ui list
 		this.toggoleActionList();
 		// get doctor orders.
 		this.getDoctorsOrders();
@@ -495,124 +503,200 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			console.log('active action list', this.activeAction.length);
 		}
 	}
-	// pushAddedActionTxn(actionTxnDatastoreModel: ActionTxnDatastoreModel) {
-	// 	let actionTxnitem = this.actionListItem.filter(data => data.dbmodel.uuid === actionTxnDatastoreModel.uuid)[0];
-	// 	// item found in array 
-	// 	if (actionTxnitem && actionTxnitem != null) {
-	// 		actionTxnitem.dbmodel = actionTxnDatastoreModel;
-	// 		// scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
-	// 	}
-	// 	else {
-	// 		let actionTxnitem = new DataActionItem();
-	// 		actionTxnitem. = actionTxnDatastoreModel;
-	// 		// scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
-	// 		this.chartListItemsAll.push(scheduleitem);
-	// 	}
-	// }
-
-
-
-
 	pushAddedAction(actionDataStoreModel: ActionDataStoreModel) {
-
+		// if schedule added for specific patient.
 		if (this.scheduleDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
-			// if item exist
-			let actionitem = this.actionListItem.filter(data => data.dbmodel.uuid === actionDataStoreModel.uuid)[0];
-			console.log('actionitem', actionitem);
-			let tempactionitem = this.uiList.filter(data => data.uuid === actionDataStoreModel.uuid)[0];
-			console.log('tempactionitem', tempactionitem);
-			// item found in array 
-
-			if (tempactionitem && tempactionitem != null) {
-				actionitem.dbmodel = actionDataStoreModel;
-
-				actionitem.dbmodel = actionDataStoreModel;
-				this.actionListNottificationDataItem.admission_uuid = actionitem.dbmodel.admission_uuid;
-				this.actionListNottificationDataItem.client_updated_at = actionitem.dbmodel.client_updated_at;
-
-				this.actionListNottificationDataItem.conf_type_code = actionitem.dbmodel.conf_type_code;
-
-				this.actionListNottificationDataItem.is_deleted = actionitem.dbmodel.is_deleted;
-				this.actionListNottificationDataItem.schedule_uuid = actionitem.dbmodel.schedule_uuid;
-				this.actionListNottificationDataItem.scheduled_time = actionitem.dbmodel.scheduled_time;
-				this.actionListNottificationDataItem.uuid = actionitem.dbmodel.uuid;
-				if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
+			// check for  item exist
+			let actionitem = this.allAction.filter(data => data.uuid === actionDataStoreModel.uuid)[0] || null;
+			if (actionitem && actionitem != null) {
+				// item found
+				actionitem.admission_uuid = actionDataStoreModel.admission_uuid;
+				actionitem.client_updated_at = actionDataStoreModel.client_updated_at;
+				actionitem.conf_type_code = actionDataStoreModel.conf_type_code;
+				actionitem.is_deleted = actionDataStoreModel.is_deleted;
+				actionitem.schedule_uuid = actionDataStoreModel.schedule_uuid;
+				actionitem.scheduled_time = actionDataStoreModel.scheduled_time;
+				actionitem.uuid = actionDataStoreModel.uuid;
+				// fetching schedule name and its description
+				if (this.scheduleDatastoreModel.uuid === actionitem.schedule_uuid) {
 					const conf = JSON.parse(this.scheduleDatastoreModel.conf);
-					this.actionListNottificationDataItem.name = conf.name;
-					// console.log('conf name', conf.name);
-					this.actionListNottificationDataItem.desc = conf.desc;
-				}
-				// active schedule is_deleted 0 and deleted schedule is 1
-				if (actionitem.dbmodel.is_deleted === 1) {
-					console.log('is deleted schedule ######################');
-					// const activeScheduleItemInex = this.actionListItem.indexOf(actionitem);
-						// const activeScheduleItemInex = this.actionListItem.indexOf(actionitem);
-					this.actionListItem.push(actionitem);
-					// if (activeScheduleItemInex >= 0) {
-					// 	this.actionListItem.splice(activeScheduleItemInex, 1);
-					// 	this.allAction.splice(activeScheduleItemInex, 1);
-					// 	this.uiList = this.allAction;
-
-					// }
-
-				}
-				else {
-					console.log('is active schedule @@@@@@@@@@@@@@@@@@@');
-					this.actionListItem.push(actionitem);
-					this.activeAction.push(this.actionListNottificationDataItem);
+					actionitem.name = conf.name;
+					actionitem.desc = conf.desc;
 				}
 
+			} else {
+				// item not found 			
+				actionitem = new DataActionItem();
+				actionitem.admission_uuid = actionDataStoreModel.admission_uuid;
+				actionitem.client_updated_at = actionDataStoreModel.client_updated_at;
+				actionitem.conf_type_code = actionDataStoreModel.conf_type_code;
+				actionitem.is_deleted = actionDataStoreModel.is_deleted;
+				actionitem.schedule_uuid = actionDataStoreModel.schedule_uuid;
+				actionitem.scheduled_time = actionDataStoreModel.scheduled_time;
+				actionitem.uuid = actionDataStoreModel.uuid;
+				// fetching schedule name and its description
+				if (this.scheduleDatastoreModel.uuid === actionitem.schedule_uuid) {
+					const conf = JSON.parse(this.scheduleDatastoreModel.conf);
+					actionitem.name = conf.name;
+					actionitem.desc = conf.desc;
+				}
+				const recivedDateFormDB = new Date(actionitem.scheduled_time);
+				const recivedDateDb = recivedDateFormDB.getMinutes();
+				recivedDateFormDB.setMinutes(recivedDateDb);
+				const reciveTimeDb = recivedDateFormDB.toLocaleString();
+				const Dbdate = new Date(reciveTimeDb);
+				actionitem.actionStatus = ActionStatusHelper.getActionStatus(Dbdate);
+				this.allAction.push(actionitem);
 
-
-				// this.actionListItem.push(actionitem);
-				// this.allAction.push(this.actionListNottificationDataItem);
-				// this.activeAction.push(this.actionListNottificationDataItem);
-				console.log('update action item ', actionitem);
 			}
-
-			else {
-				console.log('action new add mode item ', this.allAction.length);
-				// if item not found then add new one in all array.
-				actionitem = new ActionListViewModel();
-				actionitem.dbmodel = actionDataStoreModel;
-				// if schedule info found 		   
-				if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
-					const conf = JSON.parse(this.scheduleDatastoreModel.conf);
-					actionitem.dbmodel.name = conf.name;
-					actionitem.dbmodel.desc = conf.desc;
+			// if action is deleted
+			if (actionitem.is_deleted === 1) {	
+				console.log('in is deleted');			
+				const itemindex = this.activeAction.indexOf(actionitem);
+				console.log('itemindex in actiive action list',itemindex);
+				if (itemindex >= 0) {
+					this.activeAction.splice(itemindex, 1);
 				}
-				// this.actionListItem.push(actionitem);
-
-
-				let actionListDataItem = new DataActionItem();
-				actionitem = new ActionListViewModel();
-				actionitem.dbmodel = actionDataStoreModel;
-				actionListDataItem.admission_uuid = actionitem.dbmodel.admission_uuid;
-				actionListDataItem.client_updated_at = actionitem.dbmodel.client_updated_at;
-
-				actionListDataItem.conf_type_code = actionitem.dbmodel.conf_type_code;
-
-				actionListDataItem.is_deleted = actionitem.dbmodel.is_deleted;
-				actionListDataItem.schedule_uuid = actionitem.dbmodel.schedule_uuid;
-				actionListDataItem.scheduled_time = actionitem.dbmodel.scheduled_time;
-				actionListDataItem.uuid = actionitem.dbmodel.uuid;
-				if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
-					const conf = JSON.parse(this.scheduleDatastoreModel.conf);
-					actionListDataItem.name = conf.name;
-					// console.log('conf name', conf.name);
-					actionListDataItem.desc = conf.desc;
+				// removing from all action list
+				const index = this.allAction.indexOf(actionitem);
+				if (index >= 0) {
+					this.allAction.splice(index, 1);
 				}
-				this.actionListItem.push(actionitem);
-				this.allAction.push(actionListDataItem);
-				this.activeAction.push(actionListDataItem);
-				this.uiList = this.allAction;
-				console.log('new create all item ', this.allAction.length);
-				console.log('new create active item ', this.activeAction.length);
+			} else {				
+				// based on action  status calculating its schedule time/state
+				if (actionitem.actionStatus == ACTION_STATUS.ACTIVE_NORMAL || actionitem.actionStatus == ACTION_STATUS.ACTIVE_DELAYED || actionitem.actionStatus == ACTION_STATUS.ACTIVE_NEEDS_ATTENTION) {
+					const scheduleTime = this.calculateActiveActionTime(actionitem.scheduled_time);
+					if (scheduleTime) {
+						this.activeAction.push(actionitem);
+					}
+				}
 			}
-
-
+			// updating to ui list.
 			this.toggoleActionList();
+			
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// if (this.scheduleDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
+		// 	// if item exist
+		// 	let actionitem = this.actionListItem.filter(data => data.dbmodel.uuid === actionDataStoreModel.uuid)[0];
+		// 	console.log('actionitem', actionitem);
+		// 	let tempactionitem = this.uiList.filter(data => data.uuid === actionDataStoreModel.uuid)[0];
+		// 	console.log('tempactionitem', tempactionitem);
+		// 	// item found in array 
+
+		// 	if (tempactionitem && tempactionitem != null) {
+		// 		actionitem.dbmodel = actionDataStoreModel;
+
+		// 		actionitem.dbmodel = actionDataStoreModel;
+		// 		this.actionListNottificationDataItem.admission_uuid = actionitem.dbmodel.admission_uuid;
+		// 		this.actionListNottificationDataItem.client_updated_at = actionitem.dbmodel.client_updated_at;
+
+		// 		this.actionListNottificationDataItem.conf_type_code = actionitem.dbmodel.conf_type_code;
+
+		// 		this.actionListNottificationDataItem.is_deleted = actionitem.dbmodel.is_deleted;
+		// 		this.actionListNottificationDataItem.schedule_uuid = actionitem.dbmodel.schedule_uuid;
+		// 		this.actionListNottificationDataItem.scheduled_time = actionitem.dbmodel.scheduled_time;
+		// 		this.actionListNottificationDataItem.uuid = actionitem.dbmodel.uuid;
+		// 		if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
+		// 			const conf = JSON.parse(this.scheduleDatastoreModel.conf);
+		// 			this.actionListNottificationDataItem.name = conf.name;
+		// 			// console.log('conf name', conf.name);
+		// 			this.actionListNottificationDataItem.desc = conf.desc;
+		// 		}
+		// 		// active schedule is_deleted 0 and deleted schedule is 1
+		// 		if (actionitem.dbmodel.is_deleted === 1) {
+		// 			console.log('is deleted schedule ######################');
+		// 			// const activeScheduleItemInex = this.actionListItem.indexOf(actionitem);
+		// 			// const activeScheduleItemInex = this.actionListItem.indexOf(actionitem);
+		// 			this.actionListItem.push(actionitem);
+		// 			// if (activeScheduleItemInex >= 0) {
+		// 			// 	this.actionListItem.splice(activeScheduleItemInex, 1);
+		// 			// 	this.allAction.splice(activeScheduleItemInex, 1);
+		// 			// 	this.uiList = this.allAction;
+
+		// 			// }
+
+		// 		}
+		// 		else {
+		// 			console.log('is active schedule @@@@@@@@@@@@@@@@@@@');
+		// 			this.actionListItem.push(actionitem);
+		// 			this.activeAction.push(this.actionListNottificationDataItem);
+		// 		}
+
+
+
+		// 		// this.actionListItem.push(actionitem);
+		// 		// this.allAction.push(this.actionListNottificationDataItem);
+		// 		// this.activeAction.push(this.actionListNottificationDataItem);
+		// 		console.log('update action item ', actionitem);
+		// 	}
+
+		// 	else {
+		// 		console.log('action new add mode item ', this.allAction.length);
+		// 		// if item not found then add new one in all array.
+		// 		actionitem = new ActionListViewModel();
+		// 		actionitem.dbmodel = actionDataStoreModel;
+		// 		// if schedule info found 		   
+		// 		if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
+		// 			const conf = JSON.parse(this.scheduleDatastoreModel.conf);
+		// 			actionitem.dbmodel.name = conf.name;
+		// 			actionitem.dbmodel.desc = conf.desc;
+		// 		}
+		// 		// this.actionListItem.push(actionitem);
+
+
+		// 		let actionListDataItem = new DataActionItem();
+		// 		actionitem = new ActionListViewModel();
+		// 		actionitem.dbmodel = actionDataStoreModel;
+		// 		actionListDataItem.admission_uuid = actionitem.dbmodel.admission_uuid;
+		// 		actionListDataItem.client_updated_at = actionitem.dbmodel.client_updated_at;
+
+		// 		actionListDataItem.conf_type_code = actionitem.dbmodel.conf_type_code;
+
+		// 		actionListDataItem.is_deleted = actionitem.dbmodel.is_deleted;
+		// 		actionListDataItem.schedule_uuid = actionitem.dbmodel.schedule_uuid;
+		// 		actionListDataItem.scheduled_time = actionitem.dbmodel.scheduled_time;
+		// 		actionListDataItem.uuid = actionitem.dbmodel.uuid;
+		// 		if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
+		// 			const conf = JSON.parse(this.scheduleDatastoreModel.conf);
+		// 			actionListDataItem.name = conf.name;
+		// 			// console.log('conf name', conf.name);
+		// 			actionListDataItem.desc = conf.desc;
+		// 		}
+		// 		this.actionListItem.push(actionitem);
+		// 		this.allAction.push(actionListDataItem);
+		// 		this.activeAction.push(actionListDataItem);
+		// 		this.uiList = this.allAction;
+		// 		console.log('new create all item ', this.allAction.length);
+		// 		console.log('new create active item ', this.activeAction.length);
+		// 	}
+
+
+		// 	this.toggoleActionList();
+		// }
 	}
 
 
@@ -875,12 +959,34 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			this.getCount();
 		}
 	} // end of code block.
-	test() {
-		console.log('all', this.allAction);
-		console.log('active', this.activeAction);
-		this.activeAction[0].name = 'amol';
-		console.log('this.activeAction', this.activeAction);
-		
 
+	calculateActiveActionTime(scheduled_time) {
+		const recivedDateFormDB = new Date(scheduled_time);
+		const recivedDateDb = recivedDateFormDB.getMinutes();
+		recivedDateFormDB.setMinutes(recivedDateDb);
+		const reciveTimeDb = recivedDateFormDB.toLocaleString();
+		const Dbdate = new Date(reciveTimeDb);
+
+		const tempStartTime = new Date();
+		const after1Hours = tempStartTime.getMinutes() - 60;
+		tempStartTime.setMinutes(after1Hours);
+		const tempStart = tempStartTime.toLocaleString();
+		const startTime = new Date(tempStart);
+
+		const tempEndTime = new Date();
+		const next12Hours = tempEndTime.getMinutes() + 720;
+		tempEndTime.setMinutes(next12Hours);
+		const tempEnd = tempEndTime.toLocaleString();
+		const endTime = new Date(tempEnd);
+
+		// to do 
+		// amol check scpecific conditon
+
+		if (Dbdate >= startTime && Dbdate <= endTime) {
+			return true;
+		} else {
+			false;
+		}
 	}
+
 }
