@@ -37,7 +37,7 @@ const QUERY_GET_CU_USER_TABLE_INFO_BY_ID = `select usr.id as id,usr_name,usr_cat
 from spl_master_user_tbl usr 
 inner join spl_master_usr_cpm_tbl ucpm on usr.id = ucpm.user_id_fk
 inner join spl_master_user_role_tbl urole on ucpm.urole_id_fk = urole.id
-where usr.id = ?`
+where usr.id = ? and ucpm.cpm_id_fk= ?`
 
 const QUERY_GET_SPL_MASTER_USER_DETAILS_TABLE_SELECT_BY_ID = `Select usr_id_fk,fname,lname,gender,mobile_no,alternate_contact_no,created_on,updated_on From spl_master_usr_details_tbl where usr_id_fk = ?`
 

@@ -396,7 +396,9 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		isSuccess, resultData = UserService.GetCUUserInfo(UserService{}, recReq.RecId)
+		isSuccess, resultData = UserService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.GetCUUserInfo(recReq.RecId)
 
 		break
 
