@@ -106,8 +106,13 @@ export class DataActionItem {
 	desc: string;
 	status: number;
 	document_uuid: string;
-	doctors_orders: string;
-	doctor_id: number;
+    doctors_orders: string;
+    order_type:string;
+    document_name: string;
+    doctype: string;
+    doctor_id: number;
+    ack_by: string;
+    comment: string;
 	type: number;
 	actionStatus: any;
 	txn_state: number;

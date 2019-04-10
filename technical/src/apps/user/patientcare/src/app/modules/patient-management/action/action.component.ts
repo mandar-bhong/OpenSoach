@@ -212,7 +212,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		this.actionTxnDataReceivedSubject = this.workerservice.actionTxnDataReceivedSubject.subscribe((value) => {
 			console.log('<======================notified to action txn  page===> ', value);
-			// this.pushAddedAction(value);
+			this.pushAddedActionTxn(value);
 		});
 
 		// subscription for adding newly  created doctors orders in action list.
@@ -425,6 +425,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			const tempEndTime = new Date();
 			const next12Hours = tempEndTime.getMinutes() + 720;
 			tempEndTime.setMinutes(next12Hours);
+
 			const tempEnd = tempEndTime.toLocaleString();
 			const endTime = new Date(tempEnd);
 			// console.log('endTime',endTime);
@@ -501,6 +502,54 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			//  active
 			this.uiList = this.activeAction;
 			console.log('active action list', this.activeAction.length);
+
+		}
+	}
+	// action txn nottification code
+	pushAddedActionTxn(actionTxnDatastoreModel: ActionTxnDatastoreModel) {
+		if (actionTxnDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
+			let actionitem = this.allAction.filter(data => data.schedule_uuid === actionTxnDatastoreModel.schedule_uuid && data.scheduled_time === actionTxnDatastoreModel.scheduled_time)[0] || null;
+			if (actionitem && actionitem != null) {
+				const gettxn_data = new GetJsonModel();
+				actionitem.txn_state = actionTxnDatastoreModel.txn_state;
+				actionitem.type = 2;
+				actionitem.actionStatus = null;
+				Object.assign(gettxn_data, JSON.parse(actionTxnDatastoreModel.txn_data));
+				actionitem.txn_data = gettxn_data;
+				actionitem.txn_data.comment = gettxn_data.comment;
+				actionitem.client_updated_at = actionTxnDatastoreModel.client_updated_at;
+
+				// updated by get fname and lname by updated_on id
+				this.actionService.getUserByUserid(actionTxnDatastoreModel.updated_by).then(
+					(val) => {
+						val.forEach(item => {
+							console.log('val name ', val);
+							actionitem.fname = item.fname;
+							actionitem.lname = item.lname;
+						});
+					})
+				if (actionitem.name === 'Blood Pressure') {
+					if (gettxn_data.value != null) {
+						const jsonvalue = new BloodPressureValueModel();
+						Object.assign(jsonvalue, JSON.parse(gettxn_data.value));
+						console.log('gettxnData.value', jsonvalue);
+						actionitem.value.systolic = jsonvalue.systolic;
+						actionitem.value.diastolic = jsonvalue.diastolic;
+					}
+				} else {
+					actionitem.txn_data.value = gettxn_data.value;
+				}
+				// console.log('this.allAction.push(actionitem)', actionitem);
+				let x = this.activeAction.filter(data => data.schedule_uuid === actionTxnDatastoreModel.schedule_uuid && data.scheduled_time === actionTxnDatastoreModel.scheduled_time)[0] || null;
+				if (x && x != null) {
+					const itemindex = this.activeAction.indexOf(x);
+					if (itemindex >= 0) {
+						this.activeAction.splice(itemindex, 1);
+					}
+				}
+				this.toggoleActionList();
+			}
+
 		}
 	}
 	pushAddedAction(actionDataStoreModel: ActionDataStoreModel) {
@@ -553,7 +602,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			if (actionitem.is_deleted === 1) {
 				console.log('in is deleted');
 				const itemindex = this.activeAction.indexOf(actionitem);
-				console.log('itemindex in actiive action list', itemindex);
+				// console.log('itemindex in actiive action list', itemindex);
 				if (itemindex >= 0) {
 					this.activeAction.splice(itemindex, 1);
 				}
@@ -577,134 +626,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// if (this.scheduleDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
-		// 	// if item exist
-		// 	let actionitem = this.actionListItem.filter(data => data.dbmodel.uuid === actionDataStoreModel.uuid)[0];
-		// 	console.log('actionitem', actionitem);
-		// 	let tempactionitem = this.uiList.filter(data => data.uuid === actionDataStoreModel.uuid)[0];
-		// 	console.log('tempactionitem', tempactionitem);
-		// 	// item found in array 
-
-		// 	if (tempactionitem && tempactionitem != null) {
-		// 		actionitem.dbmodel = actionDataStoreModel;
-
-		// 		actionitem.dbmodel = actionDataStoreModel;
-		// 		this.actionListNottificationDataItem.admission_uuid = actionitem.dbmodel.admission_uuid;
-		// 		this.actionListNottificationDataItem.client_updated_at = actionitem.dbmodel.client_updated_at;
-
-		// 		this.actionListNottificationDataItem.conf_type_code = actionitem.dbmodel.conf_type_code;
-
-		// 		this.actionListNottificationDataItem.is_deleted = actionitem.dbmodel.is_deleted;
-		// 		this.actionListNottificationDataItem.schedule_uuid = actionitem.dbmodel.schedule_uuid;
-		// 		this.actionListNottificationDataItem.scheduled_time = actionitem.dbmodel.scheduled_time;
-		// 		this.actionListNottificationDataItem.uuid = actionitem.dbmodel.uuid;
-		// 		if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
-		// 			const conf = JSON.parse(this.scheduleDatastoreModel.conf);
-		// 			this.actionListNottificationDataItem.name = conf.name;
-		// 			// console.log('conf name', conf.name);
-		// 			this.actionListNottificationDataItem.desc = conf.desc;
-		// 		}
-		// 		// active schedule is_deleted 0 and deleted schedule is 1
-		// 		if (actionitem.dbmodel.is_deleted === 1) {
-		// 			console.log('is deleted schedule ######################');
-		// 			// const activeScheduleItemInex = this.actionListItem.indexOf(actionitem);
-		// 			// const activeScheduleItemInex = this.actionListItem.indexOf(actionitem);
-		// 			this.actionListItem.push(actionitem);
-		// 			// if (activeScheduleItemInex >= 0) {
-		// 			// 	this.actionListItem.splice(activeScheduleItemInex, 1);
-		// 			// 	this.allAction.splice(activeScheduleItemInex, 1);
-		// 			// 	this.uiList = this.allAction;
-
-		// 			// }
-
-		// 		}
-		// 		else {
-		// 			console.log('is active schedule @@@@@@@@@@@@@@@@@@@');
-		// 			this.actionListItem.push(actionitem);
-		// 			this.activeAction.push(this.actionListNottificationDataItem);
-		// 		}
-
-
-
-		// 		// this.actionListItem.push(actionitem);
-		// 		// this.allAction.push(this.actionListNottificationDataItem);
-		// 		// this.activeAction.push(this.actionListNottificationDataItem);
-		// 		console.log('update action item ', actionitem);
-		// 	}
-
-		// 	else {
-		// 		console.log('action new add mode item ', this.allAction.length);
-		// 		// if item not found then add new one in all array.
-		// 		actionitem = new ActionListViewModel();
-		// 		actionitem.dbmodel = actionDataStoreModel;
-		// 		// if schedule info found 		   
-		// 		if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
-		// 			const conf = JSON.parse(this.scheduleDatastoreModel.conf);
-		// 			actionitem.dbmodel.name = conf.name;
-		// 			actionitem.dbmodel.desc = conf.desc;
-		// 		}
-		// 		// this.actionListItem.push(actionitem);
-
-
-		// 		let actionListDataItem = new DataActionItem();
-		// 		actionitem = new ActionListViewModel();
-		// 		actionitem.dbmodel = actionDataStoreModel;
-		// 		actionListDataItem.admission_uuid = actionitem.dbmodel.admission_uuid;
-		// 		actionListDataItem.client_updated_at = actionitem.dbmodel.client_updated_at;
-
-		// 		actionListDataItem.conf_type_code = actionitem.dbmodel.conf_type_code;
-
-		// 		actionListDataItem.is_deleted = actionitem.dbmodel.is_deleted;
-		// 		actionListDataItem.schedule_uuid = actionitem.dbmodel.schedule_uuid;
-		// 		actionListDataItem.scheduled_time = actionitem.dbmodel.scheduled_time;
-		// 		actionListDataItem.uuid = actionitem.dbmodel.uuid;
-		// 		if (this.scheduleDatastoreModel.uuid === actionitem.dbmodel.schedule_uuid) {
-		// 			const conf = JSON.parse(this.scheduleDatastoreModel.conf);
-		// 			actionListDataItem.name = conf.name;
-		// 			// console.log('conf name', conf.name);
-		// 			actionListDataItem.desc = conf.desc;
-		// 		}
-		// 		this.actionListItem.push(actionitem);
-		// 		this.allAction.push(actionListDataItem);
-		// 		this.activeAction.push(actionListDataItem);
-		// 		this.uiList = this.allAction;
-		// 		console.log('new create all item ', this.allAction.length);
-		// 		console.log('new create active item ', this.activeAction.length);
-		// 	}
-
-
-		// 	this.toggoleActionList();
-		// }
 	}
-
-
-
-
-
-
-
 
 	// >> on submit one bye one item data
 	onSubmit(item) {
@@ -833,6 +755,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		});
 		console.log('his.ServerDataStoreDataModelArray', this.ServerDataStoreDataModelArray);
 		this.savetoUserAuth();
+		this.saveViewOpen = false;
 		// check data save entries added in action trn table 
 		this.gettrnlistdata();
 
@@ -929,8 +852,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 					actionListItem = item;
 					actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
 					try {
-						this.allAction.push(actionListItem);
-						this.activeAction.push(actionListItem);
+						this.uiList.push(actionListItem);
 					} catch (e) {
 						console.log(e.error);
 					}
@@ -944,28 +866,20 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	} // end of fucntion
 	pushDoctorOredrs(doctorsOrders: ServerDataStoreDataModel<IDatastoreModel>) {
-		let dataActionItem = new DataActionItem();
-		dataActionItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
-		Object.assign(dataActionItem, doctorsOrders.data);
-		console.log('dataActionItem', dataActionItem);
-		if (dataActionItem.admission_uuid == this.passdataservice.getAdmissionID()) {
-			let item = this.allAction.filter(data => data.uuid == dataActionItem.uuid)[0] || null;
+		let actionListItem = new DataActionItem();
+		Object.assign(actionListItem, doctorsOrders.data);
+		actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
+		if (actionListItem.admission_uuid == this.passdataservice.getAdmissionID()) {
+			console.log('pushDoctorOredrs executed actionListItem', actionListItem);
+			const item = this.uiList.filter(data => data.uuid == actionListItem.uuid)[0] || null;
 			//  if record found in list  
-			if (item && item != null) {
-				item = dataActionItem;
+			if (item) {
+				const index = this.uiList.indexOf(item);
+				this.uiList[index] = item;
 			} else {
-				this.allAction.push(dataActionItem);
+				this.uiList.push(actionListItem);
 			}
-			let doctorOrder = this.activeAction.filter(data => data.uuid == dataActionItem.uuid)[0] || null;
-			//  if record found in list  
-			if (doctorOrder && doctorOrder != null) {
-				doctorOrder = dataActionItem;
-			} else {
-				this.activeAction.push(dataActionItem);
-			}
-			 this.getCount();
-			// updating to ui list.
-	    		this.toggoleActionList();
+			this.getCount();
 		}
 	} // end of code block.
 
@@ -981,6 +895,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		tempStartTime.setMinutes(after1Hours);
 		const tempStart = tempStartTime.toLocaleString();
 		const startTime = new Date(tempStart);
+
 		const tempEndTime = new Date();
 		const next12Hours = tempEndTime.getMinutes() + 720;
 		tempEndTime.setMinutes(next12Hours);

@@ -124,6 +124,7 @@ let selectQueries = new Map([
     where act.scheduled_time >=? and act.schedule_uuid=? and atxn.uuid IS NULL`],
     ["userList1", "select * from usr_tbl"],
     ["actionTxnList", "select * from action_txn_tbl"],
+    ["getUserById", "select * from usr_tbl where usr_id= ?"],
 ]);
 
 let selectTableName = new Map([

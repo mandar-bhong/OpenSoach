@@ -158,6 +158,26 @@ export class ActionService {
             );
         });
     }
+
+    public getUserByUserid(usr_id: number): any {
+        return new Promise((resolve, reject) => {
+
+            const paramList = new Array<any>();
+
+            paramList.push(usr_id);
+
+            this.database.selectByID("getUserById", paramList).then(
+                (val) => {
+                    console.log("get user by updated id", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+    }
     
     
 }
