@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="row" id="form-id">
+    <div class="col">
+      <div id="player" class="player" [class.voted]="flipped">
+        <div class="front1 front">
+          <div [hidden]="flipped == true">
+            <mat-card style="max-width:425px;">
+              <hkt-login></hkt-login>
+              <div class="row">
+                <div class="col-md-4 col-sm-4">
+                  <div class="font-small" style="line-height:32px">
+                    <a [routerLink]="['/auth/login']" (click)="flipIt()"> Forgot Password?</a>
+                  </div>
+                </div>
+                <div class="col-md-8 col-sm-8" style="text-align:right;">
+                  <span class="font-small color-text-alternate" style="line-height:32px">Powered by
+                    <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
+                  </span>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+        <div class="back">
+          <div [hidden]="flipped == false">
+            <mat-card style="max-width:425px;">
+              <hkt-forgot-password></hkt-forgot-password>
+              <div class="row">
+                <div class="col-md-4 col-sm-4">
+                  <div class="font-small" style="line-height:32px">
+                    <a [routerLink]="['/auth/login']" (click)="flipIt()"> Login</a>
+                  </div>
+                </div>
+                <div class="col-md-8 col-sm-8" style="text-align:right;">
+                  <span class="font-small color-text-alternate" style="line-height:32px">Powered by
+                    <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
+                  </span>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

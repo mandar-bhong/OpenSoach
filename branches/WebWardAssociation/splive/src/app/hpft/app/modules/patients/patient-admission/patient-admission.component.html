@@ -1,0 +1,95 @@
+<mat-card style="max-width:500px">
+  <form [formGroup]="editableForm" (ngSubmit)="save()">
+    <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+    <mat-card-content>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Patient Registration No." formControlName="patientregnoControls"
+            [(ngModel)]="dataModel.patientregno" maxlength="25" required>
+          <mat-error *ngIf="editableForm.controls['patientregnoControls'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Patient Registration No.</span>
+        <label class="viewtext">{{ dataModel.patientregno }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <mat-select placeholder="Ward" formControlName="patientwardControls" [(ngModel)]="dataModel.spid" required>
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let sp of splist" [value]="sp.spid">
+              {{sp.spname}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="editableForm.controls['patientwardControls'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Ward Number</span>
+        <label class="viewtext">{{ getSPName(dataModel.spid)}}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Bed Number" formControlName="bednumberControls" [(ngModel)]="dataModel.bedno"
+            maxlength="25">
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Bed Number</span>
+        <label class="viewtext">{{ dataModel.bedno }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <mat-select placeholder="Doctor Incharge" formControlName="doctorinchargeControls"
+            [(ngModel)]="dataModel.drincharge" required>
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let dr of drlist" [value]="dr.usrid">
+              {{dr.fname + ' ' +  dr.lname}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="editableForm.controls['doctorinchargeControls'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Doctor Incharge</span>
+        <label class="viewtext">{{ getDrName(dataModel.drincharge) }}</label>
+      </div>
+
+      <div class="form-group form-primary " *ngIf="formMode === 1">
+        <mat-form-field class="full-width">
+          <input matInput [matDatepicker]="picker" placeholder="Admit Date" [(ngModel)]="dataModel.admittedon"
+            formControlName="admittedDateControls" required readonly>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="editableForm.controls['admittedDateControls'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Hospitalized On</span>
+        <label class="viewtext"> {{dataModel.admittedon | date:'mediumDate'}}</label>
+      </div>
+
+      <div *ngIf="dataModel.dischargedon">
+      <div class="form-group form-primary" *ngIf="formMode === 0">
+        <span class="viewlabel">Discharged On</span>
+        <label class="viewtext"> {{dataModel.dischargedon | date:'mediumDate'}}</label>
+      </div>
+      </div>
+
+      <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()">
+      </app-editable-form-footer-toolbar>
+    </mat-card-content>
+  </form>
+</mat-card>

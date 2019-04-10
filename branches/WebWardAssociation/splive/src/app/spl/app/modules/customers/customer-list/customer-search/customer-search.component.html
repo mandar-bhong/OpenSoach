@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <mat-expansion-panel [expanded]="isExpanded" (opened)="panelOpened()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <i class="fa fa-filter" aria-hidden="true"></i>
+            <span style="padding-left:10px">Filter</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <input matInput placeholder="Customer Name" [(ngModel)]="dataModel.custname">
+              <button mat-button *ngIf="dataModel.custname" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.custname=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <mat-select placeholder="Status" [(ngModel)]="dataModel.custstate">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let custstate of customerStates" [value]="custstate.value">
+                  {{custstate.text | translate}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <mat-select placeholder="Corporate Name" [(ngModel)]="dataModel.corpid">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let corp of corporates" [value]="corp.corpid">
+                  {{corp.corpname}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <button type="button" mat-raised-button color="primary" (click)="search()">Apply</button>
+      </mat-expansion-panel>
+    </mat-card>
+  </div>
+</div>

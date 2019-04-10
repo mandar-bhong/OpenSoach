@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <div class="mobile-sort">
+        <h4>Sort</h4>
+        <table class="example-full-width" cellspacing="0">
+          <tr id="layout-set">
+            <td>
+              <mat-form-field>
+                <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby" (selectionChange)="sortByChanged()">
+                  <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                    {{col.text}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <div (click)="sortDirectionAsc()"> Ascending
+                <i class="fa fa-long-arrow-up"></i>
+              </div>
+            </td>
+            <td>
+              <div (click)="sortDirectionDesc()"> Descending
+                <i class="fa fa-long-arrow-down"></i>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="example-container mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <ng-container matColumnDef="conftypecode">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Chart Type</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 45%;">
+              <span class="mat-cell-responsive-label">Chart Type</span>
+              <span class="ellipsis mat-cell-text"> {{row.conftypecode}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="servconfname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Chart Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 45%;">
+              <span class="mat-cell-responsive-label">Chart Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.servconfname}} </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Action</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+              <span class="mat-cell-responsive-label">Action</span>
+              <button mat-icon-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon  aria-hidden="true" matTooltip="Menu">more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <ng-template matMenuContent>
+                  <button mat-menu-item (click)="configure(row)">
+                    <mat-icon color='primary'>settings</mat-icon>
+                    <span>Configure</span>
+                  </button>
+                </ng-template>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+        </mat-table>
+        <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+      </div>
+      <br>
+    </mat-card>
+  </div>
+</div>

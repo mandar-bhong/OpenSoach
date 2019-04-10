@@ -1,0 +1,19 @@
+.drag-item-mat-card
+{
+    padding:10px !important;
+    background-color: #37A5CD;
+    color: white;
+}
+
+.dnd-container
+{
+    min-height: 100px;
+}
+
+.add-task-mat-card
+{
+    padding:10px !important;
+}
+.task_list:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
