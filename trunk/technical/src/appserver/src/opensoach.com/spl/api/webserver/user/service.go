@@ -562,7 +562,9 @@ func (service UserService) GetUserInfo(userID int64) (bool, interface{}) {
 
 func (service UserService) GetCUUserInfo(userID int64) (bool, interface{}) {
 
-	dbErr, userData := dbaccess.GetCUUserById(repo.Instance().Context.Master.DBConn, userID)
+	cpmId := service.ExeCtx.SessionInfo.Product.CustProdID
+
+	dbErr, userData := dbaccess.GetCUUserById(repo.Instance().Context.Master.DBConn, userID, cpmId)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user info.", dbErr)
 

@@ -304,7 +304,7 @@ func GetUserById(dbConn string, userId int64) (error, *[]lmodels.DBUserInfoDataM
 	return nil, data
 }
 
-func GetCUUserById(dbConn string, userId int64) (error, *[]lmodels.DBCUUserInfoDataModel) {
+func GetCUUserById(dbConn string, userId int64, cpmID int64) (error, *[]lmodels.DBCUUserInfoDataModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCUUserById")
 
@@ -314,7 +314,7 @@ func GetCUUserById(dbConn string, userId int64) (error, *[]lmodels.DBCUUserInfoD
 	selDBCtx.Query = dbquery.QUERY_GET_CU_USER_TABLE_INFO_BY_ID
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Select(userId)
+	selErr := selDBCtx.Select(userId, cpmID)
 	if selErr != nil {
 		return selErr, nil
 	}
