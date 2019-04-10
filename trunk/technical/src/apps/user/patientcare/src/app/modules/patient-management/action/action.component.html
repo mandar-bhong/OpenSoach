@@ -76,7 +76,7 @@
 
                                 <Label row="0" col="0" class="body"
                                     *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.name"
-                                    style="color: #396767;" (tap)="test()"></Label>
+                                    style="color: #396767;"></Label>
                                 <Label row="0" col="0" class="body"
                                     *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
                                     [text]="item.doctors_orders" style="color: #396767;"></Label>
@@ -244,6 +244,37 @@
                                             *ngIf="item.name === 'Blood Pressure'" textWrap="true"
                                             text="{{ 'Systolic :-'+ item.value.systolic + '/' +  'Diastolic :-' + item.value.diastolic}}"></Label>
                                     </GridLayout>
+                                </GridLayout>
+
+                                <GridLayout rows="auto" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                    style="padding: 20;">
+                                    <GridLayout row="0" rows=" auto, auto, auto, auto"
+                                        columns="auto ,auto,*, auto, auto">
+                                        <Label row="0" col="0" class="label-small" textWrap="true"
+                                            text="Type:- "></Label>
+                                        <Label row="0" col="1" class="label-small" textWrap="true"
+                                            [text]="item.order_type"></Label>
+
+                                        <Label row="0" col="3" class="label-small" textWrap="true"
+                                            text="Status:- "></Label>
+                                        <!-- <Label row="0" col="1" class="label-small" textWrap="true"
+                                                [text]="item"></Label> -->
+
+                                        <Label row="1" col="0" class="label-small" textWrap="true" text="by:- "></Label>
+                                        <Label row="1" col="1" class="label-small" textWrap="true"
+                                            [text]="item.ack_by"></Label>
+
+                                        <Label row="2" col="0" class="label-small" textWrap="true" text="Comment:- "></Label>
+                                        <Label row="2" col="1" class="label-small" textWrap="true"
+                                            [text]="item.comment"></Label>
+
+                                        <Label row="3" col="0" class="label-small" textWrap="true"
+                                            text="Document:- "></Label>
+                                        <Label row="3" col="1" class="label-small" textWrap="true"
+                                            [text]="item.document_name"></Label>
+
+                                    </GridLayout>
+
                                 </GridLayout>
                             </GridLayout>
                         </GridLayout>
