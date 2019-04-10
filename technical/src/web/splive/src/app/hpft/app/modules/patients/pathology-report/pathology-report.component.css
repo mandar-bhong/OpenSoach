@@ -11,3 +11,13 @@
 .display_noon {
   display: none;
 }
+.mat-table {
+  width: 100% !important
+}
+
+tr.example-detail-row {
+  height: 0 !important;
+}
+.detail_back {
+  background-color: #fdf9f9 !important;
+}
