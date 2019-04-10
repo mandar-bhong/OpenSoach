@@ -122,13 +122,10 @@ export class PathologyReportComponent implements OnInit {
 
   // code block for view schedule detsils  of particular action 
   viewSchedule(element) {
-    console.log('element', element);
-    console.log('view schedule clickd');
     this.isViewSchedule = true;
   }
 
   setOpenCloseSchedule() {
-    console.log('view setOpenCloseSchedule clickd');
     this.isViewSchedule = false;
   }
   sortByChanged() {
@@ -150,7 +147,6 @@ export class PathologyReportComponent implements OnInit {
     this.isReportAdd = !this.isReportAdd;
   }
   restFormData(value) {
-    console.log('value', value);
     if (value == 1) {
       this.isReportAdd = !this.isReportAdd;
     } else {
