@@ -1,0 +1,52 @@
+<GridLayout columns="*" ios:padding="0 10" height="100%" width="100%" rows="auto,*">
+    <GridLayout row="0" columns="auto, *, auto" rows="65"
+        style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
+        <Label col="0" text="&#xf156;" class="homeicon mdi mdi" (tap)="goBackPage()"></Label>
+        <Label col="1" text="Schedule – Output" style="text-align:center;  vertical-align: center;"></Label>
+        <Label col="2" text="&#xf12c;" class="homeicon mdi mdi" (tap)="onSubmit()" style="margin-right: 1px"></Label>
+    </GridLayout>
+    <ScrollView row="1">
+        <StackLayout class="form" [formGroup]="outputForm">
+            <GridLayout rows="auto, auto, auto, auto, auto" style="margin-bottom:10px;">
+                <GridLayout row="0">
+                    <StackLayout class="input-field">
+                        <Label text="Output Type" class="body"></Label>
+                    </StackLayout>
+                </GridLayout>
+                <GridLayout row="1" columns="80, *, 80">
+                    <StackLayout class="input-field" col="1">
+                        <ListPicker [items]="outputType" selectedIndex="1" formControlName="outputType"
+                            class="p-15 picker"></ListPicker>
+                    </StackLayout>
+                </GridLayout>
+                <GridLayout row="2">
+                    <StackLayout class="input-field">
+                        <Label text="Start Date" class="body"></Label>
+                        <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
+                    </StackLayout>
+                </GridLayout>
+                <GridLayout row="3">
+                    <StackLayout class="input-field">
+                        <Label text="Duration" class="body"></Label>
+                        <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration">
+                        </TextField>
+                        <StackLayout class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></StackLayout>
+                        <StackLayout class="input-field">
+                            <StackLayout *ngIf="durationIsValid">
+                                <Label text="*duration is required " style="color:red"></Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </GridLayout>
+                <GridLayout row="4">
+                    <StackLayout class="input-field">
+                        <Label text="Remarks" class="body"></Label>
+                        <TextView formControlName="remark" hint="Enter remarks" editable="true" class="input">
+                        </TextView>
+                        <StackLayout class="hr-light"></StackLayout>
+                    </StackLayout>
+                </GridLayout>
+            </GridLayout>
+        </StackLayout>
+    </ScrollView>
+</GridLayout>

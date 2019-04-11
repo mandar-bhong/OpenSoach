@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Views.Fragment.JobServiceItemFragment">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="VM"
+            type="com.opensoach.vst.ViewModels.JobServiceItemViewModel" />
+
+
+        <variable
+            name="ClickHandler"
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceCreationHandler"/>
+
+
+        <variable
+            name="ExeHandler"
+            type="com.opensoach.vst.Views.ClickHandler.JobServiceExeHandler"/>
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            card_view:contentPadding="10dp"
+            card_view:cardCornerRadius="0dp"
+            android:clickable="@{VM.taskItemEdit == false }"
+            android:onClick="@{(view)->ClickHandler.onShowTaskDetails(view,VM)}">
+            <!--android:visibility="@{VM.showTaskCompleted == true ? View.VISIBLE : View.GONE}">-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:id="@+id/chklayout"
+                    android:visibility="@{VM.showcheckbox == true ? View.VISIBLE : View.GONE }">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="12dp"
+                        android:checked="@{VM.checkCompleted }"
+                        android:clickable="false"
+                        android:id="@+id/chk"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/chk"/>
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:text="@{VM.taskName}"
+                    android:layout_toEndOf="@id/chklayout"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="45dp"
+                    android:gravity="right|center"
+                    android:text="@{VM.cost}"
+                    android:textColor="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:id="@+id/icons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="@{VM.showDelete == true ? View.VISIBLE : View.GONE }"
+                    android:onClick="@{(view)->ClickHandler.onServiceTaskRemove(view,VM)}">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_delete_forever"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_centerInParent="true"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="@{VM.showMoveRightIcon == true ? View.VISIBLE : View.GONE }"
+                    android:onClick="@{(view)->ExeHandler.onShowJobDetails(view,VM)}">
+                    <ImageView
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_move_right"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_centerInParent="true"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+</layout>
+
+    <!-- TODO: Update blank fragment layout -->

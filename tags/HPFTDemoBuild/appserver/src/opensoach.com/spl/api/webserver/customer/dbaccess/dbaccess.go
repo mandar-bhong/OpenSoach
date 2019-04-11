@@ -1,0 +1,298 @@
+package dbaccess
+
+import (
+	"fmt"
+	"strings"
+
+	"opensoach.com/core/logger"
+
+	"errors"
+
+	dbmgr "opensoach.com/core/manager/db"
+	gmodels "opensoach.com/models"
+	"opensoach.com/spl/api/constants"
+	"opensoach.com/spl/api/constants/dbquery"
+	lhelper "opensoach.com/spl/api/helper"
+	lmodels "opensoach.com/spl/api/models"
+)
+
+const SUB_MODULE_NAME = "SPL.Customer.DB"
+
+func GetCustomerById(dbConn string, customerId int64) (error, *[]lmodels.DBSplMasterCustomerTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustomerById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterCustomerTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CUSTOMER_TABLE_INFO_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(customerId)
+	if selErr != nil {
+		return selErr, &[]lmodels.DBSplMasterCustomerTableRowModel{}
+	}
+	return nil, data
+}
+
+func GetCustomerDetailsById(dbConn string, customerId int64) (error, *[]lmodels.DBSplMasterCustDetailsTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpDetailsById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterCustDetailsTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_DETAILS_TABLE_SELECT_BY_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(customerId)
+	if selErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while get customer id .", selErr)
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetCorpDetailsById(dbConn string, customerId int64) (error, *lmodels.DBSplMasterCorpTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCorpDetailsById")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &lmodels.DBSplMasterCorpTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CORP_TABLE_INFO_BY_CUSTOMER_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Get(customerId)
+	if selErr != nil {
+		return selErr, &lmodels.DBSplMasterCorpTableRowModel{}
+	}
+	return nil, data
+}
+
+func GetCustList(dbConn string, filterModel *lmodels.DBSearchCustomerRequestFilterDataModel, listdatareq gmodels.APIDataListRequest, startingRow int) (error, *gmodels.ServerListingResultModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustList")
+
+	if isParamValid := lhelper.DBQueryParamValidate(listdatareq.OrderBy) &&
+		lhelper.DBQueryParamValidate(listdatareq.OrderDirection); isParamValid == false {
+		return errors.New(fmt.Sprintf("Invalid query paramter %s or %s ", listdatareq.OrderBy, listdatareq.OrderDirection)), nil
+	}
+
+	dbMatchedTag := lhelper.GetDBTagFromJSONTag(lmodels.DBSearchCustomerResponseFilterDataModel{}, listdatareq.OrderBy)
+
+	whereCondition := lhelper.GetFilterConditionFormModel(*filterModel)
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	countQuery := strings.Replace(dbquery.QUERY_GET_SPL_MASTER_CUSTOMER_TABLE_TOTAL_FILTERED_COUNT, "$WhereCondition$", whereCondition, 1)
+
+	listQuery := strings.Replace(dbquery.QUERY_SPL_MASTER_CUSTOMER_TABLE_SELECT_BY_FILTER, "$OrderByDirection$", dbMatchedTag+" "+listdatareq.OrderDirection, 1)
+	listQuery = strings.Replace(listQuery, "$WhereCondition$", whereCondition, 1)
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter count query : "+countQuery)
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Customer Filter Record list filter query : "+listQuery)
+
+	data := &gmodels.ServerListingResultModel{}
+
+	selectCtxCount := dbmgr.SelectContext{}
+	dataCount := &lmodels.DBTotalRecordsModel{}
+	selectCtxCount.DBConnection = dbConn
+	selectCtxCount.Dest = dataCount
+	selectCtxCount.Query = countQuery
+	selectCtxCount.QueryType = dbmgr.Query
+	selectCtxCountErr := selectCtxCount.Get()
+	if selectCtxCountErr != nil {
+		return selectCtxCountErr, nil
+	}
+
+	data.RecordCount = dataCount.TotalRecords
+
+	limit := listdatareq.Limit
+	selectCtx := dbmgr.SelectContext{}
+	resdata := &[]lmodels.DBSearchCustomerResponseFilterDataModel{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = resdata
+	selectCtx.Query = listQuery
+	selectCtx.QueryType = dbmgr.Query
+	selectErr := selectCtx.Select(startingRow, limit)
+	if selectErr != nil {
+		return selectErr, nil
+	}
+
+	data.RecordList = resdata
+
+	return nil, data
+}
+
+func AddCustomer(dbconn string, req lmodels.DBSplMasterCustomerTableRowModel) (error, int64) {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbconn
+	insDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUSTOMER_TABLE_INSERT
+	insDBCtx.QueryType = dbmgr.Query
+	insDBCtx.Args = req
+
+	intErr := insDBCtx.Insert()
+
+	if intErr != nil {
+		return intErr, 0
+	}
+
+	return nil, insDBCtx.InsertID
+}
+
+func CustomerDetailsTableInsert(dbconn string, req lmodels.DBSplMasterCustDetailsTableRowModel) (error, int64) {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbconn
+	insDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_DETAILS_TABLE_INSERT
+	insDBCtx.QueryType = dbmgr.Query
+	insDBCtx.Args = req
+
+	insErr := insDBCtx.Insert()
+
+	if insErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while insert customer details .", insErr)
+
+		return insErr, 0
+	}
+
+	return nil, insDBCtx.InsertID
+}
+
+func CustomerDetailsTableUpdate(dbconn string, req lmodels.DBSplMasterCustDetailsTableRowModel) (error, int64) {
+
+	updDBCtx := dbmgr.UpdateDeleteContext{}
+	updDBCtx.DBConnection = dbconn
+	updDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_DETAILS_TABLE_UPDATE
+	updDBCtx.QueryType = dbmgr.Query
+	updDBCtx.Args = req
+
+	updErr := updDBCtx.Update()
+
+	if updErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while update customer details .", updErr)
+		return updErr, 0
+	}
+
+	return nil, updDBCtx.AffectedRows
+
+}
+
+func CpmTableInsert(dbConn string, insrtStruct *lmodels.DBCustProdMappingInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CpmTableInsert")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_MASTER_CUST_PROD_MAPPING_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
+
+func GetProdAssociationByCustId(dbConn string, customerId int64) (error, *[]lmodels.DBCustProdAssociationInfoRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetProdAssociationByCustId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCustProdAssociationInfoRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_PRODUCT_ASSOCIATION_BY_CUST_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(customerId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func CpmStateUpdate(dbConn string, updtStruct *lmodels.DBCpmStateUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CpmStateUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_MASTER_CUST_PROD_MAPPING_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func CustomerUpdate(dbConn string, updtStruct *lmodels.DBCustomerUpdateRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CustomerUpdate")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_MASTER_CUSTOMER_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func GetCustShortDataList(dbConn string) (error, *[]lmodels.DBCustShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustShortDataList")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCustShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SPL_MASTER_CUST_TABLE_SELECT_SHORT_DATA_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select()
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetCustServicePoints(dbConn string, customerId int64) (error, *[]lmodels.DBCustSpDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustServicePoints")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCustSpDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CUST_SERVICE_POINTS
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(customerId)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func SpInsert(dbConn string, insrtStruct *lmodels.DBServicepointInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SpInsert")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_MASTER_SERVICE_POINT_TBL
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
