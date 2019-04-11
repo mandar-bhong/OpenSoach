@@ -79,7 +79,7 @@
           <div class="col iner-body">
 
 
-            <div class="row" *ngIf="element.comment!=null"> 
+            <div class="row" *ngIf="element.doctorsorders!=null">
               <div class="col-md-5 col-lg-5 col-sm-5">
                 <label>Doctor Orders</label>
               </div>
@@ -114,6 +114,9 @@
                 </div>
               </div>
             </div>
+
+
+
             <div class="row" *ngIf="element.status!=null">
               <div class="col-md-5 col-lg-5 col-sm-5">
                 <label>Status</label>
@@ -145,6 +148,18 @@
                 </div>
               </div>
             </div>
+
+            <div class="row" *ngIf="element.comment!=null">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Comment</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row">
+                  <label>{{element.comment}}</label>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </mat-cell>
