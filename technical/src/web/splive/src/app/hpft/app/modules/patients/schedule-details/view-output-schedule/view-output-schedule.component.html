@@ -86,7 +86,7 @@
           <mat-cell class="detail_back" *matCellDef="let element" colspan="2">
             <div class="row" style="width:100%" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div class="col iner-body">
-                <div class="row" *ngIf="element == expandedElement">
+                <div *ngIf="element == expandedElement">
                   <app-schedule-detail-expand-view style="width:100%" [schedule]="element">
                   </app-schedule-detail-expand-view>
                 </div>
