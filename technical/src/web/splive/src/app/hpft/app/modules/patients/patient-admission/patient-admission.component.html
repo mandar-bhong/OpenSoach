@@ -31,18 +31,18 @@
         </mat-form-field>
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
-        <span class="viewlabel">Ward Number</span>
+        <span class="viewlabel">Ward</span>
         <label class="viewtext">{{ getSPName(dataModel.spid)}}</label>
       </div>
 
       <div class="form-group form-primary " *ngIf="formMode === 1">
         <mat-form-field class="full-width">
-          <input matInput placeholder="Bed Number" formControlName="bednumberControls" [(ngModel)]="dataModel.bedno"
+          <input matInput placeholder="Room/Bed Number" formControlName="bednumberControls" [(ngModel)]="dataModel.bedno"
             maxlength="25">
         </mat-form-field>
       </div>
       <div class="form-group form-primary" *ngIf="formMode === 0">
-        <span class="viewlabel">Bed Number</span>
+        <span class="viewlabel">Room/Bed Number</span>
         <label class="viewtext">{{ dataModel.bedno }}</label>
       </div>
 
