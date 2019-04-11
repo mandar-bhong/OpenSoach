@@ -1,0 +1,12 @@
+.intake-chart {}
+
+.segmented-bar {
+    selected-background-color: #4d7ea8;
+    color: #4d7ea8;
+    background-color: #f4faff;
+    font-size: 10;
+}
+
+.align-centre{
+    vertical-align: middle;
+}

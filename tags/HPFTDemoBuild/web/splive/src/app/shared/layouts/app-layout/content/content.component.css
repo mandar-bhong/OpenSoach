@@ -1,0 +1,7 @@
+#main-page li {display: inline; padding: 0px 10px;}
+#main-page  li a, li i{color: white;}
+.test{
+    background-color: #446666;
+    height: 100px;
+    z-index: 0;
+}

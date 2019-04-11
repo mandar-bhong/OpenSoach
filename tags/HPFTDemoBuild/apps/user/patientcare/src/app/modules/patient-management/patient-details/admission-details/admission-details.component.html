@@ -1,0 +1,39 @@
+<GridLayout columns="*" rows="auto, auto, auto" style="justify-content: center; vertical-align: center; padding:20px;">
+    <Label row="0" class="body groupHeaderTitle" textWrap="true" text="Admisstion Details"></Label>
+    <StackLayout row="1" class="hr-light m-10"></StackLayout>
+    <GridLayout row="2" columns="*, auto" rows=" auto, auto, auto">
+
+        <GridLayout row="0" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
+            <GridLayout col="0" rows="auto,auto">
+                <Label class="body" textWrap="true" text="Patient Registration Number"></Label>
+                <Label row="1" class="labelleft label-small" textWrap="true" text="{{admissionDetailsModel.patient_reg_no}}"></Label>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout row="0" col="1" columns="auto">
+            <GridLayout col="0" rows="auto,auto">
+                <Label class="body" textWrap="true" text="Hospitalised on"></Label>
+                <Label row="1" class="labelleft label-small" textWrap="true" text="{{admissionDetailsModel.admitted_on | date: 'medium'}}"></Label>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout row="1" col="0" columns="auto,*,auto,auto" rows="auto" style="margin-top:5px;">
+            <GridLayout col="0" rows="auto,auto">
+                <Label class="body" textWrap="true" text="Ward"></Label>
+                <Label row="1" class="labelleft label-small" textWrap="true" text="{{admissionDetailsModel.sp_uuid}}"></Label>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout row="1" col="1" columns="auto">
+                <GridLayout col="0" rows="auto,auto">
+                    <Label class="body" textWrap="true" text="Rome/Bed Number"></Label>
+                    <Label row="1" class="labelleft label-small" textWrap="true" text="{{admissionDetailsModel.bed_no}}"></Label>
+                </GridLayout>
+            </GridLayout>
+        <GridLayout row="2" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
+            <GridLayout col="0" rows="auto,auto">
+                <Label class="body" textWrap="true" text="Doctor Incharge"></Label>
+                <Label row="1" class="labelleft label-small" textWrap="true" text="{{admissionDetailsModel.fname + ' ' + admissionDetailsModel.lname}}"></Label>
+            </GridLayout>
+        </GridLayout>
+        
+    </GridLayout>
+
+</GridLayout>

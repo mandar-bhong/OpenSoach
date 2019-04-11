@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    flavorDimensions "default"
+    compileSdkVersion 25
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "spl.hkt.opensoach.splapp"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        useLibrary 'org.apache.http.legacy'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+	
+	lintOptions {
+        abortOnError false
+    }
+
+    productFlavors {
+        prod {
+            applicationId = "com.opensoach.com.hkt.prod"
+            versionName = "1.0"
+            buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
+        }
+
+        dev {
+            applicationId = "com.opensoach.com.hkt.dev"
+            versionName = "1.0"
+            buildConfigField "String", "ServiceAPIHost", "\"172.105.232.148\""
+        }
+
+        qa {
+            applicationId = "com.opensoach.com.hkt.qa"
+            versionName = "1.0"
+            buildConfigField "String", "ServiceAPIHost", "\"172.104.77.29\""
+        }
+    }
+
+
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //  compile 'com.android.support:design:25.1.1'
+    //  compile 'com.android.support:appcompat-v7:25.2.0'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.android.support:design:25.2.0'
+    implementation 'com.android.support:support-v4:25.2.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    implementation 'com.github.sujithkanna:smileyrating:1.6.8'
+    //testCompile 'junit:junit:4.12'
+    implementation files('libs/android-logging-log4j-1.0.2.jar')
+    implementation files('libs/log4j-1.2.16.jar')
+}

@@ -1,0 +1,32 @@
+<div>
+  <div class="row">
+    <div class="col-sm-1 col-md-1 col-lg-1">
+      <div class="icon-bar">
+        <a href="javascript:void(0);" [ngClass]="selectedView==='details' ? 'active' : ''" (click)="selectedViewClick('details');"
+          matTooltip="Details" matTooltipPosition="after"><i class="fa fa-list-ul" style="color:rgb(65, 94, 117)"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='schedules' ? 'active' : ''" matTooltip="Schedules"
+          (click)="selectedViewClick('schedules');" matTooltipPosition="after"><span class="mdi mdi-clock-outline" style="color:rgb(65, 94, 117)"></span></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='transactions' ? 'active' : ''" matTooltip="Transactions"
+          (click)="selectedViewClick('transactions');" matTooltipPosition="after"><i class="mdi mdi-check-all" style="color:rgb(65, 94, 117)"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='doctororders' ? 'active' : ''" matTooltip="Doctor Orders"
+          (click)="selectedViewClick('doctororders');" matTooltipPosition="after"><i class="fa fa-user-md"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='treatmentreports' ? 'active' : ''" matTooltip="Treatment Reports"
+          (click)="selectedViewClick('treatmentreports');" matTooltipPosition="after"><i class="medical-icon-i-physical-therapy"></i></a>
+        <a href="javascript:void(0);" [ngClass]="selectedView==='pathologyreports' ? 'active' : ''" matTooltip="Pathology Reports"
+          (click)="selectedViewClick('pathologyreports');" matTooltipPosition="after"><i class="medical-icon-i-pathology"></i></a>
+      </div>
+    </div>
+    <div class="col-sm-11 col-md-11 col-lg-11">
+      <p>
+        <app-patient-medical *ngIf="selectedView==='details'"></app-patient-medical>
+        <app-transactions-details *ngIf="selectedView==='transactions'"></app-transactions-details>
+        <app-schedule-details *ngIf="selectedView==='schedules'"></app-schedule-details>
+        <app-doctor-orders *ngIf="selectedView==='doctororders'"></app-doctor-orders> 
+        <app-treatment-report *ngIf="selectedView==='treatmentreports'"></app-treatment-report>
+        <app-pathology-report *ngIf="selectedView==='pathologyreports'"></app-pathology-report>
+        
+      </p>
+    </div>
+  </div>
+
+</div>

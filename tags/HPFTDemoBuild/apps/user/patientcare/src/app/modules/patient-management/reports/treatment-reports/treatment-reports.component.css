@@ -1,0 +1,39 @@
+
+.listItemStackLayout {
+    background-color: #ffffff;
+    /* padding-left: 5; */
+    padding-right: 5;
+    /* border-radius: 5px; */
+
+}
+.float-btn-cat-text {
+    color: #ffffff;
+    font-size: 24;
+    color: rgba(255,255,255,1);
+    /* opacity: 1; */
+    /* background-color: red;
+    padding: 5; */
+}
+
+
+.float-btn-cat {
+    background-color: #FF8910;
+    /* border-radius: 3px; */
+    border-radius:25;
+    width: 50;
+    height: 50;
+    text-align: center;
+    vertical-align: middle;
+}
+.right {
+    horizontal-align: right;
+    margin-top: 70%;
+    margin-right: 2%;
+    /* padding-right: 20; */
+}
+.list-layout{
+    padding: 20% 7px;
+}
+.list-layout-expand{
+    padding: 15% 7px;
+}
