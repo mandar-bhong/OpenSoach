@@ -9,7 +9,7 @@
                     <Label text="&#xf156;" class="homeicon mdi mdi"></Label>
                 </RL:Ripple>
             </GridLayout>
-            <Label col="1" text="Schedule – Intake" style="text-align:center;  vertical-align: center;"></Label>
+            <Label col="1" text="Doctor Order" style="text-align:center;  vertical-align: center;"></Label>
             <GridLayout col="2" style="vertical-align: center;">
                 <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
                     (tap)="onSubmit()">
@@ -32,17 +32,19 @@
                             </ListPicker>
                         </GridLayout>
                     </GridLayout>
-                    <GridLayout row="2">
-                        <StackLayout class="input-field">
+                    <GridLayout row="2" class="input-field" rows="auto, auto, auto, auto">
+                        <GridLayout row="0">
                             <Label text="Order Description" class="body"></Label>
-                            <GridLayout class="input-field">
-                                <TextField class="input" formControlName="desc"></TextField>
-                            </GridLayout>2
-                            <StackLayout class="hr-light"></StackLayout>
-                            <GridLayout *ngIf="isDescRequired">
-                                <Label text="*Order Description required " style="color:red"></Label>
-                            </GridLayout>
-                        </StackLayout>
+                        </GridLayout>
+
+                        <GridLayout row="1" class="input-field">
+                            <TextField class="input" formControlName="desc"></TextField>
+                        </GridLayout>
+                        <GridLayout row="2" class="hr-light"></GridLayout>
+                        <GridLayout row="3" *ngIf="isDescRequired">
+                            <Label text="*Order Description required " style="color:red"></Label>
+                        </GridLayout>
+
                     </GridLayout>
                     <GridLayout row="3">
                         <StackLayout class="input-field">
@@ -66,17 +68,17 @@
                             </GridLayout>
                         </StackLayout>
                     </GridLayout>
-                    <GridLayout row="4">
-                        <StackLayout class="input-field">
+                    <GridLayout row="4" class="input-field" rows="auto, auto, auto, auto">
+                        <GridLayout row="0">
                             <Label text="Comment" class="body"></Label>
-                            <GridLayout class="input-field">
-                                <TextField class="input" formControlName="comment"></TextField>
-                            </GridLayout>
-                            <GridLayout class="hr-light"></GridLayout>
-                            <GridLayout *ngIf="isCommentRequired">
-                                <Label text="*Comment required " style="color:red"></Label>
-                            </GridLayout>
-                        </StackLayout>
+                        </GridLayout>
+                        <GridLayout row="1" class="input-field">
+                            <TextField class="input" formControlName="comment"></TextField>
+                        </GridLayout>
+                        <GridLayout row="2" class="hr-light"></GridLayout>
+                        <GridLayout row="3" *ngIf="isCommentRequired">
+                            <Label text="*Comment required " style="color:red"></Label>
+                        </GridLayout>
                     </GridLayout>
                 </GridLayout>
                 <GridLayout>
@@ -90,19 +92,19 @@
         </ScrollView>
     </GridLayout>
     <GridLayout columns="*">
-        <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
+        <StackLayout row="0" col="1" row="auto, auto" horizontalAlignment="right" class="right">
             <StackLayout row="0">
                 <RL:Ripple rippleColor="#fff" style="margin-top: 20px;" (tap)="onTakePhoto()">
-                    <StackLayout class="float-btn-cat">
+                    <GridLayout class="float-btn-cat">
                         <Label class="float-btn-cat-text fas" text="&#xf030;"></Label>
-                    </StackLayout>
+                    </GridLayout>
                 </RL:Ripple>
             </StackLayout>
             <StackLayout row="1">
                 <RL:Ripple rippleColor="#fff" style="margin-top: 10px;" (tap)="onSelectSingleTap()">
-                    <StackLayout class="float-btn-cat">
+                    <GridLayout class="float-btn-cat">
                         <Label class="float-btn-cat-text fas" text="&#xf574;"></Label>
-                    </StackLayout>
+                    </GridLayout>
                 </RL:Ripple>
             </StackLayout>
         </StackLayout>
