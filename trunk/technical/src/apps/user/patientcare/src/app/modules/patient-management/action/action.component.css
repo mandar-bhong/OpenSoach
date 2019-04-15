@@ -55,11 +55,14 @@
 .float-btn-cat-text-fawesome {
     color: #ffffff;
     font-size: 17; 
+    vertical-align: center;
+
 }
 
 .float-btn-cat-text-mdi {
     color: #ffffff;
     font-size: 22;
+    vertical-align: center;
 }
 
 
@@ -193,6 +196,7 @@
     color: #ffffff;
     font-size: 17;
     color: rgba(255, 255, 255, 1);
+    vertical-align: center;
     /* opacity: 1; */
     /* background-color: red;
     padding: 5; */

@@ -29,7 +29,7 @@
 
                     <GridLayout row="1" class="hr-light m-10"></GridLayout>
                     <GridLayout row="2" rows="*">
-                        <StackLayout>
+                        <!-- <StackLayout> -->
                             <chart:RadCartesianChart id="cartesianChart">
                                 <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
                                     majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
@@ -67,7 +67,7 @@
                                 </RadCartesianChart.palettes>
 
                             </chart:RadCartesianChart>
-                        </StackLayout>
+                        <!-- </StackLayout> -->
                     </GridLayout>
                 </StackLayout>
 
@@ -162,7 +162,7 @@
 
                     <GridLayout row="1" class="hr-light m-10"></GridLayout>
                     <GridLayout row="2" rows="*">
-                        <StackLayout>
+                        <!-- <StackLayout> -->
                             <chart:RadCartesianChart id="cartesianChart">
                                 <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
                                     majorStep="{{majorStepUnit}}" plotMode="BetweenTicks">
@@ -200,7 +200,7 @@
                                     </Palette>
                                 </RadCartesianChart.palettes>
                             </chart:RadCartesianChart>
-                        </StackLayout>
+                        <!-- </StackLayout> -->
                     </GridLayout>
                 </StackLayout>
                 <StackLayout row="3" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
@@ -210,8 +210,8 @@
                         <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()" style="color:#00a6ce;"></Label>
                     </GridLayout>
 
-                    <StackLayout row="1" class="hr-light m-10"></StackLayout>
-                    <StackLayout rows="*" row="2" style="margin:2px 0px;">
+                    <GridLayout row="1" class="hr-light m-10"></GridLayout>
+                    <GridLayout rows="*" row="2" style="margin:2px 0px;">
 
                         <chart:RadCartesianChart id="cartesianChart">
                             <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh" labelFitMode="Rotate"
@@ -249,7 +249,7 @@
 
                             </RadCartesianChart.palettes>
                         </chart:RadCartesianChart>
-                    </StackLayout>
+                    </GridLayout>
                 </StackLayout>
 
             </GridLayout>
@@ -265,7 +265,7 @@
                         <Label row="0" col="3" text="Labels" (tap)="toggleLabels()" ></Label>
                         <Label row="0" col="4" text="&#xf294;" class="mdi" (tap)="closeDialog()" style="color:#00a6ce;"></Label>
                     </GridLayout>
-                    <StackLayout row="1" class="hr-light "></StackLayout>
+                    <GridLayout row="1" class="hr-light "></GridLayout>
                     <GridLayout row="2" rows="auto,auto" columns="*,*">
                         <GridLayout row="0" col="0" columns="*" rows="auto,auto" style="padding: 5 0;vertical-align: center;">
                             <GridLayout row="0" col="0" columns="15,*" style="vertical-align: center;padding: 0 5;">
