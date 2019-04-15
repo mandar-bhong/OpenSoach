@@ -11,9 +11,9 @@ type DBUserAuthInfo struct {
 }
 
 type DBUserInfoMinDataModel struct {
-	UserName  *string `db:"usr_name" json:"usrname"`
-	FirstName *string `db:"fname" json:"fname"`
-	LastName  *string `db:"lname" json:"lname"`
+	UserName    *string `db:"usr_name" json:"usrname"`
+	FirstName   *string `db:"fname" json:"fname"`
+	LastName    *string `db:"lname" json:"lname"`
 	CPMRoleCode *string `db:"urole_code" json:"cpmrole"`
 }
 
@@ -30,6 +30,8 @@ type DBSplMasterUserRowModel struct {
 	UroleId       *int64    `db:"urole_id_fk" json:"uroleid"`
 	UsrState      int       `db:"usr_state" json:"usrstate"`
 	UsrStateSince time.Time `db:"usr_state_since" json:"usrstatesince"`
+	CreatedOn     time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn     time.Time `db:"updated_on" json:"updatedon"`
 }
 
 type DBSplMasterUsrDetailsRowModel struct {
