@@ -4,7 +4,7 @@
             <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
             <Button col="2" text="Save" (tap)="save()" class="btn btn-primary"></Button>
         </GridLayout>
-        <GridLayout row="1" rows="auto" columns="*, auto" class="m-5"
+        <GridLayout row="1" rows="auto" columns="*, auto, 20" class="m-5"
             style="vertical-align: center;padding-top: 2;padding-bottom: 2">
             <Label class="pageHeaderTitle" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
             <StackLayout col="1" orientation="horizontal">
@@ -66,10 +66,10 @@
                                             *ngIf="item.txn_state == 2"></Label>
                                     </GridLayout>
                                 </GridLayout>
-                                <StackLayout row="1" class="list-layout"
+                                <GridLayout row="1" class="list-layout"
                                     *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
                                     <Label row="0" col="0" text="&#xf90b;" class="mdi list-text"></Label>
-                                </StackLayout>
+                                </GridLayout>
                             </GridLayout>
                             <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout"
                                 style="vertical-align: center;">
@@ -85,14 +85,14 @@
                                     style="margin-left: 10px;"></Label>
                             </GridLayout>
                             <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
-                                <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
+                                <GridLayout row="0" col="0" class="hr-light m-10"></GridLayout>
                             </GridLayout>
                         </GridLayout>
                     </GridLayout>
                 </ng-template>
                 <ng-template tkGroupTemplate let-category="category">
                     <StackLayout class="category-header" height='30'>
-                        <StackLayout style="background-color:#f6f6f6;" height="7"></StackLayout>
+                        <GridLayout style="background-color:#f6f6f6;" height="7"></GridLayout>
                         <Label class="nameLabel" [text]="category"
                             [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output', groupLabelOutput: category == 'Doctor-Orders'}"></Label>
                     </StackLayout>
@@ -143,10 +143,10 @@
                                             *ngIf="item.txn_state == 2"></Label>
                                     </GridLayout>
                                 </GridLayout>
-                                <StackLayout row="1" class="list-layout"
+                                <GridLayout row="1" class="list-layout"
                                     *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
                                     <Label row="0" col="0" text="&#xf90b;" class="mdi list-text"></Label>
-                                </StackLayout>
+                                </GridLayout>
                             </GridLayout>
                             <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout"
                                 style="vertical-align: center;">
@@ -163,23 +163,23 @@
                                 <GridLayout row="0" col="1" columns="auto,20, auto, 30" rows="auto"
                                     style="vertical-align: center; text-align:center;"
                                     *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
-                                    <StackLayout row="0" col="0">
+                                    <GridLayout row="0" col="0">
                                         <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5"
                                             height="37" width="37" (tap)="onSubmit(item)">
                                             <Label text="&#xf00c;" class="fas" style="color: green"></Label>
                                         </RL:Ripple>
-                                    </StackLayout>
-                                    <StackLayout row="0" col="2">
+                                    </GridLayout>
+                                    <GridLayout row="0" col="2">
                                         <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5"
                                             height="37" width="37" (tap)="onDiscard(item)">
                                             <Label text="&#xf00d;" class="fas" style="color:red"></Label>
                                         </RL:Ripple>
-                                    </StackLayout>
+                                    </GridLayout>
 
                                 </GridLayout>
                             </GridLayout>
                             <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
-                                <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
+                                <GridLayout row="0" col="0" class="hr-light m-10"></GridLayout>
                             </GridLayout>
                         </GridLayout>
                         <GridLayout row="1" col="0" columns="auto, auto" rows="auto">
@@ -189,32 +189,32 @@
                                     *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION || item.actionStatus == action_Status.MISSED">
                                     <GridLayout col="0" columns="20,auto" rows="auto"
                                         style=" vertical-align: center; margin-top:3px;">
-                                        <StackLayout col="1" style="width:50%;">
+                                        <GridLayout col="1" style="width:50%;">
                                             <TextField hint="Comments (optional)" [(ngModel)]="actiondata.comment"
                                                 keyboardType="email" autocorrect="false" class="input input-border">
                                             </TextField>
-                                        </StackLayout>
+                                        </GridLayout>
                                     </GridLayout>
                                     <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;"
                                         *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake' && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                         <StackLayout col="1" style="width:50%;">
-                                            <StackLayout class="input-field" *ngIf="item.name !== 'Blood Pressure'">
+                                            <GridLayout class="input-field" *ngIf="item.name !== 'Blood Pressure'">
                                                 <TextField hint="Value" keyboardType="number" autocorrect="false"
                                                     autocapitalizationType="none" [(ngModel)]="actiondata.value"
                                                     class="input input-border"></TextField>
-                                            </StackLayout>
-                                            <StackLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
+                                            </GridLayout>
+                                            <GridLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
                                                 <TextField hint="High" keyboardType="number" autocorrect="false"
                                                     autocapitalizationType="none"
                                                     [(ngModel)]="bloodPressureValueModel.systolic"
                                                     class="input input-border"></TextField>
-                                            </StackLayout>
-                                            <StackLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
+                                            </GridLayout>
+                                            <GridLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
                                                 <TextField hint="low" keyboardType="number" autocorrect="false"
                                                     autocapitalizationType="none"
                                                     [(ngModel)]="bloodPressureValueModel.diastolic"
                                                     class="input input-border"></TextField>
-                                            </StackLayout>
+                                            </GridLayout>
                                         </StackLayout>
                                     </GridLayout>
                                 </GridLayout>
@@ -280,7 +280,7 @@
                         </GridLayout>
 
                         <GridLayout row="3" col="0" *ngIf="item.actionStatus != action_Status.ACTIVE_FUTURE">
-                            <StackLayout class="hr-light m-10"></StackLayout>
+                            <GridLayout class="hr-light m-10"></GridLayout>
                         </GridLayout>
                     </GridLayout>
                 </ng-template>

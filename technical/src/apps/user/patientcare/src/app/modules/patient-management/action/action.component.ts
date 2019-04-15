@@ -201,17 +201,17 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		// action notification handler
 		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
-			console.log('<====================== notified to schedule list  action page===> ', value);
+			// console.log('<====================== notified to schedule list  action page===> ', value);
 			this.scheduleDatastoreModel = value;
 			// this.pushAddedSchedule(value);
 		});
 		this.actioncreationSubscription = this.workerservice.actionDataReceivedSubject.subscribe((value) => {
-			console.log('<======================notified to action list action  page===> ', value);
+			// console.log('<======================notified to action list action  page===> ', value);
 			this.pushAddedAction(value);
 		});
 
 		this.actionTxnDataReceivedSubject = this.workerservice.actionTxnDataReceivedSubject.subscribe((value) => {
-			console.log('<======================notified to action txn  page===> ', value);
+			// console.log('<======================notified to action txn  page===> ', value);
 			this.pushAddedActionTxn(value);
 		});
 
@@ -258,7 +258,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
 
-			console.log("Clicked select intake", this.intakeIndex);
+			// console.log("Clicked select intake", this.intakeIndex);
 		}
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = true;
@@ -274,7 +274,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
 
-			console.log("Clicked select monitor", this.monitorIndex);
+			// console.log("Clicked select monitor", this.monitorIndex);
 		}
 		this.monitorbuttonClicked = true;
 		this.intakebuttonClicked = false;
@@ -286,12 +286,12 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >>  Grouping medicine scroll to top position change 
 	public selectMedicine() {
-		console.log('this.conf_type_code button', this.conf_type_code);
+		// console.log('this.conf_type_code button', this.conf_type_code);
 		if (this.conf_type_code === "Medicine") {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
 
-			console.log("Clicked select medicine", this.medicineIndex);
+			// console.log("Clicked select medicine", this.medicineIndex);
 		}
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = false;
@@ -305,10 +305,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	// >>  Grouping medicine scroll to top position change
 	public selectOutput() {
 		if (this.conf_type_code === "Output") {
-			console.log('this.conf_type_code button output', this.conf_type_code);
+			// console.log('this.conf_type_code button output', this.conf_type_code);
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
-			console.log("Clicked select output", this.outputIndex);
+			// console.log("Clicked select output", this.outputIndex);
 		}
 		this.monitorbuttonClicked = false;
 		this.intakebuttonClicked = false;
@@ -347,7 +347,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		const outputCount = output.length;
 		const DOrder = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.DOCTOR_ORDERS);
 		const DOrderCount = DOrder.length;
-		console.log("DOrderCount", DOrderCount);
+		// console.log("DOrderCount", DOrderCount);
 
 
 		this.doctorOrderIndex = 0;
@@ -355,10 +355,10 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		this.medicineIndex = DOrderCount + intakeCount + 1;
 		this.monitorIndex = DOrderCount + intakeCount + medicineCount + 1;
 		this.outputIndex = DOrderCount + intakeCount + medicineCount + monitorCount + 1;
-		console.log("medicine index", this.medicineIndex);
-		console.log("monitor index", this.monitorIndex);
-		console.log("output index", this.outputIndex);
-		console.log("DR OR index", this.doctorOrderIndex);
+		// console.log("medicine index", this.medicineIndex);
+		// console.log("monitor index", this.monitorIndex);
+		// console.log("output index", this.outputIndex);
+		// console.log("DR OR index", this.doctorOrderIndex);
 
 	}
 	// << Calculate Grouping index value
@@ -372,7 +372,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 	}
 
 	public getActionData() {
-		console.log('getActinData')
 		this.actionListItem = new ObservableArray<ActionListViewModel>();
 		this.actionService.getallActionActiveList(this.passdataservice.getAdmissionID()).then(
 			(val) => {
@@ -451,7 +450,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				if (gettxn_data.value != null) {
 					const jsonvalue = new BloodPressureValueModel();
 					Object.assign(jsonvalue, JSON.parse(gettxn_data.value));
-					console.log('gettxnData.value', jsonvalue);
 					actionListDataItem.value.systolic = jsonvalue.systolic;
 					actionListDataItem.value.diastolic = jsonvalue.diastolic;
 				}
@@ -464,10 +462,8 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				// set type  Completed action 2
 				actionListDataItem.client_updated_at = item.dbmodel.client_updated_at;
 				actionListDataItem.type = 2;
-				// console.log('type 2 =======');
 				this.allAction.push(actionListDataItem);
 			} else {
-				// console.log('type 1 ******');
 				// set type Active action1 
 				actionListDataItem.type = 1;
 				actionListDataItem.actionStatus = ActionStatusHelper.getActionStatus(Dbdate);
@@ -523,7 +519,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 				this.actionService.getUserByUserid(actionTxnDatastoreModel.updated_by).then(
 					(val) => {
 						val.forEach(item => {
-							console.log('val name ', val);
 							actionitem.fname = item.fname;
 							actionitem.lname = item.lname;
 						});
@@ -600,7 +595,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			}
 			// if action is deleted
 			if (actionitem.is_deleted === 1) {
-				console.log('in is deleted');
 				const itemindex = this.activeAction.indexOf(actionitem);
 				// console.log('itemindex in actiive action list', itemindex);
 				if (itemindex >= 0) {
@@ -630,7 +624,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 	// >> on submit one bye one item data
 	onSubmit(item) {
-		console.log('on sumbit', item);
 		//set action conf model
 		this.passdataservice.backalert = true;
 		this.itemSelected(item);
@@ -677,9 +670,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
-		console.log('this.actionDbArray', this.actionDbArray);
-
-
 
 	}
 	// >> on discard one bye one item data
@@ -753,7 +743,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			console.log('created data', serverDataStoreModel.data);
 			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
 		});
-		console.log('his.ServerDataStoreDataModelArray', this.ServerDataStoreDataModelArray);
 		this.savetoUserAuth();
 		this.saveViewOpen = false;
 		// check data save entries added in action trn table 
@@ -795,7 +784,6 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		console.log('doctors order  tapped');
 		// this.dialogOpen = false;
 		this.createDoctorModalView(DoctorOrdersComponent, true).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
-			console.log('dialogResult', dialogResult);
 			if (dialogResult) {
 				this.ServerDataStoreDataModelArray = dialogResult;
 				if (this.ServerDataStoreDataModelArray.length > 0) {
@@ -847,7 +835,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 			(val) => {
 				// console.log('doctor order received', this.uiList);
 				val.forEach(item => {
-					console.log('getdoctororders item', item);
+					// console.log('getdoctororders item', item);
 					let actionListItem = new DataActionItem();
 					actionListItem = item;
 					actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
@@ -870,7 +858,7 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		Object.assign(actionListItem, doctorsOrders.data);
 		actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
 		if (actionListItem.admission_uuid == this.passdataservice.getAdmissionID()) {
-			console.log('pushDoctorOredrs executed actionListItem', actionListItem);
+			// console.log('pushDoctorOredrs executed actionListItem', actionListItem);
 			const item = this.uiList.filter(data => data.uuid == actionListItem.uuid)[0] || null;
 			//  if record found in list  
 			if (item) {

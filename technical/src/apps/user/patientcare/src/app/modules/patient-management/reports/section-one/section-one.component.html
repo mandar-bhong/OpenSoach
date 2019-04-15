@@ -29,7 +29,7 @@
                         <GridLayout row="0" col="0">
                             <GridLayout columns="*, auto" rows="auto">
                                 <Label row="0" col="0" class="body" text="{{item.test_performed}}"
-                                    style="color: #396767;"></Label>
+                                    style="color: #396767;"></Label>/
                                 <Label row="0" col="1" class="label-small" textWrap="true"
                                     text="{{item.test_performed_time | date: 'fullDate'}}"
                                     style="margin-left: 10px;"></Label>
@@ -47,11 +47,16 @@
                             <!-- <Button row="2" col="0" [text]="'Open'" class="btn btn-primary "
                                 (tap)="openPDFFile()"></Button> -->
                         </GridLayout>
-                        <GridLayout row="2" col="0" columns="auto,*" rows="auto">
+                        <GridLayout row="2" col="0" columns="*" rows="auto">
                             <RadListView #myListView1 [items]="item.doclist" multipleSelection="false">
-                                    <ng-template tkListItemTemplate let-doc="item">
-                                        <Label class="labelleft label-small"  style="margin: 5px 0px" textWrap="true" text="{{doc.document_name}}" (tap)="download(doc.document_name,doc.document_uuid)"></Label>
-                                    </ng-template>
+                                <ng-template tkListItemTemplate let-doc="item">
+                                    <GridLayout row="0" col="1" columns="auto, 50,, auto *" style="margin: 10px;">
+                                        <Label class="labelleft label-small" col="0" style="margin: 5px 0px"
+                                            textWrap="true" text="{{doc.document_name}}" style="color:#51A5CD;"></Label>
+                                        <Label col="2" class="fas option-icon-fawesome" text="&#xf019;"
+                                            (tap)="download(doc.document_name,doc.document_uuid)"></Label>
+                                    </GridLayout>
+                                </ng-template>
                             </RadListView>
                         </GridLayout>
                     </GridLayout>

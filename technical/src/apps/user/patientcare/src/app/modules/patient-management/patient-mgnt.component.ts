@@ -33,14 +33,12 @@ export class PatientMgntComponent implements OnInit {
 		private routerExtensions: RouterExtensions,
 		private passdataservice: PassDataService,
 	) {
-			console.log("patient mgnt component");
 	}
 
 	ngOnInit() {
 		// getting patient data form service 
 	      // for getting header name label text
 		this.patientName = this.passdataservice.getHeaderName();
-		console.log('patient name',this.patientName);
 	}
 	goBackPage() {
 		this.routerExtensions.back();
