@@ -74,13 +74,22 @@ func GetUserLoginInfo(dbConn string, cpmid int64, userid int64) (error, *lmodels
 	selDBCtx := dbmgr.SelectContext{}
 	data := &lmodels.DBUserInfoMinDataModel{}
 	selDBCtx.DBConnection = dbConn
-	selDBCtx.Query = dbquery.QUERY_GET_USER_LOGIN_INFO
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
-	selErr := selDBCtx.Get(cpmid,userid)
-	if selErr != nil {
-		return selErr, &lmodels.DBUserInfoMinDataModel{}
+	if cpmid != 0 {
+		selDBCtx.Query = dbquery.QUERY_GET_USER_LOGIN_INFO
+		selErr := selDBCtx.Get(cpmid, userid)
+		if selErr != nil {
+			return selErr, &lmodels.DBUserInfoMinDataModel{}
+		}
+	} else {
+		selDBCtx.Query = dbquery.Query_GET_OSU_USER_LOGIN_INFO
+		selErr := selDBCtx.Get(userid)
+		if selErr != nil {
+			return selErr, &lmodels.DBUserInfoMinDataModel{}
+		}
 	}
+
 	return nil, data
 }
 
