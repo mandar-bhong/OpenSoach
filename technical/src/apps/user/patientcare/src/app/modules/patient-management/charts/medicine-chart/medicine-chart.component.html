@@ -108,7 +108,8 @@
                         </GridLayout>
                         <!-- mark up for after x  time  -->
                         <GridLayout row="3" rows="auto auto auto auto auto" class="input-field" *ngIf="freqSelectedIndex==1">
-                            <GridLayout row="0" rows="auto auto auto auto" class="input-field">
+                           <!-- mark for interval hours  -->
+                            <GridLayout row="0" rows="auto auto auto auto,auto" class="input-field">
                                 <GridLayout row="0">
                                     <Label text="Enter interval in hours" class="body"></Label>
                                 </GridLayout>
@@ -116,13 +117,20 @@
                                     <TextField class="input" keyboardType="number" formControlName="interval">
                                     </TextField>
                                 </GridLayout>
+                              <!-- interval hours validations   -->
                                 <GridLayout row="2" class="hr-light" [ngClass]="{invalid: intervalIsValid === true}">
                                 </GridLayout>
                                 <GridLayout row="3" class="input-field" *ngIf="intervalIsValid">
                                     <Label text="*interval hours is required " style="color:red"></Label>
                                 </GridLayout>
+                                <GridLayout row="4" class="input-field" *ngIf="invalidIntervalHours">
+                                    <Label text="*Invalid interval hours" style="color:red"></Label>
+                                </GridLayout>
+                            <!-- interval hours validations ends here  -->
                             </GridLayout>
-                            <GridLayout row="1" rows="auto auto auto auto" class="input-field">
+                            <!-- interval hours end here -->
+                            <!-- mark up for numbedr of times -->
+                            <GridLayout row="1" rows="auto auto auto auto,auto" class="input-field">
                                 <GridLayout row="0">
                                     <Label text="Enter no. of times" class="body"></Label>
                                 </GridLayout>
@@ -130,12 +138,18 @@
                                     <TextField class="input" keyboardType="number" formControlName="numberofTimes">
                                     </TextField>
                                 </GridLayout>
+                                <!-- number of times validations -->
                                 <GridLayout row="2" class="hr-light" [ngClass]="{invalid: numberOfTimesValid === true}">
                                 </GridLayout>
-                                <GridLayout row="3" class="input-field" *ngIf="numberOfTimesValid">
+                                <GridLayout row="3" class="input-field" *ngIf="medicineForm.get('numberofTimes').hasError('required')">
                                     <Label text="*No. of times is required " style="color:red"></Label>
                                 </GridLayout>
+                                <GridLayout row="4" class="input-field" *ngIf="medicineForm.get('numberofTimes').hasError('max')">
+                                    <Label text="*No. of times can not greater than {{numberOFTimesDosage}} " style="color:red"></Label>
+                                </GridLayout>
+                                <!-- ends here -->
                             </GridLayout>
+                            <!-- number of times markup ends here  -->
                             <GridLayout row="2" rows="auto auto auto auto" class="input-field">
                                 <GridLayout row="0">
                                     <Label text="Dosage" class="body"></Label>
@@ -188,7 +202,8 @@
                     <GridLayout row="6" *ngIf="startDateValid">
                         <Label text="* Start date is required " style="color:red"></Label>
                     </GridLayout>
-                    <GridLayout row="7" rows="auto auto auto auto" class="input-field">
+                 <!-- mark up for durations -->
+                    <GridLayout row="7" rows="auto auto auto auto,auto,auto" class="input-field">
                         <GridLayout row="0">
                             <Label text="Duration" class="body"></Label>
                         </GridLayout>
@@ -196,11 +211,20 @@
                             <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration">
                             </TextField>
                         </GridLayout>
+                         <!-- duration validations starts  -->
                         <GridLayout row="2" class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></GridLayout>
                         <GridLayout row="3" class="input-field" *ngIf="durationIsValid">
                             <Label text="*duration is required " style="color:red"></Label>
                         </GridLayout>
+                        <GridLayout row="4" class="input-field" *ngIf="medicineForm.get('duration').hasError('pattern')">
+                            <Label text="*Only whole numbers are allowed" style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="5" class="input-field" *ngIf="medicineForm.get('duration').hasError('max')">
+                            <Label text="*You can not enter duration gerater than 20 days" style="color:red"></Label>
+                        </GridLayout>
+                        <!-- end of eduration validations -->
                     </GridLayout>
+                    <!-- end of durations -->
                     <GridLayout row="8" rows="auto auto auto" class="input-field">
                         <GridLayout row="0">
                             <Label text="Remark" class="body"></Label>

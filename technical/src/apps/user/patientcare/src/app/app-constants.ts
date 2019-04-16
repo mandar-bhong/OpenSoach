@@ -132,10 +132,14 @@ export enum ACTION_STATUS {
 export const GRACE_PERIOD = 10; // in minutes
 
 export enum PERSON_ACCMPANYING_GENDER {
-   GENDER_MALE = "Male",
-   GENDER_FEMALE = "Female",
-   GENDER_NOT_SELECTED = "Not_Seleced",
+    GENDER_MALE = "Male",
+    GENDER_FEMALE = "Female",
+    GENDER_NOT_SELECTED = "Not_Seleced",
 }
-export enum MonitorType{
-    Blood_Pressure='Blood Pressure',
+export enum MonitorType {
+    Blood_Pressure = 'Blood Pressure',
 }
+export const MAXIMUM_SCHEDULE_DURATION = 20;
+export const MAX_INTERVAL = 23 * 60;
+export const MIN_INTERVAL = 5;
+export const NUMBER_OF_TIMES_X_INTERVAL = 23;

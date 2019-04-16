@@ -6,7 +6,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { ListPicker } from 'tns-core-modules/ui/list-picker/list-picker';
 import { SegmentedBar, SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
 import { Switch } from 'tns-core-modules/ui/switch';
-import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD } from '~/app/app-constants';
+import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD, MAXIMUM_SCHEDULE_DURATION, MAX_INTERVAL, MIN_INTERVAL, NUMBER_OF_TIMES_X_INTERVAL } from '~/app/app-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
@@ -38,7 +38,9 @@ export class MedicineChartComponent implements OnInit {
     medNameIsValid: boolean;
     intervalIsValid: boolean;
     durationIsValid: boolean;
-
+    pattern = '^[0-9]*$';
+    invalidIntervalHours = false;
+   numberOFTimesDosage = NUMBER_OF_TIMES_X_INTERVAL;
     // formData: MedChartModel;
     chartConfModel: MedChartModel;
     chartDbModel: ChartDBModel
@@ -73,7 +75,7 @@ export class MedicineChartComponent implements OnInit {
         public workerService: WorkerService,
         private params: ModalDialogParams,
         private passDataService: PassDataService,
-        private appNotificationService:AppNotificationService,
+        private appNotificationService: AppNotificationService,
         private chartservice: ChartService) {
 
         this.freqMorn = true;
@@ -145,8 +147,8 @@ export class MedicineChartComponent implements OnInit {
         this.intervalIsValid = false;
         switch (this.freqSelectedIndex) {
             case 1:
-                this.medicineForm.controls['numberofTimes'].setValidators(Validators.required);
-                this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
+            this.medicineForm.controls['numberofTimes'].setValidators([Validators.required,Validators.max(NUMBER_OF_TIMES_X_INTERVAL)]);
+                this.medicineForm.controls['numberofTimes'].updateValueAndValidity(); 
                 this.medicineForm.controls['interval'].setValidators([Validators.required]);
                 this.medicineForm.controls['interval'].updateValueAndValidity();
                 this.medicineForm.controls['quantity'].setValidators([Validators.required]);
@@ -169,7 +171,7 @@ export class MedicineChartComponent implements OnInit {
 
     // << func for submit form data
     onSubmit() {
-
+        this.invalidIntervalHours = false;
         this.medNameIsValid = this.medicineForm.controls['name'].hasError('required');
         this.intervalIsValid = this.medicineForm.controls['interval'].hasError('required');
         this.durationIsValid = this.medicineForm.controls['duration'].hasError('required');
@@ -180,6 +182,8 @@ export class MedicineChartComponent implements OnInit {
         this.isDosage = this.medicineForm.controls['quantity'].hasError('required');
         const startTimeInMinutes = TimeConversion.getStartTime(this.datePipe.transform(this.medicineForm.get('startTime').value, "H.mm"));
 
+
+
         // frequency check
         switch (this.medicineForm.get('frequency').value) {
             case 0:
@@ -189,6 +193,18 @@ export class MedicineChartComponent implements OnInit {
                 }
                 break;
             case 1:
+                // validation for interval hours 
+                const invervalAmount = this.medicineForm.controls['interval'].value;
+                if (invervalAmount) {
+                    const intervalInMinutes = invervalAmount * 60;
+                    console.log('intervalInMinutes', intervalInMinutes);
+                    if (intervalInMinutes >= MAX_INTERVAL || intervalInMinutes <= MIN_INTERVAL) {
+                        this.invalidIntervalHours = true;
+                        return;
+                    }
+                }
+
+
                 //  validation for checing grace peroid of schedule generation.
                 const strDate = new Date();
                 strDate.setHours(0, 0, 0, 0);
@@ -203,7 +219,7 @@ export class MedicineChartComponent implements OnInit {
                     console.log('invalid time');
                     this.appNotificationService.notify('Schedule can not be created in past.update start time');
                     return;
-                }else{
+                } else {
                     this.isStartTimeValid = false;
                 }
                 break;
@@ -212,7 +228,7 @@ export class MedicineChartComponent implements OnInit {
         }
         //  validation check  if form is valid 
         if (this.medicineForm.invalid) {
-            console.log("validation error");
+            console.log("validation error", this.medicineForm.controls['duration'].hasError('pattern'));
             return;
         }
 
@@ -240,7 +256,7 @@ export class MedicineChartComponent implements OnInit {
         formData.startTime = this.medicineForm.get('startTime').value;
         formData.remark = this.medicineForm.get('remark').value;
         formData.splinstruction = this.medicineForm.get('splinstructions').value;
-          this.insertData(formData);
+        this.insertData(formData);
     }
     // >> func for submit form data
 
@@ -418,7 +434,7 @@ export class MedicineChartComponent implements OnInit {
             interval: new FormControl(),
             numberofTimes: new FormControl(),
             startDate: new FormControl(),
-            duration: new FormControl('', [Validators.required]),
+            duration: new FormControl('', [Validators.required, Validators.pattern(this.pattern), Validators.max(MAXIMUM_SCHEDULE_DURATION)]),
             startTime: new FormControl(),
             remark: new FormControl(),
             mornQuantity: new FormControl(),
@@ -427,6 +443,7 @@ export class MedicineChartComponent implements OnInit {
             medicineType: new FormControl(),
             splinstructions: new FormControl(),
         });
+
     }
     // >> func for creating form controls
     // << func for selecting monitor name

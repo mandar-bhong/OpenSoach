@@ -46,6 +46,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	isSchedularDataReceived = false;
 	schedulecreationSubscription: Subscription;
 	scheduleDataContext: Subscription;
+	rowIndex = 0;
 	// >> finding grouping index then after click show in top
 	intakeIndex;
 	medicineIndex;
@@ -192,6 +193,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 				val.forEach(item => {
 					let chartListItem = new ChartListViewModel();
 					chartListItem.dbmodel = item;
+					chartListItem.expanded = false
 					chartListItem.conf = new ConfigData();
 					Object.assign(chartListItem.conf, JSON.parse(chartListItem.dbmodel.conf));
 					this.chartListItemsAll.push(chartListItem);
@@ -209,8 +211,14 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		);
 	}
 	sortActiveAndAllSchedule() {
-		console.log('this.activeSchedule', this.activeSchedule);
-		console.log('this.allSchedule', this.allSchedule);
+		const listItems= this.listViewComponent.nativeElement.items;
+		if (listItems) {
+			listItems.forEach((item) => {			
+				if(item.hasOwnProperty('expanded')){
+                    item.expanded=false;
+				}
+			});
+		}
 		if (this.activeSchedule) {
 			this.chartListItems = this.chartListItemsActive;
 		} else if (this.allSchedule) {
@@ -253,11 +261,13 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			if (scheduleitem && scheduleitem != null) {
 				scheduleitem.dbmodel = scheduleDatastoreModel;
 				scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
+				scheduleitem.expanded=false;
 			}
 			else {
 				scheduleitem = new ChartListViewModel();
 				scheduleitem.dbmodel = scheduleDatastoreModel;
 				scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
+				scheduleitem.expanded=false;
 				this.chartListItemsAll.push(scheduleitem);
 			}
 
@@ -345,10 +355,10 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 	}
 
 	onItemTap(event: ListViewEventData) {
+		this.rowIndex = event.index;
 		const listView = event.object,
 			rowIndex = event.index,
 			dataItem = event.view.bindingContext;
-
 		dataItem.expanded = !dataItem.expanded;
 		if (isIOS) {
 			// Uncomment the lines below to avoid default animation
@@ -432,7 +442,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		}
 
 	}
-	convertToDate(minutes: number) {	
+	convertToDate(minutes: number) {
 		let date = new Date();
 		date.setHours(0, 0, 0, 0);
 		date.setMinutes(minutes);

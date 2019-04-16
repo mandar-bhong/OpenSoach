@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataList } from '~/app/models/ui/patient-details';
+import { DataList, ListItem } from '~/app/models/ui/patient-details';
 
 @Component({
 	moduleId: module.id,
@@ -14,13 +14,15 @@ export class MedicalDetailsComponent implements OnInit {
 	noData = false;
 	constructor() { }
 
-	@Input() listItem: DataList[];
+	@Input() listItem: ListItem[];
 	ngOnInit() {
-
+       console.log('listItems',this.listItem);
 		if (this.listItem.length > 0) {
-
 			this.getData = true;
 			this.noData = false;
+			this.listItem.sort((a, b) => {
+				return (new Date(b.date).getTime() - new Date(a.date).getTime())
+			  });
 		} else {
 			this.noData = true;
 			this.getData = false;

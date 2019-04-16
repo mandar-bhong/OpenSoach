@@ -1,12 +1,11 @@
 <GridLayout columns="*" rows="auto, auto, auto" style="justify-content: center; vertical-align: center; padding:20px; padding-top: 30px;">
-    <Label row="0" class="body groupHeaderTitle" textWrap="true" text="Personal History"></Label>
+    <Label row="0" class="body groupHeaderTitle" textWrap="true" text="Medical Details"></Label>
     <StackLayout row="1" class="hr-light m-10"></StackLayout>
     <GridLayout row="2" columns="*, auto" rows=" auto, auto, auto, auto">
 
         <GridLayout row="0" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
-            <GridLayout col="0" rows="auto,auto">
-                <Label class="body" textWrap="true" text="Weight"></Label>
-                <Label row="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.weight.weight}}"></Label>
+            <GridLayout col="0" rows="auto">
+                <Label class="body" textWrap="true" text="Weight: {{personallistitem.weight.weight}}"></Label>               
             </GridLayout>
         </GridLayout>
         <GridLayout row="0" col="1" columns="auto">
@@ -39,10 +38,7 @@
                     <Label row="1" col="0" *ngIf="quantityYes" textWrap="true" text="Quantity :- "></Label>
                     <Label row="1" col="1" class="labelleft label-small" textWrap="true" text="{{personallistitem.smoking.quantity}}"></Label>
                 </GridLayout>
-
-            </GridLayout>
-
-           
+            </GridLayout>          
         </GridLayout>
         <GridLayout row="2" col="1" columns="auto">
             <GridLayout col="0" rows="auto,auto" *ngIf="other">
