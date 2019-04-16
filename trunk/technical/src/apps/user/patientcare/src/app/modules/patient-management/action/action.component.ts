@@ -368,6 +368,9 @@ export class ActionComponent implements OnInit, IDeviceAuthResult {
 		//Called once, before the instance is destroyed.
 		if (this.actionSubscription) { this.actionSubscription.unsubscribe(); }
 		if (this.doctorOrderSubscription) { this.doctorOrderSubscription.unsubscribe(); }
+		if (this.schedulecreationSubscription) { this.schedulecreationSubscription.unsubscribe(); }
+		if (this.actioncreationSubscription) { this.actioncreationSubscription.unsubscribe(); }
+		if (this.actionTxnDataReceivedSubject) { this.actionTxnDataReceivedSubject.unsubscribe(); }		
 
 	}
 

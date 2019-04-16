@@ -239,6 +239,9 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 		if (this.schedulecreationSubscription) {
 			this.schedulecreationSubscription.unsubscribe();
 		}
+
+		if (this.scheduleDataContext) {this.scheduleDataContext.unsubscribe();}
+
 	}// end 
 	pushAddedSchedule(scheduleDatastoreModel: ScheduleDatastoreModel) {
 		// if schedule is added for another patient then dont add it 
