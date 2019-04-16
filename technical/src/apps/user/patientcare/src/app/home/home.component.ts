@@ -177,6 +177,9 @@ export class HomeComponent implements OnInit, DataListingInterface<PatientListVi
 		if (this.patientListChanged) {
 			this.patientListService.patientListChangedSubject.unsubscribe();
 		}
+		if (this.nextActionService.nextActionMapChanged.subscribe()){
+			this.nextActionService.nextActionMapChanged.unsubscribe();
+		}
 	}
 
 	getNextActionTimeForAll() {
