@@ -24,7 +24,7 @@
                 (itemTap)="onItemTap($event)" multipleSelection="false" selectionBehavior="Press"
                 [groupingFunction]="_funcGrouping" colSpan="2" (itemSelected)="itemSelected($event)">
                 <ng-template tkListItemTemplate let-item="item">
-                    <GridLayout columns="*" rows="auto" class="listItemStackLayout">
+                    <GridLayout columns="*" rows="auto" class="listItemStackLayout" >
                         <GridLayout row="0" columns="70, *" rows="auto, auto ">
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto"
                                 style="vertical-align: center; text-align:center;color: #ebebeb;">
@@ -190,7 +190,7 @@
                                     <GridLayout col="0" columns="20,auto" rows="auto"
                                         style=" vertical-align: center; margin-top:3px;">
                                         <GridLayout col="1" style="width:80%;">
-                                            <TextField hint="Comments (optional)" [(ngModel)]="actiondata.comment"
+                                            <TextField hint="Comments (optional)" [(ngModel)]="item.txn_data.comment"
                                                 keyboardType="email" autocorrect="false" class="input input-border">
                                             </TextField>
                                         </GridLayout>
@@ -200,19 +200,19 @@
                                         <StackLayout col="1" style="width:50%;">
                                             <GridLayout class="input-field" *ngIf="item.name !== 'Blood Pressure'">
                                                 <TextField hint="Value" keyboardType="number" autocorrect="false"
-                                                    autocapitalizationType="none" [(ngModel)]="actiondata.value"
+                                                    autocapitalizationType="none" [(ngModel)]="item.txn_data.value"
                                                     class="input input-border"></TextField>
                                             </GridLayout>
                                             <GridLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
                                                 <TextField hint="Systolic" keyboardType="number" autocorrect="false"
                                                     autocapitalizationType="none"
-                                                    [(ngModel)]="bloodPressureValueModel.systolic"
+                                                    [(ngModel)]="item.value.systolic"
                                                     class="input input-border"></TextField>
                                             </GridLayout>
                                             <GridLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
                                                 <TextField hint="Diastolic" keyboardType="number" autocorrect="false"
                                                     autocapitalizationType="none"
-                                                    [(ngModel)]="bloodPressureValueModel.diastolic"
+                                                    [(ngModel)]=" item.value.diastolic"
                                                     class="input input-border"></TextField>
                                             </GridLayout>
                                         </StackLayout>

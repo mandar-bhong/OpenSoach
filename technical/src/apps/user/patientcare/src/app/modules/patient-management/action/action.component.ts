@@ -228,6 +228,12 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		return item.expanded ? "expanded" : "default";
 
 	}
+	tapDataitem(item) {
+		console.log('tap item data ', item)
+		if (item) {
+			this.actiondata = new ActionDataDBRequest();
+		}
+	}
 
 	onItemTap(event: ListViewEventData) {
 		const listView = event.object,
@@ -370,7 +376,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (this.doctorOrderSubscription) { this.doctorOrderSubscription.unsubscribe(); }
 		if (this.schedulecreationSubscription) { this.schedulecreationSubscription.unsubscribe(); }
 		if (this.actioncreationSubscription) { this.actioncreationSubscription.unsubscribe(); }
-		if (this.actionTxnDataReceivedSubject) { this.actionTxnDataReceivedSubject.unsubscribe(); }		
+		if (this.actionTxnDataReceivedSubject) { this.actionTxnDataReceivedSubject.unsubscribe(); }
 
 	}
 
@@ -627,32 +633,36 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	// >> on submit one bye one item data
 	onSubmit(item) {
+		console.log('item', item);
 		//set action conf model
 		this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
-		this.formData = new ActionTxnDBModel();
 
 		// >> check condition medicine data not add comment and value entries
 		if (item.conf_type_code === 'Medicine') {
-			this.actionDbData.comment = this.actiondata.comment;
+			this.actionDbData.comment = item.txn_data.comment;
 			this.actionDbData.value = null;
+
 			this.confString1 = JSON.stringify(this.actionDbData);
 		} else {
 			if (item.name === 'Blood Pressure') {
 				// console.log('if  condition');
 				const bloodPressureValueModel = new BloodPressureValueModel()
-				bloodPressureValueModel.systolic = this.bloodPressureValueModel.systolic;
-				bloodPressureValueModel.diastolic = this.bloodPressureValueModel.diastolic;
+				bloodPressureValueModel.systolic = item.value.systolic;
+				bloodPressureValueModel.diastolic = item.value.diastolic;
 				this.actionDbData.value = JSON.stringify(bloodPressureValueModel);
-				this.actionDbData.comment = this.actiondata.comment;
+				this.actionDbData.comment = item.txn_data.comment;
+
 			} else {
 				// console.log('else condition');
-				this.actionDbData.value = this.actiondata.value;
-				this.actionDbData.comment = this.actiondata.comment;
+				this.actionDbData.value = item.txn_data.value;
+				this.actionDbData.comment = item.txn_data.comment;
 			}
 			this.confString = JSON.stringify(this.actionDbData);
 		}
+
+
 
 		// set db model 
 		this.formData.uuid = PlatformHelper.API.getRandomUUID();
@@ -660,9 +670,11 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 		// >> check condition medicine data in josn format push
 		if (item.conf_type_code === 'Medicine') {
+			console.log(' this.confString1;', this.confString1);
 			this.formData.txn_data = this.confString1;
 		} else {
 			this.formData.txn_data = this.confString;
+			console.log(' this.confString', this.confString);
 		}
 		this.formData.conf_type_code = item.conf_type_code;
 		this.formData.runtime_config_data = null;
@@ -673,6 +685,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 		// after done data push one by one ietm in array hold data
 		this.actionDbArray.push(this.formData);
+		console.log('add data', this.actionDbArray);
 
 	}
 	// >> on discard one bye one item data
@@ -690,9 +703,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.actionDbData.comment = null;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
+
 		} else {
-			this.actionDbData.comment = this.actiondata.comment;
-			this.actionDbData.value = this.actiondata.value;
+			this.actionDbData.comment = item.txn_data.comment;
+			this.actionDbData.value = item.txn_data.value;
 			this.confString = JSON.stringify(this.actionDbData);
 		}
 
@@ -756,7 +770,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// selected done and discard row change background color
 	itemSelected(item) {
 		item.selected = true;
-
 	}
 	gettrnlistdata() {
 		setTimeout(() => {

@@ -24,6 +24,9 @@ export class UserAuthComponent implements OnInit {
 	userAuthForm: FormGroup;
 	emailIsValid: boolean;
 	passwordIsValid: boolean;
+	emailIsInvaild: boolean;
+	passwordIsInValid: boolean;
+
 
 	userAuthPinForm: FormGroup;
 	newpinIsValid: boolean;
@@ -31,7 +34,7 @@ export class UserAuthComponent implements OnInit {
 
 	userPinCheckForm: FormGroup;
 	userpinIsValid: boolean;
-	invalidPin=false;
+	invalidPin = false;
 
 	// patientname: string;
 	getuserdetails = new UserDetails();
@@ -111,7 +114,7 @@ export class UserAuthComponent implements OnInit {
 					const actionListItems = new ActionListViewModel();
 					actionListItems.dbmodel = item;
 					this._dataItemsaccount.push(actionListItems);
-					// console.log('User Account List', item);
+					console.log('User Account List', item);
 
 				});
 			},
@@ -128,9 +131,9 @@ export class UserAuthComponent implements OnInit {
 		this.pinview = !this.pinview;
 	}
 	onsubmitPin() {
-		this.invalidPin=false;
+		this.invalidPin = false;
 		this.userpinIsValid = this.userPinCheckForm.controls['userpin'].hasError('required');
-		if (this.userPinCheckForm.invalid) {			
+		if (this.userPinCheckForm.invalid) {
 			console.log("validation error");
 			return;
 		}
@@ -143,7 +146,7 @@ export class UserAuthComponent implements OnInit {
 			this.routerExtensions.back();
 
 		} else {
-			 this.invalidPin=true; 
+			this.invalidPin = true;
 			console.log('this.pin wrong', formmodel.pin);
 		}
 		console.log('on submit back');
@@ -166,26 +169,36 @@ export class UserAuthComponent implements OnInit {
 		console.log('this.datamodel.user_lname', formmodel.password = this.userAuthForm.get('password').value);
 
 		console.log('token', AppGlobalContext.Token);
+		let allreadyItem = this._dataItemsaccount.filter(a => a.dbmodel.email == formmodel.email);
 
-		if (formmodel.email && formmodel.password) {
-			this.serverApiInterfaceService.post<UserDetails>(API_SPL_BASE_URL + "/v1/endpoint/userauthorization",
-				{
-					'username': formmodel.email,
-					'password': formmodel.password,
-					'devicetoken': AppGlobalContext.Token,
-				})
-				.then(
-					(res) => {
-						console.log("POST Request is successful ", res);
-						this.getuserdetails = res;
+		console.log('text _______', allreadyItem.length);
+		if (allreadyItem.length > 0) {
+			if (formmodel.email && formmodel.password) {
+				this.serverApiInterfaceService.post<UserDetails>(API_SPL_BASE_URL + "/v1/endpoint/userauthorization",
+					{
+						'username': formmodel.email,
+						'password': formmodel.password,
+						'devicetoken': AppGlobalContext.Token,
+					})
+					.then(
+						(res) => {
+							console.log("POST Request is successful ", res);
+							this.getuserdetails = res;
 
-						this.newpinview = true;
-						this.hidecheckpin = false;
-					}, (error) => {
-						console.log(error);
-					}
-				);
+							this.newpinview = true;
+							this.hidecheckpin = false;
+						}, (error) => {
+							console.log('error_____ok__', error);
+
+							console.log(error);
+						}
+					);
+			}
+		} else {
+			this.emailIsInvaild = true;
+			this.passwordIsInValid = true;
 		}
+
 
 
 	}
@@ -216,5 +229,8 @@ export class UserAuthComponent implements OnInit {
 			this.routerExtensions.back();
 		}
 
+	}
+	listview() {
+		this.pinview = !this.pinview;
 	}
 }
