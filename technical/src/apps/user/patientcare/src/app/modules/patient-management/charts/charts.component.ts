@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, AfterContentInit, OnDestroy } from '@angular/core';
 import { ModalDialogOptions, ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ListViewEventData, ListViewItemSnapMode } from 'nativescript-ui-listview';
@@ -31,7 +31,7 @@ import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 	styleUrls: ['./charts.component.css']
 })
 
-export class ChartsComponent implements OnInit, IDeviceAuthResult {
+export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 
 	chartListItems: ObservableArray<ChartListViewModel>;
 	chartListItemsAll: ObservableArray<ChartListViewModel>;
@@ -97,6 +97,7 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 			}
 		});
 	}
+
 	// code for showing fab button dialog.
 	showDialog() {
 		this.createModalView(SchedularFabComponent, false).then((dialogResult) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, OnDestroy } from '@angular/core';
 import { SnackBar, SnackBarOptions } from 'nativescript-snackbar';
 import {
 	ListViewEventData,
@@ -53,7 +53,7 @@ declare var UIView, NSMutableArray, NSIndexPath;
 	styleUrls: ['./action.component.css']
 })
 
-export class ActionComponent implements OnInit, IDeviceAuthResult {
+export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	dialogOpen = false;
 	conf_type_code_const = ConfigCodeType;
 	onDeviceAuthSuccess(userid: number): void {
