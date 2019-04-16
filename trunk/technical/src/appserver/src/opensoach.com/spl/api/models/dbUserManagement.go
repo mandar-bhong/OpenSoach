@@ -115,9 +115,8 @@ type DBCUUserInfoDataModel struct {
 }
 
 type DBUserUpdateActivationDataModel struct {
-	UserId      int64  `dbattr:"pri,auto" db:"id" json:"userid"`
-	UsrPassword string `db:"usr_password" json:"usrpassword"`
-	UsrState    int    `db:"usr_state" json:"usrstate"`
+	UserId   int64 `dbattr:"pri,auto" db:"id" json:"userid"`
+	UsrState int   `db:"usr_state" json:"usrstate"`
 }
 
 type DBUserDeleteActivationDataModel struct {
