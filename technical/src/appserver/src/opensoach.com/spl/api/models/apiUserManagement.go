@@ -36,6 +36,10 @@ type APICUUserUpdateRequestModel struct {
 }
 
 type APIUserActivateRequestModel struct {
-	Code        string `json:"code"`
-	UsrPassword string `json:"usrpassword"`
+	Code string `json:"code"`
+}
+
+type APICreatePasswordRequest struct {
+	UserID      int64  `json:"usrid"`
+	NewPassword string `json:"newpassword"`
 }

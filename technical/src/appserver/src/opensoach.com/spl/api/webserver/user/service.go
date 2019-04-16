@@ -69,7 +69,7 @@ func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (
 
 	userData.UsrPassword = ghelper.GetUserPassword()
 	userData.UsrCategory = constants.DB_USER_CATEGORY_CUSTOMER
-	userData.UsrState = constants.DB_USER_STATE_ACTIVE
+	userData.UsrState = constants.DB_USER_STATE_INACTIVE
 	userData.UsrStateSince = ghelper.GetCurrentTime()
 
 	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
@@ -138,6 +138,15 @@ func (service UserService) AddCUUser(userData lmodels.DBSplMasterUserRowModel) (
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully Add user and associated with customer product")
+
+	// user activation task
+	taskUserAssociatedModel := gmodels.TaskUserAssociatedModel{}
+	taskUserAssociatedModel.UserID = usrcpm.UserId
+	isSendSuccess := repo.Instance().SendTaskToServer(gmodels.TASK_API_USER_ASSOCIATED, service.ExeCtx.SessionToken, taskUserAssociatedModel)
+
+	if isSendSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to submit task for user associated")
+	}
 
 	return true, response
 }
@@ -697,7 +706,6 @@ func (service UserService) UserActivation(req lmodels.APIUserActivateRequestMode
 	dbUserUpdateActivationDataModel := lmodels.DBUserUpdateActivationDataModel{}
 	dbUserUpdateActivationDataModel.UserId = dbRecord[0].UsrId
 	dbUserUpdateActivationDataModel.UsrState = constants.DB_USER_STATE_ACTIVE
-	dbUserUpdateActivationDataModel.UsrPassword = req.UsrPassword
 
 	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
 
@@ -754,5 +762,29 @@ func (service UserService) UserActivation(req lmodels.APIUserActivateRequestMode
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully updated user activation details")
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully deleted user activation row")
 
+	resp := gmodels.APIRecordIdRequest{}
+	resp.RecId = dbUserUpdateActivationDataModel.UserId
+
+	return true, resp
+}
+
+func (service UserService) CreateUserPassword(passData lmodels.APICreatePasswordRequest) (isSuccess bool, successErrorData interface{}) {
+
+	updateUserData := lmodels.DBSplMasterUserRowModel{}
+	updateUserData.UsrId = passData.UserID
+	updateUserData.UsrPassword = passData.NewPassword
+
+	dbErr, _ := dbaccess.UpdateUsrPassword(repo.Instance().Context.Master.DBConn, updateUserData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", passData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user password.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User password changed successfully.")
+
 	return true, nil
+
 }
