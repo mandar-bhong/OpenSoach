@@ -316,10 +316,10 @@ export class ChartsComponent implements OnInit, IDeviceAuthResult {
 
 
 	savetoUserAuth() {
-		setTimeout(() => {
+		// setTimeout(() => {
 			this.passdataservice.authResultReuested = this;
 			this.routerExtensions.navigate(['patientmgnt', 'user-auth'], { clearHistory: false });
-		}, 2000);
+		// }, 2000);
 
 	}
 	onDeviceAuthSuccess(userid: number): void {
