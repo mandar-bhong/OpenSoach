@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
-import { ConfigCodeType, SYNC_STORE, ActionStatus } from '~/app/app-constants';
+import { ConfigCodeType, SYNC_STORE, ActionStatus, MAXIMUM_SCHEDULE_DURATION } from '~/app/app-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
@@ -31,7 +31,7 @@ export class OutputChartComponent implements OnInit {
 	// end of proccess variables
 	public outputType: Array<string> = [];
 	outputList: string[] = [];
-
+	pattern = '^[0-9]*$';
 	// end of proccess variables
 
 	constructor(
@@ -107,7 +107,7 @@ export class OutputChartComponent implements OnInit {
 		this.outputForm = new FormGroup({
 			// foodInst: new FormControl(),
 			outputType: new FormControl(),
-			duration: new FormControl('', [Validators.required]),
+			duration: new FormControl('', [Validators.required, Validators.pattern(this.pattern), Validators.max(MAXIMUM_SCHEDULE_DURATION)]),
 			startDate: new FormControl(),
 			remark: new FormControl()
 		});

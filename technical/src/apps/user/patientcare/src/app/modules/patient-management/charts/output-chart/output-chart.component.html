@@ -32,7 +32,7 @@
                             <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
                         </GridLayout>
                     </GridLayout>
-                    <GridLayout row="3" rows="auto auto auto auto" class="input-field">
+                    <GridLayout row="3" rows="auto auto auto auto,auto,auto" class="input-field">
                         <GridLayout row="0">
                             <Label text="Duration" class="body"></Label>
                         </GridLayout>
@@ -40,10 +40,18 @@
                             <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration">
                             </TextField>
                         </GridLayout>
+                        <!-- duration validations starts  -->
                         <GridLayout row="2" class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></GridLayout>
                         <GridLayout row="3" class="input-field" *ngIf="durationIsValid">
                             <Label text="*duration is required " style="color:red"></Label>
                         </GridLayout>
+                        <GridLayout row="4" class="input-field" *ngIf="outputForm.get('duration').hasError('pattern')">
+                            <Label text="*Only whole numbers are allowed" style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="5" class="input-field" *ngIf="outputForm.get('duration').hasError('max')">
+                            <Label text="*You can not enter duration gerater than 20 days" style="color:red"></Label>
+                        </GridLayout>
+                  <!-- end of eduration validations -->
                     </GridLayout>
                     <GridLayout row="4" rows="auto auto auto" class="input-field">
                         <GridLayout row="0">
