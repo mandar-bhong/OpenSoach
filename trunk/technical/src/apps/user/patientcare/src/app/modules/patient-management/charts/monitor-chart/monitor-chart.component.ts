@@ -6,7 +6,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { ListPicker } from 'tns-core-modules/ui/list-picker';
 import { SegmentedBar, SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
-import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD } from '~/app/app-constants';
+import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD, NUMBER_OF_TIMES_X_INTERVAL, MAXIMUM_SCHEDULE_DURATION, MAX_INTERVAL, MIN_INTERVAL } from '~/app/app-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
@@ -45,6 +45,10 @@ export class MonitorChartComponent implements OnInit {
     isspecificTime: boolean;
     isNumberOfTimes: boolean;
     isStartTimeValid = false;
+    addSpecificTimeExceeded = false;
+    pattern = '^[0-9]*$';
+    invalidIntervalHours = false;
+    numberOFTimesDosage = NUMBER_OF_TIMES_X_INTERVAL;
     // end of proccess variables
     public frequencyType: Array<FrequencyValues> = [];
     frequencyList: FrequencyValues[] = [
@@ -59,7 +63,7 @@ export class MonitorChartComponent implements OnInit {
         private passDataService: PassDataService,
         private datePipe: DatePipe,
         private params: ModalDialogParams,
-        private appNotificationService:AppNotificationService,
+        private appNotificationService: AppNotificationService,
         public workerService: WorkerService,
         private chartService: ChartService) {
 
@@ -130,7 +134,7 @@ export class MonitorChartComponent implements OnInit {
         if (this.freqSelectedIndex == 0) {
             this.monitorForm.controls['interval'].setValidators([Validators.required]);
             this.monitorForm.controls['interval'].updateValueAndValidity();
-            this.monitorForm.controls['numberofTimes'].setValidators([Validators.required]);
+            this.monitorForm.controls['numberofTimes'].setValidators([Validators.required, Validators.max(NUMBER_OF_TIMES_X_INTERVAL)]);
             this.monitorForm.controls['numberofTimes'].updateValueAndValidity();
         } else {
             this.monitorForm.controls['interval'].clearValidators();
@@ -144,7 +148,7 @@ export class MonitorChartComponent implements OnInit {
 
     // << func for submit form data
     onSubmit() {
-
+        this.addSpecificTimeExceeded=false;
         this.intervalIsValid = this.monitorForm.controls['interval'].hasError('required');
         this.durationIsValid = this.monitorForm.controls['duration'].hasError('required');
         this.isNumberOfTimes = this.monitorForm.controls['numberofTimes'].hasError('required');
@@ -160,6 +164,16 @@ export class MonitorChartComponent implements OnInit {
         this.formData.specificTimes = this.specifictimes;
         switch (this.formData.frequency) {
             case 0:
+                  // validation for interval hours 
+                const invervalAmount = this.monitorForm.controls['interval'].value;
+                if (invervalAmount) {
+                    const intervalInMinutes = invervalAmount * 60;
+                    console.log('intervalInMinutes', intervalInMinutes);
+                    if (intervalInMinutes >= MAX_INTERVAL || intervalInMinutes <= MIN_INTERVAL) {
+                        this.invalidIntervalHours = true;
+                        return;
+                    }
+                }
                 //  validation for checing grace peroid of schedule generation.
                 const startTimeInMinutes = TimeConversion.getStartTime(this.datePipe.transform(this.monitorForm.get('startTime').value, "H.mm"));
                 const strDate = new Date();
@@ -244,11 +258,17 @@ export class MonitorChartComponent implements OnInit {
 
     // << func for specific timings
     addSpecificTime() {
+        this.addSpecificTimeExceeded=false;
         const timeValue = this.monitorForm.controls['specificTime'].value;
         if (timeValue && timeValue != null) {
+
+            if (this.specifictimes.length > 12) {
+                this.addSpecificTimeExceeded = true;
+                return;
+            }
             const itemIndex = this.specifictimes.indexOf(timeValue);
             if (itemIndex < 0) {
-            this.specifictimes.push(timeValue);
+                this.specifictimes.push(timeValue);
             }
         }
     }
@@ -289,7 +309,7 @@ export class MonitorChartComponent implements OnInit {
         this.monitorForm = new FormGroup({
             // foodInst: new FormControl(),
             frequency: new FormControl(),
-            duration: new FormControl('', [Validators.required]),
+            duration: new FormControl('', [Validators.required, Validators.pattern(this.pattern), Validators.max(MAXIMUM_SCHEDULE_DURATION)]),
             startDate: new FormControl(),
             interval: new FormControl('', [Validators.required]),
             numberofTimes: new FormControl(),
@@ -314,7 +334,12 @@ export class MonitorChartComponent implements OnInit {
         this.params.closeCallback([serverDataStoreModel]);
 
     }
-    // en dof fucntion
-
+    // end of fucntion
+    removeScheduleTime(item) {
+        const indeindex = this.specifictimes.indexOf(item);
+        if (indeindex >= 0) {
+            this.specifictimes.splice(indeindex, 1);
+        }
+    }
 
 }// end of class

@@ -4,6 +4,7 @@ export class ChartListViewModel {
     dbmodel: any;
     // serverdbmodal: any;
     conf: ConfigData;
+    expanded: boolean;
 }
 
 export class ChartDBModel {

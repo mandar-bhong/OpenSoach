@@ -5,7 +5,7 @@ import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ListPicker } from 'tns-core-modules/ui/list-picker/list-picker';
 import { SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar';
-import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD } from '~/app/app-constants';
+import { ConfigCodeType, SYNC_STORE, GRACE_PERIOD, NUMBER_OF_TIMES_X_INTERVAL, MAXIMUM_SCHEDULE_DURATION, MAX_INTERVAL, MIN_INTERVAL } from '~/app/app-constants';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
@@ -43,6 +43,10 @@ export class IntakeChartComponent implements OnInit {
     serverDataStoreDataModelArray: ServerDataStoreDataModel<ScheduleDatastoreModel>[] = [];
     patientName: string;
     isStartTimeValid = false;
+    pattern = '^[0-9]*$';
+    invalidIntervalHours = false;
+    numberOFTimesDosage = NUMBER_OF_TIMES_X_INTERVAL;
+    addSpecificTimeExceeded = false;
     public frequencyType: Array<FrequencyValues> = [];
     public intakeType: Array<string> = [];
     // end of proccess variables
@@ -95,7 +99,6 @@ export class IntakeChartComponent implements OnInit {
     goBackPage() {
         this.params.closeCallback([]);
     }
-
     onPageLoaded(args) {
         console.log("intake form page loaded");
     }
@@ -111,18 +114,14 @@ export class IntakeChartComponent implements OnInit {
         this.intakeForm.controls['splinstruction'].updateValueAndValidity();
         this.intervalIsValid = false;
         switch (this.freqSelectedIndex) {
-            case 1:
-                this.intakeForm.controls['interval'].clearValidators();
-                this.intakeForm.controls['interval'].updateValueAndValidity();
-                this.intakeForm.controls['numberofTimes'].clearValidators();
-                this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
-                this.intervalIsValid = false;
-                break;
             case 0:
-                this.intakeForm.controls['numberofTimes'].setValidators([Validators.required]);
+                this.intakeForm.controls['numberofTimes'].setValidators([Validators.required, Validators.max(NUMBER_OF_TIMES_X_INTERVAL)]);
                 this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
                 this.intakeForm.controls['interval'].setValidators([Validators.required]);
                 this.intakeForm.controls['interval'].updateValueAndValidity();
+                break;
+            case 1:
+
                 break;
             case 2:
                 this.intakeForm.controls['splinstruction'].setValidators(Validators.required);
@@ -133,6 +132,7 @@ export class IntakeChartComponent implements OnInit {
 
     // << func for submit form data
     onSubmit() {
+        this.addSpecificTimeExceeded = false;
         this.intakeNameIsValid = this.intakeForm.controls['name'].hasError('required');
         this.quantityIsValid = this.intakeForm.controls['quantity'].hasError('required');
         this.intervalIsValid = this.intakeForm.controls['interval'].hasError('required');
@@ -154,6 +154,17 @@ export class IntakeChartComponent implements OnInit {
         // case for validating data.
         switch (this.formData.frequency) {
             case 0:
+                // validation for interval hours 
+                const invervalAmount = this.intakeForm.controls['interval'].value;
+                if (invervalAmount) {
+                    const intervalInMinutes = invervalAmount * 60;
+                    console.log('intervalInMinutes', intervalInMinutes);
+                    if (intervalInMinutes >= MAX_INTERVAL || intervalInMinutes <= MIN_INTERVAL) {
+                        this.invalidIntervalHours = true;
+                        return;
+                    }
+                }
+
                 //  validation for checing grace peroid of schedule generation.
                 const startTimeInMinutes = TimeConversion.getStartTime(this.datePipe.transform(this.intakeForm.get('startTime').value, "H.mm"));
                 const strDate = new Date();
@@ -236,6 +247,10 @@ export class IntakeChartComponent implements OnInit {
     addSpecificTime() {
         const time = this.intakeForm.controls['specificTime'].value;
         if (time != null && time) {
+            if (this.specifictimes.length > 12) {
+                this.addSpecificTimeExceeded = true;
+                return;
+            }
             const itemIndex = this.specifictimes.indexOf(time);
             if (itemIndex < 0) {
                 this.specifictimes.push(this.intakeForm.controls['specificTime'].value);
@@ -250,7 +265,7 @@ export class IntakeChartComponent implements OnInit {
             name: new FormControl('', [Validators.required]),
             quantity: new FormControl('', [Validators.required]),
             frequency: new FormControl(),
-            duration: new FormControl('', [Validators.required]),
+            duration: new FormControl('', [Validators.required, Validators.pattern(this.pattern), Validators.max(MAXIMUM_SCHEDULE_DURATION)]),
             startDate: new FormControl(),
             interval: new FormControl(),
             numberofTimes: new FormControl(),
@@ -302,5 +317,12 @@ export class IntakeChartComponent implements OnInit {
                 console.log("getChartData error:", error);
             }
         );
+    }
+    removeScheduleTime(item) {
+        this.addSpecificTimeExceeded = false;
+        const indeindex = this.specifictimes.indexOf(item);
+        if (indeindex >= 0) {
+            this.specifictimes.splice(indeindex, 1);
+        }
     }
 }

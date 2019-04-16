@@ -154,7 +154,7 @@ export class UserAuthComponent implements OnInit {
 		this.emailIsValid = this.userAuthForm.controls['email'].hasError('required');
 		this.passwordIsValid = this.userAuthForm.controls['password'].hasError('required');
 		if (this.userAuthForm.invalid) {
-			console.log("validation error");
+			console.log("validation error in userAuthAccount");
 			return;
 		}
 		const formmodel = new UserCreateFormRequest();

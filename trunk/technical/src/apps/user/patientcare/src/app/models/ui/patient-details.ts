@@ -62,3 +62,7 @@ export class AdmissionDetailsModel {
 	fname: string;
 	lname: string;
 }
+export class ListItem {
+	date: Date;
+	text: string;
+}
