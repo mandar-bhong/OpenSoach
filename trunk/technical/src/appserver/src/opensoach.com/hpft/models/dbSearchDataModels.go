@@ -83,15 +83,14 @@ type DBSearchServicePointRequestFilterDataModel struct {
 }
 
 type DBSearchServicePointResponseFilterDataModel struct {
-	SpId         int64     `db:"sp_id_fk" json:"spid"`
-	SpName       string    `db:"sp_name" json:"spname"`
-	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
-	SpcName      string    `db:"spc_name" json:"spcname"`
-	DevId        *int64    `db:"dev_id_fk" dbattr:"pri"  json:"devid"`
-	DevName      *string   `db:"dev_name" json:"devname"`
-	ServConfId   *int64    `db:"serv_conf_id_fk" json:"servconfid"`
-	SpState      int       `db:"sp_state" json:"spstate"`
-	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
+	SpId         int64                    `db:"sp_id_fk" json:"spid"`
+	SpName       string                   `db:"sp_name" json:"spname"`
+	SpcId        int64                    `db:"spc_id_fk" json:"spcid"`
+	SpcName      string                   `db:"spc_name" json:"spcname"`
+	DeviceData   []DBDeviceShortDataModel `json:"devicedata"`
+	ServConfId   *int64                   `db:"serv_conf_id_fk" json:"servconfid"`
+	SpState      int                      `db:"sp_state" json:"spstate"`
+	SpStateSince time.Time                `db:"sp_state_since" json:"spstatesince"`
 }
 
 type DBSearchDeviceRequestFilterDataModel struct {

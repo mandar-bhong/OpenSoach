@@ -52,6 +52,7 @@ const API_DEVICE_LIST = API_BASE_URL + "/v1/device/list"
 const API_DEVICE_NO_SP_ASSOCIATION_LIST_SHORT = API_BASE_URL + "/v1/device/list/short/noassociation"
 const API_DEVICE_INFO = API_BASE_URL + "/v1/device/info"
 const API_DEVICE_UPDATE = API_BASE_URL + "/v1/device/update"
+const API_DEVICE_LIST_SHORT_SP = API_BASE_URL + "/v1/device/list/sp"
 
 const API_SPL_PROD_BASE_URL = API_BASE_URL + "/v1/splprod/baseurl"
 

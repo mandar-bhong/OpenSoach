@@ -16,3 +16,7 @@ where dev_id_fk NOT IN (select dev_id_fk from  spl_node_dev_sp_mapping) and cpm_
 const QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_ID = `select * from spl_node_dev_tbl where dev_id_fk = ?`
 
 const QUERY_SPL_NODE_DEVICE_TABLE_SELECT_BY_DEV_NAME = `select * from spl_node_dev_tbl where dev_name = ? and dev_id_fk != ?`
+
+const QUERY_GET_DEVICE_SHORT_LIST_BY_SP_ID = `select dev.dev_id_fk,dev.dev_name from  spl_node_dev_tbl dev 
+left join spl_node_dev_sp_mapping devsp on dev.dev_id_fk = devsp.dev_id_fk
+where devsp.cpm_id_fk = ? and devsp.sp_id_fk = ?`
