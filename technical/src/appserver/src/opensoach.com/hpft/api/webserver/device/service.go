@@ -142,3 +142,20 @@ func (service DeviceService) Update(reqData *hktmodels.DBDeviceUpdateRowModel) (
 
 	return true, nil
 }
+
+func (service DeviceService) DeviceShortListBySP(SPID int64) (bool, interface{}) {
+
+	dbErr, listData := dbaccess.GetDeviceShortDataListBySP(service.ExeCtx.SessionInfo.Product.NodeDbConn, service.ExeCtx.SessionInfo.Product.CustProdID, SPID)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting sp device short data list.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched sp device short data list.")
+
+	return true, listData
+
+}

@@ -9,6 +9,7 @@ import (
 	dbmgr "opensoach.com/core/manager/db"
 	hkthelper "opensoach.com/hpft/api/helper"
 	lmodels "opensoach.com/hpft/api/models"
+	devicedbaccess "opensoach.com/hpft/api/webserver/device/dbaccess"
 	"opensoach.com/hpft/constants"
 	"opensoach.com/hpft/constants/dbquery"
 	hktmodels "opensoach.com/hpft/models"
@@ -203,4 +204,14 @@ func ServicePointSelectByID(dbConn string, spId int64) (error, *[]hktmodels.DBSp
 		return selErr, nil
 	}
 	return nil, data
+}
+
+func GetServicePointDeviceDataBySPID(dbConn string, cpmid, spid int64) (error, *[]hktmodels.DBDeviceShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetServicePointDeviceDataBySPID")
+
+	err, data := devicedbaccess.GetDeviceShortDataListBySP(dbConn, cpmid, spid)
+
+	return err, data
+
 }

@@ -191,6 +191,8 @@ func (service ServicePointService) DevSpAsscociationRemove(reqdata *lmodels.APID
 
 func (service ServicePointService) GetSPList(listReqData gmodels.APIDataListRequest) (bool, interface{}) {
 
+	CPMID := service.ExeCtx.SessionInfo.Product.CustProdID
+
 	dataListResponse := gmodels.APIDataListResponse{}
 
 	filterModel := listReqData.Filter.(*hktmodels.DBSearchServicePointRequestFilterDataModel)
@@ -208,9 +210,30 @@ func (service ServicePointService) GetSPList(listReqData gmodels.APIDataListRequ
 	}
 
 	dbListDataRecord := *listData
+	dbSearchServicePointResponseFilterDataModelList := []hktmodels.DBSearchServicePointResponseFilterDataModel{}
+
+	for _, each := range *dbListDataRecord.RecordList.(*[]hktmodels.DBSearchServicePointResponseFilterDataModel) {
+
+		dbErr, deviceListData := dbaccess.GetServicePointDeviceDataBySPID(service.ExeCtx.SessionInfo.Product.NodeDbConn, CPMID, each.SpId)
+		if dbErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting service point device data list.", dbErr)
+
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+			return false, errModel
+		}
+
+		dbDeviceList := *deviceListData
+
+		dbSearchServicePointResponseFilterDataModelItem := each
+		dbSearchServicePointResponseFilterDataModelItem.DeviceData = dbDeviceList
+
+		dbSearchServicePointResponseFilterDataModelList = append(dbSearchServicePointResponseFilterDataModelList, dbSearchServicePointResponseFilterDataModelItem)
+
+	}
 
 	dataListResponse.FilteredRecords = dbListDataRecord.RecordCount
-	dataListResponse.Records = dbListDataRecord.RecordList
+	dataListResponse.Records = dbSearchServicePointResponseFilterDataModelList
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched service point list data.")
 

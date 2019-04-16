@@ -156,3 +156,20 @@ func GetDeviceByDeviceName(dbConn string, devname string, devid int64) (error, *
 	}
 	return nil, data
 }
+
+func GetDeviceShortDataListBySP(dbConn string, cpmId int64, spid int64) (error, *[]hktmodels.DBDeviceShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceShortDataListBySP")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hktmodels.DBDeviceShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_DEVICE_SHORT_LIST_BY_SP_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(cpmId, spid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
