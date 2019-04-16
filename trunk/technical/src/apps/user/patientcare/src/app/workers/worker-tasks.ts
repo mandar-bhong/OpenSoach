@@ -13,6 +13,8 @@ export class WorkerTasks {
     public static socket: any;
     private static isSocketInitialized: boolean;
     private static workerReference: Worker;
+    private static retryConnectionTimerStarted = false;
+    private static retryConnectionTimer: any;
     public static Init(worker: Worker) {
         WorkerTasks.workerReference = worker;
         console.log("in WorkerTasks Init")
@@ -76,10 +78,12 @@ export class WorkerTasks {
 
         WorkerTasks.socket.on('close', (socket, code, reason) => {
             console.log('messages', "Websocket disconnected");
+            WorkerTasks.isSocketInitialized = true;
             WorkerTasks.raiseSocketConnectionEvent(false);
         });
         WorkerTasks.socket.on('error', (socket, error) => {
             console.log("The socket had an error", error);
+            WorkerTasks.isSocketInitialized = true;
             WorkerTasks.raiseSocketConnectionEvent(false);
         });
 
@@ -89,9 +93,11 @@ export class WorkerTasks {
     private static raiseSocketConnectionEvent(status: boolean) {
         const workerEvent = new ServerWorkerEventDataModel();
         if (status) {
+            this.stopRetryConnection();
             workerEvent.msgtype = SERVER_WORKER_EVENT_MSG_TYPE.SERVER_CONNECTED;
         }
         else {
+            this.retryConnection();
             workerEvent.msgtype = SERVER_WORKER_EVENT_MSG_TYPE.SERVER_DISCONNECTED;
         }
 
@@ -105,6 +111,23 @@ export class WorkerTasks {
 
     public static postMessage(msg: ServerWorkerEventDataModel) {
         WorkerTasks.workerReference.postMessage(msg);
+    }
+
+    public static retryConnection() {
+        if ((!this.retryConnectionTimer) || (this.retryConnectionTimer==null)) {
+            this.retryConnectionTimer = setInterval(() => {
+                console.log('connection retrying', new Date());
+                this.initWebSocket();
+            }, 10 * 1000);
+        }
+    }
+
+    public static stopRetryConnection() {
+        if (this.retryConnectionTimer) {
+            console.log('stoping retrying connection', new Date());
+            clearInterval(this.retryConnectionTimer);
+            this.retryConnectionTimer = null;
+        }
     }
 
 }
