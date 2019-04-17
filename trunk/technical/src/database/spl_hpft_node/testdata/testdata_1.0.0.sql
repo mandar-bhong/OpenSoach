@@ -89,37 +89,37 @@ VALUES
 -- Dumping data for table `spl_hpft_patient_admission_tbl`
 --
 
-INSERT INTO `spl_hpft_patient_admission_tbl` (`uuid`, `cpm_id_fk`, `patient_id_fk`, `patient_reg_no`, `bed_no`, `status`, `sp_id_fk`, `dr_incharge`, `admitted_on`, `updated_by`) 
+INSERT INTO `spl_hpft_patient_admission_tbl` (`uuid`, `cpm_id_fk`, `patient_id_fk`, `patient_reg_no`, `bed_no`, `status`, `sp_id_fk`, `dr_incharge`, `admitted_on`, `updated_by`, `created_on`, `updated_on`) 
 VALUES 
-('PA001', '3', 1, 'P12B12213', '3A/312', '1', '7', '8', '2018-12-04 14:37:53', 2),
-('PA002', '3', 2, 'P12B12214', '3B/323', '1', '7', '8', '2018-12-04 12:47:53', 2),
-('PA003', '3', 3, 'P12B12215', '2A/643', '1', '3', '8', '2018-12-04 09:17:53', 2),
-('PA004', '3', 4, 'P12B12216', '4A/415', '1', '3', '8', '2018-12-04 11:00:53', 2),
-('PA005', '3', 5, 'P12B12217', '5A/616', '1', '3', '8', '2018-12-04 01:11:53', 2),
-('PA006', '3', 6, 'P12B12218', '6A/317', '1', '3', '8', '2018-12-04 14:32:53', 2),
-('PA007', '3', 7, 'P12B12219', '7A/312', '1', '3', '8', '2018-12-04 16:44:53', 2);
+('PA001', '3', 1, 'P12B12213', '3A/312', '1', '7', '8', '2018-12-04 14:37:53', 2, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53'))),
+('PA002', '3', 2, 'P12B12214', '3B/323', '1', '7', '8', '2018-12-04 12:47:53', 2,UTC_TIMESTAMP,UTC_TIMESTAMP),
+('PA003', '3', 3, 'P12B12215', '2A/643', '1', '3', '8', '2018-12-04 09:17:53', 2,UTC_TIMESTAMP,UTC_TIMESTAMP),
+('PA004', '3', 4, 'P12B12216', '4A/415', '1', '3', '8', '2018-12-04 11:00:53', 2,UTC_TIMESTAMP,UTC_TIMESTAMP),
+('PA005', '3', 5, 'P12B12217', '5A/616', '1', '3', '8', '2018-12-04 01:11:53', 2,UTC_TIMESTAMP,UTC_TIMESTAMP),
+('PA006', '3', 6, 'P12B12218', '6A/317', '1', '3', '8', '2018-12-04 14:32:53', 2,UTC_TIMESTAMP,UTC_TIMESTAMP),
+('PA007', '3', 7, 'P12B12219', '7A/312', '1', '3', '8', '2018-12-04 16:44:53', 2,UTC_TIMESTAMP,UTC_TIMESTAMP);
 
 
 --
 -- Dumping data for table `spl_hpft_patient_personal_details_tbl`
 --
 
-INSERT INTO `spl_hpft_patient_personal_details_tbl` (`cpm_id_fk`, `patient_id`, `admission_id_fk`, `uuid`, `age`, `person_accompanying`, `updated_by`) 
+INSERT INTO `spl_hpft_patient_personal_details_tbl` (`cpm_id_fk`, `patient_id`, `admission_id_fk`, `uuid`, `age`, `person_accompanying`, `updated_by`, `created_on`, `updated_on`) 
 VALUES 
-('3', '1', '1', 'PPD001', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9843xxxxxx", "age": "23", "address": "warje", "alternatecontact": "9923xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2'),
-('3', '2', '2', 'PPD002', '24', '{"data": [{"name": "Sanket", "gender": 1, "contact": "9712xxxxxx", "age": "26", "address": "warje", "alternatecontact": "8123xxxxxx", "relationshipwithpatient": "brother"}],"version":1}', '2'),
-('3', '3', '3', 'PPD003', '34', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9932xxxxxx", "age": "32", "address": "warje", "alternatecontact": "8993xxxxxx", "relationshipwithpatient": "friend"}],"version":1}', '2'),
-('3', '4', '4', 'PPD004', '27', '{"data": [{"name": "Rohit", "gender": 2, "contact": "8812xxxxxx", "age": "53", "address": "warje", "alternatecontact": "9901xxxxxx", "relationshipwithpatient": "father"}],"version":1}', '2'),
-('3', '5', '5', 'PPD005', '33', '{"data": [{"name": "Priya", "gender": 2, "contact": "9453xxxxxx", "age": "28", "address": "warje", "alternatecontact": "9456xxxxxx", "relationshipwithpatient": "wife"}],"version":1}', '2'),
-('3', '6', '6', 'PPD006', '25', '{"data": [{"name": "Sonal", "gender": 2, "contact": "8663xxxxxx", "age": "30", "address": "warje", "alternatecontact": "8723xxxxxx", "relationshipwithpatient": "sister"}],"version":1}', '2'),
-('3', '7', '7', 'PPD007', '38', '{"data": [{"name": "Kaushik", "gender": 1, "contact": "9813xxxxxx", "age": "23", "address": "warje", "alternatecontact": "8884xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2');
+('3', '1', '1', 'PPD001', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9843xxxxxx", "age": "23", "address": "warje", "alternatecontact": "9923xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2',timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53'))),
+('3', '2', '2', 'PPD002', '24', '{"data": [{"name": "Sanket", "gender": 1, "contact": "9712xxxxxx", "age": "26", "address": "warje", "alternatecontact": "8123xxxxxx", "relationshipwithpatient": "brother"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '3', '3', 'PPD003', '34', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9932xxxxxx", "age": "32", "address": "warje", "alternatecontact": "8993xxxxxx", "relationshipwithpatient": "friend"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '4', '4', 'PPD004', '27', '{"data": [{"name": "Rohit", "gender": 2, "contact": "8812xxxxxx", "age": "53", "address": "warje", "alternatecontact": "9901xxxxxx", "relationshipwithpatient": "father"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '5', '5', 'PPD005', '33', '{"data": [{"name": "Priya", "gender": 2, "contact": "9453xxxxxx", "age": "28", "address": "warje", "alternatecontact": "9456xxxxxx", "relationshipwithpatient": "wife"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '6', '6', 'PPD006', '25', '{"data": [{"name": "Sonal", "gender": 2, "contact": "8663xxxxxx", "age": "30", "address": "warje", "alternatecontact": "8723xxxxxx", "relationshipwithpatient": "sister"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '7', '7', 'PPD007', '38', '{"data": [{"name": "Kaushik", "gender": 1, "contact": "9813xxxxxx", "age": "23", "address": "warje", "alternatecontact": "8884xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP);
 
 
 --
 -- Dumping data for table `spl_hpft_patient_medical_details_tbl`
 --
 
- INSERT INTO `spl_hpft_patient_medical_details_tbl` (`uuid`, `cpm_id_fk`, `patient_id`, `admission_id_fk`, `present_complaints`, `reason_for_admission`, `history_present_illness`, `past_history`, `treatment_before_admission`, `investigation_before_admission`, `family_history`, `allergies`, `personal_history`, `updated_by`) 
+ INSERT INTO `spl_hpft_patient_medical_details_tbl` (`uuid`, `cpm_id_fk`, `patient_id`, `admission_id_fk`, `present_complaints`, `reason_for_admission`, `history_present_illness`, `past_history`, `treatment_before_admission`, `investigation_before_admission`, `family_history`, `allergies`, `personal_history`, `updated_by`, `created_on`, `updated_on`) 
  VALUES 
   ('PMD001', '3', '1', '1', 
   '{"data": [{"date": "2019-03-07T08:52:36.474Z", "text": "throat infection"}]}',
@@ -131,13 +131,13 @@ VALUES
   '{"data": [{"date": "2019-03-07T08:52:36.474Z", "text": "family history"}]}',
   '{"data": [{"date": "2019-03-07T08:52:36.474Z", "text": "allergies"}]}',
  	'{"data":{"weight":{"weight":40,"weight_tendency":"Increasing"},"alcohol":{"applicable":true,"quantity":"30 ml","remarks":"drinks sometimes"},"smoking":{"applicable":false,"quantity":null,"remarks":null},"others":null}}',
-  	'2'),
- ('PMD002', '3', '2', '2', '{"data": [{"date": "2019-03-22T13:11:05.383Z", "text": "This is test complaint"}, {"date": "2019-03-22T13:11:11.541Z", "text": "This is test complaint 2"}]}', '{"data": [{"date": "2019-03-22T13:12:10.448Z", "text": "Fever and back pain"}, {"date": "2019-03-22T13:12:31.052Z", "text": "Headache"}]}', '{"data": [{"date": "2019-03-22T13:12:58.582Z", "text": "Headache from last few months"}]}', '{"data": [{"date": "2019-03-22T13:13:31.222Z", "text": "2 years back headache started"}]}', '{"data": [{"date": "2019-03-22T13:13:53.912Z", "text": "Not done any treatment before addmission"}]}', '{"data": [{"date": "2019-03-22T13:14:03.581Z", "text": "No investigation"}]}', '{"data": [{"date": "2019-03-22T13:14:18.882Z", "text": "Grand father was suffering from headache"}]}', '{"data": [{"date": "2019-03-22T13:14:35.110Z", "text": "Having dust allergy"}]}', '{"data": {"other": "", "weight": {"weight": "52", "weighttendency": "Increasing"}, "alcohol": {"aplicable": false, "alcoholcomment": "No"}, "smoking": {"aplicable": false, "smokingcomment": "No"}}, "version": 1}', '2'),
- ('PMD003', '3', '3', '3', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD004', '3', '4', '4', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD005', '3', '5', '5', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD006', '3', '6', '6', null, null, null, null, null, null, null, null, null, '2'),
- ('PMD007', '3', '7', '7', null, null, null, null, null, null, null, null, null, '2');
+  	'2',timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53'))),
+ ('PMD002', '3', '2', '2', '{"data": [{"date": "2019-03-22T13:11:05.383Z", "text": "This is test complaint"}, {"date": "2019-03-22T13:11:11.541Z", "text": "This is test complaint 2"}]}', '{"data": [{"date": "2019-03-22T13:12:10.448Z", "text": "Fever and back pain"}, {"date": "2019-03-22T13:12:31.052Z", "text": "Headache"}]}', '{"data": [{"date": "2019-03-22T13:12:58.582Z", "text": "Headache from last few months"}]}', '{"data": [{"date": "2019-03-22T13:13:31.222Z", "text": "2 years back headache started"}]}', '{"data": [{"date": "2019-03-22T13:13:53.912Z", "text": "Not done any treatment before addmission"}]}', '{"data": [{"date": "2019-03-22T13:14:03.581Z", "text": "No investigation"}]}', '{"data": [{"date": "2019-03-22T13:14:18.882Z", "text": "Grand father was suffering from headache"}]}', '{"data": [{"date": "2019-03-22T13:14:35.110Z", "text": "Having dust allergy"}]}', '{"data": {"other": "", "weight": {"weight": "52", "weighttendency": "Increasing"}, "alcohol": {"aplicable": false, "alcoholcomment": "No"}, "smoking": {"aplicable": false, "smokingcomment": "No"}}, "version": 1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+ ('PMD003', '3', '3', '3', null, null, null, null, null, null, null, null, null, '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+ ('PMD004', '3', '4', '4', null, null, null, null, null, null, null, null, null, '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+ ('PMD005', '3', '5', '5', null, null, null, null, null, null, null, null, null, '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+ ('PMD006', '3', '6', '6', null, null, null, null, null, null, null, null, null, '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+ ('PMD007', '3', '7', '7', null, null, null, null, null, null, null, null, null, '2',UTC_TIMESTAMP,UTC_TIMESTAMP);
  
  
 --
@@ -145,10 +145,10 @@ VALUES
 --
 
 INSERT INTO `spl_hpft_patient_conf_tbl` (`id`, `uuid`, `cpm_id_fk`, `admission_id_fk`, `conf_type_code`, `conf`, `start_date`, `end_date`, `status`, `client_updated_at`, `created_on`, `updated_on`, `updated_by`) VALUES
-	(1, '1a1e4f86-6764-4a05-868e-a47648ec04e6', 3, 1, 'Monitor', '{"desc": " 4 times a day after every 3 hours for 4 days.", "name": "Temperature", "remark": null, "duration": "4", "interval": 180, "frequency": 0, "startTime": 620, "numberofTimes": "4"}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:50:53')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'13:50:00')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:51:24')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:06')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:06')), 2),
-	(2, 'b1790afa-5c72-45ee-8dd5-b5a85c2734db', 3, 1, 'Medicine', '{"desc": "Every morning & night after meal for 4 days", "name": "Crocin", "remark": null, "duration": "4", "foodInst": 1, "frequency": 0, "medicinetype": "Tablet", "mornFreqInfo": {"freqMorn": true, "mornFreqQuantity": "1"}, "aftrnFreqInfo": {"freqAftrn": false, "aftrnFreqQuantity": 0}, "nightFreqInfo": {"freqNight": true, "nightFreqQuantity": "1"}}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:16')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:00:00')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:39')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:51')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:51')), 2),
-	(3, 'd965560c-1a72-4206-a023-ff0dcf7941d4', 3, 1, 'Intake', '{"desc": " 3 times a day after every 4 hours for 3 days.", "name": "Saline", "remark": null, "duration": "3", "interval": 240, "quantity": "1", "frequency": 0, "startTime": 624, "intakeType": "Oral", "numberofTimes": "3", "specificTimes": []}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:54:27')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'12:54:00')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:55:08')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:55:17')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:55:17')), 2),
-	(4, 'e2b8d1a2-1c1c-4f9a-9f78-05926dce6faa', 3, 1, 'Output', '{"desc": "Check Urine for 2 days", "name": "Urine", "remark": null, "duration": "2"}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:15:42')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:16:25')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:15:46')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:16:30')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:16:30')), 2);
+	(1, '1a1e4f86-6764-4a05-868e-a47648ec04e6', 3, 1, 'Monitor', '{"desc": " 4 times a day after every 3 hours for 4 days.", "name": "Temperature", "remark": null, "duration": "4", "interval": 180, "frequency": 0, "startTime": 620, "numberofTimes": "4"}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:50:53')), timestamp(ADDTIME(( curdate() + INTERVAL 0 DAY),'13:50:00')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:51:24')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:06')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:06')), 2),
+	(2, 'b1790afa-5c72-45ee-8dd5-b5a85c2734db', 3, 1, 'Medicine', '{"desc": "Every morning & night after meal for 4 days", "name": "Crocin", "remark": null, "duration": "4", "foodInst": 1, "frequency": 0, "medicinetype": "Tablet", "mornFreqInfo": {"freqMorn": true, "mornFreqQuantity": "1"}, "aftrnFreqInfo": {"freqAftrn": false, "aftrnFreqQuantity": 0}, "nightFreqInfo": {"freqNight": true, "nightFreqQuantity": "1"}}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:16')), timestamp(ADDTIME(( curdate() + INTERVAL 0 DAY),'04:00:00')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:39')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:51')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:52:51')), 2),
+	(3, 'd965560c-1a72-4206-a023-ff0dcf7941d4', 3, 1, 'Intake', '{"desc": " 3 times a day after every 4 hours for 3 days.", "name": "Saline", "remark": null, "duration": "3", "interval": 240, "quantity": "1", "frequency": 0, "startTime": 624, "intakeType": "Oral", "numberofTimes": "3", "specificTimes": []}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:54:27')), timestamp(ADDTIME(( curdate() - INTERVAL 1 DAY),'12:54:00')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:55:08')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:55:17')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'04:55:17')), 2),
+	(4, 'e2b8d1a2-1c1c-4f9a-9f78-05926dce6faa', 3, 1, 'Output', '{"desc": "Check Urine for 2 days", "name": "Urine", "remark": null, "duration": "2"}', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:15:42')), timestamp(ADDTIME(( curdate() - INTERVAL 2 DAY),'07:16:25')), 0, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:15:46')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:16:30')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'07:16:30')), 2);
 	
 	
 --
