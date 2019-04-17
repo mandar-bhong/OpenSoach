@@ -141,7 +141,7 @@
                                 <!-- number of times validations -->
                                 <GridLayout row="2" class="hr-light" [ngClass]="{invalid: numberOfTimesValid === true}">
                                 </GridLayout>
-                                <GridLayout row="3" class="input-field" *ngIf="medicineForm.get('numberofTimes').hasError('required')">
+                                <GridLayout row="3" class="input-field" *ngIf="numberOfTimesValid">
                                     <Label text="*No. of times is required " style="color:red"></Label>
                                 </GridLayout>
                                 <GridLayout row="4" class="input-field" *ngIf="medicineForm.get('numberofTimes').hasError('max')">
@@ -220,7 +220,7 @@
                             <Label text="*Only whole numbers are allowed" style="color:red"></Label>
                         </GridLayout>
                         <GridLayout row="5" class="input-field" *ngIf="medicineForm.get('duration').hasError('max')">
-                            <Label text="*You can not enter duration gerater than 20 days" style="color:red"></Label>
+                            <Label text="*You can not enter duration greater than 20 days" style="color:red"></Label>
                         </GridLayout>
                         <!-- end of eduration validations -->
                     </GridLayout>
