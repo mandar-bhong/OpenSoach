@@ -37,18 +37,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.populateEnvironmentProvider();
     this.initAppDataStoreService();
     this.populateAppSpecificDataProvider();
-    console.log('window.location.href', window.location.href);
-    console.log('window.location.hrpathnam', window.location.pathname);
-    switch(window.location.pathname){
-      case "/auth/change-password":
-      this.router.navigate([ROUTE_CHANGE_PASSWORD,this.getparams()], { skipLocationChange: true });
-      break;
-      default:
-      this.getSplBaseUrl();
-      break;
-    }
 
-
+	this.getSplBaseUrl();
   }
   getparams() {
     var url_string = window.location.href
@@ -80,7 +70,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.splConfService.getSplBaseUrl().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         EnvironmentProvider.baseurl = payloadResponse.data.baseurl;
-        this.loginHandlerService.init();
+
+        switch(window.location.pathname){
+          case "/auth/change-password":
+          this.router.navigate([ROUTE_CHANGE_PASSWORD,this.getparams()], { skipLocationChange: true });
+          break;
+          default:
+           this.loginHandlerService.init();
+          break;
+        }
       }
     });
   }
