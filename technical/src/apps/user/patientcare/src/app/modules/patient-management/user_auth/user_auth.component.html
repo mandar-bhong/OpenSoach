@@ -91,8 +91,8 @@
 
 
 
-        <GridLayout row="1" style="width: 74%;height:60%" height="60%" *ngIf="listaccount">
-            <GridLayout row="0" rows="50,*,60" columns="*" class="form"
+        <GridLayout row="1" style="width: 74%;height:80%" height="80%" *ngIf="listaccount">
+            <GridLayout row="0" rows="50,*,*" columns="*" class="form"
                 style="padding: 10 20; background-color: #f0f0f0;">
                 <GridLayout row="0" style="vertical-align: center;">
                     <Label class="signmainlabel" text="Choose an account" style="text-align: center;"></Label>
@@ -142,10 +142,10 @@
 
         </GridLayout>
     </GridLayout>
-    <GridLayout *ngIf="!pinview" rows="*, *, *">
+    <GridLayout *ngIf="!pinview" rows="60, *, 60">
 
-        <GridLayout row="1" shadowOffsetWidth=1; class="card" style="width: 74%;">
-            <StackLayout class="form" [formGroup]="userPinCheckForm">
+        <GridLayout row="1" shadowOffsetWidth=1; class="card" style="width: 74%;"  height="80%">
+            <GridLayout class="form" [formGroup]="userPinCheckForm">
                 <GridLayout row="0" rows="80,auto,auto" columns="*" class="form"
                     style="padding: 10 20; background-color: #f0f0f0;">
                     <GridLayout row="0">
@@ -172,7 +172,7 @@
                             class="btn btn-primary-blue "></Button>
                     </GridLayout>
                 </GridLayout>
-            </StackLayout>
+            </GridLayout>
         </GridLayout>
     </GridLayout>
 </GridLayout>
