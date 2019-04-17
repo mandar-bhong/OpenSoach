@@ -14,7 +14,6 @@ import { LoginComponent } from './login/login.component';
 import { MaterialModules } from '../../modules/material/material-modules';
 import { LoginLayoutComponent } from './login-layout/login-layout.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
 
 @NgModule({
   imports: [
@@ -33,8 +32,7 @@ import { ChangePasswordSuccessComponent } from './change-password-success/change
   declarations: [LoginComponent,
     ForgotPasswordComponent,
     LoginLayoutComponent,
-    ChangePasswordComponent,
-    ChangePasswordSuccessComponent
+    ChangePasswordComponent
   ]
 })
 export class AuthModule { }
