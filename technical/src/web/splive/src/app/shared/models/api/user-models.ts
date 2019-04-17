@@ -3,6 +3,7 @@ export class UserLoginInfoResponse {
     usrname: string;
     fname: string;
     lname: string;
+    cpmrole: string;
 }
 
 export class UserAddRequest {
@@ -93,4 +94,13 @@ export class UserMasterResponse {
     usrstate: number;
     uroleid: number;
     usrcategory: number;
+}
+
+export class ChangeUserPasswordRequest {
+    usrid: number;
+    newpassword: string;
+    confirmpassword: string;
+}
+export class ActivationChangePassword {
+    code: string;
 }
