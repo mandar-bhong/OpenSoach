@@ -184,7 +184,7 @@ export class DatabaseHelper {
                     db.resultType(Sqlite.RESULTSASOBJECT);
 
                     db.all(query, function (err, resultSet) {
-
+                        db.close();
                         if (err) {
                             // console.log("select query error:",err);
                             reject(err);
@@ -214,9 +214,11 @@ export class DatabaseHelper {
             this.getdbConn()
                 .then(db => {
                     db.execSQL(query, dataList).then(id => {
+                        db.close();
                         // console.log("INSERT RESULT", id);
                         resolve(id);
                     }, error => {
+                        db.close();
                         // console.log("INSERT ERROR", error);
                         reject(error);
                     });
@@ -238,6 +240,7 @@ export class DatabaseHelper {
                 .then(db => {
                     db.resultType(Sqlite.RESULTSASOBJECT);
                     db.all(query, paramList, function (err, result) {
+                        db.close();
                         if (err) {
                             console.log('err', err);
                             reject(err);
@@ -301,7 +304,7 @@ export class DatabaseHelper {
                     db.resultType(Sqlite.RESULTSASOBJECT);
 
                     db.get(getQuery, getParamList, function (err, row) {
-
+                        db.close();
                         if (err) {
                             console.log("getQuery err", err);
                             reject(err);
@@ -364,7 +367,7 @@ export class DatabaseHelper {
                     db.resultType(Sqlite.RESULTSASOBJECT);
 
                     db.all(getQuery, function (err, result) {
-
+                        db.close();
                         if (err) {
                             reject(err);
                         } else {
@@ -412,10 +415,12 @@ export class DatabaseHelper {
                 .then(db => {
 
                     db.execSQL(updateQuery, paramList).then(id => {
+                        db.close();
                         console.log("updateSyncStoreSyncPending");
                         console.log("affected rows :", id);
                         resolve(id);
                     }, error => {
+                        db.close();
                         console.log("updateSyncStoreSyncPending");
                         console.log("db error:", error);
                         reject(error);
@@ -448,10 +453,12 @@ export class DatabaseHelper {
                 .then(db => {
 
                     db.execSQL(updateQuery, paramList).then(id => {
+                        db.close();
                         console.log("updateTableSyncPending");
                         console.log("affected rows", id);
                         resolve(id);
                     }, error => {
+                        db.close();
                         console.log("updateTableSyncPending");
                         console.log("db error", error);
                         reject(error);
@@ -476,10 +483,12 @@ export class DatabaseHelper {
                 .then(db => {
 
                     db.execSQL(updateQuery, paramList).then(id => {
+                        db.close();
                         console.log("updateSyncStoreLastSynched");
                         console.log("affected rows :", id);
                         resolve(id);
                     }, error => {
+                        db.close();
                         console.log("updateSyncStoreLastSynched");
                         console.log("db error:", error);
                         reject(error);
@@ -499,6 +508,7 @@ export class DatabaseHelper {
                 .then(db => {
                     db.resultType(Sqlite.RESULTSASOBJECT);
                     db.all(query, paramList, function (err, result) {
+                        db.close();
                         if (err) {
                             console.log('in inner promise error', err);
                             reject(err);
