@@ -63,6 +63,8 @@ func InitilizeModues(dbconfig *gmodels.ConfigDB) error {
 		return setGlobalErr
 	}
 
+	pcmgr.SetLogger(masterConfigSetting, "spl")
+
 	initModules(masterConfigSetting)
 
 	return nil
