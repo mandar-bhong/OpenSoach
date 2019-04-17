@@ -51,6 +51,7 @@ export class UserAuthComponent implements OnInit {
 	selecedItemsData: any;
 
 	_dataItemsaccount = new ObservableArray<ActionListViewModel>();
+	getdataItemsaccount = [];
 	constructor(private UserAuthService: UserAuthService,
 		private routerExtensions: RouterExtensions,
 		private passdataservice: PassDataService,
@@ -71,6 +72,7 @@ export class UserAuthComponent implements OnInit {
 		this.userPinCheckControls();
 		this.getUserAccountData();
 		this.UserAuthService.getUserAccountList1();
+		this.getUserAcountListInServer();
 
 		// if (this._dataItemsaccount.length > 0) {
 		// 	this.pinview = true;
@@ -123,6 +125,23 @@ export class UserAuthComponent implements OnInit {
 			}
 		);
 	}
+	getUserAcountListInServer(){
+		this.UserAuthService.getUserAccountList1().then(
+			(val) => {
+				val.forEach(item => {
+					console.log('get data user list by server', item);
+					// const actionListItems = new ActionListViewModel();
+					// actionListItems.dbmodel = item;
+					this.getdataItemsaccount.push(item);
+					// console.log('User Account List', item);
+
+				});
+			},
+			(error) => {
+				console.log("getUserAccountData error:", error);
+			}
+		);
+	}
 	selectedUserData(item) {
 		console.log('item', item);
 
@@ -157,6 +176,8 @@ export class UserAuthComponent implements OnInit {
 		this.emailIsValid = this.userAuthForm.controls['email'].hasError('required');
 		this.passwordIsValid = this.userAuthForm.controls['password'].hasError('required');
 		if (this.userAuthForm.invalid) {
+			this.emailIsValid = true;
+			this.emailIsInvaild = false;
 			console.log("validation error in userAuthAccount");
 			return;
 		}
@@ -169,31 +190,33 @@ export class UserAuthComponent implements OnInit {
 		console.log('this.datamodel.user_lname', formmodel.password = this.userAuthForm.get('password').value);
 
 		console.log('token', AppGlobalContext.Token);
-		let allreadyItem = this._dataItemsaccount.filter(a => a.dbmodel.email == formmodel.email);
+
+
+		let allreadyItem = this.getdataItemsaccount.filter(a => a.usr_name == formmodel.email);
 
 		console.log('text _______', allreadyItem.length);
 		if (allreadyItem.length > 0) {
-			if (formmodel.email && formmodel.password) {
-				this.serverApiInterfaceService.post<UserDetails>(API_SPL_BASE_URL + "/v1/endpoint/userauthorization",
-					{
-						'username': formmodel.email,
-						'password': formmodel.password,
-						'devicetoken': AppGlobalContext.Token,
-					})
-					.then(
-						(res) => {
-							console.log("POST Request is successful ", res);
-							this.getuserdetails = res;
+		if (formmodel.email && formmodel.password) {
+			this.serverApiInterfaceService.post<UserDetails>(API_SPL_BASE_URL + "/v1/endpoint/userauthorization",
+				{
+					'username': formmodel.email,
+					'password': formmodel.password,
+					'devicetoken': AppGlobalContext.Token,
+				})
+				.then(
+					(res) => {
+						console.log("POST Request is successful ", res);
+						this.getuserdetails = res;
 
-							this.newpinview = true;
-							this.hidecheckpin = false;
-						}, (error) => {
-							console.log('error_____ok__', error);
+						this.newpinview = true;
+						this.hidecheckpin = false;
+					}, (error) => {
+						console.log('error_____ok__', error);
 
-							console.log(error);
-						}
-					);
-			}
+						console.log(error);
+					}
+				);
+		}
 		} else {
 			this.emailIsInvaild = true;
 			this.passwordIsInValid = true;
