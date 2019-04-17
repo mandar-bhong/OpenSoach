@@ -73,5 +73,11 @@ export class ProdServicepointService extends ListingService<SrevicepointFilterRe
     return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/update',
       servicepointDetailsUpdateRequest, implicitErrorHandling);
   }
+ 
+  getServicepointDeviceList(implicitErrorHandling = true):
+  Observable<PayloadResponse<ServicepointDataListResponse[]>> {
+  return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/list/short',
+      implicitErrorHandling);
+}
 
 }

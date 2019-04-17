@@ -5,6 +5,9 @@ import { Subscription } from 'rxjs';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { SideMenuModel } from '../../../models/ui/routing-model';
 import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
+import { AppUserService } from '../../../services/user/app-user.service';
+import { PayloadResponse } from '../../../models/api/payload-models';
+import { USER_ADMIN } from '../../../app-common-constants';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,12 +16,13 @@ import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
 
 })
 export class SideBarComponent implements OnInit, OnDestroy {
-  sideMenuLinks: SideMenuModel[];
+  sideMenuLinks: SideMenuModel[] = [];
   menuToggleSubscription: Subscription;
   setclass: any;
   toggleCssClass: boolean;
   constructor(private sidebarToggleService: SidebarToggleService,
-    private router: Router) { }
+    private router: Router,
+    private appUserService: AppUserService) { }
 
   ngOnInit() {
     this.toggleCssClass = true;
@@ -28,7 +32,20 @@ export class SideBarComponent implements OnInit, OnDestroy {
     });
 
     this.sideMenuLinks = AppSpecificDataProvider.sideMenuRoutes;
+    this.adminForPatientCare();
   }
+
+  adminForPatientCare() {
+    this.appUserService.getLoginInfo().subscribe(PayloadResponse => {
+      if (PayloadResponse.data.cpmrole === USER_ADMIN) {
+        this.sideMenuLinks = AppSpecificDataProvider.sideMenuRoutes;
+      } else {
+        let specificLink = AppSpecificDataProvider.sideMenuRoutes.filter(a => a.url === '/dashboard' || a.url === '/patients');
+        this.sideMenuLinks = specificLink;
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     if (this.menuToggleSubscription) {
       this.menuToggleSubscription.unsubscribe();
