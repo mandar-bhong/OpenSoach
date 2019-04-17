@@ -473,7 +473,7 @@ export const TRANSLATIONS: TranslationValue[] = [
 /*Change Password For User start from here */
   {
     key: 'CHANGE_PASS',
-    en: 'Please confirm your password'
+    en: 'New Password and confirm password mismatch'
   },
 ];
 
