@@ -4,7 +4,9 @@ import {
     UserAssociateProductRequest,
     UserAssociateProductUpdateRequest,
     UserMasterResponse,
-    UserMasterUpdateRequest
+    UserMasterUpdateRequest,
+    ChangeUserPasswordRequest,
+    ActivationChangePassword
 } from '../api/user-models';
 import { USER_PRODUCT_MAPPING_STATE } from '../../app-common-constants';
 import { CustomerAssociateProductListItemResponse } from '../../../spl/app/models/api/customer-models';
@@ -107,5 +109,22 @@ export class UserAssociateProductModel {
         this.ucpmstate = details.ucpmstate;
         this.urolecode = details.urolecode;
         this.prodcode = details.prodcode;
+    }
+}
+
+export class ConfirmPasswordModel {
+    usrid: number;
+    newpassword: string;
+    confirmpassword: string;
+    copyTo(changeUserPasswordRequest: ChangeUserPasswordRequest) {
+        changeUserPasswordRequest.usrid = this.usrid;
+        changeUserPasswordRequest.newpassword = this.newpassword;
+    }
+}
+export class ActivationChangePasswordModel
+{
+    code: string;
+    copyTo(activationChangePassword: ActivationChangePassword) {
+        activationChangePassword.code = this.code;
     }
 }

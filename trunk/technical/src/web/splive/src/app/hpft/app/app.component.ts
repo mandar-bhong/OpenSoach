@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { APP_IN_MEMORY_STORE_KEYS, APP_LOCAL_STORAGE_KEYS, APP_ROUTES, SIDE_MENU_LINKS } from './app-constants';
 import { TranslateService } from '../../shared/pipes/translate/translate.service';
 import { APP_TRANSLATIONS } from '../translations';
+import { ROUTE_CHANGE_PASSWORD } from '../../shared/app-common-constants';
 
 @Component({
   selector: 'app-root',
@@ -27,16 +28,33 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private appDataStoreService: AppDataStoreService,
     private splConfService: SplConfService,
-    private translateService: TranslateService) { 
-      this.translateService.addAppSpecificTranslations(APP_TRANSLATIONS);
-    }
+    private translateService: TranslateService) {
+    this.translateService.addAppSpecificTranslations(APP_TRANSLATIONS);
+  }
 
   ngOnInit() {
 
     this.populateEnvironmentProvider();
     this.initAppDataStoreService();
     this.populateAppSpecificDataProvider();
-    this.getSplBaseUrl();
+    console.log('window.location.href', window.location.href);
+    console.log('window.location.hrpathnam', window.location.pathname);
+    switch(window.location.pathname){
+      case "/auth/change-password":
+      this.router.navigate([ROUTE_CHANGE_PASSWORD,this.getparams()], { skipLocationChange: true });
+      break;
+      default:
+      this.getSplBaseUrl();
+      break;
+    }
+
+
+  }
+  getparams() {
+    var url_string = window.location.href
+    var url = new URL(url_string);
+    var code = url.searchParams.get("code");
+    return code;
   }
 
   populateEnvironmentProvider() {

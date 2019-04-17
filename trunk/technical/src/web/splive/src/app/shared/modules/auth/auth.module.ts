@@ -13,6 +13,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { MaterialModules } from '../../modules/material/material-modules';
 import { LoginLayoutComponent } from './login-layout/login-layout.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
 
 @NgModule({
   imports: [
@@ -30,7 +32,9 @@ import { LoginLayoutComponent } from './login-layout/login-layout.component';
   ],
   declarations: [LoginComponent,
     ForgotPasswordComponent,
-    LoginLayoutComponent
+    LoginLayoutComponent,
+    ChangePasswordComponent,
+    ChangePasswordSuccessComponent
   ]
 })
 export class AuthModule { }
