@@ -16,7 +16,8 @@ import {
     ProductcodeRequest,
     UserMasterResponse,
     UserAddDetailsRequest,
-    UserMasterUpdateRequest
+    UserMasterUpdateRequest,
+    ChangeUserPasswordRequest
 } from '../../models/api/user-models';
 
 
@@ -78,4 +79,10 @@ export class ProdUserService extends ListingService<UserFilterRequest, UserDataL
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/user/info/details',
          implicitErrorHandling);
     }
+
+    changeUserPassword(changeUserPasswordRequest: ChangeUserPasswordRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/v1/user/update/password',
+    changeUserPasswordRequest, implicitErrorHandling);
+}
 }
