@@ -23,20 +23,16 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
         try {
             switch (schedulardata.data.conf_type_code) {
                 case ConfigCodeType.MEDICINE:
-                    const medicineHelper = new MedicineHelper();
-                    console.log('<=================== MedicineHelper created =========================>');
+                    const medicineHelper = new MedicineHelper();                   
                     actiondata = <ActionsData>medicineHelper.createMedicineActions(schedulardata);
                     break;
-                case ConfigCodeType.INTAKE:
-                    console.log('intake invoked');
+                case ConfigCodeType.INTAKE:                 
                     const intakehelper = new IntakeHelper();
                     actiondata = <ActionsData>intakehelper.createIntakeActions(schedulardata);
                     break;
-                case ConfigCodeType.MONITOR:
-                    console.log('monitor invoked');
+                case ConfigCodeType.MONITOR:               
                     const monitorhelper = new MonitorHelper()
-                    actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
-                    console.log('actions created');
+                    actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);                  
                     break;
                 case ConfigCodeType.OUTPUT:
                     //   actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
@@ -52,10 +48,7 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
                 default:
                     break;
             }
-            try {
-                //parsedConf.endDate = actiondata.enddate;
-                console.log('<=========================== sending actions to datastore =======================================>');
-                console.log('actiondata.enddate', actiondata.enddate);
+            try {                
                 msg.end_date = actiondata.enddate;  
                 return actiondata.actions;
             } catch (e) {

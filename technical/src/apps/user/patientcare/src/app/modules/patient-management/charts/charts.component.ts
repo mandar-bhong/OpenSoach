@@ -83,8 +83,7 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 	ngOnInit() {
 		this.getChartData('getScheduleListAll');
 		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
-			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);
-			console.log('<======================notified to schedule list page===> ', value);
+			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);		
 			this.pushAddedSchedule(value);
 		});
 		this.completeorpending = "Active Schedules";
@@ -202,8 +201,7 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 				const activeItem = this.chartListItemsAll.filter(data => data.dbmodel.status == 0 && new Date(data.dbmodel.end_date) >= new Date());
 				activeItem.forEach((item) => {
 					this.chartListItemsActive.push(item);
-				});
-				console.log('this.chartListItemsAll', this.chartListItemsAll);
+				});				
 				this.sortActiveAndAllSchedule();
 			},
 			(error) => {
@@ -386,7 +384,6 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 
 	openModel(componentName) {
 		this.createModalView(componentName, true).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
-			console.log('dialogResult', dialogResult);
 			this.ServerDataStoreDataModelArray = dialogResult;
 			if (this.ServerDataStoreDataModelArray.length > 0) {
 				setTimeout(() => {
@@ -402,8 +399,7 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
 		serverDataStoreModel.data = new ScheduleDatastoreModel();
-		Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);
-		console.log('schedule data', scheduleItem.dbmodel);
+		Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);	
 		serverDataStoreModel.data.status = 1;
 		serverDataStoreModel.data.sync_pending = 1
 		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
