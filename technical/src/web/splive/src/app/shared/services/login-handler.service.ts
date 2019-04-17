@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
-import { APP_SHARED_DATA_STORE_KEYS, ROUTE_HOME, ROUTE_LOGIN } from '../app-common-constants';
+import { APP_SHARED_DATA_STORE_KEYS, ROUTE_HOME, ROUTE_LOGIN,ROUTE_CHANGE_PASSWORD } from '../app-common-constants';
 import { AuthResponse } from '../models/api/auth-models';
 import { CustomerInfo } from '../models/ui/customer-models';
 import { UserInfo } from '../models/ui/user-models';

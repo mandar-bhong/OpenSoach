@@ -9,6 +9,7 @@ export const SERVER_SYSTEM_ERROR_MAX_BOUNDARY = 10000;
 
 export const ROUTE_LOGIN = 'auth/login';
 export const ROUTE_HOME = '';
+export const ROUTE_CHANGE_PASSWORD = 'auth/change-password';
 export enum USER_CATEGORY {
     OSU = 1,
     CU = 2
@@ -104,3 +105,4 @@ export enum STATUS_STATE {
     SUSPENDED = 3
 }
 
+export const USER_ADMIN='ADMIN';
