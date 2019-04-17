@@ -24,7 +24,7 @@ import { ACTION_STATUS } from '../app-constants';
 	styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<PatientListViewModel>, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<PatientListViewModel> {
 	listSource = new Array<PatientListViewModel>();
 	listItems = new ObservableArray<PatientListViewModel>();
 
