@@ -470,5 +470,10 @@ export const TRANSLATIONS: TranslationValue[] = [
   },
 
   /* Person GENDER END */
+/*Change Password For User start from here */
+  {
+    key: 'CHANGE_PASS',
+    en: 'Please confirm your password'
+  },
 ];
 

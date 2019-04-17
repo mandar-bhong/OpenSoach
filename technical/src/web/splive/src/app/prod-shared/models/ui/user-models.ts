@@ -6,7 +6,8 @@ import {
     UserFilterRequest,
     UserMasterResponse,
     UserMasterUpdateRequest,
-    UserLoginInfoResponse
+    UserLoginInfoResponse,
+    ChangeUserPasswordRequest
 } from '../api/user-models';
 
 
@@ -81,5 +82,16 @@ export class UserInfo {
         this.usrname = userLoginInfoResponse.usrname;
         this.fname = userLoginInfoResponse.fname;
         this.lname = userLoginInfoResponse.lname;
+    }
+}
+
+export class ConfirmPasswordModel
+{
+    oldpassword: string;
+    newpassword: string;
+    confirmpassword: string;
+    copyTo(changeUserPasswordRequest: ChangeUserPasswordRequest) {
+        changeUserPasswordRequest.oldpassword = this.oldpassword;
+        changeUserPasswordRequest.newpassword = this.newpassword;
     }
 }

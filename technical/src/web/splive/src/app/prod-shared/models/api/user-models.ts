@@ -69,3 +69,10 @@ export class UserLoginInfoResponse {
     fname: string;
     lname: string;
 }
+
+export class ChangeUserPasswordRequest
+{
+    oldpassword: string;
+    newpassword: string;
+    confirmpassword: string;
+}
