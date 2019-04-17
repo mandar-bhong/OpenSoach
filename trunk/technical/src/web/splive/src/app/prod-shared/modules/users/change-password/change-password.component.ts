@@ -10,6 +10,7 @@ import { ChangeUserPasswordRequest } from '../../../models/api/user-models';
 import { ConfirmPasswordModel } from '../../../models/ui/user-models';
 import { ProdUserService } from '../../../services/user/prod-user.service';
 import { LoginHandlerService } from '../../../../shared/services/login-handler.service';
+import { ROUTE_LOGIN } from '../../../../shared/app-common-constants';
 
 @Component({
   selector: 'app-change-password',
@@ -55,7 +56,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
       this.prodUserService.changeUserPassword(changeUserPasswordRequest).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
           this.appNotificationService.success();
-          this.loginHandlerService.logout();
+          this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
         }
       });
     }
