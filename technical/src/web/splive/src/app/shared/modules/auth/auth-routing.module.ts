@@ -6,7 +6,6 @@ import { LoginComponent } from './login/login.component';
 import { LoginLayoutComponent } from './login-layout/login-layout.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AuthGuard } from '../../auth-guard';
-import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
 
 const routes: Routes = [
   {
@@ -26,9 +25,6 @@ const routes: Routes = [
       },
       {
         path:'change-password/:code',component: ChangePasswordComponent
-      },
-      {
-        path:'change-password-success',component: ChangePasswordSuccessComponent
       }
     ]
   }
