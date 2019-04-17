@@ -44,11 +44,9 @@ export class CancelScheduleDatastoreMessageHandler implements IDatastoreMessageH
         });
     }
     async getChartList(uuid, updated_by): Promise<any> {
-        return new Promise((resolve, reject) => {
-            console.log('getChartList calling');
+        return new Promise((resolve, reject) => {           
             const currentDate = new Date().toISOString();
-            let paramData = [currentDate, uuid];
-            console.log('parameter', paramData);
+            let paramData = [currentDate, uuid];          
             DatabaseHelper.getDataByParameters("getActionForCancel", paramData).then(
                 (success) => {
                     resolve(success);
