@@ -18,6 +18,9 @@ type UserEmailNotification struct {
 }
 
 func SendUserAssociatedEmailNotification(toEmail, code string) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Debug, "Executing SendUserAssociatedEmailNotification")
+
 	userEmailNotification := &UserEmailNotification{}
 
 	dbErr, templateData := dbaccess.GetEmailTemplate(repo.Instance().Context.Master.DBConn, constants.DB_EMAIL_TML_USER_ASSOCIATED)
@@ -60,12 +63,16 @@ func SendUserAssociatedEmailNotification(toEmail, code string) {
 		return
 	}
 
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Debug, "Email sent successfully")
+
 	dbEmailRowModel.Status = constants.DB_EMAIL_SEND_SUCCESS
 	statusUpdateErr := dbaccess.UpdateEmailStatus(repo.Instance().Context.Master.DBConn, dbEmailRowModel)
 
 	if statusUpdateErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to save email send success status", emailSendErr)
 	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Debug, "Email status updated successfully")
 }
 
 func (r *UserEmailNotification) GetEmailOptions() gnotmodels.EmailOptions {
