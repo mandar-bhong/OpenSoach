@@ -169,6 +169,8 @@ func (service ServicePointService) DevSpAssociation(req lmodels.APIDevSpAsscocia
 
 func (service ServicePointService) DevSpAsscociationRemove(reqdata *lmodels.APIDevSpAsscociationRemoveRequest) (isSuccess bool, successErrorData interface{}) {
 
+	reqdata.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+
 	dbErr, affectedRow := dbaccess.DevSpMappingTableDelete(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqdata)
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while deassociating device with service point.", dbErr)
