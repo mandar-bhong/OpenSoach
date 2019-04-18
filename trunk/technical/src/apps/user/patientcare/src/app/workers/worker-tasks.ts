@@ -99,7 +99,10 @@ export class WorkerTasks {
             workerEvent.msgtype = SERVER_WORKER_EVENT_MSG_TYPE.SERVER_CONNECTED;
         }
         else {
-            this.retryConnection();
+            // delay websocket re-connection until server recieves disconnection event
+            setTimeout(() => {
+                this.retryConnection();
+            }, 60000);
             workerEvent.msgtype = SERVER_WORKER_EVENT_MSG_TYPE.SERVER_DISCONNECTED;
         }
 
