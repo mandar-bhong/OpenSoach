@@ -366,10 +366,10 @@ INSERT INTO `spl_hpft_action_txn_tbl` (`id`, `uuid`, `cpm_id_fk`, `patient_conf_
 --
 
 INSERT INTO `spl_hpft_document_tbl` (`id`, `cpm_id_fk`, `uuid`, `name`, `doctype`, `store_name`, `location`, `location_type`, `persisted`, `updated_by`, `client_updated_at`, `created_on`, `updated_on`) VALUES
-	(1, 3, '7baefe06-597a-4d0a-934f-a3fcce54494e', 'testfile1.jpg', 'image/jpeg', 'doctors_orders_tbl', '/resources/documents/3/7baefe06-597a-4d0a-934f-a3fcce54494e', 1, 1, 2, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:01:22')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:01:31')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:01:31'))),
-	(2, 3, 'DB3D7B0E50AC47EBB0AF8A680340B58B45', 'testfile2.pdf', 'application/pdf', NULL, '/resources/documents/3/DB3D7B0E50AC47EBB0AF8A680340B58B45', 1, 1, 0, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:08')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:08'))),
-	(3, 3, 'DBB78F762C1144505002441318C93BCF5E', 'testfile3.png', 'image/png', NULL, '/resources/documents/3/DBB78F762C1144505002441318C93BCF5E', 1, 1, 0, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:54')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:54'))),
-	(4, 3, 'DB595C45752507DEDE67F12A93744704FA', 'testfile4.png', 'image/png', NULL, '/resources/documents/3/DB595C45752507DEDE67F12A93744704FA', 1, 1, 0, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:20')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:20')));
+	(1, 3, '7baefe06-597a-4d0a-934f-a3fcce54494e', 'DSC122312.jpg', 'image/jpeg', 'doctors_orders_tbl', '/resources/documents/3/7baefe06-597a-4d0a-934f-a3fcce54494e', 1, 1, 2, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:01:22')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:01:31')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:01:31'))),
+	(2, 3, 'DB3D7B0E50AC47EBB0AF8A680340B58B45', 'DSC122313.pdf', 'application/pdf', NULL, '/resources/documents/3/DB3D7B0E50AC47EBB0AF8A680340B58B45', 1, 1, 0, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:08')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:08'))),
+	(3, 3, 'DBB78F762C1144505002441318C93BCF5E', 'DSC122314.png', 'image/png', NULL, '/resources/documents/3/DBB78F762C1144505002441318C93BCF5E', 1, 1, 0, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:54')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:54'))),
+	(4, 3, 'DB595C45752507DEDE67F12A93744704FA', 'DSC122315.png', 'image/png', NULL, '/resources/documents/3/DB595C45752507DEDE67F12A93744704FA', 1, 1, 0, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:20')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:20')));
 	
 --
 -- Dumping data for table `spl_hpft_doctors_orders_tbl`
@@ -385,8 +385,8 @@ INSERT INTO `spl_hpft_doctors_orders_tbl` (`id`, `uuid`, `cpm_id_fk`, `admission
 --
 
 INSERT INTO `spl_hpft_pathology_record_tbl` (`id`, `uuid`, `cpm_id_fk`, `admission_id_fk`, `test_performed`, `test_performed_time`, `test_result`, `comments`, `updated_by`, `client_updated_at`, `created_on`, `updated_on`) VALUES
-	(1, 'DBCBFE021839FC638DF4727F77FE700BFB', 3, 1, 'test1', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'18:30:00')), 'result1', 'comment1', 2, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:10')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:10'))),
-	(2, 'DB2B143D6B5E644F399D548D86611C7856', 3, 1, 'test2', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'18:30:00')), 'result2', 'comment2', 2, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:56')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:56')));
+	(1, 'DBCBFE021839FC638DF4727F77FE700BFB', 3, 1, 'Full Blood Examination', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'18:30:00')), 'normal', 'normal', 2, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:10')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:10'))),
+	(2, 'DB2B143D6B5E644F399D548D86611C7856', 3, 1, 'TSH (Thyroid Stimulating Hormone) Quantification', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'18:30:00')), 'normal', 'normal', 2, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:56')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:03:56')));
 	
 	
 --
@@ -402,7 +402,7 @@ INSERT INTO `spl_hpft_pathology_record_doc_tbl` (`pathology_id_fk`, `document_id
 --
 
 INSERT INTO `spl_hpft_treatment_tbl` (`id`, `uuid`, `cpm_id_fk`, `admission_id_fk`, `treatment_done`, `treatment_performed_time`, `details`, `post_observation`, `updated_by`, `client_updated_at`, `created_on`, `updated_on`) VALUES
-	(1, 'DB856147B493D5F5476C19CD77419E634D', 3, 1, 'treatment1', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'18:30:00')), 'details1', 'observation1', 2, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:21')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:21')));
+	(1, 'DB856147B493D5F5476C19CD77419E634D', 3, 1, 'Allopathy Treatment', timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'18:30:00')), 'allopathy medicine course', 'infection under control', 2, NULL, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:21')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:21')));
 	
 	
 --
