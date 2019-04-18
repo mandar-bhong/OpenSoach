@@ -8,14 +8,14 @@ const QUERY_GET_NODE_SP_TABLE_TOTAL_FILTERED_COUNT = `Select count(*) as count f
 left join spl_node_dev_sp_mapping devsp  on devsp.sp_id_fk = sp.sp_id_fk
 inner join spl_node_sp_category_tbl spc on spc.id = sp.spc_id_fk
 left join spl_node_dev_tbl dev on dev.dev_id_fk = devsp.dev_id_fk
-left join spl_node_service_instance_tbl serv_conf_in on serv_conf_in.sp_id_fk = sp.sp_id_fk $WhereCondition$`
+left join spl_node_service_instance_tbl serv_conf_in on serv_conf_in.sp_id_fk = sp.sp_id_fk $WhereCondition$ group by sp.sp_id_fk`
 
 const QUERY_NODE_SP_TABLE_SELECT_BY_FILTER = `select sp.sp_id_fk,sp.sp_name,sp.spc_id_fk,spc.spc_name,sp.sp_state,sp.sp_state_since 
 from spl_node_sp_tbl sp 
 inner join spl_node_sp_category_tbl spc on spc.id = sp.spc_id_fk
 left join spl_node_dev_sp_mapping devsp  on devsp.sp_id_fk = sp.sp_id_fk
 left join spl_node_dev_tbl dev on dev.dev_id_fk = devsp.dev_id_fk
-$WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
+$WhereCondition$ group by sp.sp_id_fk  ORDER BY $OrderByDirection$ Limit ?,?`
 
 const QUERY_GET_SERVICEPOINT_SHORT_LIST = `select sp_id_fk,sp_name from spl_node_sp_tbl where cpm_id_fk = ?`
 
