@@ -1,6 +1,6 @@
 import { SERVER_WORKER_MSG_TYPE, SERVER_WORKER_EVENT_MSG_TYPE, SYNC_STORE, SERVER_SYNC_STATE } from "../app-constants.js";
 import { ServerWorkerEventDataModel } from "../models/api/server-worker-event-data-model.js";
-import { ServerWorkerContext } from "./server-worker-context.js";
+import { ServerWorkerContext, SYNC_TYPE } from "./server-worker-context.js";
 import { AppMessageUIHandler } from "./app-message-ui-handler.js";
 import { ServerHelper } from "./server-helper.js";
 import { PlatformHelper } from "../helpers/platform-helper.js";
@@ -62,7 +62,9 @@ export class WorkerTasks {
             console.log('messages', "WebSocket opened");
             WorkerTasks.raiseSocketConnectionEvent(true);
 
-            //on connect sync data
+            //on connect starting sync
+            ServerWorkerContext.isSyncInprogress = false;
+            ServerWorkerContext.syncType = SYNC_TYPE.NONE
             ServerWorkerContext.syncState = SERVER_SYNC_STATE.NONE;
             ServerHelper.switchSyncState();
 
