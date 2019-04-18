@@ -10,7 +10,7 @@ const QUERY_SPL_MASTER_USR_DETAILS_TABLE_UPDATE = "UPDATE spl_master_usr_details
 
 const QUERY_SPL_MASTER_USER_TABLE_UPDATE_STATE = "UPDATE spl_master_user_tbl SET usr_state = :usr_state, usr_state_since = :usr_state_since WHERE id = :id"
 
-const QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_ID_PASSWORD = "SELECT usr_name,usr_password,usr_category,urole_id_fk,usr_state,usr_state_since,created_on,updated_on FROM spl_master_user_tbl WHERE id = ? AND usr_password = ?"
+const QUERY_SPL_MASTER_USER_TABLE_SELECT_BY_ID_PASSWORD = "SELECT usr_name,usr_password,usr_category,urole_id_fk,usr_state,usr_state_since FROM spl_master_user_tbl WHERE id = ? AND usr_password = ?"
 
 const QUERY_SPL_MASTER_USER_TABLE_CHANGE_PASSWORD = "UPDATE spl_master_user_tbl SET usr_password = :usr_password WHERE id = :id"
 
