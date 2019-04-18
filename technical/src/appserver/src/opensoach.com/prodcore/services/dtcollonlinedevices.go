@@ -32,6 +32,8 @@ func (r *DtcollOnlineDevicesService) Handle(serctx *ServiceContext) error {
 		return errors.New("failed to convert json")
 	}
 
+	logger.Context().WithField("online devices", tokenlistjsonstring).LogDebug(SUB_MODULE_NAME, logger.Normal, "Online devices")
+
 	if r.NextHandler != nil {
 		err := r.NextHandler.Handle(serctx)
 		return err
