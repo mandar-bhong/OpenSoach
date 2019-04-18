@@ -100,12 +100,12 @@ export enum ScheuldeStatus {
 }
 
 // dev server
-export const API_SPL_BASE_URL = "http://172.105.232.148/api";
-export const API_APP_BASE_URL = "http://172.105.232.148:91/api";
+// export const API_SPL_BASE_URL = "http://172.105.232.148/api";
+// export const API_APP_BASE_URL = "http://172.105.232.148:91/api";
 
 // prod server
-// export const API_SPL_BASE_URL = "http://139.162.75.182:91/api";
-// export const API_APP_BASE_URL = "http://139.162.75.182/api";
+export const API_SPL_BASE_URL = "http://139.162.75.182:91/api";
+export const API_APP_BASE_URL = "http://139.162.75.182/api";
 
 export const ACTION_MISSED_WINDOW = 3 * 60;
 export const ACTION_DELAYED_AFTER = 30;
