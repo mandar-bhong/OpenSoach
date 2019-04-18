@@ -184,11 +184,13 @@ export class MonitorComponent implements OnInit {
                     let bloodpresHighListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
                     const getDBDate = new Date(item.scheduled_time);
+                    console.log( ' bloodpressure testdata', testdata);
+                    const value = JSON.parse(testdata.value);
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
-                    bloodpresHighListItem.Systolic = Number(testdata.value.high);
+                    bloodpresHighListItem.Systolic = Number(value.systolic);
                     bloodpresHighListItem.Impact = 1;
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
-                    bloodpresHighListItem.Diastolic = Number(testdata.value.low);
+                    bloodpresHighListItem.Diastolic = Number(value.diastolic);
                     bloodpresHighListItem.Impact = 1;
 
                     this.bloodpresListItems.push(bloodpresHighListItem);
