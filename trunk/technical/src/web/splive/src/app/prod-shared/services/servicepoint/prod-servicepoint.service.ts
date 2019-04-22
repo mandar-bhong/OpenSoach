@@ -14,7 +14,7 @@ import {
   SrevicepointFilterRequest,
   ServicepointDataListResponse,
   ServicepointAssociateRequest, AssociateServicePointDeviceRequest,
-  ServicepointListResponse, SPCategoriesShortDataResponse, ServicepointDetailsResponse, ServicepointDetailsUpdateRequest
+  ServicepointListResponse, SPCategoriesShortDataResponse, ServicepointDetailsResponse, ServicepointDetailsUpdateRequest, RemoveDeviceRequest
 } from '../../models/api/servicepoint-models';
 import { OperatorServicepointListResponse } from '../../models/api/operator-models';
 @Injectable({
@@ -73,11 +73,17 @@ export class ProdServicepointService extends ListingService<SrevicepointFilterRe
     return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/update',
       servicepointDetailsUpdateRequest, implicitErrorHandling);
   }
- 
+
   getServicepointDeviceList(implicitErrorHandling = true):
-  Observable<PayloadResponse<ServicepointDataListResponse[]>> {
-  return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/list/short',
+    Observable<PayloadResponse<ServicepointDataListResponse[]>> {
+    return this.serverApiInterfaceService.get(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/list/short',
       implicitErrorHandling);
-}
+  }
+
+  removeDeviceFromWard(removeDeviceRequest: RemoveDeviceRequest, implicitErrorHandling = true):
+    Observable<PayloadResponse<any>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/servicepoint/associate/device/remove',
+      removeDeviceRequest, implicitErrorHandling);
+  }
 
 }

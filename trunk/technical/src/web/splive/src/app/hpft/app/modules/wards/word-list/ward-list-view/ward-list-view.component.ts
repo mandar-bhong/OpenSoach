@@ -1,20 +1,15 @@
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatBottomSheet, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatBottomSheet, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
-import { SrevicepointFilterRequest, ServicepointDataListResponse } from '../../../../../../prod-shared/models/api/servicepoint-models';
+import { RemoveDeviceRequest, ServicepointDataListResponse, SrevicepointFilterRequest } from '../../../../../../prod-shared/models/api/servicepoint-models';
+import { ServicepointUpdateComponent } from '../../../../../../prod-shared/modules/servicepoints/servicepoint-update/servicepoint-update.component';
 import { ProdServicepointService } from '../../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
-import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
-import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
-import { DataListResponse, DataListRequest } from '../../../../../../shared/models/api/data-list-models';
+import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
-import {
-  ServicepointDeviceAssociateComponent,
-} from '../../../../../../prod-shared/modules/servicepoints/servicepoint-device-associate/servicepoint-device-associate.component';
-import {
-  ServicepointUpdateComponent
-} from '../../../../../../prod-shared/modules/servicepoints/servicepoint-update/servicepoint-update.component';
+import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
+import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
 import { WardDeviceAssociateComponent } from '../../ward-device-associate/ward-device-associate.component';
 
 @Component({
@@ -23,7 +18,7 @@ import { WardDeviceAssociateComponent } from '../../ward-device-associate/ward-d
   styleUrls: ['./ward-list-view.component.css']
 })
 export class WardListViewComponent implements OnInit, OnDestroy {
-  displayedColumns = ['spname', 'spcname', 'devid'];
+  displayedColumns = ['spname', 'spcname', 'devicedata'];
   sortByColumns = [{ text: 'Service Point', value: 'spname' },
   { text: 'Category', value: 'spcname' },
   { text: 'Device', value: 'devname' }
@@ -39,8 +34,12 @@ export class WardListViewComponent implements OnInit, OnDestroy {
   isLoadingResults = true;
   srevicepointFilterRequest: SrevicepointFilterRequest;
   dataListFilterChangedSubscription: Subscription;
-  servicepointDataListResponse: ServicepointDataListResponse;
+  servicepointDataListResponse: ServicepointDataListResponse[];
   showEditForm = false;
+  devlist: ServicepointDataListResponse[];
+  selectedDevice: ServicepointDataListResponse;
+  passDevId: any;
+  passSpid: any;
   constructor(public prodServicepointService: ProdServicepointService,
     private router: Router,
     private appNotificationService: AppNotificationService,
@@ -71,19 +70,20 @@ export class WardListViewComponent implements OnInit, OnDestroy {
           this.isLoadingResults = false;
           return data;
         }),
-    ).subscribe(
-      payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.filteredrecords = payloadResponse.data.filteredrecords;
-          this.dataSource = payloadResponse.data.records;
-          if (this.filteredrecords === 0) {
-            this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+      ).subscribe(
+        payloadResponse => {
+          if (payloadResponse && payloadResponse.issuccess) {
+            console.log("Payload response",payloadResponse.data);
+            this.filteredrecords = payloadResponse.data.filteredrecords;
+            this.dataSource = payloadResponse.data.records;
+            if (this.filteredrecords === 0) {
+              this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
+            }
+          } else {
+            this.dataSource = [];
           }
-        } else {
-          this.dataSource = [];
         }
-      }
-    );
+      );
   }
   getDataList(): Observable<PayloadResponse<DataListResponse<ServicepointDataListResponse>>> {
     const dataListRequest = new DataListRequest<SrevicepointFilterRequest>();
@@ -109,7 +109,6 @@ export class WardListViewComponent implements OnInit, OnDestroy {
   }
 
   configure(row: ServicepointDataListResponse) {
-
     if (row.servconfid) {
       this.router.navigate(['charts', 'configure'], {
         queryParams: { id: row.servconfid, mode: 1, callbackurl: 'servicepoints' }, skipLocationChange: true
@@ -149,10 +148,31 @@ export class WardListViewComponent implements OnInit, OnDestroy {
     const bottomSheetRef = this.bottomSheet.open(WardDeviceAssociateComponent, { data: sp.spid });
     bottomSheetRef.afterDismissed().subscribe(result => {
       if (result) {
+        this.setDataListing();
         console.log('after dismiss', result);
         sp.devid = Number(result.devid);
         sp.devname = String(result.devname);
       }
     });
   }
+
+  passdevid(dev, spid){
+    console.log('dev tap', spid);
+    this.passDevId = dev;
+    this.passSpid = spid;
+  }
+
+  removeDevice(spid) {
+    const removeDeviceRequest = new RemoveDeviceRequest();
+    removeDeviceRequest.devid =  this.passDevId;
+    removeDeviceRequest.spid =   this.passSpid;
+    this.prodServicepointService.removeDeviceFromWard(removeDeviceRequest).subscribe(PayloadResponse => {
+      if (PayloadResponse && PayloadResponse.issuccess) {
+        this.appNotificationService.success(this.translatePipe.transform('REMOVE_DEVICE'));
+        this.setDataListing();
+      }
+    });
+    
+  }
+ 
 }
