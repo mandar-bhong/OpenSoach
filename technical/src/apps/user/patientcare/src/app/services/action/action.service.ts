@@ -175,9 +175,23 @@ export class ActionService {
                     reject(error);
                 }
             );
+        });
+    } // end of sercive fucntion
 
+    //service fucntion for get schedule details
+    public getScheduleDetails(key: string, uuid: string): Promise<any> {      
+        return new Promise((resolve, reject) => {
+            const paramList = new Array<any>();
+            paramList.push(uuid);
+            this.database.selectByID(key, paramList).then(
+                (val) => {                  
+                    resolve(val);
+                }, (error) => {
+                    reject(error);
+                }
+            );
         });
     }
-    
-    
-}
+
+    //end of code block
+}// end of service
