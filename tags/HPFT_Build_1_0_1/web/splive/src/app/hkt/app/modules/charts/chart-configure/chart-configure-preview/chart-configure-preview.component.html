@@ -1,0 +1,33 @@
+<div class="text-center">
+  <h3>Chart Preview</h3>
+</div>
+<form [formGroup]="editableForm" (ngSubmit)="save()">
+  <div id="resp-table">
+
+    <div id="resp-table-header">
+      <div class="table-header-cell table-body-cell-time">
+        Task/Time
+      </div>
+      <div *ngFor="let slot of slots" class="table-header-cell table-body-cell-input">
+        <div>{{slot}}</div>
+      </div>
+    </div>
+    <div id="resp-table-body">
+      <div *ngFor="let task of dataModel.variableconf.taskconf.tasks;let i=index" class="resp-table-row">
+        <div class="table-body-cell table-body-cell-time">
+          <div class="time-block">{{task.taskname}}</div>
+        </div>
+        <div *ngFor="let slot of slots;let j=index" class="table-body-cell table-body-cell-input input-block">
+          <!-- <div class="input-block">
+            
+          </div> -->
+          <!-- (click)="slotClick(dayWiseTimeSlotInput[j].list[i])" -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top:10px;">
+    <button mat-raised-button type="button" color="primary" (click)="previousClick()"  style="margin-right:15px;"  aria-hidden="true" matTooltip="Previous">Previous</button>
+    <button mat-raised-button type="submit" color="primary"  aria-hidden="true" matTooltip="Save">Save</button>
+  </div>
+</form>

@@ -1,0 +1,70 @@
+<GridLayout columns="*" height="100%" width="100%" rows="*">
+    <GridLayout columns="*" rows="auto,*" row="0">
+        <GridLayout row="0" columns="auto, *, auto" rows="65" style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
+            <GridLayout col="0" style="vertical-align: center;">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="goBackPage()">
+                    <Label text="&#xf156;" class="homeicon mdi mdi"></Label>
+                </RL:Ripple>
+            </GridLayout>
+            <Label col="1" text="Schedule – Output" style="text-align:center;  vertical-align: center;"></Label>
+            <GridLayout col="2" style="vertical-align: center;">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="onSubmit()">
+                    <Label text="&#xf12c;" class="homeicon mdi mdi" style="margin-right: 1px"></Label>
+                </RL:Ripple>
+            </GridLayout>
+        </GridLayout>
+        <ScrollView row="1">
+            <GridLayout class="form" [formGroup]="outputForm">
+                <GridLayout rows="auto, auto, auto, auto, auto" style="margin-bottom:10px;">
+                    <GridLayout row="0" class="input-field">
+                        <Label text="Output Type" class="body"></Label>
+                    </GridLayout>
+                    <GridLayout row="1" columns="80, *, 80">
+                        <GridLayout class="input-field" col="1">
+                            <ListPicker [items]="outputType" selectedIndex="1" formControlName="outputType" class="p-15 picker"></ListPicker>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="2" rows="auto auto" class="input-field">
+                        <GridLayout row="0">
+                            <Label text="Start Date" class="body"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="3" rows="auto auto auto auto,auto,auto" class="input-field">
+                        <GridLayout row="0">
+                            <Label text="Duration" class="body"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration">
+                            </TextField>
+                        </GridLayout>
+                        <!-- duration validations starts  -->
+                        <GridLayout row="2" class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></GridLayout>
+                        <GridLayout row="3" class="input-field" *ngIf="durationIsValid">
+                            <Label text="*duration is required " style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="4" class="input-field" *ngIf="outputForm.get('duration').hasError('pattern')">
+                            <Label text="*Only whole numbers are allowed" style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="5" class="input-field" *ngIf="outputForm.get('duration').hasError('max')">
+                            <Label text="*You can not enter duration greater than 20 days" style="color:red"></Label>
+                        </GridLayout>
+                  <!-- end of eduration validations -->
+                    </GridLayout>
+                    <GridLayout row="4" rows="auto auto auto" class="input-field">
+                        <GridLayout row="0">
+                            <Label text="Remarks" class="body"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <TextView formControlName="remark" hint="Enter remarks" editable="true" class="input">
+                            </TextView>
+                        </GridLayout>
+                        <GridLayout row="2" class="hr-light"></GridLayout>
+                    </GridLayout>
+                </GridLayout>
+            </GridLayout>
+        </ScrollView>
+    </GridLayout>
+</GridLayout>

@@ -1,0 +1,336 @@
+<GridLayout rows="*" columns="*" height="100%" width="100%" [class.dialogOpen]="dialogOpen">
+    <GridLayout rows="auto,auto,*" columns="*" height="100%" width="100%">
+        <GridLayout row="0" *ngIf="saveViewOpen" columns="20,*,90, 30">
+            <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
+            <Button col="2" text="Save" (tap)="save()" class="btn btn-primary"></Button>
+        </GridLayout>
+        <GridLayout row="1" rows="auto" columns="*, auto, 20" class="m-5"
+            style="vertical-align: center;padding-top: 2;padding-bottom: 2">
+            <Label class="pageHeaderTitle" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
+            <StackLayout col="1" orientation="horizontal" >
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()"
+                    (tap)="buttonCompleted = true">
+                    <Label text="All" [class.tab-clicked]="buttonCompleted" class="tab-layout"></Label>
+                </RL:Ripple>
+                <Label  text="|" class="tab-layout-separator"></Label>
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="activeList()" (tap)="buttonClicked = true">
+                    <Label  text="Active" [class.tab-clicked]="buttonClicked" class="tab-layout"></Label>
+                </RL:Ripple>
+            </StackLayout>
+        </GridLayout>
+
+        <GridLayout row="2" rows="*,auto" columns="*,auto" height="100%" width="100%">
+            <RadListView #myListView [items]="uiList" [itemTemplateSelector]="templateSelector"
+                (itemTap)="onItemTap($event)" multipleSelection="false" selectionBehavior="Press"
+                [groupingFunction]="_funcGrouping" colSpan="2" (itemSelected)="itemSelected($event)">
+                <ng-template tkListItemTemplate let-item="item">
+                    <GridLayout columns="*" rows="auto" class="listItemStackLayout" >
+                        <GridLayout row="0" columns="70, *" rows="auto, auto ">
+                            <GridLayout row="0" col="0" columns="*" rows="auto, auto"
+                                style="vertical-align: center; text-align:center;color: #ebebeb;">
+                                <StackLayout row="1" class="list-layout"
+                                    *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"
+                                        [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                    <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'"
+                                        class="label-small"
+                                        [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                </StackLayout>
+
+
+                                <GridLayout row="1" class="list-layout" rows="auto"
+                                    *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    <GridLayout row="0" rows="auto, auto, auto"
+                                        *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
+                                        <Label row="0" col="0" [text]="item.scheduled_time | date: 'dd MMM'"
+                                            class="label-small"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                        <Label row="2" col="0" [text]="item.scheduled_time | date: 'shortTime'"
+                                            class="label-small"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                    </GridLayout>
+
+
+                                    <GridLayout row="1" class="list-layout"
+                                        *ngIf="item.actionStatus == action_Status.ACTIVE_FUTURE || item.actionStatus == action_Status.MISSED">
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED, active_missed: item.actionStatus === action_Status.MISSED, active_future:item.actionStatus === action_Status.ACTIVE_FUTURE}"></Label>
+                                    </GridLayout>
+
+                                    <GridLayout row="1" class="list-layout" *ngIf="item.type == 2">
+                                        <Label row="0" col="0" text="&#xfbbe;" style="color: green;"
+                                            class="mdi list-text" *ngIf="item.txn_state == 1"></Label>
+                                        <Label row="0" col="0" text="&#xfaec;" style="color: red;" class="mdi list-text"
+                                            *ngIf="item.txn_state == 2"></Label>
+                                    </GridLayout>
+                                </GridLayout>
+                                <GridLayout row="1" class="list-layout"
+                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
+                                    <Label row="0" col="0" text="&#xf90b;" class="mdi list-text"></Label>
+                                </GridLayout>
+                            </GridLayout>
+                            <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout"
+                                style="vertical-align: center;">
+
+                                <Label row="0" col="0" class="body"
+                                    *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" [text]="item.name"
+                                    style="color: #396767; " textWrap="true" ></Label>
+                                <Label row="0" col="0" class="body"
+                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                    [text]="item.doctors_orders" style="color: #396767;" textWrap="true"></Label>
+
+                                <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.desc"
+                                    style="margin-left: 10px;white-space: normal;" textWrap="true"></Label>
+                            </GridLayout>
+                            <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
+                                <GridLayout row="0" col="0" class="hr-light m-10"></GridLayout>
+                            </GridLayout>
+                        </GridLayout>
+                    </GridLayout>
+                </ng-template>
+                <ng-template tkGroupTemplate let-category="category">
+                    <StackLayout class="category-header" height='30'>
+                        <GridLayout style="background-color:#f6f6f6;" height="7"></GridLayout>
+                        <Label class="nameLabel" [text]="category"
+                            [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output', groupLabelOutput: category == 'Doctor-Orders'}"></Label>
+                    </StackLayout>
+                </ng-template>
+
+                <ng-template tkTemplateKey="expanded" let-item="item">
+                    <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout"
+                        [class]="'item ' + (item.selected ? 'item-selected' : '')"
+                        [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
+                        <GridLayout row="0" columns="70, *" rows="auto, auto" style="padding-bottom: 8%;">
+                            <GridLayout row="0" col="0" columns="*" rows="auto, auto"
+                                style="vertical-align: center; text-align:center;color: #ebebeb;">
+                                <StackLayout row="1" class="list-layout"
+                                    *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    <Label row="0" col="0" text="&#xf020;" class="mdi list-text"
+                                        [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                    <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'"
+                                        class="label-small"
+                                        [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                </StackLayout>
+
+
+                                <GridLayout row="1" class="list-layout" rows="auto"
+                                    *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    <GridLayout row="0" rows="auto, auto, auto"
+                                        *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
+                                        <Label row="0" col="0" [text]="item.scheduled_time | date: 'dd MMM'"
+                                            class="label-small"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                        <Label row="2" col="0" [text]="item.scheduled_time | date: 'shortTime'"
+                                            class="label-small"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
+                                    </GridLayout>
+
+
+                                    <GridLayout row="1" class="list-layout"
+                                        *ngIf="item.actionStatus == action_Status.ACTIVE_FUTURE || item.actionStatus == action_Status.MISSED">
+                                        <Label row="1" col="0" text="&#xf020;" class="mdi list-text"
+                                            [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED, active_missed: item.actionStatus === action_Status.MISSED, active_future:item.actionStatus === action_Status.ACTIVE_FUTURE}"></Label>
+                                    </GridLayout>
+
+                                    <GridLayout row="1" class="list-layout" *ngIf="item.type == 2">
+                                        <Label row="0" col="0" text="&#xfbbe;" style="color: green;"
+                                            class="mdi list-text" *ngIf="item.txn_state == 1"></Label>
+                                        <Label row="0" col="0" text="&#xfaec;" style="color: red;" class="mdi list-text"
+                                            *ngIf="item.txn_state == 2"></Label>
+                                    </GridLayout>
+                                </GridLayout>
+                                <GridLayout row="1" class="list-layout"
+                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
+                                    <Label row="0" col="0" text="&#xf90b;" class="mdi list-text"></Label>
+                                </GridLayout>
+                            </GridLayout>
+                            <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout"
+                                style="vertical-align: center;">
+                                <GridLayout col="0" row="0" columns="*" rows="auto, auto">
+                                    <Label row="0" col="0" class="body"
+                                        *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                        [text]="item.doctors_orders" style="color: #396767;" textWrap="true"></Label>
+                                    <Label row="0" col="0" class="body"
+                                        *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
+                                        [text]="item.name" style="color: #396767;" textWrap="true"></Label>
+                                    <Label row="1" col="0" class="label-small" textWrap="true" [text]="item.desc"
+                                        style="margin-left: 10px;"></Label>
+                                </GridLayout>
+                                <GridLayout row="0" col="1" columns="auto,20, auto, 30" rows="auto"
+                                    style="vertical-align: center; text-align:center;"
+                                    *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
+                                    <GridLayout row="0" col="0">
+                                        <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5"
+                                            height="37" width="37" (tap)="onSubmit(item)">
+                                            <Label text="&#xf00c;" class="fas" style="color: green"></Label>
+                                        </RL:Ripple>
+                                    </GridLayout>
+                                    <GridLayout row="0" col="2">
+                                        <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5"
+                                            height="37" width="37" (tap)="onDiscard(item)">
+                                            <Label text="&#xf00d;" class="fas" style="color:red"></Label>
+                                        </RL:Ripple>
+                                    </GridLayout>
+
+                                </GridLayout>
+                            </GridLayout>
+                            <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
+                                <GridLayout row="0" col="0" class="hr-light m-10"></GridLayout>
+                            </GridLayout>
+                        </GridLayout>
+                        <GridLayout row="1" col="0" columns="auto, auto" rows="auto">
+                            <GridLayout class="cardeffect">
+
+                                <GridLayout columns="*, auto" rows="auto, auto"
+                                    *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION || item.actionStatus == action_Status.MISSED">
+                                    <GridLayout col="0" columns="20,auto" rows="auto"
+                                        style=" vertical-align: center; margin-top:3px;">
+                                        <GridLayout col="1" style="width:80%;">
+                                            <TextField hint="Comments (optional)" [(ngModel)]="item.txn_data.comment"
+                                                keyboardType="email" autocorrect="false" class="input input-border">
+                                            </TextField>
+                                        </GridLayout>
+                                    </GridLayout>
+                                    <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;"
+                                        *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake' && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                        <StackLayout col="1" style="width:50%;">
+                                            <GridLayout class="input-field" *ngIf="item.name !== 'Blood Pressure'">
+                                                <TextField hint="Value" keyboardType="number" autocorrect="false"
+                                                    autocapitalizationType="none" [(ngModel)]="item.txn_data.value"
+                                                    class="input input-border"></TextField>
+                                            </GridLayout>
+                                            <GridLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
+                                                <TextField hint="Systolic" keyboardType="number" autocorrect="false"
+                                                    autocapitalizationType="none"
+                                                    [(ngModel)]="item.value.systolic"
+                                                    class="input input-border"></TextField>
+                                            </GridLayout>
+                                            <GridLayout class="input-field" *ngIf="item.name === 'Blood Pressure'">
+                                                <TextField hint="Diastolic" keyboardType="number" autocorrect="false"
+                                                    autocapitalizationType="none"
+                                                    [(ngModel)]=" item.value.diastolic"
+                                                    class="input input-border"></TextField>
+                                            </GridLayout>
+                                        </StackLayout>
+                                    </GridLayout>
+                                </GridLayout>
+
+                                <GridLayout rows="auto, auto, auto" *ngIf="item.type == 2 " style="padding: 20;">
+                                    <GridLayout row="0" rows=" auto" columns="auto , auto, auto, auto">
+                                        <Label row="0" col="0" class="label-small" textWrap="true" style="color:green;"
+                                            text="Completed on  " *ngIf="item.txn_state === 1"></Label>
+                                        <Label row="0" col="0" class="label-small" textWrap="true" style="color:red;"
+                                            text="Discarded on  " *ngIf="item.txn_state === 2"></Label>
+                                        <Label row="0" col="1" class="label-small" textWrap="true"
+                                            text="{{ ' ' + item.client_updated_at | date: 'fullDate' }}"></Label>
+                                        <Label row="0" col="2" class="label-small" textWrap="true"
+                                            text="{{ ' ' +  'by' + ' ' + item.fname + ' '+ item.lname}}"></Label>
+                                    </GridLayout>
+                                    <GridLayout row="1" rows="auto, auto" columns="*, *">
+                                        <Label row="0" col="0" class="body" textWrap="true" text="Comment"
+                                            *ngIf="item.txn_data.comment != null"></Label>
+                                        <Label row="0" col="1" class="body" textWrap="true" text="Value"
+                                            *ngIf="item.txn_data.value || item.txn_data.value != null"></Label>
+                                        <Label row="1" col="0" class="labelleft label-small" textWrap="true"
+                                            text="{{item.txn_data.comment}}"></Label>
+                                        <Label row="1" col="1" class="labelleft label-small"
+                                            *ngIf="item.name !== 'Blood Pressure'" textWrap="true"
+                                            text="{{item.txn_data.value}}"></Label>
+                                        <Label row="1" col="1" class="labelleft label-small"
+                                            *ngIf="item.name === 'Blood Pressure'" textWrap="true"
+                                            text="{{ 'Systolic :-'+ item.value.systolic + '/' +  'Diastolic :-' + item.value.diastolic}}"></Label>
+                                    </GridLayout>
+                                </GridLayout>
+
+                                <GridLayout rows="auto" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                    style="padding: 20;">
+                                    <GridLayout row="0" rows=" auto, auto, auto, auto"
+                                        columns="auto ,auto,*, auto, auto">
+                                        <Label row="0" col="0" class="label-small" textWrap="true"
+                                            text="Type:- "></Label>
+                                        <Label row="0" col="1" class="label-small" textWrap="true"
+                                            [text]="item.order_type"></Label>
+
+                                        <Label row="0" col="3" class="label-small" textWrap="true"
+                                            text="Status:- "></Label>
+
+                                        <Label row="1" col="0" class="label-small" textWrap="true" text="by:- "></Label>
+                                        <Label row="1" col="1" class="label-small" textWrap="true"
+                                            [text]="item.ack_by"></Label>
+
+                                        <Label row="2" col="0" class="label-small" textWrap="true" text="Comment:- "></Label>
+                                        <Label row="2" col="1" class="label-small" textWrap="true"
+                                            [text]="item.comment"></Label>
+
+                                        <Label row="3" col="0" class="label-small" textWrap="true"
+                                            text="Document:- "></Label>
+                                        <Label row="3" col="1" class="label-small" textWrap="true"
+                                            [text]="item.document_name"></Label>
+
+                                    </GridLayout>
+
+                                </GridLayout>
+                            </GridLayout>
+                        </GridLayout>
+
+                        <GridLayout row="3" col="0" *ngIf="item.actionStatus != action_Status.ACTIVE_FUTURE">
+                            <GridLayout class="hr-light m-10"></GridLayout>
+                        </GridLayout>
+                    </GridLayout>
+                </ng-template>
+            </RadListView>
+
+            <StackLayout row="0" col="1" horizontalAlignment="right" class="right" VerticalAlignment="center">
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <GridLayout class="float-btn-cat" (tap)="doctorOrderButtonClicked = true"
+                        [class.button-clicked]="doctorOrderButtonClicked">
+                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectDoctorOrder()" text="&#xf0f0;"
+                            [style.color]="doctorOrderButtonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </GridLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <GridLayout class="float-btn-cat" (tap)="medicinebuttonClicked = true"
+                        [class.button-clicked]="medicinebuttonClicked">
+                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMedicine()" text="&#xf484;"
+                            [style.color]="medicinebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </GridLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <GridLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true"
+                        [class.button-clicked]="monitorbuttonClicked">
+                        <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMonitor()" text="&#xf201;"
+                            [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </GridLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <GridLayout class="float-btn-cat" (tap)="intakebuttonClicked = true"
+                        [class.button-clicked]="intakebuttonClicked">
+                        <Label class="mdi float-btn-cat-text-mdi" (tap)="selectIntake()" text="&#xfb2e;"
+                            [style.color]="intakebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </GridLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                    <GridLayout class="float-btn-cat" (tap)="outputbuttonClicked = true"
+                        [class.button-clicked]="outputbuttonClicked">
+                        <Label class="mdi float-btn-cat-text-mdi" (tap)="selectOutput()" text="&#xfb30;"
+                            [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
+                    </GridLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 30;" (tap)="showDialog()">
+                    <GridLayout class="float-btn">
+                        <Label class="float-btn-text fas" text="&#xf067;" style="color: white;"></Label>
+                    </GridLayout>
+                </RL:Ripple>
+
+            </StackLayout>
+
+        </GridLayout>
+    </GridLayout>
+
+
+
+</GridLayout>

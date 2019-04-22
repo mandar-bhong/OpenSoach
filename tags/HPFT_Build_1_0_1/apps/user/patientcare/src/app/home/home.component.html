@@ -1,0 +1,82 @@
+<ActionBar class="action-bar" width="100%" style="background-color: #396766; color: white; vertical-align: center;">
+
+  <GridLayout row="*" columns="auto,*, auto, auto" height="100%" width="100%">
+    <GridLayout col="1" columns="auto, auto" style="text-align: center;">
+      <Label col="0" text="PatientCare" class="hometitle"></Label>
+      <Image col="1" src="res://iclauncher"></Image>
+      <!-- <Label col="1" text=".live" class="hometitlesub" style="color: #FF8912"></Label> -->
+    </GridLayout>
+    <!-- <GridLayout col="2" columns="auto" class="button-dist">
+      <RL:Ripple rippleColor="#fff" class="ripplecenter " borderRadius="8" height="37" width="37">
+        <Label col="0" text="&#xf09a;" class="homeicon mdi"></Label>
+      </RL:Ripple>
+    </GridLayout> -->
+    <GridLayout col="3" columns="auto" class="button-dist" style="vertical-align: center;">
+      <network-status col="0"></network-status>
+    </GridLayout>
+  </GridLayout>
+
+</ActionBar>
+
+<GridLayout rows="auto,*" columns="*" height="100%" width="100%">
+  <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff" textFieldHintColor="#A8A8A8"
+    color="#A8A8A8" (loaded)="sBLoaded($event)" (clear)="onClear($event)" (submit)="onSubmit($event)"></SearchBar>
+  <!-- <StackLayout row="1" class="hr-light m-10"></StackLayout> -->
+  <GridLayout row="1" col="0">
+
+    <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
+
+    <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping" enableCollapsibleGroups="true">
+
+      <ng-template tkListItemTemplate let-item="item">
+        <RL:Ripple rippleColor="#6E737B" (tap)="details(item)">
+
+          <GridLayout columns="*" rows="auto" class="listItemStackLayout">
+            <GridLayout row="0" columns="70, *" rows="auto">
+              <GridLayout col="0" columns="*" rows="auto, auto">
+                <StackLayout row="1" class="list-layout">                  
+                  <Label row="0" col="0" class="mdi" text="&#xf020;" [ngClass]="{active_normal: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NORMAL,
+                    active_needs_attention: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NEEDS_ATTENTION,
+                    active_delayed: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_DELAYED,
+                    active_no_actions: item.nextActionTimes.status === ACTION_STATUS.NONE}"
+                    style="vertical-align: center;text-align: center;">
+                  </Label>
+                  <Label row="1" col="0" [text]="item.nextActionTimes.currentTime | date: 'shortTime'" class="label-small"
+                    style="margin-top:5px;vertical-align: center;text-align: center;" [ngClass]="{active_normal: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NORMAL,
+                      active_needs_attention: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NEEDS_ATTENTION,
+                      active_delayed: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_DELAYED,
+                      active_no_actions: item.nextActionTimes.status === ACTION_STATUS.NONE}">
+                  </Label>
+                </StackLayout>
+              </GridLayout>
+
+              <GridLayout row="0" col="1" columns="*, auto" rows="auto, auto">
+                <GridLayout col="0" columns="auto,auto,*, auto" rows="auto, 8, auto" class="list-layout">
+                  <Label row="0" col="0" text="&#xf47d;" class="mdi listicon "></Label>
+                  <Label row="0" col="1" class="body align-centre" [text]="item.dbmodel.bed_no + ' ' + item.dbmodel.fname + ' ' + item.dbmodel.lname "
+                    style="color: #396767;"></Label>
+
+                  <Label row="2" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912"></Label>
+                  <Label row="2" col="1" class="align-centre label-small" textWrap="true" [text]="item.personAccompanyContact"></Label>
+
+                  <GridLayout row="2" col="3" rows="auto, auto" columns="auto, auto" style="vertical-align: center; text-align: center;">                    
+                  </GridLayout>
+                </GridLayout>
+                <GridLayout row="1" col="0">
+                  <GridLayout class="hr-light"></GridLayout>
+                </GridLayout>
+              </GridLayout>
+            </GridLayout>
+
+          </GridLayout>
+        </RL:Ripple>
+      </ng-template>
+      <ng-template tkGroupTemplate let-category="category">
+        <GridLayout class="category-header">
+          <GridLayout style="background-color:#f6f6f6;" height="7"></GridLayout>
+          <Label class="nameLabel groupLabel" [text]="category"></Label>
+        </GridLayout>
+      </ng-template>
+    </RadListView>
+  </GridLayout>
+</GridLayout>

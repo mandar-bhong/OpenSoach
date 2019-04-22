@@ -1,0 +1,275 @@
+/* .card-layout {
+    padding: 12;
+}
+
+.card-layout .h1 {
+    margin-bottom: 15;
+}
+
+.lextra-container {
+    position: relative;
+} */
+
+.cardeffect {
+    width: 100%;
+    /* padding: 5 10; */
+    /* background-color: #f0f0f0; */
+    border-radius: 8px;
+}
+
+.listItemStackLayout {
+    background-color: #ffffff;
+    /* padding-left: 5; */
+    padding-right: 5;
+    /* border-radius: 5px; */
+    padding-bottom: 8%;
+    vertical-align: center;
+}
+
+.labelName {
+    font-size: 20;
+    margin-bottom: 8;
+}
+
+.labelTitle {
+    font-size: 14;
+    font-weight: bold;
+}
+
+.labelText {
+    font-size: 12;
+}
+
+/* right side button css start */
+
+.center {
+    horizontal-align: center;
+}
+
+.right {
+    horizontal-align: right;
+    margin-top: 35%;
+    margin-right: 1%;
+}
+
+.float-btn-cat-text-fawesome {
+    color: #ffffff;
+    font-size: 17; 
+    vertical-align: center;
+
+}
+
+.float-btn-cat-text-mdi {
+    color: #ffffff;
+    font-size: 22;
+    vertical-align: center;
+}
+
+
+.float-btn-cat {
+    /* background-color: #00A6CE ; */
+    background-color: #00a6ce;
+    /* border-radius: 3px; */
+    border-radius: 22;
+    width: 44;
+    height: 44;
+    text-align: center;
+    vertical-align: middle;
+
+    /* opacity:0.7; */
+    /* background-color: rgb(105, 105, 105, 0.6); */
+}
+
+.category-header {
+    /* background-color: #608584;   */
+    background-color: #ffffff;
+    
+}
+
+.nameLabel {
+    color: #396766;
+}
+
+/* right side button css end */
+
+/* selected css start */
+
+.item-selected {
+    border-width: 1;
+    border-color: #990033;
+}
+
+/* selected css end */
+
+
+/* grouping title color change css  start*/
+
+.groupLabelIntake {
+    /* background-color: #00A6CE; */
+    padding: 15;
+    font-weight: bold;
+}
+
+.groupLabelMonitor {
+    /* background-color: #396766; */
+    padding: 15;
+    font-weight: bold;
+}
+
+.groupLabelMedicine {
+    /* background-color: #396766; */
+    padding: 15;
+    font-weight: bold;
+}
+
+.groupLabelOutput {
+    /* background-color: #396766; */
+    padding: 15;
+    font-weight: bold;
+}
+
+/* grouping title color change css  start*/
+
+.button-clicked {
+    color: #FF8910;
+}
+
+.hr-lightt {
+    display: block;
+    border-top: 1px solid #396766;
+    margin: 0 0;
+    padding: 3px 0px;
+}
+
+.list-layout {
+    padding: 10% 7px;
+}
+
+/* .list-text {
+    color: #ffffff;
+} */
+
+.hr-lightt {
+    display: block;
+    border-top: 1px solid #396766;
+    margin: 0 0;
+    padding: 3px 0px;
+}
+
+.float-btn-container {
+    margin-top: 10%
+        /* margin-left: 80%; */
+}
+
+.fab-button {
+    height: 70;
+    /* width: 70; */
+    margin: 15;
+    background-color: #ff4081;
+    horizontal-align: right;
+    vertical-align: bottom;
+}
+
+.list-layout {
+    padding: 10% 7px;
+}
+
+.rightsecond {
+    horizontal-align: right;
+    /* margin-top: 85%; */
+    margin-right: 1%;
+    
+    /* padding-right: 20; */
+}
+
+.float-btn {
+    background-color: #FF8912;
+    /* border-radius: 3px; */
+    border-radius: 22;
+    width: 44;
+    height: 44;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.float-btn-text {
+    color: #ffffff;
+    font-size: 17;
+    color: rgba(255, 255, 255, 1);
+    vertical-align: center;
+    /* opacity: 1; */
+    /* background-color: red;
+    padding: 5; */
+}
+
+
+@keyframes show {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.dialogOpen .content {
+    opacity: 0.1;
+}
+
+.dialogOpen .dialog-wrapper {
+    visibility: visible;
+    animation-name: show;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+
+}
+
+.dialog-wrapper {
+    visibility: collapse;
+    opacity: 0;
+    width: 80%;
+}
+
+.dialog {
+    padding: 5 10;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+.dialog Label {
+    margin: 0 15 15 15;
+    color: black;
+}
+
+.pop-list-layout {
+    padding: 12% 7px;
+}
+
+.pop-btn-icon {
+    font-size: 23;
+}
+
+.tab-layout {
+    padding: 5px;
+    text-align: center;
+    vertical-align: center;
+
+}
+
+.tab-clicked {
+    color: #FF8912;
+    padding: 5px;
+    text-align: center;
+    vertical-align: center;
+    font-weight: bold;
+}
+
+.tab-layout-separator {
+    padding: 5px;
+    text-align: center;
+    vertical-align: center;
+}
+.labelleft{
+    margin-left: 8px;
+}

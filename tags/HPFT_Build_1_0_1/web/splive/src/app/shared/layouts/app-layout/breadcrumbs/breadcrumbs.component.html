@@ -1,0 +1,28 @@
+<div class="page-header">
+  <div class="page-block">
+    <div class="row align-items-center">
+      <div class="col-md-10 col-sm-10">
+        <div class="page-header-title">
+          <span *ngFor="let breadcrumb of breadcrumbs; let last = last">
+            <h4 *ngIf="last" class="m-b-10" style="color:white;margin-top:.5rem">{{ breadcrumb.pagetitle }}</h4>
+          </span>
+        </div>
+        <div id="bread-crumb-links">
+          <li>
+            <a [routerLink]="['']" style="text-decoration: none;" skipLocationChange>
+              <i class="fa fa-home"></i>
+            </a>
+          </li>
+          <li *ngFor="let breadcrumb of breadcrumbs; let last = last">
+            <i class="fa fa-angle-right" id="right-icon"></i>
+            <span *ngIf="last">{{breadcrumb.breadcrumbtitle}}</span>
+            <a *ngIf="!last" [routerLink]="breadcrumb.url" skipLocationChange>{{breadcrumb.breadcrumbtitle}}</a>
+          </li>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-2">
+          <app-floating-button-menu [menuInstanceKey] ="PAGE_MENU"></app-floating-button-menu>
+      </div>
+    </div>
+  </div>
+</div>

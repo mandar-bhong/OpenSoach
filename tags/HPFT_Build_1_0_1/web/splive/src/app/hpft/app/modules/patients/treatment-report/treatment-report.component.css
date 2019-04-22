@@ -1,0 +1,25 @@
+.floating-menu {
+    margin-bottom: -43px;
+    text-align: right;
+    margin-bottom: 2%;
+  }
+  
+  .floating-menu-button {
+    z-index: 100;
+  }
+  
+  .display_noon {
+    display: none;
+  }
+  
+  .mat-table {
+    width: 100% !important
+  }
+  
+  tr.example-detail-row {
+    height: 0 !important;
+  }
+  
+  .detail_back {
+    background-color: #fdf9f9 !important;
+  }

@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-10">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <i class="{{editRecordBase.iconCss}}" style="font-size:24px;color:#446666">
+          {{editRecordBase.iconName}}
+        </i>
+      </div>
+      <mat-card-title>{{editRecordBase.pageTitle}}</mat-card-title>
+      <mat-card-subtitle>{{editRecordBase.subTitle}} </mat-card-subtitle>
+    </mat-card-header>
+  </div>
+  <div class="col-2 text-right">
+    <button type="button" class="backButton" mat-icon-button (click)="close()" matTooltip="Back" [hidden]="!editRecordBase.showBackButton">
+      <mat-icon aria-label="Back">arrow_back</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <mat-divider [inset]="true"></mat-divider>
+  </div>
+</div>
+<div class="row">
+  <div class="col text-right">
+    <button type="button" color="accent" mat-icon-button [hidden]="!editRecordBase.isEditable || editRecordBase.formMode!==editRecordBase.formModeEnum.VIEW"
+      (click)="edit()" matTooltip="Edit">
+      <mat-icon aria-label="Edit">edit</mat-icon>
+    </button>
+    <button type="submit" class="saveButton" mat-icon-button [hidden]="editRecordBase.formMode===editRecordBase.formModeEnum.VIEW"
+      [disabled]="editRecordBase.inProgress" matTooltip="Save">
+      <mat-icon aria-label="Save">check</mat-icon>
+    </button>
+    <button type="button" color="warn" mat-icon-button [hidden]="editRecordBase.formMode===editRecordBase.formModeEnum.VIEW||editRecordBase.recordState===editRecordBase.recordStateEnum.ADD"
+      (click)="cancel()" matTooltip="Cancel">
+      <mat-icon aria-label="Cancel">close</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,398 @@
+<div class="row" style="margin-top:10px">
+  <div class="col-sm-12 col-md-6">
+    <div class="card latest-update-card card1">
+      <div class="card-header">
+        <h5>Snapshot</h5>
+          <button mat-icon-button color="accent" data-toggle="modal" data-target="#myModal" style="float: right; width: 0px; height: 0px; line-height: 1; margin-right:20px;">
+            <mat-icon aria-hidden="true" matTooltip="Full Screen">fullscreen</mat-icon>
+          </button>
+      </div>
+      <div class="card-block">
+        <div class="latest-update-box">
+          <div class="row p-t-20 p-b-30">
+            <div class="col-auto text-right update-meta">
+              <p class="text-muted d-inline" *ngIf="tokendata && tokendata.lastactiontime != null">Last updated {{tokendata.lastactiontime | date:'shortTime'}}</p>
+              <mat-icon class="feather icon-check f-w-600 bg-c-red update-icon">local_offer</mat-icon>
+            </div>
+            <div class="col">
+              <h6 class="snaptext" [hidden]="!tokendata.count">{{tokendata.count}} Token(s)</h6>
+              <h6 class="snaptext" [hidden]="tokendata.count">No Token Available</h6>
+              <!-- <p class="text-muted m-b-0">Congratulations!</p> -->
+            </div>
+          </div>
+          <div class="row p-b-30">
+            <div class="col-auto text-right update-meta">
+              <p class="text-muted m-b-0 d-inline" *ngIf="jobcreated && jobcreated.lastactiontime != null">Last updated {{jobcreated.lastactiontime | date:'shortTime'}}</p>
+              <mat-icon class="feather icon-check f-w-600 bg-c-green update-icon">done</mat-icon>
+            </div>
+            <div class="col">
+              <h6 class="snaptext" [hidden]="!jobcreated.count">{{jobcreated.count}} Job(s) Created</h6>
+              <h6 class="snaptext" [hidden]="jobcreated.count">No Job(s) Created</h6>
+            </div>
+          </div>
+          <div class="row p-b-30">
+            <div class="col-auto text-right update-meta">
+              <p class="text-muted d-inline" *ngIf="jobcreated && jobcreated.lastactiontime != null">Last updated {{jobinprogress.lastactiontime | date:'shortTime'}}</p>
+              <mat-icon class="feather icon-check f-w-600 bg-c-yellow update-icon">av_timer</mat-icon>
+            </div>
+            <div class="col">
+              <h6 class="snaptext" [hidden]="!jobinprogress.count">{{jobinprogress.count}} Job(s) In-Progress</h6>
+              <h6 class="snaptext" [hidden]="jobinprogress.count">{{jobinprogress.count}}No Job(s) In-Progress</h6>
+            </div>
+          </div>
+          <div class="row p-b-30">
+            <div class="col-auto text-right update-meta">
+              <p class="text-muted m-b-0 d-inline" *ngIf="jobcompleted && jobcompleted.lastactiontime != null">Last updated {{jobcompleted.lastactiontime | date:'shortTime'}}</p>
+              <mat-icon class="feather icon-check f-w-600 bg-c-blue update-icon">check_box</mat-icon>
+            </div>
+            <div class="col">
+              <h6 class="snaptext" [hidden]="!jobcompleted.count">{{jobcompleted.count}} Job(s) Completed </h6>
+              <h6 class="snaptext" [hidden]="jobcompleted.count">{{jobcompleted.count}}No Job(s) Completed </h6>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-auto text-right update-meta">
+              <p class="text-muted m-b-0 d-inline" *ngIf="vehical && vehical.lastactiontime != null">Last updated {{vehical.lastactiontime | date:'shortTime'}}</p>
+              <mat-icon class="feather icon-check f-w-600 bg-c-green update-icon">directions_car</mat-icon>
+            </div>
+            <div class="col">
+              <h6 class="snaptext" [hidden]="!vehical.count">{{vehical.count}} Vehicles Delivered</h6>
+              <h6 class="snaptext" [hidden]="vehical.count">{{vehical.count}}No Vehicle Delivered</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade " id="myModal" role="dialog" style="background-color: white;">
+    <div class="modal-dialog" style="max-width: 100%;">
+      <div class="modal-content" style="border: 0px;">
+        <div class="modal-body">
+          <div class="card latest-update-card card1">
+            <div class="card-header">
+              <h5>Snapshot</h5>
+                <button mat-icon-button color="accent" style="float: right; line-height: 1;">
+                  <mat-icon aria-hidden="true" matTooltip="Close Full Screen" data-dismiss="modal">fullscreen_exit</mat-icon>
+                </button>
+            </div>
+            <div class="card-block">
+              <div class="latest-update-box">
+                <div class="row p-t-20 p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted d-inline" *ngIf="tokendata && tokendata.lastactiontime != null">Last updated {{tokendata.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-red update-icon">local_offer</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!tokendata.count">{{tokendata.count}} Token(s)</h6>
+                    <h6 class="snaptext" [hidden]="tokendata.count">No Token Available</h6>
+                    <!-- <p class="text-muted m-b-0">Congratulations!</p> -->
+                  </div>
+                </div>
+                <div class="row p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted m-b-0 d-inline" *ngIf="jobcreated && jobcreated.lastactiontime != null">Last updated {{jobcreated.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-green update-icon">done</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!jobcreated.count">{{jobcreated.count}} Job(s) Created</h6>
+                    <h6 class="snaptext" [hidden]="jobcreated.count">No Job(s) Created</h6>
+                  </div>
+                </div>
+                <div class="row p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted d-inline" *ngIf="jobcreated && jobcreated.lastactiontime != null">Last updated {{jobinprogress.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-yellow update-icon">av_timer</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!jobinprogress.count">{{jobinprogress.count}} Job(s) In-Progress</h6>
+                    <h6 class="snaptext" [hidden]="jobinprogress.count">{{jobinprogress.count}}No Job(s) In-Progress</h6>
+                  </div>
+                </div>
+                <div class="row p-b-30">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted m-b-0 d-inline" *ngIf="jobcompleted && jobcompleted.lastactiontime != null">Last updated {{jobcompleted.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-blue update-icon">check_box</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!jobcompleted.count">{{jobcompleted.count}} Job(s) Completed </h6>
+                    <h6 class="snaptext" [hidden]="jobcompleted.count">{{jobcompleted.count}}No Job(s) Completed </h6>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-auto text-right update-meta">
+                    <p class="text-muted m-b-0 d-inline" *ngIf="vehical && vehical.lastactiontime != null">Last updated {{vehical.lastactiontime | date:'shortTime'}}</p>
+                    <mat-icon class="feather icon-check f-w-600 bg-c-green update-icon">directions_car</mat-icon>
+                  </div>
+                  <div class="col">
+                    <h6 class="snaptext" [hidden]="!vehical.count">{{vehical.count}} Vehicles Delivered</h6>
+                    <h6 class="snaptext" [hidden]="vehical.count">{{vehical.count}}No Vehicle Delivered</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="col-sm-12 col-md-6" id="myDiv">
+    <div class="card latest-update-card card1" style="min-height: 386px">
+      <div class="card-header">
+        <h5>Today Timing Average</h5>
+        <!-- <button mat-icon-button color="accent" style="float: right; width: 0px; height: 0px; line-height: 1; margin-right:20px;">
+          <mat-icon aria-hidden="true" [ngClass]="{'fullscreen':item=== false}" matTooltip="Full Screen">fullscreen</mat-icon>
+        </button> -->
+      </div>
+      <div class="row" style="padding: 0px 10px; margin-top:26px;">
+        <div class="col-sm-6 col-md-6">
+          <div class="card bg-c-blue text-white widget-visitor-card">
+            <div class="card-block-small text-center">
+              <h2>{{timedata.waittime}} min</h2>
+              <h5>Wait time</h5>
+              <i class="fa fa-hourglass-half feather"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+          <div class="card bg-c-light-blue text-white widget-visitor-card">
+            <div class="card-block-small text-center">
+              <h2>{{timedata.jobcreationtime}} min</h2>
+              <h5>Job Creation time</h5>
+              <i class="fa fa-handshake-o feather"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="padding: 0px 10px;">
+        <div class="col-sm-6 col-md-6">
+          <div class="card bg-c-yellow text-white widget-visitor-card">
+            <div class="card-block-small text-center">
+              <h2>{{timedata.jobexetime | number:'1.2-2'}} hrs</h2>
+              <h5>Job Execution </h5>
+              <i class="fa fa-cogs feather"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+          <div class="card bg-c-green text-white widget-visitor-card">
+            <div class="card-block-small text-center">
+              <h2>{{timedata.deliverytime | number:'1.2-2'}} min</h2>
+              <h5>Delivery time</h5>
+              <i class="fa fa-car feather"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- deivce box start -->
+<div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-green" class="b-block">{{devicesummary.total}}</h4>
+            <h6 class="text-muted m-b-0">Total Devices</h6>
+          </div>
+          <div class="col-4 text-right text-c-green">
+            <mat-icon class="f-28">tablet</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-green">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Online: {{devicesummary.online}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-red" class="b-block">{{devicesummary.total}}</h4>
+            <h6 class="text-muted m-b-0">Total Devices </h6>
+          </div>
+          <div class="col-4 text-right text-c-red" [ngClass]="{'text-c-red': devicesummary.offline>0, 'text-c-blue': devicesummary.offline===0}">
+            <mat-icon class="f-28">tablet</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-red" [ngClass]="{'bg-c-red': devicesummary.offline>0, 'bg-c-blue': devicesummary.offline===0}">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Offline: {{devicesummary.offline}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-blue" class="b-block">{{spsummary.total}}</h4>
+            <h6 class="text-muted m-b-0">Total Service Points</h6>
+          </div>
+          <div class="col-4 text-right icon_zoom" [ngClass]="spsummary.total===spsummary.inuse?'text-c-blue':'text-c-red'">
+            <mat-icon class="f-28">place</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="spsummary.total===spsummary.inuse?'bg-c-blue':'bg-c-red'">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Used: {{spsummary.inuse}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-6">
+    <div class="card">
+      <div class="card-block-tab">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h4 class="text-c-lightred" class="b-block">{{complaintsummary.total}}</h4>
+            <h6 class="text-muted m-b-0">Total Complaints</h6>
+          </div>
+          <div class="col-4 text-right icon_zoom" [ngClass]="complaintsummary.active===0?'text-c-blue':'text-c-red'">
+            <mat-icon class="f-28">assistant_photo</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'">
+        <div class="row align-items-center">
+          <div class="col-9">
+            <p class="text-white m-b-0">Active: {{complaintsummary.active}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- deivce box end -->
+
+<!-- <div class="row" style="margin-top:10px;">
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Devices</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{devicesummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar bg-c-green" [ngStyle]="{'width.%': devicesummary.onlinepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-green">
+        <h6 class="text-white m-b-0">Online: {{devicesummary.online}}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Devices</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{devicesummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar bg-c-red" [ngClass]="{'bg-c-red': devicesummary.offline>0, 'bg-c-blue': devicesummary.offline===0}"
+            [ngStyle]="{'width.%': devicesummary.offlinepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer bg-c-red" [ngClass]="{'bg-c-red': devicesummary.offline>0, 'bg-c-blue': devicesummary.offline===0}">
+        <h6 class="text-white m-b-0">Offline: {{devicesummary.offline}}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Service Points</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{spsummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar" [ngClass]="spsummary.total===spsummary.inuse?'bg-c-blue':'bg-c-red'" [ngStyle]="{'width.%': spsummary.inusepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="spsummary.total===spsummary.inuse?'bg-c-blue':'bg-c-red'">
+        <h6 class="text-white m-b-0">Used: {{spsummary.inuse}}</h6>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="card statustic-card">
+      <div class="card-header borderless">
+        <h5>Complaints</h5>
+      </div>
+      <div class="card-block text-center">
+        <span class="d-block text-c-blue f-36">{{complaintsummary.total}}</span>
+        <p class="m-b-0">Total</p>
+        <div class="progress">
+          <div class="progress-bar" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'" [ngStyle]="{'width.%': complaintsummary.activepercentage}"></div>
+        </div>
+      </div>
+      <div class="card-footer" [ngClass]="complaintsummary.active===0?'bg-c-blue':'bg-c-red'">
+        <h6 class="text-white m-b-0">Active: {{complaintsummary.active}}</h6>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <app-vehicle-weekly-trend></app-vehicle-weekly-trend>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <app-vehicle-monthly-trend></app-vehicle-monthly-trend>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <app-service-time-weekly></app-service-time-weekly>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <app-service-time-monthly></app-service-time-monthly>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <app-feedback-summary></app-feedback-summary>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <app-feedback-trend></app-feedback-trend>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <app-complaint-summary></app-complaint-summary>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <app-complaint-trend></app-complaint-trend>
+  </div>
+</div>

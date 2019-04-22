@@ -1,0 +1,119 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <form [formGroup]="editableForm" (ngSubmit)="save()">
+        <div class="row">
+          <div class="col-10">
+            <mat-card-header>
+              <div mat-card-avatar>
+                <i class="fa fa-user" style="font-size:24px;color:#446666">
+                </i>
+              </div>
+              <mat-card-title>Patient Registration</mat-card-title>
+              <!-- <mat-card-subtitle>New Patient</mat-card-subtitle> -->
+            </mat-card-header>
+          </div>
+          <div class="col-2 text-right">
+            <button type="button" class="backButton" mat-icon-button (click)="close()" matTooltip="Back">
+              <mat-icon aria-label="Back">arrow_back</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-divider [inset]="true"></mat-divider>
+          </div>
+        </div>
+        <div style="margin: 20px; padding: 10px;">
+          <div class="row">
+            <div class="col-md-5">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="First Name" [(ngModel)]="dataModel.fname" formControlName="fnameControl"
+                  required maxlength="50">
+                <mat-error *ngIf="editableForm.controls['fnameControl'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Last Name" [(ngModel)]="dataModel.lname" formControlName="lnameControl"
+                  required maxlength="50">
+                <mat-error *ngIf="editableForm.controls['lnameControl'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-5">
+              <mat-form-field class="example-full-width">
+                <input matInput name="mobilenumber" placeholder="Mobile Number" formControlName="mobnoControl"
+                  [(ngModel)]="dataModel.mobno" maxlength="10">
+              </mat-form-field>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+              <mat-form-field class="example-full-width">
+                <input matInput name="age" placeholder="Age" formControlName="ageControl" [(ngModel)]="dataModel.age"
+                  maxlength="3">
+              </mat-form-field>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <mat-form-field class="example-full-width">
+
+                <mat-select placeholder="Blood Group" name="blood" formControlName="bloodgrpControl"
+                  [(ngModel)]="dataModel.bloodgrp">
+                  <mat-option value="AB+">AB+</mat-option>
+                  <mat-option value="AB-">AB-</mat-option>
+                  <mat-option value="A+">A+</mat-option>
+                  <mat-option value="A-">A-</mat-option>
+                  <mat-option value="B+">B+</mat-option>
+                  <mat-option value="B-">B-</mat-option>
+                  <mat-option value="O+">O+</mat-option>
+                  <mat-option value="O-">O-</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+              <div class="form-group form-primary" *ngIf="formMode === 1">
+                <mat-form-field>
+                  <mat-select placeholder="Gender" [(ngModel)]="dataModel.gender" formControlName="genderControl"
+                    required>
+                    <mat-option *ngFor="let gend of personGender" [value]="gend.value">
+                      {{gend.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="editableForm.controls['genderControl'].hasError('required')">
+                    {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
+                <span class="viewlabel">Gender</span>
+                <label class="viewtext">{{ getgender(dataModel.gender) | translate }}</label>
+              </div>
+
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col text-right" style="margin-top: 15px;">
+            <button matSuffix type="button" *ngIf="skipbutton" color="primary" mat-raised-button
+              style="margin-right:10px" matTooltip="Skip" (click)="skipForm(dataModel.patientid)">Skip</button>
+            <button matSuffix type="submit" color="primary" mat-raised-button matTooltip="Save">Proceed</button>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>
