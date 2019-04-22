@@ -73,7 +73,6 @@ export class WardListViewComponent implements OnInit, OnDestroy {
       ).subscribe(
         payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
-            console.log("Payload response",payloadResponse.data);
             this.filteredrecords = payloadResponse.data.filteredrecords;
             this.dataSource = payloadResponse.data.records;
             if (this.filteredrecords === 0) {
@@ -122,7 +121,6 @@ export class WardListViewComponent implements OnInit, OnDestroy {
     const bottomSheetRef = this.bottomSheet.open(ServicepointUpdateComponent, { data: row.spid });
     bottomSheetRef.afterDismissed().subscribe(result => {
       if (result) {
-        console.log('after dismiss check', result);
         row.spid = Number(result.spid);
         row.spname = String(result.spname);
         row.spstate = Number(result.spstate);
@@ -149,7 +147,6 @@ export class WardListViewComponent implements OnInit, OnDestroy {
     bottomSheetRef.afterDismissed().subscribe(result => {
       if (result) {
         this.setDataListing();
-        console.log('after dismiss', result);
         sp.devid = Number(result.devid);
         sp.devname = String(result.devname);
       }
@@ -157,7 +154,6 @@ export class WardListViewComponent implements OnInit, OnDestroy {
   }
 
   passdevid(dev, spid){
-    console.log('dev tap', spid);
     this.passDevId = dev;
     this.passSpid = spid;
   }
