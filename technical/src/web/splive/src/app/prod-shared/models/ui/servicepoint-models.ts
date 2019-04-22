@@ -1,11 +1,5 @@
-import {
-    ServicepointConfigureListResponse,
-    ServicepointConfigureTemplateListRequest,
-} from '../api/service-configuration-models';
-import {
-    ServicepointAssociateRequest, SrevicepointFilterRequest,
-    ServicepointDetailsResponse, ServicepointDetailsUpdateRequest
-} from '../api/servicepoint-models';
+import { ServicepointConfigureListResponse, ServicepointConfigureTemplateListRequest } from '../api/service-configuration-models';
+import { ServicepointAssociateRequest, SrevicepointFilterRequest, ServicepointDetailsResponse, ServicepointDetailsUpdateRequest, RemoveDeviceRequest } from '../api/servicepoint-models';
 import { SERVICEPOINT_STATE } from '../../../shared/app-common-constants';
 
 export class ServicepointFilterModel {
@@ -61,3 +55,5 @@ export class ServicePointDetailsModel {
         servicepointDetailsUpdateRequest.spcid = this.spcid;
     }
 }
+
+

@@ -1,0 +1,11 @@
+.left-top-text {
+    
+    margin-left: -15px;
+}
+
+.alignmentUp{
+    vertical-align: super;
+}
+.alignmentDown {
+    vertical-align: text-top;
+  }

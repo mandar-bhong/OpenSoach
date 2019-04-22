@@ -2,14 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ROUTE_LOGIN } from '../../../app-common-constants';
 import { ActivationChangePassword, ChangeUserPasswordRequest } from '../../../models/api/user-models';
-import { ActivationChangePasswordModel, ConfirmPasswordModel } from '../../../models/ui/user-models';
+import { ConfirmPasswordModel } from '../../../models/ui/user-models';
 import { TranslatePipe } from '../../../pipes/translate/translate.pipe';
 import { AuthService } from '../../../services/auth.service';
 import { LoginHandlerService } from '../../../services/login-handler.service';
 import { AppNotificationService } from '../../../services/notification/app-notification.service';
 import { EditRecordBase, FORM_MODE } from '../../../views/edit-record-base';
-import { ROUTE_LOGIN } from '../../../app-common-constants';
 
 @Component({
   selector: 'app-change-password',
@@ -20,15 +20,10 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   routeSubscription: Subscription;
   dataModel = new ConfirmPasswordModel();
   successHide = true;
-  code: string;
-  activationCodeSubscription: Subscription;
-  activationChangePassword: ActivationChangePassword;
   activateSubscription: Subscription;
-  queryParameter: any;
+  activateQueryParameter: any;
   receivedCode: string;
   userId: number;
-  activationChangePasswordModel = new ActivationChangePasswordModel();
-  newpassword: string;
   hideconfirm = true;
   hidenew = true;
   firstView = false;
@@ -49,8 +44,8 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     this.createControls();
     this.setFormMode(FORM_MODE.EDITABLE);
     this.activateSubscription = this.route.params.subscribe(params => {
-      this.queryParameter = JSON.parse(JSON.stringify(params));
-      this.receivedCode = this.queryParameter.code;
+      this.activateQueryParameter = JSON.parse(JSON.stringify(params));
+      this.receivedCode = this.activateQueryParameter.code;
     });
 
     this.getActivationParams();
@@ -72,7 +67,6 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
         if (payloadResponse && payloadResponse.issuccess) {
           this.successHide = !this.successHide;
           setTimeout(() => {
-            // this.loginHandlerService.logout();
             this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
         }, 5000);
         }

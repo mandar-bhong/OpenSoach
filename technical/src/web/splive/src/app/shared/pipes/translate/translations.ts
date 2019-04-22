@@ -475,5 +475,14 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'CHANGE_PASS',
     en: 'New Password and confirm password mismatch'
   },
+  {
+    key: 'REMOVE_DEVICE',
+    en: 'Removed device from ward successfully'
+  },
+  {
+    key: 'ALREADY_DEVICE_ADDED',
+    en: 'This device is already add in this ward'
+  },
+
 ];
 

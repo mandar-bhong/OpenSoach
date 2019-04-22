@@ -3,6 +3,7 @@ export class ServicepointDataListResponse {
     spname: string;
     spcid: number;
     spcname: string;
+    devicedata: ServiepointName;
     devid: number;
     devname: string;
     servconfid: number;
@@ -11,6 +12,17 @@ export class ServicepointDataListResponse {
     createdon: Date;
     updatedon: Date;
 }
+
+export class ServiepointName {
+    devid: number;
+    devname: string;
+}
+
+export class RemoveDeviceRequest {
+    devid: number;
+    spid: number;
+}
+
 export class SrevicepointFilterRequest {
     spname: string;
     spcid: number;

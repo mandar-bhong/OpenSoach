@@ -4,6 +4,7 @@ import { DeviceListItemResponse } from '../../../../../prod-shared/models/api/de
 import { ProdDeviceService } from '../../../../../prod-shared/services/device/prod-device.service';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { ProdServicepointService } from '../../../../../prod-shared/services/servicepoint/prod-servicepoint.service';
+import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 
 @Component({
   selector: 'app-ward-device-associate',
@@ -17,6 +18,7 @@ export class WardDeviceAssociateComponent implements OnInit {
   constructor(private bottomSheetRef: MatBottomSheetRef<WardDeviceAssociateComponent>,
     private deviceService: ProdDeviceService, private appNotificationService: AppNotificationService,
     private prodServicepointService: ProdServicepointService,
+    private translatePipe: TranslatePipe,
     private changeDetectorRef: ChangeDetectorRef,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
     this.spid = Number(data);
@@ -27,7 +29,7 @@ export class WardDeviceAssociateComponent implements OnInit {
     this.getDeviceList();
   }
   getDeviceList() {
-    this.deviceService.getDevicesNotAssociatedWithSP().subscribe(payloadResponse => {
+    this.deviceService.getDeviceList().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.devices = payloadResponse.data;
         // TODO: This is work around for the bug in angular material: #11351 Mat-sheet can not update mat-field from promise.
@@ -45,6 +47,9 @@ export class WardDeviceAssociateComponent implements OnInit {
             this.appNotificationService.success();
             console.log('in dismiss', this.selecteddevice.devid);
             this.bottomSheetRef.dismiss({ devid: this.selecteddevice.devid, devname: this.selecteddevice.devname });
+          }
+          else{
+            this.appNotificationService.error(this.translatePipe.transform('ALREADY_DEVICE_ADDED'));
           }
         });
     }
