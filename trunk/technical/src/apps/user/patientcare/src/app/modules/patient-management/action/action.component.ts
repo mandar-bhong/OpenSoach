@@ -1,43 +1,32 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, OnDestroy } from '@angular/core';
-import { SnackBar, SnackBarOptions } from 'nativescript-snackbar';
-import {
-	ListViewEventData,
-	ListViewItemSnapMode,
-	ListViewLinearLayout,
-	LoadOnDemandListViewEventData,
-	RadListView,
-} from 'nativescript-ui-listview';
+import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ModalDialogOptions, ModalDialogService } from 'nativescript-angular/modal-dialog';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { SnackBar } from 'nativescript-snackbar';
+import { ListViewEventData, ListViewItemSnapMode, ListViewLinearLayout } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
-import { error } from 'tns-core-modules/trace/trace';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
-import { layout } from 'tns-core-modules/utils/utils';
 import { Page } from 'ui/page';
+import { ACTION_STATUS, ConfigCodeType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, MonitorType } from '~/app/app-constants';
+import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
-import { ActionListViewModel, ActionTxnDBModel, ActionDataDBRequest } from '~/app/models/ui/action-models';
-import { Schedulardata, SchedularConfigData, MornFreqInfo, AftrnFreqInfo, NightFreqInfo } from '~/app/models/ui/chart-models';
+import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
+import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
+import { ActionDataStoreModel } from '~/app/models/db/action-datastore';
+import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
+import { IDatastoreModel } from '~/app/models/db/idatastore-model';
+import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
+import { BloodPressureValueModel, DataActionItem, GetJsonModel } from '~/app/models/ui/action-model';
+import { ActionDataDBRequest, ActionListViewModel, ActionTxnDBModel } from '~/app/models/ui/action-models';
+import { Schedulardata } from '~/app/models/ui/chart-models';
 import { ActionService } from '~/app/services/action/action.service';
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
-import { IntakeHelper } from '~/app/helpers/actions/intake-helper';
-import { MedicineHelper } from '~/app/helpers/actions/medicine-helper';
-import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
-import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
-import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
-import { SYNC_STORE, SERVER_WORKER_MSG_TYPE, ConfigCodeType, ACTION_STATUS } from '~/app/app-constants';
-import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
 import { WorkerService } from '~/app/services/worker.service';
-import { RouterExtensions } from 'nativescript-angular/router';
 import { IDeviceAuthResult } from '../../idevice-auth-result';
-import { Switch } from 'tns-core-modules/ui/switch/switch';
-import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/modal-dialog';
-import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
-import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ActionFabComponent } from '../action-fab/action-fab.component';
-import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
-import { DataActionItem, BloodPressureValueModel, GetJsonModel } from '~/app/models/ui/action-model';
-import { ActionDataStoreModel } from '~/app/models/db/action-datastore';
+import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
 
 
 // expand row 
@@ -54,7 +43,6 @@ declare var UIView, NSMutableArray, NSIndexPath;
 })
 
 export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
-	dialogOpen = false;
 	conf_type_code_const = ConfigCodeType;
 	onDeviceAuthSuccess(userid: number): void {
 		console.log('user auth id', userid);
@@ -92,7 +80,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	medicinebuttonClicked: boolean = false;
 	doctorOrderButtonClicked = false;
 	outputbuttonClicked: boolean = false;
-	actionSubscription: Subscription;
 	doctorOrderSubscription: Subscription;
 	// >> search var declaration
 	tempdata = new Array<ActionTxnDBModel>();
@@ -187,37 +174,23 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getActionData();
-
-
-		// subscription for create actions
-		this.actionSubscription = this.passdataservice.createActionsSubject.subscribe((value) => {
-
-		}); // end of subscriptions.
 		this.actionDbData = new ActionDataDBRequest();
 		this.actiondata = new ActionDataDBRequest();
-
 		this.completeorpending = "Active Actions";
 
-
 		// action notification handler
-		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
-			// console.log('<====================== notified to schedule list  action page===> ', value);
-			this.scheduleDatastoreModel = value;
-			// this.pushAddedSchedule(value);
-		});
+		// this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
+		// 	this.scheduleDatastoreModel = value;
+		// });
 		this.actioncreationSubscription = this.workerservice.actionDataReceivedSubject.subscribe((value) => {
-			// console.log('<======================notified to action list action  page===> ', value);
-			this.pushAddedAction(value);
+			this.handelActionNotification(value);
 		});
-
 		this.actionTxnDataReceivedSubject = this.workerservice.actionTxnDataReceivedSubject.subscribe((value) => {
-			// console.log('<======================notified to action txn  page===> ', value);
-			this.pushAddedActionTxn(value);
+			this.handelActionTransaction(value);
 		});
-
 		// subscription for adding newly  created doctors orders in action list.
 		this.doctorOrderSubscription = this.workerService.doctorOrderSubject.subscribe((value) => {
-			this.pushDoctorOredrs(value);
+			this.handelDoctorOrderNotification(value);
 		});
 		this.passdataservice.backalert = false;
 	}// end of ng init.
@@ -260,7 +233,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	// >> Grouping intake scroll to top position change 
 	public selectIntake() {
-		if (this.conf_type_code === "Intake") {
+		if (this.conf_type_code === ConfigCodeType.INTAKE) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
 
@@ -276,7 +249,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	// >>  Grouping monitor scroll to top position change 
 	public selectMonitor() {
-		if (this.conf_type_code === "Monitor") {
+		if (this.conf_type_code === ConfigCodeType.MONITOR) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
 
@@ -293,7 +266,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// >>  Grouping medicine scroll to top position change 
 	public selectMedicine() {
 		// console.log('this.conf_type_code button', this.conf_type_code);
-		if (this.conf_type_code === "Medicine") {
+		if (this.conf_type_code === ConfigCodeType.MEDICINE) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
 
@@ -310,7 +283,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	// >>  Grouping medicine scroll to top position change
 	public selectOutput() {
-		if (this.conf_type_code === "Output") {
+		if (this.conf_type_code === ConfigCodeType.OUTPUT) {
 			// console.log('this.conf_type_code button output', this.conf_type_code);
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
@@ -337,34 +310,22 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// >> Calculate Grouping index value
 	public getCount() {
 
-		const medicine = this.uiList.filter(a => a.conf_type_code === "Medicine");
+		const medicine = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.MEDICINE);
 		const medicineCount = medicine.length;
-		// console.log("medicineCount", medicineCount);
 
-		const monitor = this.uiList.filter(a => a.conf_type_code === "Monitor");
+		const monitor = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.MONITOR);
 		const monitorCount = monitor.length;
-		// console.log("monitorCount", monitorCount);
-
-		const intake = this.uiList.filter(a => a.conf_type_code === "Intake");
+		const intake = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.INTAKE);
 		const intakeCount = intake.length;
-		// console.log("intakeCount", intakeCount);
-
-		const output = this.uiList.filter(a => a.conf_type_code === "Output");
+		const output = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.OUTPUT);
 		const outputCount = output.length;
 		const DOrder = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.DOCTOR_ORDERS);
 		const DOrderCount = DOrder.length;
-		// console.log("DOrderCount", DOrderCount);
-
-
 		this.doctorOrderIndex = 0;
 		this.intakeIndex = DOrderCount + 1;
 		this.medicineIndex = DOrderCount + intakeCount + 1;
 		this.monitorIndex = DOrderCount + intakeCount + medicineCount + 1;
 		this.outputIndex = DOrderCount + intakeCount + medicineCount + monitorCount + 1;
-		// console.log("medicine index", this.medicineIndex);
-		// console.log("monitor index", this.monitorIndex);
-		// console.log("output index", this.outputIndex);
-		// console.log("DR OR index", this.doctorOrderIndex);
 
 	}
 	// << Calculate Grouping index value
@@ -372,7 +333,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// clean up
 	ngOnDestroy(): void {
 		//Called once, before the instance is destroyed.
-		if (this.actionSubscription) { this.actionSubscription.unsubscribe(); }
+
 		if (this.doctorOrderSubscription) { this.doctorOrderSubscription.unsubscribe(); }
 		if (this.schedulecreationSubscription) { this.schedulecreationSubscription.unsubscribe(); }
 		if (this.actioncreationSubscription) { this.actioncreationSubscription.unsubscribe(); }
@@ -492,10 +453,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				}
 			}
 		});
-		//  updating to ui list
-		this.toggoleActionList();
+		//  updating to ui list		
 		// get doctor orders.
 		this.getDoctorsOrders();
+		// this.toggoleActionList();
 
 	}
 	toggoleActionList() {
@@ -507,13 +468,15 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			//  active
 			this.uiList = this.activeAction;
 			console.log('active action list', this.activeAction.length);
-
 		}
+		this.getCount();
 	}
 	// action txn nottification code
-	pushAddedActionTxn(actionTxnDatastoreModel: ActionTxnDatastoreModel) {
+	handelActionTransaction(actionTxnDatastoreModel: ActionTxnDatastoreModel) {
+		// checking is schedule is created for particular patient
 		if (actionTxnDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
 			let actionitem = this.allAction.filter(data => data.schedule_uuid === actionTxnDatastoreModel.schedule_uuid && data.scheduled_time === actionTxnDatastoreModel.scheduled_time)[0] || null;
+		    // check if item is already exist
 			if (actionitem && actionitem != null) {
 				const gettxn_data = new GetJsonModel();
 				actionitem.txn_state = actionTxnDatastoreModel.txn_state;
@@ -523,7 +486,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				actionitem.txn_data = gettxn_data;
 				actionitem.txn_data.comment = gettxn_data.comment;
 				actionitem.client_updated_at = actionTxnDatastoreModel.client_updated_at;
-
 				// updated by get fname and lname by updated_on id
 				this.actionService.getUserByUserid(actionTxnDatastoreModel.updated_by).then(
 					(val) => {
@@ -532,18 +494,16 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 							actionitem.lname = item.lname;
 						});
 					})
-				if (actionitem.name === 'Blood Pressure') {
+				if (actionitem.name === MonitorType.BLOOD_PRESSURE) {
 					if (gettxn_data.value != null) {
 						const jsonvalue = new BloodPressureValueModel();
-						Object.assign(jsonvalue, JSON.parse(gettxn_data.value));
-						console.log('gettxnData.value', jsonvalue);
+						Object.assign(jsonvalue, JSON.parse(gettxn_data.value));					
 						actionitem.value.systolic = jsonvalue.systolic;
 						actionitem.value.diastolic = jsonvalue.diastolic;
 					}
 				} else {
 					actionitem.txn_data.value = gettxn_data.value;
-				}
-				// console.log('this.allAction.push(actionitem)', actionitem);
+				}				
 				let x = this.activeAction.filter(data => data.schedule_uuid === actionTxnDatastoreModel.schedule_uuid && data.scheduled_time === actionTxnDatastoreModel.scheduled_time)[0] || null;
 				if (x && x != null) {
 					const itemindex = this.activeAction.indexOf(x);
@@ -556,42 +516,59 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 		}
 	}
-	pushAddedAction(actionDataStoreModel: ActionDataStoreModel) {
+	async handelActionNotification(actionDataStoreModel: ActionDataStoreModel) {
 		// if schedule added for specific patient.
-		if (this.scheduleDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
+		if (actionDataStoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
 			// check for  item exist
-			let actionitem = this.allAction.filter(data => data.uuid === actionDataStoreModel.uuid)[0] || null;
+			const scheduleConfData = await this.actionService.getScheduleDetails('getScheduleData', actionDataStoreModel.schedule_uuid);
+		    let actionitem = this.allAction.filter(data => data.uuid === actionDataStoreModel.uuid)[0] || null;
 			if (actionitem && actionitem != null) {
-				// item found
-				actionitem.admission_uuid = actionDataStoreModel.admission_uuid;
-				actionitem.client_updated_at = actionDataStoreModel.client_updated_at;
-				actionitem.conf_type_code = actionDataStoreModel.conf_type_code;
-				actionitem.is_deleted = actionDataStoreModel.is_deleted;
-				actionitem.schedule_uuid = actionDataStoreModel.schedule_uuid;
-				actionitem.scheduled_time = actionDataStoreModel.scheduled_time;
-				actionitem.uuid = actionDataStoreModel.uuid;
+				// item found				
+				 actionitem = <DataActionItem><any>actionDataStoreModel;				
+				// // for handeling tranasction mode			
 				// fetching schedule name and its description
-				if (this.scheduleDatastoreModel.uuid === actionitem.schedule_uuid) {
-					const conf = JSON.parse(this.scheduleDatastoreModel.conf);
+				if (scheduleConfData.length > 0) {
+					const conf = JSON.parse(scheduleConfData[0].conf);
 					actionitem.name = conf.name;
 					actionitem.desc = conf.desc;
+				} else {
+					// disscuss with mandar
 				}
-
+				// assign empty value for avoiding can not read of deficned.
+				if (actionitem.name === 'Blood Pressure') {
+					actionitem.txn_data = new GetJsonModel();
+					actionitem.value = new BloodPressureValueModel();
+					actionitem.value.systolic = null
+					actionitem.value.diastolic = null;
+					actionitem.txn_data.comment = null;
+				} else {
+					actionitem.txn_data = new GetJsonModel();
+					actionitem.txn_data.value = null;
+					actionitem.txn_data.comment = null;
+				}
 			} else {
 				// item not found 			
 				actionitem = new DataActionItem();
-				actionitem.admission_uuid = actionDataStoreModel.admission_uuid;
-				actionitem.client_updated_at = actionDataStoreModel.client_updated_at;
-				actionitem.conf_type_code = actionDataStoreModel.conf_type_code;
-				actionitem.is_deleted = actionDataStoreModel.is_deleted;
-				actionitem.schedule_uuid = actionDataStoreModel.schedule_uuid;
-				actionitem.scheduled_time = actionDataStoreModel.scheduled_time;
-				actionitem.uuid = actionDataStoreModel.uuid;
+				actionitem = <DataActionItem><unknown>actionDataStoreModel;				
+				// assign empty value for avoiding can not read of deficned.
+				if (actionitem.name === MonitorType.BLOOD_PRESSURE) {
+					actionitem.txn_data = new GetJsonModel();
+					actionitem.value = new BloodPressureValueModel();
+					actionitem.value.systolic = null
+					actionitem.value.diastolic = null;
+					actionitem.txn_data.comment = null;
+				} else {
+					actionitem.txn_data = new GetJsonModel();
+					actionitem.txn_data.value = null;
+					actionitem.txn_data.comment = null;
+				}
 				// fetching schedule name and its description
-				if (this.scheduleDatastoreModel.uuid === actionitem.schedule_uuid) {
-					const conf = JSON.parse(this.scheduleDatastoreModel.conf);
+				if (scheduleConfData.length > 0) {
+					const conf = JSON.parse(scheduleConfData[0].conf);
 					actionitem.name = conf.name;
 					actionitem.desc = conf.desc;
+				} else {
+					// disscuss with mandar
 				}
 				const recivedDateFormDB = new Date(actionitem.scheduled_time);
 				const recivedDateDb = recivedDateFormDB.getMinutes();
@@ -632,21 +609,20 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 
 	// >> on submit one bye one item data
-	onSubmit(item) {
-		console.log('item', item);
+	onSubmit(item) {	
 		//set action conf model
 		this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
 
 		// >> check condition medicine data not add comment and value entries
-		if (item.conf_type_code === 'Medicine') {
+		if (item.conf_type_code === ConfigCodeType.MEDICINE) {
 			this.actionDbData.comment = item.txn_data.comment;
 			this.actionDbData.value = null;
 
 			this.confString1 = JSON.stringify(this.actionDbData);
 		} else {
-			if (item.name === 'Blood Pressure') {
+			if (item.name === MonitorType.BLOOD_PRESSURE) {
 				// console.log('if  condition');
 				const bloodPressureValueModel = new BloodPressureValueModel()
 				bloodPressureValueModel.systolic = item.value.systolic;
@@ -669,7 +645,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.formData.schedule_uuid = item.schedule_uuid;
 
 		// >> check condition medicine data in josn format push
-		if (item.conf_type_code === 'Medicine') {
+		if (item.conf_type_code === ConfigCodeType.MEDICINE) {
 			console.log(' this.confString1;', this.confString1);
 			this.formData.txn_data = this.confString1;
 		} else {
@@ -699,7 +675,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.formData = new ActionTxnDBModel();
 
 		// >> check condition medicine data not add comment and value entries
-		if (item.conf_type_code === 'Medicine') {
+		if (item.conf_type_code === ConfigCodeType.MEDICINE) {
 			this.actionDbData.comment = null;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
@@ -715,7 +691,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.formData.schedule_uuid = item.schedule_uuid;
 
 		// >> check condition medicine data in josn format push
-		if (item.conf_type_code === 'Medicine') {
+		if (item.conf_type_code === ConfigCodeType.MEDICINE) {
 			this.formData.txn_data = this.confString1;
 		} else {
 			this.formData.txn_data = this.confString;
@@ -792,13 +768,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				}
 			}
 		});
-		//	this.dialogOpen = true;
 	}
 
 	// code block for opening component in modal.
 	openModal() {
-		console.log('doctors order  tapped');
-		// this.dialogOpen = false;
 		this.createDoctorModalView(DoctorOrdersComponent, true).then((dialogResult: ServerDataStoreDataModel<ScheduleDatastoreModel>[]) => {
 			if (dialogResult) {
 				this.ServerDataStoreDataModelArray = dialogResult;
@@ -840,48 +813,43 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.toggoleActionList();
 	}
 
-	// code block for closing opened dialog
-	closeDialog() {
-		this.dialogOpen = false;
-	}// end 
+
 
 	public getDoctorsOrders() {
-		// console.log('getDoctors Orders');
 		this.actionService.getDoctorsList('getdoctororders', this.passdataservice.getAdmissionID()).then(
 			(val) => {
-				// console.log('doctor order received', this.uiList);
 				val.forEach(item => {
-					// console.log('getdoctororders item', item);
 					let actionListItem = new DataActionItem();
 					actionListItem = item;
 					actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
 					try {
-						this.uiList.push(actionListItem);
+						this.allAction.push(actionListItem);
+						this.activeAction.push(actionListItem);
 					} catch (e) {
 						console.log(e.error);
 					}
 				});
-				this.getCount();
+				this.toggoleActionList();
 			},
 			(error) => {
 				console.log("getActinData error:", error);
-			}
-		);
+				this.toggoleActionList();
+			});
+
 
 	} // end of fucntion
-	pushDoctorOredrs(doctorsOrders: ServerDataStoreDataModel<IDatastoreModel>) {
+	handelDoctorOrderNotification(doctorsOrders: ServerDataStoreDataModel<IDatastoreModel>) {
 		let actionListItem = new DataActionItem();
 		Object.assign(actionListItem, doctorsOrders.data);
 		actionListItem.conf_type_code = ConfigCodeType.DOCTOR_ORDERS;
 		if (actionListItem.admission_uuid == this.passdataservice.getAdmissionID()) {
-			// console.log('pushDoctorOredrs executed actionListItem', actionListItem);
-			const item = this.uiList.filter(data => data.uuid == actionListItem.uuid)[0] || null;
+			let item = this.allAction.filter(data => data.uuid == actionListItem.uuid)[0] || null;
 			//  if record found in list  
-			if (item) {
-				const index = this.uiList.indexOf(item);
-				this.uiList[index] = item;
+			if (item) {		
+				item = actionListItem;
 			} else {
-				this.uiList.push(actionListItem);
+				this.allAction.push(actionListItem);
+				this.activeAction.push(actionListItem);
 			}
 			this.getCount();
 		}
@@ -905,10 +873,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		tempEndTime.setMinutes(next12Hours);
 		const tempEnd = tempEndTime.toLocaleString();
 		const endTime = new Date(tempEnd);
-
-		// to do 
-		// amol check scpecific conditon
-
 		if (Dbdate >= startTime && Dbdate <= endTime) {
 			return true;
 		} else {

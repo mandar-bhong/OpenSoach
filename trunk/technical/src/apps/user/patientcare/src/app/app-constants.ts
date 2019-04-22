@@ -137,7 +137,7 @@ export enum PERSON_ACCMPANYING_GENDER {
     GENDER_NOT_SELECTED = "Not_Seleced",
 }
 export enum MonitorType {
-    Blood_Pressure = 'Blood Pressure',
+    BLOOD_PRESSURE = 'Blood Pressure',
 }
 export const MAXIMUM_SCHEDULE_DURATION = 20;
 export const MAX_INTERVAL = 23 * 60;

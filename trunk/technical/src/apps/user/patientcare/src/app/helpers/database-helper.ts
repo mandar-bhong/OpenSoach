@@ -125,6 +125,7 @@ let selectQueries = new Map([
     ["userList1", "select * from usr_tbl"],
     ["actionTxnList", "select * from action_txn_tbl"],
     ["getUserById", "select * from usr_tbl where usr_id= ?"],
+    ["getScheduleData", "select conf from schedule_tbl where uuid=?"],
 ]);
 
 let selectTableName = new Map([

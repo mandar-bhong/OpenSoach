@@ -34,7 +34,7 @@ export class MonitorService {
             paramList.push(admission_uuid);           
             this.database.selectByID("monitorTxnList",paramList).then(                
                 (val) => {                   
-                     const filterdata  = val.filter(data => JSON.parse(data.conf).name ===MonitorType.Blood_Pressure);
+                     const filterdata  = val.filter(data => JSON.parse(data.conf).name ===MonitorType.BLOOD_PRESSURE);
                      resolve(filterdata);
                 },
                 (error) => {

@@ -93,8 +93,8 @@ export class SectionOneComponent implements OnInit {
 
 		this.pathlogyReportModel.forEach(async (pathlogyReportModel: PathlogyReportModel) => {
 			pathlogyReportModel.doclist = [];
-			const x = await this.reportsService.getPathlogyReportDoc(pathlogyReportModel.uuid);
-			x.forEach((val) => {
+			const document = await this.reportsService.getPathlogyReportDoc(pathlogyReportModel.uuid);
+			document.forEach((val) => {
 				pathlogyReportModel.doclist.push(val);
 			});
 
