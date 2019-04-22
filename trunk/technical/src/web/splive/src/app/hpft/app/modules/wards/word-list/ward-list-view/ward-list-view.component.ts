@@ -158,7 +158,7 @@ export class WardListViewComponent implements OnInit, OnDestroy {
     this.passSpid = spid;
   }
 
-  removeDevice(spid) {
+  removeDevice() {
     const removeDeviceRequest = new RemoveDeviceRequest();
     removeDeviceRequest.devid =  this.passDevId;
     removeDeviceRequest.spid =   this.passSpid;
