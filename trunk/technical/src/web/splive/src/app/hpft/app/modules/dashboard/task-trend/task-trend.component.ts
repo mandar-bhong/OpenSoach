@@ -20,87 +20,70 @@ export class TaskTrendComponent implements OnInit {
   tasktrendchartdata = [];
   request = new TaskTrendRequest();
   timeline: TrendChartPerMonthXaxis[] = [];
-  ontimeLabel = 'On Time';
-  delayedLabel = 'Delayed';
-  missedLabel = 'Missed';
+  hospitalizeLabel = 'Hospitalize';
+  dischargedLabel = 'Discharged';
   legendTitle = 'Task Status';
   customColors = [
     {
-      name: this.ontimeLabel,
+      name: this.hospitalizeLabel,
       value: '#28a745'
     },
     {
-      name: this.delayedLabel,
-      value: '#ffc107'
-    },
-    {
-      name: this.missedLabel,
-      value: '#ff5252'
+      name: this.dischargedLabel,
+      value: '#52A6CA'
     },
   ];
 
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.getTaskTrend();
+    this.getTaskTrendChart();
   }
 
-  getTaskTrend() {
+  getTaskTrendChart() {
     const currentDate = new Date();
-    this.request.enddate = new Date(Date.UTC(
-      currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
-
+    this.request.enddate = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentDate.getHours(), currentDate.getMinutes()));
     const ticks = Date.UTC(this.request.enddate.getUTCFullYear(), this.request.enddate.getUTCMonth() - 11, 1);
     this.request.startdate = new Date(ticks);
+    this.dashboardService.getTaskTrend(this.request).subscribe(payloadResponse => {
+      
+      // const dataobject = JSON.parse("{\"issuccess\":true,\"error\":null,\"data\":[\r\n{\r\n\"year\":2018,\r\n\"month\":5,\r\n\"hospitalized\":45,\r\n\"discharged\" :22\r\n},\r\n{\r\n\"year\":2018,\r\n\"month\":6, \r\n\"hospitalized\":81,\r\n\"discharged\" :62\r\n},\r\n{\r\n\"year\":2018,\r\n\"month\":7, \r\n\"hospitalized\":20,\r\n\"discharged\" :66\r\n},\r\n{\r\n\"year\":2018,\r\n\"month\":8, \r\n\"hospitalized\":45,\r\n\"discharged\" :45\r\n},\r\n{\r\n\"year\":2018,\r\n\"month\":9, \r\n\"hospitalized\":10,\r\n\"discharged\" :9\r\n},\r\n{\r\n\"year\":2018,\r\n\"month\":10, \r\n\"hospitalized\":10,\r\n\"discharged\" :9\r\n},\r\n{\r\n\"year\":2018,\r\n\"month\":11, \r\n\"hospitalized\":31,\r\n\"discharged\" :45\r\n},\r\n{\r\n\"year\":2018,\r\n\"month\":12, \r\n\"hospitalized\":50,\r\n\"discharged\" :52\r\n},\r\n{\r\n\"year\":2019,\r\n\"month\":1, \r\n\"hospitalized\":63,\r\n\"discharged\" :88\r\n},\r\n{\r\n\"year\":2019,\r\n\"month\":2, \r\n\"hospitalized\":0,\r\n\"discharged\" :0\r\n},\r\n{\r\n\"year\":2019,\r\n\"month\":3, \r\n\"hospitalized\":210,\r\n\"discharged\" :188\r\n},\r\n{\r\n\"year\":2019,\r\n\"month\":4, \r\n\"hospitalized\":10,\r\n\"discharged\" :9\r\n}\r\n]}");
+      // payloadResponse = dataobject;
 
-//     this.dashboardService.getTaskTrend(this.request).subscribe(payloadResponse => {
-//       if (payloadResponse && payloadResponse.issuccess) {
-//         payloadResponse.data.forEach(item => {
-//           const trendModel = new TaskTrendModel();
-//           trendModel.copyFrom(item);
-//           this.tasktrenddata.push(trendModel);
-//         });
-// console.log('data received');
-//         this.generateSeriesTimeline();
-//         this.generateRatingChartData();
-//       }
-//     });
-
-    this.generateSeriesTimeline();
+      if (payloadResponse && payloadResponse.issuccess) {
+        console.log("payloadResponse", payloadResponse.data);
+        payloadResponse.data.forEach(item => {
+          const trendModel = new TaskTrendModel();
+          trendModel.copyFrom(item);
+          this.tasktrenddata.push(trendModel);
+        });
+        console.log('data received');
+        this.generateSeriesTimeline();
         this.generateRatingChartData();
+      }
+    });
   }
 
 
 
   generateRatingChartData() {
-    const ontimeData = { name: this.ontimeLabel, series: [] };
-    this.tasktrendchartdata.push(ontimeData);
-    const delayedData = { name: this.delayedLabel, series: [] };
-    this.tasktrendchartdata.push(delayedData);
-    const missedData = { name: this.missedLabel, series: [] };
-    this.tasktrendchartdata.push(missedData);
 
-    let dummyOnTime =1000;
-    let dummyDelayed =205;
-    let dummyMissed =50;
+    const hospitalizedData = { name: this.hospitalizeLabel, series: [] };
+    this.tasktrendchartdata.push(hospitalizedData);
+    const dischargedData = { name: this.dischargedLabel, series: [] };
+    this.tasktrendchartdata.push(dischargedData);
+
     this.timeline.forEach(item => {
       const xAxisDate = new Date(item.year, item.month).toUTCString();
-      // const trendModel = this.tasktrenddata.find(rating => rating.year === item.year
-      //   && rating.month-1 === item.month);
-
-      // if (trendModel) {
-      //   ontimeData.series.push({ name: xAxisDate, value: trendModel.ontime });
-      //   delayedData.series.push({ name: xAxisDate, value: trendModel.delayed });
-      //   missedData.series.push({ name: xAxisDate, value: trendModel.missed });
-      // } else {
-        ontimeData.series.push({ name: xAxisDate, value: dummyOnTime });
-        delayedData.series.push({ name: xAxisDate, value: dummyDelayed });
-        missedData.series.push({ name: xAxisDate, value: dummyMissed });
-
-        dummyOnTime=dummyOnTime+12;
-        dummyDelayed=dummyDelayed-13;
-        dummyMissed=dummyMissed-3;
-      //}
+      const trendModel = this.tasktrenddata.find(rating => rating.year === item.year
+        && rating.month - 1 === item.month);
+      if (trendModel) {
+        hospitalizedData.series.push({ name: xAxisDate, value: trendModel.hospitalized });
+        dischargedData.series.push({ name: xAxisDate, value: trendModel.discharged });
+      } else {
+        hospitalizedData.series.push({ name: xAxisDate, value: 0 });
+        dischargedData.series.push({ name: xAxisDate, value: 0 });
+      }
     });
   }
 

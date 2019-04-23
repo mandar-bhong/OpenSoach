@@ -64,17 +64,18 @@ export class FeedbackTrendResponse {
     rating5: number;
 }
 
+//task completion trend
 export class TaskTrendRequest {
     spid: number;
     startdate: Date;
     enddate: Date;
 }
-
+//task completion trend
 export class TaskTrendResponse {
     month: number;
     year: number;
-    ontime: number;
-    delayed: number;
+    hospitalized: number;
+    discharged: number;
 }
 
 export class ComplaintTrendRequest {

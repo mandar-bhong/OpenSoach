@@ -65,8 +65,8 @@ export class DashboardService {
 
     getTaskTrend(request = new TaskTrendRequest(), implicitErrorHandling = true):
         Observable<PayloadResponse<TaskTrendResponse[]>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/task/permonth',
-            request, implicitErrorHandling);
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/patienthospitalized/permonth',
+            request, implicitErrorHandling);  
     }
 
     getComplaintTrend(request = new ComplaintTrendRequest(), implicitErrorHandling = true):

@@ -125,7 +125,7 @@ export class TaskSummaryModel {
         this.delayed = response.delayed;
         this.missed = response.missed;
 
-        this.total = this.ontime + this.delayed+this.missed;
+        this.total = this.ontime + this.delayed + this.missed;
         this.ontimepercentage = 0;
         this.delayedpercentage = 0;
         this.missedpercentage = 0;
@@ -175,21 +175,20 @@ export class TrendChartPerMonthXaxis {
     month: number;
 }
 
+//task trend model
 export class TaskTrendModel {
     month: number;
     year: number;
-    ontime: number;
-    delayed: number;
-    missed:number;
-
+    hospitalized: number;
+    discharged: number;
     copyFrom(response: TaskTrendResponse) {
-        this.ontime = response.ontime;
-        this.delayed = response.delayed;
-        this.missed=0;
+        this.hospitalized = response.hospitalized;
+        this.discharged = response.discharged;
         this.month = response.month;
         this.year = response.year;
     }
 }
+
 
 export class ComplaintTrendModel {
     month: number;
