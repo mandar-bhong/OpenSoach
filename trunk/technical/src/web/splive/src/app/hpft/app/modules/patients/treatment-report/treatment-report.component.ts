@@ -1,16 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { FileDownloadRequest } from 'app/models/api/file-download-request';
-import { TreatmentFilterRequest, TreatmentResponse } from 'app/models/api/patient-data-models';
-import { PatientService } from 'app/services/patient.service';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
-import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { FileDownloadRequest } from '../../../../app/models/api/file-download-request';
+import { TreatmentFilterRequest, TreatmentResponse } from '../../../../app/models/api/patient-data-models';
+import { PatientService } from '../../../../app/services/patient.service';
 
 @Component({
   selector: 'app-treatment-report',
@@ -52,8 +50,6 @@ export class TreatmentReportComponent implements OnInit {
   dataListRequest: DataListRequest<TreatmentFilterRequest>;
 
   constructor(public patientService: PatientService,
-    private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe,
     private appLocalStorage: AppLocalStorage) {
     this.isReportAdd = false;
   }
@@ -147,7 +143,6 @@ export class TreatmentReportComponent implements OnInit {
     });
   }
   restFormData(value) {
-    console.log('value', value);
     if (value == 1) {
       this.isReportAdd = !this.isReportAdd;
     } else {

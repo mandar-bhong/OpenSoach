@@ -25,7 +25,6 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
   admissionIdSubscription: Subscription;
   patientName: string;
   patientNameSubscription: Subscription;
-  disableMedicalTab:boolean;
 
   constructor(
     private patientService: PatientService,
@@ -67,14 +66,6 @@ export class PatientDetailsComponent extends EditRecordBase implements OnInit, O
       this.disableTab = false;
     }
   }
-
-  // DisableTab() {
-  //   if (this.admissionid != null) {
-  //     this.disableMedicalTab = true;
-  //   } else {
-  //     this.disableMedicalTab = false;
-  //   }
-  // }
 
   changeTab(value) {
     this.selectedIndex = value;

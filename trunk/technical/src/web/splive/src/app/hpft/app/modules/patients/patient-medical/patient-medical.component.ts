@@ -1,25 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Allergies,
-  FamilyHistory,
-  HistoryPresentIllness,
-  InvestigationBeforeAdmission,
-  JSONBaseDataModel,
-  JSONInnerData,
-  PastHistory,
-  PersonalHistory,
-  PersonalHistoryInfo,
-  PresentComplaint,
-  ReasonForAdmission,
-  TreatmentBeforeAdmission,
-} from 'app/models/api/patient-data-models';
-import { MedicalDetailsModel } from 'app/models/ui/patient-models';
-import { PatientService } from 'app/services/patient.service';
 import { Subscription } from 'rxjs';
-
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { Allergies, FamilyHistory, HistoryPresentIllness, InvestigationBeforeAdmission, JSONBaseDataModel, JSONInnerData, PastHistory, PersonalHistory, PersonalHistoryInfo, PresentComplaint, ReasonForAdmission, TreatmentBeforeAdmission } from '../../../../app/models/api/patient-data-models';
+import { MedicalDetailsModel } from '../../../../app/models/ui/patient-models';
+import { PatientService } from '../../../../app/services/patient.service';
+
 
 @Component({
   selector: 'app-patient-medical',
@@ -32,10 +17,7 @@ export class PatientMedicalComponent implements OnInit, OnDestroy {
   isResponsereceived = false;
   medicaldetialsid: number;
   constructor(private patientService: PatientService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe, ) {
+    private appNotificationService: AppNotificationService) {
   }
 
   ngOnInit() {

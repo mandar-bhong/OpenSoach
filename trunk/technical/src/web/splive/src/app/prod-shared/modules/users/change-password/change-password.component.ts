@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
+import { ROUTE_LOGIN } from '../../../../shared/app-common-constants';
 import { TranslatePipe } from '../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../shared/services/notification/app-notification.service';
-import { EditRecordBase, FORM_MODE, EDITABLE_RECORD_STATE } from '../../../../shared/views/edit-record-base';
+import { EditRecordBase, FORM_MODE } from '../../../../shared/views/edit-record-base';
 import { ChangeUserPasswordRequest } from '../../../models/api/user-models';
 import { ConfirmPasswordModel } from '../../../models/ui/user-models';
 import { ProdUserService } from '../../../services/user/prod-user.service';
-import { LoginHandlerService } from '../../../../shared/services/login-handler.service';
-import { ROUTE_LOGIN } from '../../../../shared/app-common-constants';
+
 
 @Component({
   selector: 'app-change-password',
@@ -22,12 +21,10 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   dataModel = new ConfirmPasswordModel();
   hide = true;
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
     private translatePipe: TranslatePipe,
     private prodUserService: ProdUserService,
-    private loginHandlerService: LoginHandlerService,
   ) {
     super();
     this.iconCss = 'fa fa-key';

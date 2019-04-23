@@ -45,7 +45,6 @@ export class WardDeviceAssociateComponent implements OnInit {
         { devid: this.selecteddevice.devid, spid: this.spid }).subscribe(payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
             this.appNotificationService.success();
-            console.log('in dismiss', this.selecteddevice.devid);
             this.bottomSheetRef.dismiss({ devid: this.selecteddevice.devid, devname: this.selecteddevice.devname });
           }
           else{

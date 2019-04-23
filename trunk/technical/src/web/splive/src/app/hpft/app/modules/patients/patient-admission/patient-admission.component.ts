@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
 import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { PATIENT_STATE } from '../../../app-constants';
@@ -29,7 +28,6 @@ export class PatientAdmissionComponent extends EditRecordBase implements OnInit,
     private route: ActivatedRoute,
     private router: Router,
     private appNotificationService: AppNotificationService,
-    private translatePipe: TranslatePipe,
   ) {
     super();
     this.iconCss = 'fa fa-user';

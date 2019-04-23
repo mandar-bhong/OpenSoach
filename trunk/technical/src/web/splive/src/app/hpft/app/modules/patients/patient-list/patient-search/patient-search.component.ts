@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ServicepointListResponse } from '../../../../../../prod-shared/models/api/servicepoint-models';
+import { PATIENT_STATE } from '../../../../app-constants';
 import { PatientFilterRequest } from '../../../../models/api/patient-data-models';
 import { PatientFilterModel } from '../../../../models/ui/patient-models';
 import { PatientService } from '../../../../services/patient.service';
-import { PATIENT_STATE } from 'app/app-constants';
+
 
 @Component({
   selector: 'app-patient-search',
