@@ -1,17 +1,15 @@
-import { Component, OnDestroy, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ServicepointConfigureListResponse } from '../../../../../prod-shared/models/api/service-configuration-models';
-import { ServicepointListResponse } from '../../../../../prod-shared/models/api/servicepoint-models';
+import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { EditRecordBase, FORM_MODE, EDITABLE_RECORD_STATE } from '../../../../../shared/views/edit-record-base';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../shared/views/edit-record-base';
 import { PatientAddRequest, PatientUpdateRequest } from '../../../models/api/patient-data-models';
 import { PatientAddModal } from '../../../models/ui/patient-models';
 import { PatientService } from '../../../services/patient.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 
 @Component({
   selector: 'app-patient-add',
@@ -25,10 +23,6 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
   editClick = new EventEmitter<null>();
   dataModel = new PatientAddModal();
   routeSubscription: Subscription;
-  patientStates: EnumDataSourceItem<number>[];
-  splist: ServicepointListResponse[] = [];
-  spconfigures: ServicepointConfigureListResponse[] = [];
-  disabled: boolean = true;
   personGender: EnumDataSourceItem<number>[];
   skipbutton: boolean;
 
@@ -69,7 +63,7 @@ export class PatientAddComponent extends EditRecordBase implements OnInit, OnDes
     const recordIDRequestModel = new RecordIDRequestModel();
     recordIDRequestModel.admissionid = this.patientService.admissionid;
     recordIDRequestModel.patientid = this.dataModel.patientid;
-    this.patientService.getPatientNewUpdates(recordIDRequestModel).subscribe(payloadResponse => {
+    this.patientService.getPatientDetailsUpdates(recordIDRequestModel).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.CopyFromUpdateResponse(payloadResponse.data);

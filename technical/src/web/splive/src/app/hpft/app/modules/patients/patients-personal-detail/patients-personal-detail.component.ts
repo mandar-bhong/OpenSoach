@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PatientUpdateRequest } from 'app/models/api/patient-data-models';
+import { PatientUpdateRequest } from '../../../../app/models/api/patient-data-models';
 import { Subscription } from 'rxjs';
 import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
@@ -62,7 +62,7 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
     const recordIDRequestModel = new RecordIDRequestModel();
     recordIDRequestModel.admissionid = this.patientService.admissionid;
     recordIDRequestModel.patientid = this.patientService.patientid;
-    this.patientService.getPatientNewUpdates(recordIDRequestModel).subscribe(payloadResponse => {
+    this.patientService.getPatientDetailsUpdates(recordIDRequestModel).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.CopyFromUpdateResponse(payloadResponse.data);

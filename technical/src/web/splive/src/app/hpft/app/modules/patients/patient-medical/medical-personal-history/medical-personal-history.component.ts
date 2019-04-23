@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
-// import { MedicalDetailsModel } from 'app/models/ui/patient-models';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { PersonalHistoryInfo, WeightData, AlcoholData, SmokData, JSONBaseDataModel } from '../../../../../app/models/api/patient-data-models';
-import { EditRecordBase, EDITABLE_RECORD_STATE, FORM_MODE } from '../../../../../../shared/views/edit-record-base';
-import { FormGroup, FormControl } from '@angular/forms';
+import { EDITABLE_RECORD_STATE, EditRecordBase, FORM_MODE } from '../../../../../../shared/views/edit-record-base';
+import { AlcoholData, JSONBaseDataModel, PersonalHistoryInfo, SmokData, WeightData } from '../../../../../app/models/api/patient-data-models';
 import { MedicalDetailsModel } from '../../../../models/ui/patient-models';
 
 @Component({
