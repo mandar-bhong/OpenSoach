@@ -74,7 +74,7 @@ let selectQueries = new Map([
     ["getAllActionList", "select * from action_tbl where admission_uuid=?"],
 
     ["getActionList", `select act.uuid as action_uuid,act.admission_uuid,act.schedule_uuid,act.scheduled_time,act.conf_type_code,atxn.uuid as action_txn_uuid,atxn.txn_data,
-    atxn.client_updated_at,atxn.txn_state,usr.fname,usr.lname, sch.conf
+    atxn.client_updated_at,atxn.txn_state,usr.fname,usr.lname, sch.conf,sch.start_date,sch.end_date
     from action_tbl act
     left join schedule_tbl sch on sch.uuid = act.schedule_uuid
     left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time

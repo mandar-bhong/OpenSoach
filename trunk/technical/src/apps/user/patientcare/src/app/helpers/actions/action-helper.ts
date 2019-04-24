@@ -4,6 +4,7 @@ import { ActionDBModel } from "~/app/models/ui/action-models.js";
 import { ActionDataStoreModel } from "~/app/models/db/action-datastore.js";
 import { PlatformHelper } from "../platform-helper.js";
 import { ActionStatus } from "~/app/app-constants.js";
+import { ActionsData } from "~/app/models/db/action-datastore.js";
 
 export class ActionHelper {
     startdate: Date;
@@ -53,14 +54,12 @@ export class ActionHelper {
         this.actionList = [];
         for (let i = 0; i < this.actionItems.length; i++) {
             const dateaction = new Date(this.actionItems[i].dateAction);
-            //  dateaction.setHours(0, 0, 0, 0);
-            console.log('date actions', dateaction);
+
             for (let j = 0; j < this.actionItems[i].dayAction.length; j++) {
                 const dateval = new Date(dateaction);
                 dateval.setMinutes(this.actionItems[i].dayAction[j].time);
                 const actionList = new ActionDataStoreModel();
                 actionList.scheduled_time = new Date(dateval).toISOString();
-                console.log('in generate DB actions fucntion', this.schedulardata.data)
                 actionList.admission_uuid = this.schedulardata.data.admission_uuid;
                 actionList.schedule_uuid = this.schedulardata.data.uuid;
                 actionList.conf_type_code = this.schedulardata.data.conf_type_code;
@@ -99,4 +98,31 @@ export class ActionHelper {
             return enddate;
         }
     }
+     // fucntion for generating sticky actions
+     generateStickyAction(schedulardata : Schedulardata ) {       
+                let actionList:ActionDataStoreModel = [];
+                
+                const actionItem = new ActionDataStoreModel();
+                actionItem.scheduled_time =null;       
+                actionItem.admission_uuid = schedulardata.data.admission_uuid;
+                actionItem.schedule_uuid = schedulardata.data.uuid;
+                actionItem.conf_type_code = schedulardata.data.conf_type_code;
+                actionItem.is_deleted = ActionStatus.ACTION_ACTIVE;
+                actionItem.sync_pending = 1;
+                actionItem.client_updated_at=new Date().toISOString();              
+                actionItem.updated_by = schedulardata.updated_by;
+                actionItem.uuid = PlatformHelper.API.getRandomUUID();  
+                actionList.push(actionItem);            
+                return actionList;           
+    }
+
+    generateEndDate(schedulardata : Schedulardata) {
+        let endDate = new Date();
+        let startDate = new Date(schedulardata.data.start_date);
+        let days = parseInt(schedulardata.conf.duration.toString());
+        endDate.setDate(startDate.getDate() + days);
+        const date = new Date(endDate).toISOString();
+        return date;
+    }
+
 }

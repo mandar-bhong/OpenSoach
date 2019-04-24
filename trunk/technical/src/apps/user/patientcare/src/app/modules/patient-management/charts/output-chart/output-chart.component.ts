@@ -83,6 +83,7 @@ export class OutputChartComponent implements OnInit {
 		this.chartConfModel.name = this.outputType[data.outputType];
 		this.chartConfModel.duration = data.duration;
 		this.chartConfModel.remark = data.remark;
+		//this.chartConfModel.frequency = 2;
 		const desc = `Check ${this.chartConfModel.name} for ${data.duration} days`;
 		this.chartConfModel.desc = desc;
 		// this.chartConfModel.startDate = data.startDate;

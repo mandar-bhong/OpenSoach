@@ -124,6 +124,10 @@ export class DataActionItem {
     is_deleted: number;
     action_txn_uuid: string;
     conf: string;
+    
+    //Redlist view automatically use these property for binding
+    expanded: boolean;
+    selected:boolean;
 
 }
 export class GetJsonModel {

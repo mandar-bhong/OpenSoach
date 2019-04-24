@@ -7,6 +7,7 @@ import { SYNC_STORE, ConfigCodeType } from "../app-constants.js";
 import { MonitorHelper } from "../helpers/actions/monitor-helper.js";
 import { IntakeHelper } from "../helpers/actions/intake-helper.js";
 import { MedicineHelper } from "../helpers/actions/medicine-helper.js";
+import { OutputHelper } from "../helpers/actions/output-helper.js";
 
 export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler<ScheduleDatastoreModel>
 {
@@ -23,33 +24,27 @@ export class ScheduleDatastoreMessageHandler implements IDatastoreMessageHandler
         try {
             switch (schedulardata.data.conf_type_code) {
                 case ConfigCodeType.MEDICINE:
-                    const medicineHelper = new MedicineHelper();                   
+                    const medicineHelper = new MedicineHelper();
                     actiondata = <ActionsData>medicineHelper.createMedicineActions(schedulardata);
                     break;
-                case ConfigCodeType.INTAKE:                 
+                case ConfigCodeType.INTAKE:
                     const intakehelper = new IntakeHelper();
                     actiondata = <ActionsData>intakehelper.createIntakeActions(schedulardata);
                     break;
-                case ConfigCodeType.MONITOR:               
+                case ConfigCodeType.MONITOR:
                     const monitorhelper = new MonitorHelper()
-                    actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);                  
+                    actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
                     break;
                 case ConfigCodeType.OUTPUT:
-                    //   actiondata = <ActionsData>monitorhelper.createMonitorActions(schedulardata);
-                    actiondata = new ActionsData();
-                    let startDate = new Date(schedulardata.data.start_date);
-                
-                    let endDate = new Date();
-                    days = parseInt(schedulardata.conf.duration.toString());                
-                    endDate.setDate(startDate.getDate() + days);                   
-                    actiondata.actions = [];
-                    actiondata.enddate = new Date(endDate).toISOString();
+                    const outputHelper = new OutputHelper();
+                    actiondata = <ActionsData>outputHelper.createOutputActions(schedulardata);
+                    console.log('output actions created',actiondata);
                     break;
                 default:
                     break;
             }
-            try {                
-                msg.end_date = actiondata.enddate;  
+            try {
+                msg.end_date = actiondata.enddate;
                 return actiondata.actions;
             } catch (e) {
                 console.log('action inserting failed....', e.error);

@@ -157,4 +157,5 @@ export class OutputChartModel {
     desc: string;
     remark: string;
     name: string;
+    //frequency: number;
 }
