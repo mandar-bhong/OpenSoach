@@ -350,11 +350,11 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					// console.log("get action item ", item);
 					let currentDateTime = new Date();
 					trace.write(`Processing action item for display. Date: ${currentDateTime}, Db Data Item: ${item}`, TraceCustomCategory.SCHEDULE, trace.messageType.info);
-					// if (item.schedule_time == null &&
-					// 	(item.start_date > TimeConversion.getServerShortTimeFormat(currentDateTime) ||
-					// 		item.end_date < TimeConversion.getServerShortTimeFormat(currentDateTime))) {
-					// 	return; // Skipping this
-					// }
+					if (item.schedule_time == null &&
+						(item.start_date > TimeConversion.getServerShortTimeFormat(currentDateTime) ||
+							item.end_date < TimeConversion.getServerShortTimeFormat(currentDateTime))) {
+						return; // Skipping this
+					}
 					let actionListItem = new ActionListViewModel();
 					actionListItem.dbmodel = item;
 					this.actionListItem.push(actionListItem);
