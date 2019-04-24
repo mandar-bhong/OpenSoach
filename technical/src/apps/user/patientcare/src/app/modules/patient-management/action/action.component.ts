@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { Page } from 'ui/page';
-import { ACTION_STATUS, ConfigCodeType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, MonitorType } from '~/app/app-constants';
+import { ACTION_STATUS, ConfigCodeType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, MonitorType, ActionStatus } from '~/app/app-constants';
 import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
@@ -18,7 +18,7 @@ import { ActionTxnDatastoreModel } from '~/app/models/db/action-txn-model';
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
 import { BloodPressureValueModel, DataActionItem, GetJsonModel } from '~/app/models/ui/action-model';
-import { ActionDataDBRequest, ActionListViewModel, ActionTxnDBModel } from '~/app/models/ui/action-models';
+import { ActionDataDBRequest, ActionListViewModel, ActionTxnDBModel, ActionProcess } from '~/app/models/ui/action-models';
 import { Schedulardata } from '~/app/models/ui/chart-models';
 import { ActionService } from '~/app/services/action/action.service';
 import { ChartService } from '~/app/services/chart/chart.service';
@@ -27,8 +27,9 @@ import { WorkerService } from '~/app/services/worker.service';
 import { IDeviceAuthResult } from '../../idevice-auth-result';
 import { ActionFabComponent } from '../action-fab/action-fab.component';
 import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
-
-
+import { TimeConversion } from '~/app/helpers/time-conversion-helper';
+import * as trace from 'trace';
+import { TraceCustomCategory } from '~/app/helpers/trace-helper';
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -109,7 +110,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	actionformData: ActionTxnDBModel;
 	actiondata: ActionDataDBRequest;
 	actionDbData: ActionDataDBRequest;
-	actionDbArray: ActionTxnDBModel[] = [];
+	actionDbArray: ActionProcess[] = [];
 	confString;
 	confString1;
 	saveViewOpen = false;
@@ -347,6 +348,13 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			(val) => {
 				val.forEach(item => {
 					// console.log("get action item ", item);
+					let currentDateTime = new Date();
+					trace.write(`Processing action item for display. Date: ${currentDateTime}, Db Data Item: ${item}`, TraceCustomCategory.SCHEDULE, trace.messageType.info);
+					// if (item.schedule_time == null &&
+					// 	(item.start_date > TimeConversion.getServerShortTimeFormat(currentDateTime) ||
+					// 		item.end_date < TimeConversion.getServerShortTimeFormat(currentDateTime))) {
+					// 	return; // Skipping this
+					// }
 					let actionListItem = new ActionListViewModel();
 					actionListItem.dbmodel = item;
 					this.actionListItem.push(actionListItem);
@@ -473,10 +481,19 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 	// action txn nottification code
 	handelActionTransaction(actionTxnDatastoreModel: ActionTxnDatastoreModel) {
+		console.log('action transaction notification received', actionTxnDatastoreModel);
 		// checking is schedule is created for particular patient
 		if (actionTxnDatastoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
+
 			let actionitem = this.allAction.filter(data => data.schedule_uuid === actionTxnDatastoreModel.schedule_uuid && data.scheduled_time === actionTxnDatastoreModel.scheduled_time)[0] || null;
-		    // check if item is already exist
+			let stickyActionitem = this.allAction.filter(data => data.schedule_uuid === actionTxnDatastoreModel.schedule_uuid && data.scheduled_time === null)[0] || null;
+			if (stickyActionitem != null) {
+				//stickyActionitem.
+				this.resetActionItem(stickyActionitem);
+			} else {
+				trace.write(`unalbel to find sticky action item for schedule: ${actionTxnDatastoreModel.schedule_uuid}`, TraceCustomCategory.SCHEDULE, trace.messageType.error);
+			}
+			// check if item is already exist			
 			if (actionitem && actionitem != null) {
 				const gettxn_data = new GetJsonModel();
 				actionitem.txn_state = actionTxnDatastoreModel.txn_state;
@@ -497,13 +514,13 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				if (actionitem.name === MonitorType.BLOOD_PRESSURE) {
 					if (gettxn_data.value != null) {
 						const jsonvalue = new BloodPressureValueModel();
-						Object.assign(jsonvalue, JSON.parse(gettxn_data.value));					
+						Object.assign(jsonvalue, JSON.parse(gettxn_data.value));
 						actionitem.value.systolic = jsonvalue.systolic;
 						actionitem.value.diastolic = jsonvalue.diastolic;
 					}
 				} else {
 					actionitem.txn_data.value = gettxn_data.value;
-				}				
+				}
 				let x = this.activeAction.filter(data => data.schedule_uuid === actionTxnDatastoreModel.schedule_uuid && data.scheduled_time === actionTxnDatastoreModel.scheduled_time)[0] || null;
 				if (x && x != null) {
 					const itemindex = this.activeAction.indexOf(x);
@@ -517,14 +534,15 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		}
 	}
 	async handelActionNotification(actionDataStoreModel: ActionDataStoreModel) {
+		console.log('action notification received', actionDataStoreModel)
 		// if schedule added for specific patient.
 		if (actionDataStoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
 			// check for  item exist
 			const scheduleConfData = await this.actionService.getScheduleDetails('getScheduleData', actionDataStoreModel.schedule_uuid);
-		    let actionitem = this.allAction.filter(data => data.uuid === actionDataStoreModel.uuid)[0] || null;
+			let actionitem = this.allAction.filter(data => data.uuid === actionDataStoreModel.uuid)[0] || null;
 			if (actionitem && actionitem != null) {
 				// item found				
-				 actionitem = <DataActionItem><any>actionDataStoreModel;				
+				actionitem = <DataActionItem><any>actionDataStoreModel;
 				// // for handeling tranasction mode			
 				// fetching schedule name and its description
 				if (scheduleConfData.length > 0) {
@@ -549,7 +567,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			} else {
 				// item not found 			
 				actionitem = new DataActionItem();
-				actionitem = <DataActionItem><unknown>actionDataStoreModel;				
+				actionitem = <DataActionItem><unknown>actionDataStoreModel;
 				// assign empty value for avoiding can not read of deficned.
 				if (actionitem.name === MonitorType.BLOOD_PRESSURE) {
 					actionitem.txn_data = new GetJsonModel();
@@ -609,8 +627,9 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 
 	// >> on submit one bye one item data
-	onSubmit(item) {	
+	onSubmit(item) {
 		//set action conf model
+		this.formData=new  ActionTxnDBModel();
 		this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
@@ -660,8 +679,12 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.formData.admission_uuid = item.admission_uuid;
 
 		// after done data push one by one ietm in array hold data
-		this.actionDbArray.push(this.formData);
+
+		const actionProcess = new ActionProcess();
+		actionProcess.actionTxnData = this.formData;
+		actionProcess.actionItem = item;
 		console.log('add data', this.actionDbArray);
+		this.actionDbArray.push(actionProcess);
 
 	}
 	// >> on discard one bye one item data
@@ -704,7 +727,11 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.formData.admission_uuid = item.admission_uuid;
 
 		// after done data push one by one ietm in array hold data
-		this.actionDbArray.push(this.formData);
+		const actionProcess = new ActionProcess();
+		actionProcess.actionTxnData = this.formData;
+		actionProcess.actionItem = item;
+		console.log('add data', this.actionDbArray);
+		this.actionDbArray.push(actionProcess);
 
 	}
 	// all action done and discard save in action-trn-table
@@ -716,30 +743,69 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		// array hold entries one by one save
 		this.actionformData = new ActionTxnDBModel();
 		// insert Action db model to sqlite db
-		this.actionDbArray.forEach(item => {
-			console.log('save item', item);
-			const actionModel = new ServerDataProcessorMessageModel();
-			const serverDataStoreModel = new ServerDataStoreDataModel<ActionTxnDatastoreModel>();
-			serverDataStoreModel.datastore = SYNC_STORE.ACTION_TXN;
-			serverDataStoreModel.data = new ActionTxnDatastoreModel();
+		console.log('this.actionDbArray', this.actionDbArray);
+		this.actionDbArray.forEach(actionData => {
+			console.log('save item', actionData);
 
-			serverDataStoreModel.data.uuid = item.uuid;
-			serverDataStoreModel.data.sync_pending = 1
-			serverDataStoreModel.data.admission_uuid = item.admission_uuid;
-			serverDataStoreModel.data.schedule_uuid = item.schedule_uuid;
-			serverDataStoreModel.data.conf_type_code = item.conf_type_code;
-			serverDataStoreModel.data.txn_data = item.txn_data;
-			serverDataStoreModel.data.scheduled_time = item.scheduled_time;
-			serverDataStoreModel.data.txn_state = item.txn_state;
-			serverDataStoreModel.data.runtime_config_data = item.runtime_config_data;
-			serverDataStoreModel.data.client_updated_at = new Date().toISOString();
-			console.log('created data', serverDataStoreModel.data);
-			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
+			const txnDataStoreModel = this.generateDataStoreModel(actionData);
+
+			switch (actionData.actionItem.conf_type_code) {
+				case ConfigCodeType.OUTPUT:
+
+					if (actionData.actionTxnData.scheduled_time == null) {
+						//const txnDataStoreModel = this.generateDataStoreModel(actionData);
+						// updating schedule execution time with current date
+
+						const scheduleExecutionTime = TimeConversion.getServerShortTimeFormat(new Date());
+
+						const actionStoreModel = new ServerDataStoreDataModel<ActionDataStoreModel>();
+						actionStoreModel.data = new ActionDataStoreModel();
+						actionStoreModel.data.scheduled_time = scheduleExecutionTime;
+						actionStoreModel.data.admission_uuid = actionData.actionItem.admission_uuid;
+						actionStoreModel.data.schedule_uuid = actionData.actionItem.schedule_uuid;
+						actionStoreModel.data.conf_type_code = actionData.actionItem.conf_type_code;
+
+						actionStoreModel.data.is_deleted = ActionStatus.ACTION_ACTIVE;
+						actionStoreModel.data.sync_pending = 1;
+						actionStoreModel.data.client_updated_at = new Date().toISOString();
+						//	actionList.updated_by = actionData.actionTxnData.updated_by;
+						actionStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
+						actionStoreModel.datastore = SYNC_STORE.ACTION;
+						this.ServerDataStoreDataModelArray.push(actionStoreModel);
+
+
+						txnDataStoreModel.data.scheduled_time = scheduleExecutionTime;
+						this.ServerDataStoreDataModelArray.push(txnDataStoreModel);
+					}
+					break;
+				default:
+					//const dataStoreModel = this.generateDataStoreModel(actionData)
+					this.ServerDataStoreDataModelArray.push(txnDataStoreModel);
+					break;
+			}
 		});
 		this.savetoUserAuth();
 		this.saveViewOpen = false;
 		// check data save entries added in action trn table 
 		this.gettrnlistdata();
+
+	}//end of code block
+
+	generateDataStoreModel(actionData) {
+		const serverDataStoreModel = new ServerDataStoreDataModel<ActionTxnDatastoreModel>();
+		serverDataStoreModel.datastore = SYNC_STORE.ACTION_TXN;
+		serverDataStoreModel.data = new ActionTxnDatastoreModel();
+		serverDataStoreModel.data.uuid = actionData.actionTxnData.uuid;
+		serverDataStoreModel.data.sync_pending = 1
+		serverDataStoreModel.data.admission_uuid = actionData.actionTxnData.admission_uuid;
+		serverDataStoreModel.data.schedule_uuid = actionData.actionTxnData.schedule_uuid;
+		serverDataStoreModel.data.conf_type_code = actionData.actionTxnData.conf_type_code;
+		serverDataStoreModel.data.txn_data = actionData.actionTxnData.txn_data;
+		serverDataStoreModel.data.scheduled_time = actionData.actionTxnData.scheduled_time;
+		serverDataStoreModel.data.txn_state = actionData.actionTxnData.txn_state;
+		serverDataStoreModel.data.runtime_config_data = actionData.actionTxnData.runtime_config_data;
+		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
+		return serverDataStoreModel;
 
 	}
 
@@ -845,7 +911,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (actionListItem.admission_uuid == this.passdataservice.getAdmissionID()) {
 			let item = this.allAction.filter(data => data.uuid == actionListItem.uuid)[0] || null;
 			//  if record found in list  
-			if (item) {		
+			if (item) {
 				item = actionListItem;
 			} else {
 				this.allAction.push(actionListItem);
@@ -856,28 +922,40 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	} // end of code block.
 
 	calculateActiveActionTime(scheduled_time) {
-		const recivedDateFormDB = new Date(scheduled_time);
-		const recivedDateDb = recivedDateFormDB.getMinutes();
-		recivedDateFormDB.setMinutes(recivedDateDb);
-		const reciveTimeDb = recivedDateFormDB.toLocaleString();
-		const Dbdate = new Date(reciveTimeDb);
+		if (scheduled_time != null) {
+			const recivedDateFormDB = new Date(scheduled_time);
+			const recivedDateDb = recivedDateFormDB.getMinutes();
+			recivedDateFormDB.setMinutes(recivedDateDb);
+			const reciveTimeDb = recivedDateFormDB.toLocaleString();
+			const Dbdate = new Date(reciveTimeDb);
 
-		const tempStartTime = new Date();
-		const after1Hours = tempStartTime.getMinutes() - 60;
-		tempStartTime.setMinutes(after1Hours);
-		const tempStart = tempStartTime.toLocaleString();
-		const startTime = new Date(tempStart);
+			const tempStartTime = new Date();
+			const after1Hours = tempStartTime.getMinutes() - 60;
+			tempStartTime.setMinutes(after1Hours);
+			const tempStart = tempStartTime.toLocaleString();
+			const startTime = new Date(tempStart);
 
-		const tempEndTime = new Date();
-		const next12Hours = tempEndTime.getMinutes() + 720;
-		tempEndTime.setMinutes(next12Hours);
-		const tempEnd = tempEndTime.toLocaleString();
-		const endTime = new Date(tempEnd);
-		if (Dbdate >= startTime && Dbdate <= endTime) {
-			return true;
+			const tempEndTime = new Date();
+			const next12Hours = tempEndTime.getMinutes() + 720;
+			tempEndTime.setMinutes(next12Hours);
+			const tempEnd = tempEndTime.toLocaleString();
+			const endTime = new Date(tempEnd);
+			if (Dbdate >= startTime && Dbdate <= endTime) {
+				return true;
+			} else {
+				false;
+			}
 		} else {
-			false;
+			// schedule time is null means this action is sticky so return true.
+			return true
 		}
 	}
 
+
+	resetActionItem(actionItem: DataActionItem) {
+		actionItem.txn_data = new GetJsonModel();
+		actionItem.expanded = false;
+		actionItem.selected = false;
+
+	}
 }

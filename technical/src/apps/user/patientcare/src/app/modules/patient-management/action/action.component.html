@@ -29,7 +29,7 @@
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto"
                                 style="vertical-align: center; text-align:center;color: #ebebeb;">
                                 <StackLayout row="1" class="list-layout"
-                                    *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS && item.scheduled_time!=null">
                                     <Label row="0" col="0" text="&#xf020;" class="mdi list-text"
                                         [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                     <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'"
@@ -39,7 +39,7 @@
 
 
                                 <GridLayout row="1" class="list-layout" rows="auto"
-                                    *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS && item.scheduled_time!=null">
                                     <GridLayout row="0" rows="auto, auto, auto"
                                         *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
                                         <Label row="0" col="0" [text]="item.scheduled_time | date: 'dd MMM'"
@@ -106,7 +106,7 @@
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto"
                                 style="vertical-align: center; text-align:center;color: #ebebeb;">
                                 <StackLayout row="1" class="list-layout"
-                                    *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    *ngIf="!iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS  && item.scheduled_time!=null">
                                     <Label row="0" col="0" text="&#xf020;" class="mdi list-text"
                                         [ngClass]="{active_delayed_missed: item.actionStatus === action_Status.ACTIVE_DELAYED,active_needs_attention: item.actionStatus === action_Status.ACTIVE_NEEDS_ATTENTION,active_normal: item.actionStatus === action_Status.ACTIVE_NORMAL, active_missed: item.actionStatus === action_Status.MISSED}"></Label>
                                     <Label row="1" col="0" [text]="item.scheduled_time | date: 'shortTime'"
@@ -116,7 +116,7 @@
 
 
                                 <GridLayout row="1" class="list-layout" rows="auto"
-                                    *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
+                                    *ngIf="iscompleted && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS && item.scheduled_time!=null">
                                     <GridLayout row="0" rows="auto, auto, auto"
                                         *ngIf="item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION">
                                         <Label row="0" col="0" [text]="item.scheduled_time | date: 'dd MMM'"
@@ -169,9 +169,9 @@
                                             <Label text="&#xf00c;" class="fas" style="color: green"></Label>
                                         </RL:Ripple>
                                     </GridLayout>
-                                    <GridLayout row="0" col="2">
+                                    <GridLayout row="0" col="2" *ngIf="item.conf_type_code!=conf_type_code_const.OUTPUT">
                                         <RL:Ripple rippleColor="lightgray" class="ripplecenter" borderRadius="5"
-                                            height="37" width="37" (tap)="onDiscard(item)">
+                                            height="37" width="37" (tap)="onDiscard(item)">                                            
                                             <Label text="&#xf00d;" class="fas" style="color:red"></Label>
                                         </RL:Ripple>
                                     </GridLayout>

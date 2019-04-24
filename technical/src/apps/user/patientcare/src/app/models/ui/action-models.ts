@@ -28,17 +28,21 @@ export class ActionDataDBRequest {
     comment: string;
     value: string;
 }
-export class UserAuthDBRequest{
+export class UserAuthDBRequest {
     userid: number;
     user_fname: string;
     user_lname: string;
     email: string;
     pin: number;
 }
-export class UserCreateFormRequest{
+export class UserCreateFormRequest {
     email: string;
     password: string;
     newpin: string;
     reenterpin: string
 }
 
+export class ActionProcess {
+    actionItem: DataActionItem;
+    actionTxnData: ActionTxnDBModel
+}
