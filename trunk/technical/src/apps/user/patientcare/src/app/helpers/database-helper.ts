@@ -74,7 +74,7 @@ let selectQueries = new Map([
     ["getAllActionList", "select * from action_tbl where admission_uuid=?"],
 
     ["getActionList", `select act.uuid as action_uuid,act.admission_uuid,act.schedule_uuid,act.scheduled_time,act.conf_type_code,atxn.uuid as action_txn_uuid,atxn.txn_data,
-    atxn.client_updated_at,atxn.txn_state,usr.fname,usr.lname, sch.conf,sch.start_date,sch.end_date
+    atxn.client_updated_at,atxn.txn_state,usr.fname,usr.lname, sch.conf,sch.start_date,sch.end_date,sch.status
     from action_tbl act
     left join schedule_tbl sch on sch.uuid = act.schedule_uuid
     left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time
@@ -119,9 +119,12 @@ let selectQueries = new Map([
     where action_tbl.is_deleted = 0 and action_tbl.admission_uuid = ? and datetime(action_tbl.scheduled_time) >= datetime(?) and action_txn_tbl.uuid IS NULL
     ) actions
     order by actions.scheduled_time ASC`],
-    ["getActionForCancel", `select act.uuid,act.admission_uuid,act.conf_type_code,act.schedule_uuid,act.scheduled_time,act.is_deleted,act.updated_by,act.updated_on,act.sync_pending,act.client_updated_at,atxn.uuid as atxn_uuid from action_tbl act
+    ["getActionForCancel", `select act.uuid,act.admission_uuid,act.conf_type_code,act.schedule_uuid,
+    act.scheduled_time,act.is_deleted,act.updated_by,act.updated_on,act.sync_pending,act.client_updated_at,
+    atxn.uuid as atxn_uuid from action_tbl act
     left join action_txn_tbl atxn on act.scheduled_time = atxn.scheduled_time
-    where act.scheduled_time >=? and act.schedule_uuid=? and atxn.uuid IS NULL`],
+    where ((act.scheduled_time >=? and atxn.uuid IS NULL) or act.scheduled_time IS NULL ) and act.schedule_uuid=?  
+    `],
     ["userList1", "select * from usr_tbl"],
     ["actionTxnList", "select * from action_txn_tbl"],
     ["getUserById", "select * from usr_tbl where usr_id= ?"],

@@ -21,15 +21,13 @@ export class CancelScheduleDatastoreMessageHandler implements IDatastoreMessageH
                 actiondata = new ActionsData();
                 actiondata.actions = [];
                 try {
-                    const success = await this.getChartList(schedulardata.data.uuid, msg.updated_by);
+                    const success = await this.getChartList(schedulardata.data.uuid);
                     success.forEach((item) => {
                       item.is_deleted = ActionStatus.ACTION_DELETED;
                         item.updated_by = msg.updated_by;
                         item.sync_pending = 1;
-                        item.client_updated_at = new Date().toISOString();
-                        item.scheduled_time = new Date(item.scheduled_time).toISOString();
-                        item.updated_on = new Date(item.updated_on).toISOString();
-                        actiondata.actions.push(item);
+                        item.client_updated_at = new Date().toISOString();                  
+                       actiondata.actions.push(item);
                     });
                     msg.end_date = new Date().toISOString();                   
                     resolve(actiondata.actions);
@@ -43,12 +41,13 @@ export class CancelScheduleDatastoreMessageHandler implements IDatastoreMessageH
             }
         });
     }
-    async getChartList(uuid, updated_by): Promise<any> {
+    async getChartList(uuid): Promise<any> {
         return new Promise((resolve, reject) => {           
             const currentDate = new Date().toISOString();
-            let paramData = [currentDate, uuid];          
+            let paramData = [currentDate, uuid];                  
             DatabaseHelper.getDataByParameters("getActionForCancel", paramData).then(
-                (success) => {
+                (success) => {                 
+
                     resolve(success);
                 },
                 (error) => {
