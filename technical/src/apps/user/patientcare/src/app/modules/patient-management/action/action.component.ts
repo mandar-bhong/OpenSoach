@@ -350,10 +350,11 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					// console.log("get action item ", item);
 					let currentDateTime = new Date();
 					trace.write(`Processing action item for display. Date: ${currentDateTime}, Db Data Item: ${item}`, TraceCustomCategory.SCHEDULE, trace.messageType.info);
-					if (item.schedule_time == null &&
-						(item.start_date > TimeConversion.getServerShortTimeFormat(currentDateTime) ||
-							item.end_date < TimeConversion.getServerShortTimeFormat(currentDateTime))) {
-						return; // Skipping this
+					console.log('Processing action  Db Data Item: ', item);
+					if ((item.schedule_time === null) && (item.start_date > TimeConversion.getServerShortTimeFormat(currentDateTime) ||
+						item.end_date < TimeConversion.getServerShortTimeFormat(currentDateTime))) {
+						console.log('skipping item ', item);
+						return; // Skipping this because if schedule is expired then need to remove sticky action
 					}
 					let actionListItem = new ActionListViewModel();
 					actionListItem.dbmodel = item;
@@ -510,7 +511,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 							actionitem.fname = item.fname;
 							actionitem.lname = item.lname;
 						});
-					})
+					});
 				if (actionitem.name === MonitorType.BLOOD_PRESSURE) {
 					if (gettxn_data.value != null) {
 						const jsonvalue = new BloodPressureValueModel();
@@ -536,13 +537,22 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	async handelActionNotification(actionDataStoreModel: ActionDataStoreModel) {
 		console.log('action notification received', actionDataStoreModel)
 		// if schedule added for specific patient.
+		console.log('this.passdataservice.getAdmissionID()', this.passdataservice.getAdmissionID());
 		if (actionDataStoreModel.admission_uuid == this.passdataservice.getAdmissionID()) {
 			// check for  item exist
 			const scheduleConfData = await this.actionService.getScheduleDetails('getScheduleData', actionDataStoreModel.schedule_uuid);
 			let actionitem = this.allAction.filter(data => data.uuid === actionDataStoreModel.uuid)[0] || null;
+			console.log('scheduleConfData received', scheduleConfData)
 			if (actionitem && actionitem != null) {
 				// item found				
-				actionitem = <DataActionItem><any>actionDataStoreModel;
+				//	actionitem = <DataActionItem><any>actionDataStoreModel;
+				actionitem.admission_uuid = actionDataStoreModel.admission_uuid;
+				actionitem.client_updated_at = actionDataStoreModel.client_updated_at;
+				actionitem.conf_type_code = actionDataStoreModel.conf_type_code;
+				actionitem.is_deleted = actionDataStoreModel.is_deleted;
+				actionitem.schedule_uuid = actionDataStoreModel.schedule_uuid;
+				actionitem.scheduled_time = actionDataStoreModel.scheduled_time;
+				actionitem.uuid = actionDataStoreModel.uuid
 				// // for handeling tranasction mode			
 				// fetching schedule name and its description
 				if (scheduleConfData.length > 0) {
@@ -567,7 +577,14 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			} else {
 				// item not found 			
 				actionitem = new DataActionItem();
-				actionitem = <DataActionItem><unknown>actionDataStoreModel;
+				//actionitem = <DataActionItem><unknown>actionDataStoreModel;
+				actionitem.admission_uuid = actionDataStoreModel.admission_uuid;
+				actionitem.client_updated_at = actionDataStoreModel.client_updated_at;
+				actionitem.conf_type_code = actionDataStoreModel.conf_type_code;
+				actionitem.is_deleted = actionDataStoreModel.is_deleted;
+				actionitem.schedule_uuid = actionDataStoreModel.schedule_uuid;
+				actionitem.scheduled_time = actionDataStoreModel.scheduled_time;
+				actionitem.uuid = actionDataStoreModel.uuid
 				// assign empty value for avoiding can not read of deficned.
 				if (actionitem.name === MonitorType.BLOOD_PRESSURE) {
 					actionitem.txn_data = new GetJsonModel();
@@ -599,8 +616,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			}
 			// if action is deleted
 			if (actionitem.is_deleted === 1) {
+				console.log('in isdeleted fucntion', this.activeAction);
 				const itemindex = this.activeAction.indexOf(actionitem);
-				// console.log('itemindex in actiive action list', itemindex);
+
+				console.log('itemindex in actiive action list', itemindex);
 				if (itemindex >= 0) {
 					this.activeAction.splice(itemindex, 1);
 				}
@@ -621,6 +640,8 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			// updating to ui list.
 			this.toggoleActionList();
 
+		} else {
+			console.log('action for different patinet');
 		}
 
 
@@ -629,7 +650,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// >> on submit one bye one item data
 	onSubmit(item) {
 		//set action conf model
-		this.formData=new  ActionTxnDBModel();
+		this.formData = new ActionTxnDBModel();
 		this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
