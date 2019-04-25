@@ -129,7 +129,7 @@ export class UserAuthComponent implements OnInit {
 		this.UserAuthService.getUserAccountList1().then(
 			(val) => {
 				val.forEach(item => {
-					console.log('get data user list by server', item);
+					// console.log('get data user list by server', item);
 					// const actionListItems = new ActionListViewModel();
 					// actionListItems.dbmodel = item;
 					this.getdataItemsaccount.push(item);

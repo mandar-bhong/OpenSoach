@@ -16,12 +16,54 @@ import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/a
 import * as imagepicker from "nativescript-imagepicker";
 import { DocumentUploadDatastore } from '~/app/models/db/document-upload-datastore';
 import { ChartService } from '~/app/services/chart/chart.service';
+
+
+import { animate, state, style, transition, trigger } from "@angular/animations";
+import { SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar/segmented-bar';
+const imageSourceModule = require("tns-core-modules/image-source");
+const fileSystemModule = require("tns-core-modules/file-system");
+
+
 var mime = require('mime-types')
 @Component({
 	moduleId: module.id,
 	selector: 'doctor-orders',
 	templateUrl: './doctor-orders.component.html',
-	styleUrls: ['./doctor-orders.component.css']
+	styleUrls: ['./doctor-orders.component.css'],
+	animations: [
+		trigger("from-bottom", [
+			state("in", style({
+				"opacity": 1,
+				transform: "translateY(0)"
+			})),
+			state("void", style({
+				"opacity": 0,
+				transform: "translateY(20%)"
+			})),
+			transition("void => *", [animate("1600ms 700ms ease-out")]),
+			transition("* => void", [animate("600ms ease-in")])
+		]),
+		trigger("fade-in", [
+			state("in", style({
+				"opacity": 1
+			})),
+			state("void", style({
+				"opacity": 0
+			})),
+			transition("void => *", [animate("800ms 2000ms ease-out")])
+		]),
+		trigger("scale-in", [
+			state("in", style({
+				"opacity": 1,
+				transform: "scale(1)"
+			})),
+			state("void", style({
+				"opacity": 0,
+				transform: "scale(0.9)"
+			})),
+			transition("void => *", [animate("1100ms ease-out")])
+		])
+	]
 })
 export class DoctorOrdersComponent implements OnInit {
 	public imageTaken: ImageAsset;
@@ -42,9 +84,27 @@ export class DoctorOrdersComponent implements OnInit {
 	isDrNameRequired = false;
 	isCommentRequired = false;
 	isSingleMode: boolean;
+
+
+
+	// drowing
+	plugins: Array<SegmentedBarItem> = [];
+	selectedPlugin: string = "Drawing";
+	drawings: Array<any> = [];
+	getDrawingPad: boolean;
+	getFormView: boolean;
+	pencolor;
+	penWidth;
+	pencilbuttonClicked: boolean = true;
+	eraserbuttonClicked: boolean = false;
+	alleraserbuttonClicked: boolean = false;
+	drawImg: boolean = false;
+	drawDocName: string;
+	drawImgtype: string;
 	constructor(private params: ModalDialogParams,
 		private chartService: ChartService,
 		private passDataService: PassDataService) {
+		this.getFormView = true;
 	}
 	// @ViewChild('aut') Item: RadAutoCompleteTextViewComponent;
 	ngOnInit() {
@@ -52,6 +112,10 @@ export class DoctorOrdersComponent implements OnInit {
 		this.getOrderType();
 		this.getDoctorNames();
 
+		this.pencolor = '#e66465';
+		this.penWidth = '1';
+		// drowing
+		this.addPluginToSegmentedBar("Drawing");
 	}
 	// << func for creating form controls
 	createFormControls(): void {
@@ -97,9 +161,20 @@ export class DoctorOrdersComponent implements OnInit {
 			serverDocumentDataStoreModel.datastore = SYNC_STORE.DOCUMENT;
 			serverDocumentDataStoreModel.data = new DocumentUploadDatastore();
 			serverDocumentDataStoreModel.data.client_updated_at = new Date().toISOString();
-			serverDocumentDataStoreModel.data.doc_path = this.docPath;
-			serverDocumentDataStoreModel.data.doc_name = 'test';
-			serverDocumentDataStoreModel.data.doc_type = mime.lookup('xlsx');
+
+			if (this.drawImg == true) {
+				// drawimg
+				serverDocumentDataStoreModel.data.doc_path = this.docPath;
+				serverDocumentDataStoreModel.data.doc_name = this.drawDocName;
+				serverDocumentDataStoreModel.data.doc_type = this.drawImgtype;
+			}
+			else {
+				// upload and click img
+				serverDocumentDataStoreModel.data.doc_path = this.docPath;
+				serverDocumentDataStoreModel.data.doc_name = 'test';
+				serverDocumentDataStoreModel.data.doc_type = mime.lookup('xlsx');
+			}
+
 			serverDocumentDataStoreModel.data.datastore = SYNC_STORE.DOCTORS_ORDERS;
 			serverDocumentDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
 			serverDocumentDataStoreModel.data.uuid = PlatformHelper.API.getRandomUUID();
@@ -134,6 +209,7 @@ export class DoctorOrdersComponent implements OnInit {
 				// console.log('picked image', this.imageTaken);
 				if (application.android) {
 					this.docPath = this.imageTaken.android;
+					console.log('this.docPath', this.docPath);
 				} else if (application.ios) {
 					this.docPath = this.imageTaken.ios;
 				}
@@ -228,21 +304,100 @@ export class DoctorOrdersComponent implements OnInit {
 	// code block for getting doctors names 
 	public getDoctorNames() {
 		this.chartService.getAllData('doctorName').then(
-			(success) => {				
-				this.doctors= success;
+			(success) => {
+				this.doctors = success;
 				if (this.doctors.length > 0) {
-					console.log('doctors names', success);
+					// console.log('doctors names', success);
 					this._items = new ObservableArray<DoctorInfo>();
 					success.forEach((item) => {
 						item.formatedName = item.fname + " " + item.lname;
 						this._items.push(new DoctorInfo(item.formatedName, undefined, item.usr_id));
-					});					
+					});
 				}
 			},
 			(error) => {
 				console.log("getChartData error:", error);
 			}
 		);
+	}
+
+
+	private addPluginToSegmentedBar(name: string) {
+		let drawingPad = new SegmentedBarItem();
+		drawingPad.title = name;
+		this.plugins.push(drawingPad);
+	}
+	getMyDrawing(pad: any) {
+		// then get the drawing (Bitmap on Android) of the drawingpad
+		pad.getDrawing().then(data => {
+			console.log('get deawing', data);
+			this.drawings.push(data);
+			this.clearMyDrawing(pad);
+			this.getformview();
+		}, err => {
+			console.log(err);
+		});
+		this.drawingImgToPng(pad);
+
+	}
+	drawingImgToPng(pad) {
+		this.drawImg = true;
+		let name;
+		let path;
+		// grabs the  path for Downloads (string value)
+		pad.getDrawing().then(function (result) {
+			var img2 = imageSourceModule.fromNativeSource(result);
+			var androidDownloadsPath = android.os.Environment.getExternalStoragePublicDirectory(
+				android.os.Environment.DIRECTORY_DOWNLOADS).toString();
+
+			// creates PATH for folder called MyFolder in /Downloads (string value)
+			var myFolderPath = fileSystemModule.path.join(androidDownloadsPath, "MyFolder");
+			console.log('myFolderPath', myFolderPath);
+
+			const ticks = new Date;
+			name = 'drawing-pad-' + ticks.getTime() + '.png';
+			// creates a path of kind ../Downloads/MyFolder/my-file-name.jpg
+			path = fileSystemModule.path.join(myFolderPath, name);
+			var saved = img2.saveToFile(path, "png");
+		});
+		setTimeout(() => {
+			this.drawDocName = name;
+			this.drawImgtype = '.png';
+			this.docPath = path;
+		}, 1);
+
+	}
+	onDrawingPad() {
+		this.getDrawingPad = true;
+		this.getFormView = false;
+		// this.getDrawingPad = !this.getDrawingPad;
+	}
+	getformview() {
+		this.getDrawingPad = false;
+		this.getFormView = true;
+	}
+	getEraser() {
+		this.pencolor = '#ffffff';
+		this.penWidth = '20';
+		this.pencilbuttonClicked = false;
+		this.eraserbuttonClicked = true;
+		this.alleraserbuttonClicked = false
+	}
+	clearMyDrawing(pad: any) {
+		pad.clearDrawing();
+		this.pencilbuttonClicked = false;
+		this.eraserbuttonClicked = false;
+		this.alleraserbuttonClicked = true;
+	}
+	getDrow() {
+		this.pencolor = '#e66465';
+		this.penWidth = '1';
+		this.pencilbuttonClicked = true;
+		this.eraserbuttonClicked = false;
+		this.alleraserbuttonClicked = false;
+	}
+	protected getScreenName(): string {
+		return "Input";
 	}
 
 } // end of class 
