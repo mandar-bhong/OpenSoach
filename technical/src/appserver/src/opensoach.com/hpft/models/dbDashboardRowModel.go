@@ -105,3 +105,15 @@ type DBDashBoardPatientDataModel struct {
 	PatientStatus int `db:"status" json:"patientstatus"`
 	Count         int `db:"count" json:"count"`
 }
+
+type DBPatientHospitalisedPerMonthFilterDataModel struct {
+	SpId  *int64 `db:"sp_id_fk" json:"spid"`
+	CpmId int64  `db:"cpm_id_fk" json:"cpmid"`
+}
+
+type DBPatientHospitalisedPerMonthDataModel struct {
+	Year         int `db:"year" json:"year"`
+	Month        int `db:"month" json:"month"`
+	Hospitalized int `db:"hospitalized" json:"hospitalized"`
+	Discharged   int `db:"discharged" json:"discharged"`
+}

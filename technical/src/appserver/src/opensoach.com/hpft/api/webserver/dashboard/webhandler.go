@@ -23,6 +23,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_DASHBOARD_TASK_PER_MONTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_TOP_FEEDBACKS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_DASHBOARD_PATIENT_SUMMARY, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_DASHBOARD_PATIENT_HOSPITALIZED_PER_MONTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -203,6 +204,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = DashboardService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.GetPatientSummary(patientReq)
+
+		break
+
+	case constants.API_DASHBOARD_PATIENT_HOSPITALIZED_PER_MONTH:
+
+		req := lmodels.APIPatientHospitalisedByMonthRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &req)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = DashboardService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.PatientHospitalisedSummaryPerMonth(req)
 
 		break
 

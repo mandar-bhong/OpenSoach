@@ -376,3 +376,42 @@ func GetPatientSummary(dbConn string, req lmodels.APIDashboardPatientFilterModel
 
 	return nil, data
 }
+
+func GetPatientHospitalisedSummaryPerMonth(dbConn string, req lmodels.APIPatientHospitalisedByMonthRequest, filtermodel hktmodels.DBPatientHospitalisedPerMonthFilterDataModel) (error, []hktmodels.DBPatientHospitalisedPerMonthDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPatientHospitalisedSummaryPerMonth")
+
+	data := []hktmodels.DBPatientHospitalisedPerMonthDataModel{}
+
+	whereCondition := hkthelper.GetFilterConditionFormModel(filtermodel)
+
+	if req.StartDate != nil && req.EndDate != nil {
+
+		if whereCondition != "" {
+			whereCondition = whereCondition + " and "
+		}
+
+		dbStartTime := req.StartDate.Format(pcconst.DB_TIME_FORMAT)
+		dbEndTime := req.EndDate.Format(pcconst.DB_TIME_FORMAT)
+
+		whereCondition = whereCondition + " created_on between '" + dbStartTime + "' and '" + dbEndTime + "'"
+	}
+
+	if whereCondition != "" {
+		whereCondition = " where " + whereCondition
+	}
+
+	query := strings.Replace(dbquery.QUERY_GET_PATIENT_HOSPITALISED_SUMMARY_PER_MONTH, "$WhereCondition$", whereCondition, 1)
+
+	selectCtx := dbmgr.SelectContext{}
+	selectCtx.DBConnection = dbConn
+	selectCtx.Dest = &data
+	selectCtx.Query = query
+	selectCtx.QueryType = dbmgr.Query
+	selectCtxErr := selectCtx.Select()
+	if selectCtxErr != nil {
+		return selectCtxErr, nil
+	}
+
+	return nil, data
+}

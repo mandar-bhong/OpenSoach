@@ -56,3 +56,11 @@ const QUERY_GET_TOP_FEEDBACKS = `select id,feedback,feedback_comment from spl_no
 order by feedback desc limit ?`
 
 const QUERY_SPL_NODE_DASHBOARD_PATIENT_SUMMARY = `select  status,count(*) as count from spl_hpft_patient_master_tbl patient INNER JOIN spl_hpft_patient_admission_tbl padmsn ON padmsn.patient_id_fk = patient.id $WhereCondition$ group by status`
+
+const QUERY_GET_PATIENT_HOSPITALISED_SUMMARY_PER_MONTH = `select year(created_on) as year,
+month(created_on) as month,
+count(if(status=1,1,null)) as hospitalized,
+count(if(status=2,1,null)) as discharged 
+from spl_hpft_patient_admission_tbl
+$WhereCondition$
+group by month,year`
