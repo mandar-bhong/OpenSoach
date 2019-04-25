@@ -494,7 +494,7 @@ CREATE TABLE `spl_hpft_action_tbl` (
 	`admission_id_fk` INT(10) UNSIGNED NOT NULL,
 	`patient_conf_id_fk` INT(10) UNSIGNED NOT NULL,
 	`conf_type_code` VARCHAR(25) NOT NULL,
-	`scheduled_time` DATETIME NOT NULL,
+	`scheduled_time` DATETIME NULL DEFAULT NULL,
 	`is_deleted` TINYINT(4) NOT NULL,
 	`client_updated_at` TIMESTAMP(3) NULL DEFAULT NULL,
 	`created_on` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -701,6 +701,8 @@ CREATE TABLE `spl_hpft_pathology_record_doc_tbl` (
 	CONSTRAINT `precdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `precdoc_prec` FOREIGN KEY (`pathology_id_fk`) REFERENCES `spl_hpft_pathology_record_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : precdoc';
+
+
 
 
 
