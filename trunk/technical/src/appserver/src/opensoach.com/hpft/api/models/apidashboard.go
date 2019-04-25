@@ -106,3 +106,9 @@ type APIDashboardPatientResponse struct {
 	Admitted   int `json:"admitted"`
 	Discharged int `json:"discharged"`
 }
+
+type APIPatientHospitalisedByMonthRequest struct {
+	SpID      *int64     `json:"spid"`
+	StartDate *time.Time `json:"startdate"`
+	EndDate   *time.Time `json:"enddate"`
+}

@@ -211,7 +211,7 @@ func (service DashboardService) FeedbackPerMonth(req lmodels.APIFeedbacksPerMont
 
 	dbErr, feedbackList := dbaccess.GetFeedbackPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting feedbacks per month.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -230,7 +230,7 @@ func (service DashboardService) NoOfComplaints(req lmodels.APIComplaintsByMonthR
 
 	dbErr, complaintList := dbaccess.GetNoOfComplaintsPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting complaints per month.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -250,7 +250,7 @@ func (service DashboardService) TopComplaints(req lmodels.APITopActiveComplaints
 
 	dbErr, complaintList := dbaccess.SelectTopComplaints(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, req.NoOfComplaints)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting top active complaints.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -269,7 +269,7 @@ func (service DashboardService) TaskSummaryPerMonth(req lmodels.APITaskByMonthRe
 
 	dbErr, taskList := dbaccess.GetTaskSummaryPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting task summary per month.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -288,7 +288,7 @@ func (service DashboardService) TopFeedbacks(req lmodels.APITopFeedbacksRequest)
 
 	dbErr, dataList := dbaccess.SelectTopFeedbacks(service.ExeCtx.SessionInfo.Product.NodeDbConn, filterModel, req.NoOfFeedbacks)
 	if dbErr != nil {
-		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating user.", dbErr)
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting fetched top feedbacks.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
@@ -330,4 +330,23 @@ func (service DashboardService) GetPatientSummary(req lmodels.APIDashboardPatien
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient summary")
 	return true, apiResponse
 
+}
+
+func (service DashboardService) PatientHospitalisedSummaryPerMonth(req lmodels.APIPatientHospitalisedByMonthRequest) (bool, interface{}) {
+
+	filterModel := hktmodels.DBPatientHospitalisedPerMonthFilterDataModel{}
+	filterModel.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	filterModel.SpId = req.SpID
+
+	dbErr, taskList := dbaccess.GetPatientHospitalisedSummaryPerMonth(service.ExeCtx.SessionInfo.Product.NodeDbConn, req, filterModel)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while hetting patient hospitalised summary per month.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched patient hospitalised summary per month")
+	return true, taskList
 }
