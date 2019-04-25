@@ -30,7 +30,6 @@ export class PassDataService {
     private cfalertDialog: CFAlertDialog;
     constructor(private routerExtensions: RouterExtensions) {
         //  this.patientListViewModel = new PatientListViewModel();
-        console.log('service initiated');
         this.cfalertDialog = new CFAlertDialog();
     }
     setPatientData(data) {

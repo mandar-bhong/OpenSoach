@@ -57,7 +57,7 @@ export class UserAuthService {
 
             this.database.selectAll("userList1").then(
                 (val) => {
-                    console.log("User Account List 1", val);
+                    // console.log("User Account List 1", val);
                     resolve(val);
                 },
                 (error) => {

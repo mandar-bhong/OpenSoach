@@ -13,7 +13,7 @@ registerElement("Ripple", () => require("nativescript-ripple").Ripple);
 registerElement('CardView', () => CardView);
 import * as app from 'application';
 import { TraceHelper } from "./app/helpers/trace-helper";
-
+registerElement("DrawingPad", () => require("nativescript-drawingpad").DrawingPad);
 app.on(app.launchEvent, (args: app.ApplicationEventData) => {
     TraceHelper.configure();
 });
