@@ -29,7 +29,7 @@ func ProcessServiceInstanceData(ctx *pcmodels.DevicePacketProccessExecution, pac
 
 	for _, packetServiceInstanceDataItem := range packetServiceInstanceDataList {
 		dbServiceInstanceDataRowModel := hktmodels.DBServiceInstanceTxDataRowModel{}
-		dbServiceInstanceDataRowModel.CpmId = ctx.TokenInfo.CpmID
+		dbServiceInstanceDataRowModel.CpmId = ctx.GetCPMID()
 		dbServiceInstanceDataRowModel.ServiceInstanceID = packetServiceInstanceDataItem.ServiceInstanceID
 		dbServiceInstanceDataRowModel.TransactionData = packetServiceInstanceDataItem.TxnData
 		dbServiceInstanceDataRowModel.TransactionDate = packetServiceInstanceDataItem.TxnDate

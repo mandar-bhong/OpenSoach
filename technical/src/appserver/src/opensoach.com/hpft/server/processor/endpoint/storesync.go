@@ -7,6 +7,7 @@ import (
 	"opensoach.com/core/logger"
 	repo "opensoach.com/hpft/server/repository"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 	pcstoresync "opensoach.com/prodcore/server/storesync"
@@ -25,6 +26,11 @@ func ProcessGetStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetProc
 	devPacket := &gmodels.DevicePacket{}
 	devPacket.Payload = &reqModel
 
+	deviceType := ctx.GetDeviceContextType()
+	if deviceType == pcconst.DEVICE_TYPE_NONE {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting device context type", nil)
+	}
+
 	convErr := ghelper.ConvertFromJSONBytes(ctx.DevicePacket, devPacket)
 	if convErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while converting from json", convErr)
@@ -37,7 +43,7 @@ func ProcessGetStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetProc
 		dbConnections[gmodels.DB_CONNECTION_MASTER] = repo.Instance().Context.Master.DBConn
 		dbConnections[gmodels.DB_CONNECTION_NODE] = ctx.InstanceDBConn
 
-		err, data := pcstoresync.GetChanges(ctx, dbConnections, reqModel)
+		err, data := pcstoresync.GetChanges(ctx, dbConnections, reqModel, deviceType)
 		if err != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting db changes", err)
 			deviceCommandAck.Ack = false
@@ -76,6 +82,11 @@ func ProcessApplyStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetPr
 	deviceCommandAck := gmodels.DeviceCommandAck{}
 	deviceCommandAck.Ack = true
 
+	deviceType := ctx.GetDeviceContextType()
+	if deviceType == pcconst.DEVICE_TYPE_NONE {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting device context type", nil)
+	}
+
 	convErr, reqModel, devPacket := pchelper.GetStoreTableStruct(ctx.DevicePacket, pcmodels.StoreConfigModel{})
 	if convErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting store struct", convErr)
@@ -97,10 +108,10 @@ func ProcessApplyStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetPr
 
 	// add cpmid in request data
 	for i := 0; i < len(reqModel.Data.([]map[string]interface{})); i++ {
-		reqModel.Data.([]map[string]interface{})[i]["cpm_id_fk"] = ctx.TokenInfo.CpmID
+		reqModel.Data.([]map[string]interface{})[i]["cpm_id_fk"] = ctx.GetCPMID()
 	}
 
-	err, _ := pcstoresync.ApplyChangesNotify(ctx.InstanceDBConn, reqModel, devPacket, ctx.Token, *repo.Instance())
+	err, _ := pcstoresync.ApplyChangesNotify(ctx.InstanceDBConn, reqModel, devPacket, ctx.Token, *repo.Instance(), deviceType)
 
 	if err != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while apply sync changes", err)
@@ -127,10 +138,14 @@ func AttachServerFilter(ctx *pcmodels.DevicePacketProccessExecution, filterModel
 		for _, each := range queryDataModel.Select.Filters {
 			switch each {
 			case "cpm":
-				request.QueryParams["cpmid"] = ctx.TokenInfo.CpmID
+				request.QueryParams["cpmid"] = ctx.GetCPMID()
 				break
 			case "updatedon":
 				request.QueryParams["updatedon"] = request.UpdatedOn
+				break
+			case "usrid":
+				_, usrid := ctx.GetDeviceUserID()
+				request.QueryParams["usrid"] = usrid
 				break
 			}
 		}

@@ -46,6 +46,7 @@ type StoreSyncApplyResponseModel struct {
 type SyncConfigModel struct {
 	Id             int       `db:"id" json:"storeid"`
 	StoreName      string    `db:"store_name" json:"storename"`
+	DeviceType     string    `db:"device_type" json:"devicetype"`
 	HasQuery       string    `db:"has_qry" json:"hasquery"`
 	SelectCountQry string    `db:"select_count_qry" json:"selectcountqry"`
 	SelectQry      string    `db:"select_qry" json:"selectqry"`
