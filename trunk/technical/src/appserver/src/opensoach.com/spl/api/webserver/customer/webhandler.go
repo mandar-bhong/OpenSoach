@@ -12,7 +12,6 @@ import (
 )
 
 func registerRouters(router *gin.RouterGroup) {
-
 	router.POST(constants.API_CUSTOMER_OSU_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CUSTOMER_OSU_UPDATE_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CUSTOMER_CU_UPDATE_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
@@ -30,6 +29,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.GET(constants.API_CUSTOMER_OSU_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_CUSTOMER_SERVICE_POINT_ASSCOCIATION, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_CUSTOMER_SERVICE_POINT_ASSCOCIATION_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.GET(constants.API_CUSTOMER_CPM_LIST_SHORT, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -309,6 +309,21 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = CustomerService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.CustServicePointAssociationCountUpdate(reqData)
+
+		break
+
+	case constants.API_CUSTOMER_CPM_LIST_SHORT:
+
+		recReq := lmodels.APICustCpmListRequest{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &recReq)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = CustomerService.GetCustomerCPMShortDataList(CustomerService{}, recReq.ProdCode)
 
 		break
 

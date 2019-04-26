@@ -296,3 +296,20 @@ func SpInsert(dbConn string, insrtStruct *lmodels.DBServicepointInsertRowModel) 
 	}
 	return nil, insDBCtx.InsertID
 }
+
+func GetCustomerCPMShortListByProdCode(dbConn string, prodcode string) (error, *[]lmodels.DBCustCPMShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetCustomerCPMShortListByProdCode")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBCustCPMShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_CUSTOMER_CPM_SHORT_DATA_LIST_BY_PROD_CODE
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(prodcode)
+	if selErr != nil {
+		return selErr, &[]lmodels.DBCustCPMShortDataModel{}
+	}
+	return nil, data
+}

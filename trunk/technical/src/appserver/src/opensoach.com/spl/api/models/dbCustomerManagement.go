@@ -48,3 +48,8 @@ type DBServicepointInsertRowModel struct {
 	SpState      int       `db:"sp_state" json:"spstate"`
 	SpStateSince time.Time `db:"sp_state_since" json:"spstatesince"`
 }
+
+type DBCustCPMShortDataModel struct {
+	CpmId    int64  `dbattr:"pri,auto" db:"id" json:"cpmid"`
+	CustName string `db:"cust_name" json:"custname"`
+}
