@@ -49,16 +49,16 @@ import {
     DrInchargeListResponse,
     PersonalHistoryInfo,
 } from '../models/api/patient-data-models';
-import { TransactionDetailsFilter } from 'app/models/api/transaction-details';
-import { ActionTransactionResponse } from 'app/models/api/transaction-details-response';
-import { ScheduleFilter } from 'app/models/api/schedule-request';
-import { ScheduleDataResponse } from 'app/models/api/schedule-response';
-import { DoctorOrderRequest } from 'app/models/api/doctor-orders-request';
-import { DoctorOrderResponse } from 'app/models/api/doctor-order-response';
+import { TransactionDetailsFilter } from '../../app/models/api/transaction-details';
+import { ActionTransactionResponse } from '../../app/models/api/transaction-details-response';
+import { ScheduleFilter } from '../../app/models/api/schedule-request';
+import { ScheduleDataResponse } from '../../app/models/api/schedule-response';
+import { DoctorOrderRequest } from '../../app/models/api/doctor-orders-request';
+import { DoctorOrderResponse } from '../../app/models/api/doctor-order-response';
 import { SaveFileService } from '../../../shared/services/save-file.service';
-import { FileDownloadRequest } from 'app/models/api/file-download-request';
-import { PathologyReportAddRequest } from 'app/models/api/pathology-report-add-request';
-import { TreatmentReportRequest } from 'app/models/api/treatment-report-request';
+import { FileDownloadRequest } from '../../app/models/api/file-download-request';
+import { PathologyReportAddRequest } from '../../app/models/api/pathology-report-add-request';
+import { TreatmentReportRequest } from '../../app/models/api/treatment-report-request';
 
 
 @Injectable()
@@ -133,14 +133,14 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     }
 
     //Update Patient Response
-    getPatientUpdates(request: RecordIDRequest, implicitErrorHandling = true):
-        Observable<PayloadResponse<PatientUpdateResponse>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
-            request, implicitErrorHandling);
-    }
+    // getPatientUpdates(request: RecordIDRequest, implicitErrorHandling = true):
+    //     Observable<PayloadResponse<PatientUpdateResponse>> {
+    //     return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
+    //         request, implicitErrorHandling);
+    // }
 
     //Update New Patient Response
-    getPatientNewUpdates(request: RecordIDRequestModel, implicitErrorHandling = true):
+    getPatientDetailsUpdates(request: RecordIDRequestModel, implicitErrorHandling = true):
         Observable<PayloadResponse<PatientUpdateResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/patient/info/details',
             request, implicitErrorHandling);
