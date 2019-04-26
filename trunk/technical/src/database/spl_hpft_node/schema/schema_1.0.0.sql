@@ -309,6 +309,7 @@ CREATE TABLE `spl_node_dev_status_tbl` (
 CREATE TABLE `spl_node_sync_config_tbl` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`store_name` VARCHAR(50) NOT NULL,
+	`device_type` TINYINT(3) NOT NULL COMMENT '0 :shared device; 1 :user device',
 	`updated_on` DATETIME NOT NULL,
 	`has_qry` VARCHAR(5000) NOT NULL,
 	`select_count_qry` VARCHAR(5000) NOT NULL,
@@ -701,6 +702,31 @@ CREATE TABLE `spl_hpft_pathology_record_doc_tbl` (
 	CONSTRAINT `precdoc_doc` FOREIGN KEY (`document_id_fk`) REFERENCES `spl_hpft_document_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT `precdoc_prec` FOREIGN KEY (`pathology_id_fk`) REFERENCES `spl_hpft_pathology_record_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 )	ENGINE=InnoDB COMMENT='short name : precdoc';
+
+
+--
+-- Table structure for table `spl_hpft_user_patient_monitor_mapping`
+--
+
+CREATE TABLE `spl_hpft_user_patient_monitor_mapping` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`uuid` VARCHAR(50) NOT NULL,
+	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
+	`usr_id_fk` INT(10) UNSIGNED NOT NULL,
+	`sp_id_fk` INT(10) UNSIGNED NOT NULL,
+	`patient_id_fk` INT(10) UNSIGNED NOT NULL,
+	`client_updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`updated_by` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `fk_upmm_cpm` (`cpm_id_fk`),
+	INDEX `fk_upmm_sp` (`sp_id_fk`),
+	INDEX `fk_upmm_patient` (`patient_id_fk`),
+	CONSTRAINT `fk_upmm_cpm` FOREIGN KEY (`cpm_id_fk`) REFERENCES `spl_node_cpm_tbl` (`cpm_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_upmm_patient` FOREIGN KEY (`patient_id_fk`) REFERENCES `spl_hpft_patient_master_tbl` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT `fk_upmm_sp` FOREIGN KEY (`sp_id_fk`) REFERENCES `spl_node_sp_tbl` (`sp_id_fk`) ON UPDATE NO ACTION ON DELETE CASCADE
+)	ENGINE=InnoDB COMMENT='short name : upmm';
 
 
 
