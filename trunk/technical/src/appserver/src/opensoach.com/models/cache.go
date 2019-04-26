@@ -1,10 +1,14 @@
 package models
 
-type UserSessionInfo struct {
+type UserSessionInfoBase struct {
 	UserID     int64            `json:"userid"`
 	UserRoleID int64            `json:"userroleid"`
 	CustomerID int64            `json:customerid`
 	Product    ProductInfoModel `json:productinfo`
+}
+
+type UserSessionInfo struct {
+	UserSessionInfoBase
 }
 
 type ProductInfoModel struct {
@@ -16,4 +20,8 @@ type DeviceTokenModel struct {
 	DevID   int64            `json:"devid"`
 	CpmID   int64            `json:"cpmid"`
 	Product ProductInfoModel `json:productinfo`
+}
+
+type DeviceUserSessionInfo struct {
+	UserSessionInfoBase
 }

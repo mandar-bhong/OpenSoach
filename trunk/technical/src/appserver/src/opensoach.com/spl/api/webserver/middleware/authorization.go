@@ -34,7 +34,7 @@ func AuthorizationFilter(reqURL string) (isAuthorizationRequred bool) {
 		constants.API_ENDPOINT_DEVICE_AUTH,
 		constants.API_VALIDATE_AUTH_TOKEN,
 		constants.API_USER_ACTIVATION,
-		constants.API_ENDPOINT_DEVICE_USER_AUTH,
+		constants.API_ENDPOINT_USER_LOGIN,
 		constants.API_ENDPOINT_DEVICE_USER_LIST,
 		constants.API_USER_CREATE_PASSWORD:
 		return false

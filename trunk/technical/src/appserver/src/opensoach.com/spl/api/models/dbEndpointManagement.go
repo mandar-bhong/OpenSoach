@@ -7,10 +7,12 @@ type DBDeviceAuthInfoModel struct {
 }
 
 type DBDeviceUserAuthInfoModel struct {
-	UserId    int64  `db:"id" json:"userid"`
-	UserName  string `db:"usr_name" json:"username"`
-	FirstName string `db:"fname" json:"firstname"`
-	LastName  string `db:"lname" json:"lastname"`
+	Connectionstring string `db:"connection_string" json:"connectionstring"`
+	ServerAddress    string `db:"server_address" json:"serveraddress"`
+	CpmId            int64  `db:"cpm_id" json:"cpmid"`
+	CustomerId       int64  `db:"cust_id_fk" json:"custid"`
+	UserRoleId       int64  `db:"urole_id_fk" json:"uroleid"`
+	UserRoleCode     string `db:"urole_code" json:"urolecode"`
 }
 
 type DBDeviceUserListDataModel struct {
