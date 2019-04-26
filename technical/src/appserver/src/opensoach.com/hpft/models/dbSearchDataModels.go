@@ -269,3 +269,29 @@ type DBSearchPatientConfResponseFilterDataModel struct {
 	EndDate       time.Time `db:"end_date" json:"enddate"`
 	Status        int       `db:"status" json:"status"`
 }
+
+type DBDeviceSearchPatientRequestFilterDataModel struct {
+	CpmId        int64   `db:"cpm_id_fk" json:"cpmid"`
+	Fname        *string `db:"fname" json:"fname"`
+	Lname        *string `db:"lname" json:"lname"`
+	PatientRegNo *string `db:"padmsn.patient_reg_no" json:"patientregno"`
+	MobNo        *string `db:"mob_no" json:"mobno"`
+	SpId         *int64  `db:"sp_id_fk" json:"spid"`
+	BedNo        *string `db:"bed_no" json:"bedno"`
+	SpName       *string `db:"sp_name" json:"spname"`
+}
+
+type DBDeviceSearchPatientResponseFilterDataModel struct {
+	PatientId    int64  `db:"patient_id_fk" json:"patientid"`
+	AdmissionId  int64  `db:"admission_id"  json:"admissionid"`
+	CpmId        int64  `db:"cpm_id_fk" json:"cpmid"`
+	UserId       int64  `db:"usr_id_fk"  json:"usrid"`
+	UpmmId       int64  `db:"upmmid"  json:"upmmid"`
+	PatientRegNo string `db:"patient_reg_no" json:"patientregno"`
+	BedNo        string `db:"bed_no" json:"bedno"`
+	Fname        string `db:"fname" json:"fname"`
+	Lname        string `db:"lname" json:"lname"`
+	SpId         int64  `db:"sp_id_fk" json:"spid"`
+	SpName       string `db:"sp_name" json:"spname"`
+	Monitored    int    `db:"monitored" json:"monitored"`
+}

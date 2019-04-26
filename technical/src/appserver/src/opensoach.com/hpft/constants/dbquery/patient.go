@@ -93,3 +93,29 @@ const QUERY_GET_DOCUMENT_BY_DOCUMENT_UUID = "select * from spl_hpft_document_tbl
 
 const QUERY_SELECT_PATIENT_TREATMENT_BY_ADMISSION_ID = `select * from spl_hpft_treatment_tbl where admission_id_fk = ?`
 const QUERY_SELECT_PATIENT_PATHOLOGY_RECORDS_BY_ADMISSION_ID = `select * from spl_hpft_pathology_record_tbl where admission_id_fk = ?`
+
+const QUERY_GET_DEEVICE_SPL_PATIENT_TOTAL_FILTERED_COUNT = `select count(*) as count from (
+	select * from  view_get_monitor_patient where usr_id_fk =?	
+	group by admission_id,sp_id_fk,patient_id_fk,usr_id_fk	
+	union	
+	select 0 as monitored ,padmsn.id as admission_id,0 as upmmid,patient.fname,patient.lname, padmsn.patient_reg_no,bed_no,padmsn.cpm_id_fk,0 as usr_id_fk, padmsn.sp_id_fk,sp.sp_name,padmsn.patient_id_fk
+	from spl_hpft_patient_admission_tbl padmsn 
+	left join spl_hpft_patient_master_tbl patient on patient.id = padmsn.patient_id_fk
+	left join spl_hpft_patient_personal_details_tbl ppd on ppd.admission_id_fk = padmsn.id
+	inner join spl_node_sp_tbl sp on sp.sp_id_fk = padmsn.sp_id_fk
+	where padmsn.id not in (	
+	select admission_id from view_get_monitor_patient where usr_id_fk =?))t
+	$WhereCondition$`
+
+const QUERY_DEVICE_SPL_PATIENT_SELECT_BY_FILTER = `select * from (
+	select * from  view_get_monitor_patient where usr_id_fk =?	
+	group by admission_id,sp_id_fk,patient_id_fk,usr_id_fk	
+	union	
+	select 0 as monitored ,padmsn.id as admission_id,0 as upmmid,patient.fname,patient.lname, padmsn.patient_reg_no,bed_no,padmsn.cpm_id_fk,0 as usr_id_fk, padmsn.sp_id_fk,sp.sp_name,padmsn.patient_id_fk
+	from spl_hpft_patient_admission_tbl padmsn 
+	left join spl_hpft_patient_master_tbl patient on patient.id = padmsn.patient_id_fk
+	left join spl_hpft_patient_personal_details_tbl ppd on ppd.admission_id_fk = padmsn.id
+	inner join spl_node_sp_tbl sp on sp.sp_id_fk = padmsn.sp_id_fk
+	where padmsn.id not in (	
+	select admission_id from view_get_monitor_patient where usr_id_fk =?))t
+	$WhereCondition$ ORDER BY $OrderByDirection$ Limit ?,?`
