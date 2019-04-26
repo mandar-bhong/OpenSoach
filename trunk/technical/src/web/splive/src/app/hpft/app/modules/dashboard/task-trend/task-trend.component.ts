@@ -15,14 +15,14 @@ export class TaskTrendComponent implements OnInit {
 
   curve = curveLinear;
   xAxisLabel = 'Time';
-  yAxisLabel = 'Task (Count)';
+  yAxisLabel = ' Count';
   tasktrenddata: TaskTrendModel[] = [];
   tasktrendchartdata = [];
   request = new TaskTrendRequest();
   timeline: TrendChartPerMonthXaxis[] = [];
   hospitalizeLabel = 'Hospitalize';
   dischargedLabel = 'Discharged';
-  legendTitle = 'Task Status';
+  legendTitle = 'Status';
   customColors = [
     {
       name: this.hospitalizeLabel,
