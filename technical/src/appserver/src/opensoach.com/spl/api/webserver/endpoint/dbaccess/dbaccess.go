@@ -6,6 +6,7 @@ import (
 	"opensoach.com/spl/api/constants"
 	"opensoach.com/spl/api/constants/dbquery"
 	lmodels "opensoach.com/spl/api/models"
+	logindbaccess "opensoach.com/spl/api/webserver/login/dbaccess"
 )
 
 var SUB_MODULE_NAME = "SPL.Endpoint.DB"
@@ -49,7 +50,7 @@ func GetDeviceAuthInfo(dbConn string, devid int64, prodcode string) (error, *[]l
 	return nil, data
 }
 
-func GetDeviceUserAuthInfo(dbConn string, usrname string, password string, cpmid int64) (error, *[]lmodels.DBDeviceUserAuthInfoModel) {
+func GetDeviceUserAuthInfo(dbConn string, usrid int64, prodcode string) (error, *[]lmodels.DBDeviceUserAuthInfoModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceUserAuthInfo")
 
@@ -60,7 +61,7 @@ func GetDeviceUserAuthInfo(dbConn string, usrname string, password string, cpmid
 	selDBCtx.QueryType = dbmgr.Query
 	selDBCtx.Dest = data
 
-	selErr := selDBCtx.Select(usrname, password, cpmid)
+	selErr := selDBCtx.Select(prodcode, usrid)
 	if selErr != nil {
 		return selErr, nil
 	}
@@ -83,4 +84,13 @@ func GetDeviceUserListData(dbConn string, cpmid int64) (error, *[]lmodels.DBDevi
 		return selErr, nil
 	}
 	return nil, data
+}
+
+func ValidateDeviceUser(dbConn string, username, password string) (error, *[]lmodels.DBSplMasterUserTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ValidateDeviceUser")
+	err, data := logindbaccess.ValidateAuth(dbConn, username, password)
+
+	return err, data
+
 }

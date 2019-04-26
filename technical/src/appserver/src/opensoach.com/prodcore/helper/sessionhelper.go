@@ -86,12 +86,37 @@ func DeviceSessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, 
 	return true, deviceInfo
 }
 
-func DeviceSessionUpdate(osContext *gcore.Context, ginContext *gin.Context) bool {
-	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-	return osContext.Master.Cache.Update(token, time.Minute*time.Duration(sessionTimeOutMin))
+func DeviceUserSessionCreate(osContext *gcore.Context, pSessionData *gmodels.DeviceUserSessionInfo) (bool, string) {
+	sessionToken := ghelper.GenerateDeviceUserToken()
+
+	isJsonSuccess, jsonData := ghelper.ConvertToJSON(pSessionData)
+
+	if !isJsonSuccess {
+		//logger.Log(MODULENAME, logger.ERROR, "createSession : Unable to convert session data to JSON")
+		return false, ""
+	}
+
+	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*time.Duration(sessionTimeOutMin))
+
+	return isSetSuccess, sessionToken
 }
 
-func DeviceSessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
+func DeviceUserSessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmodels.DeviceUserSessionInfo) {
+
+	deviceUserInfo := &gmodels.DeviceUserSessionInfo{}
 	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-	return osContext.Master.Cache.Remove(token)
+
+	isSuccess, jsonData := osContext.Master.Cache.Get(token)
+
+	if !isSuccess {
+		return false, nil
+	}
+
+	isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, deviceUserInfo)
+
+	if !isJsonConvSuccess {
+		return false, nil
+	}
+
+	return true, deviceUserInfo
 }

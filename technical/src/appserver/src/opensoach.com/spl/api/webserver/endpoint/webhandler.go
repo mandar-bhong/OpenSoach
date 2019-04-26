@@ -11,7 +11,7 @@ import (
 
 func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_ENDPOINT_DEVICE_AUTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
-	router.POST(constants.API_ENDPOINT_DEVICE_USER_AUTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_ENDPOINT_USER_LOGIN, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_ENDPOINT_DEVICE_USER_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
@@ -40,11 +40,11 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		break
 
-	case constants.API_ENDPOINT_DEVICE_USER_AUTH:
+	case constants.API_ENDPOINT_USER_LOGIN:
 
-		devAuthReq := lmodels.APIDeviceUserAuthRequest{}
+		loginReq := lmodels.APIDeviceUserLoginRequest{}
 
-		err := pContext.Bind(&devAuthReq)
+		err := pContext.Bind(&loginReq)
 
 		if err != nil {
 			errModel := gmodels.APIResponseError{}
@@ -53,7 +53,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, resultData
 		}
 
-		isSuccess, resultData = EndpointService.DeviceUserAuth(EndpointService{}, devAuthReq)
+		isSuccess, resultData = EndpointService.DeviceUserAuth(EndpointService{}, loginReq)
 
 		break
 

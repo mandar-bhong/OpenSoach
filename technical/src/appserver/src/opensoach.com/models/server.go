@@ -21,6 +21,13 @@ type DeviceExecutionContext struct {
 	SessionToken            string
 }
 
+type DeviceUserExecutionContext struct {
+	DeviceUserSessionInfo   DeviceUserSessionInfo
+	SelectedCustomerProduct int64
+	RequestJSON             string
+	SessionToken            string
+}
+
 type ServerListingResultModel struct {
 	RecordCount int
 	RecordList  interface{}
