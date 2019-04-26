@@ -22,6 +22,14 @@ func PrepareDeviceExecutionReqData(osContext *gcore.Context, ginContext *gin.Con
 	return pchelper.PrepareDeviceExecutionReqData(osContext, ginContext, pClientReq)
 }
 
+func PrepareDeviceUserExecutionData(osContext *gcore.Context, ginContext *gin.Context) (bool, interface{}) {
+	return pchelper.PrepareDeviceUserExecutionData(osContext, ginContext)
+}
+
+func PrepareDeviceUserExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, pClientReq interface{}) (bool, interface{}) {
+	return pchelper.PrepareDeviceUserExecutionReqData(osContext, ginContext, pClientReq)
+}
+
 func CommonWebRequestHandler(pContext *gin.Context, requestHandlerFunc pchelper.RequestHandler) {
 	pchelper.CommonWebRequestHandler(pContext, requestHandlerFunc)
 }
