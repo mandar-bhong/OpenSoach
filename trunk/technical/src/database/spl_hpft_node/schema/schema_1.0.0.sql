@@ -705,10 +705,10 @@ CREATE TABLE `spl_hpft_pathology_record_doc_tbl` (
 
 
 --
--- Table structure for table `spl_hpft_user_patient_monitor_mapping`
+-- Table structure for table `spl_hpft_user_patient_monitor_mapping_tbl`
 --
 
-CREATE TABLE `spl_hpft_user_patient_monitor_mapping` (
+CREATE TABLE `spl_hpft_user_patient_monitor_mapping_tbl` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`uuid` VARCHAR(50) NOT NULL,
 	`cpm_id_fk` INT(10) UNSIGNED NOT NULL,
