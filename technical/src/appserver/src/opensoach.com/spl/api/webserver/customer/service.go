@@ -370,3 +370,20 @@ func (service CustomerService) CustServicePointAssociationCountUpdate(reqData lm
 	return true, nil
 
 }
+
+func (service CustomerService) GetCustomerCPMShortDataList(prodCode string) (bool, interface{}) {
+
+	dbErr, dataList := dbaccess.GetCustomerCPMShortListByProdCode(repo.Instance().Context.Master.DBConn, prodCode)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting customer cpm short list by prodcode.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecords := *dataList
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched customer cpm short list by prodcode")
+	return true, dbRecords
+}

@@ -42,3 +42,8 @@ const QUERY_GET_CUST_SERVICE_POINTS = `select cpm.id as id,prod.prod_code as pro
 from spl_master_cust_prod_mapping_tbl as cpm
 inner join spl_master_product_tbl as prod on cpm.prod_id_fk = prod.id
 where cpm.cust_id_fk = ?`
+
+const QUERY_GET_CUSTOMER_CPM_SHORT_DATA_LIST_BY_PROD_CODE = `select cust.cust_name,cpm.id from spl_master_cust_prod_mapping_tbl cpm
+inner join spl_master_customer_tbl cust on cust.id = cpm.cust_id_fk
+inner join spl_master_product_tbl prod on prod.id = cpm.prod_id_fk
+where prod.prod_code = ?`

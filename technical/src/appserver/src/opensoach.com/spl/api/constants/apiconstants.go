@@ -26,6 +26,7 @@ const API_CUSTOMER_OSU_UPDATE = API_BASE_URL + "/osu/v1/customer/update"
 const API_CUSTOMER_OSU_LIST_SHORT = API_BASE_URL + "/osu/v1/customer/list/short"
 const API_CUSTOMER_SERVICE_POINT_ASSCOCIATION = API_BASE_URL + "/osu/v1/customer/association/servicepoint"
 const API_CUSTOMER_SERVICE_POINT_ASSCOCIATION_UPDATE = API_BASE_URL + "/osu/v1/customer/association/servicepoint/update"
+const API_CUSTOMER_CPM_LIST_SHORT = API_BASE_URL + "/v1/customer/cpm/list/short"
 
 const API_USER_OSU_ADD = API_BASE_URL + "/osu/v1/user/add"
 const API_USER_OSU_UPDATE_DETAILS = API_BASE_URL + "/osu/v1/user/update/details"
