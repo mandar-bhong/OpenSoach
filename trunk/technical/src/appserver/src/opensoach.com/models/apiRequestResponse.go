@@ -31,6 +31,10 @@ type APIDataListRequest struct {
 	Filter         interface{} `json:"filter"`
 }
 
+type FilterConfigModel struct {
+	OrAndOperator string `json:"orandoperator"`
+}
+
 type APIDataListResponse struct {
 	// TotalRecords    int           `json:"totalrecords"`
 	FilteredRecords int         `json:"filteredrecords"`

@@ -13,6 +13,7 @@ import (
 	"opensoach.com/hpft/api/webserver/dashboard"
 	device "opensoach.com/hpft/api/webserver/device"
 	document "opensoach.com/hpft/api/webserver/document"
+	endpoint "opensoach.com/hpft/api/webserver/endpoint"
 	feedback "opensoach.com/hpft/api/webserver/feedback"
 	fieldoperator "opensoach.com/hpft/api/webserver/fieldoperator"
 	master "opensoach.com/hpft/api/webserver/master"
@@ -59,6 +60,7 @@ func Init(configSetting *gmodels.ConfigSettings) error {
 	patient.Init(webConfig)
 	document.Init(webConfig)
 	user.Init(webConfig)
+	endpoint.Init(webConfig)
 
 	var webServerStartErr error
 

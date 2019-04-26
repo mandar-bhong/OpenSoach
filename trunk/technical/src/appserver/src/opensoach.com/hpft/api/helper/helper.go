@@ -16,3 +16,7 @@ func GetDBTagFromJSONTag(model interface{}, jsonTag string) string {
 func GetFilterConditionFormModel(model interface{}) string {
 	return db.GetFilterConditionFormModel(model)
 }
+
+func GetFilterConditionConfigFormModel(model, filterconfig interface{}) string {
+	return db.GetFilterConditionFormModel(model, filterconfig)
+}
