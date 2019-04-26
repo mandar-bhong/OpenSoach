@@ -413,6 +413,12 @@ INSERT INTO `spl_hpft_treatment_doc_tbl` (`treatment_id_fk`, `document_id_fk`, `
 	(1, 4, timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:21')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'05:04:21')));
  
  
- 
+ --
+-- Dumping data for table `spl_hpft_user_patient_monitor_mapping`
+--
+
+INSERT INTO `spl_hpft_user_patient_monitor_mapping` (`id`, `uuid`, `cpm_id_fk`, `usr_id_fk`, `sp_id_fk`, `patient_id_fk`, `client_updated_at`, `created_on`, `updated_on`, `updated_by`) 
+VALUES 
+('1', 'UP001', '3', '2', null, null, '2019-04-26 16:41:06', '2019-04-26 16:41:06', '2019-04-26 16:41:07', '2');
  
  
