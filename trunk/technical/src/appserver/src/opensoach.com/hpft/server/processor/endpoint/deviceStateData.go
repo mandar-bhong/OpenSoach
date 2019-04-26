@@ -30,7 +30,7 @@ func ProcessDeviceStateBatteryLevelData(ctx *pcmodels.DevicePacketProccessExecut
 	packetDeviceBatteryLevelUpdateData := *devicePacket.Payload.(*lmodels.PacketDeviceBatteryLevelUpdateData)
 
 	dbDevStatusBatteryLevelUpdateDataModel := hktmodels.DBDevStatusBatteryLevelUpdateDataModel{}
-	dbDevStatusBatteryLevelUpdateDataModel.DevId = ctx.TokenInfo.DevID
+	_, dbDevStatusBatteryLevelUpdateDataModel.DevId = ctx.GetDeviceID()
 	dbDevStatusBatteryLevelUpdateDataModel.BatteryLevel = packetDeviceBatteryLevelUpdateData.BatteryLevel
 	dbDevStatusBatteryLevelUpdateDataModel.BatteryLevelSince = ghelper.GetCurrentTime()
 	fmt.Println(dbDevStatusBatteryLevelUpdateDataModel.BatteryLevelSince)

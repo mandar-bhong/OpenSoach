@@ -10,11 +10,11 @@ import (
 
 var SUB_MODULE_NAME = "ProdCore.Server.StoreSync"
 
-func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[int]string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
+func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[int]string, syncReq pcmodels.StoreSyncGetRequestModel, deviceType int) (error, *pcmodels.StoreSyncGetResponseModel) {
 
 	dbConn := dbConnections[gmodels.DB_CONNECTION_NODE]
 
-	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName)
+	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName, deviceType)
 	if dbErr != nil {
 		logger.Context().WithField("Sync Config Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get sync config.", dbErr)
 		return dbErr, nil
@@ -61,9 +61,9 @@ func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[i
 }
 
 //TODO Add notification logic
-func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (error, *pcmodels.StoreSyncApplyResponseModel) {
+func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel, deviceType int) (error, *pcmodels.StoreSyncApplyResponseModel) {
 
-	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName)
+	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName, deviceType)
 	if dbErr != nil {
 		logger.Context().WithField("Sync Config Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get sync config", dbErr)
 		return dbErr, nil
@@ -111,7 +111,7 @@ func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (e
 }
 
 func ApplyChangesNotify(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel, devPacket *gmodels.DevicePacket, Token string,
-	repo pcmodels.Repo) (error, *pcmodels.StoreSyncApplyResponseModel) {
+	repo pcmodels.Repo, deviceType int) (error, *pcmodels.StoreSyncApplyResponseModel) {
 
 	deviceCommandAck := gmodels.DeviceCommandAck{}
 	deviceCommandAck.Ack = true
@@ -121,7 +121,7 @@ func ApplyChangesNotify(dbConn string, syncReq pcmodels.StoreSyncApplyRequestMod
 	serviceCtx.ServiceConfig.SourcePacket = devPacket
 	serviceCtx.ServiceConfig.SourceToken = Token
 
-	err, resp := ApplyChanges(dbConn, syncReq)
+	err, resp := ApplyChanges(dbConn, syncReq, deviceType)
 	if err != nil {
 		logger.Context().WithField("Sync Req", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to apply sync changes.", err)
 		deviceCommandAck.Ack = false

@@ -29,7 +29,7 @@ func ProcessFeedbackData(ctx *pcmodels.DevicePacketProccessExecution, packetProc
 
 	for _, packetFeedbackDataItem := range packetFeedbackDataList {
 		dbFeedbackInsertRowModel := hktmodels.DBFeedbackInsertRowModel{}
-		dbFeedbackInsertRowModel.CpmIdFk = ctx.TokenInfo.CpmID
+		dbFeedbackInsertRowModel.CpmIdFk = ctx.GetCPMID()
 		dbFeedbackInsertRowModel.SpIdFk = devicePacket.Header.SPID
 		dbFeedbackInsertRowModel.Feedback = packetFeedbackDataItem.Feedback
 		dbFeedbackInsertRowModel.FeedbackComment = packetFeedbackDataItem.FeedbackComment

@@ -7,7 +7,7 @@ import (
 	"opensoach.com/hpft/server/constants/dbquery"
 )
 
-func EPGetInstanceDB(dbConn string, cpmid, deviceid int64) (error, string) {
+func EPGetInstanceDB(dbConn string, cpmid int64) (error, string) {
 	selDBCtx := dbmgr.SelectContext{}
 	data := ""
 	selDBCtx.DBConnection = dbConn

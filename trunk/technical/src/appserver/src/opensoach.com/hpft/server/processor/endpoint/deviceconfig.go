@@ -10,7 +10,10 @@ import (
 
 func ProcessDeviceSyncCompleted(ctx *pcmodels.DevicePacketProccessExecution, packetProcessingResult *gmodels.PacketProcessingTaskResult) {
 
-	dberr, splst := dbaccess.EPGetDeviceServicePoints(ctx.InstanceDBConn, ctx.TokenInfo.CpmID, ctx.TokenInfo.DevID)
+	cpmID := ctx.GetCPMID()
+
+	_, devID := ctx.GetDeviceID()
+	dberr, splst := dbaccess.EPGetDeviceServicePoints(ctx.InstanceDBConn, cpmID, devID)
 
 	if dberr != nil {
 
@@ -31,10 +34,10 @@ func ProcessDeviceSyncCompleted(ctx *pcmodels.DevicePacketProccessExecution, pac
 
 	for _, spitem := range *splst {
 
-		dberr, authlist := dbaccess.EPGetSPAuthCodes(ctx.InstanceDBConn, ctx.TokenInfo.CpmID, spitem.ID)
+		dberr, authlist := dbaccess.EPGetSPAuthCodes(ctx.InstanceDBConn, cpmID, spitem.ID)
 
 		if dberr != nil {
-			logger.Context().WithField("CPMID", ctx.TokenInfo.CpmID).WithField("SPID", spitem.ID).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get auth code.", dberr)
+			logger.Context().WithField("CPMID", cpmID).WithField("SPID", spitem.ID).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get auth code.", dberr)
 			continue
 		}
 
@@ -52,10 +55,10 @@ func ProcessDeviceSyncCompleted(ctx *pcmodels.DevicePacketProccessExecution, pac
 
 	for _, spitem := range *splst {
 
-		dbErr, servconflist := dbaccess.EPGetSPServConf(ctx.InstanceDBConn, ctx.TokenInfo.CpmID, spitem.ID)
+		dbErr, servconflist := dbaccess.EPGetSPServConf(ctx.InstanceDBConn, cpmID, spitem.ID)
 
 		if dbErr != nil {
-			logger.Context().WithField("CPMID", ctx.TokenInfo.CpmID).WithField("SPID", spitem.ID).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get serv conf.", dberr)
+			logger.Context().WithField("CPMID", cpmID).WithField("SPID", spitem.ID).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get serv conf.", dberr)
 			continue
 		}
 
@@ -73,10 +76,10 @@ func ProcessDeviceSyncCompleted(ctx *pcmodels.DevicePacketProccessExecution, pac
 
 	for _, spitem := range *splst {
 
-		dbErr, servconflist := dbaccess.EPGetSPPatientConf(ctx.InstanceDBConn, ctx.TokenInfo.CpmID, spitem.ID)
+		dbErr, servconflist := dbaccess.EPGetSPPatientConf(ctx.InstanceDBConn, cpmID, spitem.ID)
 
 		if dbErr != nil {
-			logger.Context().WithField("CPMID", ctx.TokenInfo.CpmID).WithField("SPID", spitem.ID).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get serv conf.", dberr)
+			logger.Context().WithField("CPMID", cpmID).WithField("SPID", spitem.ID).LogError(SUB_MODULE_NAME, logger.Normal, "Unable to get serv conf.", dberr)
 			continue
 		}
 

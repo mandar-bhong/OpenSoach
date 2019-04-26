@@ -30,7 +30,7 @@ func ProcessComplaintData(ctx *pcmodels.DevicePacketProccessExecution, packetPro
 
 	for _, packetComplaintDataItem := range packetComplaintDataList {
 		dbComplaintInsertRowModel := hktmodels.DBComplaintInsertRowModel{}
-		dbComplaintInsertRowModel.CpmId = ctx.TokenInfo.CpmID
+		dbComplaintInsertRowModel.CpmId = ctx.GetCPMID()
 		dbComplaintInsertRowModel.SpId = devicePacket.Header.SPID
 		dbComplaintInsertRowModel.ComplaintTitle = packetComplaintDataItem.ComplaintTitle
 		dbComplaintInsertRowModel.Description = packetComplaintDataItem.Description

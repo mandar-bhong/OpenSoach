@@ -13,6 +13,7 @@ import (
 	epproc "opensoach.com/hpft/server/processor/endpoint"
 	repo "opensoach.com/hpft/server/repository"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 )
@@ -93,16 +94,24 @@ func ProcessEndPointReceivedPacket(msg string) (string, error) {
 		return jsonData, nil
 	}
 
-	isTokenGetSuccess, tokenInfo := lhelper.GetEPTokenInfo(repo.Instance().Context.Master.Cache, endPointToServerTaskModel.Token)
+	isTokenGetSuccess, contextType, tokenInfo, userTokenInfo := lhelper.GetEPTokenInfo(repo.Instance().Context.Master.Cache, endPointToServerTaskModel.Token)
 
 	if isTokenGetSuccess == false {
 		return "", fmt.Errorf("Unable to get token. Token: ", endPointToServerTaskModel.Token)
 	}
 
-	isDBInstGetSuccess, dbInstConn := dbaccess.EPGetInstanceDB(repo.Instance().Context.Master.DBConn, tokenInfo.CpmID, tokenInfo.DevID)
+	var cpmid int64
+
+	if contextType == pcconst.DEVICE_TYPE_SHARED_DEVICE {
+		cpmid = tokenInfo.CpmID
+	} else if contextType == pcconst.DEVICE_TYPE_USER_DEVICE {
+		cpmid = userTokenInfo.Product.CustProdID
+	}
+
+	isDBInstGetSuccess, dbInstConn := dbaccess.EPGetInstanceDB(repo.Instance().Context.Master.DBConn, cpmid)
 
 	if isDBInstGetSuccess != nil {
-		return "", fmt.Errorf("Unable to get dbconn. CPMID: %d, DeviceID: %d ", tokenInfo.CpmID, tokenInfo.DevID)
+		return "", fmt.Errorf("Unable to get dbconn. CPMID: %d ", cpmid)
 	}
 
 	devicePacket := &gmodels.DevicePacket{}
@@ -143,7 +152,13 @@ func ProcessEndPointReceivedPacket(msg string) (string, error) {
 	packetProccessExecution.Token = endPointToServerTaskModel.Token
 	packetProccessExecution.DevicePacket = endPointToServerTaskModel.Message
 	packetProccessExecution.InstanceDBConn = dbInstConn
-	packetProccessExecution.TokenInfo = tokenInfo
+
+	if contextType == pcconst.DEVICE_TYPE_SHARED_DEVICE {
+		packetProccessExecution.DeviceContext = tokenInfo
+
+	} else if contextType == pcconst.DEVICE_TYPE_USER_DEVICE {
+		packetProccessExecution.DeviceContext = userTokenInfo
+	}
 
 	executor(packetProccessExecution, packetProcessingResult)
 
