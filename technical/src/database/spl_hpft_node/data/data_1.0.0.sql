@@ -3,18 +3,18 @@
 --
 
 
-INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `updated_on`, `has_qry`, `select_count_qry`, `select_qry`, `insert_qry`, `update_qry`,`data_source`, `query_data`) VALUES
-	('service_point_tbl',
+INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `device_type`, `updated_on`, `has_qry`, `select_count_qry`, `select_qry`, `insert_qry`, `update_qry`,`data_source`, `query_data`) VALUES
+	('service_point_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_node_sp_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_node_sp_tbl where cpm_id_fk = :cpmid and updated_on > :updatedon','select * from spl_node_sp_tbl where cpm_id_fk = :cpmid and updated_on > :updatedon','insert_qry','update_qry',2,'{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('conf_tbl',
+	('conf_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_conf_tbl where uuid = ?','select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_conf_tbl where cpm_id_fk = :cpmid and updated_on > :updatedon','select * from spl_hpft_conf_tbl where cpm_id_fk = :cpmid and updated_on > :updatedon','insert_qry','update_qry',
 	2,
 	'{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('patient_master_tbl',
+	('patient_master_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_patient_master_tbl where uuid = ?',	
 	'select count(*) as count, max(updated_on) as max_updated_on from spl_hpft_patient_master_tbl where cpm_id_fk = :cpmid and updated_on > :updatedon',	
@@ -28,7 +28,7 @@ INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `updated_on`, `has_qry`, `
 	2,
 	'{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('schedule_tbl',
+	('schedule_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_patient_conf_tbl where uuid = ?',
 	'select count(*) as count, max(pconf.updated_on) as max_updated_on from spl_hpft_patient_conf_tbl pconf left join spl_hpft_patient_admission_tbl  padmsn on padmsn.id = pconf.admission_id_fk where pconf.cpm_id_fk = :cpmid and pconf.updated_on > :updatedon',
@@ -38,7 +38,7 @@ INSERT INTO `spl_node_sync_config_tbl` (`store_name`, `updated_on`, `has_qry`, `
 	(uuid,cpm_id_fk,admission_id_fk,conf_type_code,conf,start_date,end_date,status,client_updated_at,updated_by) 
 values (:uuid,:cpm_id_fk,(select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1) ,:conf_type_code,:conf,TRIM(TRAILING "Z" FROM :start_date),TRIM(TRAILING "Z" FROM :end_date),:status,TRIM(TRAILING "Z" FROM :client_updated_at),:updated_by)','update spl_hpft_patient_conf_tbl set cpm_id_fk = :cpm_id_fk, admission_id_fk = (select id as admission_id_fk from spl_hpft_patient_admission_tbl where uuid = :admission_uuid limit 1), conf_type_code = :conf_type_code, conf = :conf, start_date= TRIM(TRAILING "Z" FROM :start_date), end_date= TRIM(TRAILING "Z" FROM :end_date),status=:status,client_updated_at=TRIM(TRAILING "Z" FROM :client_updated_at), updated_by = :updated_by WHERE uuid = :uuid',2,'{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('patient_admission_tbl',
+	('patient_admission_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_patient_admission_tbl where uuid = ?',
 	'select count(*) as count, max(padmsn.updated_on) as max_updated_on from spl_hpft_patient_admission_tbl padmsn 
@@ -54,8 +54,39 @@ values
 set uuid = :uuid, cpm_id_fk = :cpm_id_fk, patient_id_fk = (select id as patient_id_fk from spl_hpft_patient_master_tbl where uuid = :patient_uuid limit 1 ), patient_reg_no = :patient_reg_no, bed_no = :bed_no, status = :status, sp_id_fk = (select sp_id_fk from spl_node_sp_tbl where uuid = :sp_uuid limit 1), dr_incharge = :dr_incharge, admitted_on = :admitted_on, discharged_on = :discharged_on,client_updated_at = TRIM(TRAILING "Z" FROM :client_updated_at), updated_by = :updated_by WHERE uuid = :uuid',
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
+
+	('patient_admission_tbl',1,
+	'2018-01-01 00:00:00',
+	'select count(*) as count from spl_hpft_patient_admission_tbl where uuid = ?',
+	'select count(*) as count from (
+
+select padmsn.uuid,padmsn.cpm_id_fk,0 as usr_id_fk,patient.uuid as patient_uuid,padmsn.patient_reg_no,padmsn.bed_no,padmsn.status,sp.uuid as sp_uuid,padmsn.dr_incharge,padmsn.admitted_on,padmsn.discharged_on,padmsn.updated_by,padmsn.updated_on, padmsn.client_updated_at from spl_hpft_patient_admission_tbl padmsn 
+left join spl_hpft_patient_master_tbl patient on patient.id = padmsn.patient_id_fk
+left join spl_node_sp_tbl sp on sp.sp_id_fk = padmsn.sp_id_fk
+where padmsn.uuid in (	
+select uuid from view_sync_select_patient_admission where usr_id_fk = :usrid
+)
+) t
+where cpm_id_fk = :cpmid and updated_on > :updatedon',
+'select * from (
+
+select padmsn.uuid,padmsn.cpm_id_fk,0 as usr_id_fk,patient.uuid as patient_uuid,padmsn.patient_reg_no,padmsn.bed_no,padmsn.status,sp.uuid as sp_uuid,padmsn.dr_incharge,padmsn.admitted_on,padmsn.discharged_on,padmsn.updated_by,padmsn.updated_on, padmsn.client_updated_at from spl_hpft_patient_admission_tbl padmsn 
+left join spl_hpft_patient_master_tbl patient on patient.id = padmsn.patient_id_fk
+left join spl_node_sp_tbl sp on sp.sp_id_fk = padmsn.sp_id_fk
+where padmsn.uuid in (	
+select uuid from view_sync_select_patient_admission where usr_id_fk = :usrid
+)
+) t
+where cpm_id_fk = :cpmid and updated_on > :updatedon',
+'insert into spl_hpft_patient_admission_tbl 
+(uuid,cpm_id_fk,patient_id_fk,patient_reg_no,bed_no,status,sp_id_fk,dr_incharge,admitted_on,discharged_on,client_updated_at,updated_by) 
+values 
+(:uuid,:cpm_id_fk,(select id as patient_id_fk from spl_hpft_patient_master_tbl where uuid = :patient_uuid limit 1),:patient_reg_no,:bed_no,:status,(select sp_id_fk from spl_node_sp_tbl where uuid = :sp_uuid limit 1),:dr_incharge,:admitted_on,:discharged_on,TRIM(TRAILING "Z" FROM :client_updated_at),:updated_by)','update spl_hpft_patient_admission_tbl 
+set uuid = :uuid, cpm_id_fk = :cpm_id_fk, patient_id_fk = (select id as patient_id_fk from spl_hpft_patient_master_tbl where uuid = :patient_uuid limit 1 ), patient_reg_no = :patient_reg_no, bed_no = :bed_no, status = :status, sp_id_fk = (select sp_id_fk from spl_node_sp_tbl where uuid = :sp_uuid limit 1), dr_incharge = :dr_incharge, admitted_on = :admitted_on, discharged_on = :discharged_on,client_updated_at = TRIM(TRAILING "Z" FROM :client_updated_at), updated_by = :updated_by WHERE uuid = :uuid',
+2,
+'{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('patient_personal_details_tbl',
+	('patient_personal_details_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_patient_personal_details_tbl where uuid = ?',
 	'select count(*) as count, max(pdetails.updated_on) as max_updated_on from spl_hpft_patient_personal_details_tbl pdetails
@@ -72,7 +103,7 @@ set cpm_id_fk = :cpm_id_fk, patient_id =(select id as patient_id from spl_hpft_p
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('patient_medical_details_tbl',
+	('patient_medical_details_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_patient_medical_details_tbl where uuid = ?',
 	'select count(*) as count, max(mdetails.updated_on) as max_updated_on from spl_hpft_patient_medical_details_tbl mdetails
@@ -91,7 +122,7 @@ WHERE uuid = :uuid',
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('action_txn_tbl',
+	('action_txn_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_action_txn_tbl where uuid = ?',
 	'select count(*) as count, max(atxn.updated_on) as max_updated_on from spl_hpft_action_txn_tbl atxn
@@ -107,7 +138,7 @@ values
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
 
-	('doctors_orders_tbl',
+	('doctors_orders_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_doctors_orders_tbl where uuid = ?',
 	'select count(*) as count, max(doc_ordrs.updated_on) as max_updated_on from spl_hpft_doctors_orders_tbl doc_ordrs
@@ -122,13 +153,13 @@ values
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
 
-	('document_tbl', 
+	('document_tbl',0, 
 	'2018-01-01 00:00:00', 
 	'select count(*) as count from spl_hpft_document_tbl where uuid = ?', 'select_count_qry', 'select_qry', 'insert into spl_hpft_document_tbl (uuid,cpm_id_fk,name,doctype,store_name,persisted,updated_by,client_updated_at) values (:uuid,:cpm_id_fk,:doc_name,:doc_type,:datastore,0,:updated_by,TRIM(TRAILING "Z" FROM :client_updated_at))', 'update_qry',
 	2,
 	'{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('treatment_tbl',
+	('treatment_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_treatment_tbl where uuid = ?',
 	'select count(*) as count, max(trtmnt.updated_on) as max_updated_on from spl_hpft_treatment_tbl trtmnt
@@ -143,7 +174,7 @@ where trtmnt.cpm_id_fk =:cpmid and trtmnt.updated_on > :updatedon',
 2,'
 {"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('treatment_doc_tbl',
+	('treatment_doc_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_treatment_doc_tbl where uuid = ?',
 	'select count(*) as count, max(trtmnt.updated_on) as max_updated_on from spl_hpft_treatment_tbl trtmnt
@@ -155,7 +186,7 @@ left join spl_hpft_document_tbl doc on doc.id = tdoc.document_id_fk where trtmnt
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('pathology_record_tbl',
+	('pathology_record_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_pathology_record_tbl where uuid = ?',
 	'select count(*) as count, max(prec.updated_on) as max_updated_on from spl_hpft_pathology_record_tbl prec
@@ -168,7 +199,7 @@ where prec.cpm_id_fk = :cpmid and prec.updated_on > :updatedon','insert_qry','up
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('pathology_record_doc_tbl',
+	('pathology_record_doc_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_pathology_record_doc_tbl where uuid = ?',
 	'select count(*) as count, max(prec.updated_on) as max_updated_on from spl_hpft_pathology_record_tbl prec
@@ -180,7 +211,7 @@ left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where pre
 2,
 '{"select": {"filters": ["cpm", "updatedon"]}}'),
 
-('mst_user_tbl',
+('mst_user_tbl',0,
 '2018-01-01 00:00:00',
 'has_qry',
 'SELECT count(usr.id) as count , max(usr.updated_on) as max_updated_on
@@ -199,7 +230,7 @@ left join spl_hpft_document_tbl doc on doc.id = precdoc.document_id_fk where pre
 	1,
 	'{"select": {"filters": ["cpm", "updatedon"]}}'),
 	
-	('action_tbl',
+	('action_tbl',0,
 	'2018-01-01 00:00:00',
 	'select count(*) as count from spl_hpft_action_tbl where uuid = ?',
 	'select count(*) as count, max(actn.updated_on) as max_updated_on from spl_hpft_action_tbl actn
