@@ -20,7 +20,7 @@ union
 select padmsn.uuid,upmm.usr_id_fk,0 as patient_uuid,padmsn.patient_reg_no,padmsn.bed_no,padmsn.status,0 as sp_uuid,padmsn.dr_incharge,padmsn.admitted_on,padmsn.discharged_on,padmsn.updated_by,padmsn.updated_on, padmsn.client_updated_at from spl_hpft_patient_admission_tbl padmsn 
 inner join  spl_hpft_user_patient_monitor_mapping upmm on upmm.sp_id_fk is null and  upmm.patient_id_fk is null
 
-) t
+) t ;
 
 --
 -- view_get_monitor_patient
@@ -49,5 +49,5 @@ inner join spl_hpft_patient_master_tbl patient on patient.id = padmsn.patient_id
 inner join  spl_hpft_user_patient_monitor_mapping upmm on upmm.sp_id_fk is null and  upmm.patient_id_fk is null
 inner join spl_node_sp_tbl sp on sp.sp_id_fk = padmsn.sp_id_fk
 
-) t
+) t ;
 
