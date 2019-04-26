@@ -101,6 +101,7 @@ func (EndpointService) DeviceUserAuth(req lmodels.APIDeviceUserLoginRequest) (bo
 	dbRecord := *dbData
 
 	if len(dbRecord) < 1 {
+		logger.Context().WithField("request data:", req).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating device user.", nil)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = constants.MOD_ERR_LOGIN_INVALID_USER
 		return false, errModel
@@ -109,6 +110,7 @@ func (EndpointService) DeviceUserAuth(req lmodels.APIDeviceUserLoginRequest) (bo
 	userRecordItem := dbRecord[0]
 
 	if userRecordItem.UsrState != constants.DB_USER_STATE_ACTIVE {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "User state inactive.", nil)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = constants.MOD_ERR_LOGIN_INACTIVE_USER_STATE
 		return false, errModel
@@ -137,6 +139,7 @@ func (EndpointService) DeviceUserAuth(req lmodels.APIDeviceUserLoginRequest) (bo
 
 	isSuccess, token := pchelper.DeviceUserSessionCreate(repo.Instance().Context, &deviceUserSessionInfo)
 	if isSuccess == false {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error while creating session", nil)
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_SERVER
 		return false, errModel
@@ -147,6 +150,8 @@ func (EndpointService) DeviceUserAuth(req lmodels.APIDeviceUserLoginRequest) (bo
 	loginResp.LocationUrl = deviceAuthRecordItem.ServerAddress
 	loginResp.UserID = userRecordItem.UserId
 	loginResp.UserRoleID = deviceAuthRecordItem.UserRoleId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully login device user")
 
 	return true, loginResp
 
