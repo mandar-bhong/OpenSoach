@@ -1,24 +1,20 @@
-import { Component, EventEmitter, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { AmazingTimePickerService } from 'amazing-time-picker';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
-
 import { ServicepointListResponse } from '../../../../../../prod-shared/models/api/servicepoint-models';
 import { DataListRequest, DataListResponse } from '../../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../../shared/models/api/payload-models';
 import { TranslatePipe } from '../../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../../shared/services/notification/app-notification.service';
-import { PatientListDataModel } from '../../../../../app/models/ui/patient-models';
-import {
-  AdmissionStatusRequest,
-  PatientDetaListResponse,
-  PatientFilterRequest,
-} from '../../../../models/api/patient-data-models';
+import { PatientListDataModel, PatientInfoForHospitals } from '../../../../../app/models/ui/patient-models';
+import { PATIENT_STATE } from '../../../../app-constants';
+import { AdmissionStatusRequest, PatientDetaListResponse, PatientFilterRequest } from '../../../../models/api/patient-data-models';
 import { PatientService } from '../../../../services/patient.service';
-import { PATIENT_STATE } from 'app/app-constants';
+
 
 @Component({
   selector: 'app-patient-view',
@@ -167,15 +163,18 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     dataListRequest.limit = this.paginator.pageSize;
     dataListRequest.orderby = this.sort.active;
     dataListRequest.orderdirection = this.sort.direction;
+    console.log("dataListRequest",dataListRequest);
     return this.patientService.getDataList(dataListRequest);
   }
   viewDetails(id: number, admissionid: number, personaldetailsid: number) {
     //setting patient id for further use
+    const patinetInfo = new PatientInfoForHospitals()
+    patinetInfo.isvisible = false;    
+    this.patientService.patinetInfo = patinetInfo;
+    console.log("patinetInfo",patinetInfo);
     this.patientService.patientid = id;
     this.patientService.admissionid = admissionid;
     this.patientService.personaldetailsid = personaldetailsid;
-    // this.patientService.selcetdIndex = 0;
-    // this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid,personaldetailsid:personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });
     if (this.patientService.admissionid != null) {
       this.patientService.selcetdIndex = 0;
       this.router.navigate(['patients', 'patient_admission'], { queryParams: { id: id, admissionid: admissionid, personaldetailsid: personaldetailsid, callbackurl: 'patients' }, skipLocationChange: true });

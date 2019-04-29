@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragulaModule } from 'ng2-dragula';
 import { ToastrModule } from 'ngx-toastr';
-
 import { ProdCommonModule } from '../../prod-shared/prod-common.module';
 import { AppCommonModule } from '../../shared/app-common.module';
 import { LayoutModule } from '../../shared/layouts/layout.module';
@@ -15,14 +14,16 @@ import { AppComponent } from './app.component';
 import { ChartConfigureService } from './services/chart-configure.service';
 import { ProdComplaintService } from './services/complaint/prod-complaint.service';
 import { DashboardService } from './services/dashboard.service';
-import { ReportService } from './services/report.service';
-import { PatientService } from './services/patient.service';
+import { HospitalService } from './services/hospital.service';
 import { PatientAddService } from './services/patient-add.service';
 import { ScheduleService } from './services/patient-detail-sevices/schedule.service';
+import { PatientService } from './services/patient.service';
+import { ReportService } from './services/report.service';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
 
   imports: [
@@ -55,6 +56,7 @@ import { ScheduleService } from './services/patient-detail-sevices/schedule.serv
     PatientService,
     PatientAddService,
     ScheduleService,
+    HospitalService,
   ],
 
   bootstrap: [AppComponent]
