@@ -106,3 +106,4 @@ export enum STATUS_STATE {
 }
 
 export const USER_ADMIN='ADMIN';
+export const USER_LAB='LAB';
