@@ -129,6 +129,10 @@ let selectQueries = new Map([
     ["actionTxnList", "select * from action_txn_tbl"],
     ["getUserById", "select * from usr_tbl where usr_id= ?"],
     ["getScheduleData", "select conf from schedule_tbl where uuid=?"],
+    ["user_login_tbl_insert", `insert into user_login_tbl (user_name,password,auth_code) 
+     values ( ?, ?, ?)`],
+     ["getuser", "select * from user_login_tbl"],
+     ["deleteuser", "delete from user_login_tbl"],
 ]);
 
 let selectTableName = new Map([
@@ -149,6 +153,7 @@ let selectTableName = new Map([
     ["pathology_record_tbl", "pathology_record_tbl"],
     ["pathology_record_doc_tbl", "pathology_record_doc_tbl"],
     ["mst_user_tbl", "usr_tbl"],
+    ["user_login_tbl", "user_login_tbl"],
 ]);
 
 
@@ -206,9 +211,9 @@ export class DatabaseHelper {
 
 
     public static update(key: string, dataList: Array<any>) {
-
+          console.log('dataList',dataList,'key',key);
         return new Promise((resolve, reject) => {
-
+        
             var query: string;
 
             if (selectQueries.has(key) == true) {
@@ -249,7 +254,7 @@ export class DatabaseHelper {
                             console.log('err', err);
                             reject(err);
                         } else {
-                          //  console.log('result', result);
+                            //  console.log('result', result);
                             resolve(result);
                         }
                     });

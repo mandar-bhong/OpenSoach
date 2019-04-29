@@ -91,8 +91,7 @@ export class ServerApiInterfaceService {
                 }
 
                 this.http.post<any>
-                    (url, requestBody, httpOptions).subscribe(payloadResponse => {
-                        console.log('response received', payloadResponse);
+                    (url, requestBody, httpOptions).subscribe(payloadResponse => {                     
                         if (payloadResponse) {
                             if (payloadResponse.issuccess)
                                 resolve(payloadResponse.data);
