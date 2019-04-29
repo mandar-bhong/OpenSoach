@@ -60,6 +60,11 @@ const routes: Routes = [
         path: 'patients',
         loadChildren: './modules/patients/patients.module#PatientsModule',
         data: { preload: false }
+      },
+      {
+        path: 'hospitals',
+        loadChildren: './modules/hospitals/hospitals.module#HospitalsModule',
+        data: { preload: false }
       }
     ]
   },
