@@ -56,10 +56,12 @@
             <div class="row">
             <table class="table" style="margin-top: 6px;">
               <tr *ngFor="let docname of uploadedDocuments; let i = index">
-                <td class="pointer" (click)="viewDocumentFile(docname.documentid,docname.documentname);">{{docname.documentname}}</td>
-                <td class="pointer" (click)="removeFile(docname.documentid)">
+                <td class="pointer">{{docname.documentname}}</td>
+
+                <!-- <td class="pointer" (click)="viewDocumentFile(docname.documentid,docname.documentname);">{{docname.documentname}}</td> -->
+                <!-- <td class="pointer" (click)="removeFile(docname.documentid)">
                   <i class="fa fa-trash-o" style='color:red;' aria-hidden="true"></i>
-                </td>
+                </td> -->
               </tr>
             </table>
             </div>
