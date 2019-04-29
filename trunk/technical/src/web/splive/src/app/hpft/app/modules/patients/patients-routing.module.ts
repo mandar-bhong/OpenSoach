@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { PatientAddComponent } from './patient-add/patient-add.component';
 import { PatientChartComponent } from './patient-chart/patient-chart.component';
 import { PatientCheckSearchComponent } from './patient-check-search/patient-check-search.component';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
 import { PatientListComponent } from './patient-list/patient-list.component';
 import { PatientsPersonalDetailComponent } from './patients-personal-detail/patients-personal-detail.component';
+import { PathologyReportComponent } from './pathology-report/pathology-report.component';
 
 
 const routes: Routes = [
@@ -34,6 +34,11 @@ const routes: Routes = [
     path: 'patient_detail',
     component: PatientsPersonalDetailComponent
   },
+  {
+    path: 'pathology_report',
+    component: PathologyReportComponent
+  },
+  
 
 ];
 
