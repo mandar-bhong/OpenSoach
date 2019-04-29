@@ -8,6 +8,7 @@ import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	hpfthelper "opensoach.com/hpft/api/helper"
+	"opensoach.com/hpft/constants"
 	"opensoach.com/hpft/constants/dbquery"
 	hpftmodels "opensoach.com/hpft/models"
 	gmodels "opensoach.com/models"
@@ -73,4 +74,45 @@ func GetPatientList(dbConn string, usrid int64, filterModel *hpftmodels.DBDevice
 	data.RecordList = resdata
 
 	return nil, data
+}
+
+func PatientUserAssociation(dbConn string, insrtStruct *hpftmodels.DBPatientMonitorMappingInsertRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing PatientUserAssociation.")
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.Args = *insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_SPL_HPFT_USER_PATIENT_MONITOR_MAPPING
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}
+
+func PatientUserDeAssociation(dbConn string, deltStruct *hpftmodels.DBPatientMonitorMappingDeleteRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing PatientUserDeAssociation.")
+
+	delDBCtx := dbmgr.UpdateDeleteContext{}
+	delDBCtx.DBConnection = dbConn
+	delDBCtx.Args = deltStruct
+	delDBCtx.QueryType = dbmgr.Query
+	delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION
+
+	if deltStruct.SpId == nil {
+		delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION_BY_USER_ID
+	}
+
+	if deltStruct.SpId != nil && deltStruct.PatientId == nil {
+		delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION_BY_SP
+	}
+
+	deleteErr := delDBCtx.Delete()
+	if deleteErr != nil {
+		return deleteErr, 0
+	}
+	return nil, delDBCtx.AffectedRows
 }

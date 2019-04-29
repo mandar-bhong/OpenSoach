@@ -31,6 +31,7 @@ const DB_SPL_HPFT_TREATMENT_DOC_TBL string = "spl_hpft_treatment_doc_tbl"
 const DB_SPL_HPFT_PATHOLOGY_RECORD_TBL string = "spl_hpft_pathology_record_tbl"
 const DB_SPL_HPFT_PATHOLOGY_RECORD_DOC_TBL string = "spl_hpft_pathology_record_doc_tbl"
 const DB_SPL_HPFT_ACTION_TBL string = "spl_hpft_action_tbl"
+const DB_SPL_HPFT_USER_PATIENT_MONITOR_MAPPING string = "spl_hpft_user_patient_monitor_mapping"
 
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_HOST string = "Product.Cache.Address.Host"
 const DB_CONFIG_PRODUCT_CACHE_ADDRESS_PORT string = "Product.Cache.Address.Port"

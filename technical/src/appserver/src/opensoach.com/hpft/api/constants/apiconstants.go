@@ -135,3 +135,5 @@ const API_PATIENT_PATHOLOGY_RECORD_ADD = API_BASE_URL + "/v1/patient/pathologyre
 const API_USER_DOCTOR_USERS_LIST = API_BASE_URL + "/v1/user/doctorlist"
 
 const API_ENDPOINT_PATIENT_LIST = API_BASE_URL + "/v1/endpoint/list/patient"
+const API_ENDPOINT_USER_PATIENT_ASSOCIATION = API_BASE_URL + "/v1/endpoint/user/associatepatient"
+const API_ENDPOINT_USER_PATIENT_ASSOCIATION_REMOVE = API_BASE_URL + "/v1/endpoint/user/deassociatepatient"
