@@ -14,7 +14,7 @@ import { DashboardService } from '../../../services/dashboard.service';
 export class TaskTrendComponent implements OnInit {
 
   curve = curveLinear;
-  xAxisLabel = 'Time';
+  xAxisLabel = 'Month';
   yAxisLabel = ' Count';
   tasktrenddata: TaskTrendModel[] = [];
   tasktrendchartdata = [];
