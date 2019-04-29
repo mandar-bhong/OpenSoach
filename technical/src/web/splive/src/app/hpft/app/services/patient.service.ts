@@ -59,6 +59,7 @@ import { SaveFileService } from '../../../shared/services/save-file.service';
 import { FileDownloadRequest } from '../../app/models/api/file-download-request';
 import { PathologyReportAddRequest } from '../../app/models/api/pathology-report-add-request';
 import { TreatmentReportRequest } from '../../app/models/api/treatment-report-request';
+import { PatientInfoForHospitals } from 'app/models/ui/patient-models';
 
 
 @Injectable()
@@ -69,6 +70,8 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     disableTab: boolean;
     fname: string;
     lname: string;
+    Hfname: string;
+    Hlname: string;
     admittedon: Date;
     drincharge: number;
     admissionIdReceived = new Subject<number>();
@@ -77,6 +80,8 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     treatmentid: number;
     pathologyid: number;
     patientName = new Subject<string>();
+    patientNameHosp = new Subject<string>();
+    patinetInfo: PatientInfoForHospitals;
 
     constructor(private serverApiInterfaceService: ServerApiInterfaceService,
         private saveFileService: SaveFileService) {
