@@ -1,19 +1,18 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { Router } from '@angular/router';
 import { FileDownloadRequest } from 'app/models/api/file-download-request';
 import { PathologyFilterRequest, PathologyResponse } from 'app/models/api/patient-data-models';
+import { HospitalService } from 'app/services/hospital.service';
 import { PatientService } from 'app/services/patient.service';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
-
 import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppLocalStorage } from '../../../../../shared/services/app-data-store/app-data-store';
-import { FloatingButtonMenuService } from '../../../../../shared/services/floating-button-menu.service';
-import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
+import { PatientInfoForHospitals } from 'app/models/ui/patient-models';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -28,7 +27,7 @@ import { AppNotificationService } from '../../../../../shared/services/notificat
     ]),
   ],
 })
-export class PathologyReportComponent implements OnInit {
+export class PathologyReportComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['testperformed', 'testperformedtime', 'view'];
   sortByColumns = [
@@ -51,13 +50,14 @@ export class PathologyReportComponent implements OnInit {
   expandedElement: PathologyResponse | null;
   pathologyResponseArray: PathologyResponse[] = [];
   dataListRequest: DataListRequest<PathologyFilterRequest>;
-
-  constructor(public patientService: PatientService,
-    private floatingButtonMenuService: FloatingButtonMenuService,
+  patientNameSubscription: Subscription;
+  patientName: string;
+  // hide = false;
+  public patientInfoForHospitals = new PatientInfoForHospitals();
+  constructor(public hospitalService: HospitalService,
+    public patientService: PatientService,
     private router: Router,
-    private appNotificationService: AppNotificationService,
-    private appLocalStorage: AppLocalStorage,
-    private translatePipe: TranslatePipe) {
+    private appLocalStorage: AppLocalStorage) {
     this.isReportAdd = false
   }
 
@@ -67,6 +67,11 @@ export class PathologyReportComponent implements OnInit {
     this.sort.active = 'testperformed';
     this.sort.active = 'admissionid';
     this.setDataListing();
+
+    // getting patinet info from patient service
+    this.patientInfoForHospitals = this.patientService.patinetInfo;
+    console.log("this.patientInfoForHospitals ", this.patientInfoForHospitals );
+    //end 
   }
 
   setDataListing(): void {
@@ -107,7 +112,6 @@ export class PathologyReportComponent implements OnInit {
     dataListRequest.filter = new PathologyFilterRequest();
     dataListRequest.filter.admissionid = this.patientService.admissionid;
     return this.patientService.getPathologyList(dataListRequest);
-
   }
 
 
@@ -167,5 +171,14 @@ export class PathologyReportComponent implements OnInit {
     });
   }
 
+  close() {
+    this.router.navigate(['hospitals'], { queryParams: { callbackurl: 'hospitals' }, skipLocationChange: true });
+  }
+
+  ngOnDestroy() {
+    if (this.patientNameSubscription) {
+      this.patientNameSubscription.unsubscribe();
+    }
+  }
 
 }

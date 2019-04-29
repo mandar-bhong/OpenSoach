@@ -21,3 +21,6 @@ tr.example-detail-row {
 .detail_back {
   background-color: #fdf9f9 !important;
 }
+.backButton {
+  color: #37A5CD
+}
