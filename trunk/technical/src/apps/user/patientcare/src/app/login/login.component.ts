@@ -76,25 +76,11 @@ export class LoginComponent implements OnInit {
 						}
 							break;
 						default: // more than 1 record is available in db
-						const deleteUser = await this.deleteUsers();
-							if (deleteUser) {
+						const deluser = await this.deleteUsers();
+							if (deluser) {
 								await this.addUser();
 							}
 							break;
-
-					}
-
-
-
-					if (usres.length === 0) {
-						await this.addUser();
-					} else if (usres.length == 1) {
-						if (!(usres[0].user_name === this.input.username && usres[0].password === this.input.password)) {
-							const deleteUser = await this.deleteUsers();
-							if (deleteUser) {
-								await this.addUser();
-							}
-						}
 					}
 					console.log('final statement executed');
 					this.appStartUpService.handleDevAuthResponse(success, APP_MODE.USER_DEVICE);
@@ -145,10 +131,12 @@ export class LoginComponent implements OnInit {
 				reject();
 			});
 		});
-
 	}
 
 	async bindUserData() {
+		//TODO: Get Remember from db and same db row
+		//
+		const rememberMe = 1;
 		const item = await this.getUsers();
 		if (item.length > 0) {
 			this.input.username = item[0].user_name
@@ -156,6 +144,10 @@ export class LoginComponent implements OnInit {
 			this.input.prodcode = item[0].auth_code;
 			this.login();
 		}
+
+
+		//if rember me = 0
+
 	}
 
 	clearFields() {
