@@ -56,7 +56,10 @@ export class PatientDataModel {
         this.status = patientDataAddRequest.status;
     }
 }
-
+export class PatientInfoForHospitals {
+    patintname: string;
+    isvisible: boolean;
+}
 export class PatientAddModal {
     uuid: string;
     patientid: number;
