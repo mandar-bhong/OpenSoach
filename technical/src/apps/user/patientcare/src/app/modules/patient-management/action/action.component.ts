@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { Page } from 'ui/page';
-import { ACTION_STATUS, ConfigCodeType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, MonitorType, ActionStatus } from '~/app/app-constants';
+import { ACTION_STATUS, ConfigCodeType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, MonitorType, ActionStatus, APP_MODE } from '~/app/app-constants';
 import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
@@ -30,6 +30,7 @@ import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component'
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import * as trace from 'trace';
 import { TraceCustomCategory } from '~/app/helpers/trace-helper';
+import * as appSettings from "tns-core-modules/application-settings";
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -805,7 +806,16 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					break;
 			}
 		});
-		this.savetoUserAuth();
+
+		const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+		if (appMode == APP_MODE.USER_DEVICE) {
+			console.log('appSettings.getNumber("USER_ID")', appSettings.getNumber("USER_ID"));
+			this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
+		} else {
+			this.savetoUserAuth();
+		}
+
+
 		this.saveViewOpen = false;
 		// check data save entries added in action trn table 
 		this.gettrnlistdata();
@@ -864,7 +874,14 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				this.ServerDataStoreDataModelArray = dialogResult;
 				if (this.ServerDataStoreDataModelArray.length > 0) {
 					setTimeout(() => {
-						this.savetoUserAuth();
+						const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+						if (appMode == APP_MODE.USER_DEVICE) {
+							console.log('appSettings.getNumber("USER_ID")', appSettings.getNumber("USER_ID"));
+							this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
+						} else {
+							this.savetoUserAuth();
+						}
+
 					});
 				}
 			}

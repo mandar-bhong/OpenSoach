@@ -6,7 +6,7 @@ import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-
 import { Subscription } from 'rxjs';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
-import { ConfigCodeType, freuencyone, freuencyzero, SERVER_WORKER_MSG_TYPE, SYNC_STORE, ScheuldeStatus } from '~/app/app-constants';
+import { ConfigCodeType, freuencyone, freuencyzero, SERVER_WORKER_MSG_TYPE, SYNC_STORE, ScheuldeStatus, APP_MODE } from '~/app/app-constants';
 import { ServerDataProcessorMessageModel } from '~/app/models/api/server-data-processor-message-model';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { IDatastoreModel } from '~/app/models/db/idatastore-model';
@@ -24,6 +24,7 @@ import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
 import { TraceCustomCategory } from '~/app/helpers/trace-helper';
 import * as trace from 'trace';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
+import * as appSettings from "tns-core-modules/application-settings";
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -31,7 +32,7 @@ import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 	styleUrls: ['./charts.component.css']
 })
 
-export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
+export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	chartListItems: ObservableArray<ChartListViewModel>;
 	chartListItemsAll: ObservableArray<ChartListViewModel>;
@@ -83,7 +84,7 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 	ngOnInit() {
 		this.getChartData('getScheduleListAll');
 		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
-			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);		
+			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);
 			this.pushAddedSchedule(value);
 		});
 		this.completeorpending = "Active Schedules";
@@ -201,7 +202,7 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 				const activeItem = this.chartListItemsAll.filter(data => data.dbmodel.status == 0 && new Date(data.dbmodel.end_date) >= new Date());
 				activeItem.forEach((item) => {
 					this.chartListItemsActive.push(item);
-				});				
+				});
 				this.sortActiveAndAllSchedule();
 			},
 			(error) => {
@@ -210,11 +211,11 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 		);
 	}
 	sortActiveAndAllSchedule() {
-		const listItems= this.listViewComponent.nativeElement.items;
+		const listItems = this.listViewComponent.nativeElement.items;
 		if (listItems) {
-			listItems.forEach((item) => {			
-				if(item.hasOwnProperty('expanded')){
-                    item.expanded=false;
+			listItems.forEach((item) => {
+				if (item.hasOwnProperty('expanded')) {
+					item.expanded = false;
 				}
 			});
 		}
@@ -247,7 +248,7 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 			this.schedulecreationSubscription.unsubscribe();
 		}
 
-		if (this.scheduleDataContext) {this.scheduleDataContext.unsubscribe();}
+		if (this.scheduleDataContext) { this.scheduleDataContext.unsubscribe(); }
 
 	}// end 
 	pushAddedSchedule(scheduleDatastoreModel: ScheduleDatastoreModel) {
@@ -260,13 +261,13 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 			if (scheduleitem && scheduleitem != null) {
 				scheduleitem.dbmodel = scheduleDatastoreModel;
 				scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
-				scheduleitem.expanded=false;
+				scheduleitem.expanded = false;
 			}
 			else {
 				scheduleitem = new ChartListViewModel();
 				scheduleitem.dbmodel = scheduleDatastoreModel;
 				scheduleitem.conf = JSON.parse(scheduleDatastoreModel.conf);
-				scheduleitem.expanded=false;
+				scheduleitem.expanded = false;
 				this.chartListItemsAll.push(scheduleitem);
 			}
 
@@ -326,8 +327,8 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 
 	savetoUserAuth() {
 		// setTimeout(() => {
-			this.passdataservice.authResultReuested = this;
-			this.routerExtensions.navigate(['patientmgnt', 'user-auth'], { clearHistory: false });
+		this.passdataservice.authResultReuested = this;
+		this.routerExtensions.navigate(['patientmgnt', 'user-auth'], { clearHistory: false });
 		// }, 2000);
 
 	}
@@ -387,7 +388,14 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 			this.ServerDataStoreDataModelArray = dialogResult;
 			if (this.ServerDataStoreDataModelArray.length > 0) {
 				setTimeout(() => {
-					this.savetoUserAuth();
+					const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+					if (appMode == APP_MODE.USER_DEVICE) {
+						console.log('appSettings.getNumber("USER_ID")', appSettings.getNumber("USER_ID"));
+						this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
+					} else {
+						this.savetoUserAuth();
+					}
+
 				});
 			}
 			this.dialogOpen = false;
@@ -399,13 +407,20 @@ export class ChartsComponent implements OnInit, OnDestroy,IDeviceAuthResult {
 		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
 		serverDataStoreModel.data = new ScheduleDatastoreModel();
-		Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);	
+		Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);
 		serverDataStoreModel.data.status = 1;
 		serverDataStoreModel.data.sync_pending = 1
 		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
 		this.ServerDataStoreDataModelArray = [];
 		this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
-		this.savetoUserAuth();
+		const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+		if (appMode == APP_MODE.USER_DEVICE) {
+			console.log('appSettings.getNumber("USER_ID")', appSettings.getNumber("USER_ID"));
+			this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
+		} else {
+			this.savetoUserAuth();
+		}
+
 	}
 	timeConvert(minute: number) {
 		return TimeConversion.timeConvert(minute);

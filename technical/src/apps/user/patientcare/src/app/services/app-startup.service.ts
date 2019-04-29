@@ -43,12 +43,11 @@ export class AppStartupService {
         // if valid call initAppStart()
         // else call checkIfDeviceIsRegistered()
 
-        const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
-        const token = appSettings.getString("AUTH_TOKEN");
-
+        // const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+        const appMode = APP_MODE.NONE;
+        const token = appSettings.getString("AUTH_TOKEN");    
         console.log("AUTH_TOKEN", token);
         console.log("appMode", appMode);
-
         if (appMode == APP_MODE.NONE) {
             this.checkIfDeviceIsRegistered();
         } else {
@@ -73,6 +72,8 @@ export class AppStartupService {
                             this.checkIfDeviceIsRegistered();
                         }
                     });
+            } else if (appMode == APP_MODE.USER_DEVICE && token != null) {
+
             }
 
         }
@@ -84,7 +85,8 @@ export class AppStartupService {
         //TODO: Read the serial number
         // Set the Serial Number in AppGlobalContext
 
-        const serialNumber = "1234567890123456";
+        // const serialNumber = "1234567890123456";
+        const serialNumber = "12345";
         return serialNumber;
     }
 
@@ -112,7 +114,7 @@ export class AppStartupService {
             .then(
                 res => {
                     console.log("POST Request is successful ", res);
-                    this.handleDevAuthResponse(res);
+                    this.handleDevAuthResponse(res, APP_MODE.SHARED_DEVICE);
                 }, (error) => {
                     if (!error.handled) {
                         console.error('deviceauthorization in error', error);
@@ -124,9 +126,10 @@ export class AppStartupService {
 
     }
 
-    handleDevAuthResponse(resData) {
-        appSettings.setNumber("APP_MODE", APP_MODE.SHARED_DEVICE);
-        AppGlobalContext.AppMode = APP_MODE.SHARED_DEVICE;
+    handleDevAuthResponse(resData, appMode) {
+        console.log('handleDevAuthResponse executed', resData);
+        appSettings.setNumber("APP_MODE", appMode);
+        AppGlobalContext.AppMode = appMode;
         appSettings.setString("AUTH_TOKEN", resData.token);
         appSettings.setString("WEB_SOCKET_URL", resData.locationurl);
         AppGlobalContext.Token = resData.token;
@@ -138,13 +141,13 @@ export class AppStartupService {
     initAppStart() {
         // post message to worker to connect websocket
         // navigate to patient listing page
-
         console.log('in initappStart');
         const initModel = new ServerDataProcessorMessageModel();
         initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
         initModel.data = {};
         initModel.data.WebsocketUrl = AppGlobalContext.WebsocketUrl;
         initModel.data.Token = AppGlobalContext.Token;
+        console.log('init model', initModel);
         this.workerService.postMessageToServerDataProcessorWorker(initModel);
         this.routerExtensions.navigate(['home'], { clearHistory: true });
         this.isStartupInprogress = false;
