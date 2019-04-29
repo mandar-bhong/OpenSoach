@@ -17,6 +17,8 @@ export class DeviceDataListResponse {
     createdon: Date;
     updatedon: Date;
 }
+
+
 export class DeviceDetailsResponse {
     devid: number;
     devname: string;

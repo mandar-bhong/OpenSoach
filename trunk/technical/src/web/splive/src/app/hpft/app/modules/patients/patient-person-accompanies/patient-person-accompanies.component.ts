@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { JSONBaseDataModel, PersonAccompanyingInfo, PersonalDetailsRequest } from 'app/models/api/patient-data-models';
+import { JSONBaseDataModel, PersonAccompanyingInfo, PersonalDetailsRequest } from '../../../../app/models/api/patient-data-models';
 import { Subscription } from 'rxjs';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
@@ -21,7 +21,6 @@ export class PatientPersonAccompaniesComponent extends EditRecordBase implements
   routeSubscription: Subscription;
   patientStates: EnumDataSourceItem<number>[];
   personGender: EnumDataSourceItem<number>[];
-  contact: string;
   personAccompanyingInfo = new PersonAccompanyingInfo();
   personAccompanyingInfoArray = new JSONBaseDataModel<PersonAccompanyingInfo[]>();
   personAccompanyDataItem = new JSONBaseDataModel<PersonAccompanyingInfo>();

@@ -1,17 +1,16 @@
-import { Component, OnInit, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
-import { MatSort, MatPaginator } from '@angular/material';
-import { Subscription, merge, Observable, } from 'rxjs';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
-import { PatientService } from 'app/services/patient.service';
-import { startWith, switchMap, map } from 'rxjs/operators';
+import { merge, Observable, Subscription } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { DataListRequest, DataListResponse } from '../../../../../shared/models/api/data-list-models';
 import { PayloadResponse } from '../../../../../shared/models/api/payload-models';
-import { DataListResponse, DataListRequest } from '../../../../../shared/models/api/data-list-models';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
-import { PatientSearchRequestFilter, PatientSearchResponseFilter, CheckPatientRequest, CheckPatientResponse } from '../../../models/api/patient-data-models';
-import { PatientCheckListDataModal } from '../../../models/ui/patient-models';
-import { PatientAddService } from 'app/services/patient-add.service';
-import { PATIENT_STATE } from 'app/app-constants';
+import { PATIENT_STATE } from '../../../../app/app-constants';
+import { PatientAddService } from '../../../../app/services/patient-add.service';
+import { PatientService } from '../../../../app/services/patient.service';
+import { CheckPatientRequest, PatientSearchRequestFilter, PatientSearchResponseFilter } from '../../../models/api/patient-data-models';
 
 @Component({
   selector: 'app-patient-check-list',
@@ -34,12 +33,9 @@ export class PatientCheckListComponent implements OnInit, OnDestroy {
   filteredrecords = 0;
   isLoadingResults = true;
   dataListFilterChangedSubscription: Subscription;
-  displayData: Subscription;
   showEditForm = false;
-  selectedPatient: PatientCheckListDataModal;
   patientSearchRequestFilter: PatientSearchRequestFilter;
   checkPatientRequest = new CheckPatientRequest
-  checkPatientResponse: CheckPatientResponse;
   PATIENT_STATE = PATIENT_STATE;
   status: PATIENT_STATE.HOSPITALIZE;
 
