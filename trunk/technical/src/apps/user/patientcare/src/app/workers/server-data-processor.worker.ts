@@ -12,4 +12,4 @@ context.onmessage = msg => {
 };
 
 WorkerTasks.Init(context);
-trace.write('worker started', TraceCustomCategory.WORKER, trace.messageType.log);
+//trace.write('worker started', TraceCustomCategory.WORKER, trace.messageType.log);
