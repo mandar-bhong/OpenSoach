@@ -20,6 +20,7 @@ import { StartupComponent } from "./startup-page/startup.component";
 import { NextActionService } from "./services/action/next-action-service";
 import { UserAuthService } from "./services/user-auth/user-auth-service";
 import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
+import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 @NgModule({
     bootstrap: [
         AppComponent
@@ -30,7 +31,8 @@ import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
         NativeScriptFormsModule,
         sharedModule,
         NativeScriptHttpClientModule,
-        NativeScriptAnimationsModule
+        NativeScriptAnimationsModule,
+        NativeScriptUISideDrawerModule
     ],
     declarations: [
         AppComponent,
