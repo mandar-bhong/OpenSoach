@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
+import { USER_ADMIN, USER_LAB } from '../../../app-common-constants';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { SideMenuModel } from '../../../models/ui/routing-model';
 import { SidebarToggleService } from '../../../services/sidebar-toggle.service';
 import { AppUserService } from '../../../services/user/app-user.service';
-import { PayloadResponse } from '../../../models/api/payload-models';
-import { USER_ADMIN } from '../../../app-common-constants';
+
 
 @Component({
   selector: 'app-side-bar',
@@ -31,17 +30,44 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.toggleMenu();
     });
 
-    this.sideMenuLinks = AppSpecificDataProvider.sideMenuRoutes;
+   // this.sideMenuLinks = AppSpecificDataProvider.sideMenuRoutes;
     this.adminForPatientCare();
   }
 
+
+  
+
   adminForPatientCare() {
     this.appUserService.getLoginInfo().subscribe(PayloadResponse => {
-      if (PayloadResponse.data.cpmrole === USER_ADMIN) {
+
+      
+      // if (PayloadResponse.data.cpmrole === USER_ADMIN) {
+      //   this.sideMenuLinks = AppSpecificDataProvider.sideMenuRoutes;
+      // } else if(PayloadResponse.data.cpmrole === USER_LAB){
+      //   let specificLink = AppSpecificDataProvider.sideMenuRoutes.filter(a => a.url === '/dashboard' || a.url === '/hospitals');// || a.url==='/pathology_report'
+      //   this.sideMenuLinks = specificLink;
+      // }
+      //  else {
+      //   let specificLink = AppSpecificDataProvider.sideMenuRoutes.filter(a => a.url === '/dashboard' || a.url === '/patients');
+      //   this.sideMenuLinks = specificLink;
+      // }
+
+      let specificLink =[];
+
+      switch(PayloadResponse.data.cpmrole){
+        case USER_ADMIN:
         this.sideMenuLinks = AppSpecificDataProvider.sideMenuRoutes;
-      } else {
-        let specificLink = AppSpecificDataProvider.sideMenuRoutes.filter(a => a.url === '/dashboard' || a.url === '/patients');
-        this.sideMenuLinks = specificLink;
+        specificLink = AppSpecificDataProvider.sideMenuRoutes.filter(a => a.url !== '/hospitals');
+              this.sideMenuLinks = specificLink;
+        break;
+        case USER_LAB:
+         specificLink = AppSpecificDataProvider.sideMenuRoutes.filter(a => a.url === '/hospitals');
+              this.sideMenuLinks = specificLink;
+        break;
+        default:
+         specificLink = AppSpecificDataProvider.sideMenuRoutes.filter(a => a.url === '/dashboard' || a.url === '/patients');
+              this.sideMenuLinks = specificLink;
+        break;
       }
     });
   }
