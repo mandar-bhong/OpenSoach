@@ -243,7 +243,7 @@ type DBSplHpftPatientConfTableRowModel struct {
 	ConfTypeCode    string     `db:"conf_type_code" json:"conftypecode"`
 	Conf            string     `db:"conf" json:"conf"`
 	EndDate         time.Time  `db:"end_date" json:"enddate"`
-	StartDate       time.Time `db:"start_date" json:"startdate"`
+	StartDate       time.Time  `db:"start_date" json:"startdate"`
 	Status          int        `db:"status" json:"status"`
 	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
@@ -359,4 +359,17 @@ type DBSplHpftTreatmentTableRowModel struct {
 	ClientUpdatedAt        *time.Time `db:"client_updated_at" json:"clientupdatedat"`
 	CreatedOn              *time.Time `db:"created_on" json:"createdon"`
 	UpdatedOn              *time.Time `db:"updated_on" json:"updatedon"`
+}
+
+type DBSplHpftUserPatientMonitorMappingRowModel struct {
+	pcmodels.StoreEntityModel
+	UpmmId          int64      `db:"id" dbattr:"pri,auto"  json:"id"`
+	CpmId           int64      `db:"cpm_id_fk" json:"cpmid"`
+	UsrId           int64      `db:"usr_id_fk" json:"usrid"`
+	SpId            *int64     `db:"sp_id_fk" json:"spid"`
+	PatientId       *int64     `db:"patient_id_fk" json:"patientid"`
+	ClientUpdatedAt *time.Time `db:"client_updated_at" json:"clientupdatedat"`
+	CreatedOn       time.Time  `db:"created_on" json:"createdon"`
+	UpdatedOn       time.Time  `db:"updated_on" json:"updatedon"`
+	UpdatedBy       int64      `db:"updated_by" json:"updatedby"`
 }
