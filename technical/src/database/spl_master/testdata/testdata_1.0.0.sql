@@ -100,6 +100,7 @@ INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (9,'exdoc2@customer1.com','exdoc2',2,null,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (10,'indoc1@customer1.com','indoc1',2,null,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (11,'nurse1@customer1.com','nurse1',2,null,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_user_tbl` (`id`,`usr_name`,`usr_password`,`usr_category`,`urole_id_fk`,`usr_state`,`usr_state_since`) VALUES (12,'labuser1@customer1.com','labuser1',2,null,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_usr_cpm_tbl`
@@ -114,6 +115,7 @@ INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (7,9,3,5,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (8,10,3,6,1,UTC_TIMESTAMP);
 INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (9,11,3,7,1,UTC_TIMESTAMP);
+INSERT INTO `spl_master_usr_cpm_tbl` (`id`,`user_id_fk`,`cpm_id_fk`,`urole_id_fk`,`ucpm_state`,`ucpm_state_since`) VALUES (10,12,3,7,1,UTC_TIMESTAMP);
 
 --
 -- Dumping data for table `spl_master_cust_prod_count_tbl`
