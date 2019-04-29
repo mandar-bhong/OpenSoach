@@ -137,11 +137,21 @@ export const APP_ROUTES: RoutingModel[] = [
     {
         url: '/patients/patient_admission',
         linktitle: 'Admission Details',
-        pagetitle: 'Admission Details',
+        pagetitle: 'Patients',
         linkiconcss: 'fa fa-users'
     },
-
-
+    {
+        url: '/hospitals',
+        linktitle: 'Hospitals',
+        pagetitle: 'Hospitals',
+        linkiconcss: 'fa fa-hospital-o'
+    },
+    {
+        url: '/patients/pathology_report',
+        linktitle: 'Hospitals',
+        pagetitle: 'Hospitals',
+        linkiconcss: 'fa fa-hospital-o'
+    }
 ];
 
 export const SIDE_MENU_LINKS: SideMenuModel[] = [
@@ -153,7 +163,8 @@ export const SIDE_MENU_LINKS: SideMenuModel[] = [
     // { url: '/foperators', level: 0, routingModel: null },
     // { url: '/complaints', level: 0, routingModel: null },
     // { url: '/reports', level: 0, routingModel: null },
-    { url: '/users', level: 0, routingModel: null }
+    { url: '/users', level: 0, routingModel: null },
+    { url: '/hospitals', level: 0, routingModel: null }
 ];
 
 export const TOP_MENU_LINKS = [
