@@ -85,8 +85,8 @@ export class AppStartupService {
         //TODO: Read the serial number
         // Set the Serial Number in AppGlobalContext
 
-        // const serialNumber = "1234567890123456";
-        const serialNumber = "12345";
+       //   const serialNumber = "1234567890123456";
+       const serialNumber = "12345";
         return serialNumber;
     }
 
