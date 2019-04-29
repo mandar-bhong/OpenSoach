@@ -100,7 +100,7 @@ export class ActionHelper {
     }
      // fucntion for generating sticky actions
      generateStickyAction(schedulardata : Schedulardata ) {       
-                let actionList:ActionDataStoreModel = [];
+                let actionList:ActionDataStoreModel[] = [];
                 
                 const actionItem = new ActionDataStoreModel();
                 actionItem.scheduled_time =null;       
