@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ListViewLinearLayout } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular';
@@ -15,8 +15,12 @@ import { DataListingInterface } from '../data-listing-interface';
 import { NextActionService } from '../services/action/next-action-service';
 import { JSONBaseDataModel } from '../models/ui/json-base-data-model';
 import { PersonAccompanyModel } from '../models/ui/person-accompany-model';
-import { ACTION_STATUS } from '../app-constants';
-
+import { ACTION_STATUS, APP_MODE } from '../app-constants';
+import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular";
+import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
+import * as appSettings from "tns-core-modules/application-settings";
+import { AppGlobalContext } from '../app-global-context';
+import { DatabaseHelper } from '../helpers/database-helper';
 @Component({
 	selector: "Home",
 	moduleId: module.id,
@@ -30,7 +34,14 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 
 	public isBusy = true;
 	private layout: ListViewLinearLayout;
-
+	appMode: number;
+	appModeEnum = APP_MODE;
+	@ViewChild("myListView") listViewComponent: RadListViewComponent;
+	// view child 
+	@ViewChild(RadSideDrawerComponent) public drawerComponent: RadSideDrawerComponent;
+	private drawer: RadSideDrawer;
+	private _mainContentText: string;
+	// end 
 	// >> grouping 
 	public _funcGrouping: (item: PatientListViewModel) => PatientListViewModel;
 
@@ -45,9 +56,9 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	constructor(private routerExtensions: RouterExtensions,
 		private patientListService: PatientListService,
 		private passdataservice: PassDataService,
+		private _changeDetectionRef: ChangeDetectorRef,
 		private ngZone: NgZone,
-		private nextActionService: NextActionService) {
-		console.log("home");
+		private nextActionService: NextActionService) {	
 		this._funcGrouping = (item: any) => {
 			if (item) {
 				return item.dbmodel.sp_name;
@@ -59,14 +70,15 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		});
 	}
 
-	@ViewChild("myListView") listViewComponent: RadListViewComponent;
-
+	
 	ngOnInit() {
+		this.appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
 		console.log('home component init');
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
 		this.jsonField = new JSONBaseDataModel<PersonAccompanyModel[]>();
+		this.mainContentText = "SideDrawer for NativeScript can be easily setup in the HTML definition of your page by defining tkDrawerContent and tkMainContent. The component has a default transition and position and also exposes notifications related to changes in its state. Swipe from left to open side drawer.";
 	}
 
 	bindList() {
@@ -175,10 +187,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	// clean up
 	ngOnDestroy(): void {
 		if (this.patientListChanged) {
-			this.patientListService.patientListChangedSubject.unsubscribe();
-		}
-		if (this.nextActionService.nextActionMapChanged.subscribe()){
-			this.nextActionService.nextActionMapChanged.unsubscribe();
+			this.patientListChanged.unsubscribe();
 		}
 	}
 
@@ -194,7 +203,6 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		}, error => {
 
 		});
-
 		this.nextActionService.nextActionMapChanged.subscribe(entry => {
 			const viewModel = this.listSource.find(a => a.dbmodel.admission_uuid == entry.admission_uuid);
 			if (viewModel) {
@@ -203,4 +211,49 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 			}
 		});
 	}
+
+	//  drawing side bar fucntional
+	get mainContentText() {
+		return this._mainContentText;
+	}
+
+	set mainContentText(value: string) {
+		this._mainContentText = value;
+	}
+
+	public openDrawer() {
+		this.drawer.showDrawer();
+	}
+
+	public onCloseDrawerTap() {
+		this.drawer.closeDrawer();
+	}
+	ngAfterViewInit() {
+		this.drawer = this.drawerComponent.sideDrawer;
+		this._changeDetectionRef.detectChanges();
+	}
+	//log out 
+	async logout() {
+		AppGlobalContext.Token = null;
+		AppGlobalContext.WebsocketUrl = null;
+		appSettings.clear();
+		const deleted = await this.deleteUsers();
+		if (deleted) {
+			this.routerExtensions.navigate(['login'], { clearHistory: true });
+		}
+
+		console.log('logout executed');
+	}
+	// fucntion for delete user from database.
+	deleteUsers(): Promise<any> {
+		return new Promise((resolve, reject) => {
+			DatabaseHelper.selectAll('deleteuser').then((success) => {
+				console.log('success', success);
+				resolve(success);
+			}, (error) => {
+				console.log('getuser response Failed', error);
+				reject(error);
+			});
+		});
+	}// end of fucntions.
 }

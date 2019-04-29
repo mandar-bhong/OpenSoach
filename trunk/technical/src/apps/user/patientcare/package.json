@@ -5,7 +5,7 @@
       "version": "5.0.0"
     },
     "tns-android": {
-      "version": "5.0.0"
+      "version": "5.1.0"
     }
   },
   "scripts": {
@@ -42,6 +42,7 @@
     "nativescript-ui-autocomplete": "^3.11.0",
     "nativescript-ui-chart": "^3.10.0",
     "nativescript-ui-listview": "^5.0.0",
+    "nativescript-ui-sidedrawer": "^6.0.0",
     "nativescript-websockets": "^1.5.3",
     "reflect-metadata": "~0.1.8",
     "rxjs": "^6.3.3",

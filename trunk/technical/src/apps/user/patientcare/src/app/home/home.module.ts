@@ -8,6 +8,7 @@ import { NetworkStatusComponent } from "~/app/network-status.component";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 import { AppModule } from "~/app/app.module";
 import { sharedModule } from "~/app/modules/shared-mudule";
+import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { sharedModule } from "~/app/modules/shared-mudule";
         HomeRoutingModule,
         NativeScriptFormsModule,
         NativeScriptUIListViewModule,     
+        NativeScriptUISideDrawerModule,
         sharedModule 
     ],
     declarations: [
