@@ -1,22 +1,39 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
-import { DEFAULT_PAGE_MENU } from '../../../app-common-constants';
+import { HPFTRouteHelper } from "../../../../hpft/app/helpers/route-helper";
+import { DEFAULT_PAGE_MENU, PROD_HPFT } from '../../../app-common-constants';
+import { AppRepoShared } from '../../../app-repo/app-repo';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
+
 
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.css']
 })
-export class BreadcrumbsComponent implements OnDestroy {
+export class BreadcrumbsComponent implements OnInit,OnDestroy {
   tempState = [];
   breadcrumbs: Array<Object>;
   routerEventSubscription: Subscription;
   PAGE_MENU = DEFAULT_PAGE_MENU;
+ 
+  userHomeRoute: any;
+
   constructor(private router: Router, private route: ActivatedRoute) {
     this.buildBreadCrumb();
+
+  }
+
+  ngOnInit() {
+    switch (AppRepoShared.appProductCode) {
+      case PROD_HPFT:
+        this.userHomeRoute = HPFTRouteHelper.getUserHomeRoute;
+        break;
+        default:
+        this.userHomeRoute = this.userHomeRouteHandler;
+        break;
+    }
   }
 
   buildBreadCrumb() {
@@ -49,6 +66,11 @@ export class BreadcrumbsComponent implements OnDestroy {
           }
         }
       });
+  }
+
+
+  userHomeRouteHandler(userrole: string) {   
+    return "";
   }
 
   setBreadCrumbItem(url: string) {

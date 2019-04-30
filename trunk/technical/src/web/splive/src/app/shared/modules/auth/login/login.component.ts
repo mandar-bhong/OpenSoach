@@ -10,6 +10,10 @@ import { AppDataStoreService } from '../../../services/app-data-store/app-data-s
 import { AuthService } from '../../../services/auth.service';
 import { LoginHandlerService } from '../../../services/login-handler.service';
 import { AppNotificationService } from '../../../services/notification/app-notification.service';
+import { USER_LAB, PROD_HPFT } from '../../../app-common-constants';
+import { AppRepoShared } from '../../../app-repo/app-repo';
+import { HPFTRouteHelper } from "../../../../hpft/app/helpers/route-helper";
+
 
 @Component({
   selector: 'hkt-login',
@@ -22,6 +26,9 @@ export class LoginComponent implements OnInit {
   password: string;
   loginform: FormGroup;
   flipped = false;
+  userHomeRoute: any;
+
+
   constructor(private appDataStoreService: AppDataStoreService,
     private loginHandlerService: LoginHandlerService,
     private router: Router,
@@ -30,18 +37,34 @@ export class LoginComponent implements OnInit {
     private translatePipe: TranslatePipe
   ) {
   }
+
+
   ngOnInit() {
+
+    switch (AppRepoShared.appProductCode) {
+      case PROD_HPFT:
+        this.userHomeRoute = HPFTRouteHelper.getUserHomeRoute;
+        break;
+      default:
+        this.userHomeRoute = this.userHomeRoutHandler;
+        break;
+    }
+
     this.createControls();
   }
+
+
   createControls(): void {
     this.loginform = new FormGroup({
       emailControl: new FormControl('', [Validators.required]),
       passwordControl: new FormControl('', [Validators.required]),
     });
   }
+
   flipIt() {
     this.flipped = !this.flipped;
   }
+
   login() {
     if (this.loginform.invalid) {
       return;
@@ -55,11 +78,17 @@ export class LoginComponent implements OnInit {
       if (response && response.issuccess) {
         if (AppSpecificDataProvider.userCateory === response.data.usrcategory) {
           this.loginHandlerService.login(response.data);
-          this.router.navigate([''], { skipLocationChange: true });
+          this.router.navigate([this.userHomeRoute(response.data.urolecode)], { skipLocationChange: true });
         } else {
           this.appNotificationService.error(this.translatePipe.transform('ERROR_LOGIN_INVALID_CATEGORY'));
         }
       }
     });
   }
+
+
+  userHomeRoutHandler(userrole : string) {
+    this.router.navigate([''], { skipLocationChange: true });
+  }
+
 }
