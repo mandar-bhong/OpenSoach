@@ -309,7 +309,6 @@ CREATE TABLE `spl_node_dev_status_tbl` (
 CREATE TABLE `spl_node_sync_config_tbl` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`store_name` VARCHAR(50) NOT NULL,
-	`device_type` TINYINT(3) NOT NULL COMMENT '0 :shared device; 1 :user device',
 	`updated_on` DATETIME NOT NULL,
 	`has_qry` VARCHAR(5000) NOT NULL,
 	`select_count_qry` VARCHAR(5000) NOT NULL,
