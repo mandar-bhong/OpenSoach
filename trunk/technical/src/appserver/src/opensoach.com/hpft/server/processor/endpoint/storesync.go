@@ -43,7 +43,7 @@ func ProcessGetStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetProc
 		dbConnections[gmodels.DB_CONNECTION_MASTER] = repo.Instance().Context.Master.DBConn
 		dbConnections[gmodels.DB_CONNECTION_NODE] = ctx.InstanceDBConn
 
-		err, data := pcstoresync.GetChanges(ctx, dbConnections, reqModel, deviceType)
+		err, data := pcstoresync.GetChanges(ctx, dbConnections, reqModel)
 		if err != nil {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting db changes", err)
 			deviceCommandAck.Ack = false
@@ -111,7 +111,7 @@ func ProcessApplyStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetPr
 		reqModel.Data.([]map[string]interface{})[i]["cpm_id_fk"] = ctx.GetCPMID()
 	}
 
-	err, _ := pcstoresync.ApplyChangesNotify(ctx.InstanceDBConn, reqModel, devPacket, ctx.Token, *repo.Instance(), deviceType)
+	err, _ := pcstoresync.ApplyChangesNotify(ctx.InstanceDBConn, reqModel, devPacket, ctx.Token, *repo.Instance())
 
 	if err != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while apply sync changes", err)
@@ -134,8 +134,21 @@ func AttachServerFilter(ctx *pcmodels.DevicePacketProccessExecution, filterModel
 		request.QueryParams = make(map[string]interface{})
 	}
 
-	if len(queryDataModel.Select.Filters) > 0 {
-		for _, each := range queryDataModel.Select.Filters {
+	deviceType := ctx.GetDeviceContextType()
+	if deviceType == pcconst.DEVICE_TYPE_NONE {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting device context type", nil)
+	}
+
+	filterList := []string{}
+
+	if deviceType == pcconst.DEVICE_TYPE_SHARED_DEVICE {
+		filterList = queryDataModel.SharedDevice.Filters.Select
+	} else if deviceType == pcconst.DEVICE_TYPE_USER_DEVICE {
+		filterList = queryDataModel.UserDevice.Filters.Select
+	}
+
+	if len(filterList) > 0 {
+		for _, each := range filterList {
 			switch each {
 			case "cpm":
 				request.QueryParams["cpmid"] = ctx.GetCPMID()

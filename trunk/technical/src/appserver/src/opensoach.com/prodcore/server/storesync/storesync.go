@@ -1,8 +1,12 @@
 package storesync
 
 import (
+	"strings"
+
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
+	"opensoach.com/prodcore/constants/dbquery"
 	pcmodels "opensoach.com/prodcore/models"
 	"opensoach.com/prodcore/server/dbaccess"
 	pcservices "opensoach.com/prodcore/services"
@@ -10,11 +14,11 @@ import (
 
 var SUB_MODULE_NAME = "ProdCore.Server.StoreSync"
 
-func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[int]string, syncReq pcmodels.StoreSyncGetRequestModel, deviceType int) (error, *pcmodels.StoreSyncGetResponseModel) {
+func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[int]string, syncReq pcmodels.StoreSyncGetRequestModel) (error, *pcmodels.StoreSyncGetResponseModel) {
 
 	dbConn := dbConnections[gmodels.DB_CONNECTION_NODE]
 
-	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName, deviceType)
+	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName)
 	if dbErr != nil {
 		logger.Context().WithField("Sync Config Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get sync config.", dbErr)
 		return dbErr, nil
@@ -35,6 +39,27 @@ func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[i
 			logger.Context().WithField("DB server filter:", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to apply server filter.", err)
 			return err, nil
 		}
+	}
+
+	deviceType := ctx.GetDeviceContextType()
+	if deviceType == pcconst.DEVICE_TYPE_NONE {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting device context type", nil)
+	}
+
+	switch deviceType {
+	case pcconst.DEVICE_TYPE_USER_DEVICE:
+		switch syncReq.StoreName {
+		case pcconst.SYNC_STORE_PATIENT_ADMISSION, pcconst.SYNC_STORE_PATIENT_CONF,
+			pcconst.SYNC_STORE_PERSONAL_DETAILS, pcconst.SYNC_STORE_MEDICAL_DETAILS,
+			pcconst.SYNC_STORE_ACTION_TXN, pcconst.SYNC_STORE_DOCTORS_ORDERS,
+			pcconst.SYNC_STORE_TREATMENT, pcconst.SYNC_STORE_PATHOLOGY,
+			pcconst.SYNC_STORE_ACTION:
+			syncConfigData.SelectQry = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_QUERY, "$SyncQuery$", syncConfigData.SelectQry, 1)
+			syncConfigData.SelectCountQry = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_QUERY, "$SyncQuery$", syncConfigData.SelectQry, 1)
+			break
+		}
+		break
+
 	}
 
 	dbErr, tableData := dbaccess.GetTableData(dbConn, syncConfigData.SelectQry, syncReq.QueryParams)
@@ -61,9 +86,9 @@ func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[i
 }
 
 //TODO Add notification logic
-func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel, deviceType int) (error, *pcmodels.StoreSyncApplyResponseModel) {
+func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel) (error, *pcmodels.StoreSyncApplyResponseModel) {
 
-	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName, deviceType)
+	dbErr, syncConfigData := dbaccess.GetSyncConfig(dbConn, syncReq.StoreName)
 	if dbErr != nil {
 		logger.Context().WithField("Sync Config Request", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get sync config", dbErr)
 		return dbErr, nil
@@ -111,7 +136,7 @@ func ApplyChanges(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel, de
 }
 
 func ApplyChangesNotify(dbConn string, syncReq pcmodels.StoreSyncApplyRequestModel, devPacket *gmodels.DevicePacket, Token string,
-	repo pcmodels.Repo, deviceType int) (error, *pcmodels.StoreSyncApplyResponseModel) {
+	repo pcmodels.Repo) (error, *pcmodels.StoreSyncApplyResponseModel) {
 
 	deviceCommandAck := gmodels.DeviceCommandAck{}
 	deviceCommandAck.Ack = true
@@ -121,7 +146,7 @@ func ApplyChangesNotify(dbConn string, syncReq pcmodels.StoreSyncApplyRequestMod
 	serviceCtx.ServiceConfig.SourcePacket = devPacket
 	serviceCtx.ServiceConfig.SourceToken = Token
 
-	err, resp := ApplyChanges(dbConn, syncReq, deviceType)
+	err, resp := ApplyChanges(dbConn, syncReq)
 	if err != nil {
 		logger.Context().WithField("Sync Req", syncReq).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to apply sync changes.", err)
 		deviceCommandAck.Ack = false
