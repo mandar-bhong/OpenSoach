@@ -70,9 +70,15 @@ type CPMIDEntityModel struct {
 }
 
 type QueryDataModel struct {
-	Select QueryFilterDataModel `json:"select"`
+	SharedDevice QueryFilterDataModel
+	UserDevice   QueryFilterDataModel
 }
 
 type QueryFilterDataModel struct {
-	Filters []string `json:"filters"`
+	Filters FilterDataModel
+}
+
+type FilterDataModel struct {
+	Select []string
+	// Insert []string
 }
