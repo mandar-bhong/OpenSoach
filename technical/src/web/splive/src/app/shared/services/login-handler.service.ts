@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-
-import { APP_SHARED_DATA_STORE_KEYS, ROUTE_HOME, ROUTE_LOGIN,ROUTE_CHANGE_PASSWORD } from '../app-common-constants';
+import { HPFTRouteHelper } from "../../hpft/app/helpers/route-helper";
+import { APP_SHARED_DATA_STORE_KEYS, PROD_HPFT, ROUTE_LOGIN } from '../app-common-constants';
+import { AppRepoShared } from '../app-repo/app-repo';
 import { AuthResponse } from '../models/api/auth-models';
 import { CustomerInfo } from '../models/ui/customer-models';
 import { UserInfo } from '../models/ui/user-models';
@@ -12,10 +13,12 @@ import { CustomerSharedService } from './customer/customer-shared.service';
 import { LoginStatusProviderService } from './login-status-provider.service';
 import { AppUserService } from './user/app-user.service';
 
+
 @Injectable()
 export class LoginHandlerService {
     userInfoSubject = new Subject<UserInfo>();
     customerInfoSubject = new Subject<CustomerInfo>();
+    userHomeRoute: any;
     constructor(private appDataStoreService: AppDataStoreService,
         private router: Router,
         private authService: AuthService,
@@ -28,6 +31,15 @@ export class LoginHandlerService {
     }
 
     init() {
+        switch (AppRepoShared.appProductCode) {
+            case PROD_HPFT:
+              this.userHomeRoute = HPFTRouteHelper.getUserHomeRoute;
+              break;
+            default:
+              this.userHomeRoute = this.userHomeRoutHandler;
+              break;
+          }
+
         this.loginStatusProviderService.authToken = this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN)
             .getObject<string>(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN);
         if (this.loginStatusProviderService.authToken) {
@@ -107,10 +119,15 @@ export class LoginHandlerService {
     // }
 
     navigateToHome() {
-        this.router.navigate([ROUTE_HOME], { skipLocationChange: true }).then(a => {
+
+        this.router.navigate([this.userHomeRoute(this.loginStatusProviderService.userRole)], { skipLocationChange: true }).then(a => {
             this.getBasicInfoPostLogin();
         });
     }
+    
+    userHomeRoutHandler(userrole : string) {
+        this.router.navigate([''], { skipLocationChange: true });
+      }
 
     getBasicInfoPostLogin() {
         this.getUserLoginInfo();

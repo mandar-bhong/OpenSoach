@@ -13,6 +13,7 @@ import { APP_IN_MEMORY_STORE_KEYS, APP_LOCAL_STORAGE_KEYS, APP_ROUTES, SIDE_MENU
 import { TranslateService } from '../../shared/pipes/translate/translate.service';
 import { APP_TRANSLATIONS } from '../translations';
 import { ROUTE_CHANGE_PASSWORD } from '../../shared/app-common-constants';
+import {AppRepoShared} from '../../shared/app-repo/app-repo'
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private splConfService: SplConfService,
     private translateService: TranslateService) {
     this.translateService.addAppSpecificTranslations(APP_TRANSLATIONS);
+    AppRepoShared.setAppProdCode(environment.prodcode);
   }
 
   ngOnInit() {

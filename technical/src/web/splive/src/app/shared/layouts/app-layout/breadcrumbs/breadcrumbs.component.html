@@ -8,11 +8,13 @@
           </span>
         </div>
         <div id="bread-crumb-links">
-          <li>
-            <a [routerLink]="['']" style="text-decoration: none;" skipLocationChange>
+
+        <li>
+            <a [routerLink]="[userHomeRoute(loginStatusProviderService.userRole)]" style="text-decoration: none;" skipLocationChange>
               <i class="fa fa-home"></i>
             </a>
           </li>
+
           <li *ngFor="let breadcrumb of breadcrumbs; let last = last">
             <i class="fa fa-angle-right" id="right-icon"></i>
             <span *ngIf="last">{{breadcrumb.breadcrumbtitle}}</span>
@@ -21,7 +23,7 @@
         </div>
       </div>
       <div class="col-md-2 col-sm-2">
-          <app-floating-button-menu [menuInstanceKey] ="PAGE_MENU"></app-floating-button-menu>
+        <app-floating-button-menu [menuInstanceKey]="PAGE_MENU"></app-floating-button-menu>
       </div>
     </div>
   </div>
