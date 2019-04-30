@@ -55,7 +55,7 @@ func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[i
 			pcconst.SYNC_STORE_TREATMENT, pcconst.SYNC_STORE_PATHOLOGY,
 			pcconst.SYNC_STORE_ACTION:
 			syncConfigData.SelectQry = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_QUERY, "$SyncQuery$", syncConfigData.SelectQry, 1)
-			syncConfigData.SelectCountQry = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_QUERY, "$SyncQuery$", syncConfigData.SelectQry, 1)
+			syncConfigData.SelectCountQry = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_QUERY, "$SyncQuery$", syncConfigData.SelectCountQry, 1)
 			break
 		}
 		break
