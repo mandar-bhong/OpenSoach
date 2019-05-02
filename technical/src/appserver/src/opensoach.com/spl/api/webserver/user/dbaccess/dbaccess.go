@@ -503,3 +503,53 @@ func SplMasterUsrActivationDelete(tx *sqlx.Tx, deltStruct *lmodels.DBUserDeleteA
 	}
 	return nil, delDBCtx.AffectedRows
 }
+
+func ResetUserPassword(tx *sqlx.Tx, updtStruct *lmodels.DBUserResetPasswordDataModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing ResetUserPassword")
+
+	updateCtx := dbmgr.UpdateDeleteTxContext{}
+	updateCtx.Tx = tx
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_TABLE_USER_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func SplMasterUsrOtpDelete(tx *sqlx.Tx, deltStruct *lmodels.DBUserDeleteOtpDataModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing SplMasterUsrOtpDelete.")
+
+	delDBCtx := dbmgr.UpdateDeleteTxContext{}
+	delDBCtx.Tx = tx
+	delDBCtx.Args = deltStruct
+	delDBCtx.QueryType = dbmgr.Query
+	delDBCtx.Query = dbquery.QUERY_DELETE_USER_OTP_TABLE_ROW
+	fmt.Println(delDBCtx.Query)
+	deleteErr := delDBCtx.Delete()
+	if deleteErr != nil {
+		return deleteErr, 0
+	}
+	return nil, delDBCtx.AffectedRows
+}
+
+func VailidateOtpCode(dbConn, otp, usrname string) (error, *[]lmodels.DBSplMasterUserOtpTableRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing VailidateOtpCode")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBSplMasterUserOtpTableRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_USR_OTP_TBL_BY_OTP
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(otp, usrname)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

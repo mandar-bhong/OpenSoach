@@ -788,3 +788,140 @@ func (service UserService) CreateUserPassword(passData lmodels.APICreatePassword
 	return true, nil
 
 }
+
+func (service UserService) ForgotPassword(req lmodels.APIForgotPasswordRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbErr, rsltData := dbaccess.GetUserIdByUserName(repo.Instance().Context.Master.DBConn, req.UserName)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting usrid by user name.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *rsltData
+
+	if len(dbRecord) < 1 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = constants.MOD_ERR_USER_NAME_NOT_FOUND
+		return false, errModel
+	}
+
+	// forgot password otp email notification
+	taskUserForgotPasswordInfoModel := gmodels.TaskUserForgotPasswordInfoModel{}
+	taskUserForgotPasswordInfoModel.UserName = req.UserName
+	isSendSuccess := repo.Instance().SendTaskToServer(gmodels.TASK_API_USER_SEND_OTP_EMAIL_NOTIFICATION, "", taskUserForgotPasswordInfoModel)
+	if isSendSuccess == false {
+		logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Unable to submit task for otp email notification")
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User forgot password otp email notification sent successfully.")
+
+	return true, nil
+
+}
+
+func (service UserService) ResetPassword(req lmodels.APIResetPasswordRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbErr, rsltData := dbaccess.GetUserIdByUserName(repo.Instance().Context.Master.DBConn, req.UserName)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting usrid by user name.", dbErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *rsltData
+
+	if len(dbRecord) < 1 {
+		logger.Context().WithField("UserName:", req.UserName).LogError(SUB_MODULE_NAME, logger.Normal, "Invalid user, record not found.", nil)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = constants.MOD_ERR_USER_NAME_NOT_FOUND
+		return false, errModel
+	}
+
+	dbErr, rslt := dbaccess.VailidateOtpCode(repo.Instance().Context.Master.DBConn, req.Otp, req.UserName)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while validating OTP code.", dbErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecords := *rslt
+
+	if len(dbRecords) < 1 {
+		logger.Context().WithField("OTP Code:", req.Otp).LogError(SUB_MODULE_NAME, logger.Normal, "Invalid OTP code.", nil)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = constants.MOD_ERR_USER_INVALID_OTP
+		return false, errModel
+	}
+
+	dbUserResetPasswordDataModel := lmodels.DBUserResetPasswordDataModel{}
+	dbUserResetPasswordDataModel.UserId = dbRecord[0].UserId
+	dbUserResetPasswordDataModel.UsrName = req.UserName
+	dbUserResetPasswordDataModel.UsrPassword = req.NewPassword
+
+	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dberr, _ := dbaccess.ResetUserPassword(tx, &dbUserResetPasswordDataModel)
+	if dberr != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while resetting user password.", dberr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbUserDeleteOtpDataModel := lmodels.DBUserDeleteOtpDataModel{}
+	dbUserDeleteOtpDataModel.Otp = req.Otp
+
+	err, _ := dbaccess.SplMasterUsrOtpDelete(tx, &dbUserDeleteOtpDataModel)
+	if err != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while deleting user OTP row.", err)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully deleted user OTP row")
+
+	resp := gmodels.APIRecordIdRequest{}
+	resp.RecId = dbUserResetPasswordDataModel.UserId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User password reset successfull.")
+
+	return true, resp
+
+}

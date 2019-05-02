@@ -212,3 +212,11 @@ type DBSplMasterUsrActivationTableRowModel struct {
 	PasswordChanged bool      `db:"password_changed" json:"passwordchanged"`
 	CreatedOn       time.Time `db:"created_on" json:"createdon"`
 }
+
+type DBSplMasterUserOtpTableRowModel struct {
+	UsrOtpId  int64     `dbattr:"pri,auto" db:"id" json:"UsrOtpId"`
+	UsrName   string    `db:"usr_name" json:"usrname"`
+	Otp       string    `db:"otp" json:"otp"`
+	CreatedOn time.Time `db:"created_on" json:"createdon"`
+	UpdatedOn time.Time `db:"updated_on" json:"updatedon"`
+}

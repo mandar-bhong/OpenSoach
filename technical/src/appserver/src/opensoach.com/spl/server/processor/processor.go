@@ -16,6 +16,7 @@ func init() {
 	apiTaskHandler[gmodels.TASK_API_DEV_PROD_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerDevProdAssociated, PayloadType: &gmodels.TaskDevProdAsscociatedModel{}}
 	apiTaskHandler[gmodels.TASK_API_CUST_SERVICE_POINT_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerCustServPointAssociated, PayloadType: &gmodels.TaskCustServicePointAssociatedModel{}}
 	apiTaskHandler[gmodels.TASK_API_USER_ASSOCIATED] = lmodels.APITaskHandlerModel{Handler: APIHandlerUserAssociated, PayloadType: &gmodels.TaskUserAssociatedModel{}}
+	apiTaskHandler[gmodels.TASK_API_USER_SEND_OTP_EMAIL_NOTIFICATION] = lmodels.APITaskHandlerModel{Handler: APIHandlerSendOTPEmailNotification, PayloadType: &gmodels.TaskUserForgotPasswordInfoModel{}}
 }
 
 func APITaskController(msg string) (string, error) {

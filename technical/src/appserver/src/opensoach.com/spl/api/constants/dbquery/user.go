@@ -58,3 +58,7 @@ Where ucpm.user_id_fk = ?`
 const QUERY_GET_USER_ID_BY_ACTIVATION_CODE = `select id,usr_id_fk from spl_master_usr_activation_tbl where code = ?`
 
 const QUERY_DELETE_USER_ACTIVATION_TABLE_ROW = `Delete From spl_master_usr_activation_tbl Where code = :code`
+
+const QUERY_DELETE_USER_OTP_TABLE_ROW = `Delete From spl_master_usr_otp_tbl Where otp = :otp`
+
+const QUERY_GET_USR_OTP_TBL_BY_OTP = `Select * From spl_master_usr_otp_tbl where otp = ? and usr_name = ?`

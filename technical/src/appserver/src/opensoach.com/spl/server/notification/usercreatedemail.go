@@ -21,9 +21,23 @@ func SendUserAssociatedEmailNotification(toEmail, code string) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Debug, "Executing SendUserAssociatedEmailNotification")
 
+	SendEmailNotification(toEmail, code, constants.DB_EMAIL_TML_USER_ASSOCIATED)
+
+}
+
+func SendUserOtpEmailNotification(toEmail, otpcode string) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Debug, "Executing SendUserOtpEmailNotification")
+
+	SendEmailNotification(toEmail, otpcode, constants.DB_EMAIL_TML_USER_OTP)
+
+}
+
+func SendEmailNotification(toEmail, replacablecode, templatecode string) {
+
 	userEmailNotification := &UserEmailNotification{}
 
-	dbErr, templateData := dbaccess.GetEmailTemplate(repo.Instance().Context.Master.DBConn, constants.DB_EMAIL_TML_USER_ASSOCIATED)
+	dbErr, templateData := dbaccess.GetEmailTemplate(repo.Instance().Context.Master.DBConn, templatecode)
 
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting email template from database", dbErr)
@@ -34,7 +48,7 @@ func SendUserAssociatedEmailNotification(toEmail, code string) {
 	userEmailNotification.From = repo.Instance().Config.EmailConfig.From
 
 	userEmailNotification.Subject = templateData.Subject
-	userEmailNotification.Body = strings.Replace(templateData.Body, "$ActivationCode$", code, 1)
+	userEmailNotification.Body = strings.Replace(templateData.Body, "$ReplacableCode$", replacablecode, 1)
 
 	userEmailNotification.SMTPAddress = repo.Instance().Config.EmailConfig.SMTPAddress
 	userEmailNotification.SMTPUsername = repo.Instance().Config.EmailConfig.SMTPUsername
@@ -46,7 +60,7 @@ func SendUserAssociatedEmailNotification(toEmail, code string) {
 	dbEmailRowModel.Body = userEmailNotification.Body
 	dbEmailRowModel.TemplateID = templateData.ID
 
-	dbEmailSaveErr, _ := dbaccess.SaveEmail(repo.Instance().Context.Master.DBConn, dbEmailRowModel)
+	dbEmailSaveErr, insertedID := dbaccess.SaveEmail(repo.Instance().Context.Master.DBConn, dbEmailRowModel)
 
 	if dbEmailSaveErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while saving email", dbEmailSaveErr)
@@ -66,6 +80,7 @@ func SendUserAssociatedEmailNotification(toEmail, code string) {
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Debug, "Email sent successfully")
 
 	dbEmailRowModel.Status = constants.DB_EMAIL_SEND_SUCCESS
+	dbEmailRowModel.ID = insertedID
 	statusUpdateErr := dbaccess.UpdateEmailStatus(repo.Instance().Context.Master.DBConn, dbEmailRowModel)
 
 	if statusUpdateErr != nil {

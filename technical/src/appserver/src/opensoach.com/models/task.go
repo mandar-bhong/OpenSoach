@@ -42,3 +42,7 @@ type TaskCustServicePointAssociatedModel struct {
 type TaskUserAssociatedModel struct {
 	UserID int64 `json:"userid"`
 }
+
+type TaskUserForgotPasswordInfoModel struct {
+	UserName string `json:"usrname"`
+}

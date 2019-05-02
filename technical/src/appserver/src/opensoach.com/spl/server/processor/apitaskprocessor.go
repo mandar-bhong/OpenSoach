@@ -454,10 +454,48 @@ func APIHandlerUserAssociated(msg string, sessionkey string,
 
 	if dbErr != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to insert user activation data into database", dbErr)
+
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
 		return dbErr, result
 	}
 
 	engemail.SendUserAssociatedEmailNotification(username, dbUserActivationRowModel.Code)
 
 	return nil, result
+}
+
+func APIHandlerSendOTPEmailNotification(msg string, sessionkey string,
+	tasktoken string,
+	taskData interface{}) (error, lmodels.APITaskResultModel) {
+
+	result := lmodels.APITaskResultModel{}
+
+	taskUserForgotPasswordInfoModel := taskData.(*gmodels.TaskUserForgotPasswordInfoModel)
+
+	dbUserOtpRowModel := lmodels.DBUserOtpRowModel{}
+	dbUserOtpRowModel.UsrName = taskUserForgotPasswordInfoModel.UserName
+	dbUserOtpRowModel.Otp = ghelper.GenerateUserOtp()
+
+	dbErr := dbaccess.InsertUserOtpInfo(repo.Instance().Context.Master.DBConn, dbUserOtpRowModel)
+
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Unable to insert user activation data into database", dbErr)
+		errModel := lmodels.APITaskResultErrorDataModel{}
+		errModel.ErrorCode = gmodels.MOD_TASK_OPER_ERR_DATABASE
+
+		result.IsSuccess = false
+		result.ErrorData = errModel
+		return dbErr, result
+	}
+
+	engemail.SendUserOtpEmailNotification(taskUserForgotPasswordInfoModel.UserName, dbUserOtpRowModel.Otp)
+
+	result.IsSuccess = true
+
+	return nil, result
+
 }

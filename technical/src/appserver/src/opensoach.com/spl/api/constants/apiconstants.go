@@ -54,6 +54,8 @@ const API_USER_CU_ROLE_UPDATE = API_BASE_URL + "/cu/role/v1/user/update"
 const API_USER_CU_ROLE_UPDATE_DETAILS = API_BASE_URL + "/cu/role/v1/user/update/details"
 const API_USER_ACTIVATION = API_BASE_URL + "/v1/user/activation"
 const API_USER_CREATE_PASSWORD = API_BASE_URL + "/v1/user/create/password"
+const API_USER_FORGOT_PASSWORD = API_BASE_URL + "/v1/user/forgot/password"
+const API_USER_RESET_PASSWORD = API_BASE_URL + "/v1/user/reset/password"
 
 const API_CORPORATE_OSU_LIST = API_BASE_URL + "/osu/v1/corporate/list"
 const API_CORPORATE_OSU_LIST_SHORT = API_BASE_URL + "/osu/v1/corporate/list/short"

@@ -112,7 +112,6 @@ func UpdateTaskLibToInstanceDB(tx *sqlx.Tx, insrtStruct *lmodels.APITaskDBInstan
 	return nil, insDBCtx.InsertID
 }
 
-
 func InsertUserActivation(dbConn string, dbUserActivationRowModel lmodels.DBUserActivationRowModel) error {
 
 	insDBCtx := dbmgr.InsertContext{}
@@ -120,6 +119,23 @@ func InsertUserActivation(dbConn string, dbUserActivationRowModel lmodels.DBUser
 	insDBCtx.QueryType = dbmgr.AutoQuery
 	insDBCtx.TableName = constants.DB_TABLE_SPL_MASTER_USER_ACTIVATION_TBL
 	insDBCtx.Args = dbUserActivationRowModel
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr
+	}
+	return nil
+}
 
-	return insDBCtx.Insert()
+func InsertUserOtpInfo(dbConn string, dbUserOtpRowModel lmodels.DBUserOtpRowModel) error {
+
+	insDBCtx := dbmgr.InsertContext{}
+	insDBCtx.DBConnection = dbConn
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_SPL_MASTER_USER_OTP_TBL
+	insDBCtx.Args = dbUserOtpRowModel
+	insertErr := insDBCtx.Insert()
+	if insertErr != nil {
+		return insertErr
+	}
+	return nil
 }

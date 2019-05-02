@@ -11,6 +11,7 @@ const TASK_API_CUST_PROD_ASSOCIATED string = "SPL.API.Task.Cust.Prod.Associated"
 const TASK_API_DEV_PROD_ASSOCIATED string = "SPL.API.Task.Dev.Prod.Associated"
 const TASK_API_CUST_SERVICE_POINT_ASSOCIATED string = "SPL.API.Task.Cust.Service.Point.Associated"
 const TASK_API_USER_ASSOCIATED string = "SPL.API.Task.User.Associated"
+const TASK_API_USER_SEND_OTP_EMAIL_NOTIFICATION string = "SPL.API.Task.User.SendOtpEmailNotification"
 
 const TASK_SPL_EP_CONNECTED string = "SPL.EndPoint.Connected"
 const TASK_SPL_EP_DISCONNECTED string = "SPL.EndPoint.DisConnected"
