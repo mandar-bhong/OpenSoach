@@ -333,6 +333,11 @@ CREATE TABLE `spl_master_config` (
 	PRIMARY KEY (`config_key`)
 ) ENGINE=InnoDB COMMENT='Short Name for Table: config\r\nThis table will contain configuration for spl  product';
 
+
+--
+-- Table structure for table `spl_master_server_register`
+--
+
 CREATE TABLE `spl_master`.`spl_master_server_register` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `server_type_code` VARCHAR(50) NOT NULL,
@@ -347,6 +352,10 @@ CREATE TABLE `spl_master`.`spl_master_server_register` (
   CONSTRAINT `fk_sreg_prod` FOREIGN KEY (`prod_id_fk`) REFERENCES `spl_master`.`spl_master_product_tbl` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB COMMENT = 'Short Name for Table: sreg';
 
+
+--
+-- Table structure for table `spl_master_email_tbl`
+--
 
 CREATE TABLE `spl_master_email_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -363,6 +372,11 @@ CREATE TABLE `spl_master_email_tbl` (
   KEY `FK_spl_master_email_tbl_spl_master_email_template_tbl` (`email_tml_id_fk`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Short Name for Table: email';
 
+
+--
+-- Table structure for table `spl_master_email_template_tbl`
+--
+
 CREATE TABLE `spl_master_email_template_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) NOT NULL,
@@ -372,6 +386,11 @@ CREATE TABLE `spl_master_email_template_tbl` (
   `maxretry` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Short Name for Table: emiltml';
+
+
+--
+-- Table structure for table `spl_master_usr_activation_tbl`
+--
 
 CREATE TABLE `spl_master_usr_activation_tbl` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -383,4 +402,19 @@ CREATE TABLE `spl_master_usr_activation_tbl` (
   KEY `FK_spl_master_usr_activation_tbl_spl_master_user_tbl` (`usr_id_fk`),
   CONSTRAINT `FK_spl_master_usr_activation_tbl_spl_master_user_tbl` FOREIGN KEY (`usr_id_fk`) REFERENCES `spl_master_user_tbl` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Short Name for Table: usract';
+
+
+--
+-- Table structure for table `spl_master_usr_otp_tbl`
+--
+
+CREATE TABLE `spl_master_usr_otp_tbl` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`usr_name` VARCHAR(254) NOT NULL,
+	`otp` VARCHAR(25) NOT NULL,
+	`created_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_on` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+) 	ENGINE=InnoDB COMMENT='short name for Table: uotp';
+
 
