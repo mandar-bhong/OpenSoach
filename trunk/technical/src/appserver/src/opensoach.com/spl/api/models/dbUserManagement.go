@@ -120,3 +120,13 @@ type DBUserUpdateActivationDataModel struct {
 type DBUserDeleteActivationDataModel struct {
 	Code string `db:"code" json:"code"`
 }
+
+type DBUserResetPasswordDataModel struct {
+	UserId      int64  `dbattr:"pri,auto" db:"id" json:"userid"`
+	UsrName     string `db:"usr_name" json:"usrname"`
+	UsrPassword string `db:"usr_password" json:"usrpassword"`
+}
+
+type DBUserDeleteOtpDataModel struct {
+	Otp string `db:"otp" json:"otp"`
+}

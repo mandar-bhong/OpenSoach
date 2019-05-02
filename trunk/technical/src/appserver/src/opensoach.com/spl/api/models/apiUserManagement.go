@@ -43,3 +43,13 @@ type APICreatePasswordRequest struct {
 	UserID      int64  `json:"usrid"`
 	NewPassword string `json:"newpassword"`
 }
+
+type APIForgotPasswordRequest struct {
+	UserName string `json:"usrname"`
+}
+
+type APIResetPasswordRequest struct {
+	UserName    string `json:"usrname"`
+	Otp         string `json:"otp"`
+	NewPassword string `json:"newpassword"`
+}

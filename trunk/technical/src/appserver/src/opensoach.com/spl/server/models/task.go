@@ -10,7 +10,7 @@ type APITaskHandlerModel struct {
 }
 
 type APITaskResultModel struct {
-	IsSuccess bool                        `json:"isSuceess"`
+	IsSuccess bool                        `json:"isSuccess"`
 	Data      interface{}                 `json:"data"`
 	ErrorData APITaskResultErrorDataModel `json:"errordata"`
 }

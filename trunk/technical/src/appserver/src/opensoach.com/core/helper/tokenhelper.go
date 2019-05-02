@@ -50,3 +50,7 @@ func GenerateUUID() string {
 func GenerateDeviceUserToken() string {
 	return GenerateToken(8, "DU")
 }
+
+func GenerateUserOtp() string {
+	return GenerateToken(4, "")
+}
