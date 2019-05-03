@@ -4,7 +4,7 @@
       <div id="player" class="player" [class.voted]="flipped">
         <div class="front1 front">
           <div [hidden]="flipped == true">
-            <mat-card style="max-width:425px;">
+            <mat-card style="max-width:460px;">
               <hkt-login></hkt-login>
               <div class="row">
                 <div class="col-md-4 col-sm-4">
@@ -14,7 +14,8 @@
                 </div>
                 <div class="col-md-8 col-sm-8" style="text-align:right;">
                   <span class="font-small color-text-alternate" style="line-height:32px">Powered by
-                    <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
+                    <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo"
+                      style="padding-top:0px">
                   </span>
                 </div>
               </div>
@@ -23,17 +24,30 @@
         </div>
         <div class="back">
           <div [hidden]="flipped == false">
-            <mat-card style="max-width:425px;">
+            <mat-card style="max-width:460px;">
               <hkt-forgot-password></hkt-forgot-password>
               <div class="row">
-                <div class="col-md-4 col-sm-4">
-                  <div class="font-small" style="line-height:32px">
-                    <a [routerLink]="['/auth/login']" (click)="flipIt()"> Login</a>
+                <div class="col-md-4 col-sm-4"  *ngIf="isVisible">
+                  <div class="font-small" style="line-height:32px" >
+                    <a [routerLink]="['/auth/login']" (click)="flipIt()">Login
+                    </a>
                   </div>
                 </div>
-                <div class="col-md-8 col-sm-8" style="text-align:right;">
-                  <span class="font-small color-text-alternate" style="line-height:32px">Powered by
-                    <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo" style="padding-top:0px">
+                  
+                  <div class="col-md-12 col-sm-12" *ngIf="!isVisible">
+                    <div class="col">
+                      <br>
+                      <a [routerLink]="['/auth/login']" (click)="flipIt()">
+                        <button mat-raised-button color="accent" style="width:100%">Log in</button>
+                      </a>
+                    </div>
+                  </div>
+
+                <div class="col-md-8 col-sm-8" style="text-align:right;"  *ngIf="isVisible">
+                  <span class="font-small color-text-alternate" style="line-height:32px">Powered
+                    by
+                    <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo"
+                      style="padding-top:0px">
                   </span>
                 </div>
               </div>

@@ -104,3 +104,12 @@ export class ChangeUserPasswordRequest {
 export class ActivationChangePassword {
     code: string;
 }
+
+export class ForgotPasswordRequest {
+    usrname: string;
+}
+export class ResetPasswordRequest {
+    usrname: string;
+    otp: string;
+    newpassword: string;
+}
