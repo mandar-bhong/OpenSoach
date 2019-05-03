@@ -6,7 +6,9 @@ import {
     UserMasterResponse,
     UserMasterUpdateRequest,
     ChangeUserPasswordRequest,
-    ActivationChangePassword
+    ActivationChangePassword,
+    ForgotPasswordRequest,
+    ResetPasswordRequest
 } from '../api/user-models';
 import { USER_PRODUCT_MAPPING_STATE } from '../../app-common-constants';
 import { CustomerAssociateProductListItemResponse } from '../../../spl/app/models/api/customer-models';
@@ -121,10 +123,24 @@ export class ConfirmPasswordModel {
         changeUserPasswordRequest.newpassword = this.newpassword;
     }
 }
-export class ActivationChangePasswordModel
-{
+export class ActivationChangePasswordModel {
     code: string;
     copyTo(activationChangePassword: ActivationChangePassword) {
         activationChangePassword.code = this.code;
+    }
+}
+
+export class ForgotPasswordModel {
+    usrname: string;
+    otp: string;
+    newpassword: string;
+    confirmpassword: string;
+    copyToForgotPass(forgotPasswordRequest : ForgotPasswordRequest){
+        forgotPasswordRequest.usrname = this.usrname;
+    }
+    copyToResetPass(resetPasswordRequest : ResetPasswordRequest){
+        resetPasswordRequest.usrname = this.usrname;
+        resetPasswordRequest.otp = this.otp;
+        resetPasswordRequest.newpassword = this.newpassword;
     }
 }

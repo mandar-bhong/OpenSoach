@@ -473,7 +473,7 @@ export const TRANSLATIONS: TranslationValue[] = [
 /*Change Password For User start from here */
   {
     key: 'CHANGE_PASS',
-    en: 'New Password and confirm password mismatch'
+    en: 'New password and confirm password mismatch'
   },
   {
     key: 'REMOVE_DEVICE',
@@ -483,6 +483,31 @@ export const TRANSLATIONS: TranslationValue[] = [
     key: 'ALREADY_DEVICE_ADDED',
     en: 'This device is already add in this ward'
   },
+  {
+    key: 'EMAIL_VERIFIED_SUCCESS',
+    en: 'Your email id is verified successfully and you will get OTP at your mail.'
+  },
+  {
+    key: 'RESET_PASSWORD_SUCCESS',
+    en: 'Changed your password successfully.'
+  },
+  {
+    key: 'OTP_INVALID',
+    en: 'Entered OTP is not valid.'
+  },
+  {
+    key:"SERVER_ERROR_10006",
+    en:'Enter Valid Email !!'
+  },
+  {
+    key:"SERVER_ERROR_10007",
+    en:'Entered OTP is not valid.'
+  },
+  {
+    key:"SERVER_SYSTEM_ERROR_5000",
+    en:'Session timeout..'
+  }
+
 
 ];
 
