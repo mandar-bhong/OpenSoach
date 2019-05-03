@@ -36,17 +36,6 @@ export class FeedbackSummaryResponse {
     rating5: number;
 }
 
-export class TaskSummaryRequest {
-    spid: number;
-    startdate: Date;
-    enddate: Date;
-}
-
-export class TaskSummaryResponse {
-    ontime: number;
-    delayed: number;
-    missed: number;
-}
 
 export class FeedbackTrendRequest {
     spid: number;
@@ -64,20 +53,6 @@ export class FeedbackTrendResponse {
     rating5: number;
 }
 
-//task completion trend
-export class TaskTrendRequest {
-    spid: number;
-    startdate: Date;
-    enddate: Date;
-}
-//task completion trend
-export class TaskTrendResponse {
-    month: number;
-    year: number;
-    hospitalized: number;
-    discharged: number;
-}
-
 export class ComplaintTrendRequest {
     spid: number;
     startdate: Date;
@@ -92,12 +67,30 @@ export class ComplaintTrendResponse {
     inprogress: number;
 }
 
+// For patient dashbored summery display about hospitalized and discharged
+//task completion trend
+export class TaskTrendRequest {
+    spid: number;
+    startdate: Date;
+    enddate: Date;
+}
+//task completion trend
+export class TaskTrendResponse {
+    month: number;
+    year: number;
+    hospitalized: number;
+    discharged: number;
+}
+
+// For patient dashbored summery display about hospitalized and discharged
+// request
 export class PatientSummaryRequest {
     spid: number;
     startdate: Date;
     enddate: Date;
 }
 
+//response
 export class PatientSummaryResponse {
     admitted: number;
     discharged: number;

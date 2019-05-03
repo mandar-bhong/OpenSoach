@@ -2,12 +2,12 @@
   <div class="card-block">
     <div class="row">
       <div class="col-6">
-        <h6 class="f-w-400 text-muted">Task Summary</h6>
+        <h6 class="f-w-400 text-muted">Summary</h6>
       </div>
       <div class="col-6 text-right">
         <mat-button-toggle-group [(ngModel)]="selectedoption" (ngModelChange)="optionChange()">
-          <mat-button-toggle value="0">Till Date</mat-button-toggle>
-          <mat-button-toggle value="1">This Month</mat-button-toggle>
+          <mat-button-toggle value="0">Hospitalized</mat-button-toggle>
+          <mat-button-toggle value="1">Discharged</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </div>    

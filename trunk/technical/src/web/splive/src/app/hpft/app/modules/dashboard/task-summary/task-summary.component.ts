@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { TaskSummaryModel } from '../../../models/ui/dashboard-models';
 import { DashboardService } from '../../../services/dashboard.service';
 
@@ -12,34 +11,34 @@ import { DashboardService } from '../../../services/dashboard.service';
 export class TaskSummaryComponent implements OnInit {
 
   tasksummary = new TaskSummaryModel();
-
   selectedoption = '0';
+  taskchartdata = [];  // define its type
+  // take it from constants
+  hospitalizedLabel = 'Hospitalized';
+  dischargedLabel = 'Discharged';
+
   constructor(private dashboardService: DashboardService) { }
-  onTimeLabel = 'On Time';
-  delayedLabel = 'Delayed';
-  missedLabel = 'Missed';
+  
+
   customColors = [
     {
-      name: this.onTimeLabel,
+      name: this.hospitalizedLabel,
       value: '#28a745'
     },
     {
-      name: this.delayedLabel,
-      value: '#ffc107'
-    },
-    {
-      name: this.missedLabel,
-      value: '#ff5252'
+      name: this.dischargedLabel,
+      value: '#52A6CA'
     }
-  ];
+  ]; 
 
-  taskchartdata = [];
   ngOnInit() {
     this.getTaskSummaryTillDate();
+    // this.optionChange();
   }
 
   optionChange() {
     this.taskchartdata = [];
+    // take it from constnats
     if (this.selectedoption === '1') {
       this.getTaskSummaryThisMonth();
     } else {
@@ -48,42 +47,35 @@ export class TaskSummaryComponent implements OnInit {
   }
 
   getTaskSummaryTillDate() {
-    // this.dashboardService.getTaskSummary().subscribe(payloadResponse => {
-    //   if (payloadResponse && payloadResponse.issuccess) {
-        this.tasksummary.copyFrom({ontime:100,delayed:11, missed:2});
+    this.dashboardService.getTaskSummary().subscribe(payloadResponse => {
+      if (payloadResponse && payloadResponse.issuccess) {
+        this.tasksummary.copyFrom(payloadResponse.data);
         this.generateChartData();
-    //   }
-    // });
+      }
+    });
   }
 
   getTaskSummaryThisMonth() {
-    // const dt = new Date();
-    // const firstDayofMonth = new Date(dt.getFullYear(), dt.getMonth(), 1);
-    // this.dashboardService.getTaskSummary(
-    //   { spid: undefined, startdate: firstDayofMonth, enddate: dt }).subscribe(payloadResponse => {
-    //     if (payloadResponse && payloadResponse.issuccess) {
-    //       this.tasksummary.copyFrom(payloadResponse.data);
-    //       this.generateChartData();
-    //     }
-    //   });
-
-    this.tasksummary.copyFrom({ontime:12,delayed:2, missed:0});
-        this.generateChartData();
+    const dt = new Date();
+    const firstDayofMonth = new Date(dt.getFullYear(), dt.getMonth(), 1);
+    // check why spid is undefined.
+    this.dashboardService.getTaskSummary({ spid: undefined, startdate: firstDayofMonth, enddate: dt }).subscribe(payloadResponse => {
+        if (payloadResponse && payloadResponse.issuccess) {
+          this.tasksummary.copyFrom(payloadResponse.data);
+          this.generateChartData();
+        }
+      });
   }
 
   generateChartData() {
     this.taskchartdata = [
       {
-        name: this.onTimeLabel,
-        value: this.tasksummary.ontime
+        name: this.hospitalizedLabel,
+        value: this.tasksummary.admitted
       },
       {
-        name: this.delayedLabel,
-        value: this.tasksummary.delayed
-      },
-      {
-        name: this.missedLabel,
-        value: this.tasksummary.missed
+        name: this.dischargedLabel,
+        value: this.tasksummary.discharged
       },
     ];
   }
