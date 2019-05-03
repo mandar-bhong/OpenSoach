@@ -21,6 +21,9 @@ import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 import * as appSettings from "tns-core-modules/application-settings";
 import { AppGlobalContext } from '../app-global-context';
 import { DatabaseHelper } from '../helpers/database-helper';
+import { screen } from "tns-core-modules/platform/platform"
+
+
 @Component({
 	selector: "Home",
 	moduleId: module.id,
@@ -58,19 +61,20 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		private passdataservice: PassDataService,
 		private _changeDetectionRef: ChangeDetectorRef,
 		private ngZone: NgZone,
-		private nextActionService: NextActionService) {	
+		private nextActionService: NextActionService) {
 		this._funcGrouping = (item: any) => {
 			if (item) {
 				return item.dbmodel.sp_name;
 			}
 		};
-
 		this.patientListChanged = this.patientListService.patientListChangedSubject.subscribe((listItem) => {
 			this.onDataReceived(listItem);
 		});
-	}
 
 	
+	}
+
+
 	ngOnInit() {
 		this.appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
 		console.log('home component init');
@@ -78,7 +82,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
 		this.jsonField = new JSONBaseDataModel<PersonAccompanyModel[]>();
-		this.mainContentText = "SideDrawer for NativeScript can be easily setup in the HTML definition of your page by defining tkDrawerContent and tkMainContent. The component has a default transition and position and also exposes notifications related to changes in its state. Swipe from left to open side drawer.";
+	
 	}
 
 	bindList() {
