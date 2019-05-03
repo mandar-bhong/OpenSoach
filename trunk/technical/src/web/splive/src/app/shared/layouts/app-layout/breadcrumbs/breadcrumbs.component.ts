@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-
-import { DEFAULT_PAGE_MENU,PROD_HPFT } from '../../../app-common-constants';
+import { HPFTRouteHelper } from "../../../../hpft/app/helpers/route-helper";
+import { DEFAULT_PAGE_MENU, PROD_HPFT } from '../../../app-common-constants';
+import { AppRepoShared } from '../../../app-repo/app-repo';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { LoginStatusProviderService } from '../../../services/login-status-provider.service';
-import { HPFTRouteHelper } from "../../../../hpft/app/helpers/route-helper"
-import { environment } from '../../../../spl/environments/environment.prod';
-import {AppRepoShared} from '../../../app-repo/app-repo'
+
 
 @Component({
   selector: 'app-breadcrumbs',

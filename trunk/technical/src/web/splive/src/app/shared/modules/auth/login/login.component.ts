@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { HPFTRouteHelper } from "../../../../hpft/app/helpers/route-helper";
+import { PROD_HPFT } from '../../../app-common-constants';
+import { AppRepoShared } from '../../../app-repo/app-repo';
 import { AppSpecificDataProvider } from '../../../app-specific-data-provider';
 import { EnvironmentProvider } from '../../../environment-provider';
 import { AuthRequest } from '../../../models/api/auth-models';
 import { TranslatePipe } from '../../../pipes/translate/translate.pipe';
-import { AppDataStoreService } from '../../../services/app-data-store/app-data-store-service';
 import { AuthService } from '../../../services/auth.service';
 import { LoginHandlerService } from '../../../services/login-handler.service';
 import { AppNotificationService } from '../../../services/notification/app-notification.service';
-import { USER_LAB, PROD_HPFT } from '../../../app-common-constants';
-import { AppRepoShared } from '../../../app-repo/app-repo';
-import { HPFTRouteHelper } from "../../../../hpft/app/helpers/route-helper";
+
 
 
 @Component({
@@ -29,8 +28,7 @@ export class LoginComponent implements OnInit {
   userHomeRoute: any;
 
 
-  constructor(private appDataStoreService: AppDataStoreService,
-    private loginHandlerService: LoginHandlerService,
+  constructor(private loginHandlerService: LoginHandlerService,
     private router: Router,
     private authService: AuthService,
     private appNotificationService: AppNotificationService,

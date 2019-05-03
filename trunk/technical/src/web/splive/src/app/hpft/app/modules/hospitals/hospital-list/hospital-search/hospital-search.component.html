@@ -12,7 +12,6 @@
           <div class="col-md-4 col-sm-3">
             <mat-form-field>
               <mat-select placeholder="Hospitals" name="Hospitals" [(ngModel)]="dataModel.cpmid">
-                <!-- <mat-option>None</mat-option> -->
                 <mat-option *ngFor="let hosp of hospitallist" [value]="hosp.cpmid">
                   {{hosp.custname}}
                 </mat-option>

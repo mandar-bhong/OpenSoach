@@ -136,6 +136,7 @@ export class MedicalPersonalHistoryComponent extends EditRecordBase implements O
     });
   }
   closeForm() { }
+  
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
