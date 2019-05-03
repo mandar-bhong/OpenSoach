@@ -4,10 +4,9 @@ import {
     DeviceSummaryResponse,
     FeedbackSummaryResponse,
     FeedbackTrendResponse,
-    ServicePointSummaryResponse,
-    TaskSummaryResponse,
-    TaskTrendResponse,
     PatientSummaryResponse,
+    ServicePointSummaryResponse,
+    TaskTrendResponse
 } from '../api/dashboard-models';
 
 export class DeviceSummaryModel {
@@ -112,27 +111,21 @@ export class FeedbackSummaryModel {
 }
 
 export class TaskSummaryModel {
-    ontime: number;
-    delayed: number;
-    missed: number;
-    ontimepercentage: number;
-    delayedpercentage: number;
-    missedpercentage: number;
+    hospitalizedPercentage: number;
+    dischargedPercentage: number;
+    admitted: number;
+    discharged: number;
     total: number;
 
-    copyFrom(response: TaskSummaryResponse) {
-        this.ontime = response.ontime;
-        this.delayed = response.delayed;
-        this.missed = response.missed;
-
-        this.total = this.ontime + this.delayed + this.missed;
-        this.ontimepercentage = 0;
-        this.delayedpercentage = 0;
-        this.missedpercentage = 0;
+    copyFrom(response: PatientSummaryResponse) {
+        this.admitted = response.admitted;
+        this.discharged = response.discharged;
+        this.total = this.admitted + this.discharged;
+        this.hospitalizedPercentage = 0;
+        this.dischargedPercentage = 0;
         if (this.total > 0) {
-            this.ontimepercentage = (this.ontime / this.total) * 100;
-            this.delayedpercentage = (this.delayed / this.total) * 100;
-            this.missedpercentage = (this.missed / this.total) * 100;
+            this.hospitalizedPercentage = (this.admitted / this.total) * 100;
+            this.dischargedPercentage = (this.discharged / this.total) * 100;
         }
     }
 }
@@ -175,19 +168,7 @@ export class TrendChartPerMonthXaxis {
     month: number;
 }
 
-//task trend model
-export class TaskTrendModel {
-    month: number;
-    year: number;
-    hospitalized: number;
-    discharged: number;
-    copyFrom(response: TaskTrendResponse) {
-        this.hospitalized = response.hospitalized;
-        this.discharged = response.discharged;
-        this.month = response.month;
-        this.year = response.year;
-    }
-}
+
 
 
 export class ComplaintTrendModel {
@@ -207,6 +188,21 @@ export class ComplaintTrendModel {
     }
 }
 
+//patient task-trend dashbored model
+export class TaskTrendModel {
+    month: number;
+    year: number;
+    hospitalized: number;
+    discharged: number;
+    copyFrom(response: TaskTrendResponse) {
+        this.hospitalized = response.hospitalized;
+        this.discharged = response.discharged;
+        this.month = response.month;
+        this.year = response.year;
+    }
+}
+
+// Patient summery dashbord model
 export class PatientSummaryModel {
     total: number;
     admitted: number;

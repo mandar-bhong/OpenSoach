@@ -1,27 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { EnvironmentProvider } from '../../../shared/environment-provider';
 import { PayloadResponse } from '../../../shared/models/api/payload-models';
 import { ServerApiInterfaceService } from '../../../shared/services/api/server-api-interface.service';
-import {
-    ComplaintSummaryRequest,
-    ComplaintSummaryResponse,
-    DeviceSummaryResponse,
-    FeedbackSummaryRequest,
-    FeedbackSummaryResponse,
-    ServicePointSummaryResponse,
-    TaskSummaryRequest,
-    TaskSummaryResponse,
-    FeedbackTrendResponse,
-    FeedbackTrendRequest,
-    TaskTrendRequest,
-    TaskTrendResponse,
-    ComplaintTrendResponse,
-    ComplaintTrendRequest,
-    PatientSummaryRequest,
-    PatientSummaryResponse,
-} from '../models/api/dashboard-models';
+import { ComplaintSummaryRequest, ComplaintSummaryResponse, ComplaintTrendRequest, ComplaintTrendResponse, DeviceSummaryResponse, FeedbackSummaryRequest, FeedbackSummaryResponse, FeedbackTrendRequest, FeedbackTrendResponse, PatientSummaryRequest, PatientSummaryResponse, ServicePointSummaryResponse, TaskTrendRequest, TaskTrendResponse } from '../models/api/dashboard-models';
+
 
 @Injectable()
 export class DashboardService {
@@ -39,7 +22,7 @@ export class DashboardService {
             implicitErrorHandling);
     }
 
-    getComplaintSummary(request= new ComplaintSummaryRequest(), implicitErrorHandling = true):
+    getComplaintSummary(request = new ComplaintSummaryRequest(), implicitErrorHandling = true):
         Observable<PayloadResponse<ComplaintSummaryResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/complaint/summary',
             request, implicitErrorHandling);
@@ -51,9 +34,9 @@ export class DashboardService {
             request, implicitErrorHandling);
     }
 
-    getTaskSummary(request = new TaskSummaryRequest(), implicitErrorHandling = true):
-        Observable<PayloadResponse<TaskSummaryResponse>> {
-        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/task/summary',
+    getTaskSummary(request = new PatientSummaryRequest(), implicitErrorHandling = true):
+        Observable<PayloadResponse<PatientSummaryResponse>> {
+        return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/patient/summary',
             request, implicitErrorHandling);
     }
 
@@ -66,7 +49,7 @@ export class DashboardService {
     getTaskTrend(request = new TaskTrendRequest(), implicitErrorHandling = true):
         Observable<PayloadResponse<TaskTrendResponse[]>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/patienthospitalized/permonth',
-            request, implicitErrorHandling);  
+            request, implicitErrorHandling);
     }
 
     getComplaintTrend(request = new ComplaintTrendRequest(), implicitErrorHandling = true):
@@ -75,7 +58,7 @@ export class DashboardService {
             request, implicitErrorHandling);
     }
 
-    getPatientSummary(request= new PatientSummaryRequest(), implicitErrorHandling = true):
+    getPatientSummary(request = new PatientSummaryRequest(), implicitErrorHandling = true):
         Observable<PayloadResponse<PatientSummaryResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.appbaseurl + '/api/v1/dashboard/patient/summary',
             request, implicitErrorHandling);
