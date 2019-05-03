@@ -1,0 +1,25 @@
+.hometitle {
+    font-size: 18px;
+    font-weight: bold;
+    vertical-align: center;
+    /* margin-left:150px; */
+}
+.groupLabel {
+    padding: 15;
+    font-weight: bold;
+}
+
+.listItemStackLayout {
+    background-color: white;
+    /* padding-left: 5; */
+    padding-right: 5;
+    /* padding-bottom: 8%; */
+}
+.category-header {
+    background-color: #ffffff;
+}
+.nameLabel {
+    color: #396766;
+    padding: 15;
+    font-weight: bold;
+}

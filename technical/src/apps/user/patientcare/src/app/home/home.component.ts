@@ -259,5 +259,10 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 				reject(error);
 			});
 		});
+	}
+
+
+	getServerList(){
+		this.routerExtensions.navigate(['home', 'monitore'], { clearHistory: false });
 	}// end of fucntions.
 }

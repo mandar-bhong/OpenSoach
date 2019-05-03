@@ -182,7 +182,14 @@ TextField {
 .groupLabel {
     padding: 15;
     font-weight: bold;
+
 }
+.nameLabel {
+    color: #396766;
+    padding: 15;
+    font-weight: bold;
+}
+
 .drawerContentText {
     font-size: 13;
     padding: 10;
