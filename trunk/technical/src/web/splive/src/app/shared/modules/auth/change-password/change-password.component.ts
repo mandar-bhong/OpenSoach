@@ -59,24 +59,25 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   }
 
   save() {
-    if(this.editableForm.valid){
-    const changeUserPasswordRequest = new ChangeUserPasswordRequest();
-    this.dataModel.usrid = this.userId;
-    this.dataModel.copyTo(changeUserPasswordRequest);
-    if (this.dataModel.newpassword === this.dataModel.confirmpassword) {
-      this.authService.changeUserPassword(changeUserPasswordRequest).subscribe(payloadResponse => {
-        if (payloadResponse && payloadResponse.issuccess) {
-          this.successHide = !this.successHide;
-          setTimeout(() => {
-            this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
-        }, 5000);
-        }
-      });
+    if (this.editableForm.valid) {
+      const changeUserPasswordRequest = new ChangeUserPasswordRequest();
+      this.dataModel.usrid = this.userId;
+      this.dataModel.copyTo(changeUserPasswordRequest);
+      if (this.dataModel.newpassword === this.dataModel.confirmpassword) {
+        this.authService.changeUserPassword(changeUserPasswordRequest).subscribe(payloadResponse => {
+          if (payloadResponse && payloadResponse.issuccess) {
+            this.successHide = !this.successHide;
+            setTimeout(() => {
+              window.location.href = window.location.origin;
+              // this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
+            }, 5000);
+          }
+        });
+      }
+      else {
+        this.appNotificationService.error(this.translatePipe.transform('CHANGE_PASS'));
+      }
     }
-    else {
-      this.appNotificationService.error(this.translatePipe.transform('CHANGE_PASS'));
-    }
-  }
   }
 
 
@@ -90,7 +91,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
         this.userId = PayloadResponse.data.recid;
         this.firstView = true;
         this.secondView = false;
-      } else{
+      } else {
         this.firstView = false;
         this.secondView = true;
       }
@@ -109,5 +110,5 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
       this.activateSubscription.unsubscribe();
     }
   }
-  
+
 }
