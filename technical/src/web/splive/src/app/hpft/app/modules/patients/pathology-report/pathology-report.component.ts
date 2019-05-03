@@ -70,7 +70,6 @@ export class PathologyReportComponent implements OnInit, OnDestroy {
 
     // getting patinet info from patient service
     this.patientInfoForHospitals = this.patientService.patinetInfo;
-    console.log("this.patientInfoForHospitals ", this.patientInfoForHospitals );
     //end 
   }
 

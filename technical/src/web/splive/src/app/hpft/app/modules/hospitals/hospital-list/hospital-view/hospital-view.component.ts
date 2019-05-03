@@ -35,7 +35,6 @@ export class HospitalViewComponent implements OnInit, OnDestroy {
   dataListFilterChangedSubscription: Subscription;
   patientFilterResponse: PatientFilterResponse;
   admissionid: number;
-  PatientFullName: string;
   HospLname: any;
   HospFname: any;
 
@@ -78,10 +77,8 @@ export class HospitalViewComponent implements OnInit, OnDestroy {
             this.filteredrecords = payloadResponse.data.filteredrecords;
             let filterDataArray = [];
             filterDataArray = payloadResponse.data.records;
-            console.log('main data', filterDataArray);
             const filterItem = filterDataArray.filter(a => a.admissionid != null);
             this.dataSource = filterItem;
-            console.log('filter data ', this.dataSource);
             if (this.filteredrecords === 0) {
               this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
             }
@@ -94,18 +91,12 @@ export class HospitalViewComponent implements OnInit, OnDestroy {
 
   getDataList(): Observable<PayloadResponse<DataListResponse<PatientFilterResponse>>> {
     const dataListRequest = new DataListRequest<PatientFilterRequest>();
-    // dataListRequest.filter = this.patientFilterRequest;
     dataListRequest.filter = new PatientFilterRequest();
     dataListRequest.filter.cpmid = this.hospitalService.cpmid;
-    // dataListRequest.filter.admissionid = this.admissionid;
-    // console.log("dataListRequest.filter.admissionid", dataListRequest.filter.admissionid);
-    console.log("this.hospitalService.cpmid", this.hospitalService.cpmid);
-    console.log("dataListRequest.filter.cpmid", dataListRequest.filter.cpmid);
     dataListRequest.page = this.paginator.pageIndex + 1;
     dataListRequest.limit = this.paginator.pageSize;
     dataListRequest.orderby = this.sort.active;
     dataListRequest.orderdirection = this.sort.direction;
-    console.log("dataListRequest", dataListRequest);
     return this.hospitalService.getDataList(dataListRequest);
   }
 
@@ -118,7 +109,6 @@ export class HospitalViewComponent implements OnInit, OnDestroy {
     patinetInfo.isvisible = true;
     patinetInfo.patintname = this.HospFname + ' ' + this.HospLname;
     this.patientService.patinetInfo = patinetInfo;
-    console.log("this.patientService.patinetInfo",this.patientService.patinetInfo);
   // end
   
     this.hospitalService.admissionid = admissionid;
