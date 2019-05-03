@@ -59,6 +59,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   }
 
   save() {
+    if(this.editableForm.valid){
     const changeUserPasswordRequest = new ChangeUserPasswordRequest();
     this.dataModel.usrid = this.userId;
     this.dataModel.copyTo(changeUserPasswordRequest);
@@ -75,6 +76,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     else {
       this.appNotificationService.error(this.translatePipe.transform('CHANGE_PASS'));
     }
+  }
   }
 
 
