@@ -106,6 +106,6 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     if (this.activateSubscription) {
       this.activateSubscription.unsubscribe();
     }
-
   }
+  
 }
