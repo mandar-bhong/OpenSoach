@@ -83,7 +83,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
-	 ngOnInit() {
+	ngOnInit() {
 		this.getChartData('getScheduleListAll');
 		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
 			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);
@@ -97,7 +97,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				this.isSchedularDataReceived = true;
 				//	this.savetoUserAuth();
 			}
-		});		
+		});
 	}
 
 	// code for showing fab button dialog.
@@ -406,26 +406,36 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}// end 
 	//code block for cancel schedule
 	async cancelScheudle(scheduleItem: ChartListViewModel) {
-		const isConfrim=await this.appNotificationService.confirm('Do You Want To Stop Schedule?');
-       if(isConfrim){
-		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
-		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
-		serverDataStoreModel.data = new ScheduleDatastoreModel();
-		Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);
-		serverDataStoreModel.data.status = 1;
-		serverDataStoreModel.data.sync_pending = 1
-		serverDataStoreModel.data.client_updated_at = new Date().toISOString();
-		this.ServerDataStoreDataModelArray = [];
-		this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
-		const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
-		if (appMode == APP_MODE.USER_DEVICE) {
-			console.log('appSettings.getNumber("USER_ID")', appSettings.getNumber("USER_ID"));
-			this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
-		} else {
-			this.savetoUserAuth();
+		let userResponse: boolean;
+		const that = this;
+		var dialogs = require("tns-core-modules/ui/dialogs");
+		await dialogs.confirm({
+			title: "Stop Schedule",
+			message: 'Do you want to stop schedule ?',
+			okButtonText: "Yes",
+			cancelButtonText: "No",
+			neutralButtonText: "Cancel"
+		}).then(function (result) {
+			userResponse = result;
+		});
+		if (userResponse) {
+			const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
+			serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
+			serverDataStoreModel.data = new ScheduleDatastoreModel();
+			Object.assign(serverDataStoreModel.data, scheduleItem.dbmodel);
+			serverDataStoreModel.data.status = 1;
+			serverDataStoreModel.data.sync_pending = 1
+			serverDataStoreModel.data.client_updated_at = new Date().toISOString();
+			this.ServerDataStoreDataModelArray = [];
+			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
+			const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+			if (appMode == APP_MODE.USER_DEVICE) {			
+				this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
+			} else {
+				this.savetoUserAuth();
+			}
 		}
-	   }
-		
+
 	}// end of fucntion
 	timeConvert(minute: number) {
 		return TimeConversion.timeConvert(minute);

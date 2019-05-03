@@ -712,12 +712,9 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	}
 	// >> on discard one bye one item data
-	async onDiscard(item) {
-		const isConfrim=await this.appNotificationService.confirm('Do You Want To Discard ?');
-		if(isConfrim){
+    onDiscard(item) {
 		console.log('itrem discard clicked');
 		//set action conf model
-
 		this.passdataservice.backalert = true;
 		this.itemSelected(item);
 		this.saveViewOpen = true;
@@ -759,7 +756,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.actionDbArray.push(actionProcess);
 	}
 
-	}
+	
 	// all action done and discard save in action-trn-table
 	savetoUserAuth() {
 		this.passdataservice.authResultReuested = this;
