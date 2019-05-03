@@ -25,6 +25,7 @@ import { TraceCustomCategory } from '~/app/helpers/trace-helper';
 import * as trace from 'trace';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import * as appSettings from "tns-core-modules/application-settings";
+import { AppNotificationService } from '~/app/services/app-notification-service';
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -71,6 +72,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		public workerservice: WorkerService,
 		public passdataservice: PassDataService,
 		private routerExtensions: RouterExtensions,
+		private appNotificationService: AppNotificationService,
 		private modalService: ModalDialogService,
 		private viewContainerRef: ViewContainerRef) {
 		//  list grouping
@@ -81,7 +83,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
-	ngOnInit() {
+	 ngOnInit() {
 		this.getChartData('getScheduleListAll');
 		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
 			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);
@@ -95,7 +97,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				this.isSchedularDataReceived = true;
 				//	this.savetoUserAuth();
 			}
-		});
+		});		
 	}
 
 	// code for showing fab button dialog.
@@ -403,7 +405,9 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	}// end 
 	//code block for cancel schedule
-	cancelScheudle(scheduleItem: ChartListViewModel) {
+	async cancelScheudle(scheduleItem: ChartListViewModel) {
+		const isConfrim=await this.appNotificationService.confirm('Do You Want To Stop Schedule?');
+       if(isConfrim){
 		const serverDataStoreModel = new ServerDataStoreDataModel<ScheduleDatastoreModel>();
 		serverDataStoreModel.datastore = SYNC_STORE.SCHEDULE;
 		serverDataStoreModel.data = new ScheduleDatastoreModel();
@@ -420,8 +424,9 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		} else {
 			this.savetoUserAuth();
 		}
-
-	}
+	   }
+		
+	}// end of fucntion
 	timeConvert(minute: number) {
 		return TimeConversion.timeConvert(minute);
 	}

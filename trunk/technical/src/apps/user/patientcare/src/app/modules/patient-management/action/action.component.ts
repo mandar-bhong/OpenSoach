@@ -31,6 +31,7 @@ import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import * as trace from 'trace';
 import { TraceCustomCategory } from '~/app/helpers/trace-helper';
 import * as appSettings from "tns-core-modules/application-settings";
+import { AppNotificationService } from '~/app/services/app-notification-service';
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -156,6 +157,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		private workerservice: WorkerService,
 		private viewContainerRef: ViewContainerRef,
 		private chartService: ChartService,
+		private appNotificationService:AppNotificationService,
 		private routerExtensions: RouterExtensions) {
 		//  list grouping
 		this._funcGrouping = (item: any) => {
@@ -710,8 +712,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	}
 	// >> on discard one bye one item data
-	onDiscard(item) {
-		console.log(item);
+	async onDiscard(item) {
+		const isConfrim=await this.appNotificationService.confirm('Do You Want To Discard ?');
+		if(isConfrim){
+		console.log('itrem discard clicked');
 		//set action conf model
 
 		this.passdataservice.backalert = true;
@@ -724,7 +728,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.actionDbData.comment = null;
 			this.actionDbData.value = null;
 			this.confString1 = JSON.stringify(this.actionDbData);
-
 		} else {
 			this.actionDbData.comment = item.txn_data.comment;
 			this.actionDbData.value = item.txn_data.value;
@@ -754,6 +757,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		actionProcess.actionItem = item;
 		console.log('add data', this.actionDbArray);
 		this.actionDbArray.push(actionProcess);
+	}
 
 	}
 	// all action done and discard save in action-trn-table

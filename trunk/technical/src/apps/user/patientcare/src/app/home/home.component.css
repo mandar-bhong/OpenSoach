@@ -190,7 +190,7 @@ TextField {
 
 .drawerContentButton {
     margin: 10;
-    horizontal-align: left;
+    /* horizontal-align: left; */
 }
 
 .sideStackLayout {
