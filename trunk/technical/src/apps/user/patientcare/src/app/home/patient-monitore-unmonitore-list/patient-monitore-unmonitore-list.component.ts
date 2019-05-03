@@ -60,7 +60,6 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 	}
 
 
-	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 	ngOnInit() {
 		this.getDataFormServerApi();
 	}
@@ -118,15 +117,9 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 
 	// single item toggle button 
 	public onToggleSingleItem(args, item: any) {
-		console.log('this.listViewComponent.listView', this.listViewComponent.listView);
 		var selectedItem = item;
 		let firstSwitch = <Switch>args.object;
 
-		// console.log('args');
-		// console.log(args);
-
-
-		console.log(`Item switch : ${firstSwitch}`);
 
 		var dialogs = require("tns-core-modules/ui/dialogs");
 		let confirmationMsg = selectedItem.checked ? "Do you want to Unmonitored?" : "Do you want to monitored?";
@@ -164,11 +157,6 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 
 	// grouping toggle button get data
 	public onToggleLocation(args, spname) {
-
-
-		// console.log('args');
-		// console.log(args);
-
 		const filterItemList = this._dataItems.filter(a => a.dbmodel.spname === spname);
 
 		if (filterItemList.length == 0) {
@@ -200,7 +188,6 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 				firstSwitch.checked = selectedItem.checked = !firstSwitch.checked;
 				return;
 			}
-
 			this.apiUpdateMonitorData(firstSwitch.checked, true, selectedItem, function (isSuccess: boolean, errorCode: number, errorMsg: string) {
 
 				if (isSuccess == false) {
@@ -209,7 +196,6 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 					toast.show();
 					return;
 				}
-
 				if (firstSwitch.checked) {
 					filterItemList.forEach(element => {
 						element.isDisabled = true;
@@ -230,7 +216,6 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 	goToMainList() {
 		this.routerExtensions.back();
 	}
-
 
 	apiUpdateMonitorData(isMonitor: boolean, isGroup: boolean, selectedItem: UiViewModel, onResult: any) {
 
@@ -263,98 +248,9 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 
 	}
 
-	// // save 
-	// updateMonitoringItemStatus() {
-	// 	this.ngZone.run(() => {
-
-
-	// 		const monitoredRequest = new MonitoredRequest()
-	// 		monitoredRequest.usrid = appSettings.getNumber("USER_ID");
-	// 		let apiUrl: string;
-	// 		if (this.toggleOptionSelection == true) {
-	// 			// single item monitored
-	// 			monitoredRequest.spid = this.passGroupingSpid;
-	// 			console.log('monitoredRequest', monitoredRequest);
-
-	// 		} else {
-	// 			// grouping monitored
-	// 			monitoredRequest.spid = this.passSingleSpid;
-	// 			monitoredRequest.patientid = this.passSinglePatientid;
-	// 			console.log('monitoredRequest', monitoredRequest);
-	// 		}
-	// 		if (this.alertFuncation == true) {
-	// 			apiUrl = '/v1/endpoint/user/associatepatient';
-	// 			console.log('if apiUrl', apiUrl);
-	// 		} else {
-	// 			apiUrl = '/v1/endpoint/user/deassociatepatient';
-	// 			console.log('else apiUrl', apiUrl);
-	// 		}
-
-	// 		this.serverApiInterfaceService.post<any>(API_APP_BASE_URL + apiUrl, monitoredRequest).then(
-	// 			(success) => {
-
-	// 				if (this.toggleOptionSelection == true) {
-	// 					if (this.alertFuncation == true) {
-	// 						const data = this._dataItems.filter(a => a.dbmodel.spname === this.getToggleGroupingSpanme);
-	// 						data.forEach(element => {
-	// 							// element.isGrouping = true;
-	// 							element.checked = true;
-	// 						});
-	// 					} else {
-	// 						const data = this._dataItems.filter(a => a.dbmodel.spname === this.getToggleGroupingSpanme);
-	// 						data.forEach(element => {
-	// 							// element.isGrouping = true;
-	// 							element.checked = false;
-	// 						});
-	// 					}
-	// 				} else {
-
-	// 				}
-
-	// 				console.log("POST Request is successful ", success);
-
-	// 			}, (error) => {
-	// 				console.log('POST Request is Failed', error);
-	// 			});
-	// 	});
-	// }
-	// // delete
-
-
-
-
-	// showAlertSheet(): void {
-	// 	const onSelectionYes = response => {
-	// 		console.log('this.alertFuncation', this.alertFuncation);
-	// 		this.updateMonitoringItemStatus();
-	// 	};
-	// 	const onSelectionNo = response => {
-	// 		this.toggleListChange();
-	// 	};
-	// 	const options: DialogOptions = {
-	// 		dialogStyle: CFAlertStyle.ALERT,
-	// 		title: this.alertMeg,
-	// 		// message: this.alertMeg,
-	// 		buttons: [
-	// 			{
-	// 				text: "Yes",
-	// 				buttonStyle: CFAlertActionStyle.POSITIVE,
-	// 				buttonAlignment: CFAlertActionAlignment.CENTER,
-	// 				onClick: onSelectionYes
-	// 			},
-	// 			{
-	// 				text: "No",
-	// 				buttonStyle: CFAlertActionStyle.NEGATIVE,
-	// 				buttonAlignment: CFAlertActionAlignment.CENTER,
-	// 				onClick: onSelectionNo
-	// 			}]
-	// 	};
-	// 	this.cfalertDialog.show(options);
-	// }
 
 	public onSubmitServer(args) {
 		let searchBar = <SearchBar>args.object;
-		console.log('searchBar server ', searchBar);
 		this.searchValue = searchBar.text.toLowerCase();
 		console.log('searchValue ', this.searchValue);
 		// this.bindList();
