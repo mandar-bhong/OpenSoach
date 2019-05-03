@@ -8,7 +8,9 @@ import { NetworkStatusComponent } from "~/app/network-status.component";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 import { AppModule } from "~/app/app.module";
 import { sharedModule } from "~/app/modules/shared-mudule";
+import { PatientMonitoreUnmonitoreListComponent } from "./patient-monitore-unmonitore-list/patient-monitore-unmonitore-list.component";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
+
 
 @NgModule({
     imports: [
@@ -20,7 +22,8 @@ import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angul
         sharedModule 
     ],
     declarations: [
-        HomeComponent      
+        HomeComponent,
+        PatientMonitoreUnmonitoreListComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
