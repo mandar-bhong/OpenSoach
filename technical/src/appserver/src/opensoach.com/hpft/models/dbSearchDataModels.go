@@ -292,8 +292,8 @@ type DBDeviceSearchPatientResponseFilterDataModel struct {
 	Fname         string `db:"fname" json:"fname"`
 	Lname         string `db:"lname" json:"lname"`
 	SpId          int64  `db:"sp_id_fk" json:"spid"`
-	UpmmPatientId int64  `db:"upmm_patient_id_fk" json:"upmmidpatientid"`
-	UpmmSpId      int64  `db:"upmm_sp_id_fk" json:"upmmidspid"`
+	UpmmPatientId *int64  `db:"upmm_patient_id_fk" json:"upmmidpatientid"`
+	UpmmSpId      *int64  `db:"upmm_sp_id_fk" json:"upmmidspid"`
 	SpName        string `db:"sp_name" json:"spname"`
 	Monitored     int    `db:"monitored" json:"monitored"`
 }
