@@ -11,15 +11,16 @@ export class DataDBModel {
 	spname: string;
 	monitored: number;
 	upmmid: number;
+	upmmidpatientid: number;
+	upmmidspid: number;
 }
+
 export class UiViewModel {
 	dbmodel: DataDBModel;
-    checked: any;
-    isDisabled:boolean;
-    //isGrouped : boolean;
-	isGrouping: boolean;
-
+	checked: any;
+	isDisabled: boolean;
 }
+
 export class ApiRequestModel {
 	filter: FilterRequest;
 	page: number;
