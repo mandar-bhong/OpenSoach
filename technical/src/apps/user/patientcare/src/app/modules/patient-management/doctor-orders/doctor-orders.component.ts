@@ -101,6 +101,10 @@ export class DoctorOrdersComponent implements OnInit {
 	drawImg: boolean = false;
 	drawDocName: string;
 	drawImgtype: string;
+
+	// show last item in array
+	fileArray: Array<any> = [];
+	getFileItem: Array<any> = [];
 	constructor(private params: ModalDialogParams,
 		private chartService: ChartService,
 		private passDataService: PassDataService) {
@@ -205,6 +209,9 @@ export class DoctorOrdersComponent implements OnInit {
 		takePicture(options)
 			.then(imageAsset => {
 				this.imageTaken = imageAsset;
+				this.getFileItem = [];
+				this.getFileItem.push(this.imageTaken);
+				this.fileArray = this.getFileItem;
 				// console.log("Size: " + imageAsset.options.width + "x" + imageAsset.options.height);
 				// console.log('picked image', this.imageTaken);
 				if (application.android) {
@@ -212,6 +219,7 @@ export class DoctorOrdersComponent implements OnInit {
 					console.log('this.docPath', this.docPath);
 				} else if (application.ios) {
 					this.docPath = this.imageTaken.ios;
+
 				}
 			}).catch(err => {
 				console.log(err.message);
@@ -275,6 +283,9 @@ export class DoctorOrdersComponent implements OnInit {
 					element.options.height = that.isSingleMode ? that.previewSize : that.thumbSize;
 				});
 				that.imageTaken = selection[0];
+				this.getFileItem = [];
+				this.getFileItem.push(that.imageTaken);
+				this.fileArray = this.getFileItem;
 				if (application.android) {
 					that.docPath = this.imageTaken.android;
 				} else if (application.ios) {
@@ -327,18 +338,24 @@ export class DoctorOrdersComponent implements OnInit {
 		drawingPad.title = name;
 		this.plugins.push(drawingPad);
 	}
+	// get Drawing Img 
 	getMyDrawing(pad: any) {
 		// then get the drawing (Bitmap on Android) of the drawingpad
 		pad.getDrawing().then(data => {
-			console.log('get deawing', data);
 			this.drawings.push(data);
+
+			this.fileArray = this.drawings;
 			this.clearMyDrawing(pad);
 			this.getformview();
-		}, err => {
-			console.log(err);
-		});
-		this.drawingImgToPng(pad);
 
+		}, error => {
+			console.log(error);
+		});
+
+
+
+		// fun for get drawing to convert PNG formate
+		this.drawingImgToPng(pad);
 	}
 	drawingImgToPng(pad) {
 		this.drawImg = true;
@@ -352,7 +369,6 @@ export class DoctorOrdersComponent implements OnInit {
 
 			// creates PATH for folder called MyFolder in /Downloads (string value)
 			var myFolderPath = fileSystemModule.path.join(androidDownloadsPath, "MyFolder");
-			console.log('myFolderPath', myFolderPath);
 
 			const ticks = new Date;
 			name = 'drawing-pad-' + ticks.getTime() + '.png';
@@ -360,6 +376,7 @@ export class DoctorOrdersComponent implements OnInit {
 			path = fileSystemModule.path.join(myFolderPath, name);
 			var saved = img2.saveToFile(path, "png");
 		});
+		// settime out for convrting img take time for avoiding this  
 		setTimeout(() => {
 			this.drawDocName = name;
 			this.drawImgtype = '.png';
@@ -367,15 +384,18 @@ export class DoctorOrdersComponent implements OnInit {
 		}, 1);
 
 	}
+	// show drawingpad view
 	onDrawingPad() {
 		this.getDrawingPad = true;
 		this.getFormView = false;
 		// this.getDrawingPad = !this.getDrawingPad;
 	}
+	// show form view
 	getformview() {
 		this.getDrawingPad = false;
 		this.getFormView = true;
 	}
+	// erase text
 	getEraser() {
 		this.pencolor = '#ffffff';
 		this.penWidth = '20';
@@ -383,12 +403,14 @@ export class DoctorOrdersComponent implements OnInit {
 		this.eraserbuttonClicked = true;
 		this.alleraserbuttonClicked = false
 	}
+	// all clear drawing 
 	clearMyDrawing(pad: any) {
 		pad.clearDrawing();
 		this.pencilbuttonClicked = false;
 		this.eraserbuttonClicked = false;
 		this.alleraserbuttonClicked = true;
 	}
+	// after clear drawing then select pen 
 	getDrow() {
 		this.pencolor = '#e66465';
 		this.penWidth = '1';
@@ -396,9 +418,12 @@ export class DoctorOrdersComponent implements OnInit {
 		this.eraserbuttonClicked = false;
 		this.alleraserbuttonClicked = false;
 	}
+
+	// TODO find use this fun if unused then remove
 	protected getScreenName(): string {
 		return "Input";
 	}
+
 
 } // end of class 
 
