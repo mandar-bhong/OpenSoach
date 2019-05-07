@@ -98,7 +98,7 @@ const QUERY_GET_DEEVICE_SPL_PATIENT_TOTAL_FILTERED_COUNT = `select count(*) as c
 	select * from  view_get_monitor_patient where usr_id_fk =?	
 	group by admission_id,sp_id_fk,patient_id_fk,usr_id_fk	
 	union	
-	select 0 as monitored ,padmsn.id as admission_id,0 as upmmid,patient.fname,patient.lname, padmsn.patient_reg_no,bed_no,padmsn.cpm_id_fk,0 as usr_id_fk, padmsn.sp_id_fk,sp.sp_name,padmsn.patient_id_fk
+	select 0 as monitored ,padmsn.id as admission_id,0 as upmmid,0 as upmm_patient_id_fk,0 as upmmid_sp_id_fk,patient.fname,patient.lname, padmsn.patient_reg_no,bed_no,padmsn.cpm_id_fk,0 as usr_id_fk, padmsn.sp_id_fk,sp.sp_name,padmsn.patient_id_fk
 	from spl_hpft_patient_admission_tbl padmsn 
 	left join spl_hpft_patient_master_tbl patient on patient.id = padmsn.patient_id_fk
 	left join spl_hpft_patient_personal_details_tbl ppd on ppd.admission_id_fk = padmsn.id
