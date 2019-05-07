@@ -21,7 +21,7 @@
 <GridLayout rows="auto,*" columns="*" height="100%" width="100%">
 
     <GridLayout row="0" col="0" columns="*, auto">
-        <SearchBar col="0" hint="Patient Nmae, Bed or Ward..." textFieldBackgroundColor="#ffffff"
+        <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff"
             textFieldHintColor="#A8A8A8" color="#A8A8A8" (loaded)="sBLoaded($event)" (clear)="onClearServer($event)"
             (submit)="onSubmitServer($event)"></SearchBar>
         <GridLayout col="1" style="vertical-align: center; text-align: center;">
@@ -33,8 +33,8 @@
     </GridLayout>
 
     <GridLayout row="1" col="0">
-
-        <RadListView #myListView [items]="_dataItems" [groupingFunction]="_funcGroupingServer"  >
+        <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
+        <RadListView #patientListview [items]="_dataItems" [groupingFunction]="funcGroupingFilter"  pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiatedGrid($event)">
             <ng-template tkListItemTemplate let-item="item">
 
                 <GridLayout columns="*" rows="auto" class="listItemStackLayout">
@@ -69,7 +69,7 @@
                     <GridLayout row="0" style="background-color:#f6f6f6;" height="7"></GridLayout>
                     <GridLayout row="1" rows="auto, auto" columns="*, auto" style="margin-right: 8px;">
                         <Label row="1" class="nameLabel" [text]="spname"></Label>
-                        <Switch row="1" col="1" class="m-15" checked="false"
+                        <Switch row="1" col="1" class="m-15" checked="{{groupingSwitch(spname)}}"
                             (tap)="onToggleLocation($event, spname)"></Switch>
                     </GridLayout>
                 </GridLayout>
