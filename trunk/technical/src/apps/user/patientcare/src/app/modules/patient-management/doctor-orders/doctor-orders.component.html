@@ -82,24 +82,24 @@
                     </GridLayout>
                     <GridLayout row="5" rows="auto, auto" class="input-field">
                         <GridLayout row="0">
-                            <Label text="DrawingPad " class="body"></Label>
+                            <Label text="Image " class="body"></Label>
                         </GridLayout>
                         <ScrollView row="1">
                             <WrapLayout class="m-t-20 m-20">
-                                <ContentView *ngFor="let drawing of drawings" backgroundColor="#eeeeee"
+                                <ContentView *ngFor="let drawing of fileArray" backgroundColor="#eeeeee"
                                     borderRadius="5">
-                                    <Image [src]="drawing" width="80" height="80" backgroundcolor="#eeeeee"></Image>
+                                    <Image [src]="drawing" width="120" height="120" backgroundcolor="#eeeeee"></Image>
                                 </ContentView>
                             </WrapLayout>
                         </ScrollView>
                     </GridLayout>
 
                 </GridLayout>
-                <GridLayout>
+                <!-- <GridLayout>
                     <FlexboxLayout flexDirection="column-reverse">
                         <Image [src]="imageTaken" flexGrow="3" class="p-15 img-rounded"></Image>
                     </FlexboxLayout>
-                </GridLayout>
+                </GridLayout> -->
 
             </StackLayout>
 
