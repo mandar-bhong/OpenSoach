@@ -46,6 +46,7 @@ let selectQueries = new Map([
     ["doctors_orders_tbl_insert", "insert into doctors_orders_tbl (uuid, admission_uuid, doctor_id, doctors_orders, comment, ack_by, ack_time, status, order_created_time, order_type, document_uuid, document_name, doctype, updated_by, updated_on, sync_pending, client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "],
     ["doctors_orders_tbl_update", "update doctors_orders_tbl set admission_uuid=?, doctor_id=?, doctors_orders=?, comment=?, ack_by=?, ack_time=?, status=?, order_created_time=?, order_type=?, document_uuid=?, document_name=?, doctype=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid=? "],
     ['getdoctororders', 'select * from doctors_orders_tbl where admission_uuid=? '],
+    ['getdoctororderbyid', 'select * from doctors_orders_tbl where uuid=? '],
 
     ["getActionListActive", "select * from action_tbl where scheduled_time >=? and admission_uuid=?"],
     ["getActionListComplated", "select * from action_tbl where scheduled_time <? and admission_uuid=?"],
@@ -80,6 +81,15 @@ let selectQueries = new Map([
     left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time
     left join usr_tbl usr on usr.usr_id = atxn.updated_by
     where act.is_deleted = 0 and act.admission_uuid = ? 
+    order by act.scheduled_time asc`],
+    ["getActionListByID", `select act.uuid as action_uuid,act.admission_uuid,act.schedule_uuid,
+    act.scheduled_time,act.conf_type_code,atxn.uuid as action_txn_uuid,atxn.txn_data,
+    atxn.client_updated_at,atxn.txn_state,usr.fname,usr.lname, sch.conf,sch.start_date,sch.end_date,sch.status
+    from action_tbl act
+    left join schedule_tbl sch on sch.uuid = act.schedule_uuid
+    left join action_txn_tbl atxn on atxn.schedule_uuid = act.schedule_uuid and atxn.scheduled_time = act.scheduled_time
+    left join usr_tbl usr on usr.usr_id = atxn.updated_by
+    where act.is_deleted = 0 and act.admission_uuid = ? and act.uuid= ? 
     order by act.scheduled_time asc`],
     ["usr_tbl_insert", "insert into usr_tbl (usr_id,usr_name,urole_name,fname,lname,updated_on,sync_pending,client_updated_at) values (?, ?, ?, ?, ?, ?, ?, ?)"],
     ["usr_tbl_update", "update usr_tbl set usr_name=?,urole_name=?,fname=?,lname=?,updated_on=?,sync_pending=?,client_updated_at=? where usr_id=?"],

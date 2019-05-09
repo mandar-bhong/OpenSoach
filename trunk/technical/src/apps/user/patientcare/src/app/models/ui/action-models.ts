@@ -1,4 +1,5 @@
 import { DataActionItem } from "./action-model";
+import { ActionItemVMModel } from "./action-item-vm-model";
 
 export class ActionListViewModel {
     dbmodel: any;
@@ -44,5 +45,9 @@ export class UserCreateFormRequest {
 
 export class ActionProcess {
     actionItem: DataActionItem;
+    actionTxnData: ActionTxnDBModel
+}
+export class ActionSubmitDiscardModel {
+    actionItem: ActionItemVMModel;
     actionTxnData: ActionTxnDBModel
 }

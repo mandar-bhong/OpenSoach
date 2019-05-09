@@ -88,6 +88,25 @@ export class ActionService {
         });
 
     }
+    public getallActionById(admission_uuid: string, action_uuid): any {
+        return new Promise((resolve, reject) => {
+            const paramList = new Array<any>();
+            paramList.push(admission_uuid);
+            paramList.push(action_uuid);
+            // console.log('param list', paramList);
+            this.database.selectByID("getActionListByID", paramList).then(
+                (val) => {
+                    // console.log("Action All data new ", val);
+                    resolve(val);
+                },
+                (error) => {
+                    reject(error);
+                }
+            );
+
+        });
+
+    }
 
 
     public insertActionItem(data: ActionDataStoreModel) {
@@ -159,6 +178,21 @@ export class ActionService {
         });
     }
 
+
+    public getDoctorOrderByID(key: string, uuid: string): any {
+        return new Promise((resolve, reject) => {
+            const paramList = new Array<any>();
+            paramList.push(uuid);
+            this.database.selectByID(key, paramList).then(
+                (val) => {
+                    resolve(val);
+                }, (error) => {
+                    reject(error);
+                }
+            );
+        });
+    }
+
     public getUserByUserid(usr_id: number): any {
         return new Promise((resolve, reject) => {
 
@@ -179,12 +213,12 @@ export class ActionService {
     } // end of sercive fucntion
 
     //service fucntion for get schedule details
-    public getScheduleDetails(key: string, uuid: string): Promise<any> {      
+    public getScheduleDetails(key: string, uuid: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const paramList = new Array<any>();
             paramList.push(uuid);
             this.database.selectByID(key, paramList).then(
-                (val) => {                  
+                (val) => {
                     resolve(val);
                 }, (error) => {
                     reject(error);
