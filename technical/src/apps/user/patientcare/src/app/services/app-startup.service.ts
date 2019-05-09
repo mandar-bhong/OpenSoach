@@ -85,8 +85,8 @@ export class AppStartupService {
         //TODO: Read the serial number
         // Set the Serial Number in AppGlobalContext
 
-       //   const serialNumber = "1234567890123456";
-       const serialNumber = "12345";
+          const serialNumber = "1234567890123456";
+        // const serialNumber = "12345";
         return serialNumber;
     }
 
@@ -135,21 +135,19 @@ export class AppStartupService {
         AppGlobalContext.Token = resData.token;
         AppGlobalContext.WebsocketUrl = resData.locationurl;
         console.log("AppGlobalContext.Token", AppGlobalContext.Token);
-        this.initAppStart();
+       this.initAppStart();
     }
 
     initAppStart() {
         // post message to worker to connect websocket
-        // navigate to patient listing page
-        console.log('in initappStart');
+        // navigate to patient listing page      
         const initModel = new ServerDataProcessorMessageModel();
         initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
         initModel.data = {};
         initModel.data.WebsocketUrl = AppGlobalContext.WebsocketUrl;
-        initModel.data.Token = AppGlobalContext.Token;
-        console.log('init model', initModel);
-        this.workerService.postMessageToServerDataProcessorWorker(initModel);
-        this.routerExtensions.navigate(['home'], { clearHistory: true });
+        initModel.data.Token = AppGlobalContext.Token;        
+          this.workerService.postMessageToServerDataProcessorWorker(initModel);       
+        this.routerExtensions.navigate(['home'], { clearHistory: false });     
         this.isStartupInprogress = false;
     }
 }

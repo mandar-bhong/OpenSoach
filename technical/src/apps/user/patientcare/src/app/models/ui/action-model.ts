@@ -124,6 +124,7 @@ export class DataActionItem {
     is_deleted: number;
     action_txn_uuid: string;
     conf: string;
+    action_uuid:string;
     
     //Redlist view automatically use these property for binding
     expanded: boolean;

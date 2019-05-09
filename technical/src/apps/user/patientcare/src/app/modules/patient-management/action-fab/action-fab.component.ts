@@ -12,10 +12,16 @@ import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component'
 export class ActionFabComponent implements OnInit {
 	constructor(private params: ModalDialogParams) { }
 	ngOnInit() { }
+	// open doctor orders dialog
 	doctorsOrders() {
 		this.params.closeCallback('DoctorOrdersComponent');
 	}
-	closeDialog(){
+	// for open medicine dialog
+	openMedicineDialog() {
+		console.log('openMedicineDialog executed');
+		this.params.closeCallback('MedicineActionsComponent');
+	}
+	closeDialog() {
 		this.params.closeCallback();
 	}
 }

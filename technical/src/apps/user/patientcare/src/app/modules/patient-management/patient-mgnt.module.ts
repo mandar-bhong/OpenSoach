@@ -50,6 +50,7 @@ import { PersonalHistoryComponent } from "./patient-details/personal-history/per
 import { OutputChartComponent } from "./charts/output-chart/output-chart.component";
 import { ReportsService } from "~/app/services/reports/reports-service";
 import { AppNotificationService } from "~/app/services/app-notification-service";
+import { MedicineActionsComponent } from "./action/medicine-actions/medicine-actions.component";
 
 @NgModule({
     imports: [
@@ -97,7 +98,8 @@ import { AppNotificationService } from "~/app/services/app-notification-service"
         FamilyHistoryComponent,
         AllergiesComponent,
         PersonalHistoryComponent,
-        OutputChartComponent
+        OutputChartComponent,
+        MedicineActionsComponent
 
 
     ],
@@ -119,7 +121,8 @@ import { AppNotificationService } from "~/app/services/app-notification-service"
         IntakeChartComponent,
         MedicineChartComponent,
         MonitorChartComponent,
-        OutputChartComponent
+        OutputChartComponent,
+        MedicineActionsComponent
     ]
 })
 export class PatientMgntModule {
