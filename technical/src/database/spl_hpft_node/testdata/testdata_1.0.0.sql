@@ -419,6 +419,7 @@ INSERT INTO `spl_hpft_treatment_doc_tbl` (`treatment_id_fk`, `document_id_fk`, `
 
 INSERT INTO `spl_hpft_user_patient_monitor_mapping` (`id`, `uuid`, `cpm_id_fk`, `usr_id_fk`, `sp_id_fk`, `patient_id_fk`, `created_on`, `updated_on`, `updated_by`) 
 VALUES 
-('1', 'UP001', '3', '2', null, null, '2019-04-26 16:41:06', '2019-04-26 16:41:07', '2');
+('1', 'UP001', '3', '2', 3, null, '2019-04-26 16:41:06', '2019-04-26 16:41:07', '2'),
+('1', 'UP001', '3', '2', 7, null, '2019-04-26 16:41:06', '2019-04-26 16:41:07', '2'),
  
  
