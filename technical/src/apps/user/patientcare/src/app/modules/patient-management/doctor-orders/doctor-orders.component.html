@@ -86,7 +86,7 @@
                         </GridLayout>
                         <ScrollView row="1">
                             <WrapLayout class="m-t-20 m-20">
-                                <ContentView *ngFor="let drawing of fileArray" backgroundColor="#eeeeee"
+                                <ContentView *ngFor="let drawing of getFileItem" backgroundColor="#eeeeee"
                                     borderRadius="5">
                                     <Image [src]="drawing" width="120" height="120" backgroundcolor="#eeeeee"></Image>
                                 </ContentView>

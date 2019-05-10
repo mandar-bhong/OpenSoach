@@ -278,17 +278,17 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			dataItem = event.view.bindingContext;
 
 		dataItem.expanded = !dataItem.expanded;
-		if (isIOS) {		
+		if (isIOS) {
 			var indexPaths = NSMutableArray.new();
 			indexPaths.addObject(NSIndexPath.indexPathForRowInSection(rowIndex, event.groupIndex));
-			listView.ios.reloadItemsAtIndexPaths(indexPaths);		
+			listView.ios.reloadItemsAtIndexPaths(indexPaths);
 		}
 		if (isAndroid) {
 			listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
 
 		}
 	}
-	
+
 	// TODO: restructure needed.
 	// >> Grouping intake scroll to top position change 
 	public selectIntake() {
@@ -303,7 +303,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.medicinebuttonClicked = false;
 		this.outputbuttonClicked = false;
 		this.doctorOrderButtonClicked = false;
-	}	
+	}
 
 	// >>  Grouping monitor scroll to top position change 
 	public selectMonitor() {
@@ -425,12 +425,12 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// >> on submit one bye one item data
 	onSubmit(item: ActionItemVMModel) {
 		this.itemSelected(item);
-			const txnItem = this.prepareActionTxnDataStore(item, 1, 1);
+		const txnItem = this.prepareActionTxnDataStore(item, 1, 1);
 		this.tempActionTxnDataArray.push(txnItem)
 	}
 
 	// >> on discard one bye one item data
-	onDiscard(item) {	
+	onDiscard(item) {
 		this.itemSelected(item);
 		const txnItem = this.prepareActionTxnDataStore(item, 0, 2);
 		this.tempActionTxnDataArray.push(txnItem);
@@ -468,7 +468,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		} else {
 			this.savetoUserAuth();
 		}
-	
+
 
 	}//end of code block
 
@@ -551,18 +551,21 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 
 	public activeList() {
+		this.buttonCompleted = false;
+		this.buttonClicked = true;
 		this.displayModeAll = false;
 		const listView = this.listViewComponent.listView;
-		listView.filteringFunction = this.activeAllFilter;	
-		this.completeorpending = "Active Actions";		
+		listView.filteringFunction = this.activeAllFilter;
+		this.completeorpending = "Active Actions";
 	}
 	public compilitedList() {
-		this.buttonClicked = true;
+		this.buttonCompleted = true;
+		this.buttonClicked = false;
 		this.displayModeAll = true;
 		const listView = this.listViewComponent.listView;
-		listView.filteringFunction = function(item){return true};	
-		this.completeorpending = "All Actions";	
-	}	
+		listView.filteringFunction = function (item) { return true };
+		this.completeorpending = "All Actions";
+	}
 	handelDoctorOrderNotification(doctorsOrders: DoctorsOrdersDatastoreModel) {
 
 		let dataActionItem = new DataActionItem();
@@ -570,7 +573,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 		if (dataActionItem.admission_uuid != this.passdataservice.getAdmissionID()) {
 			return;
-		}	
+		}
 
 		this.actionService.getDoctorOrderByID('getdoctororderbyid', dataActionItem.uuid).then(
 			(val) => {
@@ -582,7 +585,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			(error) => {
 				console.log("getActinData error:", error);
 			});
-	
+
 	} // end of code block.
 
 	calculateActiveActionTime(scheduled_time) {
