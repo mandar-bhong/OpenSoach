@@ -13,6 +13,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_ENDPOINT_DEVICE_AUTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_ENDPOINT_USER_LOGIN, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_ENDPOINT_DEVICE_USER_LIST, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_ENDPOINT_DEVICE_USER_AUTH, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 }
 
 func requestHandler(pContext *gin.Context) (bool, interface{}) {
@@ -71,6 +72,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		}
 
 		isSuccess, resultData = EndpointService.DeviceUserList(EndpointService{}, devAuthReq)
+
+		break
+
+	case constants.API_ENDPOINT_DEVICE_USER_AUTH:
+
+		devAuthReq := lmodels.APIDeviceSharedUserAuthRequest{}
+
+		err := pContext.Bind(&devAuthReq)
+
+		if err != nil {
+			errModel := gmodels.APIResponseError{}
+			errModel.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
+			resultData = errModel
+			return false, resultData
+		}
+
+		isSuccess, resultData = EndpointService.DeviceShareUserAuth(EndpointService{}, devAuthReq)
 
 		break
 
