@@ -33,7 +33,6 @@ export class WorkerService {
     actionsSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
 
     //TODO: remove this use instead doctorOrderDataReceivedSubject
-    doctorOrderSubject = new Subject<ServerDataStoreDataModel<IDatastoreModel>>();
     public ServerConnectionSubject = new Subject<boolean>();
 
     // patientname: string;
@@ -111,7 +110,6 @@ export class WorkerService {
                     this.actionDataReceivedSubject.next(<ActionDataStoreModel>item.data);
                     break;
                 case SYNC_STORE.DOCTORS_ORDERS:
-                    this.doctorOrderSubject.next(item);
                     this.doctorOrderDataReceivedSubject.next(<DoctorsOrdersDatastoreModel>item.data);
                     break;
                 case SYNC_STORE.ACTION_TXN:
