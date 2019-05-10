@@ -179,6 +179,6 @@ func initModules(configSetting *gmodels.ConfigSettings) error {
 	return nil
 }
 
-func DataChange(tablename string, data interface{}) {
+func DataChange(tablename string, data gmodels.DataChangeHandlerConfigModel) {
 	lhelper.HandleDatabaseDataChange(tablename, data)
 }

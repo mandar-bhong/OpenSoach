@@ -5,6 +5,7 @@ import (
 )
 
 type PreExecuteFilterHandler func(ctx *DevicePacketProccessExecution, filterModel *SyncConfigModel, request *StoreSyncGetRequestModel) error
+type PreExecuteQueryHandler func(ctx *DevicePacketProccessExecution, syncConfigData *SyncConfigModel, request *StoreSyncGetRequestModel) (error, QueryModel)
 
 type IStoreSync interface {
 	GetUuid() string
@@ -27,6 +28,7 @@ type StoreSyncGetRequestModel struct {
 	UpdatedOn     time.Time              `json:"updatedon"`
 	QueryParams   map[string]interface{} `json:"queryparams"`
 	FilterHandler PreExecuteFilterHandler
+	QueryHandler  PreExecuteQueryHandler
 }
 type StoreSyncGetResponseModel struct {
 	StoreSyncModel
@@ -55,6 +57,16 @@ type SyncConfigModel struct {
 	UpdatedOn      time.Time `db:"updated_on" json:"updatedon"`
 	DataSourceType int       `db:"data_source" json:"dbsource"`
 	QueryData      string    `db:"query_data" json:"querydata"`
+}
+
+type SelectQueryDataModel struct {
+	UserDeviceSelectQuery   string `json:"userdevice"`
+	SharedDeviceSelectQuery string `json:"shareddevice"`
+}
+
+type QueryModel struct {
+	SelectQuery      string `json:"selectquery"`
+	SelectCountQuery string `json:"selectcountquery"`
 }
 
 type StoreConfigModel struct {

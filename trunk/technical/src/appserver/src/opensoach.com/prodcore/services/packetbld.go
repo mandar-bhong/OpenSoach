@@ -6,6 +6,7 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 )
@@ -23,30 +24,23 @@ func (r *PacketbldService) Handle(serctx *ServiceContext) error {
 
 	header := packetbldheaderService.Build()
 
-	packet := pcmodels.TaskEPPacketSendDataModel{}
+	// packet := pcmodels.TaskEPPacketSendDataModel{}
 
 	for _, token := range r.ServiceRuntime.Tokens {
 
-		isSuccess, deviceTokenModel, _ := pchelper.CacheGetDeviceInfo(r.Repo.Context.Master.Cache, token)
+		isSuccess, deviceType, deviceTokenModel, userDeviceTokenModel, _ := pchelper.CacheGetDeviceInfoData(r.Repo.Context.Master.Cache, token)
 		if isSuccess == false {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get device token model from cache.", nil)
 			return errors.New("Failed to get device token model from cache.")
 		}
 
-		val, ok := r.ServiceRuntime.DeviceLocationMap[deviceTokenModel.DevID]
-		if ok {
-			for _, each := range val {
-				devPacket := gmodels.DevicePacket{}
-				devPacket.Header = header
-				devPacket.Header.SPID = each
-				devPacket.Payload = r.ServiceConfig.DestinationData
-				_, jsonpack := ghelper.ConvertToJSON(devPacket)
-
-				packet.Token = token
-				packet.Packet = jsonpack
-
-				r.ServiceResult.DestinationPackets = append(r.ServiceResult.DestinationPackets, packet)
-			}
+		switch deviceType {
+		case pcconst.DEVICE_TYPE_SHARED_DEVICE:
+			BuildSharedDevicePacket(r, deviceTokenModel, header, token)
+			break
+		case pcconst.DEVICE_TYPE_USER_DEVICE:
+			BuildUserDevicePacket(r, userDeviceTokenModel, header, token)
+			break
 		}
 
 	}
@@ -57,5 +51,44 @@ func (r *PacketbldService) Handle(serctx *ServiceContext) error {
 	}
 
 	return nil
+
+}
+
+func BuildSharedDevicePacket(r *PacketbldService, deviceTokenModel *gmodels.DeviceTokenModel, header gmodels.DeviceHeaderData, token string) {
+
+	packet := pcmodels.TaskEPPacketSendDataModel{}
+
+	val, ok := r.ServiceRuntime.DeviceLocationMap[deviceTokenModel.DevID]
+	if ok {
+		for _, each := range val {
+			devPacket := gmodels.DevicePacket{}
+			devPacket.Header = header
+			devPacket.Header.SPID = each
+			devPacket.Payload = r.ServiceConfig.DestinationData
+			_, jsonpack := ghelper.ConvertToJSON(devPacket)
+
+			packet.Token = token
+			packet.Packet = jsonpack
+
+			r.ServiceResult.DestinationPackets = append(r.ServiceResult.DestinationPackets, packet)
+		}
+	}
+
+}
+
+func BuildUserDevicePacket(r *PacketbldService, userDeviceTokenModel *gmodels.DeviceUserSessionInfo, header gmodels.DeviceHeaderData, token string) {
+
+	packet := pcmodels.TaskEPPacketSendDataModel{}
+
+	devPacket := gmodels.DevicePacket{}
+	devPacket.Header = header
+	devPacket.Header.SPID = 0
+	devPacket.Payload = r.ServiceConfig.DestinationData
+	_, jsonpack := ghelper.ConvertToJSON(devPacket)
+
+	packet.Token = token
+	packet.Packet = jsonpack
+
+	r.ServiceResult.DestinationPackets = append(r.ServiceResult.DestinationPackets, packet)
 
 }

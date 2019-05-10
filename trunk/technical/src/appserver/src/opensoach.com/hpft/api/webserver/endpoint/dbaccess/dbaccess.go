@@ -100,6 +100,7 @@ func PatientUserDeAssociation(dbConn string, deltStruct *hpftmodels.DBPatientMon
 	delDBCtx.DBConnection = dbConn
 	delDBCtx.Args = deltStruct
 	delDBCtx.QueryType = dbmgr.Query
+	delDBCtx.TableName = constants.DB_SPL_HPFT_USER_PATIENT_MONITOR_MAPPING
 	delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION
 
 	if deltStruct.SpId == nil {

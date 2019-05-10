@@ -2,12 +2,14 @@ package endpoint
 
 import (
 	"errors"
+	"strings"
 
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	repo "opensoach.com/hpft/server/repository"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
+	"opensoach.com/prodcore/constants/dbquery"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 	pcstoresync "opensoach.com/prodcore/server/storesync"
@@ -22,6 +24,7 @@ func ProcessGetStoreSync(ctx *pcmodels.DevicePacketProccessExecution, packetProc
 
 	reqModel := pcmodels.StoreSyncGetRequestModel{}
 	reqModel.FilterHandler = AttachServerFilter
+	reqModel.QueryHandler = AttachQueryHandler
 
 	devPacket := &gmodels.DevicePacket{}
 	devPacket.Payload = &reqModel
@@ -165,4 +168,52 @@ func AttachServerFilter(ctx *pcmodels.DevicePacketProccessExecution, filterModel
 	}
 
 	return nil
+}
+
+func AttachQueryHandler(ctx *pcmodels.DevicePacketProccessExecution, syncConfigData *pcmodels.SyncConfigModel, syncReq *pcmodels.StoreSyncGetRequestModel) (error, pcmodels.QueryModel) {
+
+	queryModel := pcmodels.QueryModel{}
+
+	deviceType := ctx.GetDeviceContextType()
+	if deviceType == pcconst.DEVICE_TYPE_NONE {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting device context type", nil)
+	}
+
+	selectQueryDataModel := pcmodels.SelectQueryDataModel{}
+	isSuccess := ghelper.ConvertFromJSONString(syncConfigData.SelectQry, &selectQueryDataModel)
+	if isSuccess == false {
+		logger.Context().WithField("select query:", syncConfigData.SelectQry).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to convert query data json.", nil)
+		return errors.New("Unable to parse select query string from json data"), queryModel
+	}
+
+	switch deviceType {
+	case pcconst.DEVICE_TYPE_USER_DEVICE:
+		switch syncReq.StoreName {
+		case pcconst.SYNC_STORE_PATIENT_CONF,
+			pcconst.SYNC_STORE_PERSONAL_DETAILS, pcconst.SYNC_STORE_MEDICAL_DETAILS,
+			pcconst.SYNC_STORE_ACTION_TXN, pcconst.SYNC_STORE_DOCTORS_ORDERS,
+			pcconst.SYNC_STORE_TREATMENT, pcconst.SYNC_STORE_TREATMENT_DOC,
+			pcconst.SYNC_STORE_PATHOLOGY, pcconst.SYNC_STORE_PATHOLOGY_DOC,
+			pcconst.SYNC_STORE_ACTION, pcconst.SYNC_STORE_PATIENT_ADMISSION:
+			queryModel.SelectQuery = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_USER_DEVICE_QUERY, "$SyncQuery$", selectQueryDataModel.UserDeviceSelectQuery, 1)
+			queryModel.SelectCountQuery = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_USER_DEVICE_COUNT_QUERY, "$SyncQuery$", selectQueryDataModel.UserDeviceSelectQuery, 1)
+			break
+		case pcconst.SYNC_STORE_PATIENT_MONITOR_MAPPING_VIEW:
+			queryModel.SelectQuery = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_PATIENT_MONITOR_MAPPING_USER_DEVICE_QUERY, "$SyncQuery$", selectQueryDataModel.UserDeviceSelectQuery, 1)
+			queryModel.SelectCountQuery = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_PATIENT_MONITOR_MAPPING_USER_DEVICE_COUNT_QUERY, "$SyncQuery$", selectQueryDataModel.UserDeviceSelectQuery, 1)
+			break
+		default:
+			queryModel.SelectQuery = selectQueryDataModel.UserDeviceSelectQuery
+			queryModel.SelectCountQuery = syncConfigData.SelectCountQry
+			break
+		}
+		break
+	case pcconst.DEVICE_TYPE_SHARED_DEVICE:
+		queryModel.SelectQuery = selectQueryDataModel.SharedDeviceSelectQuery
+		queryModel.SelectCountQuery = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_COUNT_QUERY, "$SyncQuery$", selectQueryDataModel.SharedDeviceSelectQuery, 1)
+		break
+
+	}
+
+	return nil, queryModel
 }

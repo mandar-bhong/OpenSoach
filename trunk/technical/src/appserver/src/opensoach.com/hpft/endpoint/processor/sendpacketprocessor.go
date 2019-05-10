@@ -28,7 +28,13 @@ func SendEPPacketHandler(msg string) error {
 			continue
 		}
 
-		wsm.SendMessage(chnID, []byte(epItem.Packet))
+		issucess := wsm.SendMessage(chnID, []byte(epItem.Packet))
+		if issucess == false {
+			logger.Context().WithField("Token", epItem.Token).LogDebug(SUB_MODULE_NAME, logger.Normal, "Unable to send packet")
+
+		}
+
+		logger.Context().WithField("Token", epItem.Token).LogDebug(SUB_MODULE_NAME, logger.Normal, "Send packet succesfully.")
 
 	}
 

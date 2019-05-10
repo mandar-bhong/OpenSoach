@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"opensoach.com/core/logger"
+	pcconst "opensoach.com/prodcore/constants"
 	pchelper "opensoach.com/prodcore/helper"
 )
 
@@ -17,14 +18,23 @@ func (r *FilterCPMIDService) Handle(serctx *ServiceContext) error {
 
 	var newTokenList []string
 
+	var deviceCpmID int64
+
 	for _, token := range r.ServiceRuntime.Tokens {
-		isSuccess, deviceTokenModel, _ := pchelper.CacheGetDeviceInfo(r.Repo.Context.Master.Cache, token)
+
+		isSuccess, deviceType, deviceTokenModel, userTokenModel, _ := pchelper.CacheGetDeviceInfoData(r.Repo.Context.Master.Cache, token)
 		if isSuccess == false {
 			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get device token model from cache.", nil)
 			return errors.New("Failed to get device token model from cache.")
 		}
 
-		if deviceTokenModel.CpmID == r.ServiceConfig.CPMID {
+		if deviceType == pcconst.DEVICE_TYPE_SHARED_DEVICE {
+			deviceCpmID = deviceTokenModel.CpmID
+		} else if deviceType == pcconst.DEVICE_TYPE_USER_DEVICE {
+			deviceCpmID = userTokenModel.Product.CustProdID
+		}
+
+		if deviceCpmID == r.ServiceConfig.CPMID {
 			newTokenList = append(newTokenList, token)
 		}
 
