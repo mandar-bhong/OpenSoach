@@ -29,6 +29,7 @@ import { IDeviceAuthResult } from '../../idevice-auth-result';
 import { ActionFabComponent } from '../action-fab/action-fab.component';
 import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
 import { MedicineActionsComponent } from './medicine-actions/medicine-actions.component';
+import { DoctorsOrdersDatastoreModel } from '~/app/models/db/doctors-orders-model';
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -170,7 +171,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.handelActionTransaction(value);
 		});
 		// subscription for adding newly  created doctors orders in action list.
-		this.doctorOrderSubscription = this.workerService.doctorOrderSubject.subscribe((value) => {
+		this.doctorOrderSubscription = this.workerService.doctorOrderDataReceivedSubject.subscribe((value) => {
 			this.handelDoctorOrderNotification(value);
 		});
 		this.prepareData();
@@ -179,7 +180,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}// end of ng init.
 
 	async prepareData() {
-		await this.actionService.getallActionActiveList(this.passdataservice.getAdmissionID()).then(
+		this.actionService.getallActionActiveList(this.passdataservice.getAdmissionID()).then(
 			(val) => {
 				val.forEach(item => {
 					const actionItem = this.prepareActionItem(null, item, false)
@@ -198,16 +199,16 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			});
 
 
-		// await this.actionService.getDoctorsList('getdoctororders', this.passdataservice.getAdmissionID()).then(
-		// 	(val) => {
-		// 		val.forEach(item => {
-		// 			let actionItemVM = this.prepareActionItem(null, item, true);
-		// 			this.actionItems.push(actionItemVM);
-		// 		});
-		// 	},
-		// 	(error) => {
-		// 		console.log("getActinData error:", error);
-		// 	});
+		this.actionService.getDoctorsList('getdoctororders', this.passdataservice.getAdmissionID()).then(
+			(val) => {
+				val.forEach(item => {
+					let actionItemVM = this.prepareActionItem(null, item, true);
+					this.actionItems.push(actionItemVM);
+				});
+			},
+			(error) => {
+				console.log("getActinData error:", error);
+			});
 
 
 	};
@@ -562,19 +563,18 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		listView.filteringFunction = function(item){return true};	
 		this.completeorpending = "All Actions";	
 	}	
-	handelDoctorOrderNotification(doctorsOrders: ServerDataStoreDataModel<IDatastoreModel>) {
+	handelDoctorOrderNotification(doctorsOrders: DoctorsOrdersDatastoreModel) {
 
 		let dataActionItem = new DataActionItem();
-		Object.assign(dataActionItem, doctorsOrders.data);
+		Object.assign(dataActionItem, doctorsOrders);
 
 		if (dataActionItem.admission_uuid != this.passdataservice.getAdmissionID()) {
 			return;
 		}	
-		console.log("handle doctor order notfication received---", dataActionItem);
-		this.actionService.getDoctorOrderByID('getdoctororderbyid', doctorsOrders.data.uuid).then(
+
+		this.actionService.getDoctorOrderByID('getdoctororderbyid', dataActionItem.uuid).then(
 			(val) => {
 				val.forEach(item => {
-					console.log(`doctor order item--- ${item}`);
 					let actionItemVM = this.prepareActionItem(null, item, true);
 					this.actionItems.push(actionItemVM);
 				});
