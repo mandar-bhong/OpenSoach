@@ -213,5 +213,7 @@ export class MedicineActionsComponent implements OnInit {
 			}
 		);
 	}
-
+	selectedIndexChanged(){
+		
+	}
 }
