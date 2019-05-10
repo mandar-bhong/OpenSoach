@@ -37,18 +37,18 @@ export class MedicineActionsComponent implements OnInit {
 		private params: ModalDialogParams,
 		private passDataService: PassDataService,
 		private chartservice: ChartService) {
-			console.log('add medicine actions executed');
+		console.log('add medicine actions executed');
 		this.chartConfModel = new MedChartModel();
 	}
 	ngOnInit() {
-		
+
 		this.createFormControls();
 		this.getMedicineType();
 	}
 
 	// << func for navigating previous page
 	goBackPage() {
-		this.params.closeCallback([]);	
+		this.params.closeCallback([]);
 	}
 	onSubmit() {
 		this.medNameIsValid = this.medicineForm.controls['name'].hasError('required');
@@ -213,7 +213,7 @@ export class MedicineActionsComponent implements OnInit {
 			}
 		);
 	}
-	selectedIndexChanged(){
-		
+	public selectedIndexChanged(event) {
+
 	}
 }
