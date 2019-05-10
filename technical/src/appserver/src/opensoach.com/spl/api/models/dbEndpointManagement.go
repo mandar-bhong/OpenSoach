@@ -15,6 +15,13 @@ type DBDeviceUserAuthInfoModel struct {
 	UserRoleCode     string `db:"urole_code" json:"urolecode"`
 }
 
+type DBDeviceSharedUserAuthInfoModel struct {
+	UserId    int64  `db:"id" json:"userid"`
+	UserName  string `db:"usr_name" json:"username"`
+	FirstName string `db:"fname" json:"firstname"`
+	LastName  string `db:"lname" json:"lastname"`
+}
+
 type DBDeviceUserListDataModel struct {
 	UserId    int64  `json:"usr_id" db:"usr_id"`
 	UserName  string `json:"usr_name" db:"usr_name"`

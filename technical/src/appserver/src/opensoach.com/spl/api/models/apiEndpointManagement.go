@@ -26,3 +26,9 @@ type APIDeviceUserLoginResponse struct {
 	UserID      int64  `json:"userid"`
 	UserRoleID  int64  `json:"userroleid"`
 }
+
+type APIDeviceSharedUserAuthRequest struct {
+	UserName    string `db:"usr_name" json:"username"`
+	Password    string `db:"usr_password" json:"password"`
+	DeviceToken string `json:"devicetoken"`
+}
