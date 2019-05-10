@@ -1,12 +1,9 @@
 package storesync
 
 import (
-	"strings"
-
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
-	"opensoach.com/prodcore/constants/dbquery"
 	pcmodels "opensoach.com/prodcore/models"
 	"opensoach.com/prodcore/server/dbaccess"
 	pcservices "opensoach.com/prodcore/services"
@@ -33,6 +30,16 @@ func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[i
 		break
 	}
 
+	selectQueries := pcmodels.QueryModel{}
+	if syncReq.QueryHandler != nil {
+		err, data := syncReq.QueryHandler(ctx, syncConfigData, &syncReq)
+		if err != nil {
+			logger.Context().WithField("Query handler:", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to apply query handler.", err)
+			return err, nil
+		}
+		selectQueries = data
+	}
+
 	if syncReq.FilterHandler != nil {
 		err := syncReq.FilterHandler(ctx, syncConfigData, &syncReq)
 		if err != nil {
@@ -46,29 +53,13 @@ func GetChanges(ctx *pcmodels.DevicePacketProccessExecution, dbConnections map[i
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while getting device context type", nil)
 	}
 
-	switch deviceType {
-	case pcconst.DEVICE_TYPE_USER_DEVICE:
-		switch syncReq.StoreName {
-		case pcconst.SYNC_STORE_PATIENT_ADMISSION, pcconst.SYNC_STORE_PATIENT_CONF,
-			pcconst.SYNC_STORE_PERSONAL_DETAILS, pcconst.SYNC_STORE_MEDICAL_DETAILS,
-			pcconst.SYNC_STORE_ACTION_TXN, pcconst.SYNC_STORE_DOCTORS_ORDERS,
-			pcconst.SYNC_STORE_TREATMENT, pcconst.SYNC_STORE_PATHOLOGY,
-			pcconst.SYNC_STORE_ACTION:
-			syncConfigData.SelectQry = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_QUERY, "$SyncQuery$", syncConfigData.SelectQry, 1)
-			syncConfigData.SelectCountQry = strings.Replace(dbquery.QUERY_SELECT_SYNC_STORE_QUERY, "$SyncQuery$", syncConfigData.SelectCountQry, 1)
-			break
-		}
-		break
-
-	}
-
-	dbErr, tableData := dbaccess.GetTableData(dbConn, syncConfigData.SelectQry, syncReq.QueryParams)
+	dbErr, tableData := dbaccess.GetTableData(dbConn, selectQueries.SelectQuery, syncReq.QueryParams)
 	if dbErr != nil {
 		logger.Context().WithField("Table Data Request", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get table data.", dbErr)
 		return dbErr, nil
 	}
 
-	dbErr, count := dbaccess.GetTableDataCount(dbConn, syncConfigData.SelectCountQry, syncReq.QueryParams)
+	dbErr, count := dbaccess.GetTableDataCount(dbConn, selectQueries.SelectCountQuery, syncReq.QueryParams)
 	if dbErr != nil {
 		logger.Context().WithField("Table Data Request", syncConfigData).LogError(SUB_MODULE_NAME, logger.Normal, "Failed to get table data count", dbErr)
 		return dbErr, nil

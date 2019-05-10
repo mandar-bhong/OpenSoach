@@ -34,7 +34,7 @@ func NotifyDBChanges(ctx *pcmodels.APITaskExecutionCtx) (error, *pcmodels.APITas
 		return err, apiTaskProcessorResultModel
 	}
 
-	apiTaskProcessorResultModel.IsEPSync = false
+	apiTaskProcessorResultModel.IsEPSync = true
 
 	return nil, apiTaskProcessorResultModel
 }

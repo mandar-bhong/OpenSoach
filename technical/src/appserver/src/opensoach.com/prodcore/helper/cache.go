@@ -2,6 +2,7 @@ package helper
 
 import (
 	"fmt"
+	"strings"
 
 	gcore "opensoach.com/core"
 	ghelper "opensoach.com/core/helper"
@@ -27,6 +28,33 @@ func CacheGetDeviceInfo(cacheCtx gcore.CacheContext, cacheKey string) (bool, *gm
 	}
 
 	return true, deviceTokenModel, jsonData
+}
+
+func CacheGetDeviceInfoData(cacheCtx gcore.CacheContext, cacheKey string) (bool, int, *gmodels.DeviceTokenModel, *gmodels.DeviceUserSessionInfo, string) {
+
+	deviceTokenModel := &gmodels.DeviceTokenModel{}
+	userTokenInfo := &gmodels.DeviceUserSessionInfo{}
+	var contextType int
+
+	isSuccess, jsonData := cacheCtx.Get(cacheKey)
+
+	if isSuccess == false {
+		return false, pcconst.DEVICE_TYPE_NONE, nil, nil, ""
+	}
+
+	if strings.HasPrefix(cacheKey, pcconst.SHARED_DEVICE_TOKEN_PREFIX) {
+		contextType = pcconst.DEVICE_TYPE_SHARED_DEVICE
+		if isJsonSuccess := ghelper.ConvertFromJSONString(jsonData, deviceTokenModel); isJsonSuccess == false {
+			return false, contextType, nil, nil, ""
+		}
+	} else if strings.HasPrefix(cacheKey, pcconst.USER_DEVICE_TOKEN_PREFIX) {
+		contextType = pcconst.DEVICE_TYPE_USER_DEVICE
+		if isJsonSuccess := ghelper.ConvertFromJSONString(jsonData, userTokenInfo); isJsonSuccess == false {
+			return false, contextType, nil, nil, ""
+		}
+	}
+
+	return true, contextType, deviceTokenModel, userTokenInfo, jsonData
 }
 
 func CacheSetDeviceConnectionStatus(cacheCtx gcore.CacheContext, deviceID int64, isconnected bool) bool {

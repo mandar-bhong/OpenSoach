@@ -9,9 +9,10 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	gmodels "opensoach.com/models"
 )
 
-type DataChangeHandler func(tablename string, data interface{})
+type DataChangeHandler func(tablename string, data gmodels.DataChangeHandlerConfigModel)
 
 var spnameparams map[string][]string
 var procQueryMap map[string]string
@@ -127,7 +128,10 @@ func (spc *InsertContext) Insert() error {
 
 		// handler for - notify db changes
 		if DefaultPostDataChangeHandler != nil {
-			DefaultPostDataChangeHandler(spc.TableName, spc.Args)
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_INSERT_UPDATE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
 		}
 
 		return err
@@ -145,6 +149,15 @@ func (spc *InsertContext) Insert() error {
 			return err
 		}
 		spc.InsertID, _ = id.LastInsertId()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_INSERT_UPDATE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
+		}
+
 		return err
 
 	case StoredProcedure: //For stored Procedure
@@ -210,7 +223,10 @@ func (spc *UpdateDeleteContext) UpdateByFilter(args ...string) error {
 
 		// handler for - notify db changes
 		if DefaultPostDataChangeHandler != nil {
-			DefaultPostDataChangeHandler(spc.TableName, spc.Args)
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_INSERT_UPDATE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
 		}
 
 		return err
@@ -227,6 +243,15 @@ func (spc *UpdateDeleteContext) UpdateByFilter(args ...string) error {
 			return err
 		}
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_INSERT_UPDATE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
+		}
+
 		return err
 
 	case StoredProcedure:
@@ -258,6 +283,15 @@ func (spc *UpdateDeleteContext) Update() error {
 			return err
 		}
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_INSERT_UPDATE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
+		}
+
 		return err
 
 	case Query:
@@ -272,6 +306,15 @@ func (spc *UpdateDeleteContext) Update() error {
 			return err
 		}
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_INSERT_UPDATE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
+		}
+
 		return err
 
 	case StoredProcedure:
@@ -335,6 +378,15 @@ func (spc *UpdateDeleteContext) Delete() error {
 
 		id, err := dbEngine.NamedExec(query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_DELETE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
+		}
+
 		return err
 
 	case Query:
@@ -349,6 +401,15 @@ func (spc *UpdateDeleteContext) Delete() error {
 			return err
 		}
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// handler for - notify db changes
+		if DefaultPostDataChangeHandler != nil {
+			dataChangeHandlerConfigModel := gmodels.DataChangeHandlerConfigModel{}
+			dataChangeHandlerConfigModel.ChangedData = spc.Args
+			dataChangeHandlerConfigModel.ChangeType = gmodels.DB_OPERATION_DELETE
+			DefaultPostDataChangeHandler(spc.TableName, dataChangeHandlerConfigModel)
+		}
+
 		return err
 
 	case StoredProcedure:
@@ -590,6 +651,9 @@ func (spc *InsertTxContext) Insert() error {
 			return err
 		}
 		spc.InsertID, _ = id.LastInsertId()
+
+		// to do handler for - notify db changes
+
 		return err
 
 	case Query:
@@ -598,6 +662,9 @@ func (spc *InsertTxContext) Insert() error {
 			return err
 		}
 		spc.InsertID, _ = id.LastInsertId()
+
+		// to do handler for - notify db changes
+
 		return err
 
 	case StoredProcedure:
@@ -637,11 +704,17 @@ func (spc *UpdateDeleteTxContext) UpdateByFilter(args ...string) error {
 			return err
 		}
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// to do handler for - notify db changes
+
 		return err
 
 	case Query:
 		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// to do handler for - notify db changes
+
 		return err
 
 	case StoredProcedure:
@@ -663,11 +736,17 @@ func (spc *UpdateDeleteTxContext) Update() error {
 		}
 		id, err := spc.Tx.NamedExec(query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// to do handler for - notify db changes
+
 		return err
 
 	case Query:
 		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// to  do handler for - notify db changes
+
 		return err
 
 	case StoredProcedure:
@@ -707,11 +786,17 @@ func (spc *UpdateDeleteTxContext) Delete() error {
 		}
 		id, err := spc.Tx.NamedExec(query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// to do handler for - notify db changes
+
 		return err
 
 	case Query:
 		id, err := spc.Tx.NamedExec(spc.Query, spc.Args)
 		spc.AffectedRows, _ = id.RowsAffected()
+
+		// to do handler for - notify db changes
+
 		return err
 
 	case StoredProcedure:

@@ -79,3 +79,8 @@ type HTMLPDFDataModel struct {
 	PDFOutputPath string
 	HeaderPath    string
 }
+
+type DataChangeHandlerConfigModel struct {
+	ChangedData interface{}
+	ChangeType  int
+}
