@@ -34,7 +34,8 @@
 
     <GridLayout row="1" col="0">
         <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
-        <RadListView #patientListview [items]="_dataItems" [groupingFunction]="funcGroupingFilter"  pullToRefresh="true" (pullToRefreshInitiated)="onPullToRefreshInitiatedGrid($event)">
+        <RadListView #patientListview [items]="_dataItems" [groupingFunction]="funcGroupingFilter" pullToRefresh="true"
+            (pullToRefreshInitiated)="onPullToRefreshInitiatedGrid($event)">
             <ng-template tkListItemTemplate let-item="item">
 
                 <GridLayout columns="*" rows="auto" class="listItemStackLayout">
@@ -50,7 +51,7 @@
                                     [text]="item.dbmodel.patientregno"></Label>
                             </GridLayout>
                             <GridLayout col="1" columns="*" style="vertical-align: center; text-align: center;">
-                                <Switch  class="m-15"  [isEnabled]="!item.isDisabled" checked="{{item.checked}}"
+                                <Switch class="m-15" [isEnabled]="!item.isDisabled" checked="{{item.checked}}"
                                     (tap)="onToggleSingleItem($event,item)"></Switch>
                                 <!-- <Label row="1" col="0" text="Monitored" class="align-centre label-small" textWrap="true"
                       *ngIf="item.monitored == 0" style="color:green;"></Label>
@@ -65,12 +66,12 @@
                 </GridLayout>
             </ng-template>
             <ng-template tkGroupTemplate let-spname="category">
-                <GridLayout class="category-header" height='30' rows="auto, auto">
+                <GridLayout class="category-header" height='70' rows="auto, auto">
                     <GridLayout row="0" style="background-color:#f6f6f6;" height="7"></GridLayout>
                     <GridLayout row="1" rows="auto, auto" columns="*, auto" style="margin-right: 8px;">
                         <Label row="1" class="nameLabel" [text]="spname"></Label>
-                        <Switch row="1" col="1" class="m-15" checked="{{groupingSwitch(spname)}}"
-                            (tap)="onToggleLocation($event, spname)"></Switch>
+                        <Switch row="1" col="1" class="m-15" [isEnabled]="!isDisabled"
+                            checked="{{groupingSwitch(spname)}}" (tap)="onToggleLocation($event, spname)"></Switch>
                     </GridLayout>
                 </GridLayout>
             </ng-template>

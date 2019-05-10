@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import * as Toast from 'nativescript-toast';
 import { ListViewEventData } from 'nativescript-ui-listview';
@@ -26,13 +26,14 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 	_dataItems = new ObservableArray<UiViewModel>();
 	searchValue = "";
 	isBusy = true;
-
+	isDisabled = false;
 	@ViewChild("patientListview") listViewComponent: RadListViewComponent;
 
 	public funcGroupingFilter: (item: DataDBModel) => DataDBModel;
 
 	constructor(private serverApiInterfaceService: ServerApiInterfaceService,
-		private routerExtensions: RouterExtensions) {
+		private routerExtensions: RouterExtensions,
+		private dtc: ChangeDetectorRef,) {
 		this.funcGroupingFilter = (item: any) => {
 			if (item) {
 				return item.dbmodel.spname;
@@ -136,7 +137,7 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 						element.checked = false;
 					});
 				}
-
+				this.dtc.detectChanges();
 			});
 
 		});
@@ -174,20 +175,32 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 	// location toggle button bind value 
 	groupingSwitch(value) {
 		const filterLocationItem = this._dataItems.filter(a => a.dbmodel.spname === value);
-		if (filterLocationItem.length > 0) {
-			let bindFilterItemLoactionId = filterLocationItem.filter(data => data.dbmodel.upmmidspid !== null && data.dbmodel.upmmidpatientid == null);
-			if (bindFilterItemLoactionId.length == filterLocationItem.length) {
-				bindFilterItemLoactionId.forEach((item) => {
-					item.isDisabled = true;
-				});
-
-				return true;
-			} else {
-				return false;
-			}
+		let bindFilterAllGrouping = this._dataItems.filter(data => data.dbmodel.upmmidspid == null && data.dbmodel.upmmidpatientid == null);
+		if (bindFilterAllGrouping.length == this._dataItems.length) {
+			bindFilterAllGrouping.forEach((item) => {
+				item.isDisabled = true;
+			});
+			this.isDisabled = true;
+			return true;
 		} else {
+			if (filterLocationItem.length > 0) {
+				let bindFilterItemLoactionId = filterLocationItem.filter(data => data.dbmodel.upmmidspid !== null && data.dbmodel.upmmidpatientid == null);
+				if (bindFilterItemLoactionId.length == filterLocationItem.length) {
+					bindFilterItemLoactionId.forEach((item) => {
+						item.isDisabled = true;
+					});
+
+					this.isDisabled = false;
+					return true;
+				}
+				else {
+					this.isDisabled = false;
+					return false;
+				}
+			}
 			return false;
 		}
+
 	}
 
 	// error msg funcation
