@@ -5,5 +5,6 @@ export class PatientListViewModel {
     dbmodel: PatientListDBModel;
     personAccompanyContact: string;
     nextActionTimes: NextActionTimes = new NextActionTimes();
+    deleteuuid:string;
 }
 

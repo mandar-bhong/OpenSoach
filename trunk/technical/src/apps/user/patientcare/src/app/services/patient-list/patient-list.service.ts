@@ -64,7 +64,14 @@ export class PatientListService {
                     this.fillPersonAccompanyingDetails(patientListItem.dbmodel.person_accompanying, patientListItem);
                     patientlist.push(patientListItem);                    
                 });
-                this.patientListChangedSubject.next(patientlist);
+
+                if(val.length==0){
+                    const patientListItem = new PatientListViewModel();
+                    patientListItem.deleteuuid = uuid;
+                    patientlist.push(patientListItem); 
+                }
+
+                this.patientListChangedSubject.next(patientlist);                
 
             },
             (error) => {

@@ -1,6 +1,6 @@
 import { CmdModel } from "../models/api/server-cmd-model.js";
 import { RequestManager } from "./request-manager.js";
-import { CMD_ID, CMD_CATEGORY, SERVER_SYNC_STATE, SYNC_STORE, SYNC_PENDING } from "../app-constants.js";
+import { CMD_ID, CMD_CATEGORY, SERVER_SYNC_STATE, SYNC_STORE, SYNC_PENDING, APP_MODE } from "../app-constants.js";
 import { ServerWorkerContext } from "./server-worker-context.js";
 import { ServerHelper } from "./server-helper.js";
 import { SyncStoreManager } from "./sync-store-manager.js";
@@ -110,6 +110,11 @@ export class CommandResponseProcessor {
                                 break;
                             case SYNC_STORE.USER:
                                 this.handleUserResponse(respDataModel);
+                                break;
+                            case SYNC_STORE.PATIENT_MONITOR_MAPPING:
+                                if (APP_MODE.USER_DEVICE) {
+                                    this.handlePatientMonitorMappingViewResponse(respDataModel);
+                                }
                                 break;
                         }
 
@@ -506,6 +511,47 @@ export class CommandResponseProcessor {
 
             new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
 
+        }
+
+    }
+
+    public static handlePatientMonitorMappingViewResponse(data: CmdModel) {
+        // console.log("patient monitor mapping view data", data);
+
+        const tblData = data.payload.ackdata.data
+
+        for (let i = 0; i < tblData.length; i++) {
+
+            DatabaseHelper.selectByID("patientlistbyadmissionuuid", tblData[i].uuid).then(
+                (val) => {
+                    if (val.length != 0) {
+                        const patientAdmissionDatastoreModel = new PatientAdmissionDatastoreModel();
+                        const item = <PatientAdmissionDatastoreModel>tblData[i];
+
+                        Object.assign(patientAdmissionDatastoreModel, item);
+                        patientAdmissionDatastoreModel.sync_pending = SYNC_PENDING.FALSE;
+
+                        // console.log("patient admsn store data:", patientAdmissionDatastoreModel);
+
+                        const serverDataStoreDataModel = new ServerDataStoreDataModel<IDatastoreModel>();
+                        serverDataStoreDataModel.datastore = SYNC_STORE.PATIENT_ADMISSION;
+                        serverDataStoreDataModel.data = patientAdmissionDatastoreModel;
+
+                        // console.log("patient admsn server data store model", serverDataStoreDataModel);
+
+                        new AppMessageDbSyncHandler().handleDeleteMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+                        // delete other store admission related entries
+                        var storeName = [];
+                        storeName.push("patient_personal_details_tbl","patient_medical_details_tbl","schedule_tbl",
+                        "action_tbl","action_txn_tbl","doctors_orders_tbl","treatment_tbl","pathology_record_tbl")
+
+                        storeName.forEach(item => {
+                            DatabaseHelper.deleteDataStoreDataByAdmisionUuid(item,patientAdmissionDatastoreModel.uuid)
+                        });
+
+                    }
+                });
         }
 
     }

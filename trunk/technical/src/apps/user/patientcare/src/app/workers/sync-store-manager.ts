@@ -280,6 +280,7 @@ export class SyncStoreManager {
                 }
 
                 if (this.isDataConflict == true) {
+                    // console.log("inside data conflict true...");
                     this.isDataConflict = false;
                     ServerWorkerContext.syncState = SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_INITIALISE
                     ServerHelper.switchSyncState();

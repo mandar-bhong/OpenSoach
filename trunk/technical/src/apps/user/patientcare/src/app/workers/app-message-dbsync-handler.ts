@@ -15,4 +15,12 @@ export class AppMessageDbSyncHandler extends AppMessageHandler {
             this.notifyUI();
         });
     }
+
+    handleDeleteMessage(msg: ServerDataStoreDataModel<IDatastoreModel>, postMessageFn: (msg: ServerWorkerEventDataModel) => void) {
+        super.handleMessage(msg, postMessageFn);
+        this.deleteFromDataStore().then(() => {
+            this.notifyUI();
+        });
+    }
+
 }

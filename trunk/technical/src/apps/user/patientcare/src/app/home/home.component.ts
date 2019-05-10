@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 			this.onDataReceived(listItem);
 		});
 
-	
+
 	}
 
 
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		this.layout.scrollDirection = "Vertical";
 		this.getData();
 		this.jsonField = new JSONBaseDataModel<PersonAccompanyModel[]>();
-	
+
 	}
 
 	bindList() {
@@ -132,23 +132,30 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 			};
 			// console.log('on data received in home');
 			items.forEach(item => {
-				const existingItem = this.listSource.find(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
-				if (existingItem) {
-					Object.assign(existingItem, item);
-				}
-				else {
-					this.listSource.push(item);
-					if (this.searchValue == "") {
-						this.listItems.push(item);
+
+				if (item.deleteuuid) {
+					this.listSource = this.listSource.filter(e => e.dbmodel.admission_uuid != item.deleteuuid);
+					this.bindList();
+				} else {
+					const existingItem = this.listSource.find(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
+					if (existingItem) {
+						Object.assign(existingItem, item);
+					}
+					else {
+						this.listSource.push(item);
+						if (this.searchValue == "") {
+							this.listItems.push(item);
+						}
+					}
+
+					// associate nextActionItems from NextActionServiceMap
+					const nextActionItems = this.nextActionService.nextActionTimesMap.get(item.dbmodel.admission_uuid);
+					if (nextActionItems) {
+						console.log('setting next action items', nextActionItems);
+						item.nextActionTimes = nextActionItems;
 					}
 				}
 
-				// associate nextActionItems from NextActionServiceMap
-				const nextActionItems = this.nextActionService.nextActionTimesMap.get(item.dbmodel.admission_uuid);
-				if (nextActionItems) {
-					console.log('setting next action items', nextActionItems);
-					item.nextActionTimes = nextActionItems;
-				}
 			});
 			if (this.searchValue != "") {
 				this.bindList();
@@ -262,7 +269,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	}
 
 
-	getServerList(){
+	getServerList() {
 		this.routerExtensions.navigate(['home', 'monitore'], { clearHistory: false });
 	}// end of fucntions.
 }

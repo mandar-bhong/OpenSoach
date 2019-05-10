@@ -54,12 +54,14 @@ let selectQueries = new Map([
     ["document_tbl_delete", "delete from document_tbl where uuid=?"],
     ["documentget", "select * from document_tbl"],
     ["treatment_tbl_insert", "insert into treatment_tbl (uuid, admission_uuid, treatment_done, treatment_performed_time, details, post_observation, updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
-    ["treatment_tbl_update", "update treatment_tbl set admission_uuid=?, treatment_done=?, treatment_performed_time=?, details=?, post_observation=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid = "],
+    ["treatment_tbl_update", "update treatment_tbl set admission_uuid=?, treatment_done=?, treatment_performed_time=?, details=?, post_observation=?, updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid = ?"],
     ["treatment_doc_tbl_insert", "insert into treatment_doc_tbl (treatment_uuid,document_uuid,document_name,doctype,updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?)"],
+    ["treatment_doc_tbl_update", "update treatment_doc_tbl set document_uuid=?,document_name=?,doctype=?,updated_on=?, sync_pending=?, client_updated_at=? where treatment_uuid = ?"],
 
     ["pathology_record_tbl_insert", "insert into pathology_record_tbl (uuid, admission_uuid, test_performed, test_performed_time, test_result, comments,updated_by, updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?,?,?,?)"],
-    ["pathology_record_tbl_update", "update pathology_record_doc_tbl set admission_uuid=?, test_performed=?, test_performed_time=?, test_result=?, comments=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid =?"],
+    ["pathology_record_tbl_update", "update pathology_record_tbl set admission_uuid=?, test_performed=?, test_performed_time=?, test_result=?, comments=?,updated_by=?, updated_on=?, sync_pending=?, client_updated_at=? where uuid =?"],
     ["pathology_record_doc_tbl_insert", "insert into pathology_record_doc_tbl (pathology_record_uuid,document_uuid,document_name,doctype,updated_on, sync_pending, client_updated_at) values (?,?,?,?,?,?,?)"],
+    ["pathology_record_doc_tbl_update", "update pathology_record_doc_tbl set document_uuid=?,document_name=?,doctype=?,updated_on=?, sync_pending=?, client_updated_at=? where pathology_record_uuid = ?"],
     ["documentlist", "select * from document_tbl"],
     ["getPathlogyReportList", "select * from pathology_record_tbl where admission_uuid=?"],
     ["getPathlogyReportDoc", "select * from pathology_record_doc_tbl where pathology_record_uuid=?"],
@@ -141,8 +143,9 @@ let selectQueries = new Map([
     ["getScheduleData", "select conf from schedule_tbl where uuid=?"],
     ["user_login_tbl_insert", `insert into user_login_tbl (user_name,password,auth_code) 
      values ( ?, ?, ?)`],
-     ["getuser", "select * from user_login_tbl"],
-     ["deleteuser", "delete from user_login_tbl"],
+    ["getuser", "select * from user_login_tbl"],
+    ["deleteuser", "delete from user_login_tbl"],
+    ["patient_admission_tbl_delete", "delete from patient_admission_tbl where uuid = ?"],
 ]);
 
 let selectTableName = new Map([
@@ -221,9 +224,9 @@ export class DatabaseHelper {
 
 
     public static update(key: string, dataList: Array<any>) {
-          console.log('dataList',dataList,'key',key);
+        console.log('dataList', dataList, 'key', key);
         return new Promise((resolve, reject) => {
-        
+
             var query: string;
 
             if (selectQueries.has(key) == true) {
@@ -538,4 +541,69 @@ export class DatabaseHelper {
                 });
         });
     }// end of fucntion
+
+
+    public static dataStoreDelete(storename: string, dataList: Array<any>) {
+
+        return new Promise((resolve, reject) => {
+
+            var tblname: string;
+
+            if (selectTableName.has(storename) == true) {
+                tblname = selectTableName.get(storename);
+            };
+
+            console.log("deleting data..");
+            // console.log("deleting uuid:",dataList[0]);
+            DatabaseHelper.update(tblname.concat("_delete"), dataList[0])
+                .then(
+                    (result) => {
+                        // console.log("deleted id:", result);
+                        resolve(result);
+                    },
+                    (err) => {
+                        console.log("err", err);
+                        reject(err);
+                    }
+                );
+
+        });
+
+    }
+
+    public static deleteDataStoreDataByAdmisionUuid(storename: string, admissionuuid: string): any {
+
+        return new Promise((resolve, reject) => {
+            
+            var querylist = [];
+            querylist.push(admissionuuid)
+
+            var tblname: string;
+            var delQuery = "delete from TABLENAME where admission_uuid = ?";
+
+            if (selectTableName.has(storename) == true) {
+                tblname = selectTableName.get(storename);
+            };
+
+            delQuery = delQuery.replace("TABLENAME", tblname);
+            //  console.log("delQuery", delQuery);
+
+            this.getdbConn()
+                .then(db => {
+                    db.execSQL(delQuery, querylist).then(id => {
+                        db.close();
+                        // console.log("deleted id:", id);
+                        resolve(id);
+                    }, error => {
+                        db.close();
+                        console.log("delete error", error);
+                        reject(error);
+                    });
+                });
+
+        });
+    }
+
 }
+
+

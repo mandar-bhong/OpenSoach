@@ -13,7 +13,7 @@ export class TraceConsoleWriter {
             case trace.messageType.info:
                 console.info(traceMessage);
                 break;
-            case trace.messageType.info:
+            case trace.messageType.warn:
                 console.warn(traceMessage);
                 break;
             case trace.messageType.error:
