@@ -1,0 +1,10 @@
+# pack-refs with: peeled fully-peeled sorted 
+16ca3eab7d2086fd5a82993a291cbf3b87fe38b7 refs/remotes/origin/borman
+9b3b1e0f5f99ae461456d768e7d301a7acdaa2d8 refs/remotes/origin/master
+cbc93668186559212164aac90a9894fd4065457b refs/remotes/origin/wiki
+064e2069ce9c359c118179501254f67d7d37ba24 refs/tags/0.2
+d460ce9f8df2e77fb1ba55ca87fafed96c607494 refs/tags/1.0.0
+9e951e1b0753e70359075742c99e505e94e97895 refs/tags/v.1
+82d3e379a209bbe200e3528d871e947ade906d2f refs/tags/v0
+9e951e1b0753e70359075742c99e505e94e97895 refs/tags/v0.1
+d460ce9f8df2e77fb1ba55ca87fafed96c607494 refs/tags/v1.0.0

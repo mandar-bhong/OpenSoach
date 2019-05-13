@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="col">
+    <mat-card style="max-width:500px">
+      <div class="form-group form-primary text-right">
+        <button type="button" color="accent" mat-icon-button (click)="add()" matTooltip="Add" [hidden]="addVisiblity===false">
+          <mat-icon aria-label="Add">add</mat-icon>
+        </button>
+        <button mat-icon-button (click)="closeForms()">
+          <mat-icon aria-hidden="true" class="backButton" matTooltip="Back">arrow_back</mat-icon>
+        </button>
+      </div>
+      <div class="example-container mat-elevation-z8">
+        <mat-table [dataSource]="dataSource">
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <ng-container matColumnDef="prodcode">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 30%;">Product Code</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 30%;">
+              <span class="mat-cell-responsive-label">Product Code</span>
+              <span class="ellipsis mat-cell-text"> {{row.prodcode}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="dbiname">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 40%;">Database Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 40%;">
+              <span class="mat-cell-responsive-label">Database Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.dbiname}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="cpmstate">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 20%;">Status</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 20%;">
+              <span class="mat-cell-responsive-label">Status</span>
+              <span class="ellipsis mat-cell-text"> {{customerSharedService.getCpmState(row.cpmstate) | translate}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Action</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+              <span class="mat-cell-responsive-label">Action</span>
+              <button mat-icon-button color="accent" (click)="editRecord(row)">
+                <mat-icon aria-hidden="true" matTooltip="Edit">edit</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+        </mat-table>
+      </div>
+      <div [hidden]="showForm===false">
+        <form [formGroup]="editableForm" (ngSubmit)="save()">
+          <!-- <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header> -->
+          <mat-card-content>
+            <div class=" form-group form-primary text-right">
+              <button mat-icon-button type="submit" style="right:10px" aria-hidden="true" matTooltip="Save">
+                <mat-icon class="saveButton">check</mat-icon>
+              </button>
+              <button mat-icon-button (click)="closeForm()" color="accent" style="right:10px">
+                <mat-icon aria-hidden="true" matTooltip="Close"> close</mat-icon>
+              </button>
+            </div>
+            <div class="form-group form-primary" *ngIf="recordState === 0">
+              <mat-form-field class="full-width" id="point-selection" *ngIf="recordState === 0">
+                <mat-select placeholder="Product" [(ngModel)]="dataModel.prodid" formControlName="productControl" required>
+                  <mat-option *ngFor="let product of products" [value]="product.prodid">
+                    {{product.prodcode}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editableForm.controls['productControl'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group form-primary" *ngIf="recordState === 1">
+              <span class="viewlabel">Product</span>
+              <label class="viewtext">{{ getproductcode(dataModel.prodid) }}</label>
+            </div>
+            <div class="form-group form-primary" *ngIf="recordState === 0">
+              <mat-form-field class="full-width" id="point-selection">
+                <mat-select placeholder="Database Instance" [(ngModel)]="dataModel.dbiid" formControlName="dbInstanceControl" required>
+                  <mat-option *ngFor="let dbinstance of dbinstances" [value]="dbinstance.dbiid">
+                    {{dbinstance.dbiname}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editableForm.controls['dbInstanceControl'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group form-primary" *ngIf="recordState === 1">
+              <span class="viewlabel">Database Instance</span>
+              <label class="viewtext">{{ getdbinstances(dataModel.dbiid) }}</label>
+            </div>
+            <div class="form-group form-primary">
+              <mat-form-field class="full-width" id="point-selection">
+                <mat-select placeholder="Status" [(ngModel)]="dataModel.cpmstate" formControlName="cpmStateControl" required>
+                  <mat-option *ngFor="let cpmstate of cpmstates" [value]="cpmstate.value">
+                    {{cpmstate.text | translate}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="editableForm.controls['cpmStateControl'].hasError('required')">
+                  {{'VALIDATION_REQUIRED_FIELD'|translate}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- <div class="form-group form-primary" *ngIf="formMode === 0 ">
+              <span class="viewlabel">Status</span>
+              <label class="viewtext">{{ getcpmstates(dataModel.cpmstate) | translate }}</label>
+            </div> -->
+            <!-- <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar> -->
+          </mat-card-content>
+        </form>
+      </div>
+    </mat-card>
+  </div>
+</div>

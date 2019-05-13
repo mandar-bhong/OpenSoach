@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/color_chart_cell_delayed_bg_color"/>
+        </shape>
+    </item>
+    <item android:top="@dimen/chart_cell_checked_vr_margin"
+        android:bottom="@dimen/chart_cell_checked_vr_margin"
+        android:left="@dimen/chart_cell_checked_hz_margin"
+        android:right="@dimen/chart_cell_checked_hz_margin"
+        android:drawable="@drawable/check"/>
+</layer-list>

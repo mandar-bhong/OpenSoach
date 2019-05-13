@@ -1,0 +1,28 @@
+<ActionBar  class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <GridLayout columns="*, auto" height="100%" width="100%">
+        <GridLayout col="0" columns="auto,auto,auto,*,auto,auto, auto">
+            <GridLayout col="0">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="goBackPage()">
+                    <Label text="&#xf04d;" class="homeicon mdi"></Label>
+                </RL:Ripple>
+            </GridLayout>
+            <Label col="1" text="&#xf47d;" class="mdi listicon" style="margin-left:30px; color:white;vertical-align: center;"></Label>
+            <Label col="2" [text]="patientname" style="margin-left:10px;" class="homeheader label-action"></Label>
+            <GridLayout col="4" class="button-dist">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="patientdetail()">
+                    <Label text="&#xf2fd;" class="homeicon mdi" (tap)="patientdetail()"></Label>
+                </RL:Ripple>
+            </GridLayout>
+            <GridLayout col="5" class="button-dist">
+                <!-- <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37">
+                    <Label text="&#xf09a;" class="homeicon mdi"></Label>
+                </RL:Ripple> -->
+            </GridLayout>
+            <GridLayout col="6" columns="auto" class="ripplecenter" class="button-dist" style="vertical-align: center;">
+                <network-status></network-status>
+            </GridLayout>
+        </GridLayout>
+        
+    </GridLayout>
+</ActionBar>

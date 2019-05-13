@@ -1,0 +1,16 @@
+<GridLayout columns="*, auto" rows="auto,auto,auto, auto, auto, auto" style="padding:20px;">
+    <Label row="0" class="body groupHeaderTitle" textWrap="true" text="Allergies"></Label>
+    <GridLayout row="1" class="hr-light m-10"></GridLayout>
+    <GridLayout row=2 col="0" columns="auto,*,auto,auto" rows="auto" style=" vertical-align: center;" *ngIf="getData">
+        <GridLayout col="0">
+            <RadListView #myListView [items]="allergieslistitem" multipleSelection="false">
+                <ng-template tkListItemTemplate let-item="item">
+                    <Label class="labelleft label-small" textWrap="true" [text]="item.text"></Label>
+                </ng-template>
+            </RadListView>
+        </GridLayout>
+    </GridLayout>
+    <GridLayout row=2 col="0" columns="*" style=" vertical-align: center;  text-align: center;">
+        <Label class="labelleft body" *ngIf="noData" textWrap="true" text="No Data" style=" padding: 5"></Label>
+    </GridLayout>
+</GridLayout>
