@@ -59,7 +59,7 @@ mysql -u root -pwelcome -Bse "use spl_hpft_master;source /opt/build/spl/Build/da
 mysql -u root -pwelcome -Bse "drop database spl_hpft_node_0001;"
 mysql -u root -pwelcome -Bse "create database spl_hpft_node_0001;"
 #session will be terminiated hence executing all the commands in same session
-mysql -u root -pwelcome -Bse "use spl_hpft_node_0001;source /opt/build/spl/Build/database/spl_hpft_node/schema/schema_1.0.0.sql;source /opt/build/spl/Build/database/spl_hpft_node/data/data_1.0.0.sql;"
+mysql -u root -pwelcome -Bse "use spl_hpft_node_0001;source /opt/build/spl/Build/database/spl_hpft_node/schema/schema_1.0.0.sql;source /opt/build/spl/Build/database/spl_hpft_node/views/views_1.0.0.sql;source /opt/build/spl/Build/database/spl_hpft_node/data/data_1.0.0.sql;"
 
 #executing command from shell prompt 
 mysql -u root -pwelcome -Bse "drop database spl_vst_master;"
