@@ -23,6 +23,7 @@ import { PathologyRecordDatastoreModel } from "../models/db/pathology-record-mod
 import { PathologyRecordDocDatastoreModel } from "../models/db/pathology-record-doc-model.js";
 import { ActionDataStoreModel } from "../models/db/action-datastore.js";
 import { UserDatastoreModel } from "../models/db/user-model.js";
+import * as appSettings from "tns-core-modules/application-settings";
 
 export class CommandResponseProcessor {
 
@@ -112,7 +113,7 @@ export class CommandResponseProcessor {
                                 this.handleUserResponse(respDataModel);
                                 break;
                             case SYNC_STORE.PATIENT_MONITOR_MAPPING:
-                                if (APP_MODE.USER_DEVICE) {
+                                if (appSettings.getNumber("APP_MODE") == APP_MODE.USER_DEVICE) {
                                     this.handlePatientMonitorMappingViewResponse(respDataModel);
                                 }
                                 break;
@@ -543,11 +544,11 @@ export class CommandResponseProcessor {
 
                         // delete other store admission related entries
                         var storeName = [];
-                        storeName.push("patient_personal_details_tbl","patient_medical_details_tbl","schedule_tbl",
-                        "action_tbl","action_txn_tbl","doctors_orders_tbl","treatment_tbl","pathology_record_tbl")
+                        storeName.push("patient_personal_details_tbl", "patient_medical_details_tbl", "schedule_tbl",
+                            "action_tbl", "action_txn_tbl", "doctors_orders_tbl", "treatment_tbl", "pathology_record_tbl")
 
                         storeName.forEach(item => {
-                            DatabaseHelper.deleteDataStoreDataByAdmisionUuid(item,patientAdmissionDatastoreModel.uuid)
+                            DatabaseHelper.deleteDataStoreDataByAdmisionUuid(item, patientAdmissionDatastoreModel.uuid)
                         });
 
                     }
