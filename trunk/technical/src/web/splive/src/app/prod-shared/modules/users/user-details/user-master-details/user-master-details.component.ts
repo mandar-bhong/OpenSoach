@@ -102,6 +102,7 @@ export class UserMasterDetailsComponent extends EditRecordBase implements OnInit
       if (payloadResponse && payloadResponse.issuccess) {
         if (payloadResponse.data) {
           this.dataModel.copyFromMaster(payloadResponse.data);
+          this.prodUserService.userID = payloadResponse.data.userid;
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
           this.subTitle = this.dataModel.usrname;
