@@ -75,7 +75,9 @@ func HandleDatabaseDataChange(tableName string, data gmodels.DataChangeHandlerCo
 		break
 
 	default:
-		sendNotifyTask(data, tableName)
+		if tableName != "" {
+			sendNotifyTask(data, tableName)
+		}
 	}
 
 }
