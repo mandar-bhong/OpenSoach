@@ -15,3 +15,11 @@ func (r *ExecutionContext) GetCPMID() int64 {
 func (r *DeviceExecutionContext) GetCPMID() int64 {
 	return r.DeviceSessionInfo.CpmID
 }
+
+func (r *DeviceUserExecutionContext) GetNodeDBConnection() string {
+	return r.DeviceUserSessionInfo.Product.NodeDbConn
+}
+
+func (r *DeviceUserExecutionContext) GetCPMID() int64 {
+	return r.DeviceUserSessionInfo.Product.CustProdID
+}

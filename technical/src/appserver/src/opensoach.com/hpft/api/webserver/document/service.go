@@ -22,6 +22,10 @@ type DeviceDocumentService struct {
 	ExeCtx *gmodels.DeviceExecutionContext
 }
 
+type DeviceUserDocumentService struct {
+	ExeCtx *gmodels.DeviceUserExecutionContext
+}
+
 func (service DocumentService) DocumentDownload(req lmodels.APIDocumentDownloadRequest) (bool, interface{}) {
 
 	documentStoreDataModel := &pcmodels.DocumentStoreDataModel{}
@@ -42,10 +46,22 @@ func (service DocumentService) DocumentDownload(req lmodels.APIDocumentDownloadR
 
 func (service DeviceDocumentService) DeviceDocumentDownload(req lmodels.APIDocumentDownloadRequest) (bool, interface{}) {
 
+	return DeviceDocumentDownload(req, service.ExeCtx)
+
+}
+
+func (service DeviceUserDocumentService) DeviceDocumentDownload(req lmodels.APIDocumentDownloadRequest) (bool, interface{}) {
+
+	return DeviceDocumentDownload(req, service.ExeCtx)
+
+}
+
+func DeviceDocumentDownload(req lmodels.APIDocumentDownloadRequest, iDBConnection gmodels.IDBConnection) (bool, interface{}) {
+
 	documentStoreDataModel := &pcmodels.DocumentStoreDataModel{}
 	documentStoreDataModel.StorageType = pcconstants.DB_DOCUMENT_STORAGE_TYPE_FILE_SYSTEM
 	documentStoreDataModel.DocumentID = req.Uuid
-	documentStoreDataModel.DBContext = service.ExeCtx
+	documentStoreDataModel.DBContext = iDBConnection
 
 	err, documentdata := pcmgr.DocumentStoreGet(documentStoreDataModel)
 	if err != nil {
@@ -88,6 +104,18 @@ func (service DocumentService) DocumentUpload(pContext *gin.Context) (bool, inte
 
 func (service DeviceDocumentService) DeviceDocumentUpload(pContext *gin.Context) (bool, interface{}) {
 
+	return DeviceDocumentUpload(pContext, service.ExeCtx, service.ExeCtx.DeviceSessionInfo.CpmID)
+
+}
+
+func (service DeviceUserDocumentService) DeviceDocumentUpload(pContext *gin.Context) (bool, interface{}) {
+
+	return DeviceDocumentUpload(pContext, service.ExeCtx, service.ExeCtx.DeviceUserSessionInfo.Product.CustProdID)
+
+}
+
+func DeviceDocumentUpload(pContext *gin.Context, iDBConnection gmodels.IDBConnection, cpmid int64) (bool, interface{}) {
+
 	form, err := pContext.MultipartForm()
 	if err != nil {
 		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Error occured while uploading document.", err)
@@ -97,8 +125,8 @@ func (service DeviceDocumentService) DeviceDocumentUpload(pContext *gin.Context)
 	documentStoreDataModel := &pcmodels.DocumentStoreDataModel{}
 	documentStoreDataModel.StorageType = pcconstants.DB_DOCUMENT_STORAGE_TYPE_FILE_SYSTEM
 	documentStoreDataModel.FileData = form
-	documentStoreDataModel.NestedPath = append(documentStoreDataModel.NestedPath, strconv.FormatInt(service.ExeCtx.DeviceSessionInfo.CpmID, 10))
-	documentStoreDataModel.DBContext = service.ExeCtx
+	documentStoreDataModel.NestedPath = append(documentStoreDataModel.NestedPath, strconv.FormatInt(cpmid, 10))
+	documentStoreDataModel.DBContext = iDBConnection
 	documentStoreDataModel.DocumentID = form.Value["UUID"][0]
 
 	err, UUID := pcmgr.DocumentStoreUpdate(documentStoreDataModel)

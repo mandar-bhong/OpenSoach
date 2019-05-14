@@ -97,13 +97,24 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 			return false, successErrorData
 		}
 
-		isSuccess, resultData = DeviceDocumentService{
-			ExeCtx: successErrorData.(*gmodels.DeviceExecutionContext),
-		}.DeviceDocumentUpload(pContext)
+		switch successErrorData.(type) {
+		case *gmodels.DeviceExecutionContext:
+			isSuccess, resultData = DeviceDocumentService{
+				ExeCtx: successErrorData.(*gmodels.DeviceExecutionContext),
+			}.DeviceDocumentUpload(pContext)
+			break
+		case *gmodels.DeviceUserExecutionContext:
+
+			isSuccess, resultData = DeviceUserDocumentService{
+				ExeCtx: successErrorData.(*gmodels.DeviceUserExecutionContext),
+			}.DeviceDocumentUpload(pContext)
+			break
+
+		}
 
 		break
 
-	case constants.API_DEVICE_DOCUMENT_DOWNLOAD, constants.API_DEVICE_DOCUMENT_DOWNLOAD_WITH_NAME:
+	case constants.API_DEVICE_DOCUMENT_DOWNLOAD:
 
 		isSuccess, resultData = DownloadDeviceDocument(pContext)
 
@@ -145,9 +156,24 @@ func DownloadDeviceDocument(pContext *gin.Context) (bool, interface{}) {
 		return false, successErrorData
 	}
 
-	isSuccess, resultData := DeviceDocumentService{
-		ExeCtx: successErrorData.(*gmodels.DeviceExecutionContext),
-	}.DeviceDocumentDownload(req)
+	switch successErrorData.(type) {
+	case *gmodels.DeviceExecutionContext:
+		isSuccess, resultData := DeviceDocumentService{
+			ExeCtx: successErrorData.(*gmodels.DeviceExecutionContext),
+		}.DeviceDocumentDownload(req)
 
-	return isSuccess, resultData
+		return isSuccess, resultData
+
+	case *gmodels.DeviceUserExecutionContext:
+
+		isSuccess, resultData := DeviceUserDocumentService{
+			ExeCtx: successErrorData.(*gmodels.DeviceUserExecutionContext),
+		}.DeviceDocumentDownload(req)
+
+		return isSuccess, resultData
+
+	}
+
+	return true, nil
+
 }

@@ -10,6 +10,7 @@ import (
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 	"opensoach.com/prodcore/models"
 )
 
@@ -92,17 +93,26 @@ func PrepareExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, 
 }
 
 func PrepareDeviceExecutionData(osContext *gcore.Context, ginContext *gin.Context) (bool, interface{}) {
-	dataModel := &gmodels.DeviceExecutionContext{}
 
-	isSessionSuccess, deviceInfo := DeviceSessionGet(osContext, ginContext)
+	var dataModel interface{}
 
+	isSessionSuccess, contextType, userDeviceInfo, sharedDeviceInfo := DeviceSessionGet(osContext, ginContext)
 	if !isSessionSuccess {
 		errorData := gmodels.APIResponseError{}
 		errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
 		return false, errorData
 	}
 
-	dataModel.DeviceSessionInfo = *deviceInfo
+	switch contextType {
+	case pcconst.DEVICE_TYPE_SHARED_DEVICE:
+		dataModel = &gmodels.DeviceExecutionContext{}
+		dataModel.(*gmodels.DeviceExecutionContext).DeviceSessionInfo = *sharedDeviceInfo
+		break
+	case pcconst.DEVICE_TYPE_USER_DEVICE:
+		dataModel = &gmodels.DeviceUserExecutionContext{}
+		dataModel.(*gmodels.DeviceUserExecutionContext).DeviceUserSessionInfo = *userDeviceInfo
+		break
+	}
 
 	return true, dataModel
 
@@ -110,7 +120,7 @@ func PrepareDeviceExecutionData(osContext *gcore.Context, ginContext *gin.Contex
 
 func PrepareDeviceExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, pClientReq interface{}) (bool, interface{}) {
 
-	dataModel := &gmodels.DeviceExecutionContext{}
+	var dataModel interface{}
 
 	if ginContext.Request.Method == http.MethodGet {
 
@@ -142,88 +152,13 @@ func PrepareDeviceExecutionReqData(osContext *gcore.Context, ginContext *gin.Con
 		}
 	}
 
-	isSessionSuccess, deviceInfo := DeviceSessionGet(osContext, ginContext)
-
-	if !isSessionSuccess {
-		errorData := gmodels.APIResponseError{}
-		errorData.Code = gmodels.MOD_OPER_ERR_USER_SESSION_NOT_AVAILABLE
-		return false, errorData
-	}
-
-	isUpdateSuccess := SessionUpdate(osContext, ginContext)
-
-	if !isUpdateSuccess {
-		errorData := gmodels.APIResponseError{}
-		errorData.Code = gmodels.MOD_OPER_ERR_SERVER
-		return false, errorData
-	}
-
-	dataModel.DeviceSessionInfo = *deviceInfo
-	dataModel.SessionToken = ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-
-	return true, dataModel
-
-}
-
-func PrepareDeviceUserExecutionData(osContext *gcore.Context, ginContext *gin.Context) (bool, interface{}) {
-	dataModel := &gmodels.DeviceUserExecutionContext{}
-
-	isSessionSuccess, deviceUserInfo := DeviceUserSessionGet(osContext, ginContext)
-
+	isSessionSuccess, contextType, userDeviceInfo, sharedDeviceInfo := DeviceSessionGet(osContext, ginContext)
 	if !isSessionSuccess {
 		errorData := gmodels.APIResponseError{}
 		errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
 		return false, errorData
 	}
 
-	dataModel.DeviceUserSessionInfo = *deviceUserInfo
-
-	return true, dataModel
-
-}
-
-func PrepareDeviceUserExecutionReqData(osContext *gcore.Context, ginContext *gin.Context, pClientReq interface{}) (bool, interface{}) {
-
-	dataModel := &gmodels.DeviceUserExecutionContext{}
-
-	if ginContext.Request.Method == http.MethodGet {
-
-		jsonData := ginContext.Query("params")
-
-		if jsonData == "" { // Expected Data but no data received
-			errorData := gmodels.APIResponseError{}
-			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
-			return false, errorData
-		}
-
-		jsonDecodeErr := json.Unmarshal([]byte(jsonData), pClientReq)
-
-		if jsonDecodeErr != nil {
-			errorData := gmodels.APIResponseError{}
-			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
-			return false, errorData
-		}
-
-	} else {
-
-		err := ginContext.Bind(pClientReq)
-
-		if err != nil {
-			//logger.Log(MODULENAME, logger.ERROR, "Client data binding error: ", err.Error())
-			errorData := gmodels.APIResponseError{}
-			errorData.Code = gmodels.MOD_OPER_ERR_INPUT_CLIENT_DATA
-			return false, errorData
-		}
-	}
-
-	isSessionSuccess, deviceUserInfo := DeviceUserSessionGet(osContext, ginContext)
-
-	if !isSessionSuccess {
-		errorData := gmodels.APIResponseError{}
-		errorData.Code = gmodels.MOD_OPER_ERR_USER_SESSION_NOT_AVAILABLE
-		return false, errorData
-	}
-
 	isUpdateSuccess := SessionUpdate(osContext, ginContext)
 
 	if !isUpdateSuccess {
@@ -232,8 +167,18 @@ func PrepareDeviceUserExecutionReqData(osContext *gcore.Context, ginContext *gin
 		return false, errorData
 	}
 
-	dataModel.DeviceUserSessionInfo = *deviceUserInfo
-	dataModel.SessionToken = ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+	switch contextType {
+	case pcconst.DEVICE_TYPE_SHARED_DEVICE:
+		dataModel = &gmodels.DeviceExecutionContext{}
+		dataModel.(*gmodels.DeviceExecutionContext).DeviceSessionInfo = *sharedDeviceInfo
+		dataModel.(*gmodels.DeviceExecutionContext).SessionToken = ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+		break
+	case pcconst.DEVICE_TYPE_USER_DEVICE:
+		dataModel = &gmodels.DeviceUserExecutionContext{}
+		dataModel.(*gmodels.DeviceUserExecutionContext).DeviceUserSessionInfo = *userDeviceInfo
+		dataModel.(*gmodels.DeviceUserExecutionContext).SessionToken = ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
+		break
+	}
 
 	return true, dataModel
 

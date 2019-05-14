@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -9,6 +10,7 @@ import (
 
 	//gcache "opensoach.com/core/manager/cache"
 	gmodels "opensoach.com/models"
+	pcconst "opensoach.com/prodcore/constants"
 )
 
 var sessionTimeOutMin int
@@ -66,24 +68,34 @@ func SessionDelete(osContext *gcore.Context, ginContext *gin.Context) bool {
 	return osContext.Master.Cache.Remove(token)
 }
 
-func DeviceSessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmodels.DeviceTokenModel) {
+func DeviceSessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, int, *gmodels.DeviceUserSessionInfo, *gmodels.DeviceTokenModel) {
 
-	deviceInfo := &gmodels.DeviceTokenModel{}
+	userDeviceInfo := &gmodels.DeviceUserSessionInfo{}
+	sharedDeviceInfo := &gmodels.DeviceTokenModel{}
+	var contextType int
+
 	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
 
 	isSuccess, jsonData := osContext.Master.Cache.Get(token)
-
 	if !isSuccess {
-		return false, nil
+		return false, contextType, userDeviceInfo, sharedDeviceInfo
 	}
 
-	isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, deviceInfo)
-
-	if !isJsonConvSuccess {
-		return false, nil
+	if strings.HasPrefix(token, pcconst.SHARED_DEVICE_TOKEN_PREFIX) {
+		contextType = pcconst.DEVICE_TYPE_SHARED_DEVICE
+		isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, sharedDeviceInfo)
+		if !isJsonConvSuccess {
+			return false, contextType, userDeviceInfo, sharedDeviceInfo
+		}
+	} else if strings.HasPrefix(token, pcconst.USER_DEVICE_TOKEN_PREFIX) {
+		contextType = pcconst.DEVICE_TYPE_USER_DEVICE
+		isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, userDeviceInfo)
+		if !isJsonConvSuccess {
+			return false, contextType, userDeviceInfo, sharedDeviceInfo
+		}
 	}
 
-	return true, deviceInfo
+	return true, contextType, userDeviceInfo, sharedDeviceInfo
 }
 
 func DeviceUserSessionCreate(osContext *gcore.Context, pSessionData *gmodels.DeviceUserSessionInfo) (bool, string) {
@@ -96,27 +108,7 @@ func DeviceUserSessionCreate(osContext *gcore.Context, pSessionData *gmodels.Dev
 		return false, ""
 	}
 
-	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, time.Minute*time.Duration(sessionTimeOutMin))
+	isSetSuccess := osContext.Master.Cache.Set(sessionToken, jsonData, 0)
 
 	return isSetSuccess, sessionToken
-}
-
-func DeviceUserSessionGet(osContext *gcore.Context, ginContext *gin.Context) (bool, *gmodels.DeviceUserSessionInfo) {
-
-	deviceUserInfo := &gmodels.DeviceUserSessionInfo{}
-	token := ginContext.GetHeader(gmodels.SESSION_CLIENT_HEADER_KEY)
-
-	isSuccess, jsonData := osContext.Master.Cache.Get(token)
-
-	if !isSuccess {
-		return false, nil
-	}
-
-	isJsonConvSuccess := ghelper.ConvertFromJSONString(jsonData, deviceUserInfo)
-
-	if !isJsonConvSuccess {
-		return false, nil
-	}
-
-	return true, deviceUserInfo
 }

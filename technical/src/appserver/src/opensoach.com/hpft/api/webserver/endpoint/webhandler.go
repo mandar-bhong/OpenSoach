@@ -30,7 +30,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		listReq := gmodels.APIDataListRequest{}
 		listReq.Filter = &hpftmodels.DBDeviceSearchPatientRequestFilterDataModel{}
 
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceUserExecutionReqData(repo.Instance().Context, pContext, &listReq)
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceExecutionReqData(repo.Instance().Context, pContext, &listReq)
 
 		if isPrepareExeSuccess == false {
 			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
@@ -47,7 +47,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		reqData := lmodels.APIUserPatientAsscociationRequest{}
 
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceUserExecutionReqData(repo.Instance().Context, pContext, &reqData)
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceExecutionReqData(repo.Instance().Context, pContext, &reqData)
 
 		if isPrepareExeSuccess == false {
 			return false, successErrorData
@@ -63,7 +63,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		reqData := &hpftmodels.DBPatientMonitorMappingDeleteRowModel{}
 
-		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceUserExecutionReqData(repo.Instance().Context, pContext, &reqData)
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareDeviceExecutionReqData(repo.Instance().Context, pContext, &reqData)
 
 		if isPrepareExeSuccess == false {
 			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
