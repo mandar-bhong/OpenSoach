@@ -33,12 +33,12 @@ export class LoginHandlerService {
     init() {
         switch (AppRepoShared.appProductCode) {
             case PROD_HPFT:
-              this.userHomeRoute = HPFTRouteHelper.getUserHomeRoute;
-              break;
+                this.userHomeRoute = HPFTRouteHelper.getUserHomeRoute;
+                break;
             default:
-              this.userHomeRoute = this.userHomeRoutHandler;
-              break;
-          }
+                this.userHomeRoute = this.userHomeRoutHandler;
+                break;
+        }
 
         this.loginStatusProviderService.authToken = this.appDataStoreService.getDataStore(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN)
             .getObject<string>(APP_SHARED_DATA_STORE_KEYS.AUTH_TOKEN);
@@ -65,7 +65,7 @@ export class LoginHandlerService {
         this.navigateToHome();
     }
 
-    logout() {
+    logout(navigateToLogin: boolean = true) {
         this.loginStatusProviderService.isLoggedIn = false;
         this.loginStatusProviderService.authToken = null;
         this.loginStatusProviderService.userRole = null;
@@ -77,7 +77,9 @@ export class LoginHandlerService {
             .removeObject(APP_SHARED_DATA_STORE_KEYS.USER_ROLE);
 
         this.authService.logout().subscribe();
-        this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
+        if (navigateToLogin) {
+            this.router.navigate([ROUTE_LOGIN], { skipLocationChange: true });
+        }
     }
 
     validateAuthToken() {
@@ -119,15 +121,14 @@ export class LoginHandlerService {
     // }
 
     navigateToHome() {
-
         this.router.navigate([this.userHomeRoute(this.loginStatusProviderService.userRole)], { skipLocationChange: true }).then(a => {
             this.getBasicInfoPostLogin();
         });
     }
-    
-    userHomeRoutHandler(userrole : string) {
+
+    userHomeRoutHandler(userrole: string) {
         this.router.navigate([''], { skipLocationChange: true });
-      }
+    }
 
     getBasicInfoPostLogin() {
         this.getUserLoginInfo();
