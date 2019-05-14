@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ROUTE_LOGIN } from '../../../app-common-constants';
 import { ActivationChangePassword, ChangeUserPasswordRequest } from '../../../models/api/user-models';
 import { ConfirmPasswordModel } from '../../../models/ui/user-models';
 import { TranslatePipe } from '../../../pipes/translate/translate.pipe';
@@ -40,7 +39,8 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   }
 
   ngOnInit() {
-    this.showBackButton = false;    
+    this.loginHandlerService.logout(false);
+    this.showBackButton = false;
     this.createControls();
     this.setFormMode(FORM_MODE.EDITABLE);
     this.activateSubscription = this.route.params.subscribe(params => {

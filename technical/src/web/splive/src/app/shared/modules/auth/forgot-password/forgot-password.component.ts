@@ -49,6 +49,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   sendOtp() {
+
     const forgotPasswordRequest = new ForgotPasswordRequest();
     this.dataModel.copyToForgotPass(forgotPasswordRequest);
     this.authService.forgotUserPassword(forgotPasswordRequest).subscribe(payloadResponse => {
@@ -60,6 +61,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   resetPassword() {
+
    if(this.resetPasswordForm.valid){
     const resetPasswordRequest = new ResetPasswordRequest();
     this.dataModel.copyToResetPass(resetPasswordRequest);
@@ -74,6 +76,7 @@ export class ForgotPasswordComponent implements OnInit {
               this.setHide = true;
               this.otpfield = true;
               this.userid = true;
+
               this.authService.setImageVisibility(false);
             }, 2500);
           }
