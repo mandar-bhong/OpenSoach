@@ -70,7 +70,7 @@ export class UserInfoComponent extends EditRecordBase implements OnInit, OnDestr
           this.dataModel.copyFrom(payloadResponse.data);
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
-          this.subTitle = (this.dataModel.fname + ' ' +  this.dataModel.lname);
+          this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
         } else {
           this.appNotificationService.info(this.translatePipe.transform('USER_INFO_DETAILS_NOT_AVAILABLE'));
         }
@@ -86,7 +86,8 @@ export class UserInfoComponent extends EditRecordBase implements OnInit, OnDestr
           this.setFormMode(FORM_MODE.VIEW);
           this.subTitle = (this.dataModel.fname + ' ' + this.dataModel.lname);
           this.showBackButton = false;
-        } else {
+        }
+         else {
           this.appNotificationService.info(this.translatePipe.transform('USER_INFO_DETAILS_NOT_AVAILABLE'));
         }
       }
@@ -121,6 +122,7 @@ export class UserInfoComponent extends EditRecordBase implements OnInit, OnDestr
     if (this.editableForm.invalid) { return; }
     this.inProgress = true;
     const userAddDetailsRequest = new UserAddDetailsRequest();
+    this.dataModel.usrid = this.prodUserService.userID;
     this.dataModel.copyTo(userAddDetailsRequest);
     this.prodUserService.updateUserDetails(userAddDetailsRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {

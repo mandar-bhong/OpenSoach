@@ -108,8 +108,9 @@ export class UserViewComponent implements OnInit, OnDestroy {
     this.sort.sortChange.next(this.sort);
   }
 
-  viewDetails(id: number) {
-    this.router.navigate(['users', 'user-detail'], { queryParams: { id: id, callbackurl: 'users' }, skipLocationChange: true });
+  viewDetails(id:number) {
+    this.prodUserService.userID = id;
+    this.router.navigate(['users', 'user-detail'], { queryParams: {id:id,  callbackurl: 'users' }, skipLocationChange: true });
   }
 
   ngOnDestroy(): void {

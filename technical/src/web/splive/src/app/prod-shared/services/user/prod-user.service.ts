@@ -23,6 +23,8 @@ import {
 
 @Injectable()
 export class ProdUserService extends ListingService<UserFilterRequest, UserDataListResponse> {
+
+    userID: number
     constructor(private serverApiInterfaceService: ServerApiInterfaceService) {
         super();
     }
@@ -74,15 +76,15 @@ export class ProdUserService extends ListingService<UserFilterRequest, UserDataL
         return this.serverApiInterfaceService.get(EnvironmentProvider.baseurl + '/api/cu/v1/user/info/master',
             implicitErrorHandling);
     }
-    getUserProfileDetails( implicitErrorHandling = true):
+    getUserProfileDetails(implicitErrorHandling = true):
         Observable<PayloadResponse<UserDetailsResponse>> {
         return this.serverApiInterfaceService.getWithQueryParams(EnvironmentProvider.baseurl + '/api/cu/v1/user/info/details',
-         implicitErrorHandling);
+            implicitErrorHandling);
     }
 
     changeUserPassword(changeUserPasswordRequest: ChangeUserPasswordRequest, implicitErrorHandling = true):
-    Observable<PayloadResponse<null>> {
-    return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/v1/user/update/password',
-    changeUserPasswordRequest, implicitErrorHandling);
-}
+        Observable<PayloadResponse<null>> {
+        return this.serverApiInterfaceService.post(EnvironmentProvider.baseurl + '/api/v1/user/update/password',
+            changeUserPasswordRequest, implicitErrorHandling);
+    }
 }
