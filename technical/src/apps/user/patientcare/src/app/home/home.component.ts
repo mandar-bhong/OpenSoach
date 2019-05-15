@@ -233,12 +233,9 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	}
 
 	public openDrawer() {
-		this.drawer.showDrawer();
+		this.drawer.toggleDrawerState();
 	}
 
-	public onCloseDrawerTap() {
-		this.drawer.closeDrawer();
-	}
 	ngAfterViewInit() {
 		this.drawer = this.drawerComponent.sideDrawer;
 		this._changeDetectionRef.detectChanges();

@@ -1,21 +1,26 @@
  <ActionBar class="action-bar" width="100%" style="background-color: #396766; color: white; vertical-align: center;">
 
    <GridLayout row="*" columns="auto,*, auto" height="100%" width="100%">
-      <GridLayout col="0" columns="auto" class="button-dist" style="vertical-align: center;" *ngIf="appMode==appModeEnum.USER_DEVICE">
-          <Label (tap)="openDrawer()" col="0" class="homeicon mdi" text="&#xfdac;"></Label>    
-        </GridLayout>
-    <GridLayout col="1" columns="auto, auto" style="text-align: center;">
+     <GridLayout col="0" columns="auto" class="button-dist" style="vertical-align: center;"
+       *ngIf="appMode==appModeEnum.USER_DEVICE">
+       <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+       (tap)="openDrawer()">
+         <Label  col="0" class="homeicon mdi" text="&#xfdac;"></Label>
+       </RL:Ripple>
+
+     </GridLayout>
+     <GridLayout col="1" columns="auto, auto" style="text-align: center;">
        <Label col="0" text="PatientCare" class="hometitle"></Label>
        <Image col="1" src="res://iclauncher"></Image>
      </GridLayout>
      <GridLayout col="3" columns="auto" class="button-dist" style="vertical-align: center;">
        <network-status col="0"></network-status>
      </GridLayout>
-   
+
    </GridLayout>
 
  </ActionBar>
- <RadSideDrawer tkExampleTitle tkToggleNavButton class="topZ">
+ <RadSideDrawer tkExampleTitle tkToggleNavButton class="topZ" *ngIf="appMode==appModeEnum.USER_DEVICE">
    <GridLayout tkDrawerContent rows="*" class="sideStackLayout" zIndex="99">
      <!-- <StackLayout class="sideTitleStackLayout">
             <Label text="Navigation Menu"></Label>
@@ -23,7 +28,6 @@
      <ScrollView row="0">
        <StackLayout class="sideStackLayout">
          <Label text="Logout" (tap)="logout();" class="sideLabel sideLightGrayLabel"></Label>
-         <Label text="Close Drawer" class="sideLabel sideLightGrayLabel" (tap)="onCloseDrawerTap()"></Label>
        </StackLayout>
      </ScrollView>
    </GridLayout>
@@ -31,17 +35,17 @@
  <!-- <patient-action-bar [patientName]='patientName'></patient-action-bar> -->
  <!-- end  -->
  <GridLayout rows="auto,*" columns="*" height="100%" width="100%">
-     <GridLayout row="0" col="0" columns="*, auto" >
-      <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff"
-        textFieldHintColor="#A8A8A8" color="#A8A8A8" (loaded)="sBLoaded($event)" (clear)="onClear($event)"
-        (submit)="onSubmit($event)"></SearchBar>
-      <GridLayout col="1" style="vertical-align: center; text-align: center;">
-        <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
-          (tap)="getServerList()">
-          <Label text="&#xf3cd;" class="homeicon fas" style="color: #396767;"></Label>
-        </RL:Ripple>
-      </GridLayout>
-    </GridLayout>
+   <GridLayout row="0" col="0" columns="*, auto, 5">
+     <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff"
+       textFieldHintColor="#A8A8A8" color="#A8A8A8" (loaded)="sBLoaded($event)" (clear)="onClear($event)"
+       (submit)="onSubmit($event)"></SearchBar>
+     <GridLayout col="1" style="vertical-align: center; text-align: center;" *ngIf="appMode==appModeEnum.USER_DEVICE">
+       <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+         (tap)="getServerList()">
+         <Label text="&#xf234;" class="homeicon fas click_icon_color" ></Label>
+       </RL:Ripple>
+     </GridLayout>
+   </GridLayout>
    <GridLayout row="1" col="0">
 
      <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>

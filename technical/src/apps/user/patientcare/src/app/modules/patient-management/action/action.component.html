@@ -4,6 +4,8 @@
             <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
             <Button col="2" text="Save" (tap)="save()" class="btn btn-primary"></Button>
         </GridLayout>
+
+        <!-- filter button n lable strat -->
         <GridLayout row="1" rows="auto" columns="*, auto, 20" class="m-5"
             style="vertical-align: center;padding-top: 2;padding-bottom: 2">
             <Label class="pageHeaderTitle" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
@@ -18,6 +20,7 @@
                 </RL:Ripple>
             </StackLayout>
         </GridLayout>
+        <!-- filter button n lable end -->
 
         <GridLayout row="2" rows="*,auto" columns="*,auto" height="100%" width="100%">
             <RadListView #myListView [items]="actionItems" [itemTemplateSelector]="templateSelector"
@@ -72,19 +75,29 @@
                                     <Label row="0" col="0" text="&#xf90b;" class="mdi list-text"></Label>
                                 </GridLayout>
                             </GridLayout>
-                               <!-- for action name and description -->
-                               <GridLayout row="0" col="1" columns="*" rows="auto" class="list-layout" style="vertical-align: center;">
+                            <!-- for action name and description -->
+                            <GridLayout row="0" col="1" columns="*" rows="auto" class="list-layout"
+                                style="vertical-align: center;">
                                 <!-- for doctor orders -->
-                                <GridLayout  row="0" rows="auto,auto"  *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
-                                      <Label row="0" col="0" class="body" [text]="item.doctorOrderModel.doctors_orders"
-                                        style="color: #396767;" textWrap="true"></Label>
-                                       <Label row="1" col="0" class="label-small" textWrap="true"
+                                <GridLayout row="0" rows="auto,auto"
+                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
+                                    <!-- <Label row="0" col="0" class="body" [text]="item.doctorOrderModel.doctors_orders"
+                                        style="color: #396767;" textWrap="true"></Label> -->
+
+                                    <GridLayout row="0" col="0" columns="auto, * , auto, 70">
+                                        <Label class="body" + + [text]="item.doctorOrderModel.doctors_orders"
+                                            style="color: #396767;" textWrap="true"></Label>
+
+                                        <Label row="0" col="3" class="Body text_hightlight" textWrap="true"
+                                            *ngIf="item.isActionActive == true" text="New"></Label>
+                                    </GridLayout>
+                                    <Label row="1" col="0" class="label-small" textWrap="true"
                                         [text]="item.doctorOrderModel.desc"
                                         style="margin-left: 10px;white-space: normal;" textWrap="true"></Label>
                                 </GridLayout>
 
-                                <GridLayout  row="0" rows="auto,auto" columns="*" *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
-                                    rows="auto,auto">
+                                <GridLayout row="0" rows="auto,auto" columns="*"
+                                    *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS" rows="auto,auto">
                                     <Label row="0" col="0" class="body" [text]="item.configData.name"
                                         style="color: #396767; " textWrap="true"></Label>
 
@@ -94,34 +107,14 @@
                                 </GridLayout>
                             </GridLayout>
 
-                         
-
-                            <!-- <GridLayout row="0" col="1" columns="*" rows="auto, auto" class="list-layout"
-                                style="vertical-align: center;">
-                                <Label row="0" col="0" class="body"
-                                    *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
-                                    [text]="item.configData.name" style="color: #396767; " textWrap="true"></Label>
-
-                                <Label row="0" col="0" class="body"
-                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
-                                     [text]="item.doctorOrderModel.doctors_orders" style="color: #396767;"
-                                    textWrap="true"></Label>
-                                <Label row="1" col="0" class="label-small" textWrap="true"
-                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS" 
-                                    [text]="item.doctorOrderModel.desc"
-                                    style="margin-left: 10px;white-space: normal;" textWrap="true"></Label>
-                                <Label row="1" col="0" class="label-small" textWrap="true" 
-                                *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
-                                [text]="item.configData.desc"                               
-                                    style="margin-left: 10px;white-space: normal;" textWrap="true"></Label>
-                            </GridLayout> -->
-
                             <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
                                 <GridLayout row="0" col="0" class="hr-light m-10"></GridLayout>
                             </GridLayout>
                         </GridLayout>
                     </GridLayout>
                 </ng-template>
+
+                <!-- Custome grouping view strat-->
                 <ng-template tkGroupTemplate let-category="category">
                     <StackLayout class="category-header" height='30'>
                         <GridLayout style="background-color:#f6f6f6;" height="7"></GridLayout>
@@ -129,14 +122,17 @@
                             [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output', groupLabelOutput: category == 'Doctor-Orders'}"></Label>
                     </StackLayout>
                 </ng-template>
+                <!-- Custome grouping view end-->
 
                 <ng-template tkTemplateKey="expanded" let-item="item">
                     <!-- Expanded root gridlayout -->
                     <GridLayout rows="auto,auto,auto" columns="*" class="listItemStackLayout"
                         [class]="'item ' + (item.selected ? 'item-selected' : '')"
                         [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
-
+                        <!-- click row expand view open above view start -->
                         <GridLayout row="0" columns="70, *" rows="auto, auto,auto" style="padding-bottom: 8%;">
+
+                            <!-- left side clock status view start -->
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto"
                                 style="vertical-align: center; text-align:center;color: #ebebeb;">
                                 <StackLayout row="0" class="list-layout"
@@ -178,14 +174,23 @@
                                 </GridLayout>
 
                             </GridLayout>
+                            <!-- left side clock status view  end-->
 
+                            <!-- right side name and desc view start -->
                             <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout"
                                 style="vertical-align: center;">
+                                <!-- name and desc  start-->
                                 <GridLayout col="0" row="0" columns="*" rows="auto, auto">
-                                    <Label row="0" col="0" class="body"
-                                        *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
-                                        [text]="item.doctorOrderModel.doctors_orders" style="color: #396767;"
-                                        textWrap="true"></Label>
+
+                                    <GridLayout row="0" col="0" columns="auto, * , auto, 75"
+                                        *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
+                                        <Label class="body" [text]="item.doctorOrderModel.doctors_orders"
+                                            style="color: #396767;" textWrap="true"></Label>
+
+                                        <Label row="0" col="3" class="Body text_hightlight" textWrap="true"
+                                            *ngIf="item.isActionActive == true" text="New"></Label>
+                                    </GridLayout>
+
                                     <Label row="0" col="0" class="body"
                                         *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
                                         [text]="item.configData.name" style="color: #396767;" textWrap="true"></Label>
@@ -193,6 +198,9 @@
                                         [text]="(item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS) ? item.doctorOrderModel.desc :item.configData.desc"
                                         style="margin-left: 10px;"></Label>
                                 </GridLayout>
+                                <!-- name and desc  end -->
+
+                                <!-- input field done and discard view button start -->
                                 <GridLayout row="0" col="1" columns="auto,20, auto, 30" rows="auto"
                                     style="vertical-align: center; text-align:center;"
                                     *ngIf="(item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION) && (item.hasTxnData!=true)">
@@ -212,16 +220,20 @@
                                     </GridLayout>
 
                                 </GridLayout>
-                            </GridLayout>
+                                <!-- input field done and discard view button end -->
 
+                            </GridLayout>
+                            <!-- right side name and desc view end -->
                             <GridLayout row="1" col="1" columns="*" rows="auto" style="padding-left:7%">
                                 <GridLayout row="0" col="0" class="hr-light m-10"></GridLayout>
                             </GridLayout>
                         </GridLayout>
+                        <!-- click row expand view open above view start -->
+                        <!-- expand below view start-->
+                        <GridLayout row="1" col="0" columns="*" rows="auto, auto" class="list-layout">
 
-                        <GridLayout row="1" col="0" columns="auto, auto" rows="auto">
                             <GridLayout class="cardeffect">
-
+                                <!-- comment and value input field expand view start  -->
                                 <GridLayout columns="*, auto" rows="auto, auto"
                                     *ngIf="(item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION || item.actionStatus == action_Status.MISSED) && (item.hasTxnData!=true)">
                                     <GridLayout col="0" columns="20,auto" rows="auto"
@@ -258,7 +270,9 @@
                                         </StackLayout>
                                     </GridLayout>
                                 </GridLayout>
+                                <!-- comment and value input field expand view end  -->
 
+                                <!-- action txn done and discard status expand view strat-->
                                 <GridLayout rows="auto, auto, auto" *ngIf="item.hasTxnData == true "
                                     style="padding: 20;">
                                     <GridLayout row="0" rows=" auto" columns="auto , auto, auto, auto">
@@ -286,43 +300,67 @@
                                             text="{{ 'Systolic :-'+ item.txnData.value.systolic + '/' +  'Diastolic :-' + item.txnData.value.diastolic}}"></Label>
                                     </GridLayout>
                                 </GridLayout>
+                                <!-- action txn done and discard status expand view end-->
 
-                                <GridLayout rows="auto" *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
-                                    style="padding: 20;">
-                                    <GridLayout row="0" rows=" auto, auto, auto, auto"
-                                        columns="auto ,auto,*, auto, auto">
-                                        <Label row="0" col="0" class="label-small" textWrap="true"
-                                            text="Type:- "></Label>
-                                        <Label row="0" col="1" class="label-small" textWrap="true"
-                                            [text]="item.doctorOrderModel.order_type"></Label>
+                                <!-- doctor orders expand view start -->
+                                <GridLayout rows="auto" columns="*,auto"
+                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                    style="padding: 0 15;">
+                                    <GridLayout row="0" col="0" rows="auto, auto, auto, auto" columns="*">
 
-                                        <Label row="0" col="3" class="label-small" textWrap="true"
-                                            text="Status:- "></Label>
+                                        <GridLayout row="0" columns="auto, auto">
+                                            <Label row="0" col="0" class="label-small" textWrap="true"
+                                                text="Type:- "></Label>
+                                            <Label row="0" col="1" class="label-small" textWrap="true"
+                                                text="{{item.doctorOrderModel.order_type}}"></Label>
+                                        </GridLayout>
 
-                                        <Label row="1" col="0" class="label-small" textWrap="true" text="by:- "></Label>
-                                        <Label row="1" col="1" class="label-small" textWrap="true"
-                                            [text]="item.doctorOrderModel.ack_by"></Label>
+                                        <GridLayout row="1" columns="auto, auto">
+                                            <Label col="0" class="label-small" textWrap="true"
+                                                text="{{ ' ' + item.doctorOrderModel.ack_time | date: 'fullDate' }}"
+                                                *ngIf="item.doctorOrderModel.ack_time"></Label>
+                                            <Label col="1" class="label-small" textWrap="true"
+                                                text="{{ ' ' +  'by' + ' ' + item.doctorOrderModel.ack_by_name }}"
+                                                *ngIf="item.doctorOrderModel.ack_by_name"></Label>
+                                        </GridLayout>
 
-                                        <Label row="2" col="0" class="label-small" textWrap="true"
-                                            text="Comment:- "></Label>
-                                        <Label row="2" col="1" class="label-small" textWrap="true"
-                                            [text]="item.doctorOrderModel.comment"></Label>
+                                        <GridLayout row="2" columns="auto, auto"  *ngIf="item.doctorOrderModel.comment">
+                                            <Label col="0" class="label-small" textWrap="true"
+                                                text="Comment:- "></Label>
+                                            <Label col="1" class="label-small" textWrap="true"
+                                                text="{{item.doctorOrderModel.comment}}"></Label>
+                                        </GridLayout>
 
-                                        <Label row="3" col="0" class="label-small" textWrap="true"
-                                            text="Document:- "></Label>
-                                        <Label row="3" col="1" class="label-small" textWrap="true"
-                                            [text]="item.doctorOrderModel.document_name"></Label>
+                                        <GridLayout row="3" col="0" columns="*" rows="auto"
+                                            *ngIf="item.doctorOrderModel.document_name">
+                                            <GridLayout row="0" col="1" columns="auto, 90, auto, *"
+                                                style="margin: 10px 0">
+                                                <Label class="label-small" col="0" textWrap="true"
+                                                    text="{{item.doctorOrderModel.document_name}}"
+                                                    style="color:#51A5CD;"></Label>
+                                                <Label col="2" class="fas option-icon-fawesome" text="&#xf019;"
+                                                    (tap)="download(item.doctorOrderModel.document_name,item.doctorOrderModel.document_uuid)"></Label>
+                                            </GridLayout>
+                                        </GridLayout>
 
+                                    </GridLayout>
+                                    <GridLayout row="0" col="1" *ngIf="item.isActionActive == true">
+                                        <Switch class="m-15" checked="{{!item.isActionActive}}"
+                                            (tap)="doctorOrderAcknowledge($event,item.doctorOrderModel)"></Switch>
                                     </GridLayout>
 
                                 </GridLayout>
-                                <!---->
+
+                                <!-- doctor orders expand view end -->
+
+                            </GridLayout>
+                            <!-- expand below view end-->
+                            <GridLayout row="1" col="0" *ngIf="item.actionStatus != action_Status.ACTIVE_FUTURE">
+                                <GridLayout class="hr-light m-10"></GridLayout>
                             </GridLayout>
                         </GridLayout>
 
-                        <GridLayout row="3" col="0" *ngIf="item.actionStatus != action_Status.ACTIVE_FUTURE">
-                            <GridLayout class="hr-light m-10"></GridLayout>
-                        </GridLayout>
+
 
                     </GridLayout>
                     <!--End Expanded root gridlayout -->

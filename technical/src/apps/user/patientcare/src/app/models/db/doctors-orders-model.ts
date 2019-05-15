@@ -7,7 +7,7 @@ export class DoctorsOrdersDatastoreModel implements IDatastoreModel {
     doctors_orders: string;
     comment: string;
     ack_by: number;
-    ack_time: Date;
+    ack_time: string;
     status: number;
     order_created_time: string;
     order_type: string;
