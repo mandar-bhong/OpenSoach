@@ -34,6 +34,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.createControls();
     this.createControlsForPassword();
   }
+  // FOR EMAIL VALIDATION
   createControls(): void {
     this.forgotpasswordform = new FormGroup({
       emailControl: new FormControl('', [Validators.required]),
@@ -41,6 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
+  // FOR PASSWORD VALIDATION
   createControlsForPassword(): void {
     this.resetPasswordForm = new FormGroup({
       newPasswordControl: new FormControl('', [Validators.required]),
@@ -48,8 +50,8 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
+  // USED FOR SEND OTP TO EMAIL
   sendOtp() {
-
     const forgotPasswordRequest = new ForgotPasswordRequest();
     this.dataModel.copyToForgotPass(forgotPasswordRequest);
     this.authService.forgotUserPassword(forgotPasswordRequest).subscribe(payloadResponse => {
@@ -60,6 +62,7 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
+  //USED TO CHANGE PASSWORD
   resetPassword() {
 
    if(this.resetPasswordForm.valid){
