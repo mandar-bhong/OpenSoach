@@ -22,7 +22,7 @@ func SendEmail(iEmail not.INotificationEmail) error {
 	m.SetHeader("From", emailOpt.From)
 	m.SetHeader("To", emailOpt.To...)
 	m.SetHeader("Subject", emailOpt.Subject)
-	m.SetBody("html", emailOpt.Body)
+	m.SetBody("text", emailOpt.Body)
 
 	for _, attachmentPath := range emailOpt.Attachment {
 		m.Attach(attachmentPath)
