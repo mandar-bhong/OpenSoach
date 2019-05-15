@@ -117,3 +117,37 @@ func PatientUserDeAssociation(dbConn string, deltStruct *hpftmodels.DBPatientMon
 	}
 	return nil, delDBCtx.AffectedRows
 }
+
+func GetUserPatientassociationByUsrId(dbConn string, usrid int64) (error, *[]hpftmodels.DBSplHpftUserPatientMonitorMappingRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserPatientassociationByUsrId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hpftmodels.DBSplHpftUserPatientMonitorMappingRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SELECT_USER_PATIENT_ASSOCIATION_BY_USER_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(usrid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
+
+func GetUserPatientassociationByUsrIdSpId(dbConn string, usrid, spid int64) (error, *[]hpftmodels.DBSplHpftUserPatientMonitorMappingRowModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetUserPatientassociationByUsrIdSpId")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]hpftmodels.DBSplHpftUserPatientMonitorMappingRowModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_SELECT_USER_PATIENT_ASSOCIATION_BY_USER_ID_SP_ID
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+	selErr := selDBCtx.Select(usrid, spid)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}

@@ -45,10 +45,12 @@ func (service EndpointService) GetPatientAdmissionList(listReqData gmodels.APIDa
 
 }
 
-func (service EndpointService) UserPateintAssociate(req apimodels.APIUserPatientAsscociationRequest) (isSuccess bool, successErrorData interface{}) {
+func (service EndpointService) UserPatientAssociate(req apimodels.APIUserPatientAsscociationRequest) (isSuccess bool, successErrorData interface{}) {
 
 	dbRowModel := &hpftmodels.DBPatientMonitorMappingInsertRowModel{}
-	dbRowModel.DBPatientMonitorMappingDataModel = req.DBPatientMonitorMappingDataModel
+	dbRowModel.UsrId = req.UsrId
+	dbRowModel.SpId = req.SpId
+	dbRowModel.PatientId = req.PatientId
 	dbRowModel.CpmId = service.ExeCtx.DeviceUserSessionInfo.Product.CustProdID
 	dbRowModel.UpdatedBy = service.ExeCtx.DeviceUserSessionInfo.UserID
 	dbRowModel.Uuid = ghelper.GenerateUUID()

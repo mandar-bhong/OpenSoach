@@ -1,9 +1,7 @@
 package models
 
-import (
-	hpftmodels "opensoach.com/hpft/models"
-)
-
 type APIUserPatientAsscociationRequest struct {
-	hpftmodels.DBPatientMonitorMappingInsertRowModel
+	UsrId     int64  `json:"usrid"`
+	SpId      *int64 `json:"spid"`
+	PatientId *int64 `json:"patientid"`
 }
