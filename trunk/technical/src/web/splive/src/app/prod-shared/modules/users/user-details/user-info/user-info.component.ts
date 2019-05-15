@@ -36,6 +36,7 @@ export class UserInfoComponent extends EditRecordBase implements OnInit, OnDestr
   }
 
   ngOnInit() {
+    this.showBackButton = false;
     this.createControls();
     this.userGenders = this.appUserService.getUsersGender();
     this.routeSubscription = this.route.queryParams.subscribe(params => {
