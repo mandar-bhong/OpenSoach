@@ -8,7 +8,7 @@ import * as appSettings from "tns-core-modules/application-settings";
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { Page } from 'ui/page';
-import { ActionStatus, ACTION_STATUS, APP_MODE, ConfigCodeType, MonitorType, SERVER_WORKER_MSG_TYPE, SYNC_STORE } from '~/app/app-constants';
+import { ActionStatus, ACTION_STATUS, APP_MODE, ConfigCodeType, MonitorType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, SYNC_PENDING, API_APP_BASE_URL } from '~/app/app-constants';
 import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
@@ -30,6 +30,12 @@ import { ActionFabComponent } from '../action-fab/action-fab.component';
 import { DoctorOrdersComponent } from '../doctor-orders/doctor-orders.component';
 import { MedicineActionsComponent } from './medicine-actions/medicine-actions.component';
 import { DoctorsOrdersDatastoreModel } from '~/app/models/db/doctors-orders-model';
+import { Switch } from 'tns-core-modules/ui/switch/switch';
+var dialogs = require("tns-core-modules/ui/dialogs");
+import { AppGlobalContext } from '~/app/app-global-context';
+import { ApiParse } from '../reports/section-one/section-one.component';
+import * as utils from 'tns-core-modules/utils/utils';
+import { action } from 'tns-core-modules/ui/dialogs/dialogs';
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -122,7 +128,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	actionStatus: any;
 	conf_type_code: any;
 
-
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	constructor(
@@ -184,15 +189,8 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			(val) => {
 				val.forEach(item => {
 					const actionItem = this.prepareActionItem(null, item, false)
-					console.log('actionStatus', actionItem.actionStatus);
-					console.log('hasTxnData', actionItem.hasTxnData);
-					console.log('scheduled_time', actionItem.dbModel.scheduled_time);
-					console.log('isItemActive', actionItem.isActionActive);
-					console.log('	item.conf_type_code', actionItem.conf_type_code);
-
 					this.actionItems.push(actionItem);
 				});
-				console.log('this.actionItems', this.actionItems.length);
 			},
 			(error) => {
 				console.log("getActinData error:", error);
@@ -210,8 +208,8 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				console.log("getActinData error:", error);
 			});
 
-
 	};
+
 	get dataItems(): ObservableArray<DataActionItem> {
 		return this._dataItems;
 	}
@@ -223,6 +221,16 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			actionItemVMModel.doctorOrderModel = data;
 			actionItemVMModel.hasTxnData = false;
 			actionItemVMModel.isActionActive = (actionItemVMModel.doctorOrderModel.status == 0) ? true : false;
+			if (data.status == 1) {
+			this.actionService.getUserByUserid(data.updated_by).then(
+				(val) => {
+					val.forEach(useritem => {
+						actionItemVMModel.doctorOrderModel.ack_by_name = useritem.fname + " " + useritem.lname;
+					})
+
+				});
+			}
+		
 
 		} else {
 			actionItemVMModel.dbModel = data;
@@ -238,8 +246,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				actionItemVMModel.hasTxnData = false;
 			}
 		}
-
-
 		//	console.log('actionItemVMModel', actionItemVMModel);
 
 		return actionItemVMModel;
@@ -575,11 +581,26 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			return;
 		}
 
+		console.log('dataActionItem.uuid', dataActionItem.uuid);
+		let filterDoctorVM = [];
+		filterDoctorVM = this.actionItems.filter(a => a.conf_type_code == ConfigCodeType.DOCTOR_ORDERS && a.doctorOrderModel.uuid == dataActionItem.uuid);
+
 		this.actionService.getDoctorOrderByID('getdoctororderbyid', dataActionItem.uuid).then(
 			(val) => {
 				val.forEach(item => {
-					let actionItemVM = this.prepareActionItem(null, item, true);
-					this.actionItems.push(actionItemVM);
+
+					let docVM = null;
+					filterDoctorVM.forEach(actionItem => {
+						this.prepareActionItem(actionItem, item, true);
+						docVM = actionItem;
+
+					});
+					if (docVM == null) {
+						docVM = this.prepareActionItem(null, item, true);
+						this.actionItems.push(docVM);
+					}
+					this.resetActionItem(docVM);
+					this.refreshListView();
 				});
 			},
 			(error) => {
@@ -618,6 +639,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	// will get executed once sticky action is performed
 	resetActionItem(item) {
+		if (item == null) {
+			// consol
+			return;
+		}
 		item.txnData = new GetJsonModel();
 		item.expanded = false;
 		item.selected = false;
@@ -626,8 +651,13 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// auth user functinal
 	// if authorization is successfull
 	onDeviceAuthSuccess(userid: number): void {
+		// console.log('userid', userid);
 		this.tempActionTxnDataArray = [];
 		this.ServerDataStoreDataModelArray.forEach(element => {
+			console.log('element --------> ', element);
+			if (element.datastore == SYNC_STORE.DOCTORS_ORDERS && element.data.status == 1) {
+				element.data.ack_by = userid;
+			}
 			element.data.updated_by = userid;
 		});
 		// posting to worker for  submit into database.
@@ -808,6 +838,61 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (this.schedulecreationSubscription) { this.schedulecreationSubscription.unsubscribe(); }
 		if (this.actioncreationSubscription) { this.actioncreationSubscription.unsubscribe(); }
 		if (this.actionTxnDataReceivedSubject) { this.actionTxnDataReceivedSubject.unsubscribe(); }
+
+	}
+
+	doctorOrderAcknowledge(args, item) {
+		var selectedItem = item;
+		let firstSwitch = <Switch>args.object;
+		let confirmationMsg = selectedItem.checked ? "Do you want to doctor order Acknowledge?" : "Do you want to doctor order acknowledge?";
+		let options = {
+			title: "Confirmation",
+			message: confirmationMsg,
+			okButtonText: "Yes",
+			cancelButtonText: "Cancel"
+
+		};
+		dialogs.confirm(options).then((result: boolean) => {
+			if (result == false) {
+				firstSwitch.checked = selectedItem.checked = !firstSwitch.checked;
+				return
+			} else {
+				let serverDataStoreModel = new ServerDataStoreDataModel<DoctorsOrdersDatastoreModel>();
+				serverDataStoreModel.data = new DoctorsOrdersDatastoreModel();
+				serverDataStoreModel.data = item;
+				serverDataStoreModel.data.status = 1;
+				serverDataStoreModel.data.ack_time = new Date().toISOString();
+				serverDataStoreModel.data.sync_pending = SYNC_PENDING.TRUE;
+				serverDataStoreModel.datastore = SYNC_STORE.DOCTORS_ORDERS;
+				this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
+				const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
+
+				if (appMode == APP_MODE.USER_DEVICE) {
+					console.log('appSettings.getNumber("USER_ID")', appSettings.getNumber("USER_ID"));
+					this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
+				} else {
+					this.savetoUserAuth();
+				}
+			}
+
+		});
+
+	}
+	download(document_name, document_uuid) {
+
+		console.log('tap document_uuid', document_uuid);
+		const token1 = AppGlobalContext.Token;
+		console.log('token', token1);
+		const requestObj = new ApiParse();
+		requestObj.uuid = document_uuid;
+		requestObj.token = token1;
+
+		requestObj.uuid = document_uuid;
+		requestObj.token = token1;
+		const apiUrl = '/v1/document/download/ep';
+		const apiURL = API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
+		console.log('apiURL', apiURL);
+		utils.openUrl(apiURL);
 
 	}
 }

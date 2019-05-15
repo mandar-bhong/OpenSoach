@@ -23,7 +23,7 @@ export class DoctorsOrderItem {
     doctor_id: number
     doctors_orders: string
     comment: string
-    ack_by: string
+    ack_by: number
     ack_time: string
     status: number
     order_created_time: string
@@ -35,4 +35,5 @@ export class DoctorsOrderItem {
     updated_on: string
     sync_pending: number
     client_updated_at: string
+    ack_by_name: string
 }

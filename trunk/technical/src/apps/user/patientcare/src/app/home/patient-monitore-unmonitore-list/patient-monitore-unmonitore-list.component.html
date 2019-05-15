@@ -4,13 +4,8 @@
         <GridLayout col="1" columns="auto, auto" style="text-align: center;">
             <Label col="0" text="PatientCare" class="hometitle"></Label>
             <Image col="1" src="res://iclauncher"></Image>
-            <!-- <Label col="1" text=".live" class="hometitlesub" style="color: #FF8912"></Label> -->
+
         </GridLayout>
-        <!-- <GridLayout col="2" columns="auto" class="button-dist">
-        <RL:Ripple rippleColor="#fff" class="ripplecenter " borderRadius="8" height="37" width="37">
-          <Label col="0" text="&#xf09a;" class="homeicon mdi"></Label>
-        </RL:Ripple>
-      </GridLayout> -->
         <GridLayout col="3" columns="auto" class="button-dist" style="vertical-align: center;">
             <network-status col="0"></network-status>
         </GridLayout>
@@ -20,14 +15,15 @@
 
 <GridLayout rows="auto,*" columns="*" height="100%" width="100%">
 
-    <GridLayout row="0" col="0" columns="*, auto">
+    <GridLayout row="0" col="0" columns="*, auto, 5">
+
         <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff"
             textFieldHintColor="#A8A8A8" color="#A8A8A8" (loaded)="sBLoaded($event)" (clear)="onClearServer($event)"
             (submit)="onSubmitServer($event)"></SearchBar>
-        <GridLayout col="1" style="vertical-align: center; text-align: center;">
+        <GridLayout col="1" style="vertical-align: center; text-align: center;margin-left: 5">
             <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
                 (tap)="goToMainList()">
-                <Label text="&#xf233;" class="homeicon fas" style="color: #396767;"></Label>
+                <Label text="&#xf2bb;" class="homeicon fas click_icon_color" ></Label>
             </RL:Ripple>
         </GridLayout>
     </GridLayout>

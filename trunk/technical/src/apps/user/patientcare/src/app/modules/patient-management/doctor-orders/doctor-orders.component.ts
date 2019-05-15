@@ -344,7 +344,7 @@ export class DoctorOrdersComponent implements OnInit {
 		pad.getDrawing().then(data => {
 			this.drawings.push(data);
 
-			this.fileArray = this.drawings;
+			this.getFileItem = this.drawings;
 			this.clearMyDrawing(pad);
 			this.getformview();
 

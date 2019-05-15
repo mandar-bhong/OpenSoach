@@ -202,7 +202,6 @@ export class ActionService {
 
             this.database.selectByID("getUserById", paramList).then(
                 (val) => {
-                    console.log("get user by updated id", val);
                     resolve(val);
                 },
                 (error) => {
