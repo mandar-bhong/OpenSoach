@@ -473,7 +473,7 @@ export const TRANSLATIONS: TranslationValue[] = [
 /*Change Password For User start from here */
   {
     key: 'CHANGE_PASS',
-    en: 'New password and confirm password mismatch'
+    en: 'Passwords do not match'
   },
   {
     key: 'REMOVE_DEVICE',
@@ -502,10 +502,6 @@ export const TRANSLATIONS: TranslationValue[] = [
   {
     key:"SERVER_ERROR_10007",
     en:'Entered OTP is not valid.'
-  },
-  {
-    key:"SERVER_SYSTEM_ERROR_5000",
-    en:'Session timeout..'
   }
 
 
