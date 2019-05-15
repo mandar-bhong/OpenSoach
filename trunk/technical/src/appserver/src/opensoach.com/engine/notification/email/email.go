@@ -1,7 +1,7 @@
 package email
 
 import (
-	"gopkg.in/gomail.v2"
+	gomail "gopkg.in/gomail.v2"
 	not "opensoach.com/engine/notification"
 )
 
@@ -22,7 +22,7 @@ func SendEmail(iEmail not.INotificationEmail) error {
 	m.SetHeader("From", emailOpt.From)
 	m.SetHeader("To", emailOpt.To...)
 	m.SetHeader("Subject", emailOpt.Subject)
-	m.SetBody("text/html", emailOpt.Body)
+	m.SetBody("html", emailOpt.Body)
 
 	for _, attachmentPath := range emailOpt.Attachment {
 		m.Attach(attachmentPath)
