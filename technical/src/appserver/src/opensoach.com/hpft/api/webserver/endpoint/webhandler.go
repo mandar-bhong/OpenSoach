@@ -55,7 +55,7 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 
 		isSuccess, resultData = EndpointService{
 			ExeCtx: successErrorData.(*gmodels.DeviceUserExecutionContext),
-		}.UserPateintAssociate(reqData)
+		}.UserPatientAssociate(reqData)
 
 		break
 
