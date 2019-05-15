@@ -16,7 +16,7 @@ import { EditRecordBase, FORM_MODE } from '../../../views/edit-record-base';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent extends EditRecordBase implements OnInit, OnDestroy {
-  routeSubscription: Subscription;
+ 
   dataModel = new ConfirmPasswordModel();
   successHide = true;
   activateSubscription: Subscription;
@@ -27,6 +27,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   hidenew = true;
   firstView = false;
   secondView = false;
+  ErrorCode: number;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -51,6 +52,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     this.getActivationParams();
 
   }
+  
   createControls(): void {
     this.editableForm = new FormGroup({
       newpasswordControl: new FormControl('', [Validators.required]),
@@ -58,6 +60,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     });
   }
 
+  //change password function(create new password)
   save() {
     if (this.editableForm.valid) {
       const changeUserPasswordRequest = new ChangeUserPasswordRequest();
@@ -80,7 +83,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     }
   }
 
-
+// get activation code from mail
   getActivationParams() {
     // write code of get 
     // if response success then manage if conditions.
@@ -91,7 +94,8 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
         this.userId = PayloadResponse.data.recid;
         this.firstView = true;
         this.secondView = false;
-      } else {
+      } else if (PayloadResponse.error) {
+        this.ErrorCode = PayloadResponse.error.code;
         this.firstView = false;
         this.secondView = true;
       }
@@ -102,10 +106,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
 
-  ngOnDestroy() {
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
+  ngOnDestroy() {    
     if (this.activateSubscription) {
       this.activateSubscription.unsubscribe();
     }
