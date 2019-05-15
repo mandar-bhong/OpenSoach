@@ -105,6 +105,23 @@ func (service PatientService) UpdateStatus(reqData *hktmodels.DBPatientUpdateSta
 		return false, errModel
 	}
 
+	// remove doctor patient association
+	dbErr, admsnData := dbaccess.GetAdmissionById(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData.AdmissionId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting admission info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	admsnDataDBRecord := *admsnData
+	deassociateReq := &hktmodels.DBPatientMonitorMappingDeleteRowModel{}
+	deassociateReq.UsrId = admsnDataDBRecord[0].DrIncharge
+	deassociateReq.SpId = &admsnDataDBRecord[0].SpId
+	deassociateReq.PatientId = &admsnDataDBRecord[0].PatientId
+	service.UserPatientAsscociationRemove(deassociateReq)
+
 	// taskPatientStatusUpdated := &hktmodels.TaskPatientStatusUpdated{}
 	// taskPatientStatusUpdated.PatientId = reqData.PatientId
 	// taskPatientStatusUpdated.CpmId = reqData.CpmId
@@ -214,6 +231,34 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 	}
 
 	addResponse.MedicalDetailsId = medicalDetailsAddResponse.(gmodels.APIRecordAddResponse).RecordID
+
+	// associate patient to doctor
+	dbErr, upmmData := dbaccess.GetUserPatientassociationByUsrIdSpId(service.ExeCtx.SessionInfo.Product.NodeDbConn, req.DrIncharge, req.SpId)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting patient info by id.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	upmmDbRecord := *upmmData
+
+	if len(upmmDbRecord) == 0 || len(upmmDbRecord) > 1 {
+		associateReq := lmodels.APIUserPatientAsscociationRequest{}
+		associateReq.UsrId = req.DrIncharge
+		associateReq.SpId = &req.SpId
+		associateReq.PatientId = &req.PatientId
+		service.UserPateintAssociate(associateReq)
+	} else if len(upmmDbRecord) == 1 {
+		if upmmDbRecord[0].PatientId != nil {
+			associateReq := lmodels.APIUserPatientAsscociationRequest{}
+			associateReq.UsrId = req.DrIncharge
+			*associateReq.SpId = req.SpId
+			*associateReq.PatientId = req.PatientId
+			service.UserPateintAssociate(associateReq)
+		}
+	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient admission info added succesfully")
 
@@ -1212,4 +1257,69 @@ func (service PatientService) PatientPathologyRecordAdd(req lmodels.APIPatientPa
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient pathology record data added succesfully")
 
 	return true, addResponse
+}
+
+func (service PatientService) UserPateintAssociate(req lmodels.APIUserPatientAsscociationRequest) (isSuccess bool, successErrorData interface{}) {
+
+	dbRowModel := &hktmodels.DBPatientMonitorMappingInsertRowModel{}
+	dbRowModel.UsrId = req.UsrId
+	dbRowModel.SpId = req.SpId
+	dbRowModel.PatientId = req.PatientId
+	dbRowModel.CpmId = service.ExeCtx.GetCPMID()
+	dbRowModel.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+	dbRowModel.Uuid = ghelper.GenerateUUID()
+
+	if req.PatientId == nil {
+		dbPatientMonitorMappingDeleteRowModel := &hktmodels.DBPatientMonitorMappingDeleteRowModel{}
+		dbPatientMonitorMappingDeleteRowModel.CpmId = dbRowModel.CpmId
+		dbPatientMonitorMappingDeleteRowModel.UsrId = dbRowModel.UsrId
+		dbPatientMonitorMappingDeleteRowModel.SpId = dbRowModel.SpId
+		service.UserPatientAsscociationRemove(dbPatientMonitorMappingDeleteRowModel)
+	} else if req.SpId == nil {
+		dbPatientMonitorMappingDeleteRowModel := &hktmodels.DBPatientMonitorMappingDeleteRowModel{}
+		dbPatientMonitorMappingDeleteRowModel.CpmId = dbRowModel.CpmId
+		dbPatientMonitorMappingDeleteRowModel.UsrId = dbRowModel.UsrId
+		service.UserPatientAsscociationRemove(dbPatientMonitorMappingDeleteRowModel)
+	}
+
+	dbErr, insertedId := dbaccess.PatientUserAssociation(service.ExeCtx.GetNodeDBConnection(), dbRowModel)
+	if dbErr != nil {
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while associated user and patient.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	addResponse := gmodels.APIRecordAddResponse{}
+	addResponse.RecordID = insertedId
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "New user and patient associated succesfully")
+
+	return true, addResponse
+}
+
+func (service PatientService) UserPatientAsscociationRemove(reqdata *hktmodels.DBPatientMonitorMappingDeleteRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqdata.CpmId = service.ExeCtx.GetCPMID()
+
+	dbErr, affectedRow := dbaccess.PatientUserDeAssociation(service.ExeCtx.GetNodeDBConnection(), reqdata)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while deassociating user patient.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	if affectedRow == 0 {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE_RECORD_NOT_FOUND
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User patient association removed successfully.")
+
+	return true, nil
 }

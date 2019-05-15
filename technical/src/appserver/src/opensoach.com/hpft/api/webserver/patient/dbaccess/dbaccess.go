@@ -9,6 +9,7 @@ import (
 	"opensoach.com/core/logger"
 	dbmgr "opensoach.com/core/manager/db"
 	hkthelper "opensoach.com/hpft/api/helper"
+	epdbaccess "opensoach.com/hpft/api/webserver/endpoint/dbaccess"
 	"opensoach.com/hpft/constants"
 	"opensoach.com/hpft/constants/dbquery"
 	hktmodels "opensoach.com/hpft/models"
@@ -1142,4 +1143,17 @@ func GetPatientPathologyRecordsByAdmissionId(dbConn string, admissionid int64) (
 		return selErr, nil
 	}
 	return nil, data
+}
+
+func GetUserPatientassociationByUsrIdSpId(dbConn string, usrid, spid int64) (error, *[]hktmodels.DBSplHpftUserPatientMonitorMappingRowModel) {
+	return epdbaccess.GetUserPatientassociationByUsrIdSpId(dbConn, usrid, spid)
+}
+
+func PatientUserAssociation(dbConn string, insrtStruct *hktmodels.DBPatientMonitorMappingInsertRowModel) (error, int64) {
+	return epdbaccess.PatientUserAssociation(dbConn, insrtStruct)
+}
+
+func PatientUserDeAssociation(dbConn string, deltStruct *hktmodels.DBPatientMonitorMappingDeleteRowModel) (error, int64) {
+	return epdbaccess.PatientUserDeAssociation(dbConn, deltStruct)
+
 }
