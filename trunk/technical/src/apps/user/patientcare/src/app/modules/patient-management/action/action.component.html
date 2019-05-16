@@ -119,7 +119,7 @@
                     <StackLayout class="category-header" height='30'>
                         <GridLayout style="background-color:#f6f6f6;" height="7"></GridLayout>
                         <Label class="nameLabel" [text]="category"
-                            [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output', groupLabelOutput: category == 'Doctor-Orders'}"></Label>
+                            [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output', groupLabelDoctorOreder: category == 'Doctor-Orders'}"></Label>
                     </StackLayout>
                 </ng-template>
                 <!-- Custome grouping view end-->
@@ -306,33 +306,29 @@
                                 <GridLayout rows="auto" columns="*,auto"
                                     *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
                                     style="padding: 0 15;">
-                                    <GridLayout row="0" col="0" rows="auto, auto, auto, auto" columns="*">
-
-                                        <GridLayout row="0" columns="auto, auto">
+                                    <GridLayout row="0" col="0" rows="auto, auto  " columns="*">
+                                        <GridLayout row="0" rows="auto, auto, auto" columns="auto, auto">
                                             <Label row="0" col="0" class="label-small" textWrap="true"
                                                 text="Type:- "></Label>
                                             <Label row="0" col="1" class="label-small" textWrap="true"
                                                 text="{{item.doctorOrderModel.order_type}}"></Label>
-                                        </GridLayout>
 
-                                        <GridLayout row="1" columns="auto, auto">
-                                            <Label col="0" class="label-small" textWrap="true"
+                                            <Label row="1" col="0" class="label-small" textWrap="true"
                                                 text="{{ ' ' + item.doctorOrderModel.ack_time | date: 'fullDate' }}"
                                                 *ngIf="item.doctorOrderModel.ack_time"></Label>
-                                            <Label col="1" class="label-small" textWrap="true"
+                                            <Label row="1" col="1" class="label-small" textWrap="true"
                                                 text="{{ ' ' +  'by' + ' ' + item.doctorOrderModel.ack_by_name }}"
                                                 *ngIf="item.doctorOrderModel.ack_by_name"></Label>
-                                        </GridLayout>
 
-                                        <GridLayout row="2" columns="auto, auto"  *ngIf="item.doctorOrderModel.comment">
-                                            <Label col="0" class="label-small" textWrap="true"
+
+                                            <Label row="2" col="0" class="label-small" textWrap="true"
                                                 text="Comment:- "></Label>
-                                            <Label col="1" class="label-small" textWrap="true"
+                                            <Label row="2" col="1" class="label-small" textWrap="true"
                                                 text="{{item.doctorOrderModel.comment}}"></Label>
+
                                         </GridLayout>
 
-                                        <GridLayout row="3" col="0" columns="*" rows="auto"
-                                            *ngIf="item.doctorOrderModel.document_name">
+                                        <GridLayout row="1" col="0" columns="*" rows="auto">
                                             <GridLayout row="0" col="1" columns="auto, 90, auto, *"
                                                 style="margin: 10px 0">
                                                 <Label class="label-small" col="0" textWrap="true"

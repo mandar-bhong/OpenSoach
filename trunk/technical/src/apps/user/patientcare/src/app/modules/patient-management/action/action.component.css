@@ -128,6 +128,11 @@
     font-weight: bold;
 }
 
+.groupLabelDoctorOreder {
+    /* background-color: #396766; */
+    padding: 15;
+    font-weight: bold;
+}
 /* grouping title color change css  start*/
 
 .button-clicked {
