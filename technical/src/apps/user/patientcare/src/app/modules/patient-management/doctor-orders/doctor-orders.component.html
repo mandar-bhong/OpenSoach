@@ -32,25 +32,25 @@
                             </ListPicker>
                         </GridLayout>
                     </GridLayout>
-                    <GridLayout row="2" class="input-field" rows="auto, auto, auto, auto">
+                    <GridLayout row="2"  rows="auto, auto, auto" class="marging-left-right">
                         <GridLayout row="0">
-                            <Label text="Order Description" class="body"></Label>
+                            <Label text="Order Description" class="body margin-bottom"></Label>
                         </GridLayout>
 
-                        <GridLayout row="1" class="input-field">
-                            <TextField class="input" formControlName="desc"></TextField>
+                        <GridLayout row="1" >
+                            <TextField class="input input-border" formControlName="desc"></TextField>
                         </GridLayout>
-                        <GridLayout row="2" class="hr-light"></GridLayout>
-                        <GridLayout row="3" *ngIf="isDescRequired">
-                            <Label text="*Order Description required " style="color:red"></Label>
+  
+                        <GridLayout row="2" *ngIf="isDescRequired">
+                            <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
                         </GridLayout>
 
                     </GridLayout>
                     <GridLayout row="3">
-                        <StackLayout class="input-field">
+                        <StackLayout  class="marging-left-right">
                             <Label text="Doctor Name" class="body"></Label>
                             <RadAutoCompleteTextView #autocomplete [items]="dataItems" suggestMode="Suggest"
-                                displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)">
+                                displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)" >
                                 <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="50">
                                     <ng-template tkSuggestionItemTemplate let-item="item">
                                         <StackLayout orientation="vertical" padding="10">
@@ -60,24 +60,24 @@
                                 </SuggestionView>
                             </RadAutoCompleteTextView>
                             <GridLayout *ngIf="isDrNameRequired">
-                                <Label text="*Doctor Name required " style="color:red"></Label>
+                                <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
                             </GridLayout>
-                            <GridLayout class="input-field">
-                                <TextField class="input" formControlName="doctorName" style="visibility: hidden;">
+                            <GridLayout>
+                                <TextField class="input  input-border" formControlName="doctorName" style="visibility: hidden;">
                                 </TextField>
                             </GridLayout>
                         </StackLayout>
                     </GridLayout>
-                    <GridLayout row="4" class="input-field" rows="auto, auto, auto, auto">
+                    <GridLayout row="4" class="marging-left-right" rows="auto, auto, auto ">
                         <GridLayout row="0">
-                            <Label text="Comment" class="body"></Label>
+                            <Label text="Comment" class="body  margin-bottom"></Label>
                         </GridLayout>
-                        <GridLayout row="1" class="input-field">
-                            <TextField class="input" formControlName="comment"></TextField>
+                        <GridLayout row="1">
+                            <TextField class="input input-border" formControlName="comment"></TextField>
                         </GridLayout>
-                        <GridLayout row="2" class="hr-light"></GridLayout>
-                        <GridLayout row="3" *ngIf="isCommentRequired">
-                            <Label text="*Comment required " style="color:red"></Label>
+
+                        <GridLayout row="2" *ngIf="isCommentRequired">
+                            <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
                         </GridLayout>
                     </GridLayout>
                     <GridLayout row="5" rows="auto, auto" class="input-field">

@@ -1,14 +1,17 @@
 <GridLayout columns="*" height="100%" width="100%" rows="*">
     <GridLayout columns="*" rows="auto,*" row="0">
-        <GridLayout row="0" columns="auto, *, auto" rows="65" style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
+        <GridLayout row="0" columns="auto, *, auto" rows="65"
+            style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
             <GridLayout col="0" style="vertical-align: center;">
-                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="goBackPage()">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                    (tap)="goBackPage()">
                     <Label text="&#xf156;" class="homeicon mdi mdi"></Label>
                 </RL:Ripple>
             </GridLayout>
             <Label col="1" text="Schedule – Monitor" style="text-align:center;  vertical-align: center;"></Label>
             <GridLayout col="2" style="vertical-align: center;">
-                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="onSubmit()">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                    (tap)="onSubmit()">
                     <Label text="&#xf12c;" class="homeicon mdi mdi" style="margin-right: 1px"></Label>
                 </RL:Ripple>
             </GridLayout>
@@ -22,7 +25,8 @@
                     <GridLayout row="1" columns="80, *, 80">
                         <GridLayout class="input-field" col="1">
                             <ListPicker [items]="monitorConf?.dbmodel.conf.tasks" textField="name" valueField="value"
-                                selectedIndex="1" (selectedIndexChange)="selectedIndexChanged($event)" class="p-15 picker">
+                                selectedIndex="1" (selectedIndexChange)="selectedIndexChanged($event)"
+                                class="p-15 picker">
                             </ListPicker>
                         </GridLayout>
                     </GridLayout>
@@ -32,58 +36,59 @@
                 <SegmentedBar [items]="foodInstItems" selectedIndex="0" formControlName="foodInst"
                     (selectedIndexChange)="onFoodInstSelectedIndexChange($event)" class="m-5" style="background-color:white;color:black"></SegmentedBar>
             </StackLayout> -->
-                    <GridLayout row="2" rows="auto auto auto" class="input-field">
+                    <GridLayout row="2" rows="auto auto auto">
                         <GridLayout row="0" class="input-field">
                             <Label text="Frequency" class="body"></Label>
                         </GridLayout>
                         <GridLayout row="1" columns="80, *, 80">
                             <GridLayout class="input-field" col="1">
                                 <ListPicker [items]="frequencyType" formControlName="frequency" selectedIndex="0"
-                                    textField="name" valueField="value" value="value" (selectedIndexChange)="onFrequencySelectedIndexChange($event)"
-                                    class="p-15 picker">
+                                    textField="name" valueField="value" value="value"
+                                    (selectedIndexChange)="onFrequencySelectedIndexChange($event)" class="p-15 picker">
                                 </ListPicker>
                             </GridLayout>
                         </GridLayout>
 
                         <!-- mark up for interval hours  -->
-                        <GridLayout row="2" rows="auto auto auto,auto,auto" *ngIf="freqSelectedIndex===0 " class="input-field">
-                            <GridLayout row="0" rows="auto auto auto auto">
+                        <GridLayout row="2" rows="auto auto auto,auto,auto" *ngIf="freqSelectedIndex===0 ">
+                            <GridLayout row="0" rows="auto auto auto " class="marging-left-right">
                                 <GridLayout row="0">
-                                    <Label col="0" row="0" text="Enter interval in hours" class="body"></Label>
+                                    <Label col="0" row="0" text="Enter interval in hours"
+                                        class="body margin-bottom"></Label>
                                 </GridLayout>
                                 <GridLayout row="1">
-                                    <TextField col="1" row="0" class="input" keyboardType="number" formControlName="interval">
+                                    <TextField col="1" row="0" class="input input-border" keyboardType="number"
+                                        formControlName="interval">
                                     </TextField>
                                 </GridLayout>
-                                  <!-- interval hours validations   -->
-                                  <GridLayout row="2" class="hr-light" [ngClass]="{invalid: intervalIsValid === true}">
-                                    </GridLayout>
-                                    <GridLayout row="3" class="input-field" *ngIf="intervalIsValid">
-                                        <Label text="*interval hours is required " style="color:red"></Label>
-                                    </GridLayout>
-                                    <GridLayout row="4" class="input-field" *ngIf="invalidIntervalHours">
-                                        <Label text="*Invalid interval hours" style="color:red"></Label>
-                                    </GridLayout>
+                                <!-- interval hours validations   -->
+                                <GridLayout row="2" *ngIf="intervalIsValid">
+                                    <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                                </GridLayout>
+                                <GridLayout row="3" *ngIf="invalidIntervalHours">
+                                    <Label text="*Invalid interval hours" style="color:red"></Label>
+                                </GridLayout>
                                 <!-- interval hours validations ends here  -->
                             </GridLayout>
-                               <!-- mark up for number of times  -->
-                            <GridLayout row="1" rows="auto auto auto auto,auto" class="input-field">
+                            <!-- mark up for number of times  -->
+                            <GridLayout row="1" rows="auto auto auto auto" class="marging-left-right">
                                 <GridLayout row="0">
-                                    <Label col="0" row="1" text="Enter no. of times" class="body"></Label>
+                                    <Label col="0" row="1" text="Enter no. of times" class="body margin-bottom"></Label>
                                 </GridLayout>
                                 <GridLayout row="1">
-                                    <TextField col="1" row="0" class="input" keyboardType="number" formControlName="numberofTimes"></TextField>
+                                    <TextField col="1" row="0" class="input input-border" keyboardType="number"
+                                        formControlName="numberofTimes"></TextField>
                                 </GridLayout>
                                 <!-- number of times validations -->
-                                <GridLayout row="2" class="hr-light" [ngClass]="{invalid: numberOfTimesValid === true}">
-                                    </GridLayout>
-                                    <GridLayout row="3" class="input-field" *ngIf="isNumberOfTimes">
-                                        <Label text="*No. of times is required " style="color:red"></Label>
-                                    </GridLayout>
-                                    <GridLayout row="4" class="input-field" *ngIf="monitorForm.get('numberofTimes').hasError('max')">
-                                        <Label text="*No. of times can not greater than {{numberOFTimesDosage}} " style="color:red"></Label>
-                                    </GridLayout>
-                                    <!-- ends here -->
+
+                                <GridLayout row="2" *ngIf="isNumberOfTimes">
+                                    <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                                </GridLayout>
+                                <GridLayout row="3" *ngIf="monitorForm.get('numberofTimes').hasError('max')">
+                                    <Label text="*No. of times can not greater than {{numberOFTimesDosage}} "
+                                        style="color:red"></Label>
+                                </GridLayout>
+                                <!-- ends here -->
                             </GridLayout>
                             <!-- end of  number of times -->
                             <GridLayout row="2" rows="auto auto auto auto" class="input-field">
@@ -98,7 +103,8 @@
                                     </TimePicker>
                                 </GridLayout>
                                 <GridLayout row="3" *ngIf="isStartTimeValid">
-                                    <Label textWrap="true" text="Start time should be greater than current time or 10 minutes less"
+                                    <Label textWrap="true"
+                                        text="Start time should be greater than current time or 10 minutes less"
                                         style="color:red"></Label>
                                 </GridLayout>
                             </GridLayout>
@@ -108,7 +114,8 @@
                     </StackLayout> -->
                         </GridLayout>
 
-                        <GridLayout row="3" rows="auto auto auto auto auto auto" *ngIf="freqSelectedIndex===1" class="input-field">
+                        <GridLayout row="3" rows="auto auto auto auto auto auto" *ngIf="freqSelectedIndex===1"
+                            class="marging-left-right">
                             <GridLayout row="0">
                                 <Label text="Specific Time" class="body"></Label>
                             </GridLayout>
@@ -118,46 +125,52 @@
                             </GridLayout>
                             <GridLayout row="2" rows="auto,auto">
                                 <button row="0" (tap)="addSpecificTime()" text="Add Time"></button>
-                                <label row="1" *ngIf="addSpecificTimeExceeded" style="color:red;" text="Maximum 12 time slots can be added"></label>
+                                <label row="1" *ngIf="addSpecificTimeExceeded" style="color:red;"
+                                    text="Maximum 12 time slots can be added"></label>
                             </GridLayout>
                             <GridLayout row="3">
-                                    <RadListView [items]="specifictimes">
-                                            <ng-template tkListItemTemplate let-item="item">
-                                                    <GridLayout rows="30" columns="*,*">
-                                                            <Label row="0" col="0" text="{{item | date:' h:mm a' }}"></Label>
-                                                            <Label row="0" col="1" text="&#xf1c0;" class="mdi list-text" style="color:red;"(tap)="removeScheduleTime(item)"></Label>
-                                                   </GridLayout>                                               
-                                            </ng-template>
-                                        </RadListView>
+                                <RadListView [items]="specifictimes">
+                                    <ng-template tkListItemTemplate let-item="item">
+                                        <GridLayout rows="30" columns="*,*">
+                                            <Label row="0" col="0" text="{{item | date:' h:mm a' }}"></Label>
+
+                                            <RL:Ripple row="0" col="1" rippleColor="#fff" class="ripplecenter"
+                                                borderRadius="5" height="37" width="37"
+                                                (tap)="removeScheduleTime(item)">
+                                                <Label text="&#xf1c0;" class="mdi list-text" style="color:red;"></Label>
+                                            </RL:Ripple>
+
+                                        </GridLayout>
+                                    </ng-template>
+                                </RadListView>
                             </GridLayout>
-                            <GridLayout row="4" class="hr-light" [ngClass]="{invalid: isspecificTime === true && specifictimes.length ==0}">
-                            </GridLayout>
+
                             <GridLayout row="5" *ngIf="isspecificTime && specifictimes.length ==0">
-                                <Label text="*Time required " style="color:red"></Label>
+                                <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
                             </GridLayout>
                         </GridLayout>
                     </GridLayout>
 
-                    <GridLayout row="3" rows="auto auto auto auto,auto,auto" class="input-field">
+                    <GridLayout row="3" rows="auto auto auto auto,auto" class="marging-left-right">
                         <GridLayout row="0">
-                            <Label text="Duration" class="body"></Label>
+                            <Label text="Duration" class="body margin-bottom"></Label>
                         </GridLayout>
                         <GridLayout row="1">
-                            <TextField class="input" keyboardType="number" hint="No. of days" formControlName="duration">
+                            <TextField class="input input-border" keyboardType="number" hint="No. of days"
+                                formControlName="duration">
                             </TextField>
                         </GridLayout>
-                         <!-- duration validations starts  -->
-                         <GridLayout row="2" class="hr-light" [ngClass]="{invalid: durationIsValid === true}"></GridLayout>
-                         <GridLayout row="3" class="input-field" *ngIf="durationIsValid">
-                             <Label text="*duration is required " style="color:red"></Label>
-                         </GridLayout>
-                         <GridLayout row="4" class="input-field" *ngIf="monitorForm.get('duration').hasError('pattern')">
-                             <Label text="*Only whole numbers are allowed" style="color:red"></Label>
-                         </GridLayout>
-                         <GridLayout row="5" class="input-field" *ngIf="monitorForm.get('duration').hasError('max')">
-                             <Label text="*You can not enter duration greater than 20 days" style="color:red"></Label>
-                         </GridLayout>
-                   <!-- end of eduration validations -->
+                        <!-- duration validations starts  -->
+                        <GridLayout row="2" *ngIf="durationIsValid">
+                            <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="3" *ngIf="monitorForm.get('duration').hasError('pattern')">
+                            <Label text="*Only whole numbers are allowed" style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="4" *ngIf="monitorForm.get('duration').hasError('max')">
+                            <Label text="*You can not enter duration greater than 20 days" style="color:red"></Label>
+                        </GridLayout>
+                        <!-- end of eduration validations -->
                     </GridLayout>
 
                     <GridLayout row="4" rows="auto auto" class="input-field">
@@ -169,15 +182,16 @@
                         </GridLayout>
                     </GridLayout>
 
-                    <GridLayout row="5" rows="auto auto auto" class="input-field">
+                    <GridLayout row="5" rows="auto auto " class="marging-left-right">
                         <GridLayout row="0">
-                            <Label text="Remarks" class="body"></Label>
+                            <Label text="Remarks" class="body margin-bottom"></Label>
                         </GridLayout>
                         <GridLayout row="1">
-                            <TextView formControlName="remark" hint="Enter remarks" editable="true" class="input">
+                            <TextView formControlName="remark" hint="Enter remarks" editable="true"
+                                class="input input-border">
                             </TextView>
                         </GridLayout>
-                        <GridLayout row="2" class="hr-light"></GridLayout>
+
                     </GridLayout>
                 </GridLayout>
             </GridLayout>
