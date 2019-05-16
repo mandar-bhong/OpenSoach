@@ -48,7 +48,7 @@ func SendEmailNotification(toEmail, replacablecode, templatecode string) {
 	userEmailNotification.From = repo.Instance().Config.EmailConfig.From
 
 	userEmailNotification.Subject = templateData.Subject
-	userEmailNotification.Body = strings.Replace(templateData.Body, "$ReplacableCode$", replacablecode, 1)
+	userEmailNotification.Body = strings.Replace(templateData.Body, "$Code$", replacablecode, -1)
 
 	userEmailNotification.SMTPAddress = repo.Instance().Config.EmailConfig.SMTPAddress
 	userEmailNotification.SMTPUsername = repo.Instance().Config.EmailConfig.SMTPUsername
