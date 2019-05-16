@@ -20,6 +20,7 @@ import { ChartService } from '~/app/services/chart/chart.service';
 
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar/segmented-bar';
+import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
 const imageSourceModule = require("tns-core-modules/image-source");
 const fileSystemModule = require("tns-core-modules/file-system");
 
@@ -105,6 +106,8 @@ export class DoctorOrdersComponent implements OnInit {
 	// show last item in array
 	fileArray: Array<any> = [];
 	getFileItem: Array<any> = [];
+
+	VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
 	constructor(private params: ModalDialogParams,
 		private chartService: ChartService,
 		private passDataService: PassDataService) {

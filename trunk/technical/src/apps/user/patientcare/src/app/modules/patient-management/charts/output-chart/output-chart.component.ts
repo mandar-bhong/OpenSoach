@@ -11,6 +11,7 @@ import { ChartDBModel, OutputChartModel } from '~/app/models/ui/chart-models';
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
+import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
 
 @Component({
 	moduleId: module.id,
@@ -33,7 +34,7 @@ export class OutputChartComponent implements OnInit {
 	outputList: string[] = [];
 	pattern = '^[0-9]*$';
 	// end of proccess variables
-
+	VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
 	constructor(
 		private passDataService: PassDataService,
 		private datePipe: DatePipe,

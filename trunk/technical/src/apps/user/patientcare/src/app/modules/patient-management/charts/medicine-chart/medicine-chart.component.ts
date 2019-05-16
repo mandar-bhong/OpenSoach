@@ -24,6 +24,7 @@ import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
 import { AppNotificationService } from '~/app/services/app-notification-service';
+import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
 
 @Component({
     moduleId: module.id,
@@ -70,6 +71,7 @@ export class MedicineChartComponent implements OnInit {
     isSplinstructions = false;
     isDosage = false;
     isXTimesDay = false;
+    VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
         public workerService: WorkerService,

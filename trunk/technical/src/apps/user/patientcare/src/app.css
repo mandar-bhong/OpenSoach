@@ -315,3 +315,9 @@ Label.mod-light {
 .click_icon_color{
     color:#396767;
 }
+.marging-left-right{
+    margin: 0 10;
+}
+.margin-bottom{
+    margin-bottom:  5px;
+}
