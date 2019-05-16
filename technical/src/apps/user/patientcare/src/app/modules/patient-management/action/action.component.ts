@@ -203,6 +203,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					let actionItemVM = this.prepareActionItem(null, item, true);
 					this.actionItems.push(actionItemVM);
 				});
+				console.log('this.actionItems.push(actionItemVM); ---', this.actionItems);
 			},
 			(error) => {
 				console.log("getActinData error:", error);
