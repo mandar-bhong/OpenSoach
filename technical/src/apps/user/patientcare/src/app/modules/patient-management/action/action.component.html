@@ -1,4 +1,5 @@
 <GridLayout rows="*" columns="*" height="100%" width="100%">
+    <ActivityIndicator [busy]="isLoading" class="indicator"></ActivityIndicator>
     <GridLayout rows="auto,auto,*" columns="*" height="100%" width="100%">
         <GridLayout row="0" *ngIf="tempActionTxnDataArray.length>0" columns="20,*,90, 30">
             <Label col="1" text="Action Save" class="body" style="vertical-align: center;color: #396767;"></Label>
@@ -324,7 +325,7 @@
                                             <Label row="2" col="0" class="label-small" textWrap="true"
                                                 text="Comment:- "></Label>
                                             <Label row="2" col="1" class="label-small" textWrap="true"
-                                                text="{{item.doctorOrderModel.comment}}"></Label>
+                                                [text]="item.doctorOrderModel.comment"></Label>
 
                                         </GridLayout>
 

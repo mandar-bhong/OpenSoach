@@ -51,6 +51,8 @@ declare var UIView, NSMutableArray, NSIndexPath;
 
 export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
+	isLoading = true;
+
 	//objetcs
 	scheduleDatastoreModel: ScheduleDatastoreModel;
 	// blood pressure high and low value model	
@@ -154,6 +156,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 
 	ngOnInit() {
+
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
 		//	this.getActionData();
@@ -179,8 +182,11 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.doctorOrderSubscription = this.workerService.doctorOrderDataReceivedSubject.subscribe((value) => {
 			this.handelDoctorOrderNotification(value);
 		});
-		this.prepareData();
-		this.activeList();
+
+		setTimeout(()=>{
+			this.prepareData();
+			this.activeList();
+		},300)		
 
 	}// end of ng init.
 
@@ -204,6 +210,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					this.actionItems.push(actionItemVM);
 				});
 				console.log('this.actionItems.push(actionItemVM); ---', this.actionItems);
+				this.isLoading = false;
 			},
 			(error) => {
 				console.log("getActinData error:", error);

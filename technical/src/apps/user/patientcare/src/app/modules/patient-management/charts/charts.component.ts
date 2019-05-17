@@ -35,6 +35,8 @@ import { AppNotificationService } from '~/app/services/app-notification-service'
 
 export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
+	isLoading = true;
+
 	chartListItems: ObservableArray<ChartListViewModel>;
 	chartListItemsAll: ObservableArray<ChartListViewModel>;
 	chartListItemsActive: ObservableArray<ChartListViewModel>;
@@ -84,7 +86,11 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	@ViewChild("myListView") listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
-		this.getChartData('getScheduleListAll');
+
+
+		setTimeout(() => {
+			this.getChartData('getScheduleListAll');
+		}, 300)
 		this.schedulecreationSubscription = this.workerservice.scheduleDataReceivedSubject.subscribe((value) => {
 			trace.write('notified to schedule list page', TraceCustomCategory.SCHEDULE, trace.messageType.info);
 			this.pushAddedSchedule(value);
@@ -205,6 +211,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 				activeItem.forEach((item) => {
 					this.chartListItemsActive.push(item);
 				});
+				this.isLoading = false;
 				this.sortActiveAndAllSchedule();
 			},
 			(error) => {
@@ -429,7 +436,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.ServerDataStoreDataModelArray = [];
 			this.ServerDataStoreDataModelArray.push(serverDataStoreModel);
 			const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
-			if (appMode == APP_MODE.USER_DEVICE) {			
+			if (appMode == APP_MODE.USER_DEVICE) {
 				this.onDeviceAuthSuccess(appSettings.getNumber("USER_ID"));
 			} else {
 				this.savetoUserAuth();

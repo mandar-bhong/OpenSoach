@@ -27,6 +27,7 @@ export class MonitorComponent implements OnInit {
     bloodpresListItems = new ObservableArray<MonitorChartUiModel>();
     pulseListItems = new ObservableArray<MonitorChartUiModel>();
 
+    isLoading = true;
     schedulardata: Schedulardata;
     // filter var
     startDateTime: any;
@@ -56,17 +57,20 @@ export class MonitorComponent implements OnInit {
     // pulse rate, blood pressure, respiration rate, temperature
     seriesVisiblity = [true, true, true, true];
     isLoggingIn = true;
+
     constructor(private monitorService: MonitorService,
         private passdataservice: PassDataService,
         private act: ActionService) {
     }
 
     ngOnInit() {
+        setTimeout(() => {
+            this.bloodpressure();
+            this.respiration();
+            this.pulse();
+            this.temperature();
+        }, 200);
 
-        this.bloodpressure();
-        this.respiration();
-        this.pulse();
-        this.temperature();
         // this.filter24hr();
         // this.gettestdata();
     }
@@ -167,6 +171,7 @@ export class MonitorComponent implements OnInit {
 
                 });
                 // console.log('filter data TempListItems', this.tempListItems);
+                this.isLoading = false;
             },
             (error) => {
                 console.log("getChartData error:", error);
@@ -188,12 +193,13 @@ export class MonitorComponent implements OnInit {
                     bloodpresHighListItem.Systolic = Number(value.systolic);
                     bloodpresHighListItem.Impact = 1;
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
-                    bloodpresHighListItem.Diastolic =  Number(value.diastolic);
+                    bloodpresHighListItem.Diastolic = Number(value.diastolic);
 
                     bloodpresHighListItem.Impact = 1;
 
                     this.bloodpresListItems.push(bloodpresHighListItem);
                 });
+                this.isLoading = false;
             },
             (error) => {
                 console.log("getChartData error:", error);
@@ -217,6 +223,7 @@ export class MonitorComponent implements OnInit {
                     this.respirationListItems.push(respirationListItem);
                     // console.log('respirationListItems', this.respirationListItems);
                 });
+                this.isLoading = false;
                 // console.log('respirationListItems outside', this.respirationListItems);
             },
             (error) => {
@@ -240,6 +247,7 @@ export class MonitorComponent implements OnInit {
                     this.pulseListItems.push(pulseListItem);
                     // console.log('pulseListItems', this.pulseListItems);
                 });
+                this.isLoading = false;
                 // console.log('pulseListItems outside', this.pulseListItems);
             },
             (error) => {
