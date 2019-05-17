@@ -1,0 +1,45 @@
+/* #logo{padding-top: 40px;}
+#form-id{padding-top: 50px;}
+.card {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px; 
+    padding: 1.25rem;
+}
+mat-form-field{width: 100%;}
+
+  */
+
+.player {
+    position: relative !important;
+    height: 100%;
+    width: 100%;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 600ms;
+    transition: all 600ms;
+    z-index: 20;
+}
+
+    .player .front1 {
+        position: absolute !important;
+        height: 100%;
+        width: 100%;
+        -webkit-backface-visibility: hidden !important;
+        -moz-backface-visibility: hidden !important;
+        backface-visibility: hidden !important;
+    }
+    .player front {
+      -webkit-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+
+    .player .back {
+        -webkit-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+
+.player.voted {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+}

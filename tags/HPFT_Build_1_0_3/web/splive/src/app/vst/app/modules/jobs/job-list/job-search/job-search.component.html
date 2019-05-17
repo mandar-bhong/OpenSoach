@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col">
+    <mat-card >
+      <mat-expansion-panel [expanded]="isExpanded" (opened)="panelOpened()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <i class="fa fa-filter" aria-hidden="true"></i>
+            <span style="padding-left:10px">Filter</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <input matInput placeholder="Vehicle Number" [(ngModel)]="dataModel.vehicleno">
+              <button mat-button *ngIf="dataModel.vehicleno" matSuffix mat-icon-button aria-label="Clear" (click)="dataModel.vehicleno=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-form-field>
+              <mat-select placeholder="Status" [(ngModel)]="dataModel.status">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let jobstate of jobStates" [value]="jobstate.value">
+                  {{jobstate.text | translate}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 col-sm-6">
+            <mat-button-toggle-group [(ngModel)]="selecteddateoption" (ngModelChange)="optionChange()">
+              <mat-button-toggle value="1">All</mat-button-toggle>
+              <mat-button-toggle value="0">Today</mat-button-toggle>
+              <mat-button-toggle value="2" (click)="picker.opened=true">Select</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-form-field style="width:0px;height:0px;visibility:collapse;">
+              <input matInput [matDatepicker]="picker" (dateChange)="dateChanged($event.value)">
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <button type="button" mat-raised-button color="primary" (click)="search()">Apply</button>
+      </mat-expansion-panel>
+    </mat-card>
+  </div>
+</div>

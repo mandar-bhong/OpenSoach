@@ -1,0 +1,66 @@
+<form [formGroup]="editableForm" (ngSubmit)="nextClick()">
+  <div class="row">
+    <div class="col-sm-3 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group form-primary text-center">
+        <mat-form-field>
+          <input matInput type="time" placeholder="Choose Start Time" [(ngModel)]="selectedStartTime" formControlName="startTimeControl"
+            required>
+          <mat-error *ngIf="editableForm.controls['startTimeControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+          <button color="accent" type="button" matSuffix mat-icon-button aria-label="Choose" (click)="openStartTime()">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-4"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group form-primary text-center">
+        <mat-form-field>
+          <mat-select placeholder="Interval In Minutes" formControlName="intervalControl" [(ngModel)]="dataModel.variableconf.timeconf.interval"
+            required>
+            <mat-option [value]=30>30</mat-option>
+            <mat-option [value]=60>60</mat-option>
+            <mat-option [value]=90>90</mat-option>
+            <mat-option [value]=120>120</mat-option>
+          </mat-select>
+          <mat-error *ngIf="editableForm.controls['intervalControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-4"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      <div class="form-group form-primary">
+        <mat-form-field>
+          <input matInput type="time" placeholder="Choose End Time" [(ngModel)]="selectedEndTime" formControlName="endTimeControl"
+            required>
+          <mat-error *ngIf="editableForm.controls['endTimeControl'].hasError('required')">
+            {{'VALIDATION_REQUIRED_FIELD'|translate}}
+          </mat-error>
+          <button color="accent" type="button" matSuffix mat-icon-button aria-label="Choose" (click)="openEndTime()">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-sm-3 col-md-4"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      <button mat-raised-button type="button" color="primary" (click)="previousClick()" style="margin-right:15px;">Previous</button>
+      <button mat-raised-button type="submit" color="primary">Next</button>
+    </div>
+    <div class="col-sm-3 col-md-4"></div>
+  </div>
+</form>

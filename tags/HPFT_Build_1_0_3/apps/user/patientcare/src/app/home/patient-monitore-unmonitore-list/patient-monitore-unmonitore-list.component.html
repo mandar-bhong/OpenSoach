@@ -1,0 +1,77 @@
+<ActionBar class="action-bar" width="100%" style="background-color: #396766; color: white; vertical-align: center;">
+
+    <GridLayout row="*" columns="auto,*, auto, auto" height="100%" width="100%">
+        <GridLayout col="1" columns="auto, auto" style="text-align: center;">
+            <Label col="0" text="PatientCare" class="hometitle"></Label>
+            <Image col="1" src="res://iclauncher"></Image>
+
+        </GridLayout>
+        <GridLayout col="3" columns="auto" class="button-dist" style="vertical-align: center;">
+            <network-status col="0"></network-status>
+        </GridLayout>
+    </GridLayout>
+
+</ActionBar>
+
+<GridLayout rows="auto,*" columns="*" height="100%" width="100%">
+
+    <GridLayout row="0" col="0" columns="*, auto, 5">
+
+        <SearchBar col="0" hint="Patient Name, Bed or Ward..." textFieldBackgroundColor="#ffffff"
+            textFieldHintColor="#A8A8A8" color="#A8A8A8" (loaded)="sBLoaded($event)" (clear)="onClearServer($event)"
+            (submit)="onSubmitServer($event)"></SearchBar>
+        <GridLayout col="1" style="vertical-align: center; text-align: center;margin-left: 5">
+            <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                (tap)="goToMainList()">
+                <Label text="&#xf2bb;" class="homeicon fas click_icon_color" ></Label>
+            </RL:Ripple>
+        </GridLayout>
+    </GridLayout>
+
+    <GridLayout row="1" col="0">
+        <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
+        <RadListView #patientListview [items]="_dataItems" [groupingFunction]="funcGroupingFilter" pullToRefresh="true"
+            (pullToRefreshInitiated)="onPullToRefreshInitiatedGrid($event)">
+            <ng-template tkListItemTemplate let-item="item">
+
+                <GridLayout columns="*" rows="auto" class="listItemStackLayout">
+                    <GridLayout row="0" col="1" columns="30,*" rows="auto, auto">
+                        <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout">
+                            <GridLayout col="0" columns="auto,*, auto" rows="auto, 8, auto">
+                                <Label row="0" col="0" text="&#xf47d;" class="mdi listicon "></Label>
+                                <Label row="0" col="1" class="body align-centre"
+                                    [text]="item.dbmodel.bedno + ' ' + item.dbmodel.fname + ' ' + item.dbmodel.lname "
+                                    style="color: #396767;"></Label>
+
+                                <Label row="2" col="1" class="align-centre label-small" textWrap="true"
+                                    [text]="item.dbmodel.patientregno"></Label>
+                            </GridLayout>
+                            <GridLayout col="1" columns="*" style="vertical-align: center; text-align: center;">
+                                <Switch class="m-15" [isEnabled]="!item.isDisabled" checked="{{item.checked}}"
+                                    (tap)="onToggleSingleItem($event,item)"></Switch>
+                                <!-- <Label row="1" col="0" text="Monitored" class="align-centre label-small" textWrap="true"
+                      *ngIf="item.monitored == 0" style="color:green;"></Label>
+                    <Label row="1" col="0" text="Unmonitored" class="align-centre label-small" textWrap="true"
+                      *ngIf="item.monitored == 1"></Label> -->
+                            </GridLayout>
+                        </GridLayout>
+                        <GridLayout row="1" col="1">
+                            <GridLayout class="hr-light"></GridLayout>
+                        </GridLayout>
+                    </GridLayout>
+                </GridLayout>
+            </ng-template>
+            <ng-template tkGroupTemplate let-spname="category">
+                <GridLayout class="category-header" height='70' rows="auto, auto">
+                    <GridLayout row="0" style="background-color:#f6f6f6;" height="7"></GridLayout>
+                    <GridLayout row="1" rows="auto, auto" columns="*, auto" style="margin-right: 8px;">
+                        <Label row="1" class="nameLabel" [text]="spname"></Label>
+                        <Switch row="1" col="1" class="m-15" [isEnabled]="!isDisabled"
+                            checked="{{groupingSwitch(spname)}}" (tap)="onToggleLocation($event, spname)"></Switch>
+                    </GridLayout>
+                </GridLayout>
+            </ng-template>
+        </RadListView>
+    </GridLayout>
+
+</GridLayout>
