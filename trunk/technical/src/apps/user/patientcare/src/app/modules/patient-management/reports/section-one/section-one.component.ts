@@ -38,6 +38,7 @@ export class SectionOneComponent implements OnInit {
 	// public _dataItems: ObservableArray<any>;
 	// tempdata = new Array<DataItem>();
 
+	isLoading = true;
 	pathlogyReportModel: PathlogyReportModel[] = [];
 	pathlogyReportList = new ObservableArray<PathlogyReportModel>();
 	public saveToGallery: boolean = true;
@@ -82,6 +83,7 @@ export class SectionOneComponent implements OnInit {
 				this.pathlogyReportModel = val;
 				// console.log(this.newMethod(), this.pathlogyReportList);
 				this.getDoc();
+				this.isLoading = false;
 			},
 			(error) => {
 				console.log("admistion details error:", error);

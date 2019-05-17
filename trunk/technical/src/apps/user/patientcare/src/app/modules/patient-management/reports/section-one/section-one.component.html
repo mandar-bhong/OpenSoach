@@ -1,5 +1,5 @@
 <GridLayout rows="*" columns="*,auto" height="100%" width="100%">
-
+    <ActivityIndicator [busy]="isLoading" class="indicator"></ActivityIndicator>
     <RadListView #myListView [items]="pathlogyReportList" (loaded)="listLoaded()" colSpan="2"
         [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)">
         <ng-template tkListItemTemplate let-item="item">

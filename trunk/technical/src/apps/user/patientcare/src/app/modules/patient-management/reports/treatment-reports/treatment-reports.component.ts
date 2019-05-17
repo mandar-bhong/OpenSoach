@@ -34,6 +34,7 @@ export class DataItem {
 
 export class TreatmentReportsComponent implements OnInit {
 
+	isLoading = true;
 	teatmentReportModel: TeatmentReportModel[] = [];
 	teatmentReportList = new ObservableArray<TeatmentReportModel>();
 	public saveToGallery: boolean = true;
@@ -76,6 +77,7 @@ export class TreatmentReportsComponent implements OnInit {
 				this.teatmentReportModel = val;
 				// console.log(this.newMethod(), this.pathlogyReportList);
 				this.getDoc();
+				this.isLoading = false;
 			},
 			(error) => {
 				console.log("admistion details error:", error);
