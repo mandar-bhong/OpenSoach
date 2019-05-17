@@ -23,8 +23,8 @@ export class MonitorChartUiModel {
 export class MonitorComponent implements OnInit {
 
     tempListItems = new ObservableArray<MonitorChartUiModel>();
-    bloodpresListItems = new ObservableArray<MonitorChartUiModel>();
     respirationListItems = new ObservableArray<MonitorChartUiModel>();
+    bloodpresListItems = new ObservableArray<MonitorChartUiModel>();
     pulseListItems = new ObservableArray<MonitorChartUiModel>();
 
     schedulardata: Schedulardata;
@@ -46,7 +46,7 @@ export class MonitorComponent implements OnInit {
 
 
 
-    
+
     dialogOpen = false;
     tempUIChart = false;
     respirationUIChart = false;
@@ -57,7 +57,7 @@ export class MonitorComponent implements OnInit {
     seriesVisiblity = [true, true, true, true];
     isLoggingIn = true;
     constructor(private monitorService: MonitorService,
-        private passdataservice:PassDataService,
+        private passdataservice: PassDataService,
         private act: ActionService) {
     }
 
@@ -176,25 +176,23 @@ export class MonitorComponent implements OnInit {
 
     bloodpressure() {
         this.bloodpresListItems = new ObservableArray<MonitorChartUiModel>();
-         this.majorStepUnit = "Day";
+        this.majorStepUnit = "Day";
         this.monitorService.getBloodPreActionTxn(this.passdataservice.getAdmissionID()).then(
-            (val) => {               
+            (val) => {
                 val.forEach(item => {
-                     console.log('component bloodpressure', item);
                     let bloodpresHighListItem = new MonitorChartUiModel();
                     const testdata = JSON.parse(item.txn_data);
                     const getDBDate = new Date(item.scheduled_time);
-                    console.log( ' bloodpressure testdata', testdata);
-                    const value = JSON.parse(testdata.value);
+                    const value = testdata.value;
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
                     bloodpresHighListItem.Systolic = Number(value.systolic);
                     bloodpresHighListItem.Impact = 1;
                     bloodpresHighListItem.timeStamp = getDBDate.getTime();
-                    bloodpresHighListItem.Diastolic = Number(value.diastolic);
+                    bloodpresHighListItem.Diastolic =  Number(value.diastolic);
+
                     bloodpresHighListItem.Impact = 1;
 
                     this.bloodpresListItems.push(bloodpresHighListItem);
-                    // console.log('TempListItems', this.tempListItems);
                 });
             },
             (error) => {

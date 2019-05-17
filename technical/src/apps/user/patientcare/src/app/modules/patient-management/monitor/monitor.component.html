@@ -22,13 +22,19 @@
         <ScrollView orientation="vertical">
             <GridLayout rows="auto, auto, auto, auto" columns="*">
                 <StackLayout row="0" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
-                        <Label row="0" col="0" text="Pulse Rate (bpm)" class="body"
-                            style="color:#396766;vertical-align: center;"></Label>
-                        <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()"
-                            style="color:#00a6ce;"></Label>
-                    </GridLayout>
+                    <GridLayout row=0 rows="auto" columns="*, auto" style="padding: 8, 0">
+                        <GridLayout row="0" col="0" columns="auto" style="color:#396766;vertical-align: center;">
+                            <Label col="0" text="Pulse Rate (bpm)" class="body"></Label>
+                        </GridLayout>
 
+                        <GridLayout row="0" col="1" columns="auto" style="vertical-align: center;">
+                            <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                                (tap)="showDialog()">
+                                <Label col="0" text="&#xf065;" class="fas"
+                                    style="color:#00a6ce; vertical-align: center;"></Label>
+                            </RL:Ripple>
+                        </GridLayout>
+                    </GridLayout>
                     <GridLayout row="1" class="hr-light m-10"></GridLayout>
                     <GridLayout row="2" rows="*">
 
@@ -75,11 +81,26 @@
 
 
                 <StackLayout row="1" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
+                    <!-- <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
                         <Label row="0" col="0" text="Blood Pressure (mmHg)" class="body"
                             style="color:#396766;vertical-align: center;"></Label>
                         <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()"
                             style="color:#00a6ce;"></Label>
+                    </GridLayout> -->
+                    <GridLayout row=0 rows="auto" columns="*, auto" style="padding: 8, 0">
+                        <GridLayout row="0" col="0" columns="auto" style="color:#396766;vertical-align: center;">
+                            <Label col="0" text="Blood Pressure (mmHg)" class="body"
+                                style="color:#396766;vertical-align: center;"></Label>
+                        </GridLayout>
+
+                        <GridLayout row="0" col="1" columns="auto" style="vertical-align: center;">
+                            <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                                (tap)="showDialog()">
+                                <Label col="0" text="&#xf065;" class="fas"
+                                    style="color:#00a6ce; vertical-align: center;"></Label>
+                            </RL:Ripple>
+                        </GridLayout>
+
                     </GridLayout>
                     <GridLayout row="1" class="hr-light m-10"></GridLayout>
                     <GridLayout row="2" rows="*">
@@ -87,7 +108,6 @@
                             <DateTimeContinuousAxis tkCartesianHorizontalAxis dateFormat="dd-MMM:hh"
                                 labelFitMode="Rotate" majorStep="Day" plotMode="BetweenTicks">
                             </DateTimeContinuousAxis>
-                            <!-- <LinearAxis tkCartesianVerticalAxis></LinearAxis> -->
 
                             <LinearAxis tkCartesianVerticalAxis id="vAxis"></LinearAxis>
                             <ChartGridLineAnnotation tkCartesianAnnotations axisId="vAxis" hidden="false" value="120 "
@@ -117,11 +137,13 @@
                             <BubbleSeries tkCartesianSeries seriesName="BloodPressureSystolicBubbleSeries"
                                 [items]="bloodpresListItems" bubbleScale="5" categoryProperty="timeStamp"
                                 valueProperty="Systolic" bubbleSizeProperty="Impact"></BubbleSeries>
+
+                            <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries"
+                                [items]="bloodpresListItems" bubbleScale="5" categoryProperty="timeStamp"
+                                valueProperty="Diastolic" bubbleSizeProperty="Impact"></BubbleSeries>
                             <RadCartesianChart.palettes>
 
-                                <BubbleSeries tkCartesianSeries seriesName="BloodPressureDiastolicBubbleSeries"
-                                    [items]="bloodpresListItems" bubbleScale="5" categoryProperty="timeStamp"
-                                    valueProperty="Diastolic" bubbleSizeProperty="Impact"></BubbleSeries>
+
                                 <RadCartesianChart.palettes>
                                     <Palette tkCartesianPalette seriesName="BloodPressureSystolicLineSeries">
                                         <Palette.entries>
@@ -165,13 +187,26 @@
 
 
                 <StackLayout row="2" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
-                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
+                    <!-- <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
                         <Label row="0" col="0" text="Respiratory Rate (/min)" class="body"
                             style="color:#396766;vertical-align: center;"></Label>
                         <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()"
                             style="color:#00a6ce;"></Label>
-                    </GridLayout>
+                    </GridLayout> -->
+                    <GridLayout row=0 rows="auto" columns="*, auto" style="padding: 8, 0">
+                        <GridLayout row="0" col="0" columns="auto" style="color:#396766;vertical-align: center;">
+                            <Label col="0" text="Respiratory Rate (/min)" class="body"
+                                style="color:#396766;vertical-align: center;"></Label>
+                        </GridLayout>
 
+                        <GridLayout row="0" col="1" columns="auto" style="vertical-align: center;">
+                            <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                                (tap)="showDialog()">
+                                <Label col="0" text="&#xf065;" class="fas"
+                                    style="color:#00a6ce; vertical-align: center;"></Label>
+                            </RL:Ripple>
+                        </GridLayout>
+                    </GridLayout>
                     <GridLayout row="1" class="hr-light m-10"></GridLayout>
                     <GridLayout row="2" rows="*">
                         <!-- <StackLayout> -->
@@ -220,13 +255,27 @@
                 </StackLayout>
                 <StackLayout row="3" rows="auto,auto,auto" class="cardeffect" style="margin-top:20px;" height="350">
 
-                    <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
+                    <!-- <GridLayout row=0 rows="auto" columns="auto,*, auto" style="padding: 10, 0">
                         <Label row="0" col="0" text="Temperature (°F)" class="body"
                             style="color:#396766;vertical-align: center;"></Label>
                         <Label row="0" col="2" text="&#xf293;" class="mdi" (tap)="showDialog()"
                             style="color:#00a6ce;"></Label>
-                    </GridLayout>
+                    </GridLayout> -->
+                    <GridLayout row=0 rows="auto" columns="*, auto" style="padding: 8, 0">
+                        <GridLayout row="0" col="0" columns="auto" style="color:#396766;vertical-align: center;">
+                            <Label col="0" text="Temperature (°F)" class="body"
+                                style="color:#396766;vertical-align: center;"></Label>
+                        </GridLayout>
 
+                        <GridLayout row="0" col="1" columns="auto" style="vertical-align: center;">
+                            <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                                (tap)="showDialog()">
+                                <Label col="0" text="&#xf065;" class="fas"
+                                    style="color:#00a6ce; vertical-align: center;"></Label>
+                            </RL:Ripple>
+                        </GridLayout>
+
+                    </GridLayout>
                     <GridLayout row="1" class="hr-light m-10"></GridLayout>
                     <GridLayout rows="*" row="2" style="margin:2px 0px;">
 
@@ -280,15 +329,19 @@
             <StackLayout class="dialog" height="100%" width="100%">
 
                 <GridLayout rows="40,auto,auto,*" columns="*" style="vertical-align: center;margin-top: 5">
-                    <GridLayout row=0 rows="auto,auto" columns="auto,*,auto,auto,auto" style="vertical-align: center;">
+                    <GridLayout row=0 rows="auto,auto" columns="auto,*,auto,auto,auto, 5" style="vertical-align: center;">
                         <Label row="0" col="0" text="Vital Parameters" class="body pageHeaderTitle"
                             style="vertical-align: center;color: #396767;"></Label>
                         <Label row="0" col="2" [text]="isLoggingIn ?  '&#xf06e;'  : '&#xf070;'" class="fas"
                             (tap)="toggleLabels()" style="color: #396766;margin-left: 10;"></Label>
                         <Label row="0" col="3" text="Labels" (tap)="toggleLabels()"></Label>
-                        <Label row="0" col="4" text="&#xf294;" class="mdi" (tap)="closeDialog()"
-                            style="color:#00a6ce;"></Label>
+
+                        <GridLayout row="0" col="4" columns="auto" height="37" width="37" (tap)="closeDialog()">
+                            <Label text="&#xf066;" class="fas " style="color:#00a6ce;"></Label>
+                        </GridLayout>
                     </GridLayout>
+
+
                     <GridLayout row="1" class="hr-light "></GridLayout>
                     <GridLayout row="2" rows="auto,auto" columns="*,*">
                         <GridLayout row="0" col="0" columns="*" rows="auto,auto"
