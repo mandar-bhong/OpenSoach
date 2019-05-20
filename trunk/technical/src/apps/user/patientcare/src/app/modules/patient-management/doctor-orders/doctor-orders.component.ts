@@ -343,11 +343,12 @@ export class DoctorOrdersComponent implements OnInit {
 	}
 	// get Drawing Img 
 	getMyDrawing(pad: any) {
+
 		// then get the drawing (Bitmap on Android) of the drawingpad
 		pad.getDrawing().then(data => {
 			this.drawings.push(data);
-
-			this.getFileItem = this.drawings;
+			this.getFileItem = [];
+			this.getFileItem.push(data);
 			this.clearMyDrawing(pad);
 			this.getformview();
 
