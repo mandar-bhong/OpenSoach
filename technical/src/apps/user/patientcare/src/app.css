@@ -313,6 +313,7 @@ Label.mod-light {
 /* status css end*/
 
 .click_icon_color{
+    vertical-align: center;
     color:#396767;
 }
 .marging-left-right{
@@ -320,4 +321,11 @@ Label.mod-light {
 }
 .margin-bottom{
     margin-bottom:  5px;
+}
+
+.indicator {
+    color: #FF8912;
+    vertical-align: center;
+    height: 20%;
+    width: 20%;
 }
