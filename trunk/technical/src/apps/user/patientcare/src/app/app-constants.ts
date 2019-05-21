@@ -100,6 +100,11 @@ export enum ScheuldeStatus {
     SCHEDULE_CANCELLED = 1
 }
 
+export enum AdmissionStatus {
+    Hospitalized = 1,
+    Discharged = 2
+}
+
 // dev server
 export const API_SPL_BASE_URL = "http://172.105.232.148/api";
 export const API_APP_BASE_URL = "http://172.105.232.148:91/api";

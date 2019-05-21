@@ -5,7 +5,7 @@ export class PatientAdmissionDatastoreModel implements IDatastoreModel {
     patient_uuid: string;
     patient_reg_no: string;
     bed_no: string;
-    status: string;
+    status: number;
     sp_uuid: string;
     dr_incharge: number;
     admitted_on: string;
