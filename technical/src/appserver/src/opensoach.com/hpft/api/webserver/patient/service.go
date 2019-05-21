@@ -117,7 +117,6 @@ func (service PatientService) UpdateStatus(reqData *hktmodels.DBPatientUpdateSta
 
 	admsnDataDBRecord := *admsnData
 	deassociateReq := &hktmodels.DBPatientMonitorMappingDeleteRowModel{}
-	deassociateReq.UsrId = admsnDataDBRecord[0].DrIncharge
 	deassociateReq.SpId = &admsnDataDBRecord[0].SpId
 	deassociateReq.PatientId = &admsnDataDBRecord[0].PatientId
 	service.UserPatientAsscociationRemove(deassociateReq)
@@ -1272,13 +1271,13 @@ func (service PatientService) UserPateintAssociate(req lmodels.APIUserPatientAss
 	if req.PatientId == nil {
 		dbPatientMonitorMappingDeleteRowModel := &hktmodels.DBPatientMonitorMappingDeleteRowModel{}
 		dbPatientMonitorMappingDeleteRowModel.CpmId = dbRowModel.CpmId
-		dbPatientMonitorMappingDeleteRowModel.UsrId = dbRowModel.UsrId
+		dbPatientMonitorMappingDeleteRowModel.UsrId = &dbRowModel.UsrId
 		dbPatientMonitorMappingDeleteRowModel.SpId = dbRowModel.SpId
 		service.UserPatientAsscociationRemove(dbPatientMonitorMappingDeleteRowModel)
 	} else if req.SpId == nil {
 		dbPatientMonitorMappingDeleteRowModel := &hktmodels.DBPatientMonitorMappingDeleteRowModel{}
 		dbPatientMonitorMappingDeleteRowModel.CpmId = dbRowModel.CpmId
-		dbPatientMonitorMappingDeleteRowModel.UsrId = dbRowModel.UsrId
+		dbPatientMonitorMappingDeleteRowModel.UsrId = &dbRowModel.UsrId
 		service.UserPatientAsscociationRemove(dbPatientMonitorMappingDeleteRowModel)
 	}
 

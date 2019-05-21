@@ -103,12 +103,16 @@ func PatientUserDeAssociation(dbConn string, deltStruct *hpftmodels.DBPatientMon
 	delDBCtx.TableName = constants.DB_SPL_HPFT_USER_PATIENT_MONITOR_MAPPING
 	delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION
 
-	if deltStruct.SpId == nil {
-		delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION_BY_USER_ID
-	}
+	if deltStruct.UsrId == nil {
+		delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION_BY_PATIENT_ID
+	} else {
+		if deltStruct.SpId == nil {
+			delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION_BY_USER_ID
+		}
 
-	if deltStruct.SpId != nil && deltStruct.PatientId == nil {
-		delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION_BY_SP
+		if deltStruct.SpId != nil && deltStruct.PatientId == nil {
+			delDBCtx.Query = dbquery.QUERY_DELETE_USER_PATIENT_ASSOCIATION_BY_SP
+		}
 	}
 
 	deleteErr := delDBCtx.Delete()

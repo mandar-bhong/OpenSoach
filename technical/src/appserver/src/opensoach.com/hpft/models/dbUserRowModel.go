@@ -27,7 +27,7 @@ type DBPatientMonitorMappingInsertRowModel struct {
 }
 
 type DBPatientMonitorMappingDeleteRowModel struct {
-	UsrId     int64  `db:"usr_id_fk" json:"usrid"`
+	UsrId     *int64 `db:"usr_id_fk" json:"usrid"`
 	SpId      *int64 `db:"sp_id_fk" json:"spid"`
 	PatientId *int64 `db:"patient_id_fk" json:"patientid"`
 	pcmodels.CPMIDEntityModel
