@@ -21,6 +21,7 @@ import { ChartService } from '~/app/services/chart/chart.service';
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar/segmented-bar';
 import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
+import { knownFolders, Folder, File } from "tns-core-modules/file-system";
 const imageSourceModule = require("tns-core-modules/image-source");
 const fileSystemModule = require("tns-core-modules/file-system");
 
@@ -222,7 +223,6 @@ export class DoctorOrdersComponent implements OnInit {
 					console.log('this.docPath', this.docPath);
 				} else if (application.ios) {
 					this.docPath = this.imageTaken.ios;
-
 				}
 			}).catch(err => {
 				console.log(err.message);
@@ -367,18 +367,28 @@ export class DoctorOrdersComponent implements OnInit {
 		let path;
 		// grabs the  path for Downloads (string value)
 		pad.getDrawing().then(function (result) {
-			var img2 = imageSourceModule.fromNativeSource(result);
-			var androidDownloadsPath = android.os.Environment.getExternalStoragePublicDirectory(
-				android.os.Environment.DIRECTORY_DOWNLOADS).toString();
 
-			// creates PATH for folder called MyFolder in /Downloads (string value)
-			var myFolderPath = fileSystemModule.path.join(androidDownloadsPath, "MyFolder");
+			try {
+				var img2 = imageSourceModule.fromNativeSource(result);
+				var androidDownloadsPath = android.os.Environment.getExternalStorageDirectory().toString();
 
-			const ticks = new Date;
-			name = 'drawing-pad-' + ticks.getTime() + '.png';
-			// creates a path of kind ../Downloads/MyFolder/my-file-name.jpg
-			path = fileSystemModule.path.join(myFolderPath, name);
-			var saved = img2.saveToFile(path, "png");
+				// creates PATH for folder called MyFolder in /Downloads (string value)
+				var myFolderPath = fileSystemModule.path.join(androidDownloadsPath, "PatientCare");
+
+				const ticks = new Date;
+				name = 'drawing-pad-' + ticks.getTime() + '.png';
+				// creates a path of kind ../Downloads/MyFolder/my-file-name.jpg
+				path = fileSystemModule.path.join(myFolderPath, name);
+
+				if (!Folder.exists(myFolderPath)) {
+					Folder.fromPath(myFolderPath);
+				}
+				var saved = img2.saveToFile(path, "png");
+			} catch (ex) {
+				console.log(ex);
+			}
+
+
 		});
 		// settime out for convrting img take time for avoiding this  
 		setTimeout(() => {
