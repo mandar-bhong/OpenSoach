@@ -1,6 +1,6 @@
 import { CmdModel } from "../models/api/server-cmd-model.js";
 import { RequestManager } from "./request-manager.js";
-import { CMD_ID, CMD_CATEGORY, SERVER_SYNC_STATE, SYNC_STORE, SYNC_PENDING, APP_MODE } from "../app-constants.js";
+import { CMD_ID, CMD_CATEGORY, SERVER_SYNC_STATE, SYNC_STORE, SYNC_PENDING, APP_MODE, AdmissionStatus } from "../app-constants.js";
 import { ServerWorkerContext } from "./server-worker-context.js";
 import { ServerHelper } from "./server-helper.js";
 import { SyncStoreManager } from "./sync-store-manager.js";
@@ -276,7 +276,29 @@ export class CommandResponseProcessor {
 
             // console.log("patient admsn server data store model", serverDataStoreDataModel);
 
-            new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+            // patient discharge implementation
+            if (patientAdmissionDatastoreModel.status === AdmissionStatus.Hospitalized) {
+
+                new AppMessageDbSyncHandler().handleMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+            } else if (patientAdmissionDatastoreModel.status === AdmissionStatus.Discharged) {
+
+                DatabaseHelper.selectByID("patientlistbyadmissionuuid", tblData[i].uuid).then(
+                    (val) => {
+                        if (val.length != 0) {
+                            new AppMessageDbSyncHandler().handleDeleteMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
+
+                            // delete other store admission related entries
+                            var storeName = [];
+                            storeName.push("patient_personal_details_tbl", "patient_medical_details_tbl", "schedule_tbl",
+                                "action_tbl", "action_txn_tbl", "doctors_orders_tbl", "treatment_tbl", "pathology_record_tbl")
+
+                            storeName.forEach(item => {
+                                DatabaseHelper.deleteDataStoreDataByAdmisionUuid(item, patientAdmissionDatastoreModel.uuid)
+                            });
+                        }
+                    });
+            }
 
         }
 
