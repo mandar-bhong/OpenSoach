@@ -58,13 +58,13 @@ func (service EndpointService) UserPatientAssociate(req apimodels.APIUserPatient
 	if req.PatientId == nil {
 		dbPatientMonitorMappingDeleteRowModel := &hpftmodels.DBPatientMonitorMappingDeleteRowModel{}
 		dbPatientMonitorMappingDeleteRowModel.CpmId = dbRowModel.CpmId
-		dbPatientMonitorMappingDeleteRowModel.UsrId = dbRowModel.UsrId
+		dbPatientMonitorMappingDeleteRowModel.UsrId = &dbRowModel.UsrId
 		dbPatientMonitorMappingDeleteRowModel.SpId = dbRowModel.SpId
 		service.UserPatientAsscociationRemove(dbPatientMonitorMappingDeleteRowModel)
 	} else if req.SpId == nil {
 		dbPatientMonitorMappingDeleteRowModel := &hpftmodels.DBPatientMonitorMappingDeleteRowModel{}
 		dbPatientMonitorMappingDeleteRowModel.CpmId = dbRowModel.CpmId
-		dbPatientMonitorMappingDeleteRowModel.UsrId = dbRowModel.UsrId
+		dbPatientMonitorMappingDeleteRowModel.UsrId = &dbRowModel.UsrId
 		service.UserPatientAsscociationRemove(dbPatientMonitorMappingDeleteRowModel)
 	}
 

@@ -6,10 +6,10 @@ import (
 
 	ghelper "opensoach.com/core/helper"
 	"opensoach.com/core/logger"
+	"opensoach.com/hpft/server/constants/dbquery"
 	repo "opensoach.com/hpft/server/repository"
 	gmodels "opensoach.com/models"
 	pcconst "opensoach.com/prodcore/constants"
-	"opensoach.com/prodcore/constants/dbquery"
 	pchelper "opensoach.com/prodcore/helper"
 	pcmodels "opensoach.com/prodcore/models"
 	pcstoresync "opensoach.com/prodcore/server/storesync"
