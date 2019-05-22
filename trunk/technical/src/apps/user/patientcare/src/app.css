@@ -227,6 +227,7 @@ TextField {
 Label {
     font-family: 'Open Sans';
     font-weight: 300;
+    overflow-wrap: break-word;
     /* font-size: 14; */
     /* Regular Open Sans */
 }

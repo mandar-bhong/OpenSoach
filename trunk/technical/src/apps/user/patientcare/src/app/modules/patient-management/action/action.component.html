@@ -81,20 +81,22 @@
                                 style="vertical-align: center;">
                                 <!-- for doctor orders -->
                                 <GridLayout row="0" rows="auto,auto"
-                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
+                                    *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
+                                    columns="* , auto, 70">
                                     <!-- <Label row="0" col="0" class="body" [text]="item.doctorOrderModel.doctors_orders"
                                         style="color: #396767;" textWrap="true"></Label> -->
 
-                                    <GridLayout row="0" col="0" columns="auto, * , auto, 70">
-                                        <Label class="body" + + [text]="item.doctorOrderModel.doctors_orders"
+                                    <GridLayout row="0" col="0">
+                                        <Label class="body" text="{{item.doctorOrderModel.doctors_orders}}"
                                             style="color: #396767;" textWrap="true"></Label>
-
-                                        <Label row="0" col="3" class="Body text_hightlight" textWrap="true"
+                                    </GridLayout>
+                                    <GridLayout row="0" col="1">
+                                        <Label class="Body text_hightlight" textWrap="true"
                                             *ngIf="item.isActionActive == true" text="New"></Label>
                                     </GridLayout>
                                     <Label row="1" col="0" class="label-small" textWrap="true"
                                         [text]="item.doctorOrderModel.desc"
-                                        style="margin-left: 10px;white-space: normal;" textWrap="true"></Label>
+                                        style="margin-left: 10px;white-space: normal;"></Label>
                                 </GridLayout>
 
                                 <GridLayout row="0" rows="auto,auto" columns="*"
@@ -181,16 +183,18 @@
                             <GridLayout col="1" columns="*, auto" rows="auto" class="list-layout"
                                 style="vertical-align: center;">
                                 <!-- name and desc  start-->
-                                <GridLayout col="0" row="0" columns="*" rows="auto, auto">
+                                <GridLayout col="0" row="0" columns="* , auto, 75" rows="auto, auto">
 
-                                    <GridLayout row="0" col="0" columns="auto, * , auto, 75"
+                                    <GridLayout row="0" col="0"
                                         *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
                                         <Label class="body" [text]="item.doctorOrderModel.doctors_orders"
                                             style="color: #396767;" textWrap="true"></Label>
-
-                                        <Label row="0" col="3" class="Body text_hightlight" textWrap="true"
+                                    </GridLayout>
+                                    <GridLayout row="0" col="1">
+                                        <Label class="body text_hightlight" textWrap="true"
                                             *ngIf="item.isActionActive == true" text="New"></Label>
                                     </GridLayout>
+
 
                                     <Label row="0" col="0" class="body"
                                         *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
@@ -308,7 +312,7 @@
                                     *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
                                     style="padding: 0 15;">
                                     <GridLayout row="0" col="0" rows="auto, auto  " columns="*">
-                                        <GridLayout row="0" rows="auto, auto, auto" columns="auto, auto">
+                                        <GridLayout row="0" rows="auto, auto, auto" columns="auto, *">
                                             <Label row="0" col="0" class="label-small" textWrap="true"
                                                 text="Type:- "></Label>
                                             <Label row="0" col="1" class="label-small" textWrap="true"
