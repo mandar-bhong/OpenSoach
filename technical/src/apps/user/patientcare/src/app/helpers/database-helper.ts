@@ -68,9 +68,12 @@ let selectQueries = new Map([
     ["getTreatmentReportList", "select * from treatment_tbl where admission_uuid=?"],
     ["getTreatmentReportDoc", "select * from treatment_doc_tbl where treatment_uuid=?"],
 
-    ["patient_admission_details", `select padmsn.uuid, padmsn.patient_reg_no, padmsn.bed_no,padmsn.sp_uuid,padmsn.dr_incharge,padmsn.admitted_on,usr.fname,usr.lname from patient_admission_tbl padmsn
-	left join usr_tbl usr on usr.usr_id = padmsn.dr_incharge
-	where patient_uuid=?`],
+    ["patient_admission_details", `select padmsn.uuid, padmsn.patient_reg_no, padmsn.bed_no,
+    padmsn.sp_uuid,loc.sp_name ,padmsn.dr_incharge,padmsn.admitted_on,
+    usr.fname,usr.lname from patient_admission_tbl padmsn
+    left join usr_tbl usr on usr.usr_id = padmsn.dr_incharge 
+    left join service_point_tbl  loc on loc.uuid = padmsn.sp_uuid
+    where patient_uuid=?`],  
     ["patient_personal_details", "select * from patient_master_tbl where uuid=? "],
     ["patient_person_accompanying_details", "select * from patient_personal_details_tbl where admission_uuid=? "],
     ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],
