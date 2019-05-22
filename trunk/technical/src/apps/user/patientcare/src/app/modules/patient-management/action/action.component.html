@@ -184,7 +184,7 @@
                                 style="vertical-align: center;">
                                 <!-- name and desc  start-->
                                 <GridLayout col="0" row="0" columns="* , auto, 75" rows="auto, auto">
-
+                                    <!-- for doctor orders  -->
                                     <GridLayout row="0" col="0"
                                         *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS">
                                         <Label class="body" [text]="item.doctorOrderModel.doctors_orders"
@@ -199,7 +199,8 @@
                                     <Label row="0" col="0" class="body"
                                         *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
                                         [text]="item.configData.name" style="color: #396767;" textWrap="true"></Label>
-                                    <Label row="1" col="0" class="label-small" textWrap="true"
+                                        <!-- for description  -->
+                                        <Label row="1" col="0" class="label-small" textWrap="true"
                                         [text]="(item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS) ? item.doctorOrderModel.desc :item.configData.desc"
                                         style="margin-left: 10px;"></Label>
                                 </GridLayout>

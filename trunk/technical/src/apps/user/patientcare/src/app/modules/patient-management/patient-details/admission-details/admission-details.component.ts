@@ -25,7 +25,7 @@ export class AdmissionDetailsComponent implements OnInit {
 			(val) => {
 				val.forEach(item => {
 					this.admissionDetailsModel = item;
-				});
+				});				
 			},
 			(error) => {
 				console.log("admistion details error:", error);

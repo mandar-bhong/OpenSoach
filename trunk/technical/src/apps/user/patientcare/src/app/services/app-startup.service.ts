@@ -147,7 +147,7 @@ export class AppStartupService {
         initModel.data.WebsocketUrl = AppGlobalContext.WebsocketUrl;
         initModel.data.Token = AppGlobalContext.Token;        
           this.workerService.postMessageToServerDataProcessorWorker(initModel);       
-        this.routerExtensions.navigate(['home'], { clearHistory: false });     
+        this.routerExtensions.navigate(['home'], { clearHistory: true });     
         this.isStartupInprogress = false;
     }
 }
