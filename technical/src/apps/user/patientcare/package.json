@@ -47,7 +47,7 @@
     "nativescript-websockets": "^1.5.3",
     "reflect-metadata": "~0.1.8",
     "rxjs": "^6.3.3",
-    "tns-core-modules": "^5.1.2",
+    "tns-core-modules": "^5.4.0",
     "tns-platform-declarations": "^5.1.1",
     "typescript": "~3.1.1",
     "zone.js": "^0.8.26"
@@ -56,7 +56,7 @@
     "@angular/compiler-cli": "~7.2.0",
     "@nativescript/schematics": "~0.4.0",
     "@ngtools/webpack": "~7.2.0",
-    "nativescript-dev-typescript": "~0.7.0",
+    "nativescript-dev-typescript": "^0.9.0",
     "nativescript-dev-webpack": "^0.22.0",
     "ts-loader": "^5.3.1"
   },
