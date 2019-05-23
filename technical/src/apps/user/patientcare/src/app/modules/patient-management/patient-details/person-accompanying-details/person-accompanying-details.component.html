@@ -33,11 +33,14 @@
                 <Label row="1" class="labelleft label-small" textWrap="true" text=""></Label>
             </GridLayout>
         </GridLayout> -->
-        <GridLayout row="2" col="0" columns="auto">
-            <GridLayout col="0" rows="auto,auto">
+        <GridLayout row="2" col="0" columns="*" rows="auto,auto">
+                <Label  col="0" class="body" textWrap="true" text="Address"></Label>
+                <Label row="1" class="labelleft label-small" textWrap="true" text="{{personAccompanyDetailsModel.address}}"></Label>
+      
+            <!-- <GridLayout col="0" rows="auto,auto">
                 <Label class="body" textWrap="true" text="Address"></Label>
                 <Label row="1" class="labelleft label-small" textWrap="true" text="{{personAccompanyDetailsModel.address}}"></Label>
-            </GridLayout>
+            </GridLayout> -->
         </GridLayout>
     </GridLayout>
 
