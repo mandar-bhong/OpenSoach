@@ -48,7 +48,7 @@
    </GridLayout>
    <GridLayout row="1" col="0">
 
-     <ActivityIndicator [busy]="true" *ngIf="isBusy === true" class="indicator"></ActivityIndicator>
+     <ActivityIndicator [busy]="isLoading"  class="indicator"></ActivityIndicator>
 
      <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping" enableCollapsibleGroups="true">
 

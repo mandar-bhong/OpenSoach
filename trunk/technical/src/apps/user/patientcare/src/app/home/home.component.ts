@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	listSource = new Array<PatientListViewModel>();
 	listItems = new ObservableArray<PatientListViewModel>();
 
-	public isBusy = true;
+	public isLoading = false;
 	private layout: ListViewLinearLayout;
 	appMode: number;
 	appModeEnum = APP_MODE;
@@ -71,7 +71,6 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 			this.onDataReceived(listItem);
 		});
 
-
 	}
 
 
@@ -106,7 +105,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	getData() {
 		this.patientListService.getData().then(
 			(val) => {
-				this.isBusy = false;
+				
 				val.forEach(item => {
 					this.listSource.push(item);
 				});
@@ -192,7 +191,13 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		// console.log(listItem);
 		this.passdataservice.setPatientData(listItem);
 		// console.log('listItem',listItem);
-		this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
+
+		//Allow to show the activity indicator
+		this.isLoading = true;
+		setTimeout(() => {
+			this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
+			this.isLoading = false;
+		}, 500);
 	}
 
 	// clean up
