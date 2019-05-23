@@ -328,5 +328,6 @@ Label.mod-light {
     color: #FF8912;
     vertical-align: center;
     height: 20%;
-    width: 20%;
+    width: 20%;    
+    z-index: 15000; 
 }
