@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Views.Fragment.MedicalDetailsFragment">
+
+    <data>
+        <import type="android.view.View"/>
+        <data>
+            <import type="java.lang.Integer" />
+        </data>
+        <variable
+            name="VM"
+            type="com.opensoach.vst.ViewModels.MedicalDetailsViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{VM.treatment}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{VM.allergies}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{VM.history}" />
+
+    </LinearLayout>
+
+
+</layout>

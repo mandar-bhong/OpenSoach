@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col">
+      <mat-card>
+        <div class="mobile-sort">
+          <table class="example-full-width" cellspacing="0">
+            <tr id="layout-set">
+              <td>
+                <mat-form-field>
+                  <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby"
+                    (selectionChange)="sortByChanged()">
+                    <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                      {{col.text}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <button mat-icon-button class="view-form-backButton" (click)="sortDirectionAsc()">
+                  <mat-icon aria-hidden="true" matTooltip="Ascending">arrow_upward</mat-icon>
+                </button>
+              </td>
+              <td>
+                <button mat-icon-button class="view-form-backButton" (click)="sortDirectionDesc()">
+                  <mat-icon aria-hidden="true" matTooltip="Descending">arrow_downward</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="example-container mat-elevation-z8">
+          <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" ></mat-row>
+
+            <ng-container matColumnDef="fname" >
+                <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Patient Name</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="flex:0 0 45%;">
+                    <span class="mat-cell-responsive-label">Patient Name</span>
+                    <span class="ellipsis mat-cell-text">{{row.fname +' '+' '+row.lname}}</span>
+                </mat-cell>
+              </ng-container>
+      
+              <ng-container matColumnDef="mobno">
+                <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 45%;">Contact Number</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="flex:0 0 45%;">
+                  <span class="mat-cell-responsive-label">Contact Number</span>
+                  <span class="ellipsis mat-cell-text">{{row.mobno}}</span>
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Select</mat-header-cell>
+                <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+                  <span class="mat-cell-responsive-label">Select</span>
+                  <button mat-icon-button (click)="viewDetails(row.admissionid,row.fname,row.lname)">
+                      <mat-icon color='primary' aria-hidden="true" matTooltip="View Details">remove_red_eye
+                        </mat-icon>
+                  </button>
+                </mat-cell>
+              </ng-container>
+          </mat-table>
+          <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
+          </mat-paginator>
+        </div>
+        <br>
+      </mat-card>  
+    </div>
+  </div>

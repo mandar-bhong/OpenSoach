@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col">
+    <mat-card>
+      <div class="mobile-sort">
+        <table class="example-full-width" cellspacing="0">
+          <tr id="layout-set">
+            <td>
+              <mat-form-field>
+                <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby" (selectionChange)="sortByChanged()">
+                  <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                    {{col.text}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionAsc()">
+                <mat-icon aria-hidden="true" matTooltip="Ascending">arrow_upward</mat-icon>
+              </button>
+            </td>
+            <td>
+              <button mat-icon-button class="view-form-backButton" (click)="sortDirectionDesc()">
+                <mat-icon aria-hidden="true" matTooltip="Descending">arrow_downward</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="example-container mat-elevation-z8">
+        <mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <ng-container matColumnDef="corpname">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Corporate Name</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+              <span class="mat-cell-responsive-label">Corporate Name</span>
+              <span class="ellipsis mat-cell-text"> {{row.corpname}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="corpmobileno">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 23%;">Mobile Number</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 23%;">
+              <span class="mat-cell-responsive-label">Mobile Number</span>
+              <span class="ellipsis mat-cell-text"> {{row.corpmobileno}} </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="corpemailid">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 25%;">Email Id</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 25%;">
+              <span class="mat-cell-responsive-label">Email Id</span>
+              <span class="ellipsis mat-cell-text"> {{row.corpemailid}} </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="corplandlineno">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 17%;">LandLine Number</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 17%;">
+              <span class="mat-cell-responsive-label">LandLine Number</span>
+              <span class="ellipsis mat-cell-text"> {{row.corplandlineno}} </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="details">
+            <mat-header-cell *matHeaderCellDef style="flex:0 0 10%;">Details</mat-header-cell>
+            <mat-cell *matCellDef="let row" style="flex:0 0 10%;">
+              <span class="mat-cell-responsive-label">Details</span>
+              <button mat-icon-button (click)="editRecord(row.corpid)">
+                <mat-icon color='primary' aria-hidden="true" matTooltip="Edit Details">remove_red_eye</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+        </mat-table>
+        <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+      </div>
+    </mat-card>
+  </div>
+</div>

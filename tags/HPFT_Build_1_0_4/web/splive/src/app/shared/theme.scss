@@ -1,0 +1,90 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$md-brand-primary: (
+    50 : #e9eded,
+    100 : #c7d1d1,
+    200 : #a2b3b3,
+    300 : #7c9494,
+    400 : #607d7d,
+    500 : #446666,
+    600 : #3e5e5e,
+    700 : #355353,
+    800 : #2d4949,
+    900 : #1f3838,
+    A100 : #7effff,
+    A200 : #4bffff,
+    A400 : #18ffff,
+    A700 : #00fdfd,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$mat-brand-accent: (
+    50 : #fef2e6,
+    100 : #fedebf,
+    200 : #fdc895,
+    300 : #fcb16b,
+    400 : #fba14b,
+    500 : #fa902b,
+    600 : #f98826,
+    700 : #f97d20,
+    800 : #f8731a,
+    900 : #f66110,
+    A100 : #ffffff,
+    A200 : #fff4f0,
+    A400 : #ffd1bd,
+    A700 : #ffc0a3,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+$spl-app-primary: mat-palette($md-brand-primary);
+$spl-app-accent:  mat-palette($mat-brand-accent, 500, 50, 900);
+
+// The warn palette is optional (defaults to red).
+$spl-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$spl-app-theme: mat-light-theme($spl-app-primary, $spl-app-accent, $spl-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($spl-app-theme);

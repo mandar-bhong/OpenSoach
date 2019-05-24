@@ -1,0 +1,66 @@
+#resp-table {
+    /* width: 100%; */
+    display: table;
+    width: 100%;
+  }
+
+  #resp-table-caption {
+    display: table-caption;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  #resp-table-header {
+    display: table-header-group;
+    background-color: #FA902B;
+    font-weight: bold;
+    font-size: 15px;    
+    color:white;
+  }
+
+  .table-header-cell {
+    display: table-cell;
+    padding: 10px;
+    text-align: justify;
+    text-align: center;
+  }
+
+  #resp-table-body {
+    display: table-row-group;
+  }
+
+  .resp-table-row {
+    display: table-row;
+  }
+
+  .table-body-cell {
+    display: table-cell;
+    text-align: center;
+  }
+
+  .table-body-cell-input {
+    width:50px;
+    padding-right: 1px;
+    padding-bottom: 1px; 
+  }
+
+  .table-body-cell-time {
+    width:80px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+  }
+
+  .input-block
+  {
+      background: white;
+      line-height: 36px;
+      border: 1px solid #989A7C;
+  }
+
+  .time-block
+  {
+      background: #37A5CD;
+      line-height: 36px;
+      color:white;
+  }
