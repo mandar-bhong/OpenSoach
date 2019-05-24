@@ -57,6 +57,7 @@ export class AdmissionDetailsModel {
 	patient_reg_no: string;
 	bed_no: string;
 	sp_uuid: number;
+	sp_name: string;
 	dr_incharge: number;
 	admitted_on: string;
 	fname: string;
