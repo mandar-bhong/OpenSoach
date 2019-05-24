@@ -6,7 +6,7 @@ import * as appSettings from "tns-core-modules/application-settings";
 import { APP_MODE, API_SPL_BASE_URL, SERVER_WORKER_MSG_TYPE } from "../app-constants";
 import { ServerApiInterfaceService } from "./server-api-interface.service";
 import { AppGlobalContext } from "../app-global-context";
-import * as trace from 'trace';
+import * as trace from 'tns-core-modules/trace';
 import { TraceCustomCategory } from "../helpers/trace-helper";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ServerDataProcessorMessageModel } from "../models/api/server-data-processor-message-model";

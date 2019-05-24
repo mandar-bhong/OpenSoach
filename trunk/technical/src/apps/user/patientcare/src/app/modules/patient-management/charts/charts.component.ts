@@ -22,7 +22,7 @@ import { IntakeChartComponent } from './intake-chart/intake-chart.component';
 import { MedicineChartComponent } from './medicine-chart/medicine-chart.component';
 import { MonitorChartComponent } from './monitor-chart/monitor-chart.component';
 import { TraceCustomCategory } from '~/app/helpers/trace-helper';
-import * as trace from 'trace';
+import * as trace from 'tns-core-modules/trace';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import * as appSettings from "tns-core-modules/application-settings";
 import { AppNotificationService } from '~/app/services/app-notification-service';

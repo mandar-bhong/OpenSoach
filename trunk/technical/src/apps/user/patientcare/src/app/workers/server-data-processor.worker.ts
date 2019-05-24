@@ -1,6 +1,6 @@
 import "globals";
 import { WorkerTasks } from "./worker-tasks.js";
-import * as trace from 'trace';
+import * as trace from 'tns-core-modules/trace';
 import { TraceCustomCategory, TraceHelper } from "../helpers/trace-helper.js";
 const context: Worker = self as any;
 
