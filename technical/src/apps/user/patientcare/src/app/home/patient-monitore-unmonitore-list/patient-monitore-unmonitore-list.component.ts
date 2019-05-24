@@ -3,7 +3,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import * as Toast from 'nativescript-toast';
 import { ListViewEventData } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
-import { isAndroid } from 'platform';
+import { isAndroid } from 'tns-core-modules/platform';
 import * as appSettings from "tns-core-modules/application-settings";
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
 import { SearchBar } from 'tns-core-modules/ui/search-bar';

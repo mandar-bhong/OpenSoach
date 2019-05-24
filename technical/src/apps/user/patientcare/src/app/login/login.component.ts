@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { DatabaseService } from "../services/offline-store/database.service";
-import { Page } from "ui/page";
+import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from "nativescript-angular/router";
 import { HttpClient } from "@angular/common/http";
 import { API_SPL_BASE_URL, APP_MODE } from "../app-constants";

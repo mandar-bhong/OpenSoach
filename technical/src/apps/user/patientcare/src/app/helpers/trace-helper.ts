@@ -1,4 +1,4 @@
-import * as trace from 'trace';
+import * as trace from 'tns-core-modules/trace';
 import { TraceConsoleWriter } from './trace-writer-console.js';
 
 export enum TraceCustomCategory {

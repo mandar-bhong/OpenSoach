@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import * as appSettings from "tns-core-modules/application-settings";
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
-import { Page } from 'ui/page';
+import { Page } from 'tns-core-modules/ui/page';
 import { ActionStatus, ACTION_STATUS, APP_MODE, ConfigCodeType, MonitorType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, SYNC_PENDING, API_APP_BASE_URL } from '~/app/app-constants';
 import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
 import { PlatformHelper } from '~/app/helpers/platform-helper';

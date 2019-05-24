@@ -2,7 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit, ViewChild, ChangeDetectorRef } fr
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ListViewLinearLayout } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular';
-import { isAndroid } from 'platform';
+import { isAndroid } from 'tns-core-modules/platform';
 import { Subscription } from 'rxjs';
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
 import { SearchBar } from 'tns-core-modules/ui/search-bar';

@@ -4,7 +4,7 @@ import { WorkerService } from "./services/worker.service";
 // this is a temporary fix and need to be handled through webpack config.
 var WS = require('nativescript-websockets');
 var bghttp = require("nativescript-background-http");
-import * as trace from 'trace';
+import * as trace from 'tns-core-modules/trace';
 import { TraceCustomCategory } from "./helpers/trace-helper";
 import { AppStartupService } from "./services/app-startup.service";
 
