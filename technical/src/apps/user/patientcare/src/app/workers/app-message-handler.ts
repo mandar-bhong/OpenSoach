@@ -87,10 +87,14 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
         return new Promise((resolve, reject) => {
             console.log('save to datastore model');
             try {
-                DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues())
-                    .then(() => { resolve() }).catch(e => {
-                        reject(e);
-                    });
+
+                setTimeout(() => {
+                    DatabaseHelper.DataStoreInsertUpdate(this.dataModel.datastore, this.dataModel.data.getModelValues())
+                        .then(() => { resolve() }).catch(e => {
+                            reject(e);
+                        });
+                }, 1);
+
             } catch (e) {
                 console.log(e.error);
                 reject(e);
@@ -98,7 +102,7 @@ export class AppMessageHandler implements AppMessageHandlerInterface {
         });
     }
 
-    deleteFromDataStore(){
+    deleteFromDataStore() {
         return new Promise((resolve, reject) => {
             console.log('delete from datastore..');
             try {

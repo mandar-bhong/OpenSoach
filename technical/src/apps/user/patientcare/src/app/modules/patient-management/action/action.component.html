@@ -313,23 +313,29 @@
                                     *ngIf="item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS"
                                     style="padding: 0 15;">
                                     <GridLayout row="0" col="0" rows="auto, auto  " columns="*">
-                                        <GridLayout row="0" rows="auto, auto, auto" columns="auto, *">
+                                        <GridLayout row="0" rows="auto, auto, auto, auto" columns="auto, *">
+
                                             <Label row="0" col="0" class="label-small" textWrap="true"
-                                                text="Type:- "></Label>
+                                                text="By"></Label>
                                             <Label row="0" col="1" class="label-small" textWrap="true"
-                                                text="{{item.doctorOrderModel.order_type}}"></Label>
+                                                text="{{item.doctorOrderModel.order_by_name}}"></Label>
 
                                             <Label row="1" col="0" class="label-small" textWrap="true"
+                                                text="Type"></Label>
+                                            <Label row="1" col="1" class="label-small" textWrap="true"
+                                                text="{{item.doctorOrderModel.order_type}}"></Label>
+
+                                            <Label row="2" col="0" class="label-small" textWrap="true"
                                                 text="{{ ' ' + item.doctorOrderModel.ack_time | date: 'fullDate' }}"
                                                 *ngIf="item.doctorOrderModel.ack_time"></Label>
-                                            <Label row="1" col="1" class="label-small" textWrap="true"
-                                                text="{{ ' ' +  'by' + ' ' + item.doctorOrderModel.ack_by_name }}"
+                                            <Label row="2" col="1" class="label-small" textWrap="true"
+                                                text="{{ ' ' +  'Ack by' + ' ' + item.doctorOrderModel.ack_by_name }}"
                                                 *ngIf="item.doctorOrderModel.ack_by_name"></Label>
 
 
-                                            <Label row="2" col="0" class="label-small" textWrap="true"
-                                                text="Comment:- "></Label>
-                                            <Label row="2" col="1" class="label-small" textWrap="true"
+                                            <Label row="3" col="0" class="label-small" textWrap="true"
+                                                text="Comment "></Label>
+                                            <Label row="3" col="1" class="label-small" textWrap="true"
                                                 [text]="item.doctorOrderModel.comment"></Label>
 
                                         </GridLayout>

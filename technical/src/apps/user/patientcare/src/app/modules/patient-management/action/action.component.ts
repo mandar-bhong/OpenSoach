@@ -230,7 +230,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			actionItemVMModel.hasTxnData = false;
 			actionItemVMModel.isActionActive = (actionItemVMModel.doctorOrderModel.status == 0) ? true : false;
 			if (data.status == 1) {
-			this.actionService.getUserByUserid(data.updated_by).then(
+			this.actionService.getUserByUserid(data.ack_by).then(
 				(val) => {
 					val.forEach(useritem => {
 						actionItemVMModel.doctorOrderModel.ack_by_name = useritem.fname + " " + useritem.lname;
@@ -238,6 +238,13 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 				});
 			}
+			this.actionService.getUserByUserid(data.doctor_id).then(
+				(val) => {
+					val.forEach(useritem => {
+						actionItemVMModel.doctorOrderModel.order_by_name = useritem.fname + " " + useritem.lname;
+					})
+
+				});
 		
 
 		} else {
@@ -901,6 +908,5 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		const apiURL = API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
 		console.log('apiURL', apiURL);
 		utils.openUrl(apiURL);
-
 	}
 }
