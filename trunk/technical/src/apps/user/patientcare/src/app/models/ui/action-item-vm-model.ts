@@ -36,4 +36,5 @@ export class DoctorsOrderItem {
     sync_pending: number
     client_updated_at: string
     ack_by_name: string
+    order_by_name:string
 }
