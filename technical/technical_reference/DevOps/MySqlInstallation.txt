@@ -21,3 +21,10 @@ systemctl start mariadb.service
 # create user and grant permission
 CREATE USER 'icescrum'@'%' IDENTIFIED BY 'db.icescrum';
 GRANT ALL PRIVILEGES ON icescrum.* TO 'icescrum'@'%' ;
+
+#
+  SELECT @@GLOBAL.sql_mode;  
+  SET GLOBAL sql_mode= (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+  SELECT @@sql_mode;  
+  SET sql_mode= (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+  
