@@ -36,6 +36,14 @@ import { AppGlobalContext } from '~/app/app-global-context';
 import { ApiParse } from '../reports/section-one/section-one.component';
 import * as utils from 'tns-core-modules/utils/utils';
 import { action } from 'tns-core-modules/ui/dialogs/dialogs';
+import { HttpClient } from '@angular/common/http';
+import { getFile, getImage, getJSON, getString, request, HttpResponse } from "tns-core-modules/http";
+import { ImageSource } from 'tns-core-modules/image-source/image-source';
+const fileSystemModule = require("tns-core-modules/file-system");
+import { knownFolders, Folder, File } from "tns-core-modules/file-system";
+import { ImageModalComponent } from '../image-modal/image-modal.component';
+const permissions = require("nativescript-permissions");
+
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -140,6 +148,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		private passdataservice: PassDataService,
 		private workerservice: WorkerService,
 		private viewContainerRef: ViewContainerRef,
+		private http: HttpClient,
 		private routerExtensions: RouterExtensions) {
 		//  list item grouping based on config_type_code.
 		this._funcGrouping = (item: ActionItemVMModel) => {
@@ -156,6 +165,9 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 
 	ngOnInit() {
+
+		// check storage permission
+		this.getStoragePermission();
 
 		this.layout = new ListViewLinearLayout();
 		this.layout.scrollDirection = "Vertical";
@@ -183,10 +195,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.handelDoctorOrderNotification(value);
 		});
 
-		setTimeout(()=>{
+		setTimeout(() => {
 			this.prepareData();
 			this.activeList();
-		},300)		
+		}, 300)
 
 	}// end of ng init.
 
@@ -230,13 +242,13 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			actionItemVMModel.hasTxnData = false;
 			actionItemVMModel.isActionActive = (actionItemVMModel.doctorOrderModel.status == 0) ? true : false;
 			if (data.status == 1) {
-			this.actionService.getUserByUserid(data.ack_by).then(
-				(val) => {
-					val.forEach(useritem => {
-						actionItemVMModel.doctorOrderModel.ack_by_name = useritem.fname + " " + useritem.lname;
-					})
+				this.actionService.getUserByUserid(data.ack_by).then(
+					(val) => {
+						val.forEach(useritem => {
+							actionItemVMModel.doctorOrderModel.ack_by_name = useritem.fname + " " + useritem.lname;
+						})
 
-				});
+					});
 			}
 			this.actionService.getUserByUserid(data.doctor_id).then(
 				(val) => {
@@ -245,7 +257,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					})
 
 				});
-		
+
 
 		} else {
 			actionItemVMModel.dbModel = data;
@@ -895,18 +907,87 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 	download(document_name, document_uuid) {
 
-		console.log('tap document_uuid', document_uuid);
-		const token1 = AppGlobalContext.Token;
-		console.log('token', token1);
-		const requestObj = new ApiParse();
-		requestObj.uuid = document_uuid;
-		requestObj.token = token1;
+		if (document_uuid) {
+			console.log('tap document_uuid', document_uuid);
+			const token1 = AppGlobalContext.Token;
+			console.log('token', token1);
+			const requestObj = new ApiParse();
+			requestObj.uuid = document_uuid;
+			requestObj.token = token1;
 
-		requestObj.uuid = document_uuid;
-		requestObj.token = token1;
-		const apiUrl = '/v1/document/download/ep';
-		const apiURL = API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
-		console.log('apiURL', apiURL);
-		utils.openUrl(apiURL);
+			requestObj.uuid = document_uuid;
+			requestObj.token = token1;
+			const apiUrl = '/v1/document/download/ep';
+			const apiURL = API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
+			console.log('apiURL', apiURL);
+			// utils.openUrl(apiURL);
+
+			var externalStoragePath = android.os.Environment.getExternalStorageDirectory().toString();
+			var downloadFolderPath = fileSystemModule.path.join(externalStoragePath, "PatientCare");
+			if (!Folder.exists(downloadFolderPath)) {
+				Folder.fromPath(downloadFolderPath);
+			}
+
+			let fileName = document_uuid + "." + document_name.split('.').pop()
+
+			const filePath: string = fileSystemModule.path.join(downloadFolderPath, fileName);
+			console.log("path", filePath);
+
+			const exists = fileSystemModule.File.exists(filePath);
+			console.log(`Does Text.txt exists: ${exists}`);
+			if (exists) {
+				const existingItem = this.actionItems.filter(e => e.conf_type_code == ConfigCodeType.DOCTOR_ORDERS
+					&& e.doctorOrderModel.document_uuid != null
+					&& e.doctorOrderModel.document_uuid == document_uuid)[0];
+				if (existingItem) {
+					existingItem.doctorOrderModel.document_path = filePath;
+				}
+			} else {
+				getFile(apiURL, filePath).then((resultFile) => {
+					// The returned result will be File object
+					console.log("resultFile", resultFile);
+					const existingItem = this.actionItems.filter(e => e.conf_type_code == ConfigCodeType.DOCTOR_ORDERS
+						&& e.doctorOrderModel.document_uuid != null
+						&& e.doctorOrderModel.document_uuid == document_uuid)[0];
+					console.log("existingItem1", existingItem);
+					if (existingItem) {
+						existingItem.doctorOrderModel.document_path = resultFile.path;
+						console.log("existingItem2", existingItem);
+					}
+
+				}, (e) => {
+					console.log("error", e);
+				});
+			}
+		}
 	}
+
+	showImageModal(document_uuid) {
+
+		const doctorOrdersElem = this.actionItems.filter(e => e.conf_type_code == ConfigCodeType.DOCTOR_ORDERS
+			&& e.doctorOrderModel.document_uuid != null
+			&& e.doctorOrderModel.document_uuid == document_uuid)[0];
+
+		const options: ModalDialogOptions = {
+			viewContainerRef: this.viewContainerRef,
+			fullscreen: false,
+			context: {
+				docPath: doctorOrdersElem.doctorOrderModel.document_path
+			}
+		};
+		this.modalService.showModal(ImageModalComponent, options);
+	}
+
+	getStoragePermission() {
+		const hasPermission = permissions.hasPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+		console.log("hasPermission:", hasPermission);
+		if (hasPermission == false) {
+			permissions.requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, "Need for storing file").then(() => {
+				console.log("Permission granted!");
+			}).catch(() => {
+				console.log("Permission is not granted");
+			});
+		}
+	}
+
 }

@@ -37,4 +37,5 @@ export class DoctorsOrderItem {
     client_updated_at: string
     ack_by_name: string
     order_by_name:string
+    document_path: string
 }

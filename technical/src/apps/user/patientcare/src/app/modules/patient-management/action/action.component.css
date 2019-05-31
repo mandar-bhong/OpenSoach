@@ -26,6 +26,13 @@
     vertical-align: center;
 }
 
+.imgPreview{
+    width: 20%;
+    height: 20%;
+    margin: 5px;
+    padding: 5px;
+}
+
 .labelName {
     font-size: 20;
     margin-bottom: 8;

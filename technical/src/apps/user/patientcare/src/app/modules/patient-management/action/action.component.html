@@ -199,8 +199,8 @@
                                     <Label row="0" col="0" class="body"
                                         *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS"
                                         [text]="item.configData.name" style="color: #396767;" textWrap="true"></Label>
-                                        <!-- for description  -->
-                                        <Label row="1" col="0" class="label-small" textWrap="true"
+                                    <!-- for description  -->
+                                    <Label row="1" col="0" class="label-small" textWrap="true"
                                         [text]="(item.conf_type_code==conf_type_code_const.DOCTOR_ORDERS) ? item.doctorOrderModel.desc :item.configData.desc"
                                         style="margin-left: 10px;"></Label>
                                 </GridLayout>
@@ -340,16 +340,14 @@
 
                                         </GridLayout>
 
-                                        <GridLayout row="1" col="0" columns="*" rows="auto">
-                                            <GridLayout row="0" col="1" columns="auto, 90, auto, *"
-                                                style="margin: 10px 0">
-                                                <Label class="label-small" col="0" textWrap="true"
-                                                    text="{{item.doctorOrderModel.document_name}}"
-                                                    style="color:#51A5CD;"></Label>
-                                                <Label col="2" class="fas option-icon-fawesome" text="&#xf019;"
+                                        <GridLayout row="1" col="0">
+                                            <GridLayout columns="auto" rows="auto" style="text-align: left" (loaded)="download(item.doctorOrderModel.document_name,item.doctorOrderModel.document_uuid)">
+                                               <Label *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.document_uuid" class="fas option-icon-fawesome" text="&#xf019;"
                                                     (tap)="download(item.doctorOrderModel.document_name,item.doctorOrderModel.document_uuid)"></Label>
+                                                <image class="imgPreview" *ngIf="item.doctorOrderModel.document_path" col="2" (tap)="showImageModal(item.doctorOrderModel.document_uuid)" [src]="item.doctorOrderModel.document_path"></image>
                                             </GridLayout>
                                         </GridLayout>
+                            
 
                                     </GridLayout>
                                     <GridLayout row="0" col="1" *ngIf="item.isActionActive == true">
