@@ -22,35 +22,22 @@
                     <GridLayout row="0" class="input-field">
                         <Label text="Monitor Task Name" class="body"></Label>
                     </GridLayout>
-                    <GridLayout row="1" columns="80, *, 80">
-                        <GridLayout class="input-field" col="1">
-                            <ListPicker [items]="monitorConf?.dbmodel.conf.tasks" textField="name" valueField="value"
-                                selectedIndex="1" (selectedIndexChange)="selectedIndexChanged($event)"
-                                class="p-15 picker">
-                            </ListPicker>
-                        </GridLayout>
+                    <GridLayout row="1" columns=" *" class="selection-list-panel">
+                        <os-selection-list #monitorTaskSelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                            [DisplayText]="displayText">
+                        </os-selection-list>
                     </GridLayout>
-
-                    <!-- <StackLayout class="input-field">
-                <Label text="Food Instruction"></Label>
-                <SegmentedBar [items]="foodInstItems" selectedIndex="0" formControlName="foodInst"
-                    (selectedIndexChange)="onFoodInstSelectedIndexChange($event)" class="m-5" style="background-color:white;color:black"></SegmentedBar>
-            </StackLayout> -->
                     <GridLayout row="2" rows="auto auto auto">
                         <GridLayout row="0" class="input-field">
                             <Label text="Frequency" class="body"></Label>
                         </GridLayout>
-                        <GridLayout row="1" columns="80, *, 80">
-                            <GridLayout class="input-field" col="1">
-                                <ListPicker [items]="frequencyType" formControlName="frequency" selectedIndex="0"
-                                    textField="name" valueField="value" value="value"
-                                    (selectedIndexChange)="onFrequencySelectedIndexChange($event)" class="p-15 picker">
-                                </ListPicker>
-                            </GridLayout>
+                        <GridLayout row="1" columns=" *" class="selection-list-panel">
+                            <os-selection-list #frequencySelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                                [DisplayText]="displayFreqText" (Checked)='freqItemChecked($event)'>
+                            </os-selection-list>
                         </GridLayout>
-
                         <!-- mark up for interval hours  -->
-                        <GridLayout row="2" rows="auto auto auto,auto,auto" *ngIf="freqSelectedIndex===0 ">
+                        <GridLayout row="2" rows="auto auto auto,auto,auto" *ngIf="freqSelectedValue===0 ">
                             <GridLayout row="0" rows="auto auto auto " class="marging-left-right">
                                 <GridLayout row="0">
                                     <Label col="0" row="0" text="Enter interval in hours"
@@ -114,7 +101,7 @@
                     </StackLayout> -->
                         </GridLayout>
 
-                        <GridLayout row="3" rows="auto auto auto auto auto auto" *ngIf="freqSelectedIndex===1"
+                        <GridLayout row="3" rows="auto auto auto auto auto auto" *ngIf="freqSelectedValue===1"
                             class="marging-left-right">
                             <GridLayout row="0">
                                 <Label text="Specific Time" class="body"></Label>
