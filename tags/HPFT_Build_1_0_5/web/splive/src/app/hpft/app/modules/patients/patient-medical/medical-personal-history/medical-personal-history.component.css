@@ -1,0 +1,9 @@
+.text-alignment {
+    margin-left: 20px;
+  }
+  .margin-top {
+    margin-top: 23px !important;
+  }
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
