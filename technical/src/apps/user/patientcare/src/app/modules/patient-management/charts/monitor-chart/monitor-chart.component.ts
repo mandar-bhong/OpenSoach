@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -18,6 +18,7 @@ import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
 import { AppNotificationService } from '~/app/services/app-notification-service';
 import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
+import { OsSelectionListComponent, SELECTION_TYPE } from '~/app/os-selection-list.component';
 
 @Component({
     moduleId: module.id,
@@ -37,10 +38,8 @@ export class MonitorChartComponent implements OnInit {
     formData: MonitorChartModel;
     chartConfModel: MonitorChartModel;
     chartDbModel: ChartDBModel;
-    foodInstItems: Array<SegmentedBarItem>;
-    frequencyItems: Array<SegmentedBarItem>;
     foodInstSelectedIndex = 0;
-    freqSelectedIndex = 0;
+    freqSelectedValue = 0;
     monitorConfListItems = new ObservableArray<ChartListViewModel>();
     monitorConf: ChartListViewModel;
     isspecificTime: boolean;
@@ -59,6 +58,13 @@ export class MonitorChartComponent implements OnInit {
 
     // end of proccess variables
     VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
+
+    // >> Custom Control start
+    @ViewChild("monitorTaskSelectionControl") monitorTaskSelectionCtl: OsSelectionListComponent;
+    @ViewChild("frequencySelectionControl") frequencySelectionCtl: OsSelectionListComponent;
+    SELECTION_TYPE = SELECTION_TYPE;
+    // << Custom Control end
+    
     constructor(
         private routerExtensions: RouterExtensions,
         private passDataService: PassDataService,
@@ -79,7 +85,12 @@ export class MonitorChartComponent implements OnInit {
         }
 
     }
-
+    public displayText = (item: any) => {
+        return item.name;
+    }
+    public displayFreqText = (item: any) => {
+        return item.name;
+    }
     ngOnInit() {
 
         // creating form control
@@ -88,35 +99,39 @@ export class MonitorChartComponent implements OnInit {
         // get montior conf data for list picker
         this.getMonitorConfListData();
 
-        this.foodInstItems = [];
-        this.frequencyItems = [];
-
-        // set food instruction segmented bar items
-        const foodInstItem1 = new SegmentedBarItem();
-        foodInstItem1.title = "Before Meal";
-        this.foodInstItems.push(foodInstItem1);
-        const foodInstItem2 = new SegmentedBarItem();
-        foodInstItem2.title = "After Meal";
-        this.foodInstItems.push(foodInstItem2);
-
-        // set frequency segmented bar items
-        const freqItem1 = new SegmentedBarItem();
-        freqItem1.title = "Every 'X' hours";
-        this.frequencyItems.push(freqItem1);
-        const freqItem2 = new SegmentedBarItem();
-        freqItem2.title = "Specific time";
-        this.frequencyItems.push(freqItem2);
         this.monitorForm.get('startDate').setValue(new Date());
         this.monitorForm.get('startTime').setValue(new Date());
         // load default form data
         // this.monitorForm.get('startDate').setValue(new Date());
         this.monitorForm.get('specificTime').setValue(new Date());
     }
+    // >> Custom Control start
+    selectionFrequencyData() {
+        this.frequencySelectionCtl.Items = this.frequencyType;
+        if (this.frequencySelectionCtl.Items.length > 0) {
+            this.frequencySelectionCtl.SelectedItems.push(this.frequencySelectionCtl.Items[0]);
+        }
+        this.frequencySelectionCtl.Init();
+
+    }
+
+    selectionMonitorTaskTypeData() {
+        this.monitorTaskSelectionCtl.Items = [];
+        this.monitorTaskSelectionCtl.Items = this.monitorConf.dbmodel.conf.tasks;
+        if (this.monitorTaskSelectionCtl.Items.length > 0) {
+            this.monitorTaskSelectionCtl.SelectedItems.push(this.monitorTaskSelectionCtl.Items[0]);
+        }
+        this.monitorTaskSelectionCtl.Init();
+    }
+
+    freqItemChecked(value) {
+        this.onFrequencySelectedIndexChange(value.value);
+    }
+
 
     // << func for navigating previous page
     goBackPage() {
         this.params.closeCallback([]);
-        // this.routerExtensions.navigate(['patientmgnt', 'details'], { clearHistory: true });
     }
     // >> func for navigating previous page
 
@@ -124,15 +139,10 @@ export class MonitorChartComponent implements OnInit {
         console.log("monitor form page loaded");
     }
 
-    onFoodInstSelectedIndexChange(args) {
-        let segmetedBar = <SegmentedBar>args.object;
-        this.foodInstSelectedIndex = segmetedBar.selectedIndex;
-    }
 
-    onFrequencySelectedIndexChange(args) {
-        let segmetedBar = <ListPicker>args.object;
-        this.freqSelectedIndex = segmetedBar.selectedIndex;
-        if (this.freqSelectedIndex == 0) {
+    onFrequencySelectedIndexChange(item) {
+        this.freqSelectedValue = item;
+        if (this.freqSelectedValue == 0) {
             this.monitorForm.controls['interval'].setValidators([Validators.required]);
             this.monitorForm.controls['interval'].updateValueAndValidity();
             this.monitorForm.controls['numberofTimes'].setValidators([Validators.required, Validators.max(NUMBER_OF_TIMES_X_INTERVAL)]);
@@ -144,12 +154,11 @@ export class MonitorChartComponent implements OnInit {
             this.monitorForm.controls['numberofTimes'].updateValueAndValidity();
             this.intervalIsValid = false;
         }
-
     }
 
     // << func for submit form data
     onSubmit() {
-        this.addSpecificTimeExceeded=false;
+        this.addSpecificTimeExceeded = false;
         this.intervalIsValid = this.monitorForm.controls['interval'].hasError('required');
         this.durationIsValid = this.monitorForm.controls['duration'].hasError('required');
         this.isNumberOfTimes = this.monitorForm.controls['numberofTimes'].hasError('required');
@@ -163,9 +172,12 @@ export class MonitorChartComponent implements OnInit {
         this.formData = Object.assign({}, this.monitorForm.value);
         this.formData.name = this.monitorName;
         this.formData.specificTimes = this.specifictimes;
+
+        this.formData.frequency = this.freqSelectedValue;
+
         switch (this.formData.frequency) {
             case 0:
-                  // validation for interval hours 
+                // validation for interval hours 
                 const invervalAmount = this.monitorForm.controls['interval'].value;
                 if (invervalAmount) {
                     const intervalInMinutes = invervalAmount * 60;
@@ -202,12 +214,9 @@ export class MonitorChartComponent implements OnInit {
                 break;
             case 2:
                 break;
-
         }
-
         // insert form data to sqlite db
         this.insertData(this.formData);
-
     }
     // >> func for submit form data
 
@@ -233,7 +242,10 @@ export class MonitorChartComponent implements OnInit {
             let desc = `At specific times for ${data.duration} days`;
             this.chartConfModel.desc = desc;
         }
-        this.chartConfModel.name = data.name;
+        this.monitorTaskSelectionCtl.SelectedItems.forEach(element => {
+            this.chartConfModel.name= element.name;
+        });
+        // this.chartConfModel.name = data.name;
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.remark = data.remark;
@@ -259,7 +271,7 @@ export class MonitorChartComponent implements OnInit {
 
     // << func for specific timings
     addSpecificTime() {
-        this.addSpecificTimeExceeded=false;
+        this.addSpecificTimeExceeded = false;
         const timeValue = this.monitorForm.controls['specificTime'].value;
         if (timeValue && timeValue != null) {
 
@@ -285,7 +297,12 @@ export class MonitorChartComponent implements OnInit {
                     monitorConfListItem.dbmodel.conf = JSON.parse(item.conf);
                     this.monitorConfListItems.push(monitorConfListItem);
                 });
+                // console.log(' this.monitorConfListItems -->', this.monitorConfListItems);
+
                 this.monitorConf = this.monitorConfListItems.getItem(0);
+
+                this.selectionMonitorTaskTypeData();
+                this.selectionFrequencyData();
             },
             (error) => {
                 console.log("confListService error:", error);

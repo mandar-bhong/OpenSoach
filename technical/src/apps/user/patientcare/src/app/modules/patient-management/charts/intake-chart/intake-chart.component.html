@@ -22,15 +22,12 @@
                     <GridLayout row="0" class="input-field">
                         <Label text="Intake Type" class="body"></Label>
                     </GridLayout>
-                    <GridLayout row="1" columns="80, *, 80">
-                        <GridLayout class="input-field" col="1">
-                            <ListPicker [items]="intakeType" formControlName="intakeType"
-                                (selectedIndexChange)="intakeTypeIndexChanged($event)" selectedIndex="0"
-                                class="p-15 picker">
-                            </ListPicker>
-                        </GridLayout>
+                    <GridLayout row="1" columns=" *" class="selection-list-panel">
+                        <os-selection-list #intakeSelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                            [DisplayText]="displayText">
+                        </os-selection-list>
+                        <!-- <button (tap)="getSelectedItems();" text="Get Selected Items"></button> -->
                     </GridLayout>
-
                     <GridLayout row="2" rows="auto auto auto" class="marging-left-right">
                         <GridLayout row="0">
                             <Label text="Intake Name" class="body margin-bottom"></Label>
@@ -42,7 +39,6 @@
                             <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
                         </GridLayout>
                     </GridLayout>
-
                     <GridLayout row="3" rows="auto auto auto " class="marging-left-right">
                         <GridLayout row="0">
                             <Label text="Quantity" class="body margin-bottom"></Label>
@@ -61,16 +57,14 @@
                         <GridLayout row="0" class="input-field">
                             <Label text="Frequency" class="body"></Label>
                         </GridLayout>
-                        <GridLayout row="1" columns="80, *, 80">
-                            <GridLayout class="input-field" col="1">
-                                <ListPicker [items]="frequencyType" formControlName="frequency" selectedIndex="0"
-                                    textField="name" valueField="value" value="value"
-                                    (selectedIndexChange)="onFrequencySelectedIndexChange($event)" class="p-15 picker">
-                                </ListPicker>
-                            </GridLayout>
+                        <GridLayout row="1" columns=" *" class="selection-list-panel">
+                            <os-selection-list #frequencySelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                                [DisplayText]="displayFreqText" (Checked)='freqItemChecked($event)'
+                                (Unchecked)="itemUnchecked($event)">
+                            </os-selection-list>
                         </GridLayout>
                         <!-- mark up for after x intervals -->
-                        <GridLayout row="2" rows="auto auto auto,auto" *ngIf="freqSelectedIndex===0 ">
+                        <GridLayout row="2" rows="auto auto auto,auto" *ngIf="freqSelectedValue===0 ">
 
                             <GridLayout row="0" rows="auto auto auto auto" class="marging-left-right">
                                 <GridLayout row="0">
@@ -131,7 +125,7 @@
                             </GridLayout>
                         </GridLayout>
                         <!-- mark up for as at specific times -->
-                        <GridLayout row="3" rows="auto auto auto auto auto auto" *ngIf="freqSelectedIndex===1"
+                        <GridLayout row="3" rows="auto auto auto auto auto auto" *ngIf="freqSelectedValue===1"
                             class="input-field">
                             <GridLayout row="0">
                                 <Label text="Specific Time"></Label>
@@ -169,7 +163,8 @@
                             </GridLayout>
                         </GridLayout>
                         <!-- mark up for as required -->
-                        <GridLayout row="4" rows="auto auto auto auto" class="marging-left-right" *ngIf="freqSelectedIndex==2">
+                        <GridLayout row="4" rows="auto auto auto auto" class="marging-left-right"
+                            *ngIf="freqSelectedValue==0">
                             <GridLayout row="0">
                                 <Label text="Enter Special Instructions" class="body margin-bottom"></Label>
                             </GridLayout>
@@ -177,7 +172,7 @@
                                 <TextField class="input input-border" formControlName="splinstruction"></TextField>
                             </GridLayout>
 
-                            <GridLayout row="2"  *ngIf="isSplinstructions">
+                            <GridLayout row="2" *ngIf="isSplinstructions">
                                 <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
                             </GridLayout>
                         </GridLayout>
