@@ -71,18 +71,18 @@ INSERT INTO `spl_node_fop_sp_tbl` (`fop_id_fk`, `sp_id_fk`, `cpm_id_fk`) VALUES 
 
 INSERT INTO `spl_hpft_patient_master_tbl` (`uuid`, `cpm_id_fk`, `patient_reg_no`, `fname`, `lname`, `mob_no`, `age`, `blood_grp`, `gender`, `updated_by`) 
 VALUES 
-('PM001', '3', 'P12B12213', 'Amol', 'Patil', '9812xxxxxx', '22', 'AB+', '1', 1),
-('PM002', '3', 'P12B12214', 'Sumeet', 'Karande', '9982xxxxxx', '24', 'O+', '1', 1),
-('PM003', '3', 'P12B12215', 'Sarjerao', 'Ghadage', '9832xxxxxx', '34', 'A+', '1', 1),
-('PM004', '3', 'P12B12216', 'Tejal', 'Deshmukh', '9212xxxxxx', '27', 'A+', '2', 1),
-('PM005', '3', 'P12B12217', 'Sanjay', 'Sawant', '9644xxxxxx', '33', 'A+', '1', 1),
-('PM006', '3', 'P12B12218', 'Mandar', 'Bhong', '9522xxxxxx', '25', 'AB-', '1', 1),
-('PM007', '3', 'P12B12219', 'Chandan', 'Pal', '9012xxxxxx', '38', 'O-', '1', 1),
-('PM008', '3', 'P12B12220', 'Praveen', 'Pandey', '9442xxxxxx', '29', 'B+', '1', 1),
-('PM009', '3', 'P12B12221', 'Shashank', 'Atre', '9642xxxxxx', '21', 'O+', '1', 1),
-('PM010', '3', 'P12B12222', 'Mayuri', 'Jain', '9412xxxxxx', '25', 'AB-', '2', 1),
-('PM011', '3', 'P12B12223', 'Shahuraj', 'Patil', '9572xxxxxx', '21', 'O+', '1', 1),
-('PM012', '3', 'P12B12224', 'Abhijeet', 'Kalbhor', '9042xxxxxx', '24', 'O+', '1', 1);
+('PM001', '3', 'P12B12213', 'Amol', 'Patil', '9812223344', '22', 'AB+', '1', 1),
+('PM002', '3', 'P12B12214', 'Sumeet', 'Karande', '9982332233', '24', 'O+', '1', 1),
+('PM003', '3', 'P12B12215', 'Sarjerao', 'Ghadage', '9832112233', '34', 'A+', '1', 1),
+('PM004', '3', 'P12B12216', 'Tejal', 'Deshmukh', '9212001122', '27', 'A+', '2', 1),
+('PM005', '3', 'P12B12217', 'Sanjay', 'Sawant', '9644111222', '33', 'A+', '1', 1),
+('PM006', '3', 'P12B12218', 'Mandar', 'Bhong', '9522222333', '25', 'AB-', '1', 1),
+('PM007', '3', 'P12B12219', 'Chandan', 'Pal', '9012333444', '38', 'O-', '1', 1),
+('PM008', '3', 'P12B12220', 'Praveen', 'Pandey', '9442222444', '29', 'B+', '1', 1),
+('PM009', '3', 'P12B12221', 'Shashank', 'Atre', '9642111444', '21', 'O+', '1', 1),
+('PM010', '3', 'P12B12222', 'Mayuri', 'Jain', '9412444555', '25', 'AB-', '2', 1),
+('PM011', '3', 'P12B12223', 'Shahuraj', 'Patil', '9572555666', '21', 'O+', '1', 1),
+('PM012', '3', 'P12B12224', 'Abhijeet', 'Kalbhor', '9042666777', '24', 'O+', '1', 1);
 
 
 --
@@ -106,13 +106,13 @@ VALUES
 
 INSERT INTO `spl_hpft_patient_personal_details_tbl` (`cpm_id_fk`, `patient_id`, `admission_id_fk`, `uuid`, `age`, `person_accompanying`, `updated_by`, `created_on`, `updated_on`) 
 VALUES 
-('3', '1', '1', 'PPD001', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9843xxxxxx", "age": "23", "address": "warje", "alternatecontact": "9923xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2',timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53'))),
-('3', '2', '2', 'PPD002', '24', '{"data": [{"name": "Sanket", "gender": 1, "contact": "9712xxxxxx", "age": "26", "address": "warje", "alternatecontact": "8123xxxxxx", "relationshipwithpatient": "brother"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
-('3', '3', '3', 'PPD003', '34', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9932xxxxxx", "age": "32", "address": "warje", "alternatecontact": "8993xxxxxx", "relationshipwithpatient": "friend"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
-('3', '4', '4', 'PPD004', '27', '{"data": [{"name": "Rohit", "gender": 2, "contact": "8812xxxxxx", "age": "53", "address": "warje", "alternatecontact": "9901xxxxxx", "relationshipwithpatient": "father"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
-('3', '5', '5', 'PPD005', '33', '{"data": [{"name": "Priya", "gender": 2, "contact": "9453xxxxxx", "age": "28", "address": "warje", "alternatecontact": "9456xxxxxx", "relationshipwithpatient": "wife"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
-('3', '6', '6', 'PPD006', '25', '{"data": [{"name": "Sonal", "gender": 2, "contact": "8663xxxxxx", "age": "30", "address": "warje", "alternatecontact": "8723xxxxxx", "relationshipwithpatient": "sister"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
-('3', '7', '7', 'PPD007', '38', '{"data": [{"name": "Kaushik", "gender": 1, "contact": "9813xxxxxx", "age": "23", "address": "warje", "alternatecontact": "8884xxxxxx", "relationshipwithpatient": "cousin"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP);
+('3', '1', '1', 'PPD001', '22', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9843332211", "age": "23", "address": "warje", "alternatecontact": "9923332244", "relationshipwithpatient": "cousin"}],"version":1}', '2',timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53')), timestamp(ADDTIME(( curdate() - INTERVAL 3 DAY),'01:50:53'))),
+('3', '2', '2', 'PPD002', '24', '{"data": [{"name": "Sanket", "gender": 1, "contact": "9712444555", "age": "26", "address": "warje", "alternatecontact": "8123445566", "relationshipwithpatient": "brother"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '3', '3', 'PPD003', '34', '{"data": [{"name": "Ashish", "gender": 1, "contact": "9932667788", "age": "32", "address": "warje", "alternatecontact": "8993666777", "relationshipwithpatient": "friend"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '4', '4', 'PPD004', '27', '{"data": [{"name": "Rohit", "gender": 2, "contact": "8812778899", "age": "53", "address": "warje", "alternatecontact": "9901777888", "relationshipwithpatient": "father"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '5', '5', 'PPD005', '33', '{"data": [{"name": "Priya", "gender": 2, "contact": "9453889900", "age": "28", "address": "warje", "alternatecontact": "9456888999", "relationshipwithpatient": "wife"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '6', '6', 'PPD006', '25', '{"data": [{"name": "Sonal", "gender": 2, "contact": "8663001122", "age": "30", "address": "warje", "alternatecontact": "8723000111", "relationshipwithpatient": "sister"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP),
+('3', '7', '7', 'PPD007', '38', '{"data": [{"name": "Kaushik", "gender": 1, "contact": "9813991122", "age": "23", "address": "warje", "alternatecontact": "8884999111", "relationshipwithpatient": "cousin"}],"version":1}', '2',UTC_TIMESTAMP,UTC_TIMESTAMP);
 
 
 --
