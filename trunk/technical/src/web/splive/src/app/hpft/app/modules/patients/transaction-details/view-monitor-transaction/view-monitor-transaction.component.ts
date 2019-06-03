@@ -139,6 +139,7 @@ export class ViewMonitorTransactionComponent implements OnInit {
     this.sort.sortChange.next(this.sort);
   }
   parseJSONValue(value: string) {
-    this.test = JSON.parse(value);
+    // this.test = JSON.parse(value);
+    this.test = value;
   }
 }
