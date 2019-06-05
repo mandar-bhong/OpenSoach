@@ -26,13 +26,17 @@
     "reflect-metadata": "~0.1.12",
     "rxjs": "~6.5.0",
     "tns-core-modules": "~5.4.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "moment": "^2.24.0",
+    "nativescript-ui-listview": "^5.0.0",
+    "nativescript-ui-sidedrawer": "^6.0.0"
   },
   "devDependencies": {
     "@angular/compiler-cli": "~8.0.0",
     "@ngtools/webpack": "~8.0.0",
     "nativescript-dev-typescript": "~0.10.0",
-    "nativescript-dev-webpack": "~0.24.0"
+    "nativescript-dev-webpack": "~0.24.0",
+    "tns-platform-declarations": "^5.4.1"
   },
   "gitHead": "67e1a5d2fe6907c5e775d020e6439df795154f58",
   "readme": "NativeScript Application"
