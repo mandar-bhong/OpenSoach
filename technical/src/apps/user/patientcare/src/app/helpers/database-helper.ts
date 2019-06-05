@@ -1,9 +1,9 @@
 var Sqlite = require("nativescript-sqlite");
 
 let selectQueries = new Map([
-    ["patientlist", "select fname,lname,bed_no,mob_no,status,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid, pdetails.person_accompanying from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid left join patient_personal_details_tbl as pdetails on pdetails.admission_uuid = padmsn.uuid"],
-    ["patientlistbyadmissionuuid", "select fname,lname,bed_no,mob_no,status,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid, pdetails.person_accompanying from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid left join patient_personal_details_tbl as pdetails on pdetails.admission_uuid = padmsn.uuid where padmsn.uuid=?"],
-    ["patientlistbymasteruuid", "select fname,lname,bed_no,mob_no,status,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid, pdetails.person_accompanying from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid left join patient_personal_details_tbl as pdetails on pdetails.admission_uuid = padmsn.uuid where patient.uuid=?"],
+    ["patientlist", "select count(schedule.uuid) as schedule_count,fname,lname,bed_no,mob_no,padmsn.status,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid, pdetails.person_accompanying from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid left join patient_personal_details_tbl as pdetails on pdetails.admission_uuid = padmsn.uuid left join schedule_tbl as schedule on schedule.admission_uuid = padmsn.uuid  group by padmsn.uuid"],
+    ["patientlistbyadmissionuuid", "select count(schedule.uuid) as schedule_count, fname,lname,bed_no,mob_no,padmsn.status,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid, pdetails.person_accompanying from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid left join patient_personal_details_tbl as pdetails on pdetails.admission_uuid = padmsn.uuid left join schedule_tbl as schedule on schedule.admission_uuid = padmsn.uuid where padmsn.uuid=?  group by padmsn.uuid"],
+    ["patientlistbymasteruuid", "select count(schedule.uuid) as schedule_count, fname,lname,bed_no,mob_no,padmsn.status,padmsn.sp_uuid,sp_name,patient.uuid as patient_uuid,padmsn.uuid as admission_uuid, pdetails.person_accompanying from patient_admission_tbl as padmsn left join patient_master_tbl as patient on patient.uuid = padmsn.patient_uuid left join service_point_tbl as sp on sp.uuid = padmsn.sp_uuid left join patient_personal_details_tbl as pdetails on pdetails.admission_uuid = padmsn.uuid left join schedule_tbl as schedule on schedule.admission_uuid = padmsn.uuid where patient.uuid=?  group by padmsn.uuid"],
     ["chartlist", "select * from schedule_tbl"],
     ["chartInsert", "insert into schedule_tbl (uuid,admission_uuid,conf_type_code,conf) values ( ?, ?, ?, ?)"],
     ["monitorConfList", "select uuid,conf_type_code,conf from conf_tbl where conf_type_code = 'Monitor'"],
@@ -73,7 +73,7 @@ let selectQueries = new Map([
     usr.fname,usr.lname from patient_admission_tbl padmsn
     left join usr_tbl usr on usr.usr_id = padmsn.dr_incharge 
     left join service_point_tbl  loc on loc.uuid = padmsn.sp_uuid
-    where patient_uuid=?`],  
+    where patient_uuid=?`],
     ["patient_personal_details", "select * from patient_master_tbl where uuid=? "],
     ["patient_person_accompanying_details", "select * from patient_personal_details_tbl where admission_uuid=? "],
     ["patient_medical_details", "select * from patient_medical_details_tbl where admission_uuid=? "],
@@ -348,11 +348,11 @@ export class DatabaseHelper {
                                         }
                                     );
                             } else {
-                                console.log("updating data..");
+                                // console.log("updating data..");
                                 DatabaseHelper.update(tblname.concat("_update"), updateDatalist)
                                     .then(
                                         (result) => {
-                                            console.log("updated id:", result);
+                                            // console.log("updated id:", result);
                                             resolve(result);
                                         },
                                         (err) => {
@@ -577,7 +577,7 @@ export class DatabaseHelper {
     public static deleteDataStoreDataByAdmisionUuid(storename: string, admissionuuid: string): any {
 
         return new Promise((resolve, reject) => {
-            
+
             var querylist = [];
             querylist.push(admissionuuid)
 
