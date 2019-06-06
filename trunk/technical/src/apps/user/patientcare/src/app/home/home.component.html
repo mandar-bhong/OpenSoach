@@ -26,9 +26,9 @@
             <Label text="Navigation Menu"></Label>
         </StackLayout> -->
      <ScrollView row="0">
-       <StackLayout class="sideStackLayout">
-         <Label text="Logout" (tap)="logout();" class="sideLabel sideLightGrayLabel"></Label>
-       </StackLayout>
+       <GridLayout rows="auto" class="sideStackLayout">
+         <Label row="0" text="Logout" (tap)="logout();" class="sideLabel sideLightGrayLabel"></Label>
+       </GridLayout>
      </ScrollView>
    </GridLayout>
  </RadSideDrawer>
@@ -58,7 +58,7 @@
            <GridLayout columns="*" rows="auto" class="listItemStackLayout">
              <GridLayout row="0" columns="70, *" rows="auto">
                <GridLayout col="0" columns="*" rows="auto, auto">
-                 <StackLayout row="1" class="list-layout">
+                 <GridLayout row="1" rows="auto auto" class="list-layout">
                    <Label row="0" col="0" class="mdi" text="&#xf020;" [ngClass]="{active_normal: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NORMAL,
                     active_needs_attention: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_NEEDS_ATTENTION,
                     active_delayed: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_DELAYED,
@@ -71,7 +71,7 @@
                       active_delayed: item.nextActionTimes.status === ACTION_STATUS.ACTIVE_DELAYED,
                       active_no_actions: item.nextActionTimes.status === ACTION_STATUS.NONE}">
                    </Label>
-                 </StackLayout>
+                 </GridLayout>
                </GridLayout>
 
                <GridLayout row="0" col="1" columns="*, auto" rows="auto, auto">
@@ -99,9 +99,9 @@
          </RL:Ripple>
        </ng-template>
        <ng-template tkGroupTemplate let-category="category">
-         <StackLayout  class="category-header" >
-           <Label class="nameLabel groupLabel"  text="{{getGroup(category)}}" ></Label>
-         </StackLayout>
+         <GridLayout rows="auto"  class="category-header" >
+           <Label row="0" class="nameLabel groupLabel"  text="{{getGroup(category)}}" ></Label>
+         </GridLayout>
        </ng-template>
      </RadListView>
    </GridLayout>

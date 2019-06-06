@@ -10,16 +10,16 @@
         <GridLayout row="1" rows="auto" columns="*, auto, 20" class="m-5"
             style="vertical-align: center;padding-top: 2;padding-bottom: 2">
             <Label class="pageHeaderTitle" [text]="completeorpending" textWrap="true" row="0" col="0"></Label>
-            <StackLayout col="1" orientation="horizontal">
-                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()"
+            <GridLayout col="1"  columns="auto, auto, auto">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="compilitedList()" col="0"
                     (tap)="buttonCompleted = true">
                     <Label text="All" [class.tab-clicked]="buttonCompleted" class="tab-layout"></Label>
                 </RL:Ripple>
-                <Label text="|" class="tab-layout-separator"></Label>
-                <RL:Ripple rippleColor="#fff" class="ripplecenter " (tap)="activeList()" (tap)="buttonClicked = true">
+                <Label text="|" class="tab-layout-separator" col="1"></Label>
+                <RL:Ripple rippleColor="#fff" class="ripplecenter " col="2" (tap)="activeList()" (tap)="buttonClicked = true">
                     <Label text="Active" [class.tab-clicked]="buttonClicked" class="tab-layout"></Label>
                 </RL:Ripple>
-            </StackLayout>
+            </GridLayout>
         </GridLayout>
         <!-- filter button n lable end -->
 
@@ -119,11 +119,11 @@
 
                 <!-- Custome grouping view strat-->
                 <ng-template tkGroupTemplate let-category="category">
-                    <StackLayout class="category-header" height='30'>
-                        <GridLayout style="background-color:#f6f6f6;" height="7"></GridLayout>
-                        <Label class="nameLabel" [text]="category"
+                    <GridLayout class="category-header" rows="auto,auto">
+                        <GridLayout style="background-color:#f6f6f6;" height="7" row="0"></GridLayout>
+                        <Label class="nameLabel" [text]="category" row="1"
                             [ngClass]="{groupLabelIntake: category == 'Intake',groupLabelMonitor: category == 'Monitor',groupLabelMedicine: category == 'Medicine',groupLabelOutput: category == 'Output', groupLabelDoctorOreder: category == 'Doctor-Orders'}"></Label>
-                    </StackLayout>
+                    </GridLayout>
                 </ng-template>
                 <!-- Custome grouping view end-->
 
@@ -138,13 +138,13 @@
                             <!-- left side clock status view start -->
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto"
                                 style="vertical-align: center; text-align:center;color: #ebebeb;">
-                                <StackLayout row="0" class="list-layout"
+                                <GridLayout row="0" class="list-layout" rows="auto,auto"
                                     *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS  && item.dbModel.scheduled_time!=null && item.hasTxnData!=true && !displayModeAll">
                                     <Label row="0" col="0" text="&#xf020;" class="mdi list-text"
                                         [ngClass]="getItemCSSClass(item)"></Label>
                                     <Label row="1" col="0" [text]="item.dbModel.scheduled_time | date: 'shortTime'"
                                         class="label-small" [ngClass]="getItemCSSClass(item)"></Label>
-                                </StackLayout>
+                                </GridLayout>
                                 <GridLayout row="1" class="list-layout" rows="auto"
                                     *ngIf="item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS && item.dbModel.scheduled_time!=null && displayModeAll">
                                     <GridLayout row="0" rows="auto, auto, auto"
@@ -252,28 +252,28 @@
                                     </GridLayout>
                                     <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;"
                                         *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake' && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
-                                        <StackLayout col="1" style="width:50%;">
-                                            <GridLayout class="input-field"
+                                        <GridLayout col="1" style="width:50%;" rows="auto,auto,auto">
+                                            <GridLayout class="input-field" row="0"
                                                 *ngIf="item.configData.name !== monitorType.BLOOD_PRESSURE">
                                                 <TextField hint="Value" keyboardType="number" autocorrect="false"
                                                     [(ngModel)]="item.txnData.value" autocapitalizationType="none"
                                                     class="input input-border"></TextField>
                                             </GridLayout>
-                                            <GridLayout class="input-field"
+                                            <GridLayout class="input-field" row="1"
                                                 *ngIf="item.configData.name === monitorType.BLOOD_PRESSURE">
                                                 <TextField hint="Systolic" keyboardType="number" autocorrect="false"
                                                     [(ngModel)]="item.txnData.value.systolic"
                                                     autocapitalizationType="none" class="input input-border">
                                                 </TextField>
                                             </GridLayout>
-                                            <GridLayout class="input-field"
+                                            <GridLayout class="input-field" row="2"
                                                 *ngIf="item.configData.name === monitorType.BLOOD_PRESSURE">
                                                 <TextField hint="Diastolic" keyboardType="number" autocorrect="false"
                                                     [(ngModel)]="item.txnData.value.diastolic"
                                                     autocapitalizationType="none" class="input input-border">
                                                 </TextField>
                                             </GridLayout>
-                                        </StackLayout>
+                                        </GridLayout>
                                     </GridLayout>
                                 </GridLayout>
                                 <!-- comment and value input field expand view end  -->
@@ -377,49 +377,50 @@
 
 
 
-            <StackLayout row="0" col="1" horizontalAlignment="right" class="right" VerticalAlignment="center">
-                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+            <GridLayout rows="auto,auto, auto, auto, auto,auto" row="0" col="1" horizontalAlignment="right" class="right" VerticalAlignment="center">
+                <RL:Ripple row="0" rippleColor="#fff" style="margin-top: 2px;">
                     <GridLayout class="float-btn-cat" (tap)="doctorOrderButtonClicked = true"
                         [class.button-clicked]="doctorOrderButtonClicked">
                         <Label class="fas float-btn-cat-text-fawesome" (tap)="selectDoctorOrder()" text="&#xf0f0;"
                             [style.color]="doctorOrderButtonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </GridLayout>
                 </RL:Ripple>
-                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                <RL:Ripple row="1" rippleColor="#fff" style="margin-top: 2px;">
                     <GridLayout class="float-btn-cat" (tap)="medicinebuttonClicked = true"
                         [class.button-clicked]="medicinebuttonClicked">
                         <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMedicine()" text="&#xf484;"
                             [style.color]="medicinebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </GridLayout>
                 </RL:Ripple>
-                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                <RL:Ripple row="2" rippleColor="#fff" style="margin-top: 2px;">
                     <GridLayout class="float-btn-cat" (tap)="monitorbuttonClicked = true"
                         [class.button-clicked]="monitorbuttonClicked">
                         <Label class="fas float-btn-cat-text-fawesome" (tap)="selectMonitor()" text="&#xf201;"
                             [style.color]="monitorbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </GridLayout>
+                    
                 </RL:Ripple>
-                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                <RL:Ripple row="3" rippleColor="#fff" style="margin-top: 2px;">
                     <GridLayout class="float-btn-cat" (tap)="intakebuttonClicked = true"
                         [class.button-clicked]="intakebuttonClicked">
                         <Label class="mdi float-btn-cat-text-mdi" (tap)="selectIntake()" text="&#xfb2e;"
                             [style.color]="intakebuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </GridLayout>
                 </RL:Ripple>
-                <RL:Ripple rippleColor="#fff" style="margin-top: 2px;">
+                <RL:Ripple row="4" rippleColor="#fff" style="margin-top: 2px;">
                     <GridLayout class="float-btn-cat" (tap)="outputbuttonClicked = true"
                         [class.button-clicked]="outputbuttonClicked">
                         <Label class="mdi float-btn-cat-text-mdi" (tap)="selectOutput()" text="&#xfb30;"
                             [style.color]="outputbuttonClicked ? '#FF8910' : '#FFFFFF'"></Label>
                     </GridLayout>
                 </RL:Ripple>
-                <RL:Ripple rippleColor="#fff" style="margin-top: 30;" (tap)="showDialog()">
+                <RL:Ripple row="5" rippleColor="#fff" style="margin-top: 30;" (tap)="showDialog()">
                     <GridLayout class="float-btn">
                         <Label class="float-btn-text fas" text="&#xf067;" style="color: white;"></Label>
                     </GridLayout>
                 </RL:Ripple>
-
-            </StackLayout>
+                
+            </GridLayout>
 
         </GridLayout>
     </GridLayout>
