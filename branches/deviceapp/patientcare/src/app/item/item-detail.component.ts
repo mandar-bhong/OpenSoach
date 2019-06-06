@@ -14,7 +14,7 @@ export class ItemDetailComponent implements OnInit {
 
     constructor(
         private itemService: ItemService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute 
     ) { }
 
     ngOnInit(): void {

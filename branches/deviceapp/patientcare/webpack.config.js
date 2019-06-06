@@ -234,12 +234,15 @@ module.exports = env => {
 
                 {
                     test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+                    exclude: /.worker.ts$/,
                     use: [
                         "nativescript-dev-webpack/moduleid-compat-loader",
                         "nativescript-dev-webpack/lazy-ngmodule-hot-loader",
                         "@ngtools/webpack",
                     ]
                 },
+                 // Compile Worker files with ts-loader
+                 { test: /\.worker.ts$/, loader: "ts-loader" },
 
                 // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
                 // Removing this will cause deprecation warnings to appear.
@@ -262,6 +265,7 @@ module.exports = env => {
                 { from: { glob: "fonts/**" } },
                 { from: { glob: "**/*.jpg" } },
                 { from: { glob: "**/*.png" } },
+                { from: { glob: "db-scripts/**" } },
             ], { ignore: [`${relative(appPath, appResourcesFullPath)}/**`] }),
             // Generate a bundle starter script and activate it in package.json
             new nsWebpack.GenerateBundleStarterPlugin(
