@@ -25,6 +25,10 @@ export class PatientListService {
         this.workerService.patientPersonalDetailsDataReceivedSubject.subscribe((dataStoreModel) => {
             this.getPatientListDataById(dataStoreModel.admission_uuid, 'patientlistbyadmissionuuid');
         });
+
+        this.workerService.scheduleDataReceivedSubject.subscribe((dataStoreModel) => {
+            this.getPatientListDataById(dataStoreModel.admission_uuid, 'patientlistbyadmissionuuid');
+        });
     }
 
 

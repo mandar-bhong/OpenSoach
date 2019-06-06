@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { ConfigCodeType, SYNC_STORE, ActionStatus, MAXIMUM_SCHEDULE_DURATION } from '~/app/app-constants';
@@ -12,6 +12,7 @@ import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
 import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
+import { OsSelectionListComponent, SELECTION_TYPE } from '~/app/os-selection-list.component';
 
 @Component({
 	moduleId: module.id,
@@ -35,6 +36,10 @@ export class OutputChartComponent implements OnInit {
 	pattern = '^[0-9]*$';
 	// end of proccess variables
 	VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
+
+	@ViewChild("outputSelectionControl",{static:true}) outputSelectionCtl: OsSelectionListComponent;
+	SELECTION_TYPE = SELECTION_TYPE;
+
 	constructor(
 		private passDataService: PassDataService,
 		private datePipe: DatePipe,
@@ -46,6 +51,10 @@ export class OutputChartComponent implements OnInit {
 		this.chartConfModel = new OutputChartModel();
 	}
 
+	public displayText = (item: any) => {
+        return item;
+    }
+
 	ngOnInit() {
 
 		// creating form control
@@ -55,6 +64,14 @@ export class OutputChartComponent implements OnInit {
 		this.outputForm.get('startDate').setValue(new Date());
 	}
 
+	selectionOutputData() {
+        this.outputSelectionCtl.Items = this.outputType;
+        if (this.outputSelectionCtl.Items.length > 0) {
+            this.outputSelectionCtl.SelectedItems.push(this.outputSelectionCtl.Items[0]);
+        }
+        this.outputSelectionCtl.Init();
+    }
+
 	// << func for navigating previous page
 	goBackPage() {
 		this.params.closeCallback([]);
@@ -62,9 +79,6 @@ export class OutputChartComponent implements OnInit {
 	}
 	// >> func for navigating previous page
 
-	onPageLoaded(args) {
-		console.log("monitor form page loaded");
-	}
 	// << func for submit form data
 	onSubmit() {
 		this.formData = new OutputChartModel();
@@ -81,7 +95,10 @@ export class OutputChartComponent implements OnInit {
 
 	// << func for inserting form data to sqlite db
 	insertData(data: OutputChartModel) {
-		this.chartConfModel.name = this.outputType[data.outputType];
+		this.outputSelectionCtl.SelectedItems.forEach(element => {
+            this.chartConfModel.name = element;
+		});
+		// this.chartConfModel.name = this.outputType[data.outputType];
 		this.chartConfModel.duration = data.duration;
 		this.chartConfModel.remark = data.remark;
 		//this.chartConfModel.frequency = 2;
@@ -142,6 +159,7 @@ export class OutputChartComponent implements OnInit {
 						this.outputType.push(item);
 					}
 				}
+				this.selectionOutputData();
 			},
 			(error) => {
 				console.log("getChartData error:", error);

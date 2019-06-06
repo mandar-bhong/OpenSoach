@@ -51,6 +51,7 @@ import { OutputChartComponent } from "./charts/output-chart/output-chart.compone
 import { ReportsService } from "~/app/services/reports/reports-service";
 import { AppNotificationService } from "~/app/services/app-notification-service";
 import { MedicineActionsComponent } from "./action/medicine-actions/medicine-actions.component";
+import { ImageModalComponent } from "./image-modal/image-modal.component";
 
 @NgModule({
     imports: [
@@ -99,8 +100,8 @@ import { MedicineActionsComponent } from "./action/medicine-actions/medicine-act
         AllergiesComponent,
         PersonalHistoryComponent,
         OutputChartComponent,
-        MedicineActionsComponent
-
+        MedicineActionsComponent,
+        ImageModalComponent
 
     ],
     schemas: [
@@ -122,7 +123,8 @@ import { MedicineActionsComponent } from "./action/medicine-actions/medicine-act
         MedicineChartComponent,
         MonitorChartComponent,
         OutputChartComponent,
-        MedicineActionsComponent
+        MedicineActionsComponent,
+        ImageModalComponent
     ]
 })
 export class PatientMgntModule {

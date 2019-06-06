@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -10,12 +10,13 @@ import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import { ServerDataStoreDataModel } from '~/app/models/api/server-data-store-data-model';
 import { ScheduleDatastoreModel } from '~/app/models/db/schedule-model';
-import { ChartDBModel, FrequencyValues, IntakeChartModel, PickerValues } from '~/app/models/ui/chart-models';
+import { ChartDBModel, FrequencyValues, IntakeChartModel } from '~/app/models/ui/chart-models';
 import { ChartService } from '~/app/services/chart/chart.service';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
 import { AppNotificationService } from '~/app/services/app-notification-service';
 import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
+import { OsSelectionListComponent, SELECTION_TYPE } from '~/app/os-selection-list.component';
 
 @Component({
     moduleId: module.id,
@@ -24,7 +25,7 @@ import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
     styleUrls: ['./intake-chart.component.css']
 })
 
-export class IntakeChartComponent implements OnInit {
+export class IntakeChartComponent implements OnInit, AfterViewInit {
 
     // proccess variables
     intakeForm: FormGroup;
@@ -37,7 +38,7 @@ export class IntakeChartComponent implements OnInit {
     chartConfModel: IntakeChartModel;
     chartDbModel: ChartDBModel
     frequencyItems: Array<SegmentedBarItem>;
-    freqSelectedIndex = 0;
+    freqSelectedValue = 0;
     SrtartdateIsValid: boolean;
     isNumberOfTimes: boolean;
     isspecificTime: boolean;
@@ -50,6 +51,7 @@ export class IntakeChartComponent implements OnInit {
     addSpecificTimeExceeded = false;
     public frequencyType: Array<FrequencyValues> = [];
     public intakeType: Array<string> = [];
+    // Array<string>
     // end of proccess variables
     frequencyList: FrequencyValues[] = [
         { name: "Every 'X' hours", value: 0 },
@@ -58,7 +60,14 @@ export class IntakeChartComponent implements OnInit {
     ];
 
     isSplinstructions = false;
-    VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD
+    VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
+
+    // >> Custom Control start
+    @ViewChild("intakeSelectionControl",{static:true}) intakeSelectionCtl: OsSelectionListComponent;
+    @ViewChild("frequencySelectionControl",{static:true}) frequencySelectionCtl: OsSelectionListComponent;
+    SELECTION_TYPE = SELECTION_TYPE;
+    // << Custom Control end
+
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
         private params: ModalDialogParams,
@@ -80,6 +89,14 @@ export class IntakeChartComponent implements OnInit {
 
     }
 
+    public displayText = (item: any) => {
+        return item;
+    }
+
+    public displayFreqText = (item: any) => {
+        return item.name;
+    }
+
     ngOnInit() {
         // creating form control
         this.createFormControls();
@@ -95,19 +112,47 @@ export class IntakeChartComponent implements OnInit {
         this.intakeForm.get('startTime').setValue(new Date());
         this.intakeForm.get('specificTime').setValue(new Date());
 
+
     }
+
+    ngAfterViewInit() {
+        // console.log('ngAfterViewInit   this.intakeSelectionCtl --->', this.intakeSelectionCtl);
+    }
+    // >> Custom Control start
+    selectionFrequencyData() {
+        this.frequencySelectionCtl.Items = this.frequencyType;
+        if (this.frequencySelectionCtl.Items.length > 0) {
+            this.frequencySelectionCtl.SelectedItems.push(this.frequencySelectionCtl.Items[6]);
+        }
+        this.frequencySelectionCtl.Init();
+    }
+
+    selectionIntakeTypeData() {
+        this.intakeSelectionCtl.Items = this.intakeType;
+        if (this.intakeSelectionCtl.Items.length > 0) {
+            this.intakeSelectionCtl.SelectedItems.push(this.intakeSelectionCtl.Items[0]);
+        }
+        this.intakeSelectionCtl.Init();
+    }
+
+    freqItemChecked(value) {
+        this.onFrequencySelectedIndexChange(value.value);
+    }
+
+    itemUnchecked(value) {
+    }
+
+    // << Custom Control end
 
     // << func for navigating previous page
     goBackPage() {
         this.params.closeCallback([]);
     }
-    onPageLoaded(args) {
-        console.log("intake form page loaded");
-    }
+
+
     // on frequency selection changes 
-    onFrequencySelectedIndexChange(args) {
-        let segmetedBar = <ListPicker>args.object;
-        this.freqSelectedIndex = segmetedBar.selectedIndex;
+    onFrequencySelectedIndexChange(item) {
+        this.freqSelectedValue = item;
         this.intakeForm.controls['interval'].clearValidators();
         this.intakeForm.controls['interval'].updateValueAndValidity();
         this.intakeForm.controls['numberofTimes'].clearValidators();
@@ -115,7 +160,7 @@ export class IntakeChartComponent implements OnInit {
         this.intakeForm.controls['splinstruction'].clearValidators();
         this.intakeForm.controls['splinstruction'].updateValueAndValidity();
         this.intervalIsValid = false;
-        switch (this.freqSelectedIndex) {
+        switch (this.freqSelectedValue) {
             case 0:
                 this.intakeForm.controls['numberofTimes'].setValidators([Validators.required, Validators.max(NUMBER_OF_TIMES_X_INTERVAL)]);
                 this.intakeForm.controls['numberofTimes'].updateValueAndValidity();
@@ -152,6 +197,7 @@ export class IntakeChartComponent implements OnInit {
         this.formData = Object.assign({}, this.intakeForm.value);
         this.formData.specificTimes = this.specifictimes;
 
+        this.formData.frequency = this.freqSelectedValue;
 
         // case for validating data.
         switch (this.formData.frequency) {
@@ -229,7 +275,10 @@ export class IntakeChartComponent implements OnInit {
         this.chartConfModel.frequency = data.frequency;
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.remark = data.remark;
-        this.chartConfModel.intakeType = this.intakeType[this.intakeForm.get('intakeType').value];
+        // this.chartConfModel.intakeType = this.intakeType[this.intakeForm.get('intakeType').value];
+        this.intakeSelectionCtl.SelectedItems.forEach(element => {
+            this.chartConfModel.intakeType = element;
+        });
         // this.chartConfModel.startDate = data.startDate
         let confString = JSON.stringify(this.chartConfModel);
 
@@ -313,7 +362,10 @@ export class IntakeChartComponent implements OnInit {
                     for (let item of medicineType) {
                         this.intakeType.push(item);
                     }
+                    this.selectionIntakeTypeData();
+                    this.selectionFrequencyData();
                 }
+
             },
             (error) => {
                 console.log("getChartData error:", error);

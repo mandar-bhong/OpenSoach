@@ -50,7 +50,7 @@
 
      <ActivityIndicator [busy]="isLoading"  class="indicator"></ActivityIndicator>
 
-     <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping" enableCollapsibleGroups="true">
+     <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping" >
 
        <ng-template tkListItemTemplate let-item="item">
          <RL:Ripple rippleColor="#6E737B" (tap)="details(item)">
@@ -99,10 +99,9 @@
          </RL:Ripple>
        </ng-template>
        <ng-template tkGroupTemplate let-category="category">
-         <GridLayout class="category-header">
-           <GridLayout style="background-color:#f6f6f6;" height="7"></GridLayout>
-           <Label class="nameLabel groupLabel" [text]="category"></Label>
-         </GridLayout>
+         <StackLayout  class="category-header" >
+           <Label class="nameLabel groupLabel"  text="{{getGroup(category)}}" ></Label>
+         </StackLayout>
        </ng-template>
      </RadListView>
    </GridLayout>

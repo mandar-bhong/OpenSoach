@@ -22,6 +22,7 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 import { SegmentedBarItem } from 'tns-core-modules/ui/segmented-bar/segmented-bar';
 import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
 import { knownFolders, Folder, File } from "tns-core-modules/file-system";
+import { OsSelectionListComponent, SELECTION_TYPE } from '~/app/os-selection-list.component';
 const imageSourceModule = require("tns-core-modules/image-source");
 const fileSystemModule = require("tns-core-modules/file-system");
 
@@ -109,11 +110,18 @@ export class DoctorOrdersComponent implements OnInit {
 	getFileItem: Array<any> = [];
 
 	VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
+
+	@ViewChild("doctorOrderSelectionControl",{static:true}) doctorOrderSelectionCtl: OsSelectionListComponent;
+	SELECTION_TYPE = SELECTION_TYPE;
+	
 	constructor(private params: ModalDialogParams,
 		private chartService: ChartService,
 		private passDataService: PassDataService) {
 		this.getFormView = true;
 	}
+	public displayText = (item: any) => {
+        return item;
+    }
 	// @ViewChild('aut') Item: RadAutoCompleteTextViewComponent;
 	ngOnInit() {
 		this.createFormControls();
@@ -125,6 +133,13 @@ export class DoctorOrdersComponent implements OnInit {
 		// drowing
 		this.addPluginToSegmentedBar("Drawing");
 	}
+	selectionDoctorTypeData() {
+        this.doctorOrderSelectionCtl.Items = this.orderType;
+        if (this.doctorOrderSelectionCtl.Items.length > 0) {
+            this.doctorOrderSelectionCtl.SelectedItems.push(this.doctorOrderSelectionCtl.Items[0]);
+        }
+        this.doctorOrderSelectionCtl.Init();
+    }
 	// << func for creating form controls
 	createFormControls(): void {
 		this.doctorOrdersForm = new FormGroup({
@@ -156,7 +171,11 @@ export class DoctorOrdersComponent implements OnInit {
 		serverDataStoreModel.data.doctor_id = doctorName;
 		serverDataStoreModel.data.doctors_orders = desc;
 		serverDataStoreModel.data.status = 0;
-		serverDataStoreModel.data.order_type = this.orderType[this.doctorOrdersForm.get('order_type').value];
+		// serverDataStoreModel.data.order_type = this.orderType[this.doctorOrdersForm.get('order_type').value];
+		this.doctorOrderSelectionCtl.SelectedItems.forEach(element => {
+            serverDataStoreModel.data.order_type = element;
+		});
+		console.log('serverDataStoreModel.data.order_type', serverDataStoreModel.data.order_type);
 		serverDataStoreModel.data.comment = doctorComment;
 		serverDataStoreModel.data.order_created_time = new Date().toISOString();
 		// to do call api of upload document and set received rec id here.
@@ -308,6 +327,8 @@ export class DoctorOrdersComponent implements OnInit {
 					for (let item of medicineType) {
 						this.orderType.push(item);
 					}
+					this.selectionDoctorTypeData();
+					console.log('this.orderType ---> ', this.orderType);
 				}
 			},
 			(error) => {

@@ -23,7 +23,7 @@
         <GridLayout col="1" style="vertical-align: center; text-align: center;margin-left: 5">
             <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
                 (tap)="goToMainList()">
-                <Label text="&#xf2bb;" class="homeicon fas click_icon_color" ></Label>
+                <Label text="&#xf2c2;" class="fas click_icon_color" style="font-size: 26;" ></Label>
             </RL:Ripple>
         </GridLayout>
     </GridLayout>
@@ -66,8 +66,8 @@
                     <GridLayout row="0" style="background-color:#f6f6f6;" height="7"></GridLayout>
                     <GridLayout row="1" rows="auto, auto" columns="*, auto" style="margin-right: 8px;">
                         <Label row="1" class="nameLabel" [text]="spname"></Label>
-                        <Switch row="1" col="1" class="m-15" [isEnabled]="!isDisabled"
-                            checked="{{groupingSwitch(spname)}}" (tap)="onToggleLocation($event, spname)"></Switch>
+                        <Switch row="1" col="1" class="m-15" [isEnabled]="!isDisabled" color="#FF8912" backgroundColor="#FF8912"
+                        offBackgroundColor="gray" checked="{{groupingSwitch(spname)}}" (tap)="onToggleLocation($event, spname)"></Switch>
                     </GridLayout>
                 </GridLayout>
             </ng-template>

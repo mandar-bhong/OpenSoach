@@ -23,9 +23,6 @@ import { AppGlobalContext } from '../app-global-context';
 import { DatabaseHelper } from '../helpers/database-helper';
 import { screen } from "tns-core-modules/platform/platform"
 
-import * as application from "tns-core-modules/application";
-
-var trace = require("trace");
 
 @Component({
 	selector: "Home",
@@ -42,23 +39,23 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	private layout: ListViewLinearLayout;
 	appMode: number;
 	appModeEnum = APP_MODE;
-	@ViewChild("myListView", {static: true}) listViewComponent: RadListViewComponent;
+	@ViewChild("myListView",{static:true}) listViewComponent: RadListViewComponent;
 	// view child 
-	@ViewChild(RadSideDrawerComponent, {static: true}) public drawerComponent: RadSideDrawerComponent;
+	@ViewChild(RadSideDrawerComponent,{static:true}) public drawerComponent: RadSideDrawerComponent;
 	private drawer: RadSideDrawer;
 	private _mainContentText: string;
 	// end 
 	// >> grouping 
-	public _funcGrouping: (item: PatientListViewModel) => PatientListViewModel;
-
+	public _funcGrouping: (item: any) => any;
 
 	// serach 
 	searchValue = "";
 	patientListChanged: Subscription;
 	patientListItemMaster = new PatientListViewModel();
-
+	
 	jsonField;
 	ACTION_STATUS = ACTION_STATUS;
+	NEW_Patient = "New Patient";
 	constructor(private routerExtensions: RouterExtensions,
 		private patientListService: PatientListService,
 		private passdataservice: PassDataService,
@@ -66,30 +63,24 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		private ngZone: NgZone,
 		private nextActionService: NextActionService) {
 
-		trace.enable();
-
 		this._funcGrouping = (item: any) => {
-			if (item) {
-				return item.dbmodel.sp_name;
-			}
+			return this.getGroupSorting(item);
 		};
+
 		this.patientListChanged = this.patientListService.patientListChangedSubject.subscribe((listItem) => {
 			this.onDataReceived(listItem);
 		});
 
 	}
 
-
 	ngOnInit() {
 		this.appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
 		console.log('home component init');
 		this.layout = new ListViewLinearLayout();
-		this.layout.scrollDirection = "Vertical";
+		// this.layout.scrollDirection = "Vertical";
 		this.getData();
 		this.jsonField = new JSONBaseDataModel<PersonAccompanyModel[]>();
 
-
-		
 	}
 
 	bindList() {
@@ -104,28 +95,31 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		} else {
 			this.listSource.forEach(item => {
 				this.listItems.push(item);
-
 			});
-			// console.log('this.listItems', this.listItems);
 		}
 	}
 
 	getData() {
-		this.patientListService.getData().then(
-			(val) => {
+		this.ngZone.run(() => {
+			this.patientListService.getData().then(
+				(val) => {
+					val.forEach(item => {
+						if (item.dbmodel.schedule_count == 0) {
+							item.dbmodel.custom = this.NEW_Patient;
+						} else {
+							item.dbmodel.custom = item.dbmodel.sp_name;
+						}
+						this.listSource.push(item);
+					});
+					this.getNextActionTimeForAll();
+					this.bindList();
+				},
+				(error) => {
+					console.log("patientListService error:", error);
+				}
 
-				val.forEach(item => {
-					this.listSource.push(item);
-				});
-
-				this.getNextActionTimeForAll();
-				this.bindList();
-			},
-			(error) => {
-				console.log("patientListService error:", error);
-			}
-
-		);
+			);
+		});
 	}
 
 	onDataReceived(items: PatientListViewModel[]) {
@@ -133,13 +127,17 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		this.ngZone.run(() => {
 			// check if this item exists in listSource by admission_uuid
 			this._funcGrouping = (item: any) => {
-				if (item) {
-					return item.dbmodel.sp_name;
-				}
+			
+				return this.getGroupSorting(item);
 			};
+
 			// console.log('on data received in home');
 			items.forEach(item => {
-
+				if (item.dbmodel.schedule_count == 0) {
+					item.dbmodel.custom = this.NEW_Patient;
+				} else {
+					item.dbmodel.custom = item.dbmodel.sp_name;
+				}
 				if (item.deleteuuid) {
 					this.listSource = this.listSource.filter(e => e.dbmodel.admission_uuid != item.deleteuuid);
 					this.bindList();
@@ -206,17 +204,6 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 			this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
 			this.isLoading = false;
 		}, 500);
-
-		var mi = new android.app.ActivityManager.MemoryInfo();
-		var activityManager = application.android.context.getSystemService(android.content.Context.ACTIVITY_SERVICE);
-		activityManager.getMemoryInfo(mi);
-		let usedMemory = mi.totalMem - mi.availMem;
-		// console.log("availMem in bytes: " + mi.availMem);
-
-		// console.log("availMem in bytes: " + mi.availMem);
-		console.log("Percentage usage: " + (usedMemory / mi.totalMem) * 100);
-		// console.log("Available memory (megabytes): " + mi.availMem);
-		console.log("Used memory (megabytes): " + (usedMemory / 1000000));
 	}
 
 	// clean up
@@ -293,4 +280,38 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	getServerList() {
 		this.routerExtensions.navigate(['home', 'monitore'], { clearHistory: false });
 	}// end of fucntions.
+	public getGroup(category) {
+		if (!category) {
+			return category;
+		}
+		return category.toString().split('@')[1];
+
+	}
+
+	
+	refreshListView() {
+		let filterfunc = this.listViewComponent.listView.filteringFunction;
+		this.listViewComponent.listView.filteringFunction = undefined;
+		this.listViewComponent.listView.filteringFunction = filterfunc;
+	}
+
+
+	getGroupSorting(item){
+		switch (item.dbmodel.custom) {
+			case this.NEW_Patient:
+				return "000" + '@' + item.dbmodel.custom;					
+		}
+
+		//TODO: this should be done as per the ward code, which shows that severity ward
+		if (item.dbmodel.custom.toLowerCase().toString().indexOf("icu") > 0){
+			return "111" + '@' + item.dbmodel.custom;	
+		}
+
+		if (item.dbmodel.custom.toLowerCase().toString().indexOf("emergency") > 0){
+			return "222" + '@' + item.dbmodel.custom;	
+		}
+
+		return  '3333@' + item.dbmodel.custom;
+	}
+
 }

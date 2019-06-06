@@ -25,12 +25,10 @@
                             <Label text="Order Type" class="body"></Label>
                         </GridLayout>
                     </GridLayout>
-                    <GridLayout row="1" columns="80, *, 80">
-                        <GridLayout class="input-field" col="1">
-                            <ListPicker [items]="orderType" formControlName="order_type" selectedIndex="0"
-                                class="p-15 picker">
-                            </ListPicker>
-                        </GridLayout>
+                    <GridLayout row="1" columns=" *" class="selection-list-panel">
+                        <os-selection-list #doctorOrderSelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                            [DisplayText]="displayText">
+                        </os-selection-list>
                     </GridLayout>
                     <GridLayout row="2"  rows="auto, auto, auto" class="marging-left-right">
                         <GridLayout row="0">

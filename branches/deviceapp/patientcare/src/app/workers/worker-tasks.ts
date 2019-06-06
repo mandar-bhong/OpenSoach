@@ -80,22 +80,13 @@ export class WorkerTasks {
 
         WorkerTasks.socket.on('close', (socket, code, reason) => {
             console.log('messages', "Websocket disconnected");
-            try{
-                WorkerTasks.isSocketInitialized = true;
-                WorkerTasks.raiseSocketConnectionEvent(false);
-            }catch(ex){
-                console.log("On WebSocket close",ex);
-            }
-            
+            WorkerTasks.isSocketInitialized = true;
+            WorkerTasks.raiseSocketConnectionEvent(false);
         });
         WorkerTasks.socket.on('error', (socket, error) => {
-            try{
-                console.log("The socket had an error", error);
-                WorkerTasks.isSocketInitialized = true;
-                WorkerTasks.raiseSocketConnectionEvent(false);
-            }catch(ex){
-                console.log("The socket had an error", error);
-            }           
+            console.log("The socket had an error", error);
+            WorkerTasks.isSocketInitialized = true;
+            WorkerTasks.raiseSocketConnectionEvent(false);
         });
 
         WorkerTasks.socket.open();

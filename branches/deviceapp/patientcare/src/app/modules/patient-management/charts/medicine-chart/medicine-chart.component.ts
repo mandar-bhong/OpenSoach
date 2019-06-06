@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDialogParams } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -25,6 +25,7 @@ import { PassDataService } from '~/app/services/pass-data-service';
 import { WorkerService } from '~/app/services/worker.service';
 import { AppNotificationService } from '~/app/services/app-notification-service';
 import { VALIDATION_REQUIRED_FIELD } from '~/app/common-constants';
+import { OsSelectionListComponent, SELECTION_TYPE } from '~/app/os-selection-list.component';
 
 @Component({
     moduleId: module.id,
@@ -48,7 +49,7 @@ export class MedicineChartComponent implements OnInit {
 
     foodInsItems: Array<SegmentedBarItem>;
     frequencyItems: Array<SegmentedBarItem>;
-    instSelectedIndex = 0;
+    foodSelectedValue = 0;
     freqSelectedIndex = 0;
 
     freqMorn: boolean;
@@ -59,6 +60,7 @@ export class MedicineChartComponent implements OnInit {
     patientName: string;
     public medicineType: Array<string> = [];
     public frequencyType: Array<FrequencyValues> = [];
+    public foodType: Array<FrequencyValues> = [];
     public picked: string;
     isStartTimeValid = false;
     // end of proccess variables
@@ -67,11 +69,25 @@ export class MedicineChartComponent implements OnInit {
         { name: "Every 'X' hours", value: 1 },
         // { name: "As Required", value: 2 }
     ];
+
+
+    foodList: FrequencyValues[] = [
+        { name: "Before Meal", value: 0 },
+        { name: "After Meal", value: 1 },
+    ];
     isInstruction = false;
     isSplinstructions = false;
     isDosage = false;
     isXTimesDay = false;
     VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
+
+    // >> Custom Control start
+    @ViewChild("medicineSelectionControl",{static:true}) medicineSelectionCtl: OsSelectionListComponent;
+    @ViewChild("frequencySelectionControl",{static:true}) frequencySelectionCtl: OsSelectionListComponent;
+    @ViewChild("foodSelectionControl",{static:true}) foodSelectionCtl: OsSelectionListComponent;
+    SELECTION_TYPE = SELECTION_TYPE;
+    // << Custom Control end
+
     constructor(private routerExtensions: RouterExtensions,
         private datePipe: DatePipe,
         public workerService: WorkerService,
@@ -93,30 +109,29 @@ export class MedicineChartComponent implements OnInit {
         for (let item of this.frequencyList) {
             this.frequencyType.push(item);
         }
+        this.foodType = [];
+        for (let item of this.foodList) {
+            this.foodType.push(item);
+        }
     }
 
+    public displayText = (item: any) => {
+        return item;
+    }
+
+    public displayFreqText = (item: any) => {
+        return item.name;
+    }
+
+    public displayFoodText = (item: any) => {
+        return item.name;
+    }
     ngOnInit() {
         // this.patientName = 'Raj Ghadage';
         // creating form control
         this.createFormControls();
         this.getMedicineType();
-        this.foodInsItems = [];
-        this.frequencyItems = [];
-        // set food instruction segmented bar items
-        const foodInsItem1 = new SegmentedBarItem();
-        foodInsItem1.title = "Before Meal";
-        this.foodInsItems.push(foodInsItem1);
-        const foodInsItem2 = new SegmentedBarItem();
-        foodInsItem2.title = "After Meal";
-        this.foodInsItems.push(foodInsItem2);
-
-        // set frequency segmented bar items
-        const freqItem1 = new SegmentedBarItem();
-        freqItem1.title = "'X'- Times a day";
-        this.frequencyItems.push(freqItem1);
-        const freqItem2 = new SegmentedBarItem();
-        freqItem2.title = "Every 'X' hours";
-        this.frequencyItems.push(freqItem2);
+      
         this.medicineForm.get('startDate').setValue(new Date());
         this.medicineForm.get('startTime').setValue(new Date());
         this.medicineForm.get('mornQuantity').setValue('1');
@@ -131,14 +146,46 @@ export class MedicineChartComponent implements OnInit {
     }
     // >> func for navigating previous page
 
-    onPageLoaded(args) {
-
+    // >> Custom Control start
+    selectionFrequencyData() {
+        this.frequencySelectionCtl.Items = this.frequencyType;
+        if (this.frequencySelectionCtl.Items.length > 0) {
+            this.frequencySelectionCtl.SelectedItems.push(this.frequencySelectionCtl.Items[0]);
+        }
+        this.frequencySelectionCtl.Init();
+  
+    }
+    
+    selectionMedicineTypeData() {
+        this.medicineSelectionCtl.Items = this.medicineType;
+        if (this.medicineSelectionCtl.Items.length > 0) {
+            this.medicineSelectionCtl.SelectedItems.push(this.medicineSelectionCtl.Items[0]);
+        }
+        this.medicineSelectionCtl.Init();
     }
 
-    onFrequencySelectedIndexChange(args) {
-        let segmetedBar = <ListPicker>args.object;
-        this.freqSelectedIndex = segmetedBar.selectedIndex;
-        this.medicineForm.controls['interval'].clearValidators();
+    freqItemChecked(value) {
+        this.onFrequencySelectedIndexChange(value.value);
+    }
+
+    selectionFoodData() {
+        this.foodSelectionCtl.Items = this.foodType;
+        if (this.foodSelectionCtl.Items.length > 0) {
+            this.foodSelectionCtl.SelectedItems.push(this.foodSelectionCtl.Items[0]);
+        }
+        this.foodSelectionCtl.Init();
+    }
+
+    foodItemChecked(value) {
+        this.onInstructionSelectedIndexChange(value.value);
+    }
+   
+    itemUnchecked(value) {
+    }
+
+    onFrequencySelectedIndexChange(item) {
+        this.freqSelectedIndex = item;
+         this.medicineForm.controls['interval'].clearValidators();
         this.medicineForm.controls['interval'].updateValueAndValidity();
         this.medicineForm.controls['numberofTimes'].clearValidators();
         this.medicineForm.controls['numberofTimes'].updateValueAndValidity();
@@ -166,9 +213,8 @@ export class MedicineChartComponent implements OnInit {
         }
     }
 
-    onInstructionSelectedIndexChange(args) {
-        let segmetedBar = <SegmentedBar>args.object;
-        this.instSelectedIndex = segmetedBar.selectedIndex;
+    onInstructionSelectedIndexChange(item) {  
+        this.foodSelectedValue = item;
     }
 
     // << func for submit form data
@@ -183,11 +229,14 @@ export class MedicineChartComponent implements OnInit {
         this.isSplinstructions = this.medicineForm.controls['splinstructions'].hasError('required');
         this.isDosage = this.medicineForm.controls['quantity'].hasError('required');
         const startTimeInMinutes = TimeConversion.getStartTime(this.datePipe.transform(this.medicineForm.get('startTime').value, "H.mm"));
+        const formData = new MedChartModel();
+        formData.mornFreqInfo = new MornFreqInfo();
+        formData.aftrnFreqInfo = new AftrnFreqInfo();
+        formData.nightFreqInfo = new NightFreqInfo();
 
-
-
+        formData.frequency = this.freqSelectedIndex;
         // frequency check
-        switch (this.medicineForm.get('frequency').value) {
+        switch (formData.frequency) {
             case 0:
                 if (!(this.freqMorn || this.freqAftrn || this.freqNight)) {
                     this.isXTimesDay = true;
@@ -235,15 +284,10 @@ export class MedicineChartComponent implements OnInit {
         }
 
         // assign form data to model
-        const formData = new MedChartModel();
-        formData.mornFreqInfo = new MornFreqInfo();
-        formData.aftrnFreqInfo = new AftrnFreqInfo();
-        formData.nightFreqInfo = new NightFreqInfo();
-
+       
+        formData.foodInst = this.foodSelectedValue;
         formData.name = this.medicineForm.get('name').value;
         formData.quantity = this.medicineForm.get('quantity').value;
-        formData.foodInst = this.medicineForm.get('foodInst').value;
-        formData.frequency = this.medicineForm.get('frequency').value;
         formData.mornFreqInfo.freqMorn = this.freqMorn;
         formData.mornFreqInfo.mornFreqQuantity = this.medicineForm.get('mornQuantity').value;
         formData.aftrnFreqInfo.freqAftrn = this.freqAftrn;
@@ -405,9 +449,11 @@ export class MedicineChartComponent implements OnInit {
             this.chartConfModel.splinstruction = data.splinstruction;
             this.chartConfModel.desc = data.splinstruction;
         }
-
+       
         this.chartConfModel.name = data.name;
-        this.chartConfModel.medicinetype = this.medicineType[this.medicineForm.get('medicineType').value];
+        this.medicineSelectionCtl.SelectedItems.forEach(element => {
+            this.chartConfModel.medicinetype = element;
+        });
         // this.chartConfModel.startDate =data.startDate
         this.chartConfModel.duration = data.duration;
         this.chartConfModel.frequency = data.frequency;
@@ -466,6 +512,9 @@ export class MedicineChartComponent implements OnInit {
                     for (let item of medicineType) {
                         this.medicineType.push(item);
                     }
+                    this.selectionMedicineTypeData();
+                    this.selectionFrequencyData();
+                    this.selectionFoodData();
                 }
             },
             (error) => {
