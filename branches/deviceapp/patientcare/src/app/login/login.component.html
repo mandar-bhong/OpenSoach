@@ -1,8 +1,8 @@
 <ActionBar title="test" style="color: white;">
-  <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="center" style="background-color: #396766; color: white;">
-    <Label text="patientcare" class="action-label"></Label>
-    <Label text=".live" class="action-label" style="color: #FF8912"></Label>
-  </StackLayout>
+  <GridLayout rows="auto auto" orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="center" style="background-color: #396766; color: white;">
+    <Label row="0" text="patientcare" class="action-label"></Label>
+    <Label row="1" text=".live" class="action-label" style="color: #FF8912"></Label>
+  </GridLayout>
 </ActionBar>
 
 <GridLayout columns="*" rows="*" style="background-color:#396766; justify-content: center;align-items: center;">
@@ -15,13 +15,13 @@
         </GridLayout>
 
         <GridLayout row="1">
-          <StackLayout *ngIf="isLoggingIn">
-            <TextField hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" [(ngModel)]="input.username"
+          <GridLayout rows="auto" *ngIf="isLoggingIn">
+            <TextField row="0" hint="Email Address" keyboardType="email" autocorrect="false" autocapitalizationType="none" [(ngModel)]="input.username"
               class="input input-border"></TextField>
-          </StackLayout>
-          <StackLayout *ngIf="!isLoggingIn">
-            <Label textWrap="true" class="sign-up-label " text="Contact System Administrator to register a device with Device Key: 123456"></Label>
-          </StackLayout>
+          </GridLayout>
+          <GridLayout rows="auto" *ngIf="!isLoggingIn">
+            <Label row="0" textWrap="true" class="sign-up-label " text="Contact System Administrator to register a device with Device Key: 123456"></Label>
+          </GridLayout>
         </GridLayout>
 
         <GridLayout row="2" *ngIf="isLoggingIn">
@@ -31,7 +31,7 @@
         <GridLayout row="3" rows="auto, auto">
           <Button row="0" [text]="'Sign in'" class="btn btn-primary" (tap)="login()" *ngIf="isLoggingIn"></Button>
           <Button row="0" [text]="'Sign up'" class="btn btn-primary" (tap)="login()" *ngIf="!isLoggingIn"></Button>
-          <StackLayout row="1" class="hr-light m-10" style="margin-top:1%"></StackLayout>
+          <GridLayout row="1" class="hr-light m-10" style="margin-top:1%"></GridLayout>
         </GridLayout>
 
         <GridLayout row="4" columns="auto, *, auto">

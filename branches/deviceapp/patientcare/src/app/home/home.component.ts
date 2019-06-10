@@ -52,7 +52,6 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	searchValue = "";
 	patientListChanged: Subscription;
 	patientListItemMaster = new PatientListViewModel();
-	
 	jsonField;
 	ACTION_STATUS = ACTION_STATUS;
 	NEW_Patient = "New Patient";
@@ -127,7 +126,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		this.ngZone.run(() => {
 			// check if this item exists in listSource by admission_uuid
 			this._funcGrouping = (item: any) => {
-			
+
 				return this.getGroupSorting(item);
 			};
 
@@ -288,30 +287,23 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 
 	}
 
-	
-	refreshListView() {
-		let filterfunc = this.listViewComponent.listView.filteringFunction;
-		this.listViewComponent.listView.filteringFunction = undefined;
-		this.listViewComponent.listView.filteringFunction = filterfunc;
-	}
 
-
-	getGroupSorting(item){
+	getGroupSorting(item) {
 		switch (item.dbmodel.custom) {
 			case this.NEW_Patient:
-				return "000" + '@' + item.dbmodel.custom;					
+				return "000" + '@' + item.dbmodel.custom;
 		}
 
 		//TODO: this should be done as per the ward code, which shows that severity ward
-		if (item.dbmodel.custom.toLowerCase().toString().indexOf("icu") > 0){
-			return "111" + '@' + item.dbmodel.custom;	
+		if (item.dbmodel.custom.toLowerCase().toString().indexOf("icu") > 0) {
+			return "111" + '@' + item.dbmodel.custom;
 		}
 
-		if (item.dbmodel.custom.toLowerCase().toString().indexOf("emergency") > 0){
-			return "222" + '@' + item.dbmodel.custom;	
+		if (item.dbmodel.custom.toLowerCase().toString().indexOf("emergency") > 0) {
+			return "222" + '@' + item.dbmodel.custom;
 		}
 
-		return  '3333@' + item.dbmodel.custom;
+		return '3333@' + item.dbmodel.custom;
 	}
 
 }

@@ -195,7 +195,6 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 
 	public getChartData(key: string) {
-
 		this.chartListItemsAll = new ObservableArray<ChartListViewModel>();
 		this.chartListItemsActive = new ObservableArray<ChartListViewModel>();
 		this.chartService.getScheduleList(key, this.passdataservice.getAdmissionID()).then(

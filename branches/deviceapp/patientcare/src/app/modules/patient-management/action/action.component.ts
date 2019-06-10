@@ -200,8 +200,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.activeList();
 		}, 300)
 
-		
-
 	}// end of ng init.
 
 	async prepareData() {
