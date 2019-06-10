@@ -29,19 +29,19 @@ export class PersonAccompanyingDetailsComponent implements OnInit {
 					this.jsonField.data = [];
 					Object.assign(this.jsonField, JSON.parse(item.person_accompanying));
 					if (this.jsonField.data.length > 0) {
-						switch(this.jsonField.data[0].gender){
-						   case 0:
-						   this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
-						   break;
-						   case 1:
-						   this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_MALE;
-						   break;
-						   case 2:
-						   this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
-						   break;
+						switch (this.jsonField.data[0].gender) {
+							case 0:
+								this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
+								break;
+							case 1:
+								this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_MALE;
+								break;
+							case 2:
+								this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
+								break;
 						}
 						this.personAccompanyDetailsModel = this.jsonField.data[0];
-						
+
 					}
 				});
 			},
@@ -49,5 +49,15 @@ export class PersonAccompanyingDetailsComponent implements OnInit {
 				console.log("person_accompanying error:", error);
 			}
 		);
+	}
+	prepareContact(contact, alternateContact) {
+		let contactString;
+		if (contact) {
+			contactString = contact;
+		}
+		if (alternateContact) {
+			contactString += ',' + alternateContact
+		}
+		return contactString;
 	}
 }

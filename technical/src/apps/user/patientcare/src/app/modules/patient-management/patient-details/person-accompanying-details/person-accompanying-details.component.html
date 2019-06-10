@@ -21,7 +21,7 @@
                 <Label class="body" textWrap="true" text="Contact"></Label>
                 <GridLayout col="0" row="1" rows="auto" columns=" auto">
                     <Label row="0" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912" style="font-size: 15;"></Label>
-                    <Label row="1" class="labelleft label-small" textWrap="true" text="{{personAccompanyDetailsModel.contact + ', ' +  personAccompanyDetailsModel.alternatecontact}}"
+                    <Label row="1" class="labelleft label-small" textWrap="true" text="{{prepareContact(personAccompanyDetailsModel.contact ,personAccompanyDetailsModel.alternatecontact)}}"
                         style="margin-left: 20;"></Label>
                 </GridLayout>
             </GridLayout>
