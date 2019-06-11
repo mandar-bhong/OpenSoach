@@ -15,6 +15,14 @@ drop database if exists spl_hpft_node_0001;
 create database spl_hpft_node_0001 DEFAULT CHARACTER SET utf8;
 use spl_hpft_node_0001;
 
+
+--
+-- Disable sql mode = ONLY_FULL_GROUP_BY
+--
+
+SET sql_mode= (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+SET GLOBAL sql_mode= (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+
 --
 -- Table structure for table `spl_node_cpm_tbl`
 --
