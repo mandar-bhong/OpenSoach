@@ -134,17 +134,18 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 
 			// console.log('on data received in home');
 			items.forEach(item => {
-				if (item.dbmodel) {
+								
+				if (item.deleteuuid) {
+					this.listSource = this.listSource.filter(e => e.dbmodel.admission_uuid != item.deleteuuid);
+					this.bindList();
+				} else {
+
 					if (item.dbmodel.schedule_count == 0) {
 						item.dbmodel.custom = this.NEW_Patient;
 					} else {
 						item.dbmodel.custom = item.dbmodel.sp_name;
 					}
-				} 
-				if (item.deleteuuid) {
-					this.listSource = this.listSource.filter(e => e.dbmodel.admission_uuid != item.deleteuuid);
-					this.bindList();
-				} else {
+
 					const existingItem = this.listSource.find(a => a.dbmodel.admission_uuid === item.dbmodel.admission_uuid);
 					if (existingItem) {
 						Object.assign(existingItem, item);
