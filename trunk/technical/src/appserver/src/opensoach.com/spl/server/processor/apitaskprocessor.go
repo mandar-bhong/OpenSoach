@@ -387,6 +387,7 @@ func APIHandlerCustServPointAssociated(msg string, sessionkey string,
 
 		dbInstanceSpInsertModel := &lmodels.APITaskDBNodeSpInsertRowModel{}
 		dbInstanceSpInsertModel.SpId = taskCustServicePointAssociatedModel.SpIdList[i]
+		dbInstanceSpInsertModel.Uuid = ghelper.GenerateUUID()
 		dbInstanceSpInsertModel.SpcId = 1
 		dbInstanceSpInsertModel.CpmId = taskCustServicePointAssociatedModel.CpmId
 		Spid := dbInstanceSpInsertModel.SpId

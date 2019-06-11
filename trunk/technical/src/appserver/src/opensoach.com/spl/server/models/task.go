@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	pcmodels "opensoach.com/prodcore/models"
+)
 
 type APITaskHandlerFunc func(msg string, sessionkey string, token string, taskData interface{}) (error, APITaskResultModel)
 
@@ -39,7 +43,8 @@ type APITaskDBInstanceSpCategoryInsertModel struct {
 }
 
 type APITaskDBNodeSpInsertRowModel struct {
-	SpId         int64     `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	SpId int64 `db:"sp_id_fk" dbattr:"pri"  json:"spid"`
+	pcmodels.StoreEntityModel
 	CpmId        int64     `db:"cpm_id_fk" json:"cpmid"`
 	SpcId        int64     `db:"spc_id_fk" json:"spcid"`
 	SpName       string    `db:"sp_name" json:"spname"`
