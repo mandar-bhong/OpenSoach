@@ -103,11 +103,13 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 			this.patientListService.getData().then(
 				(val) => {
 					val.forEach(item => {
-						if (item.dbmodel.schedule_count == 0) {
-							item.dbmodel.custom = this.NEW_Patient;
-						} else {
-							item.dbmodel.custom = item.dbmodel.sp_name;
-						}
+						if (item.dbmodel) {
+							if (item.dbmodel.schedule_count == 0) {
+								item.dbmodel.custom = this.NEW_Patient;
+							} else {
+								item.dbmodel.custom = item.dbmodel.sp_name;
+							}
+						} 
 						this.listSource.push(item);
 					});
 					this.getNextActionTimeForAll();
@@ -132,11 +134,13 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 
 			// console.log('on data received in home');
 			items.forEach(item => {
-				if (item.dbmodel.schedule_count == 0) {
-					item.dbmodel.custom = this.NEW_Patient;
-				} else {
-					item.dbmodel.custom = item.dbmodel.sp_name;
-				}
+				if (item.dbmodel) {
+					if (item.dbmodel.schedule_count == 0) {
+						item.dbmodel.custom = this.NEW_Patient;
+					} else {
+						item.dbmodel.custom = item.dbmodel.sp_name;
+					}
+				} 
 				if (item.deleteuuid) {
 					this.listSource = this.listSource.filter(e => e.dbmodel.admission_uuid != item.deleteuuid);
 					this.bindList();
