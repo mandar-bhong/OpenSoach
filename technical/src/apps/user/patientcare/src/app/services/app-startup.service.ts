@@ -45,7 +45,7 @@ export class AppStartupService {
 
         // const appMode = appSettings.getNumber("APP_MODE", APP_MODE.NONE);
         const appMode = APP_MODE.NONE;
-        const token = appSettings.getString("AUTH_TOKEN");    
+        const token = appSettings.getString("AUTH_TOKEN");
         console.log("AUTH_TOKEN", token);
         console.log("appMode", appMode);
         if (appMode == APP_MODE.NONE) {
@@ -84,9 +84,7 @@ export class AppStartupService {
     getSerialNumber(): string {
         //TODO: Read the serial number
         // Set the Serial Number in AppGlobalContext
-
-        //   const serialNumber = "1234567890123456";
-        const serialNumber = "12345";
+        const serialNumber = "1234567890123456";
         return serialNumber;
     }
 
@@ -100,8 +98,7 @@ export class AppStartupService {
         // Navigate to login page
 
 
-        // const SerialNo = PlatformHelper.API.getSerialNumber();
-        const SerialNo = this.getSerialNumber();
+        const SerialNo = PlatformHelper.API.getSerialNumber();
         AppGlobalContext.SerialNumber = SerialNo;
 
         console.log("SerialNo:", SerialNo);
@@ -135,7 +132,7 @@ export class AppStartupService {
         AppGlobalContext.Token = resData.token;
         AppGlobalContext.WebsocketUrl = resData.locationurl;
         console.log("AppGlobalContext.Token", AppGlobalContext.Token);
-       this.initAppStart();
+        this.initAppStart();
     }
 
     initAppStart() {
@@ -145,9 +142,9 @@ export class AppStartupService {
         initModel.msgtype = SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE;
         initModel.data = {};
         initModel.data.WebsocketUrl = AppGlobalContext.WebsocketUrl;
-        initModel.data.Token = AppGlobalContext.Token;        
-          this.workerService.postMessageToServerDataProcessorWorker(initModel);       
-        this.routerExtensions.navigate(['home'], { clearHistory: true });     
+        initModel.data.Token = AppGlobalContext.Token;
+        this.workerService.postMessageToServerDataProcessorWorker(initModel);
+        this.routerExtensions.navigate(['home'], { clearHistory: true });
         this.isStartupInprogress = false;
     }
 }
