@@ -28,6 +28,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   firstView = false;
   secondView = false;
   ErrorCode: number;
+  genderCollection: any[] = [];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -48,9 +49,10 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
       this.activateQueryParameter = JSON.parse(JSON.stringify(params));
       this.receivedCode = this.activateQueryParameter.code;
     });
+    this.genderCollection.push({itemName:'Male',itemValue:1},{ itemName:'Female',itemValue:2},{itemName:'Other',itemValue:3});
 
-    this.getActivationParams();
-
+    //  this.getActivationParams();
+    this.firstView = true;
   }
 
   createControls(): void {
@@ -59,6 +61,10 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
       confirmpasswordControl: new FormControl('', [Validators.required]),
       fNameControl: new FormControl('', [Validators.required]),
       lNameControl: new FormControl('', [Validators.required]),
+      genderControl: new FormControl('', [Validators.required]),
+      mobileNumberControl: new FormControl(),
+      alternateContactControl: new FormControl(),
+
     });
   }
 
@@ -68,8 +74,11 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
       const changeUserPasswordRequest = new ChangeUserPasswordRequest();
       this.dataModel.usrid = this.userId;
       this.dataModel.copyTo(changeUserPasswordRequest);
-      changeUserPasswordRequest.fname= this.editableForm.get('fNameControl').value;
-      changeUserPasswordRequest.lname= this.editableForm.get('lNameControl').value;
+      changeUserPasswordRequest.fname = this.editableForm.get('fNameControl').value;
+      changeUserPasswordRequest.lname = this.editableForm.get('lNameControl').value;
+      changeUserPasswordRequest.gender= this.editableForm.get('genderControl').value;
+      changeUserPasswordRequest.mobileno = this.editableForm.get('mobileNumberControl').value;
+      changeUserPasswordRequest.alternatecontactno = this.editableForm.get('alternateContactControl').value;
       if (this.dataModel.newpassword === this.dataModel.confirmpassword) {
         this.authService.changeUserPassword(changeUserPasswordRequest).subscribe(payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
@@ -90,7 +99,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
   // get activation code from mail
   getActivationParams() {
     // write code of get 
-   
+
     // if response success then manage if conditions.
     const activationChangePassword = new ActivationChangePassword;
     activationChangePassword.code = this.receivedCode;
