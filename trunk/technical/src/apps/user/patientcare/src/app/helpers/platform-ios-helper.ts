@@ -5,6 +5,13 @@ export class PlatformiOSHelper implements PlatformHelperAPI {
         return "";
     }
     getSerialNumber(): string {
-        return "";
+        let serialNumber = '';
+        try {
+            var plugin = require("nativescript-uuid");
+            serialNumber = plugin.getUUID();          
+        } catch (err) {
+            console.error('error occured while getting serial number', err);
+        }
+        return serialNumber;
     }
 }

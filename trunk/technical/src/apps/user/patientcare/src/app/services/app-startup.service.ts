@@ -10,7 +10,10 @@ import * as trace from 'tns-core-modules/trace';
 import { TraceCustomCategory } from "../helpers/trace-helper";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ServerDataProcessorMessageModel } from "../models/api/server-data-processor-message-model";
-
+import { isAndroid, isIOS, device, screen } from "tns-core-modules/platform";
+import * as application from 'tns-core-modules/application';
+import { PlatformAndroidHelper } from "../helpers/platform-android-helper";
+import { PlatformiOSHelper } from "../helpers/platform-ios-helper";
 @Injectable()
 
 export class AppStartupService {
@@ -23,7 +26,6 @@ export class AppStartupService {
 
         // init PlatformHelper
         PlatformHelper.init();
-
         this.databaseSchemaService.setOfflineDB().then(() => {
             this.onDbCreate();
         });
@@ -84,8 +86,15 @@ export class AppStartupService {
     getSerialNumber(): string {
         //TODO: Read the serial number
         // Set the Serial Number in AppGlobalContext
-        const serialNumber = "1234567890123456";
-        return serialNumber;
+        //  const serialNumber = "1234567890123456";
+        //   const serialNumber = "12345";
+        if (isAndroid) {
+            console.log('android serial number', new PlatformAndroidHelper().getSerialNumber());
+            return new PlatformAndroidHelper().getSerialNumber();
+        } else if (isIOS) {
+            console.log('ios serial number', new PlatformiOSHelper().getSerialNumber());
+            return new PlatformiOSHelper().getSerialNumber();
+        }
     }
 
     checkIfDeviceIsRegistered() {
@@ -98,7 +107,8 @@ export class AppStartupService {
         // Navigate to login page
 
 
-        const SerialNo = PlatformHelper.API.getSerialNumber();
+        // const SerialNo = PlatformHelper.API.getSerialNumber();
+        const SerialNo = this.getSerialNumber();
         AppGlobalContext.SerialNumber = SerialNo;
 
         console.log("SerialNo:", SerialNo);
@@ -132,7 +142,7 @@ export class AppStartupService {
         AppGlobalContext.Token = resData.token;
         AppGlobalContext.WebsocketUrl = resData.locationurl;
         console.log("AppGlobalContext.Token", AppGlobalContext.Token);
-        this.initAppStart();
+            this.initAppStart();
     }
 
     initAppStart() {

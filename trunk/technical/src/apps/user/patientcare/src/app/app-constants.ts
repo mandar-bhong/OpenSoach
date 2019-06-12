@@ -108,6 +108,7 @@ export enum AdmissionStatus {
 // dev server
 export const API_SPL_BASE_URL = "http://172.105.232.148/api";
 export const API_APP_BASE_URL = "http://172.105.232.148:91/api";
+export const InfluxDb_Log = 'http://172.105.232.148:8086/write?db=spl';
 
 // prod server
 // export const API_SPL_BASE_URL = "http://139.162.75.182:91/api";
@@ -116,7 +117,7 @@ export const API_APP_BASE_URL = "http://172.105.232.148:91/api";
 export const ACTION_MISSED_WINDOW = 3 * 60;
 export const ACTION_DELAYED_AFTER = 30;
 export const ACTION_NEEDS_ATTENTION = 15;
-export const ACTION_FUTURE_AFTER = 3 * 60;
+export const ACTION_FUTURE_AFTER = 8 * 60;
 
 export enum ACTION_STATUS {
     // disabled color. there are no actions to be performed in next 3 hours
@@ -149,3 +150,19 @@ export const MAXIMUM_SCHEDULE_DURATION = 20;
 export const MAX_INTERVAL = 23 * 60;
 export const MIN_INTERVAL = 5;
 export const NUMBER_OF_TIMES_X_INTERVAL = 23;
+export enum BuildMode {
+    TESTING = 'Testing',
+    DEVELOPMENT = 'Development',
+    DEBUG = 'Debug',
+    PRODUCTION = 'Production',
+    STAGING = 'Satging'
+}
+export enum MessageType {
+    ERROR = 'ERROR',
+    WARNING = 'WARNING',
+    EXCEPTION = 'EXCEPTION'
+
+}
+export enum EnvVaraibles {
+    BUILD_MODE = 'buildmode'
+}

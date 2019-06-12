@@ -256,7 +256,11 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                "process": undefined,
+                // "process": undefined,
+                'process.env': {
+                    'buildmode': JSON.stringify(env && env.buildmode ? env.buildmode : "")                   
+                    // etc, these are just examples
+                }
             }),
             // Remove all files from the out dir.
             new CleanWebpackPlugin([`${dist}/**/*`]),
