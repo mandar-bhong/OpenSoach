@@ -51,8 +51,8 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     });
     this.genderCollection.push({itemName:'Male',itemValue:1},{ itemName:'Female',itemValue:2},{itemName:'Other',itemValue:3});
 
-    //  this.getActivationParams();
-    this.firstView = true;
+      this.getActivationParams();
+   // this.firstView = true;
   }
 
   createControls(): void {
