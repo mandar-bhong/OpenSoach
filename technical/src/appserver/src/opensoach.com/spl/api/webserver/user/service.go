@@ -802,6 +802,9 @@ func (service UserService) CreateUserPassword(passData lmodels.APICreatePassword
 	dbSplMasterUsrDetailsRowModel.UsrId = passData.UserID
 	dbSplMasterUsrDetailsRowModel.Fname = &passData.Fname
 	dbSplMasterUsrDetailsRowModel.Lname = &passData.Lname
+	dbSplMasterUsrDetailsRowModel.Gender = passData.Gender
+	dbSplMasterUsrDetailsRowModel.MobileNo = passData.MobileNo
+	dbSplMasterUsrDetailsRowModel.AlternateContactNo = passData.AlternateContactNo
 
 	err, _ := dbaccess.UserDetailsTableInsert(tx, dbSplMasterUsrDetailsRowModel)
 	if err != nil {
