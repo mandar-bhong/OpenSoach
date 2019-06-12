@@ -1,4 +1,4 @@
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { ErrorHandler, NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -21,6 +21,16 @@ import { NextActionService } from "./services/action/next-action-service";
 import { UserAuthService } from "./services/user-auth/user-auth-service";
 import { NativeScriptAnimationsModule } from "nativescript-angular/animations";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
+
+import { TraceAngularErrorHandler } from "./helpers/trace-angular-error-handler";
+
+
+
+export function angularErrorHandlerFactory() {  
+    return new  TraceAngularErrorHandler();
+}
+
+
 @NgModule({
     bootstrap: [
         AppComponent
@@ -52,7 +62,8 @@ import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angul
         ServerApiInterfaceService,
         AppStartupService,
         NextActionService,
-        UserAuthService
+        UserAuthService,
+        { provide: ErrorHandler, useFactory: angularErrorHandlerFactory }
     ],
     exports:[
         // NetworkStatusComponent
