@@ -42,6 +42,8 @@ type APIUserActivateRequestModel struct {
 type APICreatePasswordRequest struct {
 	UserID      int64  `json:"usrid"`
 	NewPassword string `json:"newpassword"`
+	Fname       string `json:"fname"`
+	Lname       string `json:"lname"`
 }
 
 type APIForgotPasswordRequest struct {
