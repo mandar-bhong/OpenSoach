@@ -100,6 +100,9 @@ export class ChangeUserPasswordRequest {
     usrid: number;
     newpassword: string;
     confirmpassword: string;
+    fname: string;
+    lname: string;
+
 }
 export class ActivationChangePassword {
     code: string;
