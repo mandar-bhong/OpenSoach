@@ -8,13 +8,6 @@
       "version": "5.4.0"
     }
   },
-  "android": {
-    "markingMode": "none",
-    "v8Flags": "--expose_gc",
-    "gcThrottleTime": 500,
-    "memoryCheckInterval": 500,
-    "freeMemoryRatio": 0.5
-  },
   "scripts": {
     "androiddebug": "node --max_old_space_size=4096 tns debug android --bundle"
   },
@@ -40,10 +33,8 @@
     "nativescript-cfalert-dialog": "^1.0.14",
     "nativescript-drawingpad": "^3.0.4",
     "nativescript-fancyalert": "^3.0.6",
-    "nativescript-image-zoom": "^3.0.3",
     "nativescript-imagepicker": "^6.0.4",
     "nativescript-local-notifications": "^3.1.0",
-    "nativescript-permissions": "^1.3.6",
     "nativescript-ripple": "^2.1.0",
     "nativescript-snackbar": "^4.0.0",
     "nativescript-sqlite": "^2.2.3",
@@ -53,6 +44,7 @@
     "nativescript-ui-chart": "^3.10.0",
     "nativescript-ui-listview": "^5.0.0",
     "nativescript-ui-sidedrawer": "^6.0.0",
+    "nativescript-uuid": "0.0.1",
     "nativescript-websockets": "^1.5.3",
     "reflect-metadata": "~0.1.8",
     "rxjs": "^6.3.3",

@@ -22,6 +22,7 @@ import * as appSettings from "tns-core-modules/application-settings";
 import { AppGlobalContext } from '../app-global-context';
 import { DatabaseHelper } from '../helpers/database-helper';
 import { screen } from "tns-core-modules/platform/platform"
+import * as traceModule from "tns-core-modules/trace"
 
 
 @Component({
@@ -198,6 +199,15 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	}
 
 	details(listItem) {
+		// creating exeception manually for testing. remove this code after testing influxdb.
+	//	var btn = new android.widget.Button(null);
+		// const shthppns =r;
+		// const x = new Error()
+		// x.name = 'Angular Error';
+		// x.message = 'can not read value of undefined';
+		// x.stack = "Home.component.ts"
+		//traceModule.error("This is error generated from home module");
+
 		// console.log(listItem);
 		this.passdataservice.setPatientData(listItem);
 		// console.log('listItem',listItem);
@@ -252,8 +262,10 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	}
 
 	ngAfterViewInit() {
-		this.drawer = this.drawerComponent.sideDrawer;
-		this._changeDetectionRef.detectChanges();
+		if (this.drawerComponent) {
+			this.drawer = this.drawerComponent.sideDrawer;
+			this._changeDetectionRef.detectChanges();
+		}
 	}
 	//log out 
 	async logout() {
