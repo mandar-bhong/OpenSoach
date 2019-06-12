@@ -16,7 +16,7 @@ import { EditRecordBase, FORM_MODE } from '../../../views/edit-record-base';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent extends EditRecordBase implements OnInit, OnDestroy {
- 
+
   dataModel = new ConfirmPasswordModel();
   successHide = true;
   activateSubscription: Subscription;
@@ -52,11 +52,13 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     this.getActivationParams();
 
   }
-  
+
   createControls(): void {
     this.editableForm = new FormGroup({
       newpasswordControl: new FormControl('', [Validators.required]),
       confirmpasswordControl: new FormControl('', [Validators.required]),
+      fNameControl: new FormControl('', [Validators.required]),
+      lNameControl: new FormControl('', [Validators.required]),
     });
   }
 
@@ -66,6 +68,8 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
       const changeUserPasswordRequest = new ChangeUserPasswordRequest();
       this.dataModel.usrid = this.userId;
       this.dataModel.copyTo(changeUserPasswordRequest);
+      changeUserPasswordRequest.fname= this.editableForm.get('fNameControl').value;
+      changeUserPasswordRequest.lname= this.editableForm.get('lNameControl').value;
       if (this.dataModel.newpassword === this.dataModel.confirmpassword) {
         this.authService.changeUserPassword(changeUserPasswordRequest).subscribe(payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
@@ -83,9 +87,10 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     }
   }
 
-// get activation code from mail
+  // get activation code from mail
   getActivationParams() {
     // write code of get 
+   
     // if response success then manage if conditions.
     const activationChangePassword = new ActivationChangePassword;
     activationChangePassword.code = this.receivedCode;
@@ -106,7 +111,7 @@ export class ChangePasswordComponent extends EditRecordBase implements OnInit, O
     this.router.navigate([this.callbackUrl], { skipLocationChange: true });
   }
 
-  ngOnDestroy() {    
+  ngOnDestroy() {
     if (this.activateSubscription) {
       this.activateSubscription.unsubscribe();
     }
