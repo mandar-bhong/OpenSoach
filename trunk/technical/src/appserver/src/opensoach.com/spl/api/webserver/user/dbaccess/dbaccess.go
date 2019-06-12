@@ -553,3 +553,36 @@ func VailidateOtpCode(dbConn, otp, usrname string) (error, *[]lmodels.DBSplMaste
 	}
 	return nil, data
 }
+
+func CreateUsrPassword(tx *sqlx.Tx, updtStruct lmodels.DBSplMasterUserRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing CreateUsrPassword")
+
+	updateCtx := dbmgr.UpdateDeleteTxContext{}
+	updateCtx.Tx = tx
+	updateCtx.Args = updtStruct
+	updateCtx.Query = dbquery.QUERY_SPL_MASTER_USER_TABLE_CHANGE_PASSWORD
+	updateCtx.QueryType = dbmgr.Query
+	updateCtx.TableName = constants.DB_TABLE_USER_TBL
+	updateErr := updateCtx.Update()
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
+func UserDetailsTableInsert(tx *sqlx.Tx, insrtStruct lmodels.DBSplMasterUsrDetailsRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing UserDetailsTableInsert")
+
+	insDBCtx := dbmgr.InsertTxContext{}
+	insDBCtx.Tx = tx
+	insDBCtx.Args = insrtStruct
+	insDBCtx.QueryType = dbmgr.AutoQuery
+	insDBCtx.TableName = constants.DB_TABLE_USER_DETAILS_TBL
+	insErr := insDBCtx.Insert()
+	if insErr != nil {
+		return insErr, 0
+	}
+	return nil, insDBCtx.InsertID
+}

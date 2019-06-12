@@ -774,16 +774,62 @@ func (service UserService) CreateUserPassword(passData lmodels.APICreatePassword
 	updateUserData.UsrId = passData.UserID
 	updateUserData.UsrPassword = passData.NewPassword
 
-	dbErr, _ := dbaccess.UpdateUsrPassword(repo.Instance().Context.Master.DBConn, updateUserData)
+	dbTxErr, tx := dbaccess.GetDBTransaction(repo.Instance().Context.Master.DBConn)
+
+	if dbTxErr != nil {
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbErr, _ := dbaccess.CreateUsrPassword(tx, updateUserData)
 	if dbErr != nil {
-		logger.Context().WithField("InputRequest", passData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating user password.", dbErr)
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().WithField("InputRequest", passData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while creating user password.", dbErr)
 
 		errModel := gmodels.APIResponseError{}
 		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
 		return false, errModel
 	}
 
-	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User password changed successfully.")
+	dbSplMasterUsrDetailsRowModel := lmodels.DBSplMasterUsrDetailsRowModel{}
+	dbSplMasterUsrDetailsRowModel.UsrId = passData.UserID
+	dbSplMasterUsrDetailsRowModel.Fname = &passData.Fname
+	dbSplMasterUsrDetailsRowModel.Lname = &passData.Lname
+
+	err, _ := dbaccess.UserDetailsTableInsert(tx, dbSplMasterUsrDetailsRowModel)
+	if err != nil {
+
+		txErr := tx.Rollback()
+
+		if txErr != nil {
+			logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to rollback transaction", txErr)
+		}
+
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while adding user details.", err)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	txErr := tx.Commit()
+
+	if txErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Failed to commit transaction", txErr)
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User password created successfully.")
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "User detais added succesfully.")
 
 	return true, nil
 
