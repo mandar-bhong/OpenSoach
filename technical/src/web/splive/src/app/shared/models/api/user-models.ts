@@ -102,6 +102,10 @@ export class ChangeUserPasswordRequest {
     confirmpassword: string;
     fname: string;
     lname: string;
+    gender: number;
+    mobileno: string;
+    alternatecontactno: string;
+
 
 }
 export class ActivationChangePassword {
