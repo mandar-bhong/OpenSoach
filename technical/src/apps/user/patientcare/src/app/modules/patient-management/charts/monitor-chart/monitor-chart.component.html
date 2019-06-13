@@ -82,18 +82,14 @@
                                 <GridLayout row="0">
                                     <Label text="Monitoring time frame" class="body"></Label>
                                 </GridLayout>
+                                
                                 <GridLayout row="1">
-                                    <Label text="Start Time"></Label>
+                                    <Label text="Start Date" class="body"></Label>
                                 </GridLayout>
                                 <GridLayout row="2">
-                                    <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime">
-                                    </TimePicker>
+                                    <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
                                 </GridLayout>
-                                <GridLayout row="3" *ngIf="isStartTimeValid">
-                                    <Label textWrap="true"
-                                        text="Start time should be greater than current time or 10 minutes less"
-                                        style="color:red"></Label>
-                                </GridLayout>
+
                             </GridLayout>
                             <!-- <StackLayout class="input-field">
                         <Label text="End Time"></Label>
@@ -159,13 +155,20 @@
                         </GridLayout>
                         <!-- end of eduration validations -->
                     </GridLayout>
-
-                    <GridLayout row="4" rows="auto auto" class="input-field">
+                    <GridLayout row="4" rows="auto, auto, auto" class="input-field">
+                        
+                       
                         <GridLayout row="0">
-                            <Label text="Start Date" class="body"></Label>
+                            <Label text="Start Time" class="body"></Label>
                         </GridLayout>
                         <GridLayout row="1">
-                            <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
+                            <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime">
+                            </TimePicker>
+                        </GridLayout>
+                        <GridLayout row="2" *ngIf="isStartTimeValid">
+                            <Label textWrap="true"
+                                text="Start time should be greater than current time or 10 minutes less"
+                                style="color:red"></Label>
                         </GridLayout>
                     </GridLayout>
 
