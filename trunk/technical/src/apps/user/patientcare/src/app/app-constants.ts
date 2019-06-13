@@ -150,12 +150,11 @@ export const MAXIMUM_SCHEDULE_DURATION = 20;
 export const MAX_INTERVAL = 23 * 60;
 export const MIN_INTERVAL = 5;
 export const NUMBER_OF_TIMES_X_INTERVAL = 23;
+
 export enum BuildMode {
-    TESTING = 'Testing',
-    DEVELOPMENT = 'Development',
-    DEBUG = 'Debug',
-    PRODUCTION = 'Production',
-    STAGING = 'Satging'
+    TESTING = 'testing',
+    DEVELOPMENT = 'dev',    
+    PRODUCTION = 'prod'
 }
 export enum MessageType {
     ERROR = 'ERROR',
