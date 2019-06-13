@@ -242,7 +242,7 @@ module.exports = env => {
                     ]
                 },
                  // Compile Worker files with ts-loader
-                 { test: /\.worker.ts$/, loader: "ts-loader" },
+                 { test: /\.worker.ts$/, loader: "ts-loader",options: {transpileOnly: true} },
 
                 // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
                 // Removing this will cause deprecation warnings to appear.
