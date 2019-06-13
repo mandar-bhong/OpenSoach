@@ -3,9 +3,8 @@
    <GridLayout row="*" columns="auto,*, auto" height="100%" width="100%">
      <GridLayout col="0" columns="auto" class="button-dist" style="vertical-align: center;"
        *ngIf="appMode==appModeEnum.USER_DEVICE">
-       <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
-       (tap)="openDrawer()">
-         <Label  col="0" class="homeicon mdi" text="&#xfdac;"></Label>
+       <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="openDrawer()">
+         <Label col="0" class="homeicon mdi" text="&#xfdac;"></Label>
        </RL:Ripple>
 
      </GridLayout>
@@ -42,15 +41,15 @@
      <GridLayout col="1" style="vertical-align: center; text-align: center;" *ngIf="appMode==appModeEnum.USER_DEVICE">
        <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
          (tap)="getServerList()">
-         <Label text="&#xf234;" class="homeicon fas click_icon_color" ></Label>
+         <Label text="&#xf234;" class="homeicon fas click_icon_color"></Label>
        </RL:Ripple>
      </GridLayout>
    </GridLayout>
    <GridLayout row="1" col="0">
 
-     <ActivityIndicator [busy]="isLoading"  class="indicator"></ActivityIndicator>
+     <ActivityIndicator [busy]="isLoading" class="indicator"></ActivityIndicator>
 
-     <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping" >
+     <RadListView #myListView [items]="listItems" [groupingFunction]="_funcGrouping">
 
        <ng-template tkListItemTemplate let-item="item">
          <RL:Ripple rippleColor="#6E737B" (tap)="details(item)">
@@ -75,7 +74,7 @@
                </GridLayout>
 
                <GridLayout row="0" col="1" columns="*, auto" rows="auto, auto">
-                 <GridLayout col="0" columns="auto,auto,*, auto" rows="auto, 8, auto" class="list-layout">
+                 <GridLayout col="0" columns="auto,auto,*, auto" rows="auto, 8, auto, auto" class="list-layout">
                    <Label row="0" col="0" text="&#xf47d;" class="mdi listicon "></Label>
                    <Label row="0" col="1" class="body align-centre"
                      [text]="item.dbmodel.bed_no + ' ' + item.dbmodel.fname + ' ' + item.dbmodel.lname "
@@ -85,6 +84,10 @@
                    <Label row="2" col="1" class="align-centre label-small" textWrap="true"
                      [text]="item.personAccompanyContact"></Label>
 
+
+                   <Label row="3" col="1" class="align-centre label-small" textWrap="true" [text]="item.dbmodel.sp_name"
+                   *ngIf="item.dbmodel.custom === NEW_Patient" ></Label>
+                     
                    <GridLayout row="2" col="3" rows="auto, auto" columns="auto, auto"
                      style="vertical-align: center; text-align: center;">
                    </GridLayout>
@@ -99,8 +102,8 @@
          </RL:Ripple>
        </ng-template>
        <ng-template tkGroupTemplate let-category="category">
-         <GridLayout rows="auto"  class="category-header" >
-           <Label row="0" class="nameLabel groupLabel"  text="{{getGroup(category)}}" ></Label>
+         <GridLayout rows="auto" class="category-header">
+           <Label row="0" class="nameLabel groupLabel" text="{{getGroup(category)}}"></Label>
          </GridLayout>
        </ng-template>
      </RadListView>
