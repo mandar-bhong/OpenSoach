@@ -242,15 +242,8 @@
                                 <!-- comment and value input field expand view start  -->
                                 <GridLayout columns="*, auto" rows="auto, auto"
                                     *ngIf="(item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION || item.actionStatus == action_Status.MISSED) && (item.hasTxnData!=true)">
-                                    <GridLayout col="0" columns="20,auto" rows="auto"
-                                        style=" vertical-align: center; margin-top:3px;">
-                                        <GridLayout col="1" style="width:80%;">
-                                            <TextField hint="Comments (optional)" [(ngModel)]="item.txnData.comment"
-                                                keyboardType="email" autocorrect="false" class="input input-border">
-                                            </TextField>
-                                        </GridLayout>
-                                    </GridLayout>
-                                    <GridLayout row="1" col="0" columns="20,auto" style="vertical-align: center;"
+                                    
+                                    <GridLayout  col="0" columns="20,auto" style="vertical-align: center;"
                                         *ngIf="item.conf_type_code !== 'Medicine' && item.conf_type_code !== 'Intake' && item.conf_type_code!=conf_type_code_const.DOCTOR_ORDERS">
                                         <GridLayout col="1" style="width:50%;" rows="auto,auto,auto">
                                             <GridLayout class="input-field" row="0"
@@ -273,6 +266,15 @@
                                                     autocapitalizationType="none" class="input input-border">
                                                 </TextField>
                                             </GridLayout>
+                                        </GridLayout>
+                                    </GridLayout>
+
+                                    <GridLayout row="1" col="0" columns="20,auto" rows="auto"
+                                        style=" vertical-align: center; margin-top:3px;">
+                                        <GridLayout col="1" style="width:80%;">
+                                            <TextField hint="Comments (optional)" [(ngModel)]="item.txnData.comment"
+                                                keyboardType="email" autocorrect="false" class="input input-border">
+                                            </TextField>
                                         </GridLayout>
                                     </GridLayout>
                                 </GridLayout>
