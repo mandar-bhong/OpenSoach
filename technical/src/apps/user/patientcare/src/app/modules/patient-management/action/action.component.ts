@@ -138,7 +138,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	actionStatus: any;
 	conf_type_code: any;
 
-	@ViewChild("myListView") listViewComponent: RadListViewComponent;
+	@ViewChild("myListView", {static: false}) listViewComponent: RadListViewComponent;
 
 	constructor(
 		public page: Page,

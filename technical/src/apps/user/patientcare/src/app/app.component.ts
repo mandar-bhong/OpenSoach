@@ -24,12 +24,79 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(private appStartupService: AppStartupService,
         private workerService: WorkerService) {
-        trace.write("in app component constructor", TraceCustomCategory.APP_START, trace.messageType.info);  
-         this.appStartupService.init();
+        trace.write("in app component constructor", TraceCustomCategory.APP_START, trace.messageType.info);
+
+
+        applicationOn(launchEvent, (args: LaunchEventData) => {
+            if (args.android) {
+                // For Android applications, args.android is an android.content.Intent class.
+                console.log("Launched Android application with the following intent: " + args.android + ".");
+            } else if (args.ios !== undefined) {
+                // For iOS applications, args.ios is NSDictionary (launchOptions).
+                console.log("Launched iOS application with options: " + args.ios);
+            }
+        });
+        
+        applicationOn(suspendEvent, (args: ApplicationEventData) => {
+            if (args.android) {
+                // For Android applications, args.android is an android activity class.
+                console.log("Activity: " + args.android);
+            } else if (args.ios) {
+                // For iOS applications, args.ios is UIApplication.
+                console.log("UIApplication: " + args.ios);
+            }
+        });
+        
+        applicationOn(resumeEvent, (args: ApplicationEventData) => {
+            if (args.android) {
+                // For Android applications, args.android is an android activity class.
+                console.log("Activity: " + args.android);
+            } else if (args.ios) {
+                // For iOS applications, args.ios is UIApplication.
+                console.log("UIApplication: " + args.ios);
+            }
+        });
+        
+        applicationOn(displayedEvent, (args: ApplicationEventData) => {
+            console.log("displayedEvent");
+        });
+        
+        applicationOn(orientationChangedEvent, (args: OrientationChangedEventData) => {
+            // "portrait", "landscape", "unknown"
+            console.log(args.newValue)
+        });
+        
+        applicationOn(exitEvent, (args: ApplicationEventData) => {
+            if (args.android) {
+                // For Android applications, args.android is an android activity class.
+                console.log("Activity: " + args.android);
+            } else if (args.ios) {
+                // For iOS applications, args.ios is UIApplication.
+                console.log("UIApplication: " + args.ios);
+            }
+        });
+        
+        applicationOn(lowMemoryEvent, (args: ApplicationEventData) => {
+            if (args.android) {
+                // For Android applications, args.android is an android activity class.
+                console.log("Activity: " + args.android);
+            } else if (args.ios) {
+                // For iOS applications, args.ios is UIApplication.
+                console.log("UIApplication: " + args.ios);
+            }
+        });
+        
+        applicationOn(uncaughtErrorEvent, function (args: UnhandledErrorEventData) {
+            console.log("Error: " + args.error);
+        });
+
+
+
+        this.appStartupService.init();
     }
 
-    ngOnInit() {      
-        trace.write("in app component ngOnInit", TraceCustomCategory.APP_START, trace.messageType.info);      
+    ngOnInit() {
+        trace.write("in app component ngOnInit", TraceCustomCategory.APP_START, trace.messageType.info);
     }
 
     ngOnDestroy() {

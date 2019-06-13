@@ -63,7 +63,7 @@ export class UserAuthComponent implements OnInit {
 		return this._dataItemsaccount;
 	}
 	@Input() patientName: string;
-	@ViewChild("myListView") listViewComponent: RadListViewComponent;
+	@ViewChild("myListView", {static: false}) listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
 		this.passdataservice.backalert = true;

@@ -67,7 +67,7 @@ export class OsSelectionListComponent implements OnInit {
     currentIndex: number;
     scrollToItemIndex = 0;
 
-    @ViewChild('customListView') catListViewComponent: RadListViewComponent;
+    @ViewChild('customListView',{static:false}) catListViewComponent: RadListViewComponent;
     constructor() {
         this.SelectedItems = [];
         this.Items = [];

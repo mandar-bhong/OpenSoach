@@ -27,7 +27,7 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 	searchValue = "";
 	isBusy = true;
 	isDisabled = false;
-	@ViewChild("patientListview") listViewComponent: RadListViewComponent;
+	@ViewChild("patientListview", {static: false}) listViewComponent: RadListViewComponent;
 
 	public funcGroupingFilter: (item: DataDBModel) => DataDBModel;
 
