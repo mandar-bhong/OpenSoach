@@ -375,7 +375,7 @@ export class MedicineChartComponent implements OnInit {
                 // desc = desc + " Morning &"
             } else {
                 this.chartConfModel.mornFreqInfo.freqMorn = data.mornFreqInfo.freqMorn;
-                this.chartConfModel.mornFreqInfo.mornFreqQuantity = 0;
+                this.chartConfModel.mornFreqInfo.mornFreqQuantity = "0";
             }
 
             if (data.aftrnFreqInfo.freqAftrn == true) {
@@ -385,7 +385,7 @@ export class MedicineChartComponent implements OnInit {
                 // desc = desc + " Afternoon &"
             } else {
                 this.chartConfModel.aftrnFreqInfo.freqAftrn = data.aftrnFreqInfo.freqAftrn;
-                this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = 0;
+                this.chartConfModel.aftrnFreqInfo.aftrnFreqQuantity = "0";
             }
 
             if (data.nightFreqInfo.freqNight == true) {
@@ -395,7 +395,7 @@ export class MedicineChartComponent implements OnInit {
                 // desc = desc + " Night &"
             } else {
                 this.chartConfModel.nightFreqInfo.freqNight = data.nightFreqInfo.freqNight;
-                this.chartConfModel.nightFreqInfo.nightFreqQuantity = 0;
+                this.chartConfModel.nightFreqInfo.nightFreqQuantity = "0";
             }
 
             // code for generating scheduel description.

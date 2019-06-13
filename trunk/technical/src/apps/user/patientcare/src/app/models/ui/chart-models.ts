@@ -108,17 +108,17 @@ export class ActionListModel {
 
 export class MornFreqInfo {
     freqMorn: boolean;
-    mornFreqQuantity: number;
+    mornFreqQuantity: string;
 }
 
 export class AftrnFreqInfo {
     freqAftrn: boolean;
-    aftrnFreqQuantity: number;
+    aftrnFreqQuantity: string;
 }
 
 export class NightFreqInfo {
     freqNight: boolean;
-    nightFreqQuantity: number;
+    nightFreqQuantity: string;
 }
 export class
     SchedularConfigData {
