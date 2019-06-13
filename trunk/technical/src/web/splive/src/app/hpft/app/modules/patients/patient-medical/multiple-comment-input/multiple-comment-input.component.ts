@@ -14,7 +14,7 @@ export class MultipleCommentInputComponent implements OnInit {
   contextValue: string;
   constructor() {
   }
-  ngOnInit() {
+  ngOnInit() {    
       this.itemList.sort((a, b) => {
         return (new Date(b.date).getTime() - new Date(a.date).getTime())
       });

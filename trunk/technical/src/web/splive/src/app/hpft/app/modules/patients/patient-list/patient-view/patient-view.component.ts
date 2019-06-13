@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { AmazingTimePickerService } from 'amazing-time-picker';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -44,18 +44,19 @@ export class PatientViewComponent implements OnInit, OnDestroy {
   patientFilterRequest: PatientFilterRequest;
   dataListFilterChangedSubscription: Subscription;
   showEditForm = false;
-  selectedPatient: PatientListDataModel;
   splist: ServicepointListResponse[] = [];
   dataModel = new PatientListDataModel();
   editableForm: FormGroup;
   selectedStartTime: string;
   PATIENT_STATE = PATIENT_STATE;
   admittedDate: Date;
-
+  patientDetaListArray: PatientDetaListResponse[];
+  selectedPatient: PatientDetaListResponse;
   constructor(public patientService: PatientService,
     private router: Router,
     private appNotificationService: AppNotificationService,
     private amazingtimepicker: AmazingTimePickerService,
+    private chdf: ChangeDetectorRef,
     private translatePipe: TranslatePipe) {
   }
 
@@ -93,7 +94,7 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  setSelectedPatient(patient: PatientListDataModel) {
+  setSelectedPatient(patient) {
     this.selectedPatient = patient;
     this.admittedDate = this.selectedPatient.admittedon;
   }
@@ -108,6 +109,13 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     this.patientService.updateAdmissionStatus(admissionStatusRequest).subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         this.appNotificationService.success();
+        const itemIndex = this.patientDetaListArray.indexOf(this.selectedPatient);
+        if (itemIndex) {
+          this.patientDetaListArray.splice(itemIndex, 1);
+          this.dataSource = new MatTableDataSource<PatientDetaListResponse>(this.patientDetaListArray);
+          this.filteredrecords = this.patientDetaListArray.length;
+          this.chdf.detectChanges();
+        }
         this.selectedPatient.status = PATIENT_STATE.DISCHARGED;
       }
     });
@@ -145,7 +153,8 @@ export class PatientViewComponent implements OnInit, OnDestroy {
         payloadResponse => {
           if (payloadResponse && payloadResponse.issuccess) {
             this.filteredrecords = payloadResponse.data.filteredrecords;
-            this.dataSource = payloadResponse.data.records;
+            this.patientDetaListArray = payloadResponse.data.records;
+            this.dataSource = this.patientDetaListArray;
 
             if (this.filteredrecords === 0) {
               this.appNotificationService.info(this.translatePipe.transform('INFO_NO_RECORDS_FOUND'));
@@ -162,16 +171,14 @@ export class PatientViewComponent implements OnInit, OnDestroy {
     dataListRequest.page = this.paginator.pageIndex + 1;
     dataListRequest.limit = this.paginator.pageSize;
     dataListRequest.orderby = this.sort.active;
-    dataListRequest.orderdirection = this.sort.direction;
-    console.log("dataListRequest",dataListRequest);
+    dataListRequest.orderdirection = this.sort.direction;   
     return this.patientService.getDataList(dataListRequest);
   }
   viewDetails(id: number, admissionid: number, personaldetailsid: number) {
     //setting patient id for further use
     const patinetInfo = new PatientInfoForHospitals()
-    patinetInfo.isvisible = false;    
-    this.patientService.patinetInfo = patinetInfo;
-    console.log("patinetInfo",patinetInfo);
+    patinetInfo.isvisible = false;
+    this.patientService.patinetInfo = patinetInfo;  
     this.patientService.patientid = id;
     this.patientService.admissionid = admissionid;
     this.patientService.personaldetailsid = personaldetailsid;
