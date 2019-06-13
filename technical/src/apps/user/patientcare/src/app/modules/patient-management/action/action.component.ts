@@ -101,9 +101,9 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	// >> seleced bottom button change color
 	monitorbuttonClicked = false;
-	intakebuttonClicked = true;
+	intakebuttonClicked = false;
 	medicinebuttonClicked = false;
-	doctorOrderButtonClicked = false;
+	doctorOrderButtonClicked = true;
 	outputbuttonClicked = false;
 	chartbuttonClicked = false;
 
@@ -138,8 +138,13 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	actionStatus: any;
 	conf_type_code: any;
 
+	medicineTotalCount: any;
+	monitorTotalCount: any;
+	intakerTotalCount: any;
+	outputTotalCount: any;
+	DorderTotalCount: any;
+	// @ViewChild("myListView") listViewComponent: RadListViewComponent;
 	@ViewChild("myListView", {static: false}) listViewComponent: RadListViewComponent;
-
 	constructor(
 		public page: Page,
 		private actionService: ActionService,
@@ -163,7 +168,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			return item.isActionActive;
 		}
 	}
-
 	ngOnInit() {
 
 		// check storage permission
@@ -209,6 +213,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					const actionItem = this.prepareActionItem(null, item, false)
 					this.actionItems.push(actionItem);
 				});
+				this.getCount()
 			},
 			(error) => {
 				console.log("getActinData error:", error);
@@ -221,7 +226,8 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					let actionItemVM = this.prepareActionItem(null, item, true);
 					this.actionItems.push(actionItemVM);
 				});
-				console.log('this.actionItems.push(actionItemVM); ---', this.actionItems);
+				this.getCount()
+				// console.log('this.actionItems.push(actionItemVM); ---', this.actionItems);
 				this.isLoading = false;
 			},
 			(error) => {
@@ -325,96 +331,124 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// TODO: restructure needed.
 	// >> Grouping intake scroll to top position change 
 	public selectIntake() {
-		if (this.conf_type_code === ConfigCodeType.INTAKE) {
+		if (this.intakerTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
-			listView.scrollToIndex(0, false, ListViewItemSnapMode.Start);
-
-			// console.log("Clicked select intake", this.intakeIndex);
+			listView.scrollToIndex(this.intakeIndex, false, ListViewItemSnapMode.Start);
+			console.log("Clicked select intake", this.intakeIndex);
+			this.monitorbuttonClicked = false;
+			this.intakebuttonClicked = true;
+			this.medicinebuttonClicked = false;
+			this.outputbuttonClicked = false;
+			this.doctorOrderButtonClicked = false;
 		}
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = true;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = false;
-		this.doctorOrderButtonClicked = false;
 	}
 
 	// >>  Grouping monitor scroll to top position change 
 	public selectMonitor() {
-		if (this.conf_type_code === ConfigCodeType.MONITOR) {
+		if (this.monitorTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
-
-			// console.log("Clicked select monitor", this.monitorIndex);
+			console.log("Clicked select monitor", this.monitorIndex);
+			this.monitorbuttonClicked = true;
+			this.intakebuttonClicked = false;
+			this.medicinebuttonClicked = false;
+			this.outputbuttonClicked = false;
+			this.doctorOrderButtonClicked = false;
 		}
-		this.monitorbuttonClicked = true;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = false;
-		this.doctorOrderButtonClicked = false;
 	}
 	// >>  Grouping medicine scroll to top position change 
 	public selectMedicine() {
-		// console.log('this.conf_type_code button', this.conf_type_code);
-		if (this.conf_type_code === ConfigCodeType.MEDICINE) {
+		if (this.medicineTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
-
-			// console.log("Clicked select medicine", this.medicineIndex);
+			console.log("Clicked select medicine", this.medicineIndex);
+			this.monitorbuttonClicked = false;
+			this.intakebuttonClicked = false;
+			this.medicinebuttonClicked = true;
+			this.outputbuttonClicked = false;
+			this.doctorOrderButtonClicked = false;
 		}
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = true;
-		this.outputbuttonClicked = false;
-		this.doctorOrderButtonClicked = false;
 
 	}
 	// <<  Grouping medicine scroll to top position change 
 
 	// >>  Grouping medicine scroll to top position change
 	public selectOutput() {
-		if (this.conf_type_code === ConfigCodeType.OUTPUT) {
-			// console.log('this.conf_type_code button output', this.conf_type_code);
+		if (this.outputTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
-			// console.log("Clicked select output", this.outputIndex);
+			console.log("Clicked select output", this.outputIndex);
+			this.monitorbuttonClicked = false;
+			this.intakebuttonClicked = false;
+			this.medicinebuttonClicked = false;
+			this.outputbuttonClicked = true;
+			this.doctorOrderButtonClicked = false;
 		}
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = true;
-		this.doctorOrderButtonClicked = false;
 	}
 	selectDoctorOrder() {
-		console.log();
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.doctorOrderIndex, false, ListViewItemSnapMode.Start);
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = false;
-		this.doctorOrderButtonClicked = true;
+		if (this.DorderTotalCount > 0) {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.doctorOrderIndex, false, ListViewItemSnapMode.Start);
+			this.monitorbuttonClicked = false;
+			this.intakebuttonClicked = false;
+			this.medicinebuttonClicked = false;
+			this.outputbuttonClicked = false;
+			this.doctorOrderButtonClicked = true;
+		}
 	}
 	// <<  Grouping medicine scroll to top position change
 
 	// >> Calculate Grouping index value
 	public getCount() {
 
-		const medicine = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.MEDICINE);
-		const medicineCount = medicine.length;
+		if (this.displayModeAll) {
+			const medicine = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.MEDICINE);
+			const medicineCount = medicine.length;
+			this.medicineTotalCount = (medicineCount > 0) ? (medicine.length + 1) : (medicine.length);
 
-		const monitor = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.MONITOR);
-		const monitorCount = monitor.length;
-		const intake = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.INTAKE);
-		const intakeCount = intake.length;
-		const output = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.OUTPUT);
-		const outputCount = output.length;
-		const DOrder = this.uiList.filter(a => a.conf_type_code === ConfigCodeType.DOCTOR_ORDERS);
-		const DOrderCount = DOrder.length;
+			const monitor = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.MONITOR);
+			const monitorCount = monitor.length;
+			this.monitorTotalCount = (monitorCount > 0) ? (monitor.length + 1) : (monitor.length);
+
+			const intake = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.INTAKE);
+			const intakeCount = intake.length;
+			this.intakerTotalCount = (intakeCount > 0) ? (intake.length + 1) : (intake.length);
+
+			const output = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.OUTPUT);
+			const outputCount = output.length;
+			this.outputTotalCount = (outputCount > 0) ? (output.length + 1) : (output.length);
+
+			const DOrder = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.DOCTOR_ORDERS);
+			const DOrderCount = DOrder.length;
+			this.DorderTotalCount = (DOrderCount > 0) ? (DOrder.length + 1) : (DOrder.length);
+
+		} else {
+			const medicine = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.MEDICINE && a.isActionActive == true);
+			const medicineCount = medicine.length;
+			this.medicineTotalCount = (medicineCount > 0) ? (medicine.length + 1) : (medicine.length);
+
+			const monitor = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.MONITOR && a.isActionActive == true);
+			const monitorCount = monitor.length;
+			this.monitorTotalCount = (monitorCount > 0) ? (monitor.length + 1) : (monitor.length);
+
+			const intake = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.INTAKE && a.isActionActive == true);
+			const intakeCount = intake.length;
+			this.intakerTotalCount = (intakeCount > 0) ? (intake.length + 1) : (intake.length);
+
+			const output = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.OUTPUT && a.isActionActive == true);
+			const outputCount = output.length;
+			this.outputTotalCount = (outputCount > 0) ? (output.length + 1) : (output.length);
+
+			const DOrder = this.actionItems.filter(a => a.conf_type_code === ConfigCodeType.DOCTOR_ORDERS && a.isActionActive == true);
+			const DOrderCount = DOrder.length;
+			this.DorderTotalCount = (DOrderCount > 0) ? (DOrder.length + 1) : (DOrder.length);
+
+		}
 		this.doctorOrderIndex = 0;
-		this.intakeIndex = DOrderCount + 1;
-		this.medicineIndex = DOrderCount + intakeCount + 1;
-		this.monitorIndex = DOrderCount + intakeCount + medicineCount + 1;
-		this.outputIndex = DOrderCount + intakeCount + medicineCount + monitorCount + 1;
+		this.intakeIndex = this.DorderTotalCount;
+		this.medicineIndex = this.DorderTotalCount + this.intakerTotalCount;
+		this.monitorIndex = this.DorderTotalCount + this.intakerTotalCount + this.medicineTotalCount;
+		this.outputIndex = this.DorderTotalCount + this.intakerTotalCount + this.medicineTotalCount + this.monitorTotalCount;
 
 	}
 	// << Calculate Grouping index value
@@ -523,13 +557,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	}
 
-
-	// gettrnlistdata() {
-	// 	setTimeout(() => {
-	// 		console.log(this.actionService.getActionTxnList());
-	// 	}, 300);
-
-	// }
 	showDialog() {
 		this.createDoctorModalView(ActionFabComponent, false).then((dialogResult: string) => {
 			if (dialogResult) {
@@ -583,6 +610,8 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		return this.modalService.showModal(Component, options);
 	}
 
+
+
 	public activeList() {
 		this.buttonCompleted = false;
 		this.buttonClicked = true;
@@ -590,6 +619,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		const listView = this.listViewComponent.listView;
 		listView.filteringFunction = this.activeAllFilter;
 		this.completeorpending = "Active Actions";
+		this.getCount();
 	}
 	public compilitedList() {
 		this.buttonCompleted = true;
@@ -597,7 +627,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.displayModeAll = true;
 		const listView = this.listViewComponent.listView;
 		listView.filteringFunction = function (item) { return true };
+
+		// console.log('compilited list action ----->', listView.filteringFunction);
 		this.completeorpending = "All Actions";
+		this.getCount();
 	}
 	handelDoctorOrderNotification(doctorsOrders: DoctorsOrdersDatastoreModel) {
 
@@ -731,27 +764,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 		return false;
 	}
-	// displayAction(item: ActionItemVMModel): boolean {
-	// 	//displayMode === 'All' item.isActionAction
-
-	// 	return false;
-	// }
-
-	// getActionItemValue(item: ActionItemVMModel, filter: string): any {
-	// 	if (item.dbModel.name !== 'Blood Pressure') {
-	// 		return item.txnData.value;
-	// 	} else {
-	// 		switch (filter) {
-	// 			case "systolic":
-	// 				return JSON.parse(item.txnData.value).systolic;
-	// 			case "diastolic":
-	// 				return JSON.parse(item.txnData.value).diastolic;
-	// 			default:
-	// 				return "";
-	// 		}
-
-	// 	}
-	// }
 
 	getItemCSSClass(item: ActionItemVMModel): string {
 		let cssClass: string;
