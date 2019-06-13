@@ -12,11 +12,6 @@ export class TraceConsoleWriter {
 
         let errorMsg ="";
 
-        console.log(moment().unix());
-
-        console.log(moment.utc().format('MMM DD, YYYY [at] hh:mm:ssA [(UTC)]'));
-        console.log(moment.utc());
-
         if ( (<any>message).constructor.name == "Error"){            
             errorMsg = "Message : " + (message as Error).message +"\r\n" +  "StackTrace : " + (message as Error).stack + "\r\n";
         }else{
