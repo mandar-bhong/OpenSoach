@@ -60,8 +60,8 @@ export class MonitorChartComponent implements OnInit {
     VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
 
     // >> Custom Control start
-    @ViewChild("monitorTaskSelectionControl") monitorTaskSelectionCtl: OsSelectionListComponent;
-    @ViewChild("frequencySelectionControl") frequencySelectionCtl: OsSelectionListComponent;
+    @ViewChild("monitorTaskSelectionControl",{static:false}) monitorTaskSelectionCtl: OsSelectionListComponent;
+    @ViewChild("frequencySelectionControl",{static:false}) frequencySelectionCtl: OsSelectionListComponent;
     SELECTION_TYPE = SELECTION_TYPE;
     // << Custom Control end
     

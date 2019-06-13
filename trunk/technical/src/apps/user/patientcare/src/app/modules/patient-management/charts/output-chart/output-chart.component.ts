@@ -37,7 +37,7 @@ export class OutputChartComponent implements OnInit {
 	// end of proccess variables
 	VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
 
-	@ViewChild("outputSelectionControl") outputSelectionCtl: OsSelectionListComponent;
+	@ViewChild("outputSelectionControl",{static:false}) outputSelectionCtl: OsSelectionListComponent;
 	SELECTION_TYPE = SELECTION_TYPE;
 
 	constructor(

@@ -111,7 +111,7 @@ export class DoctorOrdersComponent implements OnInit {
 
 	VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
 
-	@ViewChild("doctorOrderSelectionControl") doctorOrderSelectionCtl: OsSelectionListComponent;
+	@ViewChild("doctorOrderSelectionControl",{static:false}) doctorOrderSelectionCtl: OsSelectionListComponent;
 	SELECTION_TYPE = SELECTION_TYPE;
 	
 	constructor(private params: ModalDialogParams,
@@ -253,7 +253,7 @@ export class DoctorOrdersComponent implements OnInit {
 	}
 	//end of code block
 
-	@ViewChild("autocomplete") autocomplete: RadAutoCompleteTextViewComponent;
+	@ViewChild("autocomplete", {static: false}) autocomplete: RadAutoCompleteTextViewComponent;
 
 	get dataItems(): ObservableArray<DoctorInfo> {
 		return this._items;

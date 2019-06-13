@@ -82,9 +82,9 @@ export class MedicineChartComponent implements OnInit {
     VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
 
     // >> Custom Control start
-    @ViewChild("medicineSelectionControl") medicineSelectionCtl: OsSelectionListComponent;
-    @ViewChild("frequencySelectionControl") frequencySelectionCtl: OsSelectionListComponent;
-    @ViewChild("foodSelectionControl") foodSelectionCtl: OsSelectionListComponent;
+    @ViewChild("medicineSelectionControl",{static:false}) medicineSelectionCtl: OsSelectionListComponent;
+    @ViewChild("frequencySelectionControl",{static:false}) frequencySelectionCtl: OsSelectionListComponent;
+    @ViewChild("foodSelectionControl",{static:false}) foodSelectionCtl: OsSelectionListComponent;
     SELECTION_TYPE = SELECTION_TYPE;
     // << Custom Control end
 

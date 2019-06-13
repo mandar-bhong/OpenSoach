@@ -83,7 +83,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		};
 	}
 
-	@ViewChild("myListView") listViewComponent: RadListViewComponent;
+	@ViewChild("myListView", {static: false}) listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
 

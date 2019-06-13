@@ -38,8 +38,8 @@ module.exports = env => {
         // The 'appPath' and 'appResourcesPath' values are fetched from
         // the nsconfig.json configuration file
         // when bundling with `tns run android|ios --bundle`.
-        appPath = "app",
-        appResourcesPath = "app/App_Resources",
+        appPath = "src",
+        appResourcesPath = "App_Resources",
 
         // You can provide the following flags when running 'tns run android|ios'
         aot, // --env.aot
@@ -90,7 +90,7 @@ module.exports = env => {
 
     const ngCompilerPlugin = new AngularCompilerPlugin({
         hostReplacementPaths: nsWebpack.getResolver([platform, "tns"]),
-        platformTransformers: ngCompilerTransformers.map(t => t(() => ngCompilerPlugin, resolve(appFullPath, entryModule))),
+        platformTransformers: ngCompilerTransformers.map(t => t(() => ngCompilerPlugin, resolve(appFullPath, entryModule), projectRoot)),
         mainPath: join(appFullPath, entryModule),
         tsConfigPath: join(__dirname, tsConfigName),
         skipCodeGeneration: !aot,
@@ -242,7 +242,7 @@ module.exports = env => {
                     ]
                 },
                  // Compile Worker files with ts-loader
-                 { test: /\.worker.ts$/, loader: "ts-loader" },
+                 { test: /\.worker.ts$/, loader: "ts-loader",options: {transpileOnly: true} },
 
                 // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
                 // Removing this will cause deprecation warnings to appear.
@@ -256,11 +256,7 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                // "process": undefined,
-                'process.env': {
-                    'buildmode': JSON.stringify(env && env.buildmode ? env.buildmode : "")                   
-                    // etc, these are just examples
-                }
+                "process": undefined,
             }),
             // Remove all files from the out dir.
             new CleanWebpackPlugin([`${dist}/**/*`]),

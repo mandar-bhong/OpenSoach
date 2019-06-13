@@ -63,8 +63,8 @@ export class IntakeChartComponent implements OnInit, AfterViewInit {
     VALIDATION_REQUIRED_FIELD = VALIDATION_REQUIRED_FIELD;
 
     // >> Custom Control start
-    @ViewChild("intakeSelectionControl") intakeSelectionCtl: OsSelectionListComponent;
-    @ViewChild("frequencySelectionControl") frequencySelectionCtl: OsSelectionListComponent;
+    @ViewChild("intakeSelectionControl",{static:false}) intakeSelectionCtl: OsSelectionListComponent;
+    @ViewChild("frequencySelectionControl",{static:false}) frequencySelectionCtl: OsSelectionListComponent;
     SELECTION_TYPE = SELECTION_TYPE;
     // << Custom Control end
 
