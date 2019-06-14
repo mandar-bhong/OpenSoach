@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { DatabaseService } from "../services/offline-store/database.service";
 import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from "nativescript-angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -22,7 +21,6 @@ export class LoginComponent implements OnInit {
 	input: any;
 	isLoggingIn = true;
 	constructor(private routerExtensions: RouterExtensions,
-		private databaseService: DatabaseService,
 		private router: Router,
 		private serverApiInterfaceService: ServerApiInterfaceService,
 		private appStartUpService: AppStartupService,

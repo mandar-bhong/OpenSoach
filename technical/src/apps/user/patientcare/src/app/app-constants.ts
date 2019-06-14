@@ -7,6 +7,12 @@ export enum SERVER_WORKER_MSG_TYPE {
     UPLOAD_DOCUMENT_COMPLETED = 5,
 }
 
+export enum DB_WORKER_MSG_TYPE {
+    NONE = 0,
+    SELECT_ALL = 1,
+    SELECT_BY_ID = 2
+}
+
 export enum SERVER_WORKER_EVENT_MSG_TYPE {
     NONE = 0,
     SERVER_CONNECTED = 1,

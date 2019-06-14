@@ -14,11 +14,13 @@ import { isAndroid, isIOS, device, screen } from "tns-core-modules/platform";
 import * as application from 'tns-core-modules/application';
 import { PlatformAndroidHelper } from "../helpers/platform-android-helper";
 import { PlatformiOSHelper } from "../helpers/platform-ios-helper";
-@Injectable()
+import { DatabaseService } from "./offline-store/database.service";
 
+@Injectable()
 export class AppStartupService {
     isStartupInprogress = true;
     constructor(private databaseSchemaService: DatabaseSchemaService,
+        private dbService : DatabaseService,
         private workerService: WorkerService,
         private serverApiInterfaceService: ServerApiInterfaceService,
         private routerExtensions: RouterExtensions) { }
@@ -26,6 +28,7 @@ export class AppStartupService {
 
         // init PlatformHelper
         PlatformHelper.init();
+        // this.dbService.initDBWorker();
         this.databaseSchemaService.setOfflineDB().then(() => {
             this.onDbCreate();
         });
