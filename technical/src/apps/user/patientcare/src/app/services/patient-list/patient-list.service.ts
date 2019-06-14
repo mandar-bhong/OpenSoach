@@ -5,7 +5,7 @@ import { Subscription, Subject } from "rxjs";
 import { WorkerService } from "../worker.service";
 import { JSONBaseDataModel } from "~/app/models/ui/json-base-data-model";
 import { PersonAccompanyModel } from "~/app/models/ui/person-accompany-model";
-
+import * as appSettings from "tns-core-modules/application-settings";
 @Injectable()
 export class PatientListService {
     patientlistviewmodel: PatientListViewModel;
@@ -33,10 +33,12 @@ export class PatientListService {
 
 
     public getData(): Promise<PatientListViewModel[]> {
-
         return new Promise((resolve, reject) => {
-
-            this.database.selectAll("patientlist").then(
+            const key = 'patientlist'
+            const paramList = new Array<any>();
+            let patientlist: PatientListViewModel[] = [];
+            paramList.push(appSettings.getNumber("CPM_ID"));
+            this.database.selectByID(key, paramList).then(
                 (val) => {
                     const list: PatientListViewModel[] = [];
                     val.forEach(item => {
@@ -60,22 +62,23 @@ export class PatientListService {
         let patientlist: PatientListViewModel[] = [];
 
         paramList.push(uuid);
+        paramList.push(appSettings.getNumber("CPM_ID"));
         this.database.selectByID(key, paramList).then(
             (val) => {
                 val.forEach(item => {
                     const patientListItem = new PatientListViewModel();
                     patientListItem.dbmodel = item;
                     this.fillPersonAccompanyingDetails(patientListItem.dbmodel.person_accompanying, patientListItem);
-                    patientlist.push(patientListItem);                    
+                    patientlist.push(patientListItem);
                 });
 
-                if(val.length==0){
+                if (val.length == 0) {
                     const patientListItem = new PatientListViewModel();
                     patientListItem.deleteuuid = uuid;
-                    patientlist.push(patientListItem); 
+                    patientlist.push(patientListItem);
                 }
 
-                this.patientListChangedSubject.next(patientlist);                
+                this.patientListChangedSubject.next(patientlist);
 
             },
             (error) => {
