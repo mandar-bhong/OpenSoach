@@ -39,7 +39,8 @@ func AuthorizationFilter(reqURL string) (isAuthorizationRequred bool) {
 		constants.API_ENDPOINT_DEVICE_USER_LIST,
 		constants.API_USER_CREATE_PASSWORD,
 		constants.API_USER_FORGOT_PASSWORD,
-		constants.API_USER_RESET_PASSWORD:
+		constants.API_USER_RESET_PASSWORD,
+		constants.API_ENDPOINT_DEVICE_USER_CPM_LIST:
 		return false
 	}
 

@@ -150,6 +150,7 @@ func (EndpointService) DeviceUserAuth(req lmodels.APIDeviceUserLoginRequest) (bo
 	loginResp.LocationUrl = deviceAuthRecordItem.ServerAddress
 	loginResp.UserID = userRecordItem.UserId
 	loginResp.UserRoleID = deviceAuthRecordItem.UserRoleId
+	loginResp.CpmID = deviceAuthRecordItem.CpmId
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully login device user")
 
@@ -226,5 +227,24 @@ func (EndpointService) DeviceShareUserAuth(req lmodels.APIDeviceSharedUserAuthRe
 	}
 
 	return true, dbRecord[0]
+
+}
+
+func (EndpointService) GetDeviceUserCPMList(req lmodels.APIDeviceUserCPMListRequest) (bool, interface{}) {
+
+	dbErr, dbData := dbaccess.GetDeviceUserCpmListData(repo.Instance().Context.Master.DBConn, req.UserName)
+	if dbErr != nil {
+		logger.Context().LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while getting user cpm list data.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	dbRecord := *dbData
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Successfully fetched user cpm list data.")
+
+	return true, dbRecord
 
 }

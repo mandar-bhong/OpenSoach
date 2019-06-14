@@ -25,10 +25,15 @@ type APIDeviceUserLoginResponse struct {
 	LocationUrl string `json:"locationurl"`
 	UserID      int64  `json:"userid"`
 	UserRoleID  int64  `json:"userroleid"`
+	CpmID       int64  `json:"cpmid"`
 }
 
 type APIDeviceSharedUserAuthRequest struct {
 	UserName    string `db:"usr_name" json:"username"`
 	Password    string `db:"usr_password" json:"password"`
 	DeviceToken string `json:"devicetoken"`
+}
+
+type APIDeviceUserCPMListRequest struct {
+	UserName string `db:"usr_name" json:"username"`
 }

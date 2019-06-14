@@ -27,3 +27,9 @@ const QUERY_GET_DEVICE_SHARED_USER_INFO = `select usr.id,usr_name,fname,lname
 from spl_master_user_tbl usr
 left join spl_master_usr_details_tbl usrd on usr.id = usrd.usr_id_fk 
 inner join spl_master_usr_cpm_tbl ucpm on usr.id = ucpm.user_id_fk where usr.usr_name = ? and usr.usr_password = ? and ucpm.cpm_id_fk = ?`
+
+const QUERY_GET_DEVICE_USER_CPM_LIST = `select ucpm.cpm_id_fk,prod.prod_code from spl_master_user_tbl usr 
+left join spl_master_usr_cpm_tbl ucpm on ucpm.user_id_fk = usr.id
+left join spl_master_cust_prod_mapping_tbl cpm on ucpm.cpm_id_fk = cpm.id
+left join spl_master_product_tbl prod on cpm.prod_id_fk = prod.id
+where usr.usr_name = ?`

@@ -84,3 +84,4 @@ const API_ENDPOINT_DEVICE_AUTH = API_BASE_URL + "/v1/endpoint/deviceauthorizatio
 const API_ENDPOINT_DEVICE_USER_LIST = API_BASE_URL + "/v1/endpoint/userlist"
 const API_ENDPOINT_USER_LOGIN = API_BASE_URL + "/v1/endpoint/user/login"
 const API_ENDPOINT_DEVICE_USER_AUTH = API_BASE_URL + "/v1/endpoint/userauthorization"
+const API_ENDPOINT_DEVICE_USER_CPM_LIST = API_BASE_URL + "/v1/endpoint/list/cpm"
