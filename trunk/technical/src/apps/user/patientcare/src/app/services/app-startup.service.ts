@@ -84,36 +84,25 @@ export class AppStartupService {
 
     }
 
-    getSerialNumber(): string {
-        //TODO: Read the serial number
-        // Set the Serial Number in AppGlobalContext
-        //  const serialNumber = "1234567890123456";
-        //   const serialNumber = "12345";
-        if (isAndroid) {
-            console.log('android serial number', new PlatformAndroidHelper().getSerialNumber());
-            return new PlatformAndroidHelper().getSerialNumber();
-        } else if (isIOS) {
-            console.log('ios serial number', new PlatformiOSHelper().getSerialNumber());
-            return new PlatformiOSHelper().getSerialNumber();
-        }
-    }
+    // getSerialNumber(): string {
+    //     //TODO: Read the serial number
+    //     // Set the Serial Number in AppGlobalContext
+    //     //  const serialNumber = "1234567890123456";
+    //     //   const serialNumber = "12345";
+    //     // if (isAndroid) {
+    //     //     console.log('android serial number', new PlatformAndroidHelper().getSerialNumber());
+    //     //     return new PlatformAndroidHelper().getSerialNumber();
+    //     // } else if (isIOS) {
+    //     //     console.log('ios serial number', new PlatformiOSHelper().getSerialNumber());
+    //     //     return new PlatformiOSHelper().getSerialNumber();
+    //     // }
+    // }
 
     checkIfDeviceIsRegistered() {
-        //TODO: Call HTTP API to check if device is registered. getSerialNumber()
-        // Handle the response        
-        //  Device is registered && is shared device
-        // save token in appSetting and AppGlobalContext
-        // call initAppStart();
-        //Else
-        // Navigate to login page
-
-
-        // const SerialNo = PlatformHelper.API.getSerialNumber();
-        const SerialNo = this.getSerialNumber();
+     const SerialNo = PlatformHelper.API.getSerialNumber();
+        // const SerialNo = this.getSerialNumber();
         AppGlobalContext.SerialNumber = SerialNo;
-
         console.log("SerialNo:", SerialNo);
-
         this.serverApiInterfaceService.post(API_SPL_BASE_URL + "/v1/endpoint/deviceauthorization",
             {
                 'serialno': SerialNo,
@@ -139,11 +128,13 @@ export class AppStartupService {
         appSettings.setNumber("APP_MODE", appMode);
         AppGlobalContext.AppMode = appMode;
         appSettings.setString("AUTH_TOKEN", resData.token);
+        appSettings.setNumber("CPM_ID", resData.cpmid);
+        console.log('CPM_ID', appSettings.getNumber("CPM_ID"))
         appSettings.setString("WEB_SOCKET_URL", resData.locationurl);
         AppGlobalContext.Token = resData.token;
         AppGlobalContext.WebsocketUrl = resData.locationurl;
         console.log("AppGlobalContext.Token", AppGlobalContext.Token);
-            this.initAppStart();
+         this.initAppStart();
     }
 
     initAppStart() {
