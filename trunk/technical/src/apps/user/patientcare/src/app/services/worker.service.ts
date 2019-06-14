@@ -79,6 +79,7 @@ export class WorkerService {
     }
 
     closeServerDataProcessorWorker() {
+        console.log("closeServerDataProcessorWorker");
         this.ServerDataProcessorWorker.terminate();
     }
 

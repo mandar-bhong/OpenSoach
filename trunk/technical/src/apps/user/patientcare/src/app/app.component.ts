@@ -14,6 +14,7 @@ import {
     ApplicationEventData, LaunchEventData, OrientationChangedEventData, UnhandledErrorEventData,
     on as applicationOn, run as applicationRun
 } from "tns-core-modules/application";
+import { DatabaseService } from "./services/offline-store/database.service";
 
 @Component({
     moduleId: module.id,
@@ -23,7 +24,8 @@ import {
 export class AppComponent implements OnInit, OnDestroy {
 
     constructor(private appStartupService: AppStartupService,
-        private workerService: WorkerService) {
+        private workerService: WorkerService,
+        private databaseService: DatabaseService) {
         trace.write("in app component constructor", TraceCustomCategory.APP_START, trace.messageType.info);
 
 
@@ -101,6 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.workerService.closeServerDataProcessorWorker();
+        // this.databaseService.closeDBDataProcessorWorker();
     }
 }
 
