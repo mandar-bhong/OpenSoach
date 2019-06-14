@@ -49,14 +49,9 @@
 
 /* right side button css start */
 
-.center {
-    horizontal-align: center;
-}
-
 .right {
-    horizontal-align: right;
-    margin-top: 35%;
     margin-right: 1%;
+    margin-bottom:10px;
 }
 
 .float-btn-cat-text-fawesome {
