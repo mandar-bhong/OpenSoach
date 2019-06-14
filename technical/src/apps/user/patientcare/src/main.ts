@@ -14,7 +14,9 @@ registerElement("Ripple", () => require("nativescript-ripple").Ripple);
 registerElement('CardView', () => CardView);
 import * as app from 'tns-core-modules/application';
 import { TraceHelper } from "./app/helpers/trace-helper";
+
 registerElement("DrawingPad", () => require("nativescript-drawingpad").DrawingPad);
+
 app.on(app.launchEvent, (args: app.ApplicationEventData) => {
     console.log('application launch executed with ');
     if (args.android) {
@@ -22,8 +24,11 @@ app.on(app.launchEvent, (args: app.ApplicationEventData) => {
     } else if (args.ios !== undefined) {
         console.log("Launched iOS application with options: " + args.ios);
     } 
+    
     TraceHelper.configure();
 });
+
+
 app.on(app.uncaughtErrorEvent, (args) => {
     console.log('exception occured in applications');
     if (isDevMode()) {
@@ -38,6 +43,7 @@ app.on(app.uncaughtErrorEvent, (args) => {
     }
 
 });
+
 app.on(app.lowMemoryEvent, (args: app.ApplicationEventData) => {
     console.log('lowMemoryEvent occured');
 });
