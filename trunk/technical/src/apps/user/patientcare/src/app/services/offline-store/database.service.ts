@@ -1,6 +1,6 @@
 import { Injectable, Input } from "@angular/core";
 import { DatabaseHelper } from "~/app/helpers/database-helper";
-import * as DatabaseWorker from "nativescript-worker-loader!../../workers/database.worker";
+// import * as DatabaseWorker from "nativescript-worker-loader!../../workers/database.worker";
 import { DB_WORKER_MSG_TYPE } from "../../app-constants";
 import { PassDataService } from "../pass-data-service";
 import { DBDataProcessorMessageModel } from "~/app/models/db/db-data-processor-message-model";
@@ -16,20 +16,20 @@ export class DatabaseService {
     }
 
     initDBWorker() {
-        if (global["TNS_WEBPACK"]) {
-            console.log('build with web pack');
-            DatabaseService.dbWorker = new DatabaseWorker();
-        } else {
-            console.log('build without web pack');
-            DatabaseService.dbWorker = new Worker("../../workers/database.worker");
-        }
+        // if (global["TNS_WEBPACK"]) {
+        //     console.log('build with web pack');
+        //     DatabaseService.dbWorker = new DatabaseWorker();
+        // } else {
+        //     console.log('build without web pack');
+        //     DatabaseService.dbWorker = new Worker("../../workers/database.worker");
+        // }
 
-        DatabaseService.dbWorker.onmessage = DatabaseService.DBWorkerMsgHandle;
-        DatabaseService.reqRespMapper = new Map<number, any>();
+        // DatabaseService.dbWorker.onmessage = DatabaseService.DBWorkerMsgHandle;
+        // DatabaseService.reqRespMapper = new Map<number, any>();
 
-        DatabaseService.dbWorker.onerror = e => {
-            console.log("database worker error", e);
-        };
+        // DatabaseService.dbWorker.onerror = e => {
+        //     console.log("database worker error", e);
+        // };
     }
     
 
@@ -87,9 +87,7 @@ export class DatabaseService {
             }
 
         });
-    }
-
-    
+    }    
 
     static DBWorkerMsgHandle(msg) {
         if (DatabaseService.reqRespMapper) {
