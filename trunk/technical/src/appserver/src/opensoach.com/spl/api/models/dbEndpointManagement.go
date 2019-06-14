@@ -29,3 +29,8 @@ type DBDeviceUserListDataModel struct {
 	FirsName  string `json:"fname" db:"fname"`
 	LastName  string `json:"lname" db:"lname"`
 }
+
+type DBDeviceUserCPMListShortDataModel struct {
+	ProdCode string `db:"prod_code" json:"prodcode"`
+	CpmId    string `db:"cpm_id_fk" json:"cpmid"`
+}

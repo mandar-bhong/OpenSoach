@@ -112,3 +112,21 @@ func ValidateDeviceUser(dbConn string, username, password string) (error, *[]lmo
 	return err, data
 
 }
+
+func GetDeviceUserCpmListData(dbConn string, usrname string) (error, *[]lmodels.DBDeviceUserCPMListShortDataModel) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetDeviceUserCpmListData")
+
+	selDBCtx := dbmgr.SelectContext{}
+	data := &[]lmodels.DBDeviceUserCPMListShortDataModel{}
+	selDBCtx.DBConnection = dbConn
+	selDBCtx.Query = dbquery.QUERY_GET_DEVICE_USER_CPM_LIST
+	selDBCtx.QueryType = dbmgr.Query
+	selDBCtx.Dest = data
+
+	selErr := selDBCtx.Select(usrname)
+	if selErr != nil {
+		return selErr, nil
+	}
+	return nil, data
+}
