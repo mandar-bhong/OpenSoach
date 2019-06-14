@@ -70,6 +70,11 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 	activeSchedule: boolean = true;
 	allSchedule: boolean = false;
+
+	medicineTotalCount: any;
+	monitorTotalCount: any;
+	intakerTotalCount: any;
+	outputTotalCount: any;
 	constructor(private chartService: ChartService,
 		public workerservice: WorkerService,
 		public passdataservice: PassDataService,
@@ -83,7 +88,7 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		};
 	}
 
-	@ViewChild("myListView", {static: false}) listViewComponent: RadListViewComponent;
+	@ViewChild("myListView", { static: false }) listViewComponent: RadListViewComponent;
 
 	ngOnInit() {
 
@@ -126,68 +131,100 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	// >> Grouping position change 
 	// >> Grouping intake scroll to top position change 
 	public selectIntake() {
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.intakeIndex, false, ListViewItemSnapMode.Start);
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = true;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = false;
+		if (this.intakerTotalCount > 0) {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.intakeIndex, false, ListViewItemSnapMode.Start);
+			this.monitorbuttonClicked = false;
+			this.intakebuttonClicked = true;
+			this.medicinebuttonClicked = false;
+			this.outputbuttonClicked = false;
+		}
 	}
 	// <<  Grouping intake scroll to top position change 
 
 	// >>  Grouping monitor scroll to top position change 
 	public selectMonitor() {
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
-		this.monitorbuttonClicked = true;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = false;
+		if (this.monitorTotalCount > 0) {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
+			this.monitorbuttonClicked = true;
+			this.intakebuttonClicked = false;
+			this.medicinebuttonClicked = false;
+			this.outputbuttonClicked = false;
+		}
 	}
 	// <<  Grouping monitor scroll to top position change 
 
 	// >>  Grouping medicine scroll to top position change 
 	public selectMedicine() {
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = true;
-		this.outputbuttonClicked = false;
+		if (this.medicineTotalCount > 0) {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
+			this.monitorbuttonClicked = false;
+			this.intakebuttonClicked = false;
+			this.medicinebuttonClicked = true;
+			this.outputbuttonClicked = false;
+		}
 	}
 	// <<  Grouping medicine scroll to top position change 
 
 	// >>  Grouping medicine scroll to top position change
 	public selectOutput() {
-		const listView = this.listViewComponent.listView;
-		listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
-		this.monitorbuttonClicked = false;
-		this.intakebuttonClicked = false;
-		this.medicinebuttonClicked = false;
-		this.outputbuttonClicked = true;
+		if (this.outputTotalCount > 0) {
+			const listView = this.listViewComponent.listView;
+			listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
+			this.monitorbuttonClicked = false;
+			this.intakebuttonClicked = false;
+			this.medicinebuttonClicked = false;
+			this.outputbuttonClicked = true;
+		}
 	}
 	// <<  Grouping medicine scroll to top position change
 
 	// >> Calculate Grouping index value
 	public getGroupIndex() {
 
-		const medicine = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Medicine");
-		const medicineCount = medicine.length;
+		if (this.activeSchedule) {
+			const medicine = this.chartListItemsActive.filter(a => a.dbmodel.conf_type_code === ConfigCodeType.MEDICINE && a.dbmodel.status == 0);
+			const medicineCount = medicine.length;
+			this.medicineTotalCount = (medicineCount > 0) ? (medicine.length + 1) : (medicine.length);
 
-		const monitor = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Monitor");
-		const monitorCount = monitor.length;
+			const monitor = this.chartListItemsActive.filter(a => a.dbmodel.conf_type_code === ConfigCodeType.MONITOR && a.dbmodel.status == 0);
+			const monitorCount = monitor.length;
+			this.monitorTotalCount = (monitorCount > 0) ? (monitor.length + 1) : (monitor.length);
 
-		const intake = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Intake");
-		const intakeCount = intake.length;
+			const intake = this.chartListItemsActive.filter(a => a.dbmodel.conf_type_code === ConfigCodeType.INTAKE && a.dbmodel.status == 0);
+			const intakeCount = intake.length;
+			this.intakerTotalCount = (intakeCount > 0) ? (intake.length + 1) : (intake.length);
 
-		const output = this.chartListItems.filter(a => a.dbmodel.conf_type_code === "Output");
-		const outputCount = output.length;
 
+			const output = this.chartListItemsActive.filter(a => a.dbmodel.conf_type_code === ConfigCodeType.OUTPUT && a.dbmodel.status == 0);
+			const outputCount = output.length;
+			this.outputTotalCount = (outputCount > 0) ? (output.length + 1) : (output.length);
+
+		} else if (this.allSchedule) {
+			const medicine = this.chartListItemsAll.filter(a => a.dbmodel.conf_type_code === "Medicine");
+			const medicineCount = medicine.length;
+			this.medicineTotalCount = (medicineCount > 0) ? (medicine.length + 1) : (medicine.length);
+
+
+			const monitor = this.chartListItemsAll.filter(a => a.dbmodel.conf_type_code === "Monitor");
+			const monitorCount = monitor.length;
+			this.monitorTotalCount = (monitorCount > 0) ? (monitor.length + 1) : (monitor.length);
+
+			const intake = this.chartListItemsAll.filter(a => a.dbmodel.conf_type_code === "Intake");
+			const intakeCount = intake.length;
+			this.intakerTotalCount = (intakeCount > 0) ? (intake.length + 1) : (intake.length);
+
+			const output = this.chartListItemsAll.filter(a => a.dbmodel.conf_type_code === "Output");
+			const outputCount = output.length;
+			this.outputTotalCount = (outputCount > 0) ? (output.length + 1) : (output.length);
+
+		}
 		this.intakeIndex = 0;
-		this.medicineIndex = intakeCount + 1;
-		this.monitorIndex = intakeCount + medicineCount + 2;
-		this.outputIndex = intakeCount + medicineCount + monitorCount + 3;
-
+		this.medicineIndex = this.intakerTotalCount;
+		this.monitorIndex = this.intakerTotalCount + this.medicineTotalCount;
+		this.outputIndex = this.intakerTotalCount + this.medicineTotalCount + this.monitorTotalCount;
 	}
 
 	get _listItems(): ObservableArray<ChartListViewModel> {
