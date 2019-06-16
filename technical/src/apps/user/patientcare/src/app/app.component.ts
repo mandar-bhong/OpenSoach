@@ -30,8 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        trace.write("Destroying app component and closing worker.", TraceCustomCategory.APP_START, trace.messageType.info);
         this.workerService.closeServerDataProcessorWorker();
-        // this.databaseService.closeDBDataProcessorWorker();
     }
 }
 
