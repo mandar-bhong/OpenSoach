@@ -52,15 +52,10 @@ export function angularErrorHandlerFactory() {
         NO_ERRORS_SCHEMA
     ],
     providers: [
-        DatabaseService,
         PassDataService,
-        DatabaseSchemaService,
         InternetConnectionService,
-        WorkerService,
-        PatientListService,
         ServerConnectivityStatusService,
         ServerApiInterfaceService,
-        AppStartupService,
         NextActionService,
         UserAuthService,
         { provide: ErrorHandler, useFactory: angularErrorHandlerFactory }

@@ -17,7 +17,10 @@ import { TraceHelper } from "./app/helpers/trace-helper";
 
 registerElement("DrawingPad", () => require("nativescript-drawingpad").DrawingPad);
 
-app.on(app.launchEvent, (args: app.ApplicationEventData) => {
+
+
+
+let onLaunchEventCallback = function(args: app.ApplicationEventData)  {
     console.log('application launch executed with ');
     if (args.android) {
         console.log("Launched Android application with the following intent1: " + args.android + ".");
@@ -25,11 +28,10 @@ app.on(app.launchEvent, (args: app.ApplicationEventData) => {
         console.log("Launched iOS application with options: " + args.ios);
     } 
     
-    TraceHelper.configure();
-});
+    TraceHelper.configure(); 
+}
 
-
-app.on(app.uncaughtErrorEvent, (args) => {
+let onUncaughtErrorEventCallback = function (args){
     console.log('exception occured in applications');
     if (isDevMode()) {
         //trace.write("exception occured in applications", TraceCustomCategory.APP_EXCEPTION, trace.messageType.error);
@@ -41,9 +43,18 @@ app.on(app.uncaughtErrorEvent, (args) => {
     } else {
     //    ErrorHandlerService.getInstance().handleError(args.error);
     }
+}
 
-});
-
-app.on(app.lowMemoryEvent, (args: app.ApplicationEventData) => {
+let onLowMemoryEventCallback = function(args: app.ApplicationEventData){
     console.log('lowMemoryEvent occured');
-});
+}
+
+
+if (!app.hasListeners(app.launchEvent)){
+    console.log("registering android startup events");
+    app.on(app.launchEvent, onLaunchEventCallback);
+    app.on(app.uncaughtErrorEvent, onUncaughtErrorEventCallback );
+    app.on(app.lowMemoryEvent, onLowMemoryEventCallback);    
+}else{
+    console.log("android startup envent is already registered");
+}

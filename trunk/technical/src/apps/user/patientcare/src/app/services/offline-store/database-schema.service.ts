@@ -3,7 +3,7 @@ import { DatabaseService } from "../../services/offline-store/database.service";
 import { knownFolders, Folder, File, path } from "tns-core-modules/file-system";
 
 
-@Injectable()
+@Injectable({providedIn:'root'})
 export class DatabaseSchemaService {
     DATABASE_VERSION = 1;
     dbConnection: any;

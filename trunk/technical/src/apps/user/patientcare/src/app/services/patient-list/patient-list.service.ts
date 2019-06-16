@@ -6,7 +6,7 @@ import { WorkerService } from "../worker.service";
 import { JSONBaseDataModel } from "~/app/models/ui/json-base-data-model";
 import { PersonAccompanyModel } from "~/app/models/ui/person-accompany-model";
 import * as appSettings from "tns-core-modules/application-settings";
-@Injectable()
+@Injectable({providedIn:'root'})
 export class PatientListService {
     patientlistviewmodel: PatientListViewModel;
     val1: any;
