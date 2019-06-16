@@ -5,6 +5,7 @@ import { TraceServerWriter } from './trace-writer-server.js';
 
 export enum TraceCustomCategory {
     APP_START = "APP_START",
+    SERVICE = "SERVICE",
     APP_EXCEPTION = "APP_EXCEPTION",
     SYNC = "SYNC",
     DATABASE = "DATABASE",
