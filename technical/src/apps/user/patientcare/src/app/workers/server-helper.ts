@@ -5,6 +5,9 @@ import { SyncStoreManager } from "./sync-store-manager.js";
 import { DatabaseHelper } from "../helpers/database-helper.js";
 import { CommandRequestGenerator } from "./command-request-generator.js";
 import { DocumentSyncHelper } from "./document-sync-helper.js";
+import * as trace from "tns-core-modules/trace"
+import { TraceCustomCategory } from "../helpers/trace-helper.js";
+import { traceCategories } from "tns-core-modules/ui/page/page";
 
 export class ServerHelper {
 
@@ -26,26 +29,22 @@ export class ServerHelper {
 
             case SERVER_SYNC_STATE.SEND_AUTH_CMD:
                 // send auth cmd
-                // {"header":{"crc":"12","category":1,"commandid":1,"seqid":3},"payload":{"token":"Dev6AD88A481524BABF"}}
-
-                console.log("SERVER_SYNC_STATE.SEND_AUTH_CMD");
+                trace.write("Sending Auth command to server", TraceCustomCategory.WORKER, trace.messageType.log);
 
                 const authcmd = CommandRequestGenerator.authCmd();
-                console.log("authcmd:", authcmd);
-
                 ServerHelper.sendToServerCallback(authcmd);
-
                 break;
 
             case SERVER_SYNC_STATE.READ_SYNC_STORE:
                 // sync state READ_SYNC_STORE
 
-                console.log("SERVER_SYNC_STATE.READ_SYNC_STORE");
+                trace.write("SERVER_SYNC_STATE.READ_SYNC_STORE", TraceCustomCategory.WORKER, trace.messageType.log);
 
                 // read syncstore
                 SyncStoreManager.readSyncStore().then(
                     (val) => {
-                        console.log("reading sync store completed..")
+                        trace.write("Reading sync store completed", TraceCustomCategory.WORKER, trace.messageType.log);
+
                         ServerWorkerContext.isSyncInprogress = true;
                         ServerWorkerContext.syncType = SYNC_TYPE.FULL;
                         SyncStoreManager.getFilteredStoreList();
@@ -62,11 +61,12 @@ export class ServerHelper {
             case SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED:
                 // sync state differential sync
 
-                console.log("SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED");
+                trace.write("SERVER_SYNC_STATE.DIFFERENTIAL_SYNC_STARTED", TraceCustomCategory.WORKER, trace.messageType.log);
 
                 SyncStoreManager.readSyncStore().then(
                     (val) => {
-                        console.log("reading sync store completed..")
+                        trace.write("Differential reading sync store completed", TraceCustomCategory.WORKER, trace.messageType.log);
+
                         ServerWorkerContext.isSyncInprogress = true;
                         ServerWorkerContext.syncType = SYNC_TYPE.DIFFERENTIAL;
                         SyncStoreManager.getFilteredStoreList();
@@ -87,22 +87,23 @@ export class ServerHelper {
                 // {"header":{"crc":"12","category":3,"commandid":51,"seqid":3},"payload":{"storename":"","storedata":[{"uuid":"PA001","bedno":"A0001"}]}}
                 // Read Sync store and getnext store
 
-                console.log("SERVER_SYNC_STATE.SYNC_TO_SERVER");
+                //console.log("SERVER_SYNC_STATE.SYNC_TO_SERVER");
 
                 //get next store
                 var storename = SyncStoreManager.getNextStore(SERVER_SYNC_STATE.SYNC_TO_SERVER)
-                console.log("SYNC_TO_SERVER storename:", storename)
+                //console.log("SYNC_TO_SERVER storename:", storename)
 
                 if (storename.currentStoreName != "") {
                     DatabaseHelper.getSyncPendingDataStore(storename.currentStoreName)
                         .then(
                             (val) => {
                                 const syncCmd = CommandRequestGenerator.applySyncCmd(storename.currentStoreName, val);
-                                console.log("apply syncCmd", syncCmd);
+                                //console.log("apply syncCmd", syncCmd);
                                 ServerHelper.sendToServerCallback(syncCmd);
                             },
                             (err) => {
-                                console.log("getSyncPendingDataStore err:", err);
+                                trace.write("getSyncPendingDataStore err",TraceCustomCategory.WORKER,trace.messageType.error);
+                                trace.error(err);
                             }
                         )
                 } else {
@@ -117,16 +118,14 @@ export class ServerHelper {
                 // send get sync cmd with store name
                 // {"header":{"crc":"12","category":3,"commandid":50,"seqid":3},"payload":{"storename":"","updatedon":"2018-10-30T00:00:00Z"}}
 
-                console.log("SERVER_SYNC_STATE.SYNC_FROM_SERVER");
-
                 //get next store
                 storename = SyncStoreManager.getNextStore(SERVER_SYNC_STATE.SYNC_FROM_SERVER)
-                console.log("SYNC_from_SERVER storename:", storename)
 
+                trace.write("SYNC_from_SERVER storename: "+ JSON.stringify(storename) ,TraceCustomCategory.WORKER,trace.messageType.log);
 
                 if (storename.currentStoreName != "") {
                     const syncCmd = CommandRequestGenerator.getSyncCmd(storename.currentStoreName, storename.lastSynched);
-                    console.log("get syncCmd", syncCmd);
+                    //console.log("get syncCmd", syncCmd);
                     ServerHelper.sendToServerCallback(syncCmd);
 
                 } else {
@@ -139,7 +138,7 @@ export class ServerHelper {
             case SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED:
                 //sync from server completed
 
-                console.log("SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED");
+                //console.log("SERVER_SYNC_STATE.SYNC_FROM_SERVER_COMPLETED");
 
                 DocumentSyncHelper.sync();
 
@@ -156,7 +155,7 @@ export class ServerHelper {
 
     public static switchSyncState() {
 
-        console.log("SyncState", ServerWorkerContext.syncState);
+        //console.log("SyncState", ServerWorkerContext.syncState);
 
         switch (ServerWorkerContext.syncState) {
             case SERVER_SYNC_STATE.NONE:
