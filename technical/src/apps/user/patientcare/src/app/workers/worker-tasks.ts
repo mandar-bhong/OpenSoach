@@ -6,6 +6,8 @@ import { ServerHelper } from "./server-helper.js";
 import { PlatformHelper } from "../helpers/platform-helper.js";
 import { CommandResponseProcessor } from "./command-response-processor.js";
 import { DocumentSyncHelper } from "./document-sync-helper.js";
+import { TraceCustomCategory } from "../helpers/trace-helper.js";
+import * as trace from "tns-core-modules/trace"
 
 var WS = require('nativescript-websockets');
 
@@ -15,17 +17,19 @@ export class WorkerTasks {
     private static workerReference: Worker;
     private static retryConnectionTimerStarted = false;
     private static retryConnectionTimer: any;
+    
+    
     public static Init(worker: Worker) {
+        trace.write("Initilizing Worker task",TraceCustomCategory.WORKER,trace.messageType.info);
+
         WorkerTasks.workerReference = worker;
-        console.log("in WorkerTasks Init")
         ServerHelper.init(WorkerTasks.postMessage);
         ServerHelper.sendToServerCallback = WorkerTasks.sendToServer;
         PlatformHelper.init();
     }
 
     public static processMessage(msg: any) {
-
-        console.log(msg);
+        trace.write("Processing msg in worker" + JSON.stringify(msg) ,TraceCustomCategory.SYNC,trace.messageType.log);
         switch (msg.msgtype) {
             case SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE:
                 // set server worker context
@@ -57,9 +61,13 @@ export class WorkerTasks {
     private static initWebSocket() {
         WorkerTasks.socket = new WS(ServerWorkerContext.serverUrl, []);
         console.log('socket created', WorkerTasks.socket);
+        trace.write("Socket created" ,TraceCustomCategory.SYNC,trace.messageType.info);
+
         WorkerTasks.isSocketInitialized = true;
         WorkerTasks.socket.on('open', socket => {
             console.log('messages', "WebSocket opened");
+            trace.write("Weboscket opned." ,TraceCustomCategory.SYNC,trace.messageType.info);
+
             WorkerTasks.raiseSocketConnectionEvent(true);
 
             //on connect starting sync
@@ -110,7 +118,7 @@ export class WorkerTasks {
     }
 
     public static sendToServer(msg: any): void {
-        console.log("sendToServer", msg);
+        trace.write("",TraceCustomCategory.SYNC,trace.messageType.log);
         WorkerTasks.socket.send(msg);
     }
 
