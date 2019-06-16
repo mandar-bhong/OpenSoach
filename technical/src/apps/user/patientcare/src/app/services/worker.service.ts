@@ -18,7 +18,7 @@ import { ActionTxnDatastoreModel } from "../models/db/action-txn-model";
 import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model";
 import { PatientPersonalDetailsDatastoreModel } from "../models/db/patient-personal-details-model";
 
-@Injectable()
+@Injectable({providedIn:'root'})
 export class WorkerService {
     public ServerDataProcessorWorker: Worker;
     public patientMasterDataReceivedSubject = new Subject<PatientMasterDatastoreModel>();
