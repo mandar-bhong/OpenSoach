@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 	appModeEnum = APP_MODE;
 	@ViewChild("myListView",{static:true}) listViewComponent: RadListViewComponent;
 	// view child 
-	@ViewChild(RadSideDrawerComponent,{static:true}) public drawerComponent: RadSideDrawerComponent;
+	@ViewChild(RadSideDrawerComponent,{static:false}) public drawerComponent: RadSideDrawerComponent;
 	private drawer: RadSideDrawer;
 	private _mainContentText: string;
 	// end 
