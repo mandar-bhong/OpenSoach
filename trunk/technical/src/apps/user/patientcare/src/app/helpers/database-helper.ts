@@ -18,7 +18,7 @@ let selectQueries = new Map([
     ["getScheduleListAll", "select * from schedule_tbl where  admission_uuid=?"],
     ["servicePointList", "select * from service_point_tbl"],
     ["actionTxnInsert", "insert into action_txn_tbl (uuid,admission_uuid,schedule_uuid,txn_data,scheduled_time,txn_state,conf_type_code, updated_on,runtime_config_data) values ( ?, ?, ?, ?, ?, ?, ?, ?,?)"],
-    ["syncList", "select * from sync_tbl"],
+    ["syncList", "select * from sync_tbl order by sync_order asc"],
     ["actionTxnList", "select * from action_txn_tbl"],
     ["service_point_tbl_insert", "insert into service_point_tbl (uuid,sp_name,short_desc,sp_state,sp_state_since,updated_by,updated_on,sync_pending,client_updated_at) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?)"],
     ["service_point_tbl_update", "update service_point_tbl set sp_name=?,short_desc=?,sp_state=?,sp_state_since=?,updated_by=?,updated_on=?,sync_pending=?, client_updated_at=? where uuid=?"],
@@ -149,6 +149,7 @@ let selectQueries = new Map([
     ["getuser", "select * from user_login_tbl"],
     ["deleteuser", "delete from user_login_tbl"],
     ["patient_admission_tbl_delete", "delete from patient_admission_tbl where uuid = ?"],
+    ["patientAdmsnList","select * from patient_admission_tbl where uuid = ?"]
 ]);
 
 let selectTableName = new Map([

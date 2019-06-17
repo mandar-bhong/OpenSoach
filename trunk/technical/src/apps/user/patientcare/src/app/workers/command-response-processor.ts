@@ -283,7 +283,7 @@ export class CommandResponseProcessor {
 
             } else if (patientAdmissionDatastoreModel.status === AdmissionStatus.Discharged) {
 
-                DatabaseHelper.selectByID("patientlistbyadmissionuuid", tblData[i].uuid).then(
+                DatabaseHelper.selectByID("patientAdmsnList", tblData[i].uuid).then(
                     (val) => {
                         if (val.length != 0) {
                             new AppMessageDbSyncHandler().handleDeleteMessage(serverDataStoreDataModel, ServerHelper.postMessageCallback);
@@ -545,7 +545,7 @@ export class CommandResponseProcessor {
 
         for (let i = 0; i < tblData.length; i++) {
 
-            DatabaseHelper.selectByID("patientlistbyadmissionuuid", tblData[i].uuid).then(
+            DatabaseHelper.selectByID("patientAdmsnList", tblData[i].uuid).then(
                 (val) => {
                     if (val.length != 0) {
                         const patientAdmissionDatastoreModel = new PatientAdmissionDatastoreModel();
