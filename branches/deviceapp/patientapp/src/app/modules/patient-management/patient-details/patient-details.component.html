@@ -1,0 +1,116 @@
+<ActionBar class="action-bar" style="background-color: #396766; color: white; vertical-align: center;">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+    <GridLayout columns="*, auto" ios:padding="0 10" height="100%" width="100%">
+        <GridLayout col="0" columns="auto,auto,auto,*,auto, auto" style="text-align:center;">
+            <RL:Ripple col="0" rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37" (tap)="goBackPage()">
+                <Label text="&#xf04d;" class="homeicon mdi"></Label>
+            </RL:Ripple>
+            <Label col="1" text="&#xf47d;" class="mdi listicon" style="margin-left:30px; color:white;vertical-align: center;"></Label>
+            <Label col="2" [text]="patientname" class="label-action homeheader"></Label>
+            <!-- <StackLayout col="4" class="button-dist">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37">
+                    <Label text="&#xf09a;" class="homeicon mdi"></Label>
+                </RL:Ripple>
+            </StackLayout> -->
+            <GridLayout col="5" columns="auto" class="ripplecenter" class="button-dist" style="vertical-align: center;">
+                <network-status></network-status>
+            </GridLayout>
+        </GridLayout>
+    </GridLayout>
+</ActionBar>
+
+
+<GridLayout style="background-color:#396766;" rows="*" columns="*" height="100%" width="100%">
+    <ScrollView>
+        <GridLayout style="background-color:#396766;margin: 5 0" rows="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto"
+            columns="*">
+
+            <GridLayout row="0" style=" justify-content: center;">
+                <GridLayout class="cardeffect" shadowOffsetWidth=1 style="margin-top:20">
+                    <patient-info></patient-info>
+                </GridLayout>
+                <GridLayout horizontalAlignment="left" class="rightsecond">
+                    <!-- <RL:Ripple rippleColor="#fff"> -->
+                    <GridLayout row="0" rows="auto" class="float-btn">
+                        <Label row="0" class="float-btn-text fas" text="&#xf007;" style="color: white;"></Label>
+                    </GridLayout>
+                    <!-- </RL:Ripple> -->
+                </GridLayout>
+            </GridLayout>
+
+            <GridLayout row="1" style=" justify-content: center;">
+                <CardView class="cardeffect" margin-bottom="1" shadowOffsetWidth=1>
+                    <admission-details></admission-details>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="2" style=" justify-content: center;">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <person-accompanying-details></person-accompanying-details>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="3" style=" justify-content: center;" style="margin-top:25">
+                <GridLayout class="cardeffect" shadowOffsetWidth=1 *ngIf="personal_history.data != null">
+                    <personal-history [personallistitem]="personal_history.data"></personal-history>
+                </GridLayout>
+            </GridLayout>
+            <GridLayout row="3" style=" justify-content: center;" style="margin-top:5">
+                <GridLayout horizontalAlignment="left" class="rightsecond">
+                    <GridLayout row="0" rows="auto" class="float-btn">
+                        <Label row="0" class="float-btn-text fas" text="&#xf477;" style="color: white;"></Label>
+                    </GridLayout>
+                </GridLayout>
+            </GridLayout>
+
+            <GridLayout row="4" style=" justify-content: center;" *ngIf="jsonpresentComplaintsList.data != null">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <medical-details [listItem]="jsonpresentComplaintsList.data"></medical-details>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="5" style=" justify-content: center;"  *ngIf="reason_for_admission.data != null">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <reason-for-admission-details [reasonlistItem]="reason_for_admission.data"></reason-for-admission-details>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="6" style=" justify-content: center;"  *ngIf="history_present_illness.data != null">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <history-of-present-Illness [historylistitem]="history_present_illness.data"></history-of-present-Illness>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="7" style=" justify-content: center;" *ngIf="past_history.data != null">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <past-history-about-health [pasthistorylistitem]="past_history.data"></past-history-about-health>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="8" style=" justify-content: center;" *ngIf="treatment_before_admission.data != null">
+                <CardView class="cardeffect"  shadowOffsetWidth=1>
+                    <treatment-before-admission [treatmentlistitem]="treatment_before_admission.data"></treatment-before-admission>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="9" style="justify-content: center;" *ngIf="investigation_before_admission.data != null">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <investigation-before-admission [investigationlistitem]="investigation_before_admission.data"></investigation-before-admission>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="10" style=" justify-content: center;" *ngIf="investigation_before_admission.data != null">
+                <CardView class="cardeffect" shadowOffsetWidth=1>
+                    <family-history [familylistitem]="family_history.data"></family-history>
+                </CardView>
+            </GridLayout>
+
+            <GridLayout row="11" style=" justify-content: center;" *ngIf="allergies.data != null">
+                <CardView class="cardeffect"  shadowOffsetWidth=1>
+                    <allergies [allergieslistitem]="allergies.data"></allergies>
+                </CardView>
+            </GridLayout>
+
+        </GridLayout>
+    </ScrollView>
+</GridLayout>

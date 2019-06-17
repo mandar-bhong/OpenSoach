@@ -1,0 +1,248 @@
+<GridLayout columns="*" ios:padding="0 10" height="100%" width="100%" rows="*">
+    <GridLayout columns="*" rows="auto,*" row="0">
+        <GridLayout row="0" columns="auto, *, auto" rows="65"
+            style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
+            <GridLayout col="0" style="vertical-align: center;">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                    (tap)="goBackPage()">
+                    <Label text="&#xf156;" class="homeicon mdi mdi"></Label>
+                </RL:Ripple>
+            </GridLayout>
+            <Label col="1" text="Schedule – Medicine" style="text-align:center;  vertical-align: center;"></Label>
+            <GridLayout col="2" style="vertical-align: center;">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                    (tap)="onSubmit()">
+                    <Label text="&#xf12c;" class="homeicon mdi mdi" style="margin-right: 1px"></Label>
+                </RL:Ripple>
+            </GridLayout>
+        </GridLayout>
+        <ScrollView row="1">
+            <GridLayout class="form" [formGroup]="medicineForm">
+                <GridLayout rows="auto, auto, auto, auto, auto,auto,auto, auto, auto" style="margin-bottom:10px;">
+                    <GridLayout row="0">
+                        <GridLayout class="input-field">
+                            <Label text="Medicine Type" class="body"></Label>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="1" columns=" *" class="selection-list-panel">
+                        <os-selection-list #medicineSelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                            [DisplayText]="displayText">
+                        </os-selection-list>
+                    </GridLayout>
+                    <GridLayout row="2" class="marging-left-right" rows="auto, auto, auto ">
+                        <GridLayout row="0">
+                            <Label text="Medicine Name" class="body margin-bottom"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <TextField class="input input-border" formControlName="name"></TextField>
+                        </GridLayout>
+
+                        <GridLayout row="2" *ngIf="medNameIsValid">
+                            <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="3" rows="auto auto" class="marging-left-right">
+                        <GridLayout row="0">
+                            <Label text="Food Instruction" class="body margin-bottom"></Label>
+                        </GridLayout>
+                        <GridLayout row="1" columns=" *">
+                            <os-selection-list #foodSelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                                [DisplayText]="displayFoodText" (Checked)='foodItemChecked($event)'
+                                (Unchecked)="itemUnchecked($event)">
+                            </os-selection-list>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="4" rows="auto auto auto auto auto" class="marging-left-right">
+                        <GridLayout row="0" class="input-field">
+                            <Label text="Frequency" class="body"></Label>
+                        </GridLayout>
+                        <GridLayout row="1" columns=" *">
+                            <os-selection-list #frequencySelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                                [DisplayText]="displayFreqText" (Checked)='freqItemChecked($event)'
+                                (Unchecked)="itemUnchecked($event)">
+                            </os-selection-list>
+                        </GridLayout>
+                        <!-- mark up for x time  -->
+                        <GridLayout row="2" rows="auto auto" class="input-field" *ngIf="freqSelectedIndex==0">
+                            <GridLayout row="0" rows="auto auto auto">
+                                <GridLayout row="0" columns="* *">
+                                    <GridLayout col="0" columns="* *">
+                                        <Label col="0" text="Morning"></Label>
+                                        <Switch col="1" checked="true" color="#FF8912" backgroundColor="#FF8912"
+                                            offBackgroundColor="gray" (checkedChange)="onMorningChecked($event)"
+                                            horizontalAlignment="center"></Switch>
+                                    </GridLayout>
+                                    <GridLayout col="1" columns="* *" *ngIf="freqMorn">
+                                        <Label col="0" text="Dosage"></Label>
+                                        <TextField col="1" class="input"  hint="No. of units"
+                                            formControlName="mornQuantity"></TextField>
+                                    </GridLayout>
+                                </GridLayout>
+                                <GridLayout row="1" columns="* *">
+                                    <GridLayout col="0" columns="* *">
+                                        <Label col="0" text="Afternoon"></Label>
+                                        <Switch col="1" checked="true" color="#FF8912" backgroundColor="#FF8912"
+                                            offBackgroundColor="gray" (checkedChange)="onAfternoonChecked($event)"
+                                            horizontalAlignment="center"></Switch>
+                                    </GridLayout>
+                                    <GridLayout col="1" columns="* *" *ngIf="freqAftrn">
+                                        <Label col="0" text="Dosage"></Label>
+                                        <TextField col="1" class="input"  hint="No. of units"
+                                            formControlName="aftrnQuantity"></TextField>
+                                    </GridLayout>
+                                </GridLayout>
+                                <GridLayout row="2" columns="* *">
+                                    <GridLayout col="0" columns="* *">
+                                        <Label col="0" text="Night"></Label>
+                                        <Switch col="1" checked="true" color="#FF8912" backgroundColor="#FF8912"
+                                            offBackgroundColor="gray" (checkedChange)="onNightChecked($event)"
+                                            horizontalAlignment="center"></Switch>
+                                    </GridLayout>
+                                    <GridLayout col="1" columns="* *" *ngIf="freqNight">
+                                        <Label col="0" text="Dosage"></Label>
+                                        <TextField col="1" class="input"  hint="No. of units"
+                                            formControlName="nightQuantity"></TextField>
+                                    </GridLayout>
+                                </GridLayout>
+                            </GridLayout>
+                            <GridLayout row="1" *ngIf="isXTimesDay">
+                                <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                            </GridLayout>
+                        </GridLayout>
+                        <!-- mark up for after x  time  -->
+                        <GridLayout row="3" rows="auto auto auto auto auto" class="marging-left-right"
+                            *ngIf="freqSelectedIndex==1">
+                            <!-- mark for interval hours  -->
+                            <GridLayout row="0" rows="auto, auto, auto, auto">
+                                <GridLayout row="0">
+                                    <Label text="Enter interval in hours" class="body margin-bottom"></Label>
+                                </GridLayout>
+                                <GridLayout row="1">
+                                    <TextField class="input input-border" keyboardType="number"
+                                        formControlName="interval">
+                                    </TextField>
+                                </GridLayout>
+                                <!-- interval hours validations   -->
+
+                                <GridLayout row="2" *ngIf="intervalIsValid">
+                                    <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                                </GridLayout>
+                                <GridLayout row="3" *ngIf="invalidIntervalHours">
+                                    <Label text="*Invalid interval hours" style="color:red"></Label>
+                                </GridLayout>
+                                <!-- interval hours validations ends here  -->
+                            </GridLayout>
+                            <!-- interval hours end here -->
+                            <!-- mark up for numbedr of times -->
+                            <GridLayout row="1" rows="auto auto auto auto">
+                                <GridLayout row="0">
+                                    <Label text="Enter no. of times" class="body margin-bottom"></Label>
+                                </GridLayout>
+                                <GridLayout row="1">
+                                    <TextField class="input input-border" keyboardType="number"
+                                        formControlName="numberofTimes">
+                                    </TextField>
+                                </GridLayout>
+                                <!-- number of times validations -->
+                                <GridLayout row="2" *ngIf="numberOfTimesValid">
+                                    <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                                </GridLayout>
+                                <GridLayout row="3" *ngIf="medicineForm.get('numberofTimes').hasError('max')">
+                                    <Label text="*No. of times can not greater than {{numberOFTimesDosage}} "
+                                        style="color:red"></Label>
+                                </GridLayout>
+                                <!-- ends here -->
+                            </GridLayout>
+                            <!-- number of times markup ends here  -->
+                            <GridLayout row="2" rows="auto auto auto">
+                                <GridLayout row="0">
+                                    <Label text="Dosage" class="body margin-bottom"></Label>
+                                </GridLayout>
+                                <GridLayout row="1">
+                                    <TextField class="input input-border" keyboardType="number"
+                                        [ngClass]="{invalid: isDosage === true}" formControlName="quantity"
+                                        hint="No. of units"></TextField>
+                                </GridLayout>
+                                <GridLayout row="3" *ngIf="isDosage">
+                                    <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                                </GridLayout>
+                            </GridLayout>
+                            <GridLayout row="3" rows="auto auto" class="input-field">
+                                <GridLayout row="0">
+                                    <Label text="Start Time" class="body"></Label>
+                                </GridLayout>
+                                <GridLayout row="1">
+                                    <TimePicker verticalAlignment="center" class="m-15" formControlName="startTime">
+                                    </TimePicker>
+                                </GridLayout>
+                            </GridLayout>
+                            <GridLayout row="4" *ngIf="isStartTimeValid">
+                                <Label textWrap="true" text="Schedule can not be created in past"
+                                    style="color:red"></Label>
+                            </GridLayout>
+                        </GridLayout>
+                        <!-- mark up for as required -->
+                        <GridLayout row="4" rows="auto auto auto " class="marging-left-right"
+                            *ngIf="freqSelectedIndex==2">
+                            <GridLayout row="0">
+                                <Label text="Enter Special Instructions" class="body margin-bottom"></Label>
+                            </GridLayout>
+                            <GridLayout row="1">
+                                <TextField class="input input-border" formControlName="splinstructions"></TextField>
+                            </GridLayout>
+                            <GridLayout row="2" *ngIf="isSplinstructions">
+                                <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                            </GridLayout>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="5" rows="auto auto" class="input-field">
+                        <GridLayout row="0">
+                            <Label text="Start Date" class="body"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <DatePicker verticalAlignment="center" formControlName="startDate"></DatePicker>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="6" *ngIf="startDateValid">
+                        <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                    </GridLayout>
+                    <!-- mark up for durations -->
+                    <GridLayout row="7" rows="auto auto auto auto,auto" class="marging-left-right">
+                        <GridLayout row="0">
+                            <Label text="Duration" class="body margin-bottom"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <TextField class="input input-border" keyboardType="number" hint="No. of days"
+                                formControlName="duration">
+                            </TextField>
+                        </GridLayout>
+                        <!-- duration validations starts  -->
+
+                        <GridLayout row="2" *ngIf="durationIsValid">
+                            <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="3" *ngIf="medicineForm.get('duration').hasError('pattern')">
+                            <Label text="*Only whole numbers are allowed" style="color:red"></Label>
+                        </GridLayout>
+                        <GridLayout row="4" *ngIf="medicineForm.get('duration').hasError('max')">
+                            <Label text="*You can not enter duration greater than 20 days" style="color:red"></Label>
+                        </GridLayout>
+                        <!-- end of eduration validations -->
+                    </GridLayout>
+                    <!-- end of durations -->
+                    <GridLayout row="8" rows="auto,auto " class="marging-left-right">
+                        <GridLayout row="0">
+                            <Label text="Remark" class="body margin-bottom"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <TextView formControlName="remark" hint="Enter Remark" editable="true"
+                                class="input input-border">
+                            </TextView>
+                        </GridLayout>
+
+                    </GridLayout>
+                </GridLayout>
+            </GridLayout>
+        </ScrollView>
+    </GridLayout>
+</GridLayout>
