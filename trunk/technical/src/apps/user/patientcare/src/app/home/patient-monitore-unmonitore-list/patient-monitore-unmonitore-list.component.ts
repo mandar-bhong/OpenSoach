@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import * as Toast from 'nativescript-toast';
 import { ListViewEventData } from 'nativescript-ui-listview';
@@ -32,8 +32,8 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 	public funcGroupingFilter: (item: DataDBModel) => DataDBModel;
 
 	constructor(private serverApiInterfaceService: ServerApiInterfaceService,
-		private routerExtensions: RouterExtensions,
-		private dtc: ChangeDetectorRef,) {
+		private routerExtensions: RouterExtensions
+		) {
 		this.funcGroupingFilter = (item: any) => {
 			if (item) {
 				return item.dbmodel.spname;
@@ -137,7 +137,6 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 						element.checked = false;
 					});
 				}
-				this.dtc.detectChanges();
 			});
 
 		});
