@@ -6,24 +6,38 @@ import { WorkerService } from "../worker.service";
 import { JSONBaseDataModel } from "~/app/models/ui/json-base-data-model";
 import { PersonAccompanyModel } from "~/app/models/ui/person-accompany-model";
 import * as appSettings from "tns-core-modules/application-settings";
-@Injectable({providedIn:'root'})
+import { APP_MODE } from "~/app/app-constants";
+import { AppGlobalContext } from "~/app/app-global-context";
+@Injectable({ providedIn: 'root' })
 export class PatientListService {
     patientlistviewmodel: PatientListViewModel;
     val1: any;
     patientListChangedSubject = new Subject<PatientListViewModel[]>();
-
     constructor(private database: DatabaseService,
         private workerService: WorkerService) {
         this.workerService.patientMasterDataReceivedSubject.subscribe((dataStoreModel) => {
-            this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbymasteruuid');
+            if (AppGlobalContext.AppMode == APP_MODE.USER_DEVICE) {
+                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbymasteruuid');
+            } else {
+                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbymasteruuidshared');
+
+            }
         });
 
         this.workerService.patientAdmissionDataReceivedSubject.subscribe((dataStoreModel) => {
-            this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbyadmissionuuid');
+            if (AppGlobalContext.AppMode == APP_MODE.USER_DEVICE) {
+                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbyadmissionuuid');
+            } else {
+                this.getPatientListDataById(dataStoreModel.uuid, 'patientlistbyadmissionuuidshared');
+            }
         });
 
         this.workerService.patientPersonalDetailsDataReceivedSubject.subscribe((dataStoreModel) => {
-            this.getPatientListDataById(dataStoreModel.admission_uuid, 'patientlistbyadmissionuuid');
+            if (AppGlobalContext.AppMode == APP_MODE.USER_DEVICE) {
+                this.getPatientListDataById(dataStoreModel.admission_uuid, 'patientlistbyadmissionuuid');
+            } else {
+                this.getPatientListDataById(dataStoreModel.admission_uuid, 'patientlistbyadmissionuuidshared');
+            }
         });
 
         this.workerService.scheduleDataReceivedSubject.subscribe((dataStoreModel) => {
@@ -34,10 +48,16 @@ export class PatientListService {
 
     public getData(): Promise<PatientListViewModel[]> {
         return new Promise((resolve, reject) => {
-            const key = 'patientlist'
-            const paramList = new Array<any>();
             let patientlist: PatientListViewModel[] = [];
-            paramList.push(appSettings.getNumber("CPM_ID"));
+            const paramList = new Array<any>();
+            
+            if (AppGlobalContext.AppMode == APP_MODE.USER_DEVICE) { 
+                var key = 'patientlist'
+                paramList.push(appSettings.getNumber("CPM_ID"));
+            }else{
+                var key = 'patientlistshared'
+            }
+            
             this.database.selectByID(key, paramList).then(
                 (val) => {
                     const list: PatientListViewModel[] = [];
@@ -62,7 +82,9 @@ export class PatientListService {
         let patientlist: PatientListViewModel[] = [];
 
         paramList.push(uuid);
-        paramList.push(appSettings.getNumber("CPM_ID"));
+        if (AppGlobalContext.AppMode == APP_MODE.USER_DEVICE) {
+            paramList.push(appSettings.getNumber("CPM_ID"));
+        }
         this.database.selectByID(key, paramList).then(
             (val) => {
                 val.forEach(item => {
