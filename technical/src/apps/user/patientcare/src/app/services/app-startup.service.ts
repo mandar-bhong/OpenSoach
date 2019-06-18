@@ -17,12 +17,12 @@ import { PlatformiOSHelper } from "../helpers/platform-ios-helper";
 import { DatabaseService } from "./offline-store/database.service";
 import { AppRepoService } from "./app-repo.service";
 
-@Injectable({providedIn:'root'})
+@Injectable({ providedIn: 'root' })
 export class AppStartupService {
     isStartupInprogress = true;
     constructor(private databaseSchemaService: DatabaseSchemaService,
         private workerService: WorkerService,
-        private dbService : DatabaseService,
+        private dbService: DatabaseService,
         private serverApiInterfaceService: ServerApiInterfaceService,
         private routerExtensions: RouterExtensions) { }
     init() {
@@ -91,10 +91,11 @@ export class AppStartupService {
     }
 
     // getSerialNumber(): string {
-    //     //TODO: Read the serial number
+    //     // TODO: Read the serial number
     //     // Set the Serial Number in AppGlobalContext
-    //     //  const serialNumber = "1234567890123456";
+    //     const serialNumber = "1234567890123456";
     //     //   const serialNumber = "12345";
+    //     return serialNumber;
     //     // if (isAndroid) {
     //     //     console.log('android serial number', new PlatformAndroidHelper().getSerialNumber());
     //     //     return new PlatformAndroidHelper().getSerialNumber();
@@ -105,7 +106,7 @@ export class AppStartupService {
     // }
 
     checkIfDeviceIsRegistered() {
-     const SerialNo = PlatformHelper.API.getSerialNumber();
+         const SerialNo = PlatformHelper.API.getSerialNumber();
         // const SerialNo = this.getSerialNumber();
         AppGlobalContext.SerialNumber = SerialNo;
         console.log("SerialNo:", SerialNo);
@@ -134,13 +135,15 @@ export class AppStartupService {
         appSettings.setNumber("APP_MODE", appMode);
         AppGlobalContext.AppMode = appMode;
         appSettings.setString("AUTH_TOKEN", resData.token);
-        appSettings.setNumber("CPM_ID", resData.cpmid);
-        console.log('CPM_ID', appSettings.getNumber("CPM_ID"))
+        if (appMode == APP_MODE.USER_DEVICE) {
+            appSettings.setNumber("CPM_ID", resData.cpmid);
+            console.log('CPM_ID', appSettings.getNumber("CPM_ID"))
+        }
         appSettings.setString("WEB_SOCKET_URL", resData.locationurl);
         AppGlobalContext.Token = resData.token;
         AppGlobalContext.WebsocketUrl = resData.locationurl;
         console.log("AppGlobalContext.Token", AppGlobalContext.Token);
-         this.initAppStart();
+        this.initAppStart();
     }
 
     initAppStart() {
