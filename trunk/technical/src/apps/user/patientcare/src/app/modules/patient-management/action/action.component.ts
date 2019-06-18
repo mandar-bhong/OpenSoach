@@ -143,7 +143,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	intakerTotalCount: any;
 	outputTotalCount: any;
 	DorderTotalCount: any;
-	@ViewChild("myListView", {static: true}) listViewComponent: RadListViewComponent;
+	@ViewChild("myListView", { static: true }) listViewComponent: RadListViewComponent;
 	constructor(
 		public page: Page,
 		private actionService: ActionService,
@@ -333,7 +333,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (this.intakerTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.intakeIndex, false, ListViewItemSnapMode.Start);
-			console.log("Clicked select intake", this.intakeIndex);
 			this.monitorbuttonClicked = false;
 			this.intakebuttonClicked = true;
 			this.medicinebuttonClicked = false;
@@ -347,7 +346,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (this.monitorTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.monitorIndex, false, ListViewItemSnapMode.Start);
-			console.log("Clicked select monitor", this.monitorIndex);
 			this.monitorbuttonClicked = true;
 			this.intakebuttonClicked = false;
 			this.medicinebuttonClicked = false;
@@ -360,14 +358,12 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (this.medicineTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.medicineIndex, false, ListViewItemSnapMode.Start);
-			console.log("Clicked select medicine", this.medicineIndex);
 			this.monitorbuttonClicked = false;
 			this.intakebuttonClicked = false;
 			this.medicinebuttonClicked = true;
 			this.outputbuttonClicked = false;
 			this.doctorOrderButtonClicked = false;
 		}
-
 	}
 	// <<  Grouping medicine scroll to top position change 
 
@@ -376,7 +372,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (this.outputTotalCount > 0) {
 			const listView = this.listViewComponent.listView;
 			listView.scrollToIndex(this.outputIndex, false, ListViewItemSnapMode.Start);
-			console.log("Clicked select output", this.outputIndex);
 			this.monitorbuttonClicked = false;
 			this.intakebuttonClicked = false;
 			this.medicinebuttonClicked = false;
@@ -455,7 +450,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	handelActionTransaction(actionTxnDatastoreModel: ActionTxnDatastoreModel) {
 		console.log('action transaction notification received', actionTxnDatastoreModel);
 		// checking is schedule is created for particular patient
-
 		if (actionTxnDatastoreModel.admission_uuid != this.passdataservice.getAdmissionID()) {
 			return;
 		}
@@ -632,40 +626,38 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.getCount();
 	}
 	handelDoctorOrderNotification(doctorsOrders: DoctorsOrdersDatastoreModel) {
+			let dataActionItem = new DataActionItem();
+			Object.assign(dataActionItem, doctorsOrders);
 
-		let dataActionItem = new DataActionItem();
-		Object.assign(dataActionItem, doctorsOrders);
+			if (dataActionItem.admission_uuid != this.passdataservice.getAdmissionID()) {
+				return;
+			}
 
-		if (dataActionItem.admission_uuid != this.passdataservice.getAdmissionID()) {
-			return;
-		}
+			console.log('dataActionItem.uuid', dataActionItem.uuid);
+			let filterDoctorVM = [];
+			filterDoctorVM = this.actionItems.filter(a => a.conf_type_code == ConfigCodeType.DOCTOR_ORDERS && a.doctorOrderModel.uuid == dataActionItem.uuid);
 
-		console.log('dataActionItem.uuid', dataActionItem.uuid);
-		let filterDoctorVM = [];
-		filterDoctorVM = this.actionItems.filter(a => a.conf_type_code == ConfigCodeType.DOCTOR_ORDERS && a.doctorOrderModel.uuid == dataActionItem.uuid);
+			this.actionService.getDoctorOrderByID('getdoctororderbyid', dataActionItem.uuid).then(
+				(val) => {
+					val.forEach(item => {
 
-		this.actionService.getDoctorOrderByID('getdoctororderbyid', dataActionItem.uuid).then(
-			(val) => {
-				val.forEach(item => {
+						let docVM = null;
+						filterDoctorVM.forEach(actionItem => {
+							this.prepareActionItem(actionItem, item, true);
+							docVM = actionItem;
 
-					let docVM = null;
-					filterDoctorVM.forEach(actionItem => {
-						this.prepareActionItem(actionItem, item, true);
-						docVM = actionItem;
-
+						});
+						if (docVM == null) {
+							docVM = this.prepareActionItem(null, item, true);
+							this.actionItems.push(docVM);
+						}
+						this.resetActionItem(docVM);
+						this.refreshListView();
 					});
-					if (docVM == null) {
-						docVM = this.prepareActionItem(null, item, true);
-						this.actionItems.push(docVM);
-					}
-					this.resetActionItem(docVM);
-					this.refreshListView();
+				},
+				(error) => {
+					console.log("getActinData error:", error);
 				});
-			},
-			(error) => {
-				console.log("getActinData error:", error);
-			});
-
 	} // end of code block.
 
 	calculateActiveActionTime(scheduled_time) {
@@ -863,9 +855,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 
 	refreshListView() {
-		let filterfunc = this.listViewComponent.listView.filteringFunction;
-		this.listViewComponent.listView.filteringFunction = undefined;
-		this.listViewComponent.listView.filteringFunction = filterfunc;
+		this.listViewComponent.listView.refresh();
 	}
 
 	// clean up

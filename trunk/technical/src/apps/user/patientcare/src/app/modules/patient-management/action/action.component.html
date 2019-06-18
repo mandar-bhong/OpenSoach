@@ -134,7 +134,7 @@
                         [class]="'item ' + (item.selected ? 'item-selected' : '')"
                         [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
                         <!-- click row expand view open above view start -->
-                        <GridLayout row="0" columns="70, *" rows="auto, auto,auto" style="padding-bottom: 8%;">
+                        <GridLayout row="0" columns="70, *" rows="auto, auto,auto" >
 
                             <!-- left side clock status view start -->
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto"
@@ -238,10 +238,10 @@
                         </GridLayout>
                         <!-- click row expand view open above view start -->
                         <!-- expand below view start-->
-                        <GridLayout row="1" col="0" columns="*" rows="auto, auto" class="list-layout"
+                        <GridLayout row="1" col="0" columns="*" rows="auto, auto" 
                             *ngIf="item.actionStatus != action_Status.ACTIVE_FUTURE">
 
-                            <GridLayout class="cardeffect">
+                            <GridLayout>
                                 <!-- comment and value input field expand view start  -->
                                 <GridLayout columns="*, auto" rows="auto, auto"
                                     *ngIf="(item.actionStatus == action_Status.ACTIVE_NORMAL || item.actionStatus == action_Status.ACTIVE_DELAYED || item.actionStatus == action_Status.ACTIVE_NEEDS_ATTENTION || item.actionStatus == action_Status.MISSED) && (item.hasTxnData!=true)">
@@ -274,7 +274,7 @@
 
                                     <GridLayout row="1" col="0" columns="20,auto" rows="auto"
                                         style=" vertical-align: center; margin-top:3px;">
-                                        <GridLayout col="1" style="width:80%;">
+                                        <GridLayout col="1" style="width:80%;" class="input-field">
                                             <TextField hint="Comments (optional)" [(ngModel)]="item.txnData.comment"
                                                 keyboardType="email" autocorrect="false" class="input input-border">
                                             </TextField>
