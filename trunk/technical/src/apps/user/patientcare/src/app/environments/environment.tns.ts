@@ -14,11 +14,14 @@ export const environment = (() => {
   ) {
     switch (process.env.buildmode) {
       case 'prod':
+        console.log("Build mode is prod");
         envVars = prodEnvironment;
         break;
       // TODO: Add additional environment (e.g. uat) if required. 
       default:
+          console.log("Build mode is dev");
         envVars = devEnvironment;
+        break;
     }
   } else {
     envVars = devEnvironment;
