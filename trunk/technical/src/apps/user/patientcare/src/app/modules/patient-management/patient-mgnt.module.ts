@@ -8,7 +8,6 @@ import { FloatBtnComponent } from "~/app/float-btn.component";
 import { PatientMgntRoutingModule } from "./patient-mgnt-routing.module";
 import { PatientMgntComponent } from "./patient-mgnt.component";
 import { CamerasComponent } from "./cameras/cameras.component";
-import { PatientDetailsComponent } from "./patient-details/patient-details.component";
 import { MonitorComponent } from "./monitor/monitor.component";
 import { ActionComponent } from "./action/action.component";
 import { ChartsComponent } from "./charts/charts.component";
@@ -19,8 +18,6 @@ import { DatePipe } from "@angular/common";
 import { ChartService } from "~/app/services/chart/chart.service";
 import { IntakeChartComponent } from "./charts/intake-chart/intake-chart.component";
 import { MonitorChartComponent } from "./charts/monitor-chart/monitor-chart.component";
-import { MedicalDetailsComponent } from "./patient-details/medical-details/medical-details.component";
-import { PatientInfoComponent } from "./patient-details/patient-info/patient-info.component";
 import { ReportsComponent } from "./reports/reports.component";
 import { SectionOneComponent } from "./reports/section-one/section-one.component";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -37,16 +34,6 @@ import { DoctorOrdersComponent } from "./doctor-orders/doctor-orders.component";
 import { ActionFabComponent } from "./action-fab/action-fab.component";
 import { SchedularFabComponent } from "./schedular-fab/schedular-fab.component";
 import { TreatmentReportsComponent } from "./reports/treatment-reports/treatment-reports.component";
-import { AdmissionDetailsComponent } from "./patient-details/admission-details/admission-details.component";
-import { PersonAccompanyingDetailsComponent } from "./patient-details/person-accompanying-details/person-accompanying-details.component";
-import { ReasonForAdmissionDetailsComponent } from "./patient-details/reason-for-admission-details/reason-for-admission-details.component";
-import { HistoryOfPresentIllnessComponent } from "./patient-details/history-of-present-Illness/history-of-present-Illness.component";
-import { PastHistoryAboutHealthComponent } from "./patient-details/past-history-about-health/past-history-about-health.component";
-import { InvestigationBeforeAdmissionComponent } from "./patient-details/investigation-before-admission/investigation-before-admission.component";
-import { FamilyHistoryComponent } from "./patient-details/family-history/family-history.component";
-import { AllergiesComponent } from "./patient-details/allergies/allergies.component";
-import { TreatmentBeforeAdmissionComponent } from "./patient-details/treatment-before-admission/treatment-before-admission.component";
-import { PersonalHistoryComponent } from "./patient-details/personal-history/personal-history.component";
 import { OutputChartComponent } from "./charts/output-chart/output-chart.component";
 import { ReportsService } from "~/app/services/reports/reports-service";
 import { AppNotificationService } from "~/app/services/app-notification-service";
@@ -70,15 +57,12 @@ import { ImageModalComponent } from "./image-modal/image-modal.component";
         DetailsComponent,
         FloatBtnComponent,
         CamerasComponent,
-        PatientDetailsComponent,
         MonitorComponent,
         ActionComponent,
         ChartsComponent,
         MedicineChartComponent,
         IntakeChartComponent,
         MonitorChartComponent,
-        MedicalDetailsComponent,
-        PatientInfoComponent,
         ReportsComponent,
         SectionOneComponent,
         PatientActionBarComponent,
@@ -89,16 +73,6 @@ import { ImageModalComponent } from "./image-modal/image-modal.component";
         ActionFabComponent,
         SchedularFabComponent,
         TreatmentReportsComponent,
-        AdmissionDetailsComponent,
-        PersonAccompanyingDetailsComponent,
-        ReasonForAdmissionDetailsComponent,
-        HistoryOfPresentIllnessComponent,
-        PastHistoryAboutHealthComponent,
-        TreatmentBeforeAdmissionComponent,
-        InvestigationBeforeAdmissionComponent,
-        FamilyHistoryComponent,
-        AllergiesComponent,
-        PersonalHistoryComponent,
         OutputChartComponent,
         MedicineActionsComponent,
         ImageModalComponent
