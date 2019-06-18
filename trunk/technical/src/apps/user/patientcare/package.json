@@ -11,8 +11,7 @@
   "android": {
     "markingMode": "none",
     "v8Flags": "--expose_gc",
-    "gcThrottleTime": 500,
-    "memoryCheckInterval": 500,
+    "memoryCheckInterval": 1000, 
     "freeMemoryRatio": 0.5
   },
   "scripts": {
