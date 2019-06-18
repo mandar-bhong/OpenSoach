@@ -1,4 +1,4 @@
-import { Injectable, Input } from "@angular/core";
+import { Injectable, Input, OnDestroy } from "@angular/core";
 
 // add if building with webpack
 import * as ServerDataProcessorWorker from "nativescript-worker-loader!../workers/server-data-processor.worker";
@@ -19,7 +19,8 @@ import { DoctorsOrdersDatastoreModel } from "../models/db/doctors-orders-model";
 import { PatientPersonalDetailsDatastoreModel } from "../models/db/patient-personal-details-model";
 
 @Injectable({providedIn:'root'})
-export class WorkerService {
+export class WorkerService implements OnDestroy{
+   
     public ServerDataProcessorWorker: Worker;
     public patientMasterDataReceivedSubject = new Subject<PatientMasterDatastoreModel>();
     public patientAdmissionDataReceivedSubject = new Subject<PatientAdmissionDatastoreModel>();
@@ -78,8 +79,10 @@ export class WorkerService {
         }
     }
 
-    closeServerDataProcessorWorker() {
-        console.log("closeServerDataProcessorWorker");
+    ngOnDestroy(): void {
+        console.log("closeServerDataProcessorWorker.");
+        this.ServerDataProcessorWorker.postMessage("close");
+
         this.ServerDataProcessorWorker.terminate();
     }
 
