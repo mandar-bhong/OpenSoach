@@ -1,6 +1,9 @@
 import * as trace from 'tns-core-modules/trace';
 import { TraceConsoleWriter } from './trace-writer-console.js';
-import { TraceServerWriter } from './trace-writer-server.js';
+//import Utils from './utils.js';
+//import { BuildMode } from '../app-constants.js';
+//import { TraceServerWriter } from './trace-writer-server.js';
+//HTTPClient is not available in background worker giving compilation error
 
 
 export enum TraceCustomCategory {
@@ -64,12 +67,13 @@ export class TraceHelper {
         //     TraceCustomCategory.DATABASE));
 
         trace.clearWriters();
-        trace.addWriter(new TraceConsoleWriter);
+        
 
-        if (false){//get these configuration from env variable as above switch
-            trace.setErrorHandler(TraceHelper.devErrorHandler)
+        if (false){//Utils.getBuildEnvironment()==BuildMode.PRODUCTION            
+            trace.setErrorHandler(TraceHelper.prodErrorHandler);            
         }else{
-            trace.setErrorHandler(TraceHelper.prodErrorHandler)
+            trace.addWriter(new TraceConsoleWriter);
+            trace.setErrorHandler(TraceHelper.devErrorHandler);
         }
         
         

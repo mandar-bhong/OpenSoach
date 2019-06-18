@@ -3,7 +3,7 @@ import { PlatformHelper } from "../helpers/platform-helper";
 import { DatabaseSchemaService } from "./offline-store/database-schema.service";
 import { WorkerService } from "./worker.service";
 import * as appSettings from "tns-core-modules/application-settings";
-import { APP_MODE, API_SPL_BASE_URL, SERVER_WORKER_MSG_TYPE } from "../app-constants";
+import { APP_MODE,  SERVER_WORKER_MSG_TYPE } from "../app-constants";
 import { ServerApiInterfaceService } from "./server-api-interface.service";
 import { AppGlobalContext } from "../app-global-context";
 import * as trace from 'tns-core-modules/trace';
@@ -15,6 +15,7 @@ import * as application from 'tns-core-modules/application';
 import { PlatformAndroidHelper } from "../helpers/platform-android-helper";
 import { PlatformiOSHelper } from "../helpers/platform-ios-helper";
 import { DatabaseService } from "./offline-store/database.service";
+import { AppRepoService } from "./app-repo.service";
 
 @Injectable({providedIn:'root'})
 export class AppStartupService {
@@ -27,6 +28,9 @@ export class AppStartupService {
     init() {
 
         // init PlatformHelper
+
+        AppRepoService.Instance.PreInit();
+
         PlatformHelper.init();
         this.dbService.initDBWorker();
         this.databaseSchemaService.setOfflineDB().then(() => {
@@ -57,7 +61,7 @@ export class AppStartupService {
             this.checkIfDeviceIsRegistered();
         } else {
             if (appMode == APP_MODE.SHARED_DEVICE && token != null) {
-                this.serverApiInterfaceService.get(API_SPL_BASE_URL + "/v1/validateauthtoken",
+                this.serverApiInterfaceService.get(AppRepoService.Instance.API_SPL_BASE_URL + "/v1/validateauthtoken",
                     {
                         token: token
                     })
@@ -105,7 +109,7 @@ export class AppStartupService {
         // const SerialNo = this.getSerialNumber();
         AppGlobalContext.SerialNumber = SerialNo;
         console.log("SerialNo:", SerialNo);
-        this.serverApiInterfaceService.post(API_SPL_BASE_URL + "/v1/endpoint/deviceauthorization",
+        this.serverApiInterfaceService.post(AppRepoService.Instance.API_SPL_BASE_URL + "/v1/endpoint/deviceauthorization",
             {
                 'serialno': SerialNo,
                 'prodcode': 'SPL_HPFT'

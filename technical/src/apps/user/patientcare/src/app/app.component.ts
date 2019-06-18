@@ -15,12 +15,12 @@ import { DatabaseService } from "./services/offline-store/database.service";
     selector: "ns-app",
     templateUrl: "app.component.html"
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
 
     constructor(private appStartupService: AppStartupService,
         private workerService: WorkerService,
         private databaseService: DatabaseService) {
-        trace.write("in app component constructor", TraceCustomCategory.APP_START, trace.messageType.info);
+        trace.write("in app component constructor..", TraceCustomCategory.APP_START, trace.messageType.info);
 
         this.appStartupService.init(); 
     }
@@ -30,8 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        trace.write("Destroying app component and closing worker.", TraceCustomCategory.APP_START, trace.messageType.info);
-        this.workerService.closeServerDataProcessorWorker();
+        trace.write("Destroying app component", TraceCustomCategory.APP_START, trace.messageType.info);
+        
     }
 }
 

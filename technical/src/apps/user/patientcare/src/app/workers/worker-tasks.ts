@@ -17,10 +17,14 @@ export class WorkerTasks {
     private static workerReference: Worker;
     private static retryConnectionTimerStarted = false;
     private static retryConnectionTimer: any;
-    
+
+    private static isDeInit: boolean;
+
     
     public static Init(worker: Worker) {
-        trace.write("Initilizing Worker task",TraceCustomCategory.WORKER,trace.messageType.info);
+        trace.write("Initilizing Worker task", TraceCustomCategory.WORKER, trace.messageType.info);
+
+		WorkerTasks.isDeInit = false;
 
         WorkerTasks.workerReference = worker;
         ServerHelper.init(WorkerTasks.postMessage);
@@ -28,8 +32,15 @@ export class WorkerTasks {
         PlatformHelper.init();
     }
 
+    public static DeInit() {
+        WorkerTasks.isDeInit = true;
+        if (WorkerTasks.socket) {
+            WorkerTasks.socket.close();
+        }
+    }
+
     public static processMessage(msg: any) {
-        trace.write("Processing msg in worker" + JSON.stringify(msg) ,TraceCustomCategory.SYNC,trace.messageType.log);
+        trace.write("Processing msg in worker" + JSON.stringify(msg), TraceCustomCategory.SYNC, trace.messageType.log);
         switch (msg.msgtype) {
             case SERVER_WORKER_MSG_TYPE.INIT_SERVER_INTERFACE:
                 // set server worker context
@@ -58,15 +69,17 @@ export class WorkerTasks {
         }
     }
 
+
+
     private static initWebSocket() {
         WorkerTasks.socket = new WS(ServerWorkerContext.serverUrl, []);
         console.log('socket created', WorkerTasks.socket);
-        trace.write("Socket created" ,TraceCustomCategory.SYNC,trace.messageType.info);
+        trace.write("Socket created", TraceCustomCategory.SYNC, trace.messageType.info);
 
         WorkerTasks.isSocketInitialized = true;
         WorkerTasks.socket.on('open', socket => {
             console.log('messages', "WebSocket opened");
-            trace.write("Weboscket opned." ,TraceCustomCategory.SYNC,trace.messageType.info);
+            trace.write("Weboscket opned.", TraceCustomCategory.SYNC, trace.messageType.info);
 
             WorkerTasks.raiseSocketConnectionEvent(true);
 
@@ -78,6 +91,7 @@ export class WorkerTasks {
 
 
         });
+
         WorkerTasks.socket.on('message', (socket, message) => {
             // console.log("websocket message recieved", message);
 
@@ -91,8 +105,13 @@ export class WorkerTasks {
             WorkerTasks.isSocketInitialized = true;
             WorkerTasks.raiseSocketConnectionEvent(false);
         });
+
         WorkerTasks.socket.on('error', (socket, error) => {
             console.log("The socket had an error", error);
+
+            if (WorkerTasks.isDeInit)
+                return;
+
             WorkerTasks.isSocketInitialized = true;
             WorkerTasks.raiseSocketConnectionEvent(false);
         });
@@ -118,7 +137,7 @@ export class WorkerTasks {
     }
 
     public static sendToServer(msg: any): void {
-        trace.write("",TraceCustomCategory.SYNC,trace.messageType.log);
+        trace.write("Sending msg to server", TraceCustomCategory.SYNC, trace.messageType.log);
         WorkerTasks.socket.send(msg);
     }
 
@@ -127,7 +146,7 @@ export class WorkerTasks {
     }
 
     public static retryConnection() {
-        if ((!this.retryConnectionTimer) || (this.retryConnectionTimer==null)) {
+        if ((!this.retryConnectionTimer) || (this.retryConnectionTimer == null)) {
             this.retryConnectionTimer = setInterval(() => {
                 console.log('connection retrying', new Date());
                 this.initWebSocket();

@@ -3,12 +3,13 @@ import { Router } from "@angular/router";
 import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from "nativescript-angular/router";
 import { HttpClient } from "@angular/common/http";
-import { API_SPL_BASE_URL, APP_MODE } from "../app-constants";
+import { APP_MODE } from "../app-constants";
 import { AppStartupService } from "../services/app-startup.service";
 import { DatabaseHelper } from "../helpers/database-helper";
 import { ServerApiInterfaceService } from "../services/server-api-interface.service";
 import * as appSettings from "tns-core-modules/application-settings";
 import { AppGlobalContext } from "../app-global-context";
+import { AppRepoService } from "../services/app-repo.service";
 
 @Component({
 	moduleId: module.id,
@@ -54,7 +55,7 @@ export class LoginComponent implements OnInit {
 			authRequest.password = this.input.password;
 			authRequest.prodcode = this.input.prodcode;
 			console.log('auth request', authRequest);
-			this.serverApiInterfaceService.post<any>(API_SPL_BASE_URL + "/v1/endpoint/user/login", authRequest).then(
+			this.serverApiInterfaceService.post<any>(AppRepoService.Instance.API_SPL_BASE_URL + "/v1/endpoint/user/login", authRequest).then(
 				async (success) => {
 					console.log("POST Request is successful ", success);
 					appSettings.setNumber("USER_ID", success.userid);
