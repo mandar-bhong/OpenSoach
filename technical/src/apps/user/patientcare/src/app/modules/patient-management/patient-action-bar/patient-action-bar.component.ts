@@ -36,8 +36,8 @@ export class PatientActionBarComponent implements OnInit {
 	}
 
 	patientdetail() {
-
-		this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: false });
+		this.routerExtensions.navigate(['patientinfo'], { clearHistory: false });
+		// this.routerExtensions.navigate(['patientmgnt', 'patient'], { clearHistory: false });
 		// const test =  true;
 		// console.log('this.passDataService.backalert', this.passDataService.backalert);
 		// if (this.passDataService.backalert === test) {

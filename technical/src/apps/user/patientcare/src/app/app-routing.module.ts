@@ -18,6 +18,9 @@ const routes: Routes = [
     {
         path: "patientmgnt", loadChildren: "~/app/modules/patient-management/patient-mgnt.module#PatientMgntModule"
     },
+    {
+        path: "patientinfo", loadChildren: "~/app/modules/patient-management/patient-details/patient-details.module#PatientDetailsModule"
+    }
 ];
 
 @NgModule({
