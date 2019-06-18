@@ -33,9 +33,9 @@ export class TraceConsoleWriter {
                 break;
             case trace.messageType.log:
                 //console.log("ConsoleLogger: " + traceMessage);
-                break
+                break;
             default:
-                console.log("ConsoleLogger: " + traceMessage);
+                console.log("ConsoleLogger: "+traceMessage);
                 break;
         }
     }

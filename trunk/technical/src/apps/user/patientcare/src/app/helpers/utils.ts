@@ -1,7 +1,8 @@
 import { BuildMode } from "../app-constants.js";
 
 declare var process: any;
-export class CommonHelper {
+
+export default class Utils {
     static getEnvironmentVars(key: string): string {
         if (typeof process !== 'undefined' && process && process.env) {
             return process.env[key];
