@@ -24,6 +24,8 @@ import { PathologyRecordDocDatastoreModel } from "../models/db/pathology-record-
 import { ActionDataStoreModel } from "../models/db/action-datastore.js";
 import { UserDatastoreModel } from "../models/db/user-model.js";
 import * as appSettings from "tns-core-modules/application-settings";
+import * as trace from 'tns-core-modules/trace'
+import { TraceCustomCategory } from "../helpers/trace-helper.js";
 
 export class CommandResponseProcessor {
 
@@ -32,15 +34,14 @@ export class CommandResponseProcessor {
         // TODO: check if authorized if yes, set GlobalContext to Authorized
         // then call SwitchSyncState
 
-        console.log(" in CmdProcessor..");
+        trace.write("In CmdProcessor..",TraceCustomCategory.WORKER,trace.messageType.log);
+        trace.write("Response Message" + JSON.stringify(respMsg) ,TraceCustomCategory.WORKER,trace.messageType.log);
 
-        console.log("respMsg", respMsg);
-
+        
         const respDataModel: CmdModel = JSON.parse(respMsg);
 
         // get request cmd packet
         const requestCmd = RequestManager.getRequest(respDataModel.header.seqid);
-        console.log("requestCmd", JSON.stringify(requestCmd));
 
         if (requestCmd) {
 
@@ -143,7 +144,7 @@ export class CommandResponseProcessor {
             switch (respDataModel.header.category, respDataModel.header.commandid) {
 
                 case CMD_CATEGORY.CMD_CAT_SERVER_NOTIFICATION && CMD_ID.CMD_APPLY_STORE_SYNC:
-                    console.log("notification cat response:", respDataModel);
+                    trace.write("Notification cat response: "+JSON.stringify(respDataModel) ,TraceCustomCategory.WORKER,trace.messageType.log);
 
                     SyncStoreManager.syncFromServerChanged(respDataModel.payload.storename)
 
