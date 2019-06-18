@@ -10,29 +10,32 @@ export class TraceConsoleWriter {
             return;
         }
 
-        let errorMsg ="";
+        let errorMsg = "";
 
-        if ( (<any>message).constructor.name == "Error"){            
-            errorMsg = "Message : " + (message as Error).message +"\r\n" +  "StackTrace : " + (message as Error).stack + "\r\n";
-        }else{
+        if ((<any>message).constructor.name == "Error") {
+            errorMsg = "Message : " + (message as Error).message + "\r\n" + "StackTrace : " + (message as Error).stack + "\r\n";
+        } else {
             errorMsg = message + "\r\n";
         }
 
         const traceMessage = new Date().toISOString() + " " + category + ": " + errorMsg;
-        
+
 
         switch (type) {
             case trace.messageType.info:
-                console.info("ConsoleLogger: "+traceMessage);
+                console.info("ConsoleLogger: " + traceMessage);
                 break;
             case trace.messageType.warn:
-                console.warn("ConsoleLogger: "+traceMessage);
+                console.warn("ConsoleLogger: " + traceMessage);
                 break;
             case trace.messageType.error:
-                console.error("ConsoleLogger: "+traceMessage);
+                console.error("ConsoleLogger: " + traceMessage);
                 break;
+            case trace.messageType.log:
+                //console.log("ConsoleLogger: " + traceMessage);
+                break
             default:
-                console.log("ConsoleLogger: "+traceMessage);
+                console.log("ConsoleLogger: " + traceMessage);
                 break;
         }
     }
