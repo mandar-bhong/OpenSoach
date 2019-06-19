@@ -42,6 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
       this.receivedCode = this.activateQueryParameter.code;
       if (this.receivedCode) {
         this.dataModel.otp = this.receivedCode;
+        this.otpfield = false;
       }
     });
 
