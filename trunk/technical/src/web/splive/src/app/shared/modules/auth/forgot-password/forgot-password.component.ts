@@ -6,6 +6,7 @@ import { ForgotPasswordModel } from '../../../models/ui/user-models';
 import { TranslatePipe } from '../../../pipes/translate/translate.pipe';
 import { AuthService } from '../../../services/auth.service';
 import { AppNotificationService } from '../../../services/notification/app-notification.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'hkt-forgot-password',
@@ -25,12 +26,25 @@ export class ForgotPasswordComponent implements OnInit {
   setHide: boolean;
   removeImageSubscription: Subscription;
   imageHide = false;
-
+  activateSubscription: Subscription;
+  activateQueryParameter: any;
+  receivedCode: string;
   constructor(private authService: AuthService,
     private translatePipe: TranslatePipe,
+    private route: ActivatedRoute,
+    private router: Router,
     private appNotificationService: AppNotificationService) { }
 
   ngOnInit() {
+    console.log('forget password executed');
+    this.activateSubscription = this.route.params.subscribe(params => {
+      this.activateQueryParameter = JSON.parse(JSON.stringify(params));
+      this.receivedCode = this.activateQueryParameter.code;
+      if (this.receivedCode) {
+        this.dataModel.otp = this.receivedCode;
+      }
+    });
+
     this.createControls();
     this.createControlsForPassword();
   }
@@ -65,33 +79,38 @@ export class ForgotPasswordComponent implements OnInit {
   //USED TO CHANGE PASSWORD
   resetPassword() {
 
-   if(this.resetPasswordForm.valid){
-    const resetPasswordRequest = new ResetPasswordRequest();
-    this.dataModel.copyToResetPass(resetPasswordRequest);
-    if (this.dataModel.newpassword != null) {
-      if (this.dataModel.newpassword === this.dataModel.confirmpassword) {
+    if (this.resetPasswordForm.valid) {
+      const resetPasswordRequest = new ResetPasswordRequest();
+      this.dataModel.copyToResetPass(resetPasswordRequest);
+      if (this.dataModel.newpassword != null) {
+        if (this.dataModel.newpassword === this.dataModel.confirmpassword) {
 
-        this.authService.resetUserPassword(resetPasswordRequest).subscribe(payloadResponse => {
-          if (payloadResponse && payloadResponse.issuccess) {
-            this.appNotificationService.success(this.translatePipe.transform('RESET_PASSWORD_SUCCESS'));
-            //for reading success message on UI set timeout
-            setTimeout(() => {
-              this.setHide = true;
-              this.otpfield = true;
-              this.userid = true;
+          this.authService.resetUserPassword(resetPasswordRequest).subscribe(payloadResponse => {
+            if (payloadResponse && payloadResponse.issuccess) {
+              this.appNotificationService.success(this.translatePipe.transform('RESET_PASSWORD_SUCCESS'));
+              //for reading success message on UI set timeout
+              setTimeout(() => {
+                this.setHide = true;
+                this.otpfield = true;
+                this.userid = true;
 
-              this.authService.setImageVisibility(false);
-            }, 2500);
-          }
-        });
-      }
-      else {
-        this.appNotificationService.error(this.translatePipe.transform('CHANGE_PASS'));
+                this.authService.setImageVisibility(false);
+              }, 2500);
+            }
+          });
+        }
+        else {
+          this.appNotificationService.error(this.translatePipe.transform('CHANGE_PASS'));
+        }
       }
     }
-   }
-   
+
   }// end of fucntion
+  ngOnDestroy(): void {
+    if (this.activateSubscription) {
+      this.activateSubscription.unsubscribe();
+    }
+  }
 
 }
 

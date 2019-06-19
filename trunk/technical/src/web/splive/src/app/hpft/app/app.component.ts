@@ -3,7 +3,7 @@ import { NavigationCancel, NavigationEnd, NavigationStart, Router } from '@angul
 import { Subscription } from 'rxjs';
 
 import { SplConfService } from '../../prod-shared/services/spl-conf.service';
-import { USER_CATEGORY } from '../../shared/app-common-constants';
+import { USER_CATEGORY, ROUTE_FORGOT_PASSWORD } from '../../shared/app-common-constants';
 import { AppSpecificDataProvider } from '../../shared/app-specific-data-provider';
 import { EnvironmentProvider } from '../../shared/environment-provider';
 import { AppDataStoreService } from '../../shared/services/app-data-store/app-data-store-service';
@@ -13,7 +13,7 @@ import { APP_IN_MEMORY_STORE_KEYS, APP_LOCAL_STORAGE_KEYS, APP_ROUTES, SIDE_MENU
 import { TranslateService } from '../../shared/pipes/translate/translate.service';
 import { APP_TRANSLATIONS } from '../translations';
 import { ROUTE_CHANGE_PASSWORD } from '../../shared/app-common-constants';
-import {AppRepoShared} from '../../shared/app-repo/app-repo'
+import { AppRepoShared } from '../../shared/app-repo/app-repo'
 
 @Component({
   selector: 'app-root',
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initAppDataStoreService();
     this.populateAppSpecificDataProvider();
 
-	this.getSplBaseUrl();
+    this.getSplBaseUrl();
   }
   getparams() {
     var url_string = window.location.href
@@ -72,14 +72,17 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.splConfService.getSplBaseUrl().subscribe(payloadResponse => {
       if (payloadResponse && payloadResponse.issuccess) {
         EnvironmentProvider.baseurl = payloadResponse.data.baseurl;
-
-        switch(window.location.pathname){
+        console.log('currently active url', window.location.pathname);
+        switch (window.location.pathname) {
           case "/auth/change-password":
-          this.router.navigate([ROUTE_CHANGE_PASSWORD,this.getparams()], { skipLocationChange: true });
-          break;
+            this.router.navigate([ROUTE_CHANGE_PASSWORD, this.getparams()], { skipLocationChange: true });
+            break;
+          case '/auth/forgot-password':
+          this.router.navigate([ROUTE_FORGOT_PASSWORD, this.getparams()], { skipLocationChange: true });
+            break;
           default:
-           this.loginHandlerService.init();
-          break;
+            this.loginHandlerService.init();
+            break;
         }
       }
     });
