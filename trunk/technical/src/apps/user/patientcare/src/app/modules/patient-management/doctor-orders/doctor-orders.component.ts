@@ -32,41 +32,7 @@ var mime = require('mime-types')
 	moduleId: module.id,
 	selector: 'doctor-orders',
 	templateUrl: './doctor-orders.component.html',
-	styleUrls: ['./doctor-orders.component.css'],
-	animations: [
-		trigger("from-bottom", [
-			state("in", style({
-				"opacity": 1,
-				transform: "translateY(0)"
-			})),
-			state("void", style({
-				"opacity": 0,
-				transform: "translateY(20%)"
-			})),
-			transition("void => *", [animate("1600ms 700ms ease-out")]),
-			transition("* => void", [animate("600ms ease-in")])
-		]),
-		trigger("fade-in", [
-			state("in", style({
-				"opacity": 1
-			})),
-			state("void", style({
-				"opacity": 0
-			})),
-			transition("void => *", [animate("800ms 2000ms ease-out")])
-		]),
-		trigger("scale-in", [
-			state("in", style({
-				"opacity": 1,
-				transform: "scale(1)"
-			})),
-			state("void", style({
-				"opacity": 0,
-				transform: "scale(0.9)"
-			})),
-			transition("void => *", [animate("1100ms ease-out")])
-		])
-	]
+	styleUrls: ['./doctor-orders.component.css']
 })
 export class DoctorOrdersComponent implements OnInit {
 	public imageTaken: ImageAsset;
