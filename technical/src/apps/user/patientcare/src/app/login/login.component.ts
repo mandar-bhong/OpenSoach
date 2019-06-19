@@ -10,6 +10,7 @@ import { ServerApiInterfaceService } from "../services/server-api-interface.serv
 import * as appSettings from "tns-core-modules/application-settings";
 import { AppGlobalContext } from "../app-global-context";
 import { AppRepoService } from "../services/app-repo.service";
+import { PlatformHelper } from "../helpers/platform-helper";
 
 @Component({
 	moduleId: module.id,
@@ -21,6 +22,7 @@ import { AppRepoService } from "../services/app-repo.service";
 export class LoginComponent implements OnInit {
 	input: any;
 	isLoggingIn = true;
+	SerialNo: string;
 	constructor(private routerExtensions: RouterExtensions,
 		private router: Router,
 		private serverApiInterfaceService: ServerApiInterfaceService,
@@ -41,6 +43,8 @@ export class LoginComponent implements OnInit {
 	ngOnInit(): void {
 		this.bindUserData();
 		// Init your component properties here.
+		this.SerialNo = PlatformHelper.API.getSerialNumber();
+		console.log('PlatformHelper.API.getSerialNumber();',PlatformHelper.API.getSerialNumber());
 	}
 	toggleForm() {
 		this.isLoggingIn = !this.isLoggingIn;
@@ -64,18 +68,18 @@ export class LoginComponent implements OnInit {
 
 					switch (usres.length) {
 						case 0://no record is available in db
-						this.addUser();
+							this.addUser();
 							break;
 						case 1: // only 1 record is available in db
-						if (!(usres[0].user_name === this.input.username && usres[0].password === this.input.password)) {
-							const deleteUser = await this.deleteUsers();
-							if (deleteUser) {
-								await this.addUser();
+							if (!(usres[0].user_name === this.input.username && usres[0].password === this.input.password)) {
+								const deleteUser = await this.deleteUsers();
+								if (deleteUser) {
+									await this.addUser();
+								}
 							}
-						}
 							break;
 						default: // more than 1 record is available in db
-						const deluser = await this.deleteUsers();
+							const deluser = await this.deleteUsers();
 							if (deluser) {
 								await this.addUser();
 							}
