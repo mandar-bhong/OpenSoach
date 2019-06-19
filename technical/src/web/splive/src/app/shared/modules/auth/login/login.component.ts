@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
-
+     console.log('login executed');
     switch (AppRepoShared.appProductCode) {
       case PROD_HPFT:
         this.userHomeRoute = HPFTRouteHelper.getUserHomeRoute;

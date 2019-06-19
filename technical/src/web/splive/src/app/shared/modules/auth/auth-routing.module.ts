@@ -25,6 +25,9 @@ const routes: Routes = [
       },
       {
         path:'change-password/:code',component: ChangePasswordComponent
+      },
+      {
+        path:'forgot-password/:code',component: ForgotPasswordComponent
       }
     ]
   }

@@ -32,21 +32,19 @@
                     <a [routerLink]="['/auth/login']" (click)="flipIt()">Login
                     </a>
                   </div>
-                </div>
-                  
+                </div>                  
                   <div class="col-md-12 col-sm-12" *ngIf="!isVisible">
                     <div class="col">
                       <a [routerLink]="['/auth/login']" (click)="flipIt()">
                         <button mat-raised-button color="accent" style="width:100%">Log in</button> </a>
                     </div>
                   </div>
-
                 <div class="col-md-8 col-sm-8" style="text-align:right;"  *ngIf="isVisible">
                   <span class="font-small color-text-alternate" style="line-height:32px">Powered by
                     <img src="./shared/assets/images/opensoach_logo_black.png" alt="OpenSoach" id="logo"
                       style="padding-top:0px">
                   </span>
-                </div>
+                </div> 
               </div>
             </mat-card>
           </div>
