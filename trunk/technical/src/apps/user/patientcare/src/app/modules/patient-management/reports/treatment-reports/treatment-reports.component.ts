@@ -10,7 +10,7 @@ import { PassDataService } from '~/app/services/pass-data-service';
 import { ReportsService } from '~/app/services/reports/reports-service';
 import { TeatmentReportModel } from '~/app/models/ui/reports-models';
 import { AppGlobalContext } from '~/app/app-global-context';
-import { API_APP_BASE_URL } from '~/app/app-constants';
+import { AppRepoService } from '~/app/services/app-repo.service';
 
 export class ApiParse {
 	uuid: any;
@@ -212,7 +212,7 @@ export class TreatmentReportsComponent implements OnInit {
 		requestObj.uuid = document_uuid;
 		requestObj.token = token1;
 		const apiUrl = '/v1/document/download/ep';
-		const apiURL = API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
+		const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
 		console.log('apiURL', apiURL);
 		utils.openUrl(apiURL);
 

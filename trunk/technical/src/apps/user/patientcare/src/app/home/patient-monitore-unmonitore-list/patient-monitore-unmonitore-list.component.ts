@@ -8,9 +8,9 @@ import * as appSettings from "tns-core-modules/application-settings";
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
 import { SearchBar } from 'tns-core-modules/ui/search-bar';
 import { Switch } from 'tns-core-modules/ui/switch/switch';
-import { API_APP_BASE_URL } from '~/app/app-constants';
 import { ApiRequestModel, DataDBModel, FilterRequest, MonitoredRequest, UiViewModel } from '~/app/models/ui/patient-monitore-unmonitore-model';
 import { ServerApiInterfaceService } from '~/app/services/server-api-interface.service';
+import { AppRepoService } from '~/app/services/app-repo.service';
 var dialogs = require("tns-core-modules/ui/dialogs");
 
 @Component({
@@ -244,7 +244,7 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 		request.orderdirection = "asc";
 
 		// console.log('test', request);
-		this.serverApiInterfaceService.get(API_APP_BASE_URL + "/v1/endpoint/list/patient", request)
+		this.serverApiInterfaceService.get(AppRepoService.Instance.API_APP_BASE_URL + "/v1/endpoint/list/patient", request)
 			.then((result) => {
 				let data: any = result;
 				data.records.forEach(element => {
@@ -281,7 +281,7 @@ export class PatientMonitoreUnmonitoreListComponent implements OnInit {
 			monitoredRequest.patientid = selectedItem.dbmodel.patientid;
 		}
 		console.log('monitoredRequest', monitoredRequest);
-		this.serverApiInterfaceService.post<any>(API_APP_BASE_URL + requestURL, monitoredRequest).then(
+		this.serverApiInterfaceService.post<any>(AppRepoService.Instance.API_APP_BASE_URL + requestURL, monitoredRequest).then(
 			(success) => {
 				onResult(true, 0, "");
 				this.isBusy = false;

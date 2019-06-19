@@ -7,10 +7,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { ServerApiInterfaceService } from '~/app/services/server-api-interface.service';
-import { API_SPL_BASE_URL } from '~/app/app-constants';
 import { AppGlobalContext } from '~/app/app-global-context';
 import { UserDetails, UserDetailDBModel } from '~/app/models/ui/user-auth-models';
 import { UserAuthService } from '~/app/services/user-auth/user-auth-service';
+import { AppRepoService } from '~/app/services/app-repo.service';
 
 @Component({
 	moduleId: module.id,
@@ -197,7 +197,7 @@ export class UserAuthComponent implements OnInit {
 		console.log('text _______', allreadyItem.length);
 		if (allreadyItem.length > 0) {
 		if (formmodel.email && formmodel.password) {
-			this.serverApiInterfaceService.post<UserDetails>(API_SPL_BASE_URL + "/v1/endpoint/userauthorization",
+			this.serverApiInterfaceService.post<UserDetails>(AppRepoService.Instance.API_SPL_BASE_URL + "/v1/endpoint/userauthorization",
 				{
 					'username': formmodel.email,
 					'password': formmodel.password,

@@ -19,7 +19,7 @@ import { PathlogyReportModel } from '~/app/models/ui/reports-models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppGlobalContext } from '~/app/app-global-context';
 import { ServerApiInterfaceService } from '~/app/services/server-api-interface.service';
-import { API_SPL_BASE_URL, API_APP_BASE_URL } from '~/app/app-constants';
+import { AppRepoService } from '~/app/services/app-repo.service';
 
 
 
@@ -237,7 +237,7 @@ export class SectionOneComponent implements OnInit {
 		requestObj.uuid = document_uuid;
 		requestObj.token = token1;
 		const apiUrl = '/v1/document/download/ep';
-		const apiURL = API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
+		const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
 		console.log('apiURL', apiURL);
 		utils.openUrl(apiURL);
 
