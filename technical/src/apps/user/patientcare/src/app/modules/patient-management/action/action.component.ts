@@ -8,7 +8,7 @@ import * as appSettings from "tns-core-modules/application-settings";
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { Page } from 'tns-core-modules/ui/page';
-import { ActionStatus, ACTION_STATUS, APP_MODE, ConfigCodeType, MonitorType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, SYNC_PENDING, API_APP_BASE_URL } from '~/app/app-constants';
+import { ActionStatus, ACTION_STATUS, APP_MODE, ConfigCodeType, MonitorType, SERVER_WORKER_MSG_TYPE, SYNC_STORE, SYNC_PENDING } from '~/app/app-constants';
 import { ActionStatusHelper } from '~/app/helpers/action-status-helper';
 import { PlatformHelper } from '~/app/helpers/platform-helper';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
@@ -42,6 +42,7 @@ import { ImageSource } from 'tns-core-modules/image-source/image-source';
 const fileSystemModule = require("tns-core-modules/file-system");
 import { knownFolders, Folder, File } from "tns-core-modules/file-system";
 import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { AppRepoService } from '~/app/services/app-repo.service';
 const permissions = require("nativescript-permissions");
 
 // expand row 
@@ -626,38 +627,38 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		this.getCount();
 	}
 	handelDoctorOrderNotification(doctorsOrders: DoctorsOrdersDatastoreModel) {
-			let dataActionItem = new DataActionItem();
-			Object.assign(dataActionItem, doctorsOrders);
+		let dataActionItem = new DataActionItem();
+		Object.assign(dataActionItem, doctorsOrders);
 
-			if (dataActionItem.admission_uuid != this.passdataservice.getAdmissionID()) {
-				return;
-			}
+		if (dataActionItem.admission_uuid != this.passdataservice.getAdmissionID()) {
+			return;
+		}
 
-			console.log('dataActionItem.uuid', dataActionItem.uuid);
-			let filterDoctorVM = [];
-			filterDoctorVM = this.actionItems.filter(a => a.conf_type_code == ConfigCodeType.DOCTOR_ORDERS && a.doctorOrderModel.uuid == dataActionItem.uuid);
+		console.log('dataActionItem.uuid', dataActionItem.uuid);
+		let filterDoctorVM = [];
+		filterDoctorVM = this.actionItems.filter(a => a.conf_type_code == ConfigCodeType.DOCTOR_ORDERS && a.doctorOrderModel.uuid == dataActionItem.uuid);
 
-			this.actionService.getDoctorOrderByID('getdoctororderbyid', dataActionItem.uuid).then(
-				(val) => {
-					val.forEach(item => {
+		this.actionService.getDoctorOrderByID('getdoctororderbyid', dataActionItem.uuid).then(
+			(val) => {
+				val.forEach(item => {
 
-						let docVM = null;
-						filterDoctorVM.forEach(actionItem => {
-							this.prepareActionItem(actionItem, item, true);
-							docVM = actionItem;
+					let docVM = null;
+					filterDoctorVM.forEach(actionItem => {
+						this.prepareActionItem(actionItem, item, true);
+						docVM = actionItem;
 
-						});
-						if (docVM == null) {
-							docVM = this.prepareActionItem(null, item, true);
-							this.actionItems.push(docVM);
-						}
-						this.resetActionItem(docVM);
-						this.refreshListView();
 					});
-				},
-				(error) => {
-					console.log("getActinData error:", error);
+					if (docVM == null) {
+						docVM = this.prepareActionItem(null, item, true);
+						this.actionItems.push(docVM);
+					}
+					this.resetActionItem(docVM);
+					this.refreshListView();
 				});
+			},
+			(error) => {
+				console.log("getActinData error:", error);
+			});
 	} // end of code block.
 
 	calculateActiveActionTime(scheduled_time) {
@@ -919,7 +920,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			requestObj.uuid = document_uuid;
 			requestObj.token = token1;
 			const apiUrl = '/v1/document/download/ep';
-			const apiURL = API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
+			const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
 			console.log('apiURL', apiURL);
 			// utils.openUrl(apiURL);
 
