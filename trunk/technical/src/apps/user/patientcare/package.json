@@ -8,12 +8,6 @@
       "version": "5.4.0"
     }
   },
-  "android": {
-    "markingMode": "none",
-    "v8Flags": "--expose_gc",
-    "memoryCheckInterval": 1000, 
-    "freeMemoryRatio": 0.5
-  },
   "scripts": {
     "androiddebug": "node --max_old_space_size=4096 tns debug android --bundle"
   },
