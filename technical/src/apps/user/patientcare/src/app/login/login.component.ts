@@ -91,6 +91,14 @@ export class LoginComponent implements OnInit {
 					//   this.routerExtensions.navigate(["/home/list"], { clearHistory: true });
 					//   this.clearFields();
 				}, (error) => {
+					var dialogs = require("tns-core-modules/ui/dialogs");
+					if(error.error.code==10001){
+						dialogs.alert({
+							title: "Login",
+							message: "Invalid Credentials",
+							okButtonText: "Ok"
+						});
+					}
 					console.log('POST Request is Failed', error);
 				});
 		}
