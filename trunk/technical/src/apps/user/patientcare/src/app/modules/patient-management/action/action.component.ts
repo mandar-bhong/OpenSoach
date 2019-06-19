@@ -44,7 +44,7 @@ import { knownFolders, Folder, File } from "tns-core-modules/file-system";
 import { ImageModalComponent } from '../image-modal/image-modal.component';
 import { AppRepoService } from '~/app/services/app-repo.service';
 const permissions = require("nativescript-permissions");
-
+import * as Toast from 'nativescript-toast';
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -339,6 +339,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.medicinebuttonClicked = false;
 			this.outputbuttonClicked = false;
 			this.doctorOrderButtonClicked = false;
+		} else {
+			let msg: string;
+			msg = "Intake record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 
@@ -352,6 +356,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.medicinebuttonClicked = false;
 			this.outputbuttonClicked = false;
 			this.doctorOrderButtonClicked = false;
+		} else {
+			let msg: string;
+			msg = "Monitor record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	// >>  Grouping medicine scroll to top position change 
@@ -364,6 +372,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.medicinebuttonClicked = true;
 			this.outputbuttonClicked = false;
 			this.doctorOrderButtonClicked = false;
+		} else {
+			let msg: string;
+			msg = "Medicine record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	// <<  Grouping medicine scroll to top position change 
@@ -378,6 +390,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.medicinebuttonClicked = false;
 			this.outputbuttonClicked = true;
 			this.doctorOrderButtonClicked = false;
+		} else {
+			let msg: string;
+			msg = "Output record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	selectDoctorOrder() {
@@ -389,10 +405,17 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.medicinebuttonClicked = false;
 			this.outputbuttonClicked = false;
 			this.doctorOrderButtonClicked = true;
+		} else {
+			let msg: string;
+			msg = "Doctor Order record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	// <<  Grouping medicine scroll to top position change
-
+	getMsg(msg) {
+		var toast = Toast.makeText(msg);
+		toast.show();
+	}
 	// >> Calculate Grouping index value
 	public getCount() {
 
