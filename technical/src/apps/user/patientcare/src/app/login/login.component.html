@@ -11,7 +11,7 @@
       <GridLayout row="0" rows="*,*, *,*,*" columns="*" class="form" style="padding: 10 16; background-color: #f0f0f0;">
         <GridLayout row="0">
           <Label *ngIf="isLoggingIn" class="signmainlabel" width="60" height="60" text="Sign In"></Label>
-          <Label *ngIf="!isLoggingIn" class="signmainlabel" width="60" height="60" text="Sign Up"></Label>
+          <Label *ngIf="!isLoggingIn" class="signmainlabel" width="100" height="60" text="Sign Up"></Label>
         </GridLayout>
 
         <GridLayout row="1">
@@ -28,7 +28,7 @@
           <TextField hint="Password" secure="true" [(ngModel)]="input.password" class="input input-border"></TextField>
         </GridLayout>
 
-        <GridLayout row="3" rows="auto, auto">
+        <GridLayout row="3" rows="auto, auto" columns="*">
           <Button row="0" [text]="'Sign in'" class="btn btn-primary" (tap)="login()" *ngIf="isLoggingIn"></Button>
           <Button row="0" [text]="'Sign up'" class="btn btn-primary" (tap)="login()" *ngIf="!isLoggingIn"></Button>
           <GridLayout row="1" class="hr-light m-10" style="margin-top:1%"></GridLayout>
@@ -42,7 +42,7 @@
         <GridLayout row="5" columns="*" style="margin-top: 40px; text-align: center">
           <Label (tap)="toggleForm()">
             <FormattedString class="login-label">
-              <Span [text]="isLoggingIn ? 'Don’t have an account? ' : 'Back to Login'"></Span>
+              <Span class="link"   [text]="isLoggingIn ? 'Don’t have an account? ' : 'Back to Login'"></Span>
               <Span [text]="isLoggingIn ? 'Register' : ''" class="bold"></Span>
             </FormattedString>
           </Label>
