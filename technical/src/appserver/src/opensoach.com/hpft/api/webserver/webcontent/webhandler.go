@@ -11,4 +11,5 @@ func registerRouters(router *gin.RouterGroup) {
 	router.Static("/shared/", "./web/hpft/shared")
 	router.StaticFile("/", "./web/hpft/index.html")
 	router.StaticFile("/auth/change-password", "./web/hpft/index.html")
+	router.StaticFile("/auth/forgot-password", "./web/hpft/index.html")
 }
