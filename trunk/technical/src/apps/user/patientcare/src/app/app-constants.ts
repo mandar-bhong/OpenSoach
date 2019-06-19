@@ -112,9 +112,9 @@ export enum AdmissionStatus {
 }
 
 // dev server
-export const API_SPL_BASE_URL = "http://172.105.232.148/api";
-export const API_APP_BASE_URL = "http://172.105.232.148:91/api";
-export const InfluxDb_Log = 'http://172.105.232.148:8086/write?db=spl';
+// export const API_SPL_BASE_URL = "http://172.105.232.148/api";
+// export const API_APP_BASE_URL = "http://172.105.232.148:91/api";
+// export const InfluxDb_Log = 'http://172.105.232.148:8086/write?db=spl';
 
 // prod server
 // export const API_SPL_BASE_URL = "http://139.162.75.182:91/api";
