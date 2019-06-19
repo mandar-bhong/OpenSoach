@@ -26,6 +26,8 @@ import * as trace from 'tns-core-modules/trace';
 import { TimeConversion } from '~/app/helpers/time-conversion-helper';
 import * as appSettings from "tns-core-modules/application-settings";
 import { AppNotificationService } from '~/app/services/app-notification-service';
+import * as Toast from 'nativescript-toast';
+
 @Component({
 	moduleId: module.id,
 	selector: 'charts',
@@ -138,6 +140,10 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.intakebuttonClicked = true;
 			this.medicinebuttonClicked = false;
 			this.outputbuttonClicked = false;
+		} else {
+			let msg: string;
+			msg = "Intake record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	// <<  Grouping intake scroll to top position change 
@@ -151,6 +157,10 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.intakebuttonClicked = false;
 			this.medicinebuttonClicked = false;
 			this.outputbuttonClicked = false;
+		} else {
+			let msg: string;
+			msg = "Monitor record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	// <<  Grouping monitor scroll to top position change 
@@ -164,6 +174,10 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.intakebuttonClicked = false;
 			this.medicinebuttonClicked = true;
 			this.outputbuttonClicked = false;
+		} else {
+			let msg: string;
+			msg = "Medicine record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	// <<  Grouping medicine scroll to top position change 
@@ -177,10 +191,17 @@ export class ChartsComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			this.intakebuttonClicked = false;
 			this.medicinebuttonClicked = false;
 			this.outputbuttonClicked = true;
+		} else {
+			let msg: string;
+			msg = "Output record(s) not found";
+			this.getMsg(msg);
 		}
 	}
 	// <<  Grouping medicine scroll to top position change
-
+	getMsg(msg) {
+		var toast = Toast.makeText(msg);
+		toast.show();
+	}
 	// >> Calculate Grouping index value
 	public getGroupIndex() {
 
