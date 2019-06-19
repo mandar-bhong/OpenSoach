@@ -20,7 +20,7 @@
               class="input input-border"></TextField>
           </GridLayout>
           <GridLayout rows="auto" *ngIf="!isLoggingIn">
-            <Label row="0" textWrap="true" class="sign-up-label " text="Contact System Administrator to register a device with Device Key: 123456"></Label>
+            <Label row="0" textWrap="true" class="sign-up-label " text="Contact System Administrator to register a device with Device Key: {{SerialNo}}" {{SerialNo}}></Label>
           </GridLayout>
         </GridLayout>
 
@@ -35,7 +35,7 @@
         </GridLayout>
 
         <GridLayout row="4" columns="auto, *, auto">
-          <Label col="0" top="5" style="color: #00A6CE" text="Forgot Password"></Label>
+          <Label col="0" top="5" [nsRouterLink]="['forgot-password']" style="color: #00A6CE" text="Forgot Password"></Label>
           <Label col="2" top="5" text="Powered by OpenSoach"></Label>
         </GridLayout>
 
