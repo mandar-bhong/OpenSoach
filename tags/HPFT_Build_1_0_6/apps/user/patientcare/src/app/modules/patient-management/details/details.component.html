@@ -1,0 +1,49 @@
+
+<!-- selcetors for action importing action bar  -->
+<patient-action-bar [patientName]='patientName'></patient-action-bar>
+<!-- end  -->
+<!-- <StackLayout> -->
+    <GridLayout rows="*,60">
+        <GridLayout row="0">
+            <monitor *ngIf="monitor"></monitor>
+            <action *ngIf="action"></action>
+            <charts *ngIf="chart"></charts>
+            <reports *ngIf="report"></reports>
+        </GridLayout>
+
+        <GridLayout row="1" orientation="horizontal" style="background-color:#396766; color:#ffffff;">
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="monitorData()" (tap)="buttonClicked = true">
+                <GridLayout textWrap="true" [class.button-clicked]="buttonClicked" class="tab-layout">
+                    <Label text="{{(buttonClicked) ? '&#xf201;' : '&#xf201;'}}" [style.color]="buttonClicked ? '#FF8910' : '#ffffff'" class="fas button-icon"></Label>
+                    <!-- <Label text="&#xf201;" class="fas button-icon" [class.button-clicked]="buttonClicked"></Label> -->
+                    <Label text="Monitor" class="button-text"></Label>
+                </GridLayout>
+            </RL:Ripple>
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="actionData()" (tap)="actionbuttonClicked = true">
+                <GridLayout textWrap="true" [class.button-clicked]="actionbuttonClicked" class="tab-layout">
+                    <Label text="{{(actionbuttonClicked) ? '&#xf00c;' : '&#xf00c;'}}" [style.color]="actionbuttonClicked ? '#FF8910' : '#ffffff'"
+                        class="fas button-icon"></Label>
+                    <!-- <Label text="&#xf00c;" class="fas button-icon"></Label> -->
+                    <Label text="Actions" class="button-text"></Label>
+                </GridLayout>
+            </RL:Ripple>
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="chartData()" (tap)="chartbuttonClicked = true">
+                <GridLayout textWrap="true" [class.button-clicked]="chartbuttonClicked" class="tab-layout">
+                    <Label text="{{(chartbuttonClicked) ? '&#xf520;' : '&#xf520;'}}" [style.color]="chartbuttonClicked ? '#FF8910' : '#ffffff'"
+                        class="mdi button-icon"></Label>
+                    <!-- <Label text="&#xf080;" class="fas button-icon"></Label> -->
+                    <Label text="Scheduler" class="button-text"></Label>
+                </GridLayout>
+            </RL:Ripple>
+            <RL:Ripple rippleColor="#fff" width="25%" (tap)="reportData()" (tap)="reportbuttonClicked = true">
+                <GridLayout textWrap="true" [class.button-clicked]="reportbuttonClicked" class="tab-layout">
+                    <Label text="{{(reportbuttonClicked) ? '&#xf15b;' : '&#xf15b;'}}" [style.color]="reportbuttonClicked ? '#FF8910' : '#ffffff'"
+                        class="fas button-icon"></Label>
+                    <!-- <Label text="&#xf15b;" class="fas button-icon"></Label> -->
+                    <Label text="Reports" class="button-text"></Label>
+                </GridLayout>
+            </RL:Ripple>
+        </GridLayout>
+    </GridLayout>
+
+<!-- </StackLayout> -->

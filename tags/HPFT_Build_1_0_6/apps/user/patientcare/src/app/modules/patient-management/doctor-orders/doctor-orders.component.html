@@ -1,0 +1,173 @@
+<GridLayout columns="*" height="100%" width="100%" rows="*">
+    <GridLayout columns="*" rows="auto,auto,*" *ngIf="getFormView">
+
+        <GridLayout row="0" columns="auto, *, auto" rows="65"
+            style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
+            <GridLayout col="0" style="vertical-align: center;" *ngIf="getFormView">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                    (tap)="goBackPage()">
+                    <Label text="&#xf156;" class="homeicon mdi mdi"></Label>
+                </RL:Ripple>
+            </GridLayout>
+            <Label col="1" text="Doctor Order" style="text-align:center;  vertical-align: center;"></Label>
+            <GridLayout col="2" style="vertical-align: center;" *ngIf="getFormView">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                    (tap)="onSubmit()">
+                    <Label text="&#xf12c;" class="homeicon mdi mdi" style="margin-right: 1px"></Label>
+                </RL:Ripple>
+            </GridLayout>
+        </GridLayout>
+        <ScrollView row="2">
+            <GridLayout rows="auto" class="form" [formGroup]="doctorOrdersForm">
+                <GridLayout row="0" rows="auto, auto, auto, auto, auto, auto" style="margin-bottom:10px;">
+                    <GridLayout row="0">
+                        <GridLayout class="input-field">
+                            <Label text="Order Type" class="body"></Label>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="1" columns=" *" class="selection-list-panel">
+                        <os-selection-list #doctorOrderSelectionControl [SelctionMode]="SELECTION_TYPE.SINGLE"
+                            [DisplayText]="displayText">
+                        </os-selection-list>
+                    </GridLayout>
+                    <GridLayout row="2" rows="auto, auto, auto" class="marging-left-right">
+                        <GridLayout row="0">
+                            <Label text="Order Description" class="body margin-bottom"></Label>
+                        </GridLayout>
+
+                        <GridLayout row="1">
+                            <TextField class="input input-border" formControlName="desc"></TextField>
+                        </GridLayout>
+
+                        <GridLayout row="2" *ngIf="isDescRequired">
+                            <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                        </GridLayout>
+
+                    </GridLayout>
+                    <GridLayout row="3">
+                        <GridLayout rows="auto auto auto auto" class="marging-left-right">
+                            <Label row="0" text="Doctor Name" class="body"></Label>
+                            <RadAutoCompleteTextView row="1" #autocomplete [items]="dataItems" suggestMode="Suggest"
+                                displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)">
+                                <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="50">
+                                    <ng-template tkSuggestionItemTemplate let-item="item">
+                                        <GridLayout rows="auto" orientation="vertical" padding="10">
+                                            <Label row="0" [text]="item.text"></Label>
+                                        </GridLayout>
+                                    </ng-template>
+                                </SuggestionView>
+                            </RadAutoCompleteTextView>
+                            <GridLayout row="2" *ngIf="isDrNameRequired">
+                                <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                            </GridLayout>
+                            <GridLayout row="3">
+                                <TextField class="input  input-border" formControlName="doctorName"
+                                    style="visibility: hidden;">
+                                </TextField>
+                            </GridLayout>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="4" class="marging-left-right" rows="auto, auto, auto ">
+                        <GridLayout row="0">
+                            <Label text="Comment" class="body  margin-bottom"></Label>
+                        </GridLayout>
+                        <GridLayout row="1">
+                            <TextField class="input input-border" formControlName="comment"></TextField>
+                        </GridLayout>
+
+                        <GridLayout row="2" *ngIf="isCommentRequired">
+                            <Label text="{{VALIDATION_REQUIRED_FIELD}}" style="color:red"></Label>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="5" rows="auto, auto" class="input-field">
+                        <GridLayout row="0">
+                            <Label text="Image " class="body"></Label>
+                        </GridLayout>
+                        <ScrollView row="1">
+                            <WrapLayout class="m-t-20 m-20">
+                                <ContentView *ngFor="let drawing of getFileItem" backgroundColor="#eeeeee"
+                                    borderRadius="5">
+                                    <Image [src]="drawing" width="120" height="120" backgroundcolor="#eeeeee"></Image>
+                                </ContentView>
+                            </WrapLayout>
+                        </ScrollView>
+                    </GridLayout>
+
+                </GridLayout>
+                <!-- <GridLayout>
+                    <FlexboxLayout flexDirection="column-reverse">
+                        <Image [src]="imageTaken" flexGrow="3" class="p-15 img-rounded"></Image>
+                    </FlexboxLayout>
+                </GridLayout> -->
+
+            </GridLayout>
+
+
+        </ScrollView>
+    </GridLayout>
+    <GridLayout columns="*" *ngIf="getFormView">
+        <GridLayout row="0" col="1" rows="auto, auto, auto" horizontalAlignment="right" class="right">
+            <RL:Ripple row="0" rippleColor="#fff" style="margin-top: 20px;" (tap)="onTakePhoto()">
+                <GridLayout class="float-btn-cat">
+                    <Label class="float-btn-cat-text fas" text="&#xf030;"></Label>
+                </GridLayout>
+            </RL:Ripple>
+            <RL:Ripple row="1" rippleColor="#fff" style="margin-top: 10px;" (tap)="onSelectSingleTap()">
+                <GridLayout class="float-btn-cat">
+                    <Label class="float-btn-cat-text fas" text="&#xf574;"></Label>
+                </GridLayout>
+            </RL:Ripple>
+            <RL:Ripple row="2" rippleColor="#fff" style="margin-top: 10px;" (tap)="onDrawingPad()">
+                <GridLayout class="float-btn-cat">
+                    <Label class="float-btn-cat-text fas" text="&#xf328;"></Label>
+                </GridLayout>
+            </RL:Ripple>
+        </GridLayout>
+    </GridLayout>
+    <GridLayout columns="*" rows="auto,*, 70" *ngIf="getDrawingPad">
+
+        <GridLayout row="0" columns="auto, *, auto" rows="65"
+            style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
+            <Label col="1" text="Doctor Order" style="text-align:center;  vertical-align: center;"></Label>
+        </GridLayout>
+        <GridLayout row="1" [@from-bottom]="'in'" backgroundColor="#eeeeee">
+
+            <ContentView backgroundColor="#ffffff" class="drowing-pad">
+                <DrawingPad #myDrawing height="100%" backgroundColor="#ffffff" penColor="{{pencolor}}"
+                    penWidth="{{penWidth}}">
+                </DrawingPad>
+            </ContentView>
+        </GridLayout>
+        <GridLayout row="2" columns="auto,auto,auto, *, auto, auto"
+            style="background-color:#396766; color:#ffffff; text-align: center;vertical-align: center;">
+            <GridLayout col="0" textWrap="true" width="13%" [class.button-clicked]="pencilbuttonClicked"
+                class="tab-layout" (tap)="getDrow()">
+                <Label text="{{(pencilbuttonClicked) ? '&#xf303;' : '&#xf303;'}}"
+                    [style.color]="pencilbuttonClicked ? '#FF8910' : '#ffffff'" class="fas button-icon"
+                    style="vertical-align: center;"></Label>
+            </GridLayout>
+
+            <GridLayout col="1" textWrap="true" width="13%" [class.button-clicked]="eraserbuttonClicked"
+                class="tab-layout" (tap)="getEraser()">
+                <Label text="{{(eraserbuttonClicked) ? '&#xf12d;' : '&#xf12d;'}}"
+                    [style.color]="eraserbuttonClicked ? '#FF8910' : '#ffffff'" class="fas button-icon"
+                    style="vertical-align: center;"></Label>
+            </GridLayout>
+
+            <GridLayout col="2" textWrap="true" width="13%" [class.button-clicked]="alleraserbuttonClicked"
+                class="tab-layout" (tap)="clearMyDrawing(myDrawing)">
+                <Label text="{{(alleraserbuttonClicked) ? '&#xf00d;' : '&#xf00d;'}}"
+                    [style.color]="alleraserbuttonClicked ? '#FF8910' : '#ffffff'" class="fas button-icon"
+                    style="vertical-align: center;"></Label>
+            </GridLayout>
+
+
+            <GridLayout col="4">
+                <Button class="btn btn-primary-blue" text="Save" (tap)="getMyDrawing(myDrawing)"></Button>
+            </GridLayout>
+            <GridLayout col="5">
+                <Button class="btn btn-primary-blue" text="Close" (tap)="getformview()"></Button>
+            </GridLayout>
+        </GridLayout>
+    </GridLayout>
+</GridLayout>

@@ -1,0 +1,69 @@
+<div class="card app-design">
+  <div class="card-block">
+    <div class="row">
+      <div class="col-6">
+        <h6 class="f-w-400 text-muted">Vehicle service reviews</h6>
+      </div>
+      <div class="col-6 text-right">
+        <mat-button-toggle-group [(ngModel)]="selectedoption" (ngModelChange)="optionChange()" class="abc">
+          <mat-button-toggle value="0">Till Date</mat-button-toggle>
+          <mat-button-toggle value="1">This Month</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+    <p class="text-c-green f-w-400">
+      <i class="{{getRatingStar(1,feedbacksummary.averagerating)}}"></i>
+      <i class="{{getRatingStar(2,feedbacksummary.averagerating)}}"></i>
+      <i class="{{getRatingStar(3,feedbacksummary.averagerating)}}"></i>
+      <i class="{{getRatingStar(4,feedbacksummary.averagerating)}}"></i>
+      <i class="{{getRatingStar(5,feedbacksummary.averagerating)}}"></i>
+      <span class="text-muted" style="padding-left:10px;">{{feedbacksummary.total}} Total (Rating)</span>
+    </p>
+    <p class="text-muted">{{feedbacksummary.averagerating | number:'1.0-1'}} out of 5 stars</p>
+    <div class="row">
+      <div class="col-2 starlabel">5 star</div>
+      <div class="col-8">
+        <div class="progress">
+          <div class="progress-bar ratingProgress" [ngStyle]="{'width.%': feedbacksummary.rating5percentage}"></div>
+        </div>
+      </div>
+      <div class="col-2 starlabel">{{feedbacksummary.rating5percentage | number:'1.0-1'}}%</div>
+    </div>
+    <div class="row">
+      <div class="col-2 starlabel">4 star</div>
+      <div class="col-8">
+        <div class="progress">
+          <div class="progress-bar ratingProgress" [ngStyle]="{'width.%': feedbacksummary.rating4percentage}"></div>
+        </div>
+      </div>
+      <div class="col-2 starlabel">{{feedbacksummary.rating4percentage | number:'1.0-1'}}%</div>
+    </div>
+    <div class="row">
+      <div class="col-2 starlabel">3 star</div>
+      <div class="col-8">
+        <div class="progress">
+          <div class="progress-bar ratingProgress" [ngStyle]="{'width.%': feedbacksummary.rating3percentage}"></div>
+        </div>
+      </div>
+      <div class="col-2 starlabel">{{feedbacksummary.rating3percentage | number:'1.0-1'}}%</div>
+    </div>
+    <div class="row">
+      <div class="col-2 starlabel">2 star</div>
+      <div class="col-8">
+        <div class="progress">
+          <div class="progress-bar ratingProgress" [ngStyle]="{'width.%': feedbacksummary.rating2percentage}"></div>
+        </div>
+      </div>
+      <div class="col-2 starlabel">{{feedbacksummary.rating2percentage | number:'1.0-1'}}%</div>
+    </div>
+    <div class="row">
+      <div class="col-2 starlabel">1 star</div>
+      <div class="col-8">
+        <div class="progress">
+          <div class="progress-bar ratingProgress" [ngStyle]="{'width.%': feedbacksummary.rating1percentage}"></div>
+        </div>
+      </div>
+      <div class="col-2 starlabel">{{feedbacksummary.rating1percentage | number:'1.0-1'}}%</div>
+    </div>
+  </div>
+</div>

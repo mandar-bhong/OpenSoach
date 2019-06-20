@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    android:background="@color/header_view_bg"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="DataContext"
+            type="com.opensoach.hpft.ViewModels.CardGridViewModel" />
+
+        <!--<variable-->
+            <!--name="ControlContext"-->
+            <!--type="com.opensoach.hpft.Views.Fragment.CardBriefFragment" />-->
+
+    </data>
+
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+        <RelativeLayout
+            android:id="@+id/headerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/header_view_bg">
+
+            <!--Replacing this element with actual fragment from code behind-->
+            <FrameLayout
+                android:id="@+id/headerPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark">
+
+            </FrameLayout>
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:padding="0dp"
+                android:layout_below="@+id/headerView">
+
+                <com.opensoach.hpft.Views.Fragment.CardGridView
+                    android:id="@+id/job_grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/header_view_bg"
+                    android:horizontalSpacing="@dimen/grid_horizontal_spacing"
+                    android:numColumns="1"
+                    android:verticalSpacing="@dimen/grid_vertical_spacing"
+                    bind:DataContext="@{DataContext}"   ></com.opensoach.hpft.Views.Fragment.CardGridView>
+
+            </RelativeLayout>
+
+            <!--<include layout="@layout/fragment_footer"-->
+                <!--android:id="@+id/footerView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_alignParentBottom="true"/>-->
+
+    </RelativeLayout>
+
+
+
+</layout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_screen_saver"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
+    android:clickable="true"
+    tools:context="spl.hkt.opensoach.splapp.view.ScreenSaverActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_marginLeft="30sp"
+        android:paddingBottom="75dp"
+        android:text="Your feedback is valuable to us. We value and appreciate your compliments, suggestions or complaints in order to improve our housekeeping services." />
+
+    <!--android:text="Your Feedback is valuable to us. We value and appreciate your compliments, suggestions or complaints in order to improve our housekeeping services." />-->
+   <!-- <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"></WebView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onCloseMeClicked"
+        android:text="Close Me" />-->
+
+
+
+
+    <com.hsalf.smilerating.SmileRating
+        android:id="@+id/smile_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/txt_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_marginLeft="50sp"
+        android:layout_marginRight="50sp"
+        android:gravity="center"
+        android:hint="Please provide your feedback (optional)"/>
+
+
+    <TableRow
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30sp">
+    <LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="50dp"
+    android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="Submit">
+            <requestFocus />
+        </Button>
+
+        <Button
+            android:id="@+id/btn_dismiss"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="Dismiss">
+        </Button>
+
+    </LinearLayout>
+    </TableRow>
+
+</LinearLayout>
