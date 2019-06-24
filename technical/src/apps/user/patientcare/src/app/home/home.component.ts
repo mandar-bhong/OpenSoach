@@ -213,11 +213,11 @@ export class HomeComponent implements OnInit, OnDestroy, DataListingInterface<Pa
 		// console.log('listItem',listItem);
 
 		//Allow to show the activity indicator
-		this.isLoading = true;
-		setTimeout(() => {
+		// this.isLoading = true;
+		// setTimeout(() => {
 			this.routerExtensions.navigate(["patientmgnt"], { clearHistory: false });
-			this.isLoading = false;
-		}, 500);
+			// this.isLoading = false;
+		// }, 500);
 	}
 
 	// clean up
