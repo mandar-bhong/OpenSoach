@@ -218,6 +218,22 @@ func PersonalDetailsUpdatePersonAccompanying(dbConn string, updtStruct *hktmodel
 	return nil, updateCtx.AffectedRows
 }
 
+func PersonalDetailsUpdateOtherDetails(dbConn string, updtStruct *hktmodels.DBPersonalDetailsUpdateOtherDetailsRowModel) (error, int64) {
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing patient PersonalDetailsUpdateOtherDetails")
+
+	updateCtx := dbmgr.UpdateDeleteContext{}
+	updateCtx.DBConnection = dbConn
+	updateCtx.Args = *updtStruct
+	updateCtx.QueryType = dbmgr.AutoQuery
+	updateCtx.TableName = constants.DB_SPL_HPFT_PATIENT_PERSONAL_DETAILS_TBL
+	updateErr := updateCtx.UpdateByFilter("PersonalDetailsId", "CpmId")
+	if updateErr != nil {
+		return updateErr, 0
+	}
+	return nil, updateCtx.AffectedRows
+}
+
 func GetPersonalDetailsById(dbConn string, personalDetailsId int64) (error, *[]hktmodels.DBSplHpftPatientPersonalDetailsRowModel) {
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Executing GetPersonalDetailsById")

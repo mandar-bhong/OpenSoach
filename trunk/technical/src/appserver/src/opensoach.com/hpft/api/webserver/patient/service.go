@@ -253,8 +253,8 @@ func (service PatientService) AdmissionAdd(req lmodels.APIAdmissionAddRequest) (
 		if upmmDbRecord[0].PatientId != nil {
 			associateReq := lmodels.APIUserPatientAsscociationRequest{}
 			associateReq.UsrId = req.DrIncharge
-			*associateReq.SpId = req.SpId
-			*associateReq.PatientId = req.PatientId
+			associateReq.SpId = &req.SpId
+			associateReq.PatientId = &req.PatientId
 			service.UserPateintAssociate(associateReq)
 		}
 	}
@@ -360,6 +360,25 @@ func (service PatientService) PersonalDetailsUpdatePersonAccompanying(reqData *h
 	}
 
 	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient person accompanying details updated successfully.")
+
+	return true, nil
+}
+
+func (service PatientService) PersonalDetailsUpdateOtherDetails(reqData *hktmodels.DBPersonalDetailsUpdateOtherDetailsRowModel) (isSuccess bool, successErrorData interface{}) {
+
+	reqData.CpmId = service.ExeCtx.SessionInfo.Product.CustProdID
+	reqData.UpdatedBy = service.ExeCtx.SessionInfo.UserID
+
+	dbErr, _ := dbaccess.PersonalDetailsUpdateOtherDetails(service.ExeCtx.SessionInfo.Product.NodeDbConn, reqData)
+	if dbErr != nil {
+		logger.Context().WithField("InputRequest", reqData).LogError(SUB_MODULE_NAME, logger.Normal, "Database error occured while updating patient other details.", dbErr)
+
+		errModel := gmodels.APIResponseError{}
+		errModel.Code = gmodels.MOD_OPER_ERR_DATABASE
+		return false, errModel
+	}
+
+	logger.Context().LogDebug(SUB_MODULE_NAME, logger.Normal, "Patient patient other details updated successfully.")
 
 	return true, nil
 }

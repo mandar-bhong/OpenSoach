@@ -95,6 +95,7 @@ const API_PATIENT_PERSONAL_DETAILS_ADD = API_BASE_URL + "/v1/patient/personaldet
 const API_PATIENT_PERSONAL_DETAILS_UPDATE = API_BASE_URL + "/v1/patient/personaldetails/update"
 const API_PATIENT_PERSONAL_INFO_MASTER = API_BASE_URL + "/v1/patient/personaldetails/info"
 const API_PATIENT_PERSONAL_DETAILS_UPDATE_PERSON_ACCOMPANYING = API_BASE_URL + "/v1/patient/personaldetails/update/personaccompanying"
+const API_PATIENT_PERSONAL_DETAILS_UPDATE_OTHER_DETAILS = API_BASE_URL + "/v1/patient/personaldetails/update/otherdetails"
 
 const API_PATIENT_MEDICAL_DETAILS_ADD = API_BASE_URL + "/v1/patient/medicaldetails/add"
 const API_PATIENT_MEDICAL_DETAILS_UPDATE = API_BASE_URL + "/v1/patient/medicaldetails/update"

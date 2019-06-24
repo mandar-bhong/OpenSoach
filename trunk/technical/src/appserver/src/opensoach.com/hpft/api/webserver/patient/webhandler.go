@@ -25,6 +25,7 @@ func registerRouters(router *gin.RouterGroup) {
 	router.POST(constants.API_PATIENT_PERSONAL_DETAILS_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_PATIENT_PERSONAL_DETAILS_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_PATIENT_PERSONAL_DETAILS_UPDATE_PERSON_ACCOMPANYING, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
+	router.POST(constants.API_PATIENT_PERSONAL_DETAILS_UPDATE_OTHER_DETAILS, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.GET(constants.API_PATIENT_PERSONAL_INFO_MASTER, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_PATIENT_MEDICAL_DETAILS_ADD, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
 	router.POST(constants.API_PATIENT_MEDICAL_DETAILS_UPDATE, func(c *gin.Context) { lhelper.CommonWebRequestHandler(c, requestHandler) })
@@ -263,6 +264,23 @@ func requestHandler(pContext *gin.Context) (bool, interface{}) {
 		isSuccess, resultData = PatientService{
 			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
 		}.PersonalDetailsUpdatePersonAccompanying(reqData)
+
+		break
+
+	case constants.API_PATIENT_PERSONAL_DETAILS_UPDATE_OTHER_DETAILS:
+
+		reqData := &hktmodels.DBPersonalDetailsUpdateOtherDetailsRowModel{}
+
+		isPrepareExeSuccess, successErrorData := lhelper.PrepareExecutionReqData(repo.Instance().Context, pContext, &reqData)
+
+		if isPrepareExeSuccess == false {
+			logger.Context().Log(SUB_MODULE_NAME, logger.Normal, logger.Error, "Error occured while preparing execution data.")
+			return false, successErrorData
+		}
+
+		isSuccess, resultData = PatientService{
+			ExeCtx: successErrorData.(*gmodels.ExecutionContext),
+		}.PersonalDetailsUpdateOtherDetails(reqData)
 
 		break
 
