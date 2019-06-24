@@ -449,3 +449,8 @@ export class DrInchargeListResponse {
     fname: string;
     lname: string;
 }
+
+export class UpdatePatientAddress {
+    personaldetailsid: number;
+    otherdetails: string;
+}
