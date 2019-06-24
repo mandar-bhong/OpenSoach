@@ -48,6 +48,7 @@ import {
     CheckPatientResponse,
     DrInchargeListResponse,
     PersonalHistoryInfo,
+    UpdatePatientAddress,
 } from '../models/api/patient-data-models';
 import { TransactionDetailsFilter } from '../../app/models/api/transaction-details';
 import { ActionTransactionResponse } from '../../app/models/api/transaction-details-response';
@@ -391,5 +392,11 @@ export class PatientService extends ListingService<PatientFilterRequest, Patient
     setPatientName(value) {
         this.patientName.next(value);
     }
+
+    updatePatientAddress(updatePatientAddress: UpdatePatientAddress, implicitErrorHandling = true):
+    Observable<PayloadResponse<null>> {
+    return this.serverApiInterfaceService.post(EnvironmentProvider.appbaseurl + '/api/v1/patient/personaldetails/update/otherdetails',
+    updatePatientAddress, implicitErrorHandling);
+}
 
 }

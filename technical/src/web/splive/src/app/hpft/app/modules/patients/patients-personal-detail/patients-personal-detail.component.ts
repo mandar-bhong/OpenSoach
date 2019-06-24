@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PatientUpdateRequest } from '../../../../app/models/api/patient-data-models';
+import { PatientUpdateRequest, UpdatePatientAddress } from '../../../../app/models/api/patient-data-models';
 import { Subscription } from 'rxjs';
-import { RecordIDRequestModel } from '../../../../../shared/models/api/common-models';
+import { RecordIDRequestModel, RecordIDRequest } from '../../../../../shared/models/api/common-models';
 import { EnumDataSourceItem } from '../../../../../shared/models/ui/enum-datasource-item';
 import { TranslatePipe } from '../../../../../shared/pipes/translate/translate.pipe';
 import { AppNotificationService } from '../../../../../shared/services/notification/app-notification.service';
@@ -25,7 +25,8 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
   routeSubscription: Subscription;
   patientStates: EnumDataSourceItem<number>[];
   personGender: EnumDataSourceItem<number>[];
-
+  patientAddressValue: string;
+  admissionid: number;
   constructor(
     private patientService: PatientService,
     private route: ActivatedRoute,
@@ -54,8 +55,9 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
         this.getPatientPersonalInfo();
       }
       this.callbackUrl = params['callbackurl'];
-      
+
     });
+    this.getpatientStatus();
   }
 
   getPatientPersonalInfo() {
@@ -70,7 +72,7 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.patientService.fname = this.dataModel.fname;
           this.patientService.lname = this.dataModel.lname;
-          this.patientService.setPatientName(this.dataModel.fname+' '+this.dataModel.lname);
+          this.patientService.setPatientName(this.dataModel.fname + ' ' + this.dataModel.lname);
         } else {
           this.appNotificationService.info(this.translatePipe.transform('PATIENT_INFO_DETAILS_NOT_AVAILABLE'));
         }
@@ -84,15 +86,16 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
       const patientUpdateRequest = new PatientUpdateRequest();
       this.dataModel.patientid = this.patientService.patientid;
       this.dataModel.CopyToUpdate(patientUpdateRequest);
+      if (this.editableForm.get('addressControl').value) {
+        this.patientAddress(this.editableForm.get('addressControl').value);
+      }
       this.patientService.updatePatientDetails(patientUpdateRequest).subscribe(payloadResponse => {
         if (payloadResponse && payloadResponse.issuccess) {
-          this.patientService.setPatientName(this.dataModel.fname+' '+this.dataModel.lname);
+          this.patientService.setPatientName(this.dataModel.fname + ' ' + this.dataModel.lname);
           this.dataModel.patientid = payloadResponse.data;
           this.recordState = EDITABLE_RECORD_STATE.UPDATE;
           this.setFormMode(FORM_MODE.VIEW);
-
           this.dataModel.CopyToUpdate(this.dataModelOrg);
-
           this.appNotificationService.success();
         }
         this.inProgress = false;
@@ -107,6 +110,7 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
       ageControl: new FormControl(''),
       bloodgrpControl: new FormControl(''),
       genderControl: new FormControl('', [Validators.required]),
+      addressControl: new FormControl()
     });
   }
 
@@ -117,15 +121,51 @@ export class PatientsPersonalDetailComponent extends EditRecordBase implements O
     }
   }
 
-   closeForm() {}
+  closeForm() { }
 
   onCancelHandler() {
-   this.dataModelOrg.CopyToUpdate(this.dataModel);
+    this.dataModelOrg.CopyToUpdate(this.dataModel);
   }
 
   ngOnDestroy() {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
+
   }
+  patientAddress(address: string) {
+    const updatePatientAddress = new UpdatePatientAddress();
+    const x = { data: { address: address } };
+    updatePatientAddress.otherdetails = JSON.stringify(x);
+    updatePatientAddress.personaldetailsid = this.patientService.patientid;
+    this.patientService.updatePatientAddress(updatePatientAddress).subscribe(payloadResponse => {
+    });
+  }
+
+  getpatientAddress() {
+    const recordIDRequest = new RecordIDRequest();
+    recordIDRequest.recid = this.patientService.patientid;
+    this.patientService.getPatientPersonDetail(recordIDRequest).subscribe(payloadResponse => {
+      if (payloadResponse.issuccess) {
+        if (payloadResponse.data) {
+          const item = JSON.parse(payloadResponse.data.otherdetails);
+          item.data ? (this.editableForm.get('addressControl').setValue(item.data.address), this.patientAddressValue = item.data.address) : '';
+          // payloadResponse.data.otherdetails
+        }
+      }
+    });
+  }
+
+  getpatientStatus() {
+    const recordIDRequest = new RecordIDRequest();
+    recordIDRequest.recid = this.patientService.patientid;
+    this.patientService.getStatusCheck(recordIDRequest).subscribe(payloadResponse => {
+      if (payloadResponse.issuccess) {
+        if (payloadResponse.data) {
+      //    payloadResponse.data.status == 1 ? this.getpatientAddress() : null;
+        }
+      }
+    });
+  }
+
 }
