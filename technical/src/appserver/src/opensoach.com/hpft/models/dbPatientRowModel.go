@@ -111,6 +111,13 @@ type DBPersonalDetailsUpdatePersonAccompanyingRowModel struct {
 	UpdatedBy          int64  `db:"updated_by" json:"updated_by"`
 }
 
+type DBPersonalDetailsUpdateOtherDetailsRowModel struct {
+	PersonalDetailsId int64 `db:"id" dbattr:"pri,auto"  json:"personaldetailsid"`
+	pcmodels.CPMIDEntityModel
+	OtherDetails       string `db:"other_details" json:"otherdetails"`
+	UpdatedBy          int64  `db:"updated_by" json:"updated_by"`
+}
+
 type DBMedicalDetailsDataModel struct {
 	Uuid                         string  `db:"uuid" json:"uuid"`
 	PatientId                    int64   `db:"patient_id" json:"patientid"`
