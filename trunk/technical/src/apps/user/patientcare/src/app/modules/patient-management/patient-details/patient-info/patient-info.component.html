@@ -16,13 +16,18 @@
                 text="{{patientDetailsModel.blood_grp}}"></Label>
         </GridLayout>
 
-        <GridLayout row="1" col="0" columns="*" rows="auto" style="margin-top:5px;">
-            <GridLayout col="0" rows="auto,auto" columns="auto, auto">
+        <GridLayout row="1" col="0" columns="*" rows="auto,auto" style="margin-top:5px;">
+            <GridLayout row="0" col="0" rows="auto,auto" columns="auto, auto">
                 <Label class="body" textWrap="true" text="Contact"></Label>
                 <GridLayout col="0" row="1" rows="auto" columns=" auto">
                     <Label row="0" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912" style="font-size: 15;"></Label>
                     <Label row="0" col="0" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.mob_no}}" style="margin-left: 20;"></Label>
                 </GridLayout>
+            </GridLayout>
+            <GridLayout row="1" rows="auto" columns="auto, auto">
+                <Label class="body" textWrap="true" text="Address: "></Label>
+                <Label col="1"  textWrap="true" [text]="patientAddress"></Label>
+               
             </GridLayout>
         </GridLayout>
         
