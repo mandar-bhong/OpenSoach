@@ -349,10 +349,10 @@
                                             <GridLayout columns="auto" rows="auto" style="text-align: left"
                                                 (loaded)="download(item.doctorOrderModel.document_name,item.doctorOrderModel.document_uuid)">
                                                 <Label
-                                                    *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.document_uuid"
+                                                    *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.document_uuid && item.doctorOrderModel.progress==0"
                                                     class="fas option-icon-fawesome" text="&#xf019;"
                                                     (tap)="download(item.doctorOrderModel.document_name,item.doctorOrderModel.document_uuid)"></Label>
-                                                <AnimatedCircle *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.progress" col="0"
+                                                <AnimatedCircle *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.progress>0" col="0"
                                                     width="50px" height="50px" rimColor="#efeff4" barColor="#FDA458"
                                                     [text]="item.doctorOrderModel.progress.toString() + '' +'%'" textColor="#bfbfc4"
                                                     textSize="1.5" animated="true" animateFrom="0" clockwise="true"
