@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { requestPermissions, takePicture } from 'nativescript-camera';
 import * as imagepicker from 'nativescript-imagepicker';
@@ -8,9 +8,15 @@ import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import * as utils from 'tns-core-modules/utils/utils';
 import { PassDataService } from '~/app/services/pass-data-service';
 import { ReportsService } from '~/app/services/reports/reports-service';
-import { TeatmentReportModel } from '~/app/models/ui/reports-models';
+import { TeatmentReportModel, TreatmentReportDocModel } from '~/app/models/ui/reports-models';
 import { AppGlobalContext } from '~/app/app-global-context';
 import { AppRepoService } from '~/app/services/app-repo.service';
+const fileSystemModule = require("tns-core-modules/file-system");
+import { Folder } from "tns-core-modules/file-system";
+import { ModalDialogOptions, ModalDialogService } from 'nativescript-angular/modal-dialog'
+import { getFile } from "tns-core-modules/http"
+import { ImageModalComponent } from '../../image-modal/image-modal.component';
+import { DownloadProgress, RequestOptions } from 'nativescript-download-progress';
 
 export class ApiParse {
 	uuid: any;
@@ -54,6 +60,9 @@ export class TreatmentReportsComponent implements OnInit {
 
 	constructor(private routerExtensions: RouterExtensions,
 		private passdataservice: PassDataService,
+		private viewContainerRef: ViewContainerRef,
+		private modalService: ModalDialogService,
+		private changeDetectorRef: ChangeDetectorRef,
 		private reportsService: ReportsService) { }
 
 	ngOnInit() {
@@ -90,7 +99,10 @@ export class TreatmentReportsComponent implements OnInit {
 			teatmentReportModel.doclist = [];
 			const x = await this.reportsService.getTreatmentReportDoc(teatmentReportModel.uuid);
 			x.forEach((val) => {
-				teatmentReportModel.doclist.push(val);
+				let treatmentReportDocModel = new TreatmentReportDocModel();
+				treatmentReportDocModel = val;
+				treatmentReportDocModel.progress = 0;
+				teatmentReportModel.doclist.push(treatmentReportDocModel);
 			});
 
 			this.teatmentReportList.push(teatmentReportModel);
@@ -200,22 +212,96 @@ export class TreatmentReportsComponent implements OnInit {
 	// << expand row code end
 
 	// << document download
-	download(document_name,document_uuid) {
+	download(document_name, document_uuid, treatment_uuid) {
 
-		console.log('tap document_uuid', document_uuid);
-		const token1 = AppGlobalContext.Token;
-		console.log('token', token1);
-		const requestObj = new ApiParse();
-		requestObj.uuid = document_uuid;
-		requestObj.token = token1;
+		if (document_uuid) {
+			console.log('tap document_uuid', document_uuid);
+			const token1 = AppGlobalContext.Token;
+			console.log('token', token1);
+			const requestObj = new ApiParse();
+			requestObj.uuid = document_uuid;
+			requestObj.token = token1;
 
-		requestObj.uuid = document_uuid;
-		requestObj.token = token1;
-		const apiUrl = '/v1/document/download/ep';
-		const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
-		console.log('apiURL', apiURL);
-		utils.openUrl(apiURL);
+			const apiUrl = '/v1/document/download/ep';
+			const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
+			console.log('apiURL', apiURL);
+			// utils.openUrl(apiURL);
 
+			var externalStoragePath = android.os.Environment.getExternalStorageDirectory().toString();
+			var downloadFolderPath = fileSystemModule.path.join(externalStoragePath, "PatientCare");
+			if (!Folder.exists(downloadFolderPath)) {
+				Folder.fromPath(downloadFolderPath);
+			}
+
+			let fileName = document_uuid + "." + document_name.split('.').pop()
+
+			const filePath: string = fileSystemModule.path.join(downloadFolderPath, fileName);
+			console.log("path", filePath);
+
+			const exists = fileSystemModule.File.exists(filePath);
+			console.log(`Does file exists: ${exists}`);
+			if (exists) {
+				const existingItem = this.teatmentReportModel.filter(e => e.uuid == treatment_uuid)[0];
+				if (existingItem) {
+					const existingDocItem = existingItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+					if (existingDocItem) {
+						existingDocItem.document_path = filePath;
+					}
+				}
+			} else {
+
+				//download plugin
+				const download = new DownloadProgress();
+				const requestOptions: RequestOptions = {
+					method: "GET",
+					headers: {
+					}
+				};
+
+				download.downloadFile(apiURL, requestOptions, filePath).then(f => {
+					console.log("download Success");
+					const existingItem = this.teatmentReportModel.filter(e => e.uuid == treatment_uuid)[0];
+					if (existingItem) {
+						const existingDocItem = existingItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+						if (existingDocItem) {
+							existingDocItem.document_path = filePath;
+						}
+					}
+				}).catch(e => {
+					console.log("download Error:", e);
+				})
+
+				download.addProgressCallback(progress => {
+					const existingItem = this.teatmentReportModel.filter(e => e.uuid == treatment_uuid)[0];
+					if (existingItem) {
+						const existingDocItem = existingItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+						if (existingDocItem) {
+							existingDocItem.progress = Number((progress * 100).toFixed());
+							this.changeDetectorRef.detectChanges();
+						}
+					}
+				})
+				//end download plugin
+			}
+
+
+		}
+	}
+
+	showImageModal(document_uuid, pathology_record_uuid) {
+
+		const pathologyRecordItem = this.teatmentReportModel.filter(e => e.uuid == pathology_record_uuid)[0];
+		const existingDocItem = pathologyRecordItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+
+		const options: ModalDialogOptions = {
+			viewContainerRef: this.viewContainerRef,
+			fullscreen: true,
+			context: {
+				docPath: existingDocItem.document_path,
+				docType: existingDocItem.doctype
+			}
+		};
+		this.modalService.showModal(ImageModalComponent, options);
 	}
 	// >> document download
 }

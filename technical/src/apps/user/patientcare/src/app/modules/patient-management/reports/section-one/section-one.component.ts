@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
 import { ListViewLinearLayout, ListViewEventData, RadListView, ListViewItemSnapMode } from 'nativescript-ui-listview';
 import { RadListViewComponent } from 'nativescript-ui-listview/angular/listview-directives';
@@ -15,13 +15,19 @@ import { Page } from 'tns-core-modules/ui/page/page';
 import * as utils from "tns-core-modules/utils/utils";
 import { isAndroid, isIOS } from 'tns-core-modules/ui/page/page';
 import { ReportsService } from '~/app/services/reports/reports-service';
-import { PathlogyReportModel } from '~/app/models/ui/reports-models';
+import { PathlogyReportModel, PathlogyReportDocModel } from '~/app/models/ui/reports-models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppGlobalContext } from '~/app/app-global-context';
 import { ServerApiInterfaceService } from '~/app/services/server-api-interface.service';
 import { AppRepoService } from '~/app/services/app-repo.service';
-
-
+const fileSystemModule = require("tns-core-modules/file-system");
+import { Folder } from "tns-core-modules/file-system";
+import { ModalDialogOptions, ModalDialogService } from 'nativescript-angular/modal-dialog'
+import { getFile } from "tns-core-modules/http"
+import { ImageModalComponent } from '../../image-modal/image-modal.component';
+import { DownloadProgress, RequestOptions } from "nativescript-download-progress";
+import { registerElement } from 'nativescript-angular/element-registry'
+registerElement('AnimatedCircle', () => require('nativescript-animated-circle').AnimatedCircle);
 
 export class ApiParse {
 	uuid: any;
@@ -37,6 +43,8 @@ export class ApiParse {
 export class SectionOneComponent implements OnInit {
 	// public _dataItems: ObservableArray<any>;
 	// tempdata = new Array<DataItem>();
+
+	size = 50;
 
 	isLoading = true;
 	pathlogyReportModel: PathlogyReportModel[] = [];
@@ -61,6 +69,9 @@ export class SectionOneComponent implements OnInit {
 		private passdataservice: PassDataService,
 		private reportsService: ReportsService,
 		public httpClient: HttpClient,
+		private changeDetectorRef: ChangeDetectorRef,
+		private viewContainerRef: ViewContainerRef,
+		private modalService: ModalDialogService,
 		private serverApiInterfaceService: ServerApiInterfaceService) { }
 
 	ngOnInit() {
@@ -97,7 +108,10 @@ export class SectionOneComponent implements OnInit {
 			pathlogyReportModel.doclist = [];
 			const document = await this.reportsService.getPathlogyReportDoc(pathlogyReportModel.uuid);
 			document.forEach((val) => {
-				pathlogyReportModel.doclist.push(val);
+				let pathlogyReportDocModel = new PathlogyReportDocModel();
+				pathlogyReportDocModel = val;
+				pathlogyReportDocModel.progress = 0;
+				pathlogyReportModel.doclist.push(pathlogyReportDocModel);
 			});
 
 			this.pathlogyReportList.push(pathlogyReportModel);
@@ -208,39 +222,91 @@ export class SectionOneComponent implements OnInit {
 		}
 	}
 	// << expand row code end
-	download(document_name,document_uuid) {
 
-		console.log('tap document_uuid', document_uuid);
-		const token1 = AppGlobalContext.Token;
-		console.log('token', token1);
-		const requestObj = new ApiParse();
-		requestObj.uuid = document_uuid;
-		requestObj.token = token1;
+	//download and show in modal
+	download(document_name, document_uuid, pathology_record_uuid) {
 
-		let result;
+		if (document_uuid) {
+			console.log('tap document_uuid', document_uuid);
+			const token1 = AppGlobalContext.Token;			
+			const requestObj = new ApiParse();
+			requestObj.uuid = document_uuid;
+			requestObj.token = token1;
 
+			const apiUrl = '/v1/document/download/ep';
+			const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
+			console.log('apiURL', apiURL);
 
-		// this.serverApiInterfaceService.get(API_APP_BASE_URL + "/v1/document/download/ep",
-		// 	{
-		// 		uuid: document_uuid,
-		// 		token: AppGlobalContext.Token
+			var externalStoragePath = android.os.Environment.getExternalStorageDirectory().toString();
+			var downloadFolderPath = fileSystemModule.path.join(externalStoragePath, "PatientCare");
+			if (!Folder.exists(downloadFolderPath)) {
+				Folder.fromPath(downloadFolderPath);
+			}
 
-		// 	})
-		// 	.then((result) => {
-		// 		console.log('result', result);
-		// 		result = result;
+			let fileName = document_uuid + "." + document_name.split('.').pop()
+			const filePath: string = fileSystemModule.path.join(downloadFolderPath, fileName);
+			console.log("path", filePath);
 
-		// 	})
-		// utils.openUrl(result);
+			const exists = fileSystemModule.File.exists(filePath);
+			console.log(`Does file exists: ${exists}`);
+			if (exists) {
+				const existingItem = this.pathlogyReportModel.filter(e => e.uuid == pathology_record_uuid)[0];
+				if (existingItem) {
+					const existingDocItem = existingItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+					if (existingDocItem) {
+						existingDocItem.document_path = filePath;
+					}
+				}
+			} else {
+				//download plugin
+				const download = new DownloadProgress();
+				const requestOptions: RequestOptions = {
+					method: "GET",
+					headers: {
+					}
+				};
 
+				download.downloadFile(apiURL, requestOptions, filePath).then(f => {
+					console.log("download Success");
+					const existingItem = this.pathlogyReportModel.filter(e => e.uuid == pathology_record_uuid)[0];
+					if (existingItem) {
+						const existingDocItem = existingItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+						if (existingDocItem) {
+							existingDocItem.document_path = filePath;
+						}
+					}
+				}).catch(e => {
+					console.log("download Error:", e);
+				})
 
-		requestObj.uuid = document_uuid;
-		requestObj.token = token1;
-		const apiUrl = '/v1/document/download/ep';
-		const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl +"/" + document_name +  '?params=' + JSON.stringify(requestObj);
-		console.log('apiURL', apiURL);
-		utils.openUrl(apiURL);
+				download.addProgressCallback(progress => {
+					const existingItem = this.pathlogyReportModel.filter(e => e.uuid == pathology_record_uuid)[0];
+					if (existingItem) {
+						const existingDocItem = existingItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+						if (existingDocItem) {
+							existingDocItem.progress = Number((progress * 100).toFixed());
+							this.changeDetectorRef.detectChanges();
+						}
+					}
+				})
+				//end download plugin
+			}
+		}
 
+	}
+
+	showImageModal(document_uuid, pathology_record_uuid) {
+		const pathologyRecordItem = this.pathlogyReportModel.filter(e => e.uuid == pathology_record_uuid)[0];
+		const existingDocItem = pathologyRecordItem.doclist.filter(e => e.document_uuid == document_uuid)[0];
+		const options: ModalDialogOptions = {
+			viewContainerRef: this.viewContainerRef,
+			fullscreen: true,
+			context: {
+				docPath: existingDocItem.document_path,
+				docType: existingDocItem.doctype
+			}
+		};
+		this.modalService.showModal(ImageModalComponent, options);
 	}
 
 }

@@ -134,7 +134,7 @@
                         [class]="'item ' + (item.selected ? 'item-selected' : '')"
                         [backgroundColor]="item.selected ? '#c9dadb' : '#ffffff'">
                         <!-- click row expand view open above view start -->
-                        <GridLayout row="0" columns="70, *" rows="auto, auto,auto" >
+                        <GridLayout row="0" columns="70, *" rows="auto, auto,auto">
 
                             <!-- left side clock status view start -->
                             <GridLayout row="0" col="0" columns="*" rows="auto, auto"
@@ -238,7 +238,7 @@
                         </GridLayout>
                         <!-- click row expand view open above view start -->
                         <!-- expand below view start-->
-                        <GridLayout row="1" col="0" columns="*" rows="auto, auto" 
+                        <GridLayout row="1" col="0" columns="*" rows="auto, auto"
                             *ngIf="item.actionStatus != action_Status.ACTIVE_FUTURE">
 
                             <GridLayout>
@@ -345,13 +345,18 @@
 
                                         </GridLayout>
 
-                                        <GridLayout row="1" col="0">
+                                        <GridLayout *ngIf="item.doctorOrderModel.document_name" row="1" col="0">
                                             <GridLayout columns="auto" rows="auto" style="text-align: left"
                                                 (loaded)="download(item.doctorOrderModel.document_name,item.doctorOrderModel.document_uuid)">
                                                 <Label
                                                     *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.document_uuid"
                                                     class="fas option-icon-fawesome" text="&#xf019;"
                                                     (tap)="download(item.doctorOrderModel.document_name,item.doctorOrderModel.document_uuid)"></Label>
+                                                <AnimatedCircle *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.progress" col="0"
+                                                    width="50px" height="50px" rimColor="#efeff4" barColor="#FDA458"
+                                                    [text]="item.doctorOrderModel.progress.toString() + '' +'%'" textColor="#bfbfc4"
+                                                    textSize="1.5" animated="true" animateFrom="0" clockwise="true"
+                                                    [progress]="item.doctorOrderModel.progress"></AnimatedCircle>
                                                 <image class="imgPreview" *ngIf="item.doctorOrderModel.document_path"
                                                     col="2" (tap)="showImageModal(item.doctorOrderModel.document_uuid)"
                                                     [src]="item.doctorOrderModel.document_path"></image>
@@ -391,7 +396,7 @@
     </GridLayout>
 
     <StackLayout verticalAlignment="bottom" class="right">
-        <GridLayout rows="auto,auto, auto, auto, auto,auto" horizontalAlignment="right" >
+        <GridLayout rows="auto,auto, auto, auto, auto,auto" horizontalAlignment="right">
             <RL:Ripple row="0" rippleColor="#fff" style="margin-top: 2px;">
                 <GridLayout class="float-btn-cat" (tap)="doctorOrderButtonClicked"
                     [class.button-clicked]="doctorOrderButtonClicked">

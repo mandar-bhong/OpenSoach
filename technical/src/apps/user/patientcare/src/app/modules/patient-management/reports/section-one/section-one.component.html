@@ -50,11 +50,31 @@
                         <GridLayout row="2" col="0" columns="*" rows="auto">
                             <RadListView #myListView1 [items]="item.doclist" multipleSelection="false">
                                 <ng-template tkListItemTemplate let-doc="item">
-                                    <GridLayout row="0" col="1" columns="auto, 50,, auto *" style="margin: 10px;">
-                                        <Label class="labelleft label-small" col="0" style="margin: 5px 0px"
-                                            textWrap="true" text="{{doc.document_name}}" style="color:#51A5CD;"></Label>
-                                        <Label col="2" class="fas option-icon-fawesome" text="&#xf019;"
-                                            (tap)="download(doc.document_name,doc.document_uuid)"></Label>
+                                    <GridLayout row="0" col="1">
+                                        <GridLayout *ngIf="doc" columns="auto, 50,, auto *" style="margin: 10px;" (loaded)="download(doc.document_name,doc.document_uuid,item.uuid)">
+                                            <Label *ngIf="doc.document_path && doc.doctype==='application/pdf'"
+                                                class="fas option-icon-fawesome iconPreview" col="0"
+                                                style="margin: 5px 0px" textWrap="true" text="&#xf1c1;"
+                                                (tap)="showImageModal(doc.document_uuid,item.uuid)">
+                                            </Label>
+                                            <GridLayout class="downloadLabel" rows="auto" columns="auto auto"
+                                                *ngIf="!doc.document_path && doc.progress==0" col="0"
+                                                (tap)="download(doc.document_name,doc.document_uuid,item.uuid)">
+                                                <label row="0" col="0" text="{{doc.document_name }}"
+                                                    style="padding: 4px"></label>
+                                                <label row="0" col="1" class="fas option-icon-fawesome downloadIcon"
+                                                    text="&#xf019;"></label>
+                                            </GridLayout>
+                                            <AnimatedCircle *ngIf="!doc.document_path && doc.progress>0" col="0"
+                                                width="50px" height="50px" rimColor="#efeff4" barColor="#FDA458"
+                                                [text]="doc.progress.toString() + '' +'%'" textColor="#bfbfc4"
+                                                textSize="1.5" animated="true" animateFrom="0" clockwise="true"
+                                                [progress]="doc.progress"></AnimatedCircle>
+                                            <image class="imgPreview"
+                                                *ngIf="doc.document_path && doc.doctype!='application/pdf'" col="0"
+                                                (tap)="showImageModal(doc.document_uuid,item.uuid)"
+                                                [src]="doc.document_path"></image>
+                                        </GridLayout>
                                     </GridLayout>
                                 </ng-template>
                             </RadListView>

@@ -37,3 +37,37 @@
 .list-layout-expand{
     padding: 15% 7px;
 }
+
+.iconPreview{
+    font-size: 50px;
+    color:red;
+    margin: 2px;
+    padding: 2px;
+}
+
+.imgPreview{
+    width: 10%;
+    height: 10%;
+    margin: 2px;
+    padding: 2px;
+}
+
+.downloadLabel{
+    font-size: 15;
+    border-width: 1px;
+    border-color: black;
+    background-color: #DCDCDC;
+    color: black;
+    margin: 2px;
+    text-align: center;
+}
+
+.downloadIcon{
+    font-size: 20;
+    border-left-width: 1px;
+    border-color: black;
+    background-color:#DCDCDC;	
+    color: #51A5CD;
+    padding: 4px;
+    text-align: center;
+}

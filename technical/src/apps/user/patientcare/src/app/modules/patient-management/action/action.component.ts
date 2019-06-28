@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { ModalDialogOptions, ModalDialogService } from 'nativescript-angular/modal-dialog';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ListViewEventData, ListViewItemSnapMode, ListViewLinearLayout } from 'nativescript-ui-listview';
@@ -45,6 +45,7 @@ import { ImageModalComponent } from '../image-modal/image-modal.component';
 import { AppRepoService } from '~/app/services/app-repo.service';
 const permissions = require("nativescript-permissions");
 import * as Toast from 'nativescript-toast';
+import { DownloadProgress, RequestOptions } from 'nativescript-download-progress';
 // expand row 
 declare var UIView, NSMutableArray, NSIndexPath;
 // import { TextField } from "ui/text-field";
@@ -154,6 +155,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		private workerservice: WorkerService,
 		private viewContainerRef: ViewContainerRef,
 		private http: HttpClient,
+		private changeDetectorRef: ChangeDetectorRef,
 		private routerExtensions: RouterExtensions) {
 		//  list item grouping based on config_type_code.
 		this._funcGrouping = (item: ActionItemVMModel) => {
@@ -932,7 +934,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 	}
 	download(document_name, document_uuid) {
 
-		if (document_uuid) {
+		if (document_uuid && document_name) {
 			console.log('tap document_uuid', document_uuid);
 			const token1 = AppGlobalContext.Token;
 			console.log('token', token1);
@@ -940,8 +942,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			requestObj.uuid = document_uuid;
 			requestObj.token = token1;
 
-			requestObj.uuid = document_uuid;
-			requestObj.token = token1;
 			const apiUrl = '/v1/document/download/ep';
 			const apiURL = AppRepoService.Instance.API_APP_BASE_URL + apiUrl + "/" + document_name + '?params=' + JSON.stringify(requestObj);
 			console.log('apiURL', apiURL);
@@ -959,7 +959,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			console.log("path", filePath);
 
 			const exists = fileSystemModule.File.exists(filePath);
-			console.log(`Does Text.txt exists: ${exists}`);
+			console.log(`Does file exists: ${exists}`);
 			if (exists) {
 				const existingItem = this.actionItems.filter(e => e.conf_type_code == ConfigCodeType.DOCTOR_ORDERS
 					&& e.doctorOrderModel.document_uuid != null
@@ -968,21 +968,40 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					existingItem.doctorOrderModel.document_path = filePath;
 				}
 			} else {
-				getFile(apiURL, filePath).then((resultFile) => {
-					// The returned result will be File object
-					console.log("resultFile", resultFile);
+
+				//download plugin
+				const download = new DownloadProgress();
+				const requestOptions: RequestOptions = {
+					method: "GET",
+					headers: {
+					}
+				};
+
+				download.downloadFile(apiURL, requestOptions, filePath).then(f => {
+					console.log("download Success");
+
 					const existingItem = this.actionItems.filter(e => e.conf_type_code == ConfigCodeType.DOCTOR_ORDERS
 						&& e.doctorOrderModel.document_uuid != null
 						&& e.doctorOrderModel.document_uuid == document_uuid)[0];
 					console.log("existingItem1", existingItem);
 					if (existingItem) {
-						existingItem.doctorOrderModel.document_path = resultFile.path;
-						console.log("existingItem2", existingItem);
+						existingItem.doctorOrderModel.document_path = filePath;
 					}
+				}).catch(e => {
+					console.log("download Error:", e);
+				})
 
-				}, (e) => {
-					console.log("error", e);
-				});
+				download.addProgressCallback(progress => {
+					const existingItem = this.actionItems.filter(e => e.conf_type_code == ConfigCodeType.DOCTOR_ORDERS
+						&& e.doctorOrderModel.document_uuid != null
+						&& e.doctorOrderModel.document_uuid == document_uuid)[0];
+					if (existingItem) {
+						existingItem.doctorOrderModel.progress = Number((progress * 100).toFixed());
+						this.changeDetectorRef.detectChanges();
+
+					}
+				})
+				//end download plugin
 			}
 		}
 	}
@@ -995,9 +1014,10 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 
 		const options: ModalDialogOptions = {
 			viewContainerRef: this.viewContainerRef,
-			fullscreen: false,
+			fullscreen: true,
 			context: {
-				docPath: doctorOrdersElem.doctorOrderModel.document_path
+				docPath: doctorOrdersElem.doctorOrderModel.document_path,
+				docType: doctorOrdersElem.doctorOrderModel.doctype
 			}
 		};
 		this.modalService.showModal(ImageModalComponent, options);
