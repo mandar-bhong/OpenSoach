@@ -164,8 +164,9 @@ export class DoctorOrdersComponent implements OnInit {
 			else {
 				// upload and click img
 				serverDocumentDataStoreModel.data.doc_path = this.docPath;
-				serverDocumentDataStoreModel.data.doc_name = 'test';
-				serverDocumentDataStoreModel.data.doc_type = mime.lookup('xlsx');
+				const docName = fileSystemModule.File.fromPath(this.docPath).name;
+				serverDocumentDataStoreModel.data.doc_name = docName;
+				serverDocumentDataStoreModel.data.doc_type = mime.lookup(docName.split('.').pop());
 			}
 
 			serverDocumentDataStoreModel.data.datastore = SYNC_STORE.DOCTORS_ORDERS;

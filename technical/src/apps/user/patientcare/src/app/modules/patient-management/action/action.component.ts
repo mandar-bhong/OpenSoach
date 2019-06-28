@@ -247,6 +247,7 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 		if (isDoctorOrderData) {
 			actionItemVMModel.conf_type_code = this.conf_type_code_const.DOCTOR_ORDERS;
 			actionItemVMModel.doctorOrderModel = data;
+			actionItemVMModel.doctorOrderModel.progress = 0;
 			actionItemVMModel.hasTxnData = false;
 			actionItemVMModel.isActionActive = (actionItemVMModel.doctorOrderModel.status == 0) ? true : false;
 			if (data.status == 1) {
@@ -998,7 +999,6 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 					if (existingItem) {
 						existingItem.doctorOrderModel.progress = Number((progress * 100).toFixed());
 						this.changeDetectorRef.detectChanges();
-
 					}
 				})
 				//end download plugin
