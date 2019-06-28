@@ -1,0 +1,6 @@
+#layout-set td{display: inline-block}
+#layout-set td p{margin: 0px 10px;}
+.fa-filter {margin-top: 4px}
+@media screen and (max-width:768px) {
+    #layout-set td mat-form-field{width: 240px;}
+   }

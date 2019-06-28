@@ -1,0 +1,105 @@
+<GridLayout rows="*" columns="*,auto" height="100%" width="100%">
+    <ActivityIndicator [busy]="isLoading" class="indicator"></ActivityIndicator>
+    <RadListView #myListView [items]="teatmentReportList" (loaded)="listLoaded()" colSpan="2"
+        [itemTemplateSelector]="templateSelector" (itemTap)="onItemTap($event)">
+        <ng-template tkListItemTemplate let-item="item">
+            <GridLayout columns="*" rows="auto" class="listItemStackLayout">
+                <GridLayout row="0" columns="30, *" rows="auto, auto ">
+                    <GridLayout row="0" col="1" class="list-layout">
+                        <GridLayout columns="*, auto" rows="auto">
+                            <Label row="0" col="0" class="body" text="{{item.treatment_done}}"
+                                style="color: #396767;"></Label>
+                            <Label row="0" col="1" class="label-small" textWrap="true"
+                                text=" {{item.treatment_performed_time | date: 'fullDate'}}"
+                                style="margin-left: 10px;"></Label>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="1" col="1" columns="*" rows="auto">
+                        <StackLayout row="0" col="0" class="hr-light m-10"></StackLayout>
+                    </GridLayout>
+                </GridLayout>
+            </GridLayout>
+        </ng-template>
+
+
+        <ng-template tkTemplateKey="expanded" let-item="item">
+            <GridLayout columns="*" rows="auto" class="listItemStackLayout">
+                <GridLayout row="0" columns="30, *" rows="auto, auto">
+                    <GridLayout row="0" col="1" columns="*" rows="auto, auto, auto" class="list-layout">
+                        <GridLayout row="0" col="0">
+                            <GridLayout columns="*, auto" rows="auto">
+                                <Label row="0" col="0" class="body" text="{{item.treatment_done}}"
+                                    style="color: #396767;"></Label>
+                                <Label row="0" col="1" class="label-small" textWrap="true"
+                                    text="{{item.treatment_performed_time | date: 'fullDate'}}"
+                                    style="margin-left: 10px;"></Label>
+                            </GridLayout>
+                        </GridLayout>
+                        <GridLayout row="1" col="0" columns="auto,*" rows="auto, auto, auto">
+                            <Label row="0" col="0" class="label-small" textWrap="true" text="Details : -"
+                                style="margin-left: 10px;"></Label>
+                            <Label row="0" col="1" class="label-small" textWrap="true" text="{{item.details}}"
+                                style="margin-left: 10px;"></Label>
+                            <Label row="1" col="0" class="label-small" textWrap="true" text="Post Observation : -"
+                                style="margin-left: 10px;"></Label>
+                            <Label row="1" col="1" class="label-small" textWrap="true" text="{{item.post_observation}}"
+                                style="margin-left: 10px;"></Label>
+                        </GridLayout>
+                        <GridLayout row="2" col="0" columns="*" rows="auto">
+                            <RadListView #myListView1 [items]="item.doclist" multipleSelection="false">
+                                <ng-template tkListItemTemplate let-doc="item">
+                                    <GridLayout row="0" col="1">
+                                            <GridLayout *ngIf="doc" columns="auto, 50,, auto *" style="margin: 10px;" (loaded)="download(doc.document_name,doc.document_uuid,item.uuid)">
+                                                    <Label *ngIf="doc.document_path && doc.doctype==='application/pdf'"
+                                                        class="fas option-icon-fawesome iconPreview" col="0" style="margin: 5px 0px"
+                                                        textWrap="true" text="&#xf1c1;"
+                                                        (tap)="showImageModal(doc.document_uuid,item.uuid)">
+                                                    </Label>
+                                                    <GridLayout class="downloadLabel" rows="auto" columns="auto auto"
+                                                        *ngIf="!doc.document_path && doc.progress==0" col="0"
+                                                        (tap)="download(doc.document_name,doc.document_uuid,item.uuid)">
+                                                        <label row="0" col="0" text="{{doc.document_name }}"
+                                                            style="padding: 4px"></label>
+                                                        <label row="0" col="1" class="fas option-icon-fawesome downloadIcon"
+                                                            text="&#xf019;"></label>
+                                                    </GridLayout>
+                                                    <AnimatedCircle *ngIf="!doc.document_path && doc.progress>0" col="0"
+                                                        width="50px" height="50px" rimColor="#efeff4" barColor="#FDA458"
+                                                        [text]="doc.progress.toString() + '' +'%'" textColor="#bfbfc4"
+                                                        textSize="1.5" animated="true" animateFrom="0" clockwise="true"
+                                                        [progress]="doc.progress"></AnimatedCircle>
+                                                    <image class="imgPreview"
+                                                        *ngIf="doc.document_path && doc.doctype!='application/pdf'" col="0"
+                                                        (tap)="showImageModal(doc.document_uuid,item.uuid)"
+                                                        [src]="doc.document_path"></image>
+                                                </GridLayout>
+                                    </GridLayout>
+                                    
+                                </ng-template>
+                            </RadListView>
+                        </GridLayout>
+                    </GridLayout>
+                    <GridLayout row="1" col="1" columns="*" rows="auto">
+                        <GridLayout row="0" col="0" class="hr-light m-10"></GridLayout>
+                    </GridLayout>
+                </GridLayout>
+            </GridLayout>
+        </ng-template>
+    </RadListView>
+
+    <!-- <StackLayout row="0" col="1" column="*" row="auto, auto" horizontalAlignment="right" class="right">
+            <StackLayout row="0">
+                <RL:Ripple rippleColor="#fff" style="margin-top: 20px;" (tap)="onTakePictureTap()">
+                    <StackLayout class="float-btn-cat">
+                        <Label class="float-btn-cat-text fas" text="&#xf030;"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+                <RL:Ripple rippleColor="#fff" style="margin-top: 10px;" (tap)="onSelectSingleTap()">
+                    <StackLayout class="float-btn-cat">
+                        <Label class="float-btn-cat-text fas" text="&#xf574;"></Label>
+                    </StackLayout>
+                </RL:Ripple>
+            </StackLayout>
+    
+        </StackLayout> -->
+</GridLayout>

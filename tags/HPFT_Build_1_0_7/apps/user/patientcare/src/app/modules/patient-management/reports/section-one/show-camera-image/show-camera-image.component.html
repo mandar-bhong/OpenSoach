@@ -1,0 +1,27 @@
+<patient-action-bar [patientName]='patientName'>
+</patient-action-bar>
+<ScrollView>
+    <GridLayout rows="auto" style="background-color: #396766; vertical-align: center;">
+        <GridLayout row="0" rows="*,20, auto">
+            <Image row="0" [src]="cameraImage" stretch="aspectFit" margin="10"></Image>
+            <!-- <Label row="1" style="color:white;" [(ngModel)]="labelText" editable="false"></Label> -->
+            <GridLayout row="2" rows="auto auto" padding="5">
+                <Label row="0" text="Report title"></Label>
+                <RadAutoCompleteTextView row="1" [items]="autocompleteReports" suggestMode="Suggest" displayMode="Tokens">
+                    <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
+                        <ng-template tkSuggestionItemTemplate let-item="item">
+                            <GridLayout rows="auto" orientation="vertical" padding="10">
+                                <Label row="0" [text]="item.text"></Label>
+                            </GridLayout>
+                        </ng-template>
+                    </SuggestionView>
+                </RadAutoCompleteTextView>
+
+            </GridLayout>
+            <!-- <Button row="3" text="Take Picture" (tap)='onTakePictureTap($event)' padding="10" style="background-color: #FF8912; color:#ffffff"></Button> -->
+        </GridLayout>
+
+
+    </GridLayout>
+
+</ScrollView>

@@ -1,0 +1,26 @@
+<patient-action-bar [patientName]='patientName'>
+</patient-action-bar>
+<ScrollView style="background-color: #396766;vertical-align: center;">
+    <GridLayout rows="auto" height="100%" width="100%">
+        <GridLayout row="0" rows=" *,20,auto">
+            <Image row="0" [src]="uploadedImage" stretch="aspectFit" margin="10"></Image>
+            <!-- <TextView row="2" [(ngModel)]="labelText" editable="false"></TextView> -->
+            <GridLayout rows="auto auto" row="2" padding="5">
+                <Label row="0" text="Report title"></Label>
+                <RadAutoCompleteTextView row="1" [items]="autocompleteReports" suggestMode="Suggest" displayMode="Tokens">
+                    <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
+                        <ng-template tkSuggestionItemTemplate let-item="item">
+                            <GridLayout rows="auto" orientation="vertical" padding="10">
+                                <Label row="0" [text]="item.text"></Label>
+                            </GridLayout>
+                        </ng-template>
+                    </SuggestionView>
+                </RadAutoCompleteTextView>
+
+            </GridLayout>
+        </GridLayout>
+
+
+    </GridLayout>
+
+</ScrollView>

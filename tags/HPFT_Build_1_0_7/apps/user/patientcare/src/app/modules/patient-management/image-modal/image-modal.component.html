@@ -1,0 +1,22 @@
+<GridLayout columns="*" height="100%" width="100%" rows="*">
+    <GridLayout columns="*" rows="auto,*" row="0">
+        <GridLayout row="0" columns="auto, * , auto" rows="65"
+            style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
+            <Label class="labelTitle" col="0" text="Doctor Orders"
+                style="text-align:center;  vertical-align: center;"></Label>
+            <GridLayout col="2" style="vertical-align: center;text-align: right">
+                <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
+                    (tap)="close()">
+                    <Label text="&#xf00d;" class="homeicon fas" style="margin-right: 1px"></Label>
+                </RL:Ripple>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout [ngSwitch]="ctx.docType" row="1">
+            <PDFView *ngSwitchCase="'application/pdf'" [src]="ctx.docPath"></PDFView>
+            <FlexboxLayout *ngSwitchCase="'image/png' || 'image/jpeg'" flexDirection="column-reverse">
+                <ImageZoom [src]="ctx.docPath" maxZoom="5" minZoom="1" class="p-15 img-rounded">
+                </ImageZoom>
+            </FlexboxLayout>
+        </GridLayout>
+    </GridLayout>
+</GridLayout>

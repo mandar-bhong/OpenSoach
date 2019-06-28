@@ -1,0 +1,96 @@
+<mat-card style="max-width:500px">
+    <form [formGroup]="editableForm" (ngSubmit)="save()">
+      <app-editable-form-header [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-header>
+      <mat-card-content>
+        <!-- <h5>First Contact </h5> -->
+        <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width" id="point-selection ">
+            <input matInput placeholder="Person Name" formControlName="personnameControl" [(ngModel)]="personAccompanyDataItem.data.name"  maxlength="25" required>
+            <mat-error *ngIf="editableForm.controls['personnameControl'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0" >
+          <span class="viewlabel">Person Name</span>
+          <label class="viewtext">{{ personAccompanyDataItem.data.name }}</label>
+        </div>
+        
+        <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Age" type="number" formControlName="personageControl"  maxlength="3" [(ngModel)]="personAccompanyDataItem.data.age" >
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Age</span>
+          <label class="viewtext">{{ personAccompanyDataItem.data.age }}</label>
+        </div>
+
+        <div class="form-group form-primary" *ngIf="formMode === 1">
+          <mat-form-field>
+            <mat-select placeholder="Gender" [(ngModel)]="personAccompanyDataItem.data.gender" formControlName="genderControl" required>
+              <mat-option *ngFor="let gend of personGender" [value]="gend.value">
+                {{gend.text | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="editableForm.controls['genderControl'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
+          <span class="viewlabel">Gender</span>
+          <label class="viewtext">{{ getgender(personAccompanyDataItem.data.gender) | translate }}</label>
+        </div>
+
+
+        <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width" id="personal-address">
+            <textarea matInput placeholder="Address" rows="3" [(ngModel)]="personAccompanyDataItem.data.address" formControlName="personaladdressControl"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Address</span>
+          <label class="viewtext">{{ personAccompanyDataItem.data.address }}</label>
+        </div>
+
+        <div class="form-group form-primary " *ngIf="formMode === 1">
+          <mat-form-field class="full-width" id="reletion-patient ">
+            <input matInput placeholder="Relationship To The Patient" [(ngModel)]="personAccompanyDataItem.data.relationshipwithpatient" formControlName="reletionpatientsControl">
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Relationship To The Patient</span>
+          <label class="viewtext">{{ personAccompanyDataItem.data.relationshipwithpatient }}</label>
+        </div>
+
+        <div class="form-group form-primary" *ngIf="formMode === 1">
+          <mat-form-field id="telephone">
+            <span matPrefix>+91 &nbsp;</span>
+            <input type="tel" matInput placeholder="Contact Number" [(ngModel)]="personAccompanyDataItem.data.contact" formControlName="mobilenoControl" maxlength="10" required>
+            <mat-error *ngIf="editableForm.controls['mobilenoControl'].hasError('required')">
+              {{'VALIDATION_REQUIRED_FIELD'|translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0" id="text">
+          <span class="viewlabel">Contact Number</span>
+          <label class="viewtext">{{ personAccompanyDataItem.data.contact }}</label>
+        </div>
+
+        <div class="form-group form-primary" *ngIf="formMode === 1">
+          <mat-form-field id="telephone">
+            <span matPrefix>+91 &nbsp;</span>
+            <input type="tel" matInput placeholder="Alternate Contact Number" [(ngModel)]="personAccompanyDataItem.data.alternatecontact" formControlName="alternateContactControl"
+              maxlength="10">
+          </mat-form-field>
+        </div>
+        <div class="form-group form-primary" *ngIf="formMode === 0">
+          <span class="viewlabel">Alternate Contact Number</span>
+          <label class="viewtext">{{ personAccompanyDataItem.data.alternatecontact }}</label>
+        </div>
+
+        <app-editable-form-footer-toolbar [editRecordBase]="this" (editClick)="editForm()"></app-editable-form-footer-toolbar>
+      </mat-card-content>
+    </form>
+  </mat-card>

@@ -1,0 +1,13 @@
+.text-alignment {
+    margin-left: 20px !important;
+  }
+  .margin-top {
+    margin-top: 23px !important;
+  }
+  .odd {
+    background-color: #f8f5f52c;
+
+}
+.even {
+    background-color: #f3efef81;
+}
