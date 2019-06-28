@@ -6,16 +6,35 @@ export class PathlogyReportModel {
     test_result: string;
     comments: string;
     doc_name: string;
-    doclist: string[];
+    doclist: PathlogyReportDocModel[];
 }
-export class TeatmentReportModel{
+
+export class PathlogyReportDocModel {
+    pathology_record_uuid: string;
+    document_uuid: string;
+    document_name: string;
+    doctype: string;
+    document_path: string;
+    progress:number;
+}
+
+export class TeatmentReportModel {
     uuid: string;
     admission_uuid: string;
     treatment_done: string;
     treatment_performed_time: string;
     details: string;
-    test_result: string;    
+    test_result: string;
     post_observation: string;
     doc_name: string;
-    doclist: string[];
+    doclist: TreatmentReportDocModel[];
+}
+
+export class TreatmentReportDocModel {
+    treatment_uuid: string;
+    document_uuid: string;
+    document_name: string;
+    doctype: string;
+    document_path: string;
+    progress:number;
 }
