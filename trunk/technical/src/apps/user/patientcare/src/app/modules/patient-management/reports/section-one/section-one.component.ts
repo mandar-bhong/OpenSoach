@@ -228,7 +228,7 @@ export class SectionOneComponent implements OnInit {
 
 		if (document_uuid) {
 			console.log('tap document_uuid', document_uuid);
-			const token1 = AppGlobalContext.Token;			
+			const token1 = AppGlobalContext.Token;
 			const requestObj = new ApiParse();
 			requestObj.uuid = document_uuid;
 			requestObj.token = token1;
@@ -303,7 +303,8 @@ export class SectionOneComponent implements OnInit {
 			fullscreen: true,
 			context: {
 				docPath: existingDocItem.document_path,
-				docType: existingDocItem.doctype
+				docType: existingDocItem.doctype,
+				modalName: "Pathology Report",
 			}
 		};
 		this.modalService.showModal(ImageModalComponent, options);

@@ -298,7 +298,8 @@ export class TreatmentReportsComponent implements OnInit {
 			fullscreen: true,
 			context: {
 				docPath: existingDocItem.document_path,
-				docType: existingDocItem.doctype
+				docType: existingDocItem.doctype,
+				modalName:"Treatment Report",
 			}
 		};
 		this.modalService.showModal(ImageModalComponent, options);

@@ -2,7 +2,7 @@
     <GridLayout columns="*" rows="auto,*" row="0">
         <GridLayout row="0" columns="auto, * , auto" rows="65"
             style="background-color: #396766; color: white; vertical-align: center;padding: 0px 15px;">
-            <Label class="labelTitle" col="0" text="Doctor Orders"
+            <Label class="labelTitle" col="0" [text]="ctx.modalName"
                 style="text-align:center;  vertical-align: center;"></Label>
             <GridLayout col="2" style="vertical-align: center;text-align: right">
                 <RL:Ripple rippleColor="#fff" class="ripplecenter" borderRadius="5" height="37" width="37"
