@@ -1017,7 +1017,8 @@ export class ActionComponent implements OnInit, OnDestroy, IDeviceAuthResult {
 			fullscreen: true,
 			context: {
 				docPath: doctorOrdersElem.doctorOrderModel.document_path,
-				docType: doctorOrdersElem.doctorOrderModel.doctype
+				docType: doctorOrdersElem.doctorOrderModel.doctype,
+				modalName:"Doctor Orders",
 			}
 		};
 		this.modalService.showModal(ImageModalComponent, options);
