@@ -13,7 +13,11 @@
         </GridLayout>
         <GridLayout [ngSwitch]="ctx.docType" row="1">
             <PDFView *ngSwitchCase="'application/pdf'" [src]="ctx.docPath"></PDFView>
-            <FlexboxLayout *ngSwitchCase="'image/png' || 'image/jpeg'" flexDirection="column-reverse">
+            <FlexboxLayout *ngSwitchCase="'image/png'" flexDirection="column-reverse">
+                <ImageZoom [src]="ctx.docPath" maxZoom="5" minZoom="1" class="p-15 img-rounded">
+                </ImageZoom>
+            </FlexboxLayout>
+            <FlexboxLayout *ngSwitchCase="'image/jpeg'" flexDirection="column-reverse">
                 <ImageZoom [src]="ctx.docPath" maxZoom="5" minZoom="1" class="p-15 img-rounded">
                 </ImageZoom>
             </FlexboxLayout>
