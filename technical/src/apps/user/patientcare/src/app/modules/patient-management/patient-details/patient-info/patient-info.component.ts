@@ -45,7 +45,7 @@ export class PatientInfoComponent implements OnInit {
 								gender = PERSON_ACCMPANYING_GENDER.GENDER_MALE;
 								break;
 							case 2:
-								gender = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
+								gender = PERSON_ACCMPANYING_GENDER.GENDER_FEMALE;
 								break;
 						}
 						this.patientDetailsModel.gender = gender;
