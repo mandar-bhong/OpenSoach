@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -243,7 +244,7 @@ func FileDownloadHandler(pContext *gin.Context, requestHandlerFunc RequestHandle
 	}.Do()
 
 	if isSuccess {
-		pContext.Data(http.StatusOK, successData.ContentType, successData.ByteData)
+		pContext.DataFromReader(http.StatusOK, int64(len(successData.ByteData)), successData.ContentType, bytes.NewReader(successData.ByteData), map[string]string{})
 
 	} else {
 		pContext.Data(http.StatusNotFound, "attachment", nil)
