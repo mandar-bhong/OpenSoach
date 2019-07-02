@@ -355,7 +355,7 @@
                                                 <AnimatedCircle *ngIf="!item.doctorOrderModel.document_path && item.doctorOrderModel.progress>0" col="0"
                                                     width="50px" height="50px" rimColor="#efeff4" barColor="#FDA458"
                                                     [text]="item.doctorOrderModel.progress.toString() + '' +'%'" textColor="#bfbfc4"
-                                                    textSize="1.5" animated="true" animateFrom="0" clockwise="true"
+                                                    textSize="1.5" clockwise="true"
                                                     [progress]="item.doctorOrderModel.progress"></AnimatedCircle>
                                                 <image class="imgPreview" *ngIf="item.doctorOrderModel.document_path"
                                                     col="2" (tap)="showImageModal(item.doctorOrderModel.document_uuid)"

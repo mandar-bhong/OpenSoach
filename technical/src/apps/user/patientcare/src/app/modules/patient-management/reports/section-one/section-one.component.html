@@ -68,7 +68,7 @@
                                             <AnimatedCircle *ngIf="!doc.document_path && doc.progress>0" col="0"
                                                 width="50px" height="50px" rimColor="#efeff4" barColor="#FDA458"
                                                 [text]="doc.progress.toString() + '' +'%'" textColor="#bfbfc4"
-                                                textSize="1.5" animated="true" animateFrom="0" clockwise="true"
+                                                textSize="1.5" clockwise="true"
                                                 [progress]="doc.progress"></AnimatedCircle>
                                             <image class="imgPreview"
                                                 *ngIf="doc.document_path && doc.doctype!='application/pdf'" col="0"
