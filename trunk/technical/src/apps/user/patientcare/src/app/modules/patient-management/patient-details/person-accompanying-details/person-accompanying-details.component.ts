@@ -37,7 +37,7 @@ export class PersonAccompanyingDetailsComponent implements OnInit {
 								this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_MALE;
 								break;
 							case 2:
-								this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_NOT_SELECTED;
+								this.jsonField.data[0].genderString = PERSON_ACCMPANYING_GENDER.GENDER_FEMALE;
 								break;
 						}
 						this.personAccompanyDetailsModel = this.jsonField.data[0];
