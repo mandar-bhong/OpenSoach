@@ -1,0 +1,170 @@
+<div>
+  <label class="lbl_heading_list">Intake</label>
+</div>
+<div class="example-container mat-elevation-z8">
+  <div class="mobile-sort">
+    <table class="example-full-width" cellspacing="0">
+      <tr id="layout-set">
+        <td>
+          <mat-form-field>
+            <mat-select placeholder="Sort by" [(ngModel)]="this.sort.active" name="sortby"
+              (selectionChange)="sortByChanged()">
+              <mat-option *ngFor="let col of sortByColumns" [value]="col.value">
+                {{col.text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>
+          <button mat-icon-button class="view-form-backButton" (click)="sortDirectionAsc()">
+            <mat-icon aria-hidden="true" matTooltip="Ascending">arrow_upward</mat-icon>
+          </button>
+        </td>
+        <td>
+          <button mat-icon-button class="view-form-backButton" (click)="sortDirectionDesc()">
+            <mat-icon aria-hidden="true" matTooltip="Descending">arrow_downward</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortDisableClear>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+      [class.example-expanded-row]="expandedElement === row"
+      (click)="expandedElement = expandedElement === row ? null : row;setOpenCloseSchedule()"
+      style="cursor: pointer !important;"></mat-row>
+    <mat-row style="min-height: 0px !important" *matRowDef="let row; columns: ['expandedDetail']"
+      class="example-detail-row"></mat-row>
+
+    <ng-container matColumnDef="ordertype">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 41%;"> Order Type</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 41%;">
+        <span class="mat-cell-responsive-label">Type</span>
+        <span class="ellipsis mat-cell-text">{{row.ordertype}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="ordercreatedtime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header style="flex:0 0 26%;"> On</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 26%;">
+        <span class="mat-cell-responsive-label"> On</span>
+        <!-- <span class="ellipsis mat-cell-text">{{row.ordercreatedtime | date:'dd-MMM-yy, h:mm a'}}</span> -->
+        <span class="ellipsis mat-cell-text">{{row.ordercreatedtime | date:'dd-MMM-yy'}}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="by">
+      <mat-header-cell *matHeaderCellDef style="flex:0 0 26%;"> By</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="flex:0 0 26%;">
+        <span class="mat-cell-responsive-label">Performed By</span>
+        <span class="ellipsis mat-cell-text">{{row.doctorfname +" "+row.doctorlname }}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="view">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <span class="mat-cell-responsive-label">view</span>
+        <span class="ellipsis mat-cell-text" *ngIf="row!==expandedElement" style="text-align: center;"><i
+            class="fa fa-chevron-circle-right setListButton" aria-hidden="true"></i></span>
+        <span class="ellipsis mat-cell-text" *ngIf="row==expandedElement" style="text-align: center;"><i
+            class="fa fa-chevron-circle-down setListButton" aria-hidden="true"></i></span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <mat-cell class="detail_back" *matCellDef="let element" colspan="2">
+        <div class="row" style="width:100%" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="col iner-body">
+
+
+            <div class="row" *ngIf="element.doctorsorders!=null">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Doctor Orders</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row">
+                  <label>{{element.doctorsorders}}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="element.ordertype!=null">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Type</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row" *ngIf="element.ordertype!=null">
+                  <label>{{element.ordertype}}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="element.name!=null">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Document Name</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row">
+                  <a style="cursor: pointer !important;" matTooltip="Download"
+                    (click)="downloadFille(element.documentuuid,element.name)" href="javascript:void(0);">
+                    <i class="fa fa-paperclip"></i>
+                    {{element.name}}</a>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="row" *ngIf="element.status!=null">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Status</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row">
+                  <label>{{checkStatus(element.status)}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="element.acktime!=null && element.status == 1">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Acknowledged By</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row" *ngIf="element.ackbyfname!=null && element.status == 1">
+                  <label> {{element.ackbyfname}} {{element.ackbylname}}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="element.acktime!=null && element.status == 1">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Acknowledged On</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row" *ngIf="element.acktime!=null && element.status == 1">
+                  <label>{{element.acktime | date:'dd-MMM-yy, h:mm a'}}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="element.comment!=null">
+              <div class="col-md-5 col-lg-5 col-sm-5">
+                <label>Comment</label>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-7">
+                <div class="row">
+                  <label>{{element.comment}}</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+  </mat-table>
+  <mat-paginator #paginator [length]="filteredrecords" [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+</div>

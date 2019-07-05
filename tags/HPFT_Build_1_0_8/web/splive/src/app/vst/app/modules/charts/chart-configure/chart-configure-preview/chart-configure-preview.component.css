@@ -1,0 +1,105 @@
+#resp-table {
+    /* width: 100%; */
+    display: table;
+    display: block !important;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    /* border: 1px solid #989A7C; */
+  }
+
+  #resp-table-caption {
+    display: table-caption;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  #resp-table-header {
+    display: table-header-group;
+    background-color: #446666;
+    font-weight: bold;
+    font-size: 15px;    
+    color:white;
+  }
+
+  .table-header-cell {
+    display: table-cell;
+    padding: 10px;
+    padding-bottom: 10px !important;
+    text-align: justify;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  #resp-table-body {
+    display: table-row-group;
+  }
+
+  .resp-table-row {
+    display: table-row;
+  }
+
+  .table-body-cell {
+    display: table-cell;
+    text-align: center;
+  }
+
+  .table-body-cell-input {
+    width:50px;
+    padding-right: 1px;
+    padding-bottom: 1px; 
+  }
+
+  .table-body-cell-time {
+    width:80px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .input-block
+  {
+      background: white;
+      line-height: 36px;
+      /* border: 1px solid #989A7C; */
+      border-left: 1px solid #989A7C !important;
+      border-bottom: 1px solid #989A7C !important;
+  }
+
+  .time-block
+  {
+      background: #446666;
+      line-height: 36px;
+      color:white;
+      padding: 5px;
+      white-space: nowrap; 
+      overflow: hidden;
+      text-overflow:ellipsis;
+  }
+ .resp-table-row .input-block:last-child {
+    border-right: 1px solid #989A7C !important;
+ }
+  /* changes css  */
+/* .style1 form#style2 {
+  max-width: 100%;
+}
+.style1 form#style2 #resp-table {
+  display: block;
+  float: left;
+  max-width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+.style1 form#style2 .row {
+  float: left;
+  margin-top: 12px;
+  width: 100%;
+}
+.style1 form#style2 #resp-table-caption {
+  float: left;
+  margin-bottom: 11px;
+  text-align: center;
+  width: 100%;
+} */

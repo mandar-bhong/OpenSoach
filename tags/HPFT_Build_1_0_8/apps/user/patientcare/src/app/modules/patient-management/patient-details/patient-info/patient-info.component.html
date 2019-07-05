@@ -1,0 +1,38 @@
+<GridLayout columns="*" rows="auto, auto, auto" style="justify-content: center; vertical-align: center; padding:20px; padding-top: 30px;">
+    <Label row="0" class="body groupHeaderTitle" textWrap="true" text="Patient Details"></Label>
+    <GridLayout row="1" class="hr-light m-10"></GridLayout>
+    <GridLayout row="2" columns="*, auto" rows=" auto, auto, auto">
+
+        <GridLayout row="0" col="0" columns="auto" rows="auto" style=" margin-top:5px;">
+            <GridLayout col="0" rows="auto,auto" columns="auto">
+                <Label class="body" col="0" textWrap="true" text="Patient Name"></Label>
+                <Label row="1" col="0" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.fname + ' ' + patientDetailsModel.lname}}"></Label>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout row="0" col="1" columns="auto, auto, auto" style=" margin-top:5px;">
+            <Label row="0" col="0" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.gender}}"></Label>
+            <Label row="0" col="1" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.age + ' ' + 'years'}}"></Label>
+            <Label col="2" style="margin-left: 5px;" class="labelleft label-small body" style="color:red;" textWrap="true"
+                text="{{patientDetailsModel.blood_grp}}"></Label>
+        </GridLayout>
+
+        <GridLayout row="1" col="0" columns="*" rows="auto,auto" style="margin-top:5px;">
+            <GridLayout row="0" col="0" rows="auto,auto" columns="auto, auto">
+                <Label class="body" textWrap="true" text="Contact"></Label>
+                <GridLayout col="0" row="1" rows="auto" columns=" auto">
+                    <Label row="0" col="0" text="&#xf3f2;" class="mdi listicon" color="#FF8912" style="font-size: 15;"></Label>
+                    <Label row="0" col="0" class="labelleft label-small" textWrap="true" text="{{patientDetailsModel.mob_no}}" style="margin-left: 20;"></Label>
+                </GridLayout>
+            </GridLayout>
+            <GridLayout row="1" rows="auto" columns="auto, auto">
+                <Label class="body" textWrap="true" text="Address: "></Label>
+                <Label col="1"  textWrap="true" [text]="patientAddress"></Label>
+               
+            </GridLayout>
+        </GridLayout>
+        
+
+    </GridLayout>
+
+
+</GridLayout>
